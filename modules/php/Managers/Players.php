@@ -2,8 +2,8 @@
 namespace BRG\Managers;
 use BRG\Core\Game;
 use BRG\Core\Globals;
-use BRG\Core\Preferences;
-use BRG\Helpers\Collection;
+use BRG\Core\Stats;
+use BRG\Helpers\Utils;
 
 /*
  * Players manager : allows to easily access players ...
@@ -33,19 +33,19 @@ class Players extends \BRG\Helpers\DB_Manager
     ]);
 
     $values = [];
+    $score = $options[OPTION_SCORING] == OPTION_SCORING_ENABLED ? -14 : 0;
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], 1];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $score];
     }
     $query->values($values);
-
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
   }
 
   public function getActiveId()
   {
-    return (int) Game::get()->getActivePlayerId();
+    return Game::get()->getActivePlayerId();
   }
 
   public function getCurrentId()
@@ -55,8 +55,7 @@ class Players extends \BRG\Helpers\DB_Manager
 
   public function getAll()
   {
-    $players = self::DB()->get(false);
-    return $players;
+    return self::DB()->get(false);
   }
 
   /*
@@ -68,14 +67,6 @@ class Players extends \BRG\Helpers\DB_Manager
     return self::DB()
       ->where($pId)
       ->getSingle();
-  }
-
-  public function getMany($pIds)
-  {
-    $players = self::DB()
-      ->whereIn($pIds)
-      ->get();
-    return $players;
   }
 
   public function getActive()
@@ -91,19 +82,8 @@ class Players extends \BRG\Helpers\DB_Manager
   public function getNextId($player)
   {
     $pId = is_int($player) ? $player : $player->getId();
-
     $table = Game::get()->getNextPlayerTable();
-    return (int) $table[$pId];
-  }
-
-  public function getPrevId($player)
-  {
-    $pId = is_int($player) ? $player : $player->getId();
-
-    $table = Game::get()->getPrevPlayerTable();
-    $pId = (int) $table[$pId];
-
-    return $pId;
+    return $table[$pId];
   }
 
   /*
@@ -112,6 +92,30 @@ class Players extends \BRG\Helpers\DB_Manager
   public function count()
   {
     return self::DB()->count();
+  }
+
+  public function countUnallocatedFarmers()
+  {
+    // Get zombie players ids
+    $zombies = self::getAll()
+      ->filter(function ($player) {
+        return $player->isZombie();
+      })
+      ->getIds();
+
+    // Filter out farmers of zombies
+    return Farmers::getAllAvailable()
+      ->filter(function ($meeple) use ($zombies) {
+        return !in_array($meeple['pId'], $zombies);
+      })
+      ->count();
+  }
+
+  public function returnHome()
+  {
+    foreach (self::getAll() as $player) {
+      $player->returnHomeFarmers();
+    }
   }
 
   /*
@@ -124,23 +128,31 @@ class Players extends \BRG\Helpers\DB_Manager
     });
   }
 
-  /**
-   * This activate next player
+  /*
+   * Get current turn order according to first player variable
    */
-  public function activeNext()
+  public function getTurnOrder($firstPlayer = null)
   {
-    $pId = self::getActiveId();
-    $nextPlayer = self::getNextId((int) $pId);
-
-    Game::get()->gamestate->changeActivePlayer($nextPlayer);
-    return $nextPlayer;
+    $firstPlayer = $firstPlayer ?? Globals::getFirstPlayer();
+    $order = [];
+    $p = $firstPlayer;
+    do {
+      $order[] = $p;
+      $p = self::getNextId($p);
+    } while ($p != $firstPlayer);
+    return $order;
   }
 
   /**
-   * This allow to change active player
+   * Get current turn order for harvest by removing skipped players
    */
-  public function changeActive($pId)
+  public function getHarvestTurnOrder($firstPlayer = null)
   {
-    Game::get()->gamestate->changeActivePlayer($pId);
+    $order = self::getTurnOrder($firstPlayer);
+    $skipped = Globals::getSkipHarvest();
+    Utils::filter($order, function ($pId) use ($skipped) {
+      return !in_array($pId, $skipped);
+    });
+    return $order;
   }
 }

@@ -1,8 +1,7 @@
 <?php
 namespace BRG\Core;
-use BRG\Core\Game;
-use BRG\Managers\Players;
 
+use BRG\Core\Game;
 /*
  * Globals
  */
@@ -10,7 +9,17 @@ class Globals extends \BRG\Helpers\DB_Manager
 {
   protected static $initialized = false;
   protected static $variables = [
+    'engine' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
+    'engineChoices' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
+    'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
 
+    'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
+
+    // Game options
+    'additional' => 'bool',
+
+    'turn' => 'int',
+    'firstPlayer' => 'int',
   ];
 
   protected static $table = 'global_variables';
@@ -41,7 +50,6 @@ class Globals extends \BRG\Helpers\DB_Manager
         self::$data[$name] = $variable;
       }
     }
-
     self::$initialized = true;
     self::$log = $tmp;
   }
@@ -63,14 +71,14 @@ class Globals extends \BRG\Helpers\DB_Manager
       'str' => '',
     ];
     $val = $default[self::$variables[$name]];
-    try {
-      self::DB()->insert([
+    self::DB()->insert(
+      [
         'name' => $name,
         'value' => \json_encode($val),
-      ]);
-    } finally {
-      self::$data[$name] = $val;
-    }
+      ],
+      true
+    );
+    self::$data[$name] = $val;
   }
 
   /*
@@ -125,11 +133,8 @@ class Globals extends \BRG\Helpers\DB_Manager
         $setter = 'set' . $match[2] . $match[3];
         return self::$setter(self::$getter() + (empty($args) ? 1 : $args[0]));
       }
-    } else {
-      throw new \feException('unknown method ' . $method);
-      return null;
     }
-    // return undefined;
+    return undefined;
   }
 
   /*
@@ -137,5 +142,7 @@ class Globals extends \BRG\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
+    self::setTurn(0);
+    self::setFirstPlayer(Game::get()->getNextPlayerTable()[0]);
   }
 }

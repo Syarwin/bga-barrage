@@ -889,5 +889,42 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       o.setValue(defaultValue);
       return o;
     },
+
+
+
+    /****************
+     ***** UTILS *****
+     ****************/
+    forEachPlayer(callback) {
+      Object.values(this.gamedatas.players).forEach(callback);
+    },
+
+    getArgs() {
+      return this.gamedatas.gamestate.args;
+    },
+
+    clientState(name, descriptionmyturn, args) {
+      this.setClientState(name, {
+        descriptionmyturn,
+        args,
+      });
+    },
+
+    strReplace(str, subst) {
+      return dojo.string.substitute(str, subst);
+    },
+
+    addCancelStateBtn(text = null) {
+      if (text == null) {
+        text = _('Cancel');
+      }
+
+      this.addSecondaryActionButton('btnCancel', text, () => this.clearClientState());
+    },
+
+    clearClientState() {
+      //this.clearPossible();
+      this.restoreServerGameState();
+    },
   });
 });

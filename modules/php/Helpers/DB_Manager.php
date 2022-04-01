@@ -1,6 +1,6 @@
 <?php
 namespace BRG\Helpers;
-use BRG\Core\Game;
+use \BRG\Core\Game;
 
 class DB_Manager extends \APP_DbObject
 {
@@ -22,11 +22,9 @@ class DB_Manager extends \APP_DbObject
     }
 
     $log = null;
-    /*
     if (static::$log ?? Game::get()->getGameStateValue('logging') == 1) {
       $log = new Log(static::$table, static::$primary);
     }
-    */
     return new QueryBuilder(
       $table,
       function ($row) {

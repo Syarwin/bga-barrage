@@ -15,11 +15,6 @@ class Preferences extends \BRG\Helpers\DB_Manager
     return $row;
   }
 
-  public static function getLocalPrefsData()
-  {
-    return [];
-  }
-
   /*
    * Setup new game
    */
@@ -28,9 +23,8 @@ class Preferences extends \BRG\Helpers\DB_Manager
     // Load user preferences
     include dirname(__FILE__) . '/../../../gameoptions.inc.php';
 
-    $preferences = $game_preferences + self::getLocalPrefsData();
     $values = [];
-    foreach ($preferences as $id => $data) {
+    foreach ($game_preferences as $id => $data) {
       $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
 
       foreach ($players as $pId => $infos) {
@@ -42,11 +36,9 @@ class Preferences extends \BRG\Helpers\DB_Manager
       }
     }
 
-    if (!empty($values)) {
-      self::DB()
-        ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
-        ->values($values);
-    }
+    self::DB()
+      ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
+      ->values($values);
   }
 
   /*
@@ -58,9 +50,8 @@ class Preferences extends \BRG\Helpers\DB_Manager
     include dirname(__FILE__) . '/../../../gameoptions.inc.php';
 
     $playerIds = array_keys(Game::get()->loadPlayersBasicInfos());
-    $preferences = $game_preferences + self::getLocalPrefsData();
     $values = [];
-    foreach ($preferences as $id => $data) {
+    foreach ($game_preferences as $id => $data) {
       $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
 
       foreach ($playerIds as $pId) {

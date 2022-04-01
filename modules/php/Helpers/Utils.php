@@ -1,5 +1,7 @@
 <?php
 namespace BRG\Helpers;
+use BRG\Managers\PlayerCards;
+use BRG\Managers\ActionCards;
 
 abstract class Utils extends \APP_DbObject
 {
@@ -16,21 +18,212 @@ abstract class Utils extends \APP_DbObject
     throw new \BgaVisibleSystemException(json_encode($args));
   }
 
-  public static function diff(&$data, $arr)
+  public function filterExchanges(&$exchanges, $trigger = ANYTIME, $removeAnytime = false)
   {
-    $data = array_values(array_diff($data, $arr));
+    self::filter($exchanges, function ($exchange) use ($trigger, $removeAnytime) {
+      return (is_null($exchange['triggers']) && ($trigger == ANYTIME || !$removeAnytime)) ||
+        (is_array($exchange['triggers']) && in_array($trigger, $exchange['triggers']));
+    });
   }
 
-  public static function shuffle_assoc(&$array)
+  /**
+   * Reduce an array of meeples into a nice associative array $resource => $amount
+   */
+  public static function reduceResources($meeples)
   {
-    $keys = array_keys($array);
-    shuffle($keys);
-
-    foreach ($keys as $key) {
-      $new[$key] = $array[$key];
+    $allResources = array_merge(RESOURCES, [FIELD], ROOMS);
+    $t = [];
+    foreach ($allResources as $resource) {
+      $t[$resource] = 0;
     }
 
-    $array = $new;
-    return true;
+    foreach ($meeples as $meeple) {
+      $t[$meeple['type']]++;
+    }
+
+    return $t;
+  }
+
+  /**
+   * Return a string corresponding to an assoc array of resources
+   */
+  public static function resourcesToStr($resources)
+  {
+    $descs = [];
+    foreach ($resources as $resource => $amount) {
+      if (in_array($resource, ['sources', 'sourcesDesc', 'pId'])) {
+        continue;
+      }
+
+      if ($amount == 0) {
+        continue;
+      }
+      $descs[] = $amount . '<' . strtoupper($resource) . '>';
+    }
+    return implode(',', $descs);
+  }
+
+  /**
+   * Intersect two arrays of obj with keys x,y
+   */
+  public static function intersectZones($arr1, $arr2)
+  {
+    return array_values(
+      \array_uintersect($arr1, $arr2, function ($a, $b) {
+        return $a['x'] == $b['x'] ? $a['y'] - $b['y'] : $a['x'] - $b['x'];
+      })
+    );
+  }
+
+  // $onlyNew allow to distinguish subdivided pastures from fresh new pasture
+  public static function diffPastures($newP, $oldP, $onlyNew)
+  {
+    $pastures = [];
+    foreach ($newP as $p1) {
+      $found = false;
+      foreach ($oldP as $p2) {
+        if ($onlyNew || count($p1['nodes']) == count($p2['nodes'])) {
+          $allIn = true;
+          foreach ($p1['nodes'] as $n) {
+            if (!in_array($n, $p2['nodes'])) {
+              $allIn = false;
+              break;
+            }
+          }
+
+          if ($allIn) {
+            $found = true;
+            break;
+          }
+        }
+      }
+
+      if (!$found) {
+        $pastures[] = $p1;
+      }
+    }
+
+    return $pastures;
+  }
+
+  public static function formatCost($cost)
+  {
+    return [
+      'trades' => [$cost],
+    ];
+  }
+
+  public static function formatFee($cost)
+  {
+    return [
+      'fees' => [$cost],
+    ];
+  }
+
+  public static function addCost(&$costs, $cost, $source = null)
+  {
+    if ($source != null) {
+      $cost['sources'] = [$source];
+    }
+    $costs['trades'][] = $cost;
+  }
+
+  public static function addFees(&$costs, $cost, $source = null)
+  {
+    if ($source != null) {
+      $cost['sources'] = [$source];
+    }
+    $costs['fees'][] = $cost;
+  }
+
+  public static function addBonus(&$costs, $cost, $source = null, $optional = false)
+  {
+    if ($source != null) {
+      $cost['sources'] = [$source];
+    }
+    if (!isset($cost['optional'])) {
+      $cost['optional'] = $optional;
+    }
+    $costs['bonuses'][] = $cost;
+  }
+
+  public static function addBonusChoices(&$costs, $bonuses, $source = null, $optional = false)
+  {
+    if ($source != null) {
+      foreach ($bonuses as &$cost) {
+        $cost['sources'] = [$source];
+      }
+    }
+    $costs['bonuses'][] = [
+      'optional' => $optional,
+      'choices' => $bonuses,
+    ];
+  }
+
+  /**
+   * Given an array [RESOURCE => [RESOURCE => amount, ...] ] , format as a proper exchange
+   */
+  public static function formatExchange($exchange, $source = '', $triggers = null, $flag = null)
+  {
+    $key = array_keys($exchange)[0];
+    return [
+      'source' => $source,
+      'flag' => $flag,
+      'triggers' => $triggers,
+      'max' => $exchange['max'] ?? 9999,
+      'from' => [
+        $key => 1,
+      ],
+      'to' => $exchange[$key],
+    ];
+  }
+
+  /**
+   * Wrapper for getting action card : either use actionCards (for usual cases) or playerCards (for C104_Collector)
+   */
+  public static function getActionCard($id)
+  {
+    if (strpos($id, '_') === false) {
+      return ActionCards::get($id);
+    } else {
+      return PlayerCards::get($id);
+    }
+  }
+
+  public static function topological_sort($nodeids, $edges)
+  {
+    $L = $S = $nodes = [];
+    foreach ($nodeids as $id) {
+      $nodes[$id] = ['in' => [], 'out' => []];
+      foreach ($edges as $e) {
+        if ($id == $e[0]) {
+          $nodes[$id]['out'][] = $e[1];
+        }
+        if ($id == $e[1]) {
+          $nodes[$id]['in'][] = $e[0];
+        }
+      }
+    }
+    foreach ($nodes as $id => $n) {
+      if (empty($n['in'])) {
+        $S[] = $id;
+      }
+    }
+    while (!empty($S)) {
+      $L[] = $id = array_shift($S);
+      foreach ($nodes[$id]['out'] as $m) {
+        $nodes[$m]['in'] = array_diff($nodes[$m]['in'], [$id]);
+        if (empty($nodes[$m]['in'])) {
+          $S[] = $m;
+        }
+      }
+      $nodes[$id]['out'] = [];
+    }
+    foreach ($nodes as $n) {
+      if (!empty($n['in']) or !empty($n['out'])) {
+        return null; // not sortable as graph is cyclic
+      }
+    }
+    return $L;
   }
 }
