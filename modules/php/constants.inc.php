@@ -13,6 +13,9 @@
  */
 const ST_GAME_SETUP = 1;
 
+const ST_FOO = 2;
+
+
 const ST_BEFORE_START_OF_TURN = 4;
 const ST_PREPARATION = 5;
 const ST_NEXT_PLAYER_LABOR = 6;
@@ -63,6 +66,17 @@ const PASS = 99;
 
 const INFTY = 9999;
 const NO_COST = ['trades' => [['max' => 1]]];
+
+
+/*
+ * Companies
+ */
+const COMPANY_USA = 1;
+const COMPANY_GERMANY = 2;
+const COMPANY_ITALY = 3;
+const COMPANY_FRANCE = 4;
+const COMPANY_NETHERLANDS = 5;
+
 
 
 /*

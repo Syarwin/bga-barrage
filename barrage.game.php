@@ -35,6 +35,7 @@ require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 use BRG\Core\Globals;
 use BRG\Core\Preferences;
 use BRG\Managers\Players;
+use BRG\Managers\Companies;
 
 class Barrage extends Table
 {
@@ -66,9 +67,10 @@ class Barrage extends Table
    */
   protected function setupNewGame($players, $options = [])
   {
+    Players::setupNewGame($players, $options);
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
-    Players::setupNewGame($players, $options);
+    Companies::setupNewGame($players, $options);
 
     $this->activeNextPlayer();
   }

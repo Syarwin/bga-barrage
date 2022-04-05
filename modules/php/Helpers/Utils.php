@@ -10,6 +10,17 @@ abstract class Utils extends \APP_DbObject
     $data = array_values(array_filter($data, $filter));
   }
 
+  function shuffle(&$array)
+  {
+    $keys = array_keys($array);
+    shuffle($keys);
+    foreach ($keys as $key) {
+      $new[$key] = $array[$key];
+    }
+    $array = $new;
+    return true;
+  }
+
   public static function die($args = null)
   {
     if (is_null($args)) {

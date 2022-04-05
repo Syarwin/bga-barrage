@@ -1,0 +1,22 @@
+<?php
+namespace BRG;
+
+const OPTION_AUTOMA = 100;
+
+const RANDOM = 0;
+const OPTION_COMPANY_1 = 101;
+const OPTION_COMPANY_2 = 102;
+const OPTION_COMPANY_3 = 103;
+const OPTION_COMPANY_4 = 104;
+const OPTION_COMPANY_5 = 105;
+
+const OPTION_AUTOMA_1 = 106;
+const OPTION_AUTOMA_2 = 107;
+const OPTION_AUTOMA_3 = 108;
+const OPTION_AUTOMA_4 = 109;
+
+const COMPANY_USA = 1;
+const COMPANY_GERMANY = 2;
+const COMPANY_ITALY = 3;
+const COMPANY_FRANCE = 4;
+const COMPANY_NETHERLANDS = 5;

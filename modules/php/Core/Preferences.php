@@ -36,9 +36,11 @@ class Preferences extends \BRG\Helpers\DB_Manager
       }
     }
 
-    self::DB()
-      ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
-      ->values($values);
+    if (!empty($values)) {
+      self::DB()
+        ->multipleInsert(['player_id', 'pref_id', 'pref_value'])
+        ->values($values);
+    }
   }
 
   /*

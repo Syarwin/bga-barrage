@@ -14,13 +14,13 @@ use BRG\Actions\Reorganize;
 use BRG\Helpers\Utils;
 
 /*
- * Player: all utility functions concerning a player
+ * Company: all utility functions concerning a player, real or not
  */
 
-class Player extends \BRG\Helpers\DB_Manager implements \JsonSerializable
+class Company extends \BRG\Helpers\DB_Manager implements \JsonSerializable
 {
-  protected static $table = 'player';
-  protected static $primary = 'player_id';
+  protected static $table = 'companies';
+  protected static $primary = 'id';
 
   protected $id;
   protected $no; // natural order
@@ -34,13 +34,15 @@ class Player extends \BRG\Helpers\DB_Manager implements \JsonSerializable
   public function __construct($row)
   {
     if ($row != null) {
-      $this->id = (int) $row['player_id'];
+      /*
+      $this->pId = (int) $row['player_id'];
       $this->no = (int) $row['player_no'];
       $this->name = $row['player_name'];
       $this->color = $row['player_color'];
       $this->eliminated = $row['player_eliminated'] == 1;
       $this->score = $row['player_score'];
       $this->zombie = $row['player_zombie'] == 1;
+      */
     }
   }
 
@@ -88,13 +90,14 @@ class Player extends \BRG\Helpers\DB_Manager implements \JsonSerializable
       'color' => $this->color,
       'score' => $this->score,
       'resources' => [],
+      'board' => $this->board()->getUiData(),
+      'hand' => $current ? $this->getHand()->ui() : [],
+      'harvestCost' => $this->getHarvestCost(),
     ];
 
-/*
     foreach (RESOURCES as $resource) {
       $data['resources'][$resource] = $this->countReserveResource($resource);
     }
-*/
 
     return $data;
   }

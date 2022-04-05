@@ -6,36 +6,79 @@ use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 
 /*
- * Players manager : allows to easily access players ...
- *  a player is an instance of Player class
+ * Companies manager : allows to easily access players, including automas
  */
-class Players extends \BRG\Helpers\DB_Manager
+class Companies extends \BRG\Helpers\DB_Manager
 {
-  protected static $table = 'player';
-  protected static $primary = 'player_id';
+  protected static $table = 'companies';
+  protected static $primary = 'id';
   protected static function cast($row)
   {
-    return new \BRG\Models\Player($row);
+    return new \BRG\Models\Company($row);
   }
 
   public function setupNewGame($players, $options)
   {
-    // Create players
-    $gameInfos = Game::get()->getGameinfos();
-    $colors = $gameInfos['player_colors'];
-    $query = self::DB()->multipleInsert([
-      'player_id',
-      'player_color',
-      'player_canal',
-      'player_name',
-      'player_avatar',
-    ]);
+    // Allocate companies
+    $companies = [\COMPANY_USA, \COMPANY_ITALY, \COMPANY_FRANCE, \COMPANY_GERMANY, \COMPANY_NETHERLANDS];
 
-    $values = [];
+    // Compute player order around the table
+    $orderTable = [];
     foreach ($players as $pId => $player) {
-      $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+      $orderTable[$player['player_table_order']] = $pId;
     }
+    ksort($orderTable);
+
+    // We are building a mapping pId => company
+    $mapping = [];
+
+    // Assign human players with preference first
+    $i = 0;
+    foreach ($orderTable as $order => $pId) {
+      $c = $options[101 + $i] ?? null;
+      if ($c != null && in_array($c, $companies)) {
+        $mapping[$pId] = $c;
+        array_splice($companies, array_search($c, $companies), 1);
+      }
+      $i++;
+    }
+
+    // Assign IA players with preference
+    for ($i = 0; $i < 4; $i++) {
+      $c = $options[106 + $i] ?? null;
+      if ($c != null && in_array($c, $companies)) {
+        $mapping[-$i - 1] = $c;
+        array_splice($companies, array_search($c, $companies), 1);
+      }
+    }
+
+    // Assign remaining players
+    foreach ($orderTable as $order => $pId) {
+      if (!\array_key_exists($pId, $mapping)) {
+        shuffle($companies);
+        $c = array_pop($companies);
+        $mapping[$pId] = $c;
+      }
+    }
+
+    for ($i = 0; $i < $options[\BRG\OPTION_AUTOMA]; $i++) {
+      if (!\array_key_exists(-$i - 1, $mapping)) {
+        shuffle($companies);
+        $c = array_pop($companies);
+        $mapping[-$i - 1] = $c;
+      }
+    }
+
+
+    // Create the companies
+    $query = self::DB()->multipleInsert(['id', 'no', 'player_id', 'name', 'score', 'score_aux']);
+    Utils::shuffle($mapping);
+    $values = [];
+    $no = 0;
+    foreach ($mapping as $pId => $company) {
+      $values[] = [$company, $no++, $pId, $players[$pId]['player_name'] ?? 'IA', 0, 0];
+    }
+
     $query->values($values);
   }
 
@@ -136,19 +179,6 @@ class Players extends \BRG\Helpers\DB_Manager
       $order[] = $p;
       $p = self::getNextId($p);
     } while ($p != $firstPlayer);
-    return $order;
-  }
-
-  /**
-   * Get current turn order for harvest by removing skipped players
-   */
-  public function getHarvestTurnOrder($firstPlayer = null)
-  {
-    $order = self::getTurnOrder($firstPlayer);
-    $skipped = Globals::getSkipHarvest();
-    Utils::filter($order, function ($pId) use ($skipped) {
-      return !in_array($pId, $skipped);
-    });
     return $order;
   }
 }

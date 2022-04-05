@@ -9,10 +9,10 @@ $gameinfos = [
     "publisher_website" => "https://craniointernational.com/",
     "publisher_bgg_id" => 10768,
     "bgg_id" => 251247,
-    "players" => [1, 2, 3, 4],
+    "players" => [1, 2, 3, 4, 5],
 
     "suggest_player_number" => 4,
-    "not_recommend_player_number" => null,
+    "not_recommend_player_number" => 1,
 
     "estimated_duration" => 90,
     "fast_additional_time" => 30,
@@ -45,8 +45,8 @@ $gameinfos = [
     "strategy" => 5,
     "diplomacy" => 1,
 
-    "player_colors" => ["ff0000", "008000", "0000ff", "ffa500", "773300"],
-    "favorite_colors_support" => true,
+    "player_colors" => ["be2748", "13757e", "ffffff", "ea4e1b", "1b1b1b"],
+    "favorite_colors_support" => false,
     "disable_player_order_swap_on_rematch" => false,
 
     // Game interface width range (pixels)
