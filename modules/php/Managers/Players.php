@@ -21,8 +21,6 @@ class Players extends \BRG\Helpers\DB_Manager
   public function setupNewGame($players, $options)
   {
     // Create players
-    $gameInfos = Game::get()->getGameinfos();
-    $colors = $gameInfos['player_colors'];
     $query = self::DB()->multipleInsert([
       'player_id',
       'player_color',
@@ -33,8 +31,7 @@ class Players extends \BRG\Helpers\DB_Manager
 
     $values = [];
     foreach ($players as $pId => $player) {
-      $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+      $values[] = [$pId, $player['color'], $player['player_canal'], $player['player_name'], $player['player_avatar']];
     }
     $query->values($values);
   }

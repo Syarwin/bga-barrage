@@ -14,10 +14,27 @@ class Companies extends \BRG\Helpers\DB_Manager
   protected static $primary = 'id';
   protected static function cast($row)
   {
-    return new \BRG\Models\Company($row);
+    $classes = [
+      COMPANY_USA => 'USA',
+      COMPANY_ITALY => 'Italy',
+      COMPANY_FRANCE => 'France',
+      COMPANY_GERMANY => 'Germany',
+      COMPANY_NETHERLANDS => 'Netherlands',
+    ];
+
+    $className = '\BRG\Companies\\' . $classes[$row['id']];
+    return new $className($row);
   }
 
-  public function setupNewGame($players, $options)
+  public static $colorMapping = [
+    COMPANY_USA => 'be2748',
+    COMPANY_ITALY => '13757e',
+    COMPANY_FRANCE => 'ffffff',
+    COMPANY_GERMANY => '1b1b1b',
+    COMPANY_NETHERLANDS => 'ea4e1b',
+  ];
+
+  public function setupNewGame(&$players, $options)
   {
     // Allocate companies
     $companies = [\COMPANY_USA, \COMPANY_ITALY, \COMPANY_FRANCE, \COMPANY_GERMANY, \COMPANY_NETHERLANDS];
@@ -47,7 +64,8 @@ class Companies extends \BRG\Helpers\DB_Manager
     for ($i = 0; $i < 4; $i++) {
       $c = $options[106 + $i] ?? null;
       if ($c != null && in_array($c, $companies)) {
-        $mapping[-$i - 1] = $c;
+        $lvl = $options[110 + $i];
+        $mapping[-3 * ($i + 1) + $lvl] = $c;
         array_splice($companies, array_search($c, $companies), 1);
       }
     }
@@ -62,13 +80,14 @@ class Companies extends \BRG\Helpers\DB_Manager
     }
 
     for ($i = 0; $i < $options[\BRG\OPTION_AUTOMA]; $i++) {
-      if (!\array_key_exists(-$i - 1, $mapping)) {
+      $lvl = $options[110 + $i];
+      $id = -3 * ($i + 1) + $lvl;
+      if (!\array_key_exists($id, $mapping)) {
         shuffle($companies);
         $c = array_pop($companies);
-        $mapping[-$i - 1] = $c;
+        $mapping[$id] = $c;
       }
     }
-
 
     // Create the companies
     $query = self::DB()->multipleInsert(['id', 'no', 'player_id', 'name', 'score', 'score_aux']);
@@ -76,12 +95,30 @@ class Companies extends \BRG\Helpers\DB_Manager
     $values = [];
     $no = 0;
     foreach ($mapping as $pId => $company) {
-      $values[] = [$company, $no++, $pId, $players[$pId]['player_name'] ?? 'IA', 0, 0];
+      $values[] = [$company, $no++, $pId, $players[$pId]['player_name'] ?? clienttranslate('Automa'), 0, 0];
     }
 
     $query->values($values);
+
+    // Update player colors
+    foreach ($players as $pId => &$player) {
+      $player['color'] = self::$colorMapping[$mapping[$pId]];
+    }
   }
 
+  /*
+   * getUiData : get all ui data of all players
+   */
+  public function getUiData($pId)
+  {
+    return self::getAll()->map(function ($player) use ($pId) {
+      return $player->jsonSerialize($pId);
+    });
+  }
+
+  /////////////////
+  // TODO
+  /////////////////
   public function getActiveId()
   {
     return Game::get()->getActivePlayerId();
@@ -155,16 +192,6 @@ class Companies extends \BRG\Helpers\DB_Manager
     foreach (self::getAll() as $player) {
       $player->returnHomeFarmers();
     }
-  }
-
-  /*
-   * getUiData : get all ui data of all players
-   */
-  public function getUiData($pId)
-  {
-    return self::getAll()->map(function ($player) use ($pId) {
-      return $player->jsonSerialize($pId);
-    });
   }
 
   /*

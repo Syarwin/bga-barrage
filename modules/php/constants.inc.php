@@ -1,4 +1,5 @@
 <?php
+require_once("gameoptions.inc.php");
 
 /*
  * Game options
@@ -86,8 +87,16 @@ const CREDIT = 'credit';
 const EXCAVATOR = 'excavator';
 const MIXER = 'mixer';
 
+const MACHINERIES = [EXCAVATOR, MIXER];
 const RESOURCES = [CREDIT, EXCAVATOR, MIXER];
 
+const DROPLET = 'droplet';
+
+const BASE = 'base';
+const ELEVATION = 'elevation';
+const CONDUIT = 'conduit';
+const POWERHOUSE = 'powerhouse';
+const ENGINEER = 'engineer';
 
 /*
  * Atomic action

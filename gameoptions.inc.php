@@ -387,6 +387,105 @@ $game_options = [
       ],
     ],
   ],
+
+
+
+  OPTION_LVL_AUTOMA_1 => [
+    'name' => totranslate('Difficulty level of the first automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 1:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 1:Medium]'),
+      ],
+      AUTOMA_HARD => [
+        'name' => clienttranslate('Hard'),
+        'tmdisplay' => clienttranslate('[AI 1:Hard]'),
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [1, 2, 3, 4],
+      ],
+    ],
+  ],
+  OPTION_LVL_AUTOMA_2 => [
+    'name' => totranslate('Difficulty level of the second automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 2:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 2:Medium]'),
+      ],
+      AUTOMA_HARD => [
+        'name' => clienttranslate('Hard'),
+        'tmdisplay' => clienttranslate('[AI 2:Hard]'),
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [2, 3, 4],
+      ],
+    ],
+  ],
+  OPTION_LVL_AUTOMA_3 => [
+    'name' => totranslate('Difficulty level of the third automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 3:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 3:Medium]'),
+      ],
+      AUTOMA_HARD => [
+        'name' => clienttranslate('Hard'),
+        'tmdisplay' => clienttranslate('[AI 3:Hard]'),
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [3, 4],
+      ],
+    ],
+  ],
+  OPTION_LVL_AUTOMA_4 => [
+    'name' => totranslate('Difficulty level of the fourth automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 4:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 4:Medium]'),
+      ],
+      AUTOMA_HARD => [
+        'name' => clienttranslate('Hard'),
+        'tmdisplay' => clienttranslate('[AI 4:Hard]'),
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [4],
+      ],
+    ],
+  ],
 ];
 
 $game_preferences = [];

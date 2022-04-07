@@ -67,10 +67,10 @@ class Barrage extends Table
    */
   protected function setupNewGame($players, $options = [])
   {
+    Companies::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
-    Companies::setupNewGame($players, $options);
 
     $this->activeNextPlayer();
   }
@@ -84,6 +84,7 @@ class Barrage extends Table
     return [
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
+      'companies' => Companies::getUiData($pId),
     ];
   }
 

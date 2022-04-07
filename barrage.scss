@@ -13,6 +13,14 @@
  *
  */
 
+@font-face {
+  font-family: 'Oranienbaum';
+  src: url('img/fonts/Oranienbaum.woff2') format('woff2'), url('img/fonts/Oranienbaum.woff') format('woff'),
+    url('img/fonts/Oranienbaum.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @import 'modules/css/layout';
 @import 'modules/css/modals';
