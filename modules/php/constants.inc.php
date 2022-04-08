@@ -78,6 +78,25 @@ const COMPANY_ITALY = 3;
 const COMPANY_FRANCE = 4;
 const COMPANY_NETHERLANDS = 5;
 
+/*
+ * Executive Officers
+ */
+const XO_WILHELM = 1;
+const XO_ELON = 2;
+const XO_TOMMASO = 3;
+const XO_GRAZIANO = 4;
+const XO_VIKTOR = 5;
+const XO_MARGOT = 6;
+const XO_GENNARO = 7;
+const XO_SOLOMON = 8;
+const XO_ANTON = 9;
+const XO_SIMONE = 10;
+const XO_JILL = 11;
+const XO_MAHIRI = 12;
+const XO_LESLIE = 13;
+const XO_WU = 14;
+const XO_OCTAVIUS = 14;
+const XO_AMIR = 15;
 
 
 /*
