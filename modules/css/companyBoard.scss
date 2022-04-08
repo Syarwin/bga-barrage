@@ -1,0 +1,83 @@
+.company-board {
+  .company-board-wrapper {
+    width: 1111px;
+    height: 702px;
+    background-image: url('img/company_boards.jpg');
+    background-size: 200% 300%;
+    position: relative;
+
+    .company-owner {
+    }
+
+    .action-space-wrapper {
+      position: absolute;
+      top: 52px;
+      height: 60px;
+      background: rgba(255, 0, 0, 0.3);
+      border-radius: 8px;
+
+      &.construct-0 {
+        width: 136px;
+        left: 160px;
+      }
+      &.construct-1 {
+        width: 190px;
+        left: 313px;
+      }
+      &.construct-2 {
+        width: 243px;
+        left: 520px;
+      }
+      &.construct-3 {
+        width: 243px;
+        left: 806px;
+      }
+    }
+
+    .structures-wrapper {
+      position: absolute;
+      left: 343px;
+      height: 105px;
+      width: 625px;
+      background: rgba(255, 0, 0, 0.3);
+      display: flex;
+
+      .building-slot {
+        width: 104px;
+        height: 85px;
+        background: rgba(0, 255, 0, 0.3);
+        margin: 10px 11px 10px 10px;
+      }
+
+      &.bases-wrapper {
+        top: 165px;
+      }
+
+      &.elevations-wrapper {
+        top: 285px;
+      }
+
+      &.conduits-wrapper {
+        top: 407px;
+      }
+
+      &.powerhouses-wrapper {
+        top: 525px;
+
+        .building-slot:nth-of-type(2) {
+          margin: 10px 32px 10px 51px;
+        }
+        .building-slot:nth-of-type(3) {
+          margin: 10px 51px 10px 32px;
+        }
+      }
+    }
+  }
+
+  @for $i from 0 through 5 {
+    &[data-company='#{$i + 1}'] .company-board-wrapper {
+      background-position-x: ($i % 2) * 100%;
+      background-position-y: (($i - ($i % 2)) / 2) * 100% / 2;
+    }
+  }
+}

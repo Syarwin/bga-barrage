@@ -379,6 +379,73 @@ Responsive CSS Sprite created using: https://responsive-css.us/
     font-weight: bold;
     margin-left: 5px; }
 
+.company-board .company-board-wrapper {
+  width: 1111px;
+  height: 702px;
+  background-image: url("img/company_boards.jpg");
+  background-size: 200% 300%;
+  position: relative; }
+  .company-board .company-board-wrapper .action-space-wrapper {
+    position: absolute;
+    top: 52px;
+    height: 60px;
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 8px; }
+    .company-board .company-board-wrapper .action-space-wrapper.construct-0 {
+      width: 136px;
+      left: 160px; }
+    .company-board .company-board-wrapper .action-space-wrapper.construct-1 {
+      width: 190px;
+      left: 313px; }
+    .company-board .company-board-wrapper .action-space-wrapper.construct-2 {
+      width: 243px;
+      left: 520px; }
+    .company-board .company-board-wrapper .action-space-wrapper.construct-3 {
+      width: 243px;
+      left: 806px; }
+  .company-board .company-board-wrapper .structures-wrapper {
+    position: absolute;
+    left: 343px;
+    height: 105px;
+    width: 625px;
+    background: rgba(255, 0, 0, 0.3);
+    display: flex; }
+    .company-board .company-board-wrapper .structures-wrapper .building-slot {
+      width: 104px;
+      height: 85px;
+      background: rgba(0, 255, 0, 0.3);
+      margin: 10px 11px 10px 10px; }
+    .company-board .company-board-wrapper .structures-wrapper.bases-wrapper {
+      top: 165px; }
+    .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper {
+      top: 285px; }
+    .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper {
+      top: 407px; }
+    .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
+      top: 525px; }
+      .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(2) {
+        margin: 10px 32px 10px 51px; }
+      .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(3) {
+        margin: 10px 51px 10px 32px; }
+.company-board[data-company='1'] .company-board-wrapper {
+  background-position-x: 0%;
+  background-position-y: 0%; }
+.company-board[data-company='2'] .company-board-wrapper {
+  background-position-x: 100%;
+  background-position-y: 0%; }
+.company-board[data-company='3'] .company-board-wrapper {
+  background-position-x: 0%;
+  background-position-y: 50%; }
+.company-board[data-company='4'] .company-board-wrapper {
+  background-position-x: 100%;
+  background-position-y: 50%; }
+.company-board[data-company='5'] .company-board-wrapper {
+  background-position-x: 0%;
+  background-position-y: 100%; }
+.company-board[data-company='6'] .company-board-wrapper {
+  background-position-x: 100%;
+  background-position-y: 100%; }
+
 #player_config {
   margin: 10px 0px; }
   #player_config #player_config_row {

@@ -29,11 +29,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         // Add additional info to player boards
         this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
+
+        // Create company board
+        this.place('tplCompanyBoard', company, 'barrage-container');
       });
     },
 
     setupPlayers() {
       this.forEachPlayer((player) => {});
+    },
+
+    getCompanyName(companyId) {
+      const COMPANY_NAMES = {
+        1: _('USA'),
+        2: _('Germany'),
+        3: _('Italy'),
+        4: _('France'),
+        5: _('Netherlands'),
+      };
+
+      return COMPANY_NAMES[companyId];
     },
 
     tplPlayerBoard(company) {
@@ -59,22 +74,74 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       </div>`;
     },
 
-    getCompanyName(companyId) {
-      const COMPANY_NAMES = {
-        1: _('USA'),
-        2: _('Germany'),
-        3: _('Italy'),
-        4: _('France'),
-        5: _('Netherlands'),
-      };
-
-      return COMPANY_NAMES[companyId];
-    },
-
     tplCompanyInfo(company) {
       return `<div class='company-info'>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='company-name'>${_(this.getCompanyName(company.id))}</div>
+      </div>`;
+    },
+
+    tplCompanyBoard(company) {
+      const id = company.id;
+
+      return `<div class='company-board' data-company='${id}'>
+        <div class='company-board-wrapper'>
+          <div class='company-owner'>
+            ${_(company.name)}
+          </div>
+
+          <div class='action-space-wrapper construct-0' id='action-construct-0-${id}'>
+            <div class='engineer-slot' id='construct-0-0-${id}'></div>
+          </div>
+
+          <div class='action-space-wrapper construct-1' id='action-construct-1-${id}'>
+            <div class='engineer-slot' id='construct-1-0-${id}'></div>
+            <div class='engineer-slot' id='construct-1-1-${id}'></div>
+          </div>
+
+          <div class='action-space-wrapper construct-2' id='action-construct-2-${id}'>
+            <div class='engineer-slot' id='construct-2-0-${id}'></div>
+            <div class='engineer-slot' id='construct-2-1-${id}'></div>
+            <div class='engineer-slot' id='construct-2-2-${id}'></div>
+          </div>
+
+          <div class='action-space-wrapper construct-3' id='action-construct-3-${id}'>
+            <div class='engineer-slot' id='construct-3-0-${id}'></div>
+            <div class='engineer-slot' id='construct-3-1-${id}'></div>
+            <div class='engineer-slot' id='construct-3-2-${id}'></div>
+          </div>
+
+          <div class='structures-wrapper bases-wrapper'>
+            <div class='building-slot' id='base-4-${id}'></div>
+            <div class='building-slot' id='base-3-${id}'></div>
+            <div class='building-slot' id='base-2-${id}'></div>
+            <div class='building-slot' id='base-1-${id}'></div>
+            <div class='building-slot' id='base-0-${id}'></div>
+          </div>
+
+          <div class='structures-wrapper elevations-wrapper'>
+            <div class='building-slot' id='elevation-4-${id}'></div>
+            <div class='building-slot' id='elevation-3-${id}'></div>
+            <div class='building-slot' id='elevation-2-${id}'></div>
+            <div class='building-slot' id='elevation-1-${id}'></div>
+            <div class='building-slot' id='elevation-0-${id}'></div>
+          </div>
+
+          <div class='structures-wrapper conduits-wrapper'>
+            <div class='building-slot' id='conduit-4-${id}'></div>
+            <div class='building-slot' id='conduit-3-${id}'></div>
+            <div class='building-slot' id='conduit-2-${id}'></div>
+            <div class='building-slot' id='conduit-1-${id}'></div>
+            <div class='building-slot' id='conduit-0-${id}'></div>
+          </div>
+
+          <div class='structures-wrapper powerhouses-wrapper'>
+            <div class='building-slot' id='powerhouse-3-${id}'></div>
+            <div class='building-slot' id='powerhouse-2-${id}'></div>
+            <div class='building-slot' id='powerhouse-1-${id}'></div>
+            <div class='building-slot' id='powerhouse-0-${id}'></div>
+          </div>
+        </div>
       </div>`;
     },
   });
