@@ -19,335 +19,182 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap; }
-/*
-Responsive CSS Sprite created using: https://responsive-css.us/
-*/
-.architect,
-.base_0,
-.base_1,
-.base_2,
-.base_3,
-.base_4,
-.base_5,
-.building_1,
-.building_2,
-.building_3,
-.building_4,
-.building_5,
-.conduit_1,
-.conduit_2,
-.conduit_3,
-.conduit_4,
-.conduit_5,
-.credit,
-.droplet,
-.elevation_1,
-.elevation_2,
-.elevation_3,
-.elevation_4,
-.elevation_5,
-.engineer_1,
-.engineer_2,
-.engineer_3,
-.engineer_4,
-.engineer_5,
-.excavator,
-.mixer,
-.powerhouse_1,
-.powerhouse_2,
-.powerhouse_3,
-.powerhouse_4,
-.powerhouse_5,
-.score_1,
-.score_2,
-.score_3,
-.score_4,
-.score_5,
-.score_more_1,
-.score_more_2,
-.score_more_3,
-.score_more_4,
-.score_more_5 {
+html {
+  background-image: url("img/ui/texture.jpg");
+  background-repeat: repeat;
+  background-size: 50px; }
+
+.player-board {
+  background-color: #ebeaea; }
+
+#page-title {
+  background-color: #ebeaea; }
+
+#topbar {
+  background-color: #ebeaea; }
+
+#game_play_area {
+  font-size: 30px; }
+
+.meeple-container {
   display: inline-block;
-  overflow: hidden;
-  background-repeat: no-repeat;
-  background-image: url(sprite.png); }
+  vertical-align: middle;
+  margin: 0 0.08em;
+  font-size: 1.3em; }
 
-.architect {
-  width: 112px;
-  height: 161px;
-  background-position: 0% 0%;
-  background-size: 914.286%; }
-
-.base_0 {
-  width: 127px;
-  height: 110px;
-  background-position: 0% 30.5252%;
-  background-size: 806.299%; }
-
-.base_1 {
-  width: 128px;
-  height: 112px;
-  background-position: 36.1607% 17.6535%;
-  background-size: 800%; }
-
-.base_2 {
-  width: 128px;
-  height: 112px;
-  background-position: 50.4464% 17.6535%;
-  background-size: 800%; }
-
-.base_3 {
-  width: 128px;
-  height: 112px;
-  background-position: 64.7321% 17.6535%;
-  background-size: 800%; }
-
-.base_4 {
-  width: 128px;
-  height: 112px;
-  background-position: 79.0179% 17.6535%;
-  background-size: 800%; }
-
-.base_5 {
-  width: 129px;
-  height: 114px;
-  background-position: 21.7877% 17.6923%;
-  background-size: 793.798%; }
-
-.building_1 {
-  width: 91px;
-  height: 99px;
-  background-position: 81.7792% 42.0541%;
-  background-size: 1125.27%; }
-
-.building_2 {
-  width: 91px;
-  height: 93px;
-  background-position: 79.2069% 53.5983%;
-  background-size: 1125.27%; }
-
-.building_3 {
-  width: 91px;
-  height: 91px;
-  background-position: 98.6066% 53.4834%;
-  background-size: 1125.27%; }
-
-.building_4 {
-  width: 90px;
-  height: 92px;
-  background-position: 88.8651% 53.5408%;
-  background-size: 1137.78%; }
-
-.building_5 {
-  width: 93px;
-  height: 94px;
-  background-position: 55.7465% 53.6559%;
-  background-size: 1101.08%; }
-
-.conduit_1 {
-  width: 81px;
-  height: 115px;
-  background-position: 12.0891% 17.7118%;
-  background-size: 1264.2%; }
-
-.conduit_2 {
-  width: 77px;
-  height: 111px;
-  background-position: 88.2788% 17.6342%;
-  background-size: 1329.87%; }
-
-.conduit_3 {
-  width: 79px;
-  height: 118px;
-  background-position: 91.1111% 0%;
-  background-size: 1296.2%; }
-
-.conduit_4 {
-  width: 73px;
-  height: 111px;
-  background-position: 96.0042% 17.6342%;
-  background-size: 1402.74%; }
-
-.conduit_5 {
-  width: 80px;
-  height: 118px;
-  background-position: 99.5763% 0%;
-  background-size: 1280%; }
-
-.credit {
-  width: 114px;
-  height: 118px;
-  background-position: 0% 17.7704%;
-  background-size: 898.246%; }
-
-.droplet {
-  width: 104px;
-  height: 121px;
-  background-position: 82.2826% 0%;
-  background-size: 984.615%; }
-
-.elevation_1 {
-  width: 127px;
-  height: 99px;
-  background-position: 95.2062% 42.0541%;
-  background-size: 806.299%; }
-
-.elevation_2 {
-  width: 129px;
-  height: 97px;
-  background-position: 29.162% 53.8296%;
-  background-size: 793.798%; }
-
-.elevation_3 {
-  width: 129px;
-  height: 97px;
-  background-position: 43.5754% 53.8296%;
-  background-size: 793.798%; }
-
-.elevation_4 {
-  width: 127px;
-  height: 94px;
-  background-position: 68.2274% 53.6559%;
-  background-size: 806.299%; }
-
-.elevation_5 {
-  width: 129px;
-  height: 98px;
-  background-position: 14.7486% 53.8877%;
-  background-size: 793.798%; }
-
-.engineer_1 {
-  width: 81px;
-  height: 135px;
-  background-position: 71.6861% 0%;
-  background-size: 1264.2%; }
-
-.engineer_2 {
-  width: 82px;
-  height: 141px;
-  background-position: 45.8599% 0%;
-  background-size: 1248.78%; }
-
-.engineer_3 {
-  width: 82px;
-  height: 140px;
-  background-position: 54.5648% 0%;
-  background-size: 1248.78%; }
-
-.engineer_4 {
-  width: 81px;
-  height: 146px;
-  background-position: 11.877% 0%;
-  background-size: 1264.2%; }
-
-.engineer_5 {
-  width: 80px;
-  height: 137px;
-  background-position: 63.1356% 0%;
-  background-size: 1280%; }
-
-.excavator {
-  width: 147px;
-  height: 145px;
-  background-position: 22.0068% 0%;
-  background-size: 696.599%; }
-
-.mixer {
-  width: 92px;
-  height: 142px;
-  background-position: 36.4807% 0%;
-  background-size: 1113.04%; }
-
-.powerhouse_1 {
-  width: 132px;
-  height: 100px;
-  background-position: 55.9417% 42.0996%;
-  background-size: 775.758%; }
-
-.powerhouse_2 {
-  width: 133px;
-  height: 101px;
-  background-position: 41.0774% 42.1452%;
-  background-size: 769.925%; }
-
-.powerhouse_3 {
-  width: 132px;
-  height: 99px;
-  background-position: 0% 53.9459%;
-  background-size: 775.758%; }
-
-.powerhouse_4 {
-  width: 132px;
-  height: 100px;
-  background-position: 70.7399% 42.0996%;
-  background-size: 775.758%; }
-
-.powerhouse_5 {
-  width: 114px;
-  height: 87px;
-  background-position: 0% 63.8207%;
-  background-size: 898.246%; }
-
-.score_1 {
-  width: 122px;
-  height: 110px;
-  background-position: 14.0798% 30.5252%;
-  background-size: 839.344%; }
-
-.score_2 {
-  width: 122px;
-  height: 110px;
-  background-position: 27.6053% 30.5252%;
-  background-size: 839.344%; }
-
-.score_3 {
-  width: 122px;
-  height: 110px;
-  background-position: 41.1308% 30.5252%;
-  background-size: 839.344%; }
-
-.score_4 {
-  width: 122px;
-  height: 110px;
-  background-position: 54.6563% 30.5252%;
-  background-size: 839.344%; }
-
-.score_5 {
-  width: 122px;
-  height: 110px;
-  background-position: 68.1818% 30.5252%;
-  background-size: 839.344%; }
-
-.score_more_1 {
-  width: 122px;
-  height: 110px;
-  background-position: 81.7073% 30.5252%;
-  background-size: 839.344%; }
-
-.score_more_2 {
-  width: 122px;
-  height: 110px;
-  background-position: 95.2328% 30.5252%;
-  background-size: 839.344%; }
-
-.score_more_3 {
-  width: 122px;
-  height: 110px;
-  background-position: 0% 42.5602%;
-  background-size: 839.344%; }
-
-.score_more_4 {
-  width: 122px;
-  height: 110px;
-  background-position: 13.5255% 42.5602%;
-  background-size: 839.344%; }
-
-.score_more_5 {
-  width: 122px;
-  height: 110px;
-  background-position: 27.051% 42.5602%;
-  background-size: 839.344%; }
+.barrage-meeple {
+  background-image: url("img/meeples.png");
+  background-repeat: no-repeat; }
+  .barrage-meeple.meeple-credit {
+    min-width: 0.9662em;
+    height: 1em;
+    background-position: 0% 17.7704%;
+    background-size: 898.246%; }
+  .barrage-meeple.meeple-excavator {
+    min-width: 1.2458em;
+    height: 1.2289em;
+    background-position: 22.0068% 0%;
+    background-size: 696.599%; }
+  .barrage-meeple.meeple-mixer {
+    min-width: 0.7797em;
+    height: 1.2034em;
+    background-position: 36.4807% 0%;
+    background-size: 1113.04%; }
+  .barrage-meeple.meeple-engineer[data-company='1'] {
+    min-width: 0.6865em;
+    height: 1.1441em;
+    background-position: 71.6861% 0%;
+    background-size: 1264.2%; }
+  .barrage-meeple.meeple-engineer[data-company='2'] {
+    min-width: 0.695em;
+    height: 1.195em;
+    background-position: 45.8599% 0%;
+    background-size: 1248.78%; }
+  .barrage-meeple.meeple-engineer[data-company='3'] {
+    min-width: 0.695em;
+    height: 1.1865em;
+    background-position: 54.5648% 0%;
+    background-size: 1248.78%; }
+  .barrage-meeple.meeple-engineer[data-company='4'] {
+    min-width: 0.6865em;
+    height: 1.2373em;
+    background-position: 11.877% 0%;
+    background-size: 1264.2%; }
+  .barrage-meeple.meeple-engineer[data-company='5'] {
+    min-width: 0.678em;
+    height: 1.1611em;
+    background-position: 63.1356% 0%;
+    background-size: 1280%; }
+  .barrage-meeple.meeple-base[data-company='0'] {
+    min-width: 3.6286em;
+    height: 3.1429em;
+    background-position: 0% 30.5252%;
+    background-size: 806.299%; }
+  .barrage-meeple.meeple-base[data-company='1'] {
+    min-width: 3.6572em;
+    height: 3.2em;
+    background-position: 36.1607% 17.6535%;
+    background-size: 800%; }
+  .barrage-meeple.meeple-base[data-company='2'] {
+    min-width: 3.6572em;
+    height: 3.2em;
+    background-position: 50.4464% 17.6535%;
+    background-size: 800%; }
+  .barrage-meeple.meeple-base[data-company='3'] {
+    min-width: 3.6572em;
+    height: 3.2em;
+    background-position: 64.7321% 17.6535%;
+    background-size: 800%; }
+  .barrage-meeple.meeple-base[data-company='4'] {
+    min-width: 3.6572em;
+    height: 3.2em;
+    background-position: 79.0179% 17.6535%;
+    background-size: 800%; }
+  .barrage-meeple.meeple-base[data-company='5'] {
+    min-width: 3.6858em;
+    height: 3.2572em;
+    background-position: 21.7877% 17.6923%;
+    background-size: 793.798%; }
+  .barrage-meeple.meeple-elevation[data-company='0'] {
+    min-width: 3.7143em;
+    height: 2.8286em;
+    background-position: 95.5257% 42.0541%;
+    background-size: 787.692%; }
+  .barrage-meeple.meeple-elevation[data-company='1'] {
+    min-width: 3.6286em;
+    height: 2.8286em;
+    background-position: 0% 53.9459%;
+    background-size: 806.299%; }
+  .barrage-meeple.meeple-elevation[data-company='2'] {
+    min-width: 3.6858em;
+    height: 2.7715em;
+    background-position: 43.352% 53.8296%;
+    background-size: 793.798%; }
+  .barrage-meeple.meeple-elevation[data-company='3'] {
+    min-width: 3.6858em;
+    height: 2.7715em;
+    background-position: 57.7654% 53.8296%;
+    background-size: 793.798%; }
+  .barrage-meeple.meeple-elevation[data-company='4'] {
+    min-width: 3.6286em;
+    height: 2.6858em;
+    background-position: 82.3857% 53.6559%;
+    background-size: 806.299%; }
+  .barrage-meeple.meeple-elevation[data-company='5'] {
+    min-width: 3.6858em;
+    height: 2.8em;
+    background-position: 28.9385% 53.8877%;
+    background-size: 793.798%; }
+  .barrage-meeple.meeple-conduit[data-company='1'] {
+    min-width: 2.3143em;
+    height: 3.2858em;
+    background-position: 12.0891% 17.7118%;
+    background-size: 1264.2%; }
+  .barrage-meeple.meeple-conduit[data-company='2'] {
+    min-width: 2.2em;
+    height: 3.1715em;
+    background-position: 88.2788% 17.6342%;
+    background-size: 1329.87%; }
+  .barrage-meeple.meeple-conduit[data-company='3'] {
+    min-width: 2.2572em;
+    height: 3.3715em;
+    background-position: 91.1111% 0%;
+    background-size: 1296.2%; }
+  .barrage-meeple.meeple-conduit[data-company='4'] {
+    min-width: 2.0858em;
+    height: 3.1715em;
+    background-position: 96.0042% 17.6342%;
+    background-size: 1402.74%; }
+  .barrage-meeple.meeple-conduit[data-company='5'] {
+    min-width: 2.2858em;
+    height: 3.3715em;
+    background-position: 99.5763% 0%;
+    background-size: 1280%; }
+  .barrage-meeple.meeple-powerhouse[data-company='1'] {
+    min-width: 3.7715em;
+    height: 2.8572em;
+    background-position: 55.9417% 42.0996%;
+    background-size: 775.758%; }
+  .barrage-meeple.meeple-powerhouse[data-company='2'] {
+    min-width: 3.8em;
+    height: 2.8858em;
+    background-position: 41.0774% 42.1452%;
+    background-size: 769.925%; }
+  .barrage-meeple.meeple-powerhouse[data-company='3'] {
+    min-width: 3.7715em;
+    height: 2.8286em;
+    background-position: 14.2377% 53.9459%;
+    background-size: 775.758%; }
+  .barrage-meeple.meeple-powerhouse[data-company='4'] {
+    min-width: 3.7715em;
+    height: 2.8572em;
+    background-position: 70.7399% 42.0996%;
+    background-size: 775.758%; }
+  .barrage-meeple.meeple-powerhouse[data-company='5'] {
+    min-width: 3.2572em;
+    height: 2.4858em;
+    background-position: 19.8901% 63.8207%;
+    background-size: 898.246%; }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");
@@ -378,6 +225,35 @@ Responsive CSS Sprite created using: https://responsive-css.us/
     font-family: 'Oranienbaum';
     font-weight: bold;
     margin-left: 5px; }
+.player_panel_content .company-panel-resources {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 18px;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 0; }
+  .player_panel_content .company-panel-resources .company-reserve {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%; }
+    .player_panel_content .company-panel-resources .company-reserve .barrage-meeple:not(.moving) {
+      display: none; }
+  .player_panel_content .company-panel-resources .company-resource {
+    margin: 4px 0px;
+    position: relative;
+    flex-basis: 25%;
+    text-align: center; }
+    .player_panel_content .company-panel-resources .company-resource .reserve {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%; }
+      .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
+        display: none; }
 
 .company-board .company-board-wrapper {
   width: 1111px;
@@ -408,19 +284,21 @@ Responsive CSS Sprite created using: https://responsive-css.us/
     left: 343px;
     height: 105px;
     width: 625px;
-    background: rgba(255, 0, 0, 0.3);
     display: flex; }
     .company-board .company-board-wrapper .structures-wrapper .building-slot {
       width: 104px;
       height: 85px;
-      background: rgba(0, 255, 0, 0.3);
-      margin: 10px 11px 10px 10px; }
+      margin: 10px 11px 10px 10px;
+      display: flex; }
     .company-board .company-board-wrapper .structures-wrapper.bases-wrapper {
       top: 165px; }
     .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper {
       top: 285px; }
     .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper {
       top: 407px; }
+      .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot {
+        width: 64px;
+        margin: 0px 30px 20px 31px; }
     .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
       top: 525px; }
       .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(2) {

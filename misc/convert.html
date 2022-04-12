@@ -1,0 +1,92 @@
+<style type="text/css">
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="container">
+  <textarea id="src" style="width: 300px; height: 600px"></textarea>
+  <button id="go" type="button">Go</button>
+  <textarea id="output" style="width: 300px; height: 600px"></textarea>
+</div>
+
+<script type="text/javascript">
+  const meeples = {
+    credit: { r: 118 },
+    excavator: { r: 118 },
+    mixer: { r: 118 },
+    engineer: { r: 118, n: 5, data: 'company' },
+    base: { r: 35, n: 5, data: 'company' },
+    elevation: { r: 35, n: 5, data: 'company' },
+    conduit: { r: 35, n: 5, data: 'company' },
+    powerhouse: { r: 35, n: 5, data: 'company' },
+  };
+
+  function roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return Math.ceil(num * precision) / precision;
+  }
+
+  document.getElementById('go').addEventListener('click', () => {
+    let content = document.getElementById('src').value;
+
+    let output = document.getElementById('output');
+    output.value = `
+    #game_play_area {
+      font-size: 30px;
+    }
+
+    .meeple-container {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 0.08em;
+      font-size: 1.3em;
+    }
+
+    .barrage-meeple {
+      background-image: url('img/meeples.png');
+      background-repeat: no-repeat;
+`;
+
+    Object.keys(meeples).forEach((type) => {
+      let ratio = meeples[type].r;
+
+      if (meeples[type].n) {
+        const re = new RegExp(
+          '\\.' + type + '_([0-9]+) \\{\\s*width:\\s?([0-9]+)px;\\s?height:\\s?([0-9]+)px;([^\\}]+)\\}',
+          'g',
+        );
+        let t = [...content.matchAll(re)];
+        t.forEach((match) => {
+          let w = parseInt(match[2]);
+          let h = parseInt(match[3]);
+          output.value += `
+&.meeple-${type}[data-${meeples[type].data}='${match[1]}'] {
+  min-width: ${roundUp(w / ratio, 4)}em;
+  height: ${roundUp(h / ratio, 4)}em;
+${match[4]}
+}
+            `;
+        });
+      } else {
+        const re = new RegExp(
+          '\\.' + type + ' \\{\\s*width:\\s?([0-9]+)px;\\s?height:\\s?([0-9]+)px;([^\\}]+)\\}',
+          'g',
+        );
+        let t = [...content.matchAll(re)];
+        let w = parseInt(t[0][1]);
+        let h = parseInt(t[0][2]);
+
+        output.value += `
+  &.meeple-${type} {
+    min-width: ${roundUp(w / ratio, 4)}em;
+    height: ${roundUp(h / ratio, 4)}em;
+  ${t[0][3]}
+  }
+        `;
+      }
+    });
+
+    output.value += '}';
+  });
+</script>

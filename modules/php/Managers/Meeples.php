@@ -1,121 +1,58 @@
 <?php
 namespace BRG\Managers;
-use agricola;
 use BRG\Core\Stats;
 use BRG\Helpers\UserException;
 
-/* Class to manage all the meeples for Agricola */
+/* Class to manage all the meeples for Barrage */
 
 class Meeples extends \BRG\Helpers\Pieces
 {
   protected static $table = 'meeples';
   protected static $prefix = 'meeple_';
-  protected static $customFields = ['type', 'player_id', 'x', 'y'];
+  protected static $customFields = ['type', 'company_id'];
 
   protected static function cast($meeple)
   {
     return [
       'id' => (int) $meeple['id'],
       'location' => $meeple['location'],
-      'pId' => $meeple['player_id'],
-      'type' => $meeple['type'],
-      'x' => $meeple['x'],
-      'y' => $meeple['y'],
       'state' => $meeple['state'],
+      'type' => $meeple['type'],
+      'cId' => $meeple['company_id'],
     ];
   }
-
-  public static $renovationCost = [
-    'roomWood' => ['multiple' => CLAY, 'once' => REED, 'next' => 'roomClay'],
-    'roomClay' => ['multiple' => STONE, 'once' => REED, 'next' => 'roomStone'],
-  ];
 
   public static function getUiData()
   {
     return self::getSelectQuery()
       ->orderBy('meeple_state')
-      ->orderBy('type') // Ensure fields are created before grain and vegetable that mights be on them
       ->get()
       ->toArray();
   }
 
   /* Creation of various meeples */
-  public static function setupNewGame($players, $options)
+  public static function setupNewGame($companies, $options)
   {
-    $player_order = agricola::get()->getNextPlayerTable();
-
-    // 1st player has 2 food
-    // other players have 3 foods
     $meeples = [];
-    if (count($players) > 1) {
-      $meeples[] = ['type' => FOOD, 'player_id' => $player_order[0], 'location' => 'reserve', 'nbr' => 2];
-    }
-    $meeples[] = ['type' => 'firstPlayer', 'player_id' => $player_order[0], 'location' => 'reserve', 'nbr' => 1];
-    foreach ($players as $player_id => $player) {
-      if ($player_id !== $player_order[0]) {
-        $meeples[] = ['type' => FOOD, 'player_id' => $player_id, 'location' => 'reserve', 'nbr' => 3];
+    foreach ($companies as $pId => $company) {
+      $meeples[] = ['type' => \ENGINEER, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 12];
+      $meeples[] = ['type' => \CREDIT, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 6];
+      $meeples[] = ['type' => \EXCAVATOR, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 6];
+      $meeples[] = ['type' => \MIXER, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 4];
+
+      // Structures
+      for ($i = 0; $i < 5; $i++) {
+        $meeples[] = ['type' => BASE, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+        $meeples[] = ['type' => ELEVATION, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+        $meeples[] = ['type' => CONDUIT, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+        if ($i < 4) {
+          $meeples[] = ['type' => POWERHOUSE, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+        }
+        // TODO : expansion : create buildings
       }
-
-      // rooms
-      $meeples[] = [
-        'type' => 'roomWood',
-        'player_id' => $player_id,
-        'location' => 'board',
-        'x' => 1,
-        'y' => 3,
-        'nbr' => 1,
-      ];
-      $meeples[] = [
-        'type' => 'roomWood',
-        'player_id' => $player_id,
-        'location' => 'board',
-        'x' => 1,
-        'y' => 5,
-        'nbr' => 1,
-      ];
-
-      // fence
-      $meeples[] = ['type' => 'fence', 'player_id' => $player_id, 'location' => 'reserve', 'nbr' => 15];
-      // stables
-      $meeples[] = ['type' => 'stable', 'player_id' => $player_id, 'location' => 'reserve', 'nbr' => 4];
     }
 
     self::create($meeples);
-
-    Farmers::setupNewGame($players, $options);
-  }
-
-  /**
-   * move meeple token to coords
-   * @param number $mId meeple id
-   * @param varchar $location place on which we put the meeple
-   * @param array $coord X & Y position
-   **/
-  public function moveToCoords($mId, $location, $coord = null)
-  {
-    $x = null;
-    $y = null;
-
-    if (is_array($coord) && isset($coord['x']) && isset($coord['y'])) {
-      $x = $coord['x'];
-      $y = $coord['y'];
-    } elseif (is_array($coord) && count($coord) == 2) {
-      $x = $coord[0];
-      $y = $coord[1];
-    } elseif (is_array($coord)) {
-      $x = $coord[0];
-    } elseif ($coord != null) {
-      $x = $coord;
-    }
-
-    self::DB()->update(
-      [
-        'meeple_location' => $location,
-        'x' => $x,
-        'y' => $y,
-      ],
-      $mId
-    );
   }
 
   /**
@@ -451,16 +388,15 @@ public function getNextSheep()
     return $query->get()->count();
   }
 
-
   public function updateMaxima()
   {
     $types = [WOOD, CLAY, REED, STONE, GRAIN, VEGETABLE, SHEEP, PIG, CATTLE];
-    foreach($types as $type){
-      $name = "get".ucfirst($type).'Max';
+    foreach ($types as $type) {
+      $name = 'get' . ucfirst($type) . 'Max';
       $v = Stats::$name();
       $c = self::getFilteredQuery(null, null, $type)->count();
-      if($c > $v){
-        $name = "set".ucfirst($type).'Max';
+      if ($c > $v) {
+        $name = 'set' . ucfirst($type) . 'Max';
         Stats::$name($c);
       }
     }

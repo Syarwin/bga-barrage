@@ -22,6 +22,24 @@
   font-display: swap;
 }
 
+html {
+  background-image: url('img/ui/texture.jpg');
+  background-repeat: repeat;
+  background-size: 50px;
+}
+
+.player-board {
+  background-color: #ebeaea;
+}
+
+#page-title {
+  background-color: #ebeaea;
+}
+
+#topbar {
+  background-color: #ebeaea;
+}
+
 @import 'modules/css/layout';
 @import 'modules/css/modals';
 @import 'modules/css/meeples';

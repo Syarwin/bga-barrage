@@ -13,7 +13,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const COMPANY_FRANCE = 4;
   const COMPANY_NETHERLANDS = 5;
 
-  return declare('barrage.players', null, {
+  const RESOURCES = ['credit', 'engineer', 'excavator', 'mixer'];
+  const ALL_RESOURCES = RESOURCES;
+
+  return declare('barrage.companies', null, {
     forEachCompany(callback) {
       Object.values(this.gamedatas.companies).forEach((company) => callback(company));
     },
@@ -33,10 +36,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         // Create company board
         this.place('tplCompanyBoard', company, 'barrage-container');
       });
-    },
 
-    setupPlayers() {
-      this.forEachPlayer((player) => {});
+      this.setupCompaniesCounters();
     },
 
     getCompanyName(companyId) {
@@ -75,10 +76,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     tplCompanyInfo(company) {
-      return `<div class='company-info'>
+      return (
+        `<div class='company-info'>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='company-name'>${_(this.getCompanyName(company.id))}</div>
-      </div>`;
+      </div>
+      <div class="company-panel-resources">
+        <div class="company-reserve" id="reserve-${company.id}"></div>
+      ` +
+        RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
+        `
+        </div>
+      </div>`
+      );
+    },
+
+    tplResourceCounter(company, res, prefix = '') {
+      let iconName = res.toUpperCase();
+      let dataAttr = res == 'engineer' ? ` data-company='${company.id}'` : '';
+
+      return `
+        <div class='company-resource resource-${res}'>
+          <span id='${prefix}resource_${company.id}_${res}' class='${prefix}resource_${res}'></span>
+          <div class="meeple-container">
+            <div class="barrage-meeple meeple-${res}"${dataAttr}>
+            </div>
+          </div>
+          <div class='reserve' id='${prefix}reserve_${company.id}_${res}'></div>
+        </div>
+      `;
     },
 
     tplCompanyBoard(company) {
@@ -143,6 +169,38 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           </div>
         </div>
       </div>`;
+    },
+
+    /**
+     * Create all the counters for company panels
+     */
+    setupCompaniesCounters() {
+      this._companyCounters = {};
+      this._scoreCounters = {};
+      this.forEachCompany((company) => {
+        this._companyCounters[company.id] = {};
+        ALL_RESOURCES.forEach((res) => {
+          this._companyCounters[company.id][res] = this.createCounter('resource_' + company.id + '_' + res);
+        });
+        this._scoreCounters[company.id] = this.createCounter('company_score_' + company.id);
+      });
+      this.updateCompaniesCounters(false);
+    },
+
+    /**
+     * Update all the counters in company panels according to gamedatas
+     */
+    updateCompaniesCounters(anim = true) {
+      this.forEachCompany((company) => {
+        ALL_RESOURCES.forEach((res) => {
+          let reserve = $(`reserve_${company.id}_${res}`);
+          let meeples = reserve.querySelectorAll(`.meeple-${res}`);
+          let value = meeples.length;
+
+          this._companyCounters[company.id][res][anim ? 'toValue' : 'setValue'](value);
+          dojo.attr(reserve.parentNode, 'data-n', value);
+        });
+      });
     },
   });
 });

@@ -104,6 +104,8 @@ class Companies extends \BRG\Helpers\DB_Manager
     foreach ($players as $pId => &$player) {
       $player['color'] = self::$colorMapping[$mapping[$pId]];
     }
+
+    return $mapping;
   }
 
   /*

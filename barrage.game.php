@@ -36,6 +36,7 @@ use BRG\Core\Globals;
 use BRG\Core\Preferences;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
+use BRG\Managers\Meeples;
 
 class Barrage extends Table
 {
@@ -67,10 +68,11 @@ class Barrage extends Table
    */
   protected function setupNewGame($players, $options = [])
   {
-    Companies::setupNewGame($players, $options);
+    $companies = Companies::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
+    Meeples::setupNewGame($companies, $options);
 
     $this->activeNextPlayer();
   }
@@ -85,6 +87,7 @@ class Barrage extends Table
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'companies' => Companies::getUiData($pId),
+      'meeples' => Meeples::getUiData(),
     ];
   }
 

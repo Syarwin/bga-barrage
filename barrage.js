@@ -25,9 +25,10 @@ define([
   'ebg/counter',
   g_gamethemeurl + 'modules/js/Core/game.js',
   g_gamethemeurl + 'modules/js/Core/modal.js',
-  g_gamethemeurl + 'modules/js/Players.js',
+  g_gamethemeurl + 'modules/js/Companies.js',
+  g_gamethemeurl + 'modules/js/Meeples.js',
 ], function (dojo, declare) {
-  return declare('bgagame.barrage', [customgame.game, barrage.players], {
+  return declare('bgagame.barrage', [customgame.game, barrage.companies, barrage.meeples], {
     constructor() {
       this._activeStates = [];
       this._notifications = [];
@@ -49,6 +50,7 @@ define([
       this.inherited(arguments);
 
       this.setupCompanies();
+      this.setupMeeples();
     },
   });
 });

@@ -28,4 +28,44 @@
       margin-left: 5px;
     }
   }
+
+  .company-panel-resources {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 18px;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    padding: 0.5rem 0;
+
+    .company-reserve {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+
+      .barrage-meeple:not(.moving) {
+        display: none;
+      }
+    }
+
+    .company-resource {
+      margin: 4px 0px;
+      position: relative;
+      flex-basis: 25%;
+      text-align: center;
+
+      .reserve {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        & > div.barrage-meeple:not(.moving) {
+          display: none;
+        }
+      }
+    }
+  }
 }

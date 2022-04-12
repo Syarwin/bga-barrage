@@ -39,14 +39,15 @@
       left: 343px;
       height: 105px;
       width: 625px;
-      background: rgba(255, 0, 0, 0.3);
+      //      background: rgba(255, 0, 0, 0.3);
       display: flex;
 
       .building-slot {
         width: 104px;
         height: 85px;
-        background: rgba(0, 255, 0, 0.3);
+        //        background: rgba(0, 255, 0, 0.3);
         margin: 10px 11px 10px 10px;
+        display: flex;
       }
 
       &.bases-wrapper {
@@ -59,6 +60,11 @@
 
       &.conduits-wrapper {
         top: 407px;
+
+        .building-slot {
+          width: 64px;
+          margin: 0px 30px 20px 31px;
+        }
       }
 
       &.powerhouses-wrapper {
