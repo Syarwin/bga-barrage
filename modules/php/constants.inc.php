@@ -69,6 +69,14 @@ const INFTY = 9999;
 const NO_COST = ['trades' => [['max' => 1]]];
 
 
+/**
+ * Map
+ */
+ const MOUNTAIN = 'mountain';
+ const HILL = 'hill';
+ const PLAIN = 'plain';
+ 
+
 /*
  * Companies
  */

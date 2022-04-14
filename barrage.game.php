@@ -37,6 +37,7 @@ use BRG\Core\Preferences;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
+use BRG\Map;
 
 class Barrage extends Table
 {
@@ -51,6 +52,7 @@ class Barrage extends Table
     self::initGameStateLabels([
       'logging' => 10,
     ]);
+    Map::init('BaseMap');
   }
 
   public static function get()
@@ -88,6 +90,7 @@ class Barrage extends Table
       'players' => Players::getUiData($pId),
       'companies' => Companies::getUiData($pId),
       'meeples' => Meeples::getUiData(),
+      'map' => Map::getUiData(),
     ];
   }
 
