@@ -52,7 +52,8 @@ class Barrage extends Table
     self::initGameStateLabels([
       'logging' => 10,
     ]);
-    Map::init('BaseMap');
+
+    Map::init();
   }
 
   public static function get()
@@ -75,6 +76,7 @@ class Barrage extends Table
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
     Meeples::setupNewGame($companies, $options);
+    Map::setupNewGame();
 
     $this->activeNextPlayer();
   }

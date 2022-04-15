@@ -3,6 +3,11 @@ namespace BRG\Maps;
 
 class BaseMap extends AbstractMap
 {
+  public function getId()
+  {
+    return MAP_BASE;
+  }
+
   public function getHeadstreams()
   {
     return ['HA', 'HB', 'HC', 'HD'];

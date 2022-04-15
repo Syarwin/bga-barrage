@@ -17,6 +17,9 @@ class Globals extends \BRG\Helpers\DB_Manager
 
     // Game options
     'additional' => 'bool',
+    'map' => 'int',
+
+    'headstreams' => 'obj',
 
     'turn' => 'int',
     'firstPlayer' => 'int',
@@ -142,6 +145,7 @@ class Globals extends \BRG\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
+    self::setMap(MAP_BASE);
     self::setTurn(0);
     self::setFirstPlayer(Game::get()->getNextPlayerTable()[0]);
   }

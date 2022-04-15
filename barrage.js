@@ -51,6 +51,23 @@ define([
 
       this.setupCompanies();
       this.setupMeeples();
+
+      this.setupMap();
+    },
+
+    setupMap() {
+      let map = this.gamedatas.map;
+      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'barrage-container');
+
+      Object.keys(map.headstreams).forEach((hId) =>
+        this.place('tplHeadstream', { hId, tileId: map.headstreams[hId] }, oMap),
+      );
+    },
+
+    tplHeadstream(headstream) {
+      return `<div class='headstream' data-id='${headstream.hId}'>
+        <div class='headstream-tile' data-tile='${headstream.tileId}'></div>
+      </div>`;
     },
   });
 });

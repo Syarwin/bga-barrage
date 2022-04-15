@@ -72,10 +72,26 @@ const NO_COST = ['trades' => [['max' => 1]]];
 /**
  * Map
  */
+const MAP_BASE = 1;
+const MAP_5P = 2;
+const MAP_2P = 3;
+
+
  const MOUNTAIN = 'mountain';
  const HILL = 'hill';
  const PLAIN = 'plain';
- 
+
+
+// HeadstreamTiles
+const HT_1 = 1;
+const HT_2 = 2;
+const HT_3 = 3;
+const HT_4 = 4;
+const HT_5 = 5;
+const HT_6 = 6;
+const HT_7 = 7;
+const HT_8 = 8;
+
 
 /*
  * Companies

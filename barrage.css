@@ -713,4 +713,60 @@ html {
   .flip-container.flipped .flip-inner {
     transform: rotateY(180deg); }
 
+#brg-map[data-map='1'] {
+  width: 1000px;
+  height: 1464px;
+  background-image: url("img/base_map.jpg");
+  background-size: 100% 100%;
+  border-radius: 29px;
+  box-shadow: 1px 1px 3px black;
+  border: 2px solid black;
+  position: relative; }
+  #brg-map[data-map='1'] .headstream {
+    width: 203px;
+    height: 122px;
+    position: absolute;
+    top: 9px;
+    opacity: 1; }
+    #brg-map[data-map='1'] .headstream[data-id='HA'] {
+      left: 53px; }
+    #brg-map[data-map='1'] .headstream[data-id='HB'] {
+      left: 307px; }
+    #brg-map[data-map='1'] .headstream[data-id='HC'] {
+      left: 534px; }
+    #brg-map[data-map='1'] .headstream[data-id='HD'] {
+      left: 776px; }
+    #brg-map[data-map='1'] .headstream .headstream-tile {
+      width: 100%;
+      height: 100%;
+      background: url("img/headstreams.png");
+      background-size: 200% 400%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='1'] {
+        background-position-x: 0%;
+        background-position-y: 0%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='2'] {
+        background-position-x: 100%;
+        background-position-y: 0%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='3'] {
+        background-position-x: 0%;
+        background-position-y: 33.3333333333%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='4'] {
+        background-position-x: 100%;
+        background-position-y: 33.3333333333%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='5'] {
+        background-position-x: 0%;
+        background-position-y: 66.6666666667%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='6'] {
+        background-position-x: 100%;
+        background-position-y: 66.6666666667%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='7'] {
+        background-position-x: 0%;
+        background-position-y: 100%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='8'] {
+        background-position-x: 100%;
+        background-position-y: 100%; }
+      #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='9'] {
+        background-position-x: 0%;
+        background-position-y: 133.3333333333%; }
+
 /*# sourceMappingURL=barrage.css.map */
