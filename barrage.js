@@ -55,19 +55,39 @@ define([
       this.setupMap();
     },
 
+    /////////////////////////////
+    //  __  __
+    // |  \/  | __ _ _ __
+    // | |\/| |/ _` | '_ \
+    // | |  | | (_| | |_) |
+    // |_|  |_|\__,_| .__/
+    //              |_|
+    /////////////////////////////
+
     setupMap() {
       let map = this.gamedatas.map;
       let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'barrage-container');
 
+      // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
         this.place('tplHeadstream', { hId, tileId: map.headstreams[hId] }, oMap),
       );
+
+      // Conduits
+      Object.keys(map.conduits).forEach((cId) => {
+        this.place('tplConduitSlot', { cId }, oMap);
+        // TODO this.onClick()
+      });
     },
 
     tplHeadstream(headstream) {
       return `<div class='headstream' data-id='${headstream.hId}'>
         <div class='headstream-tile' data-tile='${headstream.tileId}'></div>
       </div>`;
+    },
+
+    tplConduitSlot(conduit) {
+      return `<div class='conduit-slot' data-id='${conduit.cId}'></div>`;
     },
   });
 });

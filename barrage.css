@@ -726,8 +726,7 @@ html {
     width: 203px;
     height: 122px;
     position: absolute;
-    top: 9px;
-    opacity: 1; }
+    top: 9px; }
     #brg-map[data-map='1'] .headstream[data-id='HA'] {
       left: 53px; }
     #brg-map[data-map='1'] .headstream[data-id='HB'] {
@@ -768,5 +767,73 @@ html {
       #brg-map[data-map='1'] .headstream .headstream-tile[data-tile='9'] {
         background-position-x: 0%;
         background-position-y: 133.3333333333%; }
+  #brg-map[data-map='1'] .conduit-slot {
+    width: 47px;
+    height: 47px;
+    position: absolute;
+    background: red;
+    opacity: 0.5;
+    border-radius: 50%;
+    border: 1px solid white; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C1L'] {
+      top: 330px;
+      left: 62px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C1R'] {
+      top: 330px;
+      left: 209px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C2L'] {
+      top: 330px;
+      left: 297px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C2R'] {
+      top: 330px;
+      left: 445px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C3L'] {
+      top: 330px;
+      left: 537px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C3R'] {
+      top: 330px;
+      left: 685px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C4L'] {
+      top: 330px;
+      left: 767px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C4R'] {
+      top: 330px;
+      left: 915px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C5L'] {
+      top: 766px;
+      left: 223px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C5R'] {
+      top: 766px;
+      left: 372px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C6L'] {
+      top: 766px;
+      left: 463px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C6R'] {
+      top: 766px;
+      left: 611px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C7L'] {
+      top: 766px;
+      left: 714px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C7R'] {
+      top: 766px;
+      left: 861px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C8L'] {
+      top: 1166px;
+      left: 105px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C8R'] {
+      top: 1166px;
+      left: 253px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C9L'] {
+      top: 1166px;
+      left: 353px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C9R'] {
+      top: 1166px;
+      left: 500px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C10L'] {
+      top: 1166px;
+      left: 602px; }
+    #brg-map[data-map='1'] .conduit-slot[data-id='C10R'] {
+      top: 1166px;
+      left: 749px; }
 
 /*# sourceMappingURL=barrage.css.map */
