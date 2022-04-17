@@ -27,6 +27,7 @@ abstract class AbstractMap
       foreach ($zone['powerhouses'] ?? [] as $i => $cost) {
         $uId = 'P' . $zId . '_' . $i;
         $powerhouses[$uId] = [
+          'id' => $uId,
           'zone' => $zId,
           'cost' => $cost,
         ];
@@ -34,5 +35,21 @@ abstract class AbstractMap
     }
 
     return $powerhouses;
+  }
+
+  public function getBasins()
+  {
+    $basins = [];
+    foreach ($this->getZones() as $zId => $zone) {
+      foreach ($zone['basins'] ?? [] as $bId) {
+        $basins[$bId] = [
+          'id' => $bId,
+          'zone' => $zId,
+          'cost' => strpos($bId, 'U') === false ? 0 : 3,
+        ];
+      }
+    }
+
+    return $basins;
   }
 }

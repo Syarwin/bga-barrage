@@ -85,10 +85,13 @@ define([
       });
 
       // Powerhouses
-      Object.keys(map.powerhouses).forEach((pId) => {
-        let powerhouse = map.powerhouses[pId];
-        powerhouse.pId = pId;
+      map.powerhouses.forEach((powerhouse) => {
         this.place('tplPowerhouseSlot', powerhouse, oMap);
+      });
+
+      // Basins
+      map.basins.forEach((basin) => {
+        this.place('tplBasin', basin, oMap);
       });
     },
 
@@ -103,9 +106,14 @@ define([
     },
 
     tplPowerhouseSlot(powerhouse) {
-      return `<div class='powerhouse-slot ${powerhouse.cost > 0 ? 'paying' : ''}' data-zone="${
-        powerhouse.zone
-      }" data-id='${powerhouse.pId}'></div>`;
+      let cost = powerhouse.cost > 0 ? 'paying' : '';
+      return `<div class='powerhouse-slot ${cost}' data-zone="${powerhouse.zone}" data-id='${powerhouse.id}'></div>`;
+    },
+
+    tplBasin(basin) {
+      let cost = basin.cost > 0 ? 'paying' : '';
+      return `<div class='basin' data-id='${basin.id}'></div>
+        <div class='dam-slot ${cost}' data-id='${basin.id}'></div>`;
     },
   });
 });

@@ -248,4 +248,99 @@
       left: 755px;
     }
   }
+
+  .dam-slot {
+    width: 73px;
+    height: 59px;
+    position: absolute;
+    background: blue;
+    opacity: 0.5;
+    border-radius: 8px;
+    border: 1px solid white;
+    &.paying {
+      border: 1px solid red;
+    }
+
+    &[data-id='B1U'] {
+      top: 259px;
+      left: 123px;
+    }
+    &[data-id='B1L'] {
+      top: 389px;
+      left: 123px;
+    }
+    &[data-id='B2U'] {
+      top: 259px;
+      left: 358px;
+    }
+    &[data-id='B2L'] {
+      top: 389px;
+      left: 358px;
+    }
+    &[data-id='B3U'] {
+      top: 259px;
+      left: 598px;
+    }
+    &[data-id='B3L'] {
+      top: 389px;
+      left: 598px;
+    }
+    &[data-id='B4U'] {
+      top: 259px;
+      left: 828px;
+    }
+    &[data-id='B4L'] {
+      top: 389px;
+      left: 828px;
+    }
+    &[data-id='B5U'] {
+      top: 695px;
+      left: 284px;
+    }
+    &[data-id='B5L'] {
+      top: 825px;
+      left: 284px;
+    }
+    &[data-id='B6U'] {
+      top: 695px;
+      left: 524px;
+    }
+    &[data-id='B6L'] {
+      top: 825px;
+      left: 524px;
+    }
+    &[data-id='B7U'] {
+      top: 695px;
+      left: 775px;
+    }
+    &[data-id='B7L'] {
+      top: 825px;
+      left: 775px;
+    }
+
+    &[data-id='B8U'] {
+      top: 1095px;
+      left: 166px;
+    }
+    &[data-id='B8L'] {
+      top: 1225px;
+      left: 166px;
+    }
+    &[data-id='B9U'] {
+      top: 1095px;
+      left: 413px;
+    }
+    &[data-id='B9L'] {
+      top: 1225px;
+      left: 413px;
+    }
+    &[data-id='B10U'] {
+      top: 1095px;
+      left: 662px;
+    }
+    &[data-id='B10L'] {
+      top: 1225px;
+      left: 662px;
+    }
+  }
 }

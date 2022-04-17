@@ -916,5 +916,75 @@ html {
     #brg-map[data-map='1'] .powerhouse-slot[data-id='P12_3'] {
       top: 1364px;
       left: 755px; }
+  #brg-map[data-map='1'] .dam-slot {
+    width: 73px;
+    height: 59px;
+    position: absolute;
+    background: blue;
+    opacity: 0.5;
+    border-radius: 8px;
+    border: 1px solid white; }
+    #brg-map[data-map='1'] .dam-slot.paying {
+      border: 1px solid red; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B1U'] {
+      top: 259px;
+      left: 123px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B1L'] {
+      top: 389px;
+      left: 123px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B2U'] {
+      top: 259px;
+      left: 358px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B2L'] {
+      top: 389px;
+      left: 358px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B3U'] {
+      top: 259px;
+      left: 598px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B3L'] {
+      top: 389px;
+      left: 598px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B4U'] {
+      top: 259px;
+      left: 828px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B4L'] {
+      top: 389px;
+      left: 828px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B5U'] {
+      top: 695px;
+      left: 284px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B5L'] {
+      top: 825px;
+      left: 284px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B6U'] {
+      top: 695px;
+      left: 524px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B6L'] {
+      top: 825px;
+      left: 524px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B7U'] {
+      top: 695px;
+      left: 775px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B7L'] {
+      top: 825px;
+      left: 775px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B8U'] {
+      top: 1095px;
+      left: 166px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B8L'] {
+      top: 1225px;
+      left: 166px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B9U'] {
+      top: 1095px;
+      left: 413px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B9L'] {
+      top: 1225px;
+      left: 413px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B10U'] {
+      top: 1095px;
+      left: 662px; }
+    #brg-map[data-map='1'] .dam-slot[data-id='B10L'] {
+      top: 1225px;
+      left: 662px; }
 
 /*# sourceMappingURL=barrage.css.map */
