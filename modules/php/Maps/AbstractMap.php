@@ -11,12 +11,28 @@ abstract class AbstractMap
   public function getConduits()
   {
     $conduits = [];
-    foreach($this->getZones() as $zone){
-      foreach($zone['conduits'] ?? [] as $cId => $conduit){
+    foreach ($this->getZones() as $zone) {
+      foreach ($zone['conduits'] ?? [] as $cId => $conduit) {
         $conduits[$cId] = $conduit;
       }
     }
 
     return $conduits;
+  }
+
+  public function getPowerhouses()
+  {
+    $powerhouses = [];
+    foreach ($this->getZones() as $zId => $zone) {
+      foreach ($zone['powerhouses'] ?? [] as $i => $cost) {
+        $uId = 'P' . $zId . '_' . $i;
+        $powerhouses[$uId] = [
+          'zone' => $zId,
+          'cost' => $cost,
+        ];
+      }
+    }
+
+    return $powerhouses;
   }
 }

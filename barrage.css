@@ -835,5 +835,86 @@ html {
     #brg-map[data-map='1'] .conduit-slot[data-id='C10R'] {
       top: 1166px;
       left: 749px; }
+  #brg-map[data-map='1'] .powerhouse-slot {
+    width: 73px;
+    height: 32px;
+    position: absolute;
+    background: green;
+    opacity: 0.5;
+    border-radius: 8px;
+    border: 1px solid white; }
+    #brg-map[data-map='1'] .powerhouse-slot.paying {
+      border: 1px solid red; }
+    #brg-map[data-map='1'] .powerhouse-slot.highlight {
+      background: red; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P5_0'] {
+      top: 583px;
+      left: 284px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P5_1'] {
+      top: 541px;
+      left: 284px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P6_0'] {
+      top: 583px;
+      left: 524px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P6_1'] {
+      top: 541px;
+      left: 524px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P7_0'] {
+      top: 583px;
+      left: 774px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P7_1'] {
+      top: 541px;
+      left: 774px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P8_0'] {
+      top: 983px;
+      left: 124px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P8_1'] {
+      top: 983px;
+      left: 207px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P8_2'] {
+      top: 942px;
+      left: 166px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P9_0'] {
+      top: 983px;
+      left: 371px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P9_1'] {
+      top: 983px;
+      left: 454px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P9_2'] {
+      top: 942px;
+      left: 413px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P10_0'] {
+      top: 983px;
+      left: 662px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P10_1'] {
+      top: 942px;
+      left: 621px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P10_2'] {
+      top: 942px;
+      left: 703px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P11_0'] {
+      top: 1406px;
+      left: 236px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P11_1'] {
+      top: 1406px;
+      left: 319px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P11_2'] {
+      top: 1364px;
+      left: 236px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P11_3'] {
+      top: 1364px;
+      left: 319px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P12_0'] {
+      top: 1406px;
+      left: 672px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P12_1'] {
+      top: 1406px;
+      left: 755px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P12_2'] {
+      top: 1364px;
+      left: 672px; }
+    #brg-map[data-map='1'] .powerhouse-slot[data-id='P12_3'] {
+      top: 1364px;
+      left: 755px; }
 
 /*# sourceMappingURL=barrage.css.map */

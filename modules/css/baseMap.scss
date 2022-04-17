@@ -135,4 +135,117 @@
       left: 749px;
     }
   }
+
+  .powerhouse-slot {
+    width: 73px;
+    height: 32px;
+    position: absolute;
+    background: green;
+    opacity: 0.5;
+    border-radius: 8px;
+    border: 1px solid white;
+    &.paying {
+      border: 1px solid red;
+    }
+
+    &.highlight {
+      background: red;
+    }
+
+    &[data-id='P5_0'] {
+      top: 583px;
+      left: 284px;
+    }
+    &[data-id='P5_1'] {
+      top: 541px;
+      left: 284px;
+    }
+    &[data-id='P6_0'] {
+      top: 583px;
+      left: 524px;
+    }
+    &[data-id='P6_1'] {
+      top: 541px;
+      left: 524px;
+    }
+    &[data-id='P7_0'] {
+      top: 583px;
+      left: 774px;
+    }
+    &[data-id='P7_1'] {
+      top: 541px;
+      left: 774px;
+    }
+
+    &[data-id='P8_0'] {
+      top: 983px;
+      left: 124px;
+    }
+    &[data-id='P8_1'] {
+      top: 983px;
+      left: 207px;
+    }
+    &[data-id='P8_2'] {
+      top: 942px;
+      left: 166px;
+    }
+    &[data-id='P9_0'] {
+      top: 983px;
+      left: 371px;
+    }
+    &[data-id='P9_1'] {
+      top: 983px;
+      left: 454px;
+    }
+    &[data-id='P9_2'] {
+      top: 942px;
+      left: 413px;
+    }
+    &[data-id='P10_0'] {
+      top: 983px;
+      left: 662px;
+    }
+    &[data-id='P10_1'] {
+      top: 942px;
+      left: 621px;
+    }
+    &[data-id='P10_2'] {
+      top: 942px;
+      left: 703px;
+    }
+
+    &[data-id='P11_0'] {
+      top: 1406px;
+      left: 236px;
+    }
+    &[data-id='P11_1'] {
+      top: 1406px;
+      left: 319px;
+    }
+    &[data-id='P11_2'] {
+      top: 1364px;
+      left: 236px;
+    }
+    &[data-id='P11_3'] {
+      top: 1364px;
+      left: 319px;
+    }
+
+    &[data-id='P12_0'] {
+      top: 1406px;
+      left: 672px;
+    }
+    &[data-id='P12_1'] {
+      top: 1406px;
+      left: 755px;
+    }
+    &[data-id='P12_2'] {
+      top: 1364px;
+      left: 672px;
+    }
+    &[data-id='P12_3'] {
+      top: 1364px;
+      left: 755px;
+    }
+  }
 }

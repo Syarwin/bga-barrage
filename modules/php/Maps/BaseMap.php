@@ -29,11 +29,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C1L' => [
             'production' => 5,
-            'end' => 'P8',
+            'end' => 8,
           ],
           'C1R' => [
             'production' => 4,
-            'end' => 'P5',
+            'end' => 5,
           ],
         ],
       ],
@@ -43,11 +43,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C2L' => [
             'production' => 3,
-            'end' => 'P9',
+            'end' => 6,
           ],
           'C2R' => [
             'production' => 5,
-            'end' => 'P10',
+            'end' => 10,
           ],
         ],
       ],
@@ -57,11 +57,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C3L' => [
             'production' => 4,
-            'end' => 'P5',
+            'end' => 5,
           ],
           'C3R' => [
             'production' => 3,
-            'end' => 'P6',
+            'end' => 6,
           ],
         ],
       ],
@@ -71,11 +71,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C4L' => [
             'production' => 3,
-            'end' => 'P7',
+            'end' => 7,
           ],
           'C4R' => [
             'production' => 5,
-            'end' => 'P12',
+            'end' => 12,
           ],
         ],
       ],
@@ -93,11 +93,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C5L' => [
             'production' => 3,
-            'end' => 'P8',
+            'end' => 8,
           ],
           'C5R' => [
             'production' => 4,
-            'end' => 'P10',
+            'end' => 10,
           ],
         ],
         'powerhouses' => [0, 3],
@@ -108,11 +108,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C6L' => [
             'production' => 4,
-            'end' => 'P9',
+            'end' => 9,
           ],
           'C6R' => [
             'production' => 2,
-            'end' => 'P7',
+            'end' => 7,
           ],
         ],
         'powerhouses' => [0, 3],
@@ -123,11 +123,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C7L' => [
             'production' => 2,
-            'end' => 'P10',
+            'end' => 10,
           ],
           'C7R' => [
             'production' => 3,
-            'end' => 'P12',
+            'end' => 12,
           ],
         ],
         'powerhouses' => [0, 3],
@@ -147,11 +147,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C8L' => [
             'production' => 3,
-            'end' => 'P11',
+            'end' => 11,
           ],
           'C8R' => [
             'production' => 2,
-            'end' => 'P9',
+            'end' => 9,
           ],
         ],
         'powerhouses' => [0, 0, 3],
@@ -162,11 +162,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C9L' => [
             'production' => 1,
-            'end' => 'P11',
+            'end' => 11,
           ],
           'C9R' => [
             'production' => 3,
-            'end' => 'P12',
+            'end' => 12,
           ],
         ],
         'powerhouses' => [0, 0, 3],
@@ -177,11 +177,11 @@ class BaseMap extends AbstractMap
         'conduits' => [
           'C10L' => [
             'production' => 2,
-            'end' => 'P11',
+            'end' => 11,
           ],
           'C10R' => [
             'production' => 1,
-            'end' => 'P12',
+            'end' => 12,
           ],
         ],
         'powerhouses' => [0, 3, 3],

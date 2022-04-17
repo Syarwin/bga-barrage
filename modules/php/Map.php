@@ -42,6 +42,7 @@ class Map
       'id' => self::$map->getId(),
       'headstreams' => Globals::getHeadstreams(),
       'conduits' => self::$map->getConduits(),
+      'powerhouses' => self::$map->getPowerhouses(),
     ];
   }
 }

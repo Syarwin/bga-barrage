@@ -75,8 +75,20 @@ define([
 
       // Conduits
       Object.keys(map.conduits).forEach((cId) => {
-        this.place('tplConduitSlot', { cId }, oMap);
-        // TODO this.onClick()
+        let o = this.place('tplConduitSlot', { cId }, oMap);
+        o.addEventListener('mouseenter', () => {
+          dojo.query(`.powerhouse-slot[data-zone="${map.conduits[cId].end}"]`).addClass('highlight');
+        });
+        o.addEventListener('mouseleave', () => {
+          dojo.query('.powerhouse-slot.highlight').removeClass('highlight');
+        });
+      });
+
+      // Powerhouses
+      Object.keys(map.powerhouses).forEach((pId) => {
+        let powerhouse = map.powerhouses[pId];
+        powerhouse.pId = pId;
+        this.place('tplPowerhouseSlot', powerhouse, oMap);
       });
     },
 
@@ -88,6 +100,12 @@ define([
 
     tplConduitSlot(conduit) {
       return `<div class='conduit-slot' data-id='${conduit.cId}'></div>`;
+    },
+
+    tplPowerhouseSlot(powerhouse) {
+      return `<div class='powerhouse-slot ${powerhouse.cost > 0 ? 'paying' : ''}' data-zone="${
+        powerhouse.zone
+      }" data-id='${powerhouse.pId}'></div>`;
     },
   });
 });
