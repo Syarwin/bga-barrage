@@ -1,0 +1,81 @@
+.action-board-icon {
+  .text {
+    font-size: 0.9em;
+    color: #8e1370;
+    font-weight: bold;
+    text-shadow: rgb(218, 148, 200) 1px 0px 0px, rgb(218, 148, 200) 0.540302px 0.841471px 0px,
+      rgb(218, 148, 200) -0.416147px 0.909297px 0px, rgb(218, 148, 200) -0.989993px 0.14112px 0px,
+      rgb(218, 148, 200) -0.653644px -0.756803px 0px, rgb(218, 148, 200) 0.283662px -0.958924px 0px,
+      rgb(218, 148, 200) 0.96017px -0.279416px 0px;
+  }
+}
+
+.icon-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.08em;
+  font-size: 1.3em;
+}
+
+.barrage-icon {
+  background-size: 100%;
+
+  &.icon-production {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url('img/icons/production.png');
+  }
+
+  &.icon-cost {
+    min-width: 0.7137em;
+    height: 0.8em;
+    background-image: url('img/icons/cost.png');
+    text-align: center;
+
+    span {
+      font-size: 0.5em;
+      line-height: 1.5em;
+      color: #d70f0f;
+      font-weight: bold;
+    }
+  }
+
+  &.icon-water {
+    min-width: 0.5895em;
+    height: 0.8em;
+    background-image: url('img/icons/water.png');
+    text-align: center;
+
+    span {
+      font-size: 0.5em;
+      line-height: 1.9em;
+      font-weight: bold;
+      color: white;
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+    }
+  }
+
+  &.icon-water_down {
+    min-width: 0.4769em;
+    height: 0.9em;
+    background-image: url('img/icons/water_down.png');
+    text-align: center;
+
+    span {
+      font-size: 0.4em;
+      line-height: 1.8em;
+      font-weight: bold;
+      color: white;
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+    }
+  }
+
+}
+
+//action-space-cost

@@ -58,9 +58,12 @@ class Meeples extends \BRG\Helpers\Pieces
   /**
    * Generic base query
    */
-  public function getFilteredQuery($pId, $location, $type)
+  public function getFilteredQuery($cId, $location, $type)
   {
-    $query = self::getSelectQuery()->wherePlayer($pId);
+    $query = self::getSelectQuery();
+    if ($cId != null) {
+      $query = $query->where('company_id', $cId);
+    }
     if ($location != null) {
       $query = $query->where('meeple_location', $location);
     }
@@ -73,6 +76,21 @@ class Meeples extends \BRG\Helpers\Pieces
     }
     return $query;
   }
+
+  /**
+   * Get meeples on a action space
+   */
+  public function getOnSpace($sId, $type = null, $cId = null)
+  {
+    return self::getFilteredQuery($cId, $sId, $type)->get();
+  }
+
+  //   ___  _     ____
+  //  / _ \| |   |  _ \
+  // | | | | |   | | | |
+  // | |_| | |___| |_| |
+  //  \___/|_____|____/
+  //
 
   /**************************** Animals *****************************************/
   public function getAnimals($pId, $location = null)

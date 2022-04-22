@@ -28,9 +28,9 @@ class Companies extends \BRG\Helpers\DB_Manager
 
   public static $colorMapping = [
     COMPANY_USA => 'be2748',
+    COMPANY_GERMANY => '1b1b1b',
     COMPANY_ITALY => '13757e',
     COMPANY_FRANCE => 'ffffff',
-    COMPANY_GERMANY => '1b1b1b',
     COMPANY_NETHERLANDS => 'ea4e1b',
   ];
 
@@ -167,9 +167,13 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * Return the number of players
    */
+  protected static $nCompanies = null;
   public function count()
   {
-    return self::DB()->count();
+    if (is_null(self::$nCompanies)) {
+      self::$nCompanies = self::DB()->count();
+    }
+    return self::$nCompanies;
   }
 
   public function countUnallocatedFarmers()

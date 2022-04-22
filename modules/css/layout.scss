@@ -1,4 +1,107 @@
-
-
 @import 'layout.central';
 @import 'layout.playerBoard';
+
+.barrage-frame {
+  border: 10px solid transparent;
+  border-image-slice: 85 85 85 85;
+  border-image-width: 40px 40px 40px 40px;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: stretch stretch;
+  border-image-source: url('img/frame.png');
+}
+
+.action-board {
+  margin-top: 20px;
+  width: 400px;
+  background-clip: content-box;
+  background-size: cover;
+
+  .action-board-name-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px;
+
+    .action-board-name {
+      color: #dbc85d;
+      background: #513c29;
+      border-radius: 8px;
+      font-size: 20px;
+      padding: 5px 8px;
+      box-shadow: 0px 2px 3px black;
+      font-family: 'Betty Noir';
+      text-transform: uppercase;
+    }
+  }
+
+  &[data-id='turbine'] {
+    background-image: url('img/background_board_turbine.jpg');
+  }
+  &[data-id='water'] {
+    background-image: url('img/background_board_water.jpg');
+  }
+  &[data-id='bank'] {
+    background-image: url('img/background_board_bank.jpg');
+  }
+  &[data-id='workshop'] {
+    background-image: url('img/background_board_workshop.jpg');
+  }
+  &[data-id='machinery'] {
+    background-image: url('img/background_board_machinery.jpg');
+  }
+  &[data-id='contract'] {
+    background-image: url('img/background_board_contract.jpg');
+  }
+
+  .action-board-inner {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    row-gap: 5px;
+
+    .action-board-row {
+      display: flex;
+      align-items: center;
+      background: url('img/ui/texture.jpg');
+      padding: 4px 2px 2px 4px;
+      border-radius: 8px;
+      box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
+    }
+
+    .action-board-icon {
+      width: 80px;
+      margin: 0px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-space {
+      display: flex;
+      background: grey;
+      padding: 3px;
+      border-radius: 5px;
+      column-gap: 3px;
+      position: relative;
+      &.paying {
+        background: #d70f0f;
+      }
+
+      .action-space-cost {
+        position: absolute;
+        left: calc(100% - 4px);
+      }
+
+      .action-space-slot {
+        background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+        width: 34px;
+        height: 30px;
+        border-radius: 5px;
+        background-size: auto 70%, 20px;
+        background-repeat: no-repeat, repeat;
+        background-position: center center;
+      }
+    }
+  }
+}

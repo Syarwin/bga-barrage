@@ -22,6 +22,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Betty Noir';
+  src: url('img/fonts/BettyNoir.woff2') format('woff2'), url('img/fonts/BettyNoir.woff') format('woff'),
+    url('img/fonts/BettyNoir.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   background-image: url('img/ui/texture.jpg');
   background-repeat: repeat;
@@ -43,6 +52,7 @@ html {
 @import 'modules/css/layout';
 @import 'modules/css/modals';
 @import 'modules/css/meeples';
+@import 'modules/css/icons';
 @import 'modules/css/playerPanel';
 @import 'modules/css/companyBoard';
 @import 'modules/css/settings';

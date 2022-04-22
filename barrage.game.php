@@ -37,6 +37,7 @@ use BRG\Core\Preferences;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
+use BRG\Managers\ActionSpaces;
 use BRG\Map;
 
 class Barrage extends Table
@@ -91,6 +92,7 @@ class Barrage extends Table
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'companies' => Companies::getUiData($pId),
+      'actionBoards' => ActionSpaces::getUiData(),
       'meeples' => Meeples::getUiData(),
       'map' => Map::getUiData(),
     ];

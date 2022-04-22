@@ -19,6 +19,12 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap; }
+@font-face {
+  font-family: 'Betty Noir';
+  src: url("img/fonts/BettyNoir.woff2") format("woff2"), url("img/fonts/BettyNoir.woff") format("woff"), url("img/fonts/BettyNoir.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; }
 html {
   background-image: url("img/ui/texture.jpg");
   background-repeat: repeat;
@@ -32,6 +38,85 @@ html {
 
 #topbar {
   background-color: #ebeaea; }
+
+.barrage-frame {
+  border: 10px solid transparent;
+  border-image-slice: 85 85 85 85;
+  border-image-width: 40px 40px 40px 40px;
+  border-image-outset: 0px 0px 0px 0px;
+  border-image-repeat: stretch stretch;
+  border-image-source: url("img/frame.png"); }
+
+.action-board {
+  margin-top: 20px;
+  width: 400px;
+  background-clip: content-box;
+  background-size: cover; }
+  .action-board .action-board-name-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -20px; }
+    .action-board .action-board-name-container .action-board-name {
+      color: #dbc85d;
+      background: #513c29;
+      border-radius: 8px;
+      font-size: 20px;
+      padding: 5px 8px;
+      box-shadow: 0px 2px 3px black;
+      font-family: 'Betty Noir';
+      text-transform: uppercase; }
+  .action-board[data-id='turbine'] {
+    background-image: url("img/background_board_turbine.jpg"); }
+  .action-board[data-id='water'] {
+    background-image: url("img/background_board_water.jpg"); }
+  .action-board[data-id='bank'] {
+    background-image: url("img/background_board_bank.jpg"); }
+  .action-board[data-id='workshop'] {
+    background-image: url("img/background_board_workshop.jpg"); }
+  .action-board[data-id='machinery'] {
+    background-image: url("img/background_board_machinery.jpg"); }
+  .action-board[data-id='contract'] {
+    background-image: url("img/background_board_contract.jpg"); }
+  .action-board .action-board-inner {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    row-gap: 5px; }
+    .action-board .action-board-inner .action-board-row {
+      display: flex;
+      align-items: center;
+      background: url("img/ui/texture.jpg");
+      padding: 4px 2px 2px 4px;
+      border-radius: 8px;
+      box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
+    .action-board .action-board-inner .action-board-icon {
+      width: 80px;
+      margin: 0px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+    .action-board .action-board-inner .action-space {
+      display: flex;
+      background: grey;
+      padding: 3px;
+      border-radius: 5px;
+      column-gap: 3px;
+      position: relative; }
+      .action-board .action-board-inner .action-space.paying {
+        background: #d70f0f; }
+      .action-board .action-board-inner .action-space .action-space-cost {
+        position: absolute;
+        left: calc(100% - 4px); }
+      .action-board .action-board-inner .action-space .action-space-slot {
+        background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
+        width: 34px;
+        height: 30px;
+        border-radius: 5px;
+        background-size: auto 70%, 20px;
+        background-repeat: no-repeat, repeat;
+        background-position: center center; }
 
 #game_play_area {
   font-size: 30px; }
@@ -195,6 +280,57 @@ html {
     height: 2.4858em;
     background-position: 19.8901% 63.8207%;
     background-size: 898.246%; }
+
+.action-board-icon .text {
+  font-size: 0.9em;
+  color: #8e1370;
+  font-weight: bold;
+  text-shadow: #da94c8 1px 0px 0px, #da94c8 0.540302px 0.841471px 0px, #da94c8 -0.416147px 0.909297px 0px, #da94c8 -0.989993px 0.14112px 0px, #da94c8 -0.653644px -0.756803px 0px, #da94c8 0.283662px -0.958924px 0px, #da94c8 0.96017px -0.279416px 0px; }
+
+.icon-container {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.08em;
+  font-size: 1.3em; }
+
+.barrage-icon {
+  background-size: 100%; }
+  .barrage-icon.icon-production {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url("img/icons/production.png"); }
+  .barrage-icon.icon-cost {
+    min-width: 0.7137em;
+    height: 0.8em;
+    background-image: url("img/icons/cost.png");
+    text-align: center; }
+    .barrage-icon.icon-cost span {
+      font-size: 0.5em;
+      line-height: 1.5em;
+      color: #d70f0f;
+      font-weight: bold; }
+  .barrage-icon.icon-water {
+    min-width: 0.5895em;
+    height: 0.8em;
+    background-image: url("img/icons/water.png");
+    text-align: center; }
+    .barrage-icon.icon-water span {
+      font-size: 0.5em;
+      line-height: 1.9em;
+      font-weight: bold;
+      color: white;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+  .barrage-icon.icon-water_down {
+    min-width: 0.4769em;
+    height: 0.9em;
+    background-image: url("img/icons/water_down.png");
+    text-align: center; }
+    .barrage-icon.icon-water_down span {
+      font-size: 0.4em;
+      line-height: 1.8em;
+      font-weight: bold;
+      color: white;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");

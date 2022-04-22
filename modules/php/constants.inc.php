@@ -142,6 +142,18 @@ const POWERHOUSE = 'powerhouse';
 const ENGINEER = 'engineer';
 
 /*
+ * Boards
+ */
+const BOARD_COMPANY = 'company';
+const BOARD_TURBINE = 'turbine';
+const BOARD_WATER = 'water';
+const BOARD_BANK = 'bank';
+const BOARD_WORSKHOP = 'workshop';
+const BOARD_MACHINERY_SHOP = 'machinery';
+const BOARD_CONTRACT = 'contract';
+
+
+/*
  * Atomic action
  */
 const PLACE_ENGINEER = 'PLACE_ENGINEER';

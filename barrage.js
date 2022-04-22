@@ -49,6 +49,7 @@ define([
       debug('SETUP', gamedatas);
       this.inherited(arguments);
 
+      this.setupActionBoards();
       this.setupCompanies();
       this.setupMeeples();
 
@@ -114,6 +115,66 @@ define([
       let cost = basin.cost > 0 ? 'paying' : '';
       return `<div class='basin' data-id='${basin.id}'></div>
         <div class='dam-slot ${cost}' data-id='${basin.id}'></div>`;
+    },
+
+    ////////////////////////////////////////////////////////////////////////
+    //     _        _   _               ____                      _
+    //    / \   ___| |_(_) ___  _ __   | __ )  ___   __ _ _ __ __| |___
+    //   / _ \ / __| __| |/ _ \| '_ \  |  _ \ / _ \ / _` | '__/ _` / __|
+    //  / ___ \ (__| |_| | (_) | | | | | |_) | (_) | (_| | | | (_| \__ \
+    // /_/   \_\___|\__|_|\___/|_| |_| |____/ \___/ \__,_|_|  \__,_|___/
+    //
+    ////////////////////////////////////////////////////////////////////////
+    setupActionBoards() {
+      this.gamedatas.actionBoards.forEach((board) => {
+        if (board.id == 'company') {
+        } else {
+          this.place('tplActionBoard', board, 'barrage-container');
+        }
+      });
+    },
+
+    tplActionBoard(board) {
+      let structure = board.structure.map((row) => this.tplActionBoardRow(row));
+
+      return `<div class='action-board barrage-frame' data-id='${board.id}'>
+        <div class='action-board-name-container'>
+          <div class='action-board-name'>${_(board.name)}</div>
+        </div>
+        <div class='action-board-inner'>
+          ${structure.join('')}
+        </div>
+      </div>`;
+    },
+
+    tplActionBoardRow(row) {
+      let slots = row.map((slot) => {
+        if (typeof slot === 'string') {
+          return `<div class="action-board-icon">${this.formatString(slot)}</div>`;
+        } else {
+          return this.tplActionSpace(slot);
+        }
+      });
+
+      return `<div class='action-board-row'>
+        ${slots.join('')}
+      </div>`;
+    },
+
+    tplActionSpace(space) {
+      let slots = [];
+      for (let i = 0; i < space.nEngineers; i++) {
+        slots.push(`<div class="action-space-slot" data-id='${space.uid}-${i}'></div>`);
+      }
+      let cost = '';
+      if (space.cost > 0) {
+        cost = '<div class="action-space-cost">' + this.formatString(`<COST:${space.cost}>`) + '</div>';
+      }
+
+      return `<div class='action-space ${space.cost > 0 ? 'paying' : ''}' data-id='${space.uid}'>
+        ${slots.join('')}
+        ${cost}
+      </div>`;
     },
   });
 });

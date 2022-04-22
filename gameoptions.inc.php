@@ -16,9 +16,28 @@
 
 namespace BRG;
 
-require_once('modules/php/gameoptions.inc.php');
+require_once 'modules/php/gameoptions.inc.php';
 
 $game_options = [
+  OPTION_SETUP => [
+    'name' => totranslate('Setup'),
+    'values' => [
+      OPTION_SETUP_BEGINNER => [
+        'name' => totranslate('Introductory game'),
+        'tmdisplay' => totranslate('[Introductory]'),
+      ],
+      OPTION_SETUP_STANDARD => [
+        'name' => totranslate('Advanced rules'),
+        'nobeginner' => true,
+      ],
+      OPTION_SETUP_LWP => [
+        'name' => totranslate('The Leeghwater Project expansion'),
+        'tmdisplay' => totranslate('[LWP]'),
+        'nobeginner' => true,
+      ],
+    ],
+  ],
+
   OPTION_AUTOMA => [
     'name' => totranslate('Automas'),
     'values' => [
@@ -387,8 +406,6 @@ $game_options = [
       ],
     ],
   ],
-
-
 
   OPTION_LVL_AUTOMA_1 => [
     'name' => totranslate('Difficulty level of the first automa'),

@@ -16,7 +16,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
 
     // Game options
-    'additional' => 'bool',
+    'setup' => 'int',
     'map' => 'int',
 
     'headstreams' => 'obj',
@@ -145,8 +145,20 @@ class Globals extends \BRG\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
+    self::setSetup($options[\BRG\OPTION_SETUP]);
     self::setMap(MAP_BASE);
+
     self::setTurn(0);
     self::setFirstPlayer(Game::get()->getNextPlayerTable()[0]);
+  }
+
+  public static function isBeginner()
+  {
+    return self::getSetup() == \BRG\OPTION_SETUP_BEGINNER;
+  }
+
+  public static function isLWP()
+  {
+    return self::getSetup() == \BRG\OPTION_SETUP_LWP;
   }
 }

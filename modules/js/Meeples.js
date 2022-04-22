@@ -1,5 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
+  const ICONS = ['PRODUCTION', 'COST', 'WATER', 'WATER_DOWN'];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {
@@ -147,7 +148,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     /**
      * Replace some expressions by corresponding html formating
      */
-    formatStringMeeples(str) {
+    formatString(str) {
       // This text icon are also board component, so we add the prefix _icon to distinguish them
       let conflictingNames = [];
 
@@ -160,8 +161,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       MEEPLES.forEach((name) => {
         let newName = name.toLowerCase() + (conflictingNames.includes(name) ? '_icon' : '');
         str = str.replace(new RegExp('<' + name + '>', 'g'), this.format_string(jstpl_meeple, { type: newName }));
-        str = str.replace(/\[([^\]]+)\]/gi, '<span class="text">$1</span>'); // Replace [my text] by <span clas="text">my text</span>
       });
+
+      let jstpl_icon = `
+      <div class="icon-container">
+        <div class="barrage-icon icon-\${type}">\${text}</div>
+      </div>
+      `;
+      ICONS.forEach((name) => {
+        let newName = name.toLowerCase() + (conflictingNames.includes(name) ? '_icon' : '');
+        str = str.replace(
+          new RegExp('<' + name + ':([^>]+)>', 'g'),
+          this.format_string(jstpl_icon, { type: newName, text: '<span>$1</span>' }),
+        );
+        str = str.replace(
+          new RegExp('<' + name + '>', 'g'),
+          this.format_string(jstpl_icon, { type: newName, text: '' }),
+        );
+      });
+
+      str = str.replace(/\[([^\]]+)\]/gi, '<span class="text">$1</span>'); // Replace [my text] by <span clas="text">my text</span>
       str = str.replace(/\{\{([^\}]+)\}\}/gi, '<div class="text-wrapper">$1</div>'); // Replace {{my wrapped text}} by <div clas="text-wrapper">my wrapped text</div>
       return str;
     },
@@ -182,7 +201,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         formated.push((v > 1 ? v : '') + '<' + type.toUpperCase() + '>');
       });
       let desc = formated.join(',');
-      return formatMeeples ? this.formatStringMeeples(desc) : desc;
+      return formatMeeples ? this.formatString(desc) : desc;
     },
 
     /**
@@ -196,10 +215,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           // Representation of the class of a card
           if (args.resources_desc !== undefined) {
-            args.resources_desc = this.formatStringMeeples(args.resources_desc);
+            args.resources_desc = this.formatString(args.resources_desc);
           }
           if (args.resources2_desc !== undefined) {
-            args.resources2_desc = this.formatStringMeeples(args.resources2_desc);
+            args.resources2_desc = this.formatString(args.resources2_desc);
           }
 
           // Replace __str__ by italic wrapper
