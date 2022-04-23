@@ -30,7 +30,7 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.barrage', [customgame.game, barrage.companies, barrage.meeples], {
     constructor() {
-      this._activeStates = [];
+      this._activeStates = ['placeEngineer'];
       this._notifications = [];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -187,7 +187,7 @@ define([
         cost = '<div class="action-space-cost">' + this.formatString(`<COST:${space.cost}>`) + '</div>';
       }
 
-      return `<div class='action-space ${space.cost > 0 ? 'paying' : ''}' data-id='${space.uid}'>
+      return `<div id='${space.uid}' class='action-space ${space.cost > 0 ? 'paying' : ''}'>
         ${slots.join('')}
         ${cost}
       </div>`;
@@ -239,6 +239,35 @@ define([
   </div>
 </div>
 `;
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //     _   _                  _           _        _   _
+    //    / \ | |_ ___  _ __ ___ (_) ___     / \   ___| |_(_) ___  _ __  ___
+    //   / _ \| __/ _ \| '_ ` _ \| |/ __|   / _ \ / __| __| |/ _ \| '_ \/ __|
+    //  / ___ \ || (_) | | | | | | | (__   / ___ \ (__| |_| | (_) | | | \__ \
+    // /_/   \_\__\___/|_| |_| |_|_|\___| /_/   \_\___|\__|_|\___/|_| |_|___/
+    //
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Generic call for Atomic Action that encode args as a JSON to be decoded by backend
+    takeAtomicAction(action, args) {
+      if (!this.checkAction(action)) return false;
+
+      this.takeAction('actTakeAtomicAction', { actionArgs: JSON.stringify(args) }, false);
+    },
+
+    onEnteringStatePlaceEngineer(args) {
+      Object.keys(args.spaces).forEach((uid) => {
+        this.onClick(uid, () => {
+          let choices = args.spaces[uid];
+          if (choices.length == 1) {
+            this.takeAtomicAction('actPlaceEngineer', [uid, choices[uid]]);
+          } else {
+            alert('Not implemented yet!');
+          }
+        });
+      });
     },
   });
 });

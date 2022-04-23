@@ -3,8 +3,7 @@ namespace BRG\Models;
 use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Core\Globals;
-use BRG\Managers\PlayerCards;
-use BRG\Managers\Players;
+use BRG\Managers\Company;
 
 /*
  * Action: base class to handle atomic action
@@ -18,7 +17,7 @@ class Action
     $this->ctx = $ctx;
   }
 
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
     return true;
   }
@@ -28,12 +27,12 @@ class Action
     return false;
   }
 
-  public function isIndependent($player = null)
+  public function isIndependent($company = null)
   {
     return false;
   }
 
-  public function isAutomatic($player = null)
+  public function isAutomatic($company = null)
   {
     return false;
   }
@@ -64,8 +63,8 @@ class Action
    */
   public function resolveAction($args = [])
   {
-    $player = Players::getActive();
-    $args['automatic'] = $this->isAutomatic($player);
+    $company = Companies::getActive();
+    $args['automatic'] = $this->isAutomatic($company);
     Engine::resolveAction($args);
     Engine::proceed();
   }
@@ -96,19 +95,15 @@ class Action
     return $classname;
   }
 
-  /*
-  public function checkBeforeEffects($player, $args = [])
-  {
-    $args = array_merge($args, ['ctx' => $this->ctx]);
-    return !PlayerCards::applyEffects($player, 'Before' . $this->getClassName(), $args, 'or');
-  }
-*/
 
-  protected function checkListeners($method, $player, $args = [])
+/*
+TODO : modifiers and listeners
+
+  protected function checkListeners($method, $company, $args = [])
   {
     $event = array_merge(
       [
-        'pId' => $player->getId(),
+        'cId' => $company->getId(),
         'type' => 'action',
         'action' => $this->getClassName(),
         'method' => $method,
@@ -122,30 +117,31 @@ class Action
     }
   }
 
-  public function checkAfterListeners($player, $args = [], $duringActionListener = true)
+  public function checkAfterListeners($company, $args = [], $duringActionListener = true)
   {
     if ($duringActionListener) {
-      $this->checkListeners($this->getClassName(), $player, $args);
+      $this->checkListeners($this->getClassName(), $company, $args);
     }
-    $this->checkListeners('ImmediatelyAfter' . $this->getClassName(), $player, $args);
-    $this->checkListeners('After' . $this->getClassName(), $player, $args);
+    $this->checkListeners('ImmediatelyAfter' . $this->getClassName(), $company, $args);
+    $this->checkListeners('After' . $this->getClassName(), $company, $args);
   }
 
-  public function checkModifiers($method, &$data, $name, $player, $args = [])
+  public function checkModifiers($method, &$data, $name, $company, $args = [])
   {
     $args[$name] = $data;
     $args['actionCardId'] = $this->ctx != null ? $this->ctx->getCardId() : null;
-    PlayerCards::applyEffects($player, $method, $args);
+    PlayerCards::applyEffects($company, $method, $args);
     $data = $args[$name];
   }
 
-  public function checkCostModifiers(&$costs, $player, $args = [])
+  public function checkCostModifiers(&$costs, $company, $args = [])
   {
-    $this->checkModifiers('computeCosts' . $this->getClassName(), $costs, 'costs', $player, $args);
+    $this->checkModifiers('computeCosts' . $this->getClassName(), $costs, 'costs', $company, $args);
   }
 
-  public function checkArgsModifiers(&$actionArgs, $player, $args = [])
+  public function checkArgsModifiers(&$actionArgs, $company, $args = [])
   {
-    $this->checkModifiers('computeArgs' . $this->getClassName(), $actionArgs, 'actionArgs', $player, $args);
+    $this->checkModifiers('computeArgs' . $this->getClassName(), $actionArgs, 'actionArgs', $company, $args);
   }
+*/
 }

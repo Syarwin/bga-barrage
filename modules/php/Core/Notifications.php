@@ -84,10 +84,10 @@ class Notifications
     ]);
   }
 
-  public static function startNewTurn($turn)
+  public static function startNewRound($round)
   {
-    self::notifyAll('startNewTurn', clienttranslate('Starting round n°${round}'), [
-      'round' => $turn,
+    self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [
+      'round' => $round,
     ]);
   }
 

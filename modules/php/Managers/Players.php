@@ -120,32 +120,4 @@ class Players extends \BRG\Helpers\DB_Manager
       return $player->jsonSerialize($pId);
     });
   }
-
-  /*
-   * Get current turn order according to first player variable
-   */
-  public function getTurnOrder($firstPlayer = null)
-  {
-    $firstPlayer = $firstPlayer ?? Globals::getFirstPlayer();
-    $order = [];
-    $p = $firstPlayer;
-    do {
-      $order[] = $p;
-      $p = self::getNextId($p);
-    } while ($p != $firstPlayer);
-    return $order;
-  }
-
-  /**
-   * Get current turn order for harvest by removing skipped players
-   */
-  public function getHarvestTurnOrder($firstPlayer = null)
-  {
-    $order = self::getTurnOrder($firstPlayer);
-    $skipped = Globals::getSkipHarvest();
-    Utils::filter($order, function ($pId) use ($skipped) {
-      return !in_array($pId, $skipped);
-    });
-    return $order;
-  }
 }

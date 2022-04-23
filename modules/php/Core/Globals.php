@@ -14,15 +14,17 @@ class Globals extends \BRG\Helpers\DB_Manager
     'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
 
     'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
+    'turnOrder' => 'obj', // store the current turn order
+    'activeCompany' => 'int', // store the id of active company
 
     // Game options
     'setup' => 'int',
     'map' => 'int',
 
+    // Storage
     'headstreams' => 'obj',
-
-    'turn' => 'int',
-    'firstPlayer' => 'int',
+    'round' => 'int',
+    'skippedCompanies' => 'obj',
   ];
 
   protected static $table = 'global_variables';
@@ -30,7 +32,7 @@ class Globals extends \BRG\Helpers\DB_Manager
   protected static function cast($row)
   {
     $val = json_decode(\stripslashes($row['value']), true);
-    return self::$variables[$row['name']] == 'int' ? ((int) $val) : $val;
+    return (self::$variables[$row['name']] ?? null) == 'int' ? ((int) $val) : $val;
   }
 
   /*
@@ -46,7 +48,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     foreach (
       self::DB()
         ->select(['value', 'name'])
-        ->get(false)
+        ->get()
       as $name => $variable
     ) {
       if (\array_key_exists($name, self::$variables)) {
@@ -148,8 +150,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     self::setSetup($options[\BRG\OPTION_SETUP]);
     self::setMap(MAP_BASE);
 
-    self::setTurn(0);
-    self::setFirstPlayer(Game::get()->getNextPlayerTable()[0]);
+    self::setRound(0);
   }
 
   public static function isBeginner()

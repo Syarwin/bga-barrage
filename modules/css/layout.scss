@@ -109,6 +109,22 @@
         background-repeat: no-repeat, repeat;
         background-position: center center;
       }
+
+      &.selectable {
+        cursor: pointer;
+        .action-space-slot {
+          background-image: url('img/ui/engineer_slot.png');
+          background-size: auto 70%;
+          background-repeat: no-repeat;
+          background-position: center center;
+
+          background-color: #364422;
+        }
+
+        &:hover .action-space-slot {
+          background-color: #484848;
+        }
+      }
     }
   }
 }

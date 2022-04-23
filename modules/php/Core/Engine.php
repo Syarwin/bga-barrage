@@ -3,7 +3,6 @@ namespace BRG\Core;
 use BRG\Managers\Players;
 use BRG\Managers\Actions;
 use BRG\Managers\Scores;
-use BRG\Managers\PlayerCards;
 use BRG\Helpers\Log;
 use BRG\Helpers\QueryBuilder;
 
@@ -126,6 +125,8 @@ class Engine
       $args = $node->getArgs();
       $actionId = Actions::getActionOfState($state, false);
       // Are there any "before" listener ? eg: Paper Maker
+      // TODO
+      /*
       if ($actionId != null && !($args['checkedBeforeAction'] ?? false)) {
         $action = Actions::get($actionId);
         $reaction = PlayerCards::getReaction([
@@ -150,6 +151,7 @@ class Engine
           return;
         }
       }
+      */
 
       Game::get()->gamestate->jumpToState($state);
     }

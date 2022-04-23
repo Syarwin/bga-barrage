@@ -76,4 +76,33 @@ class Company extends \BRG\Helpers\DB_Model
   {
     return $this->isAI() ? ($this->pId + 15) % 3 : null;
   }
+
+  public function isXO($xId)
+  {
+    return false;
+  }
+
+  //////////////////////////////////////////////////////
+  //  _____             _
+  // | ____|_ __   __ _(_)_ __   ___  ___ _ __ ___
+  // |  _| | '_ \ / _` | | '_ \ / _ \/ _ \ '__/ __|
+  // | |___| | | | (_| | | | | |  __/  __/ |  \__ \
+  // |_____|_| |_|\__, |_|_| |_|\___|\___|_|  |___/
+  //             |___/
+  //////////////////////////////////////////////////////
+
+  public function getAvailableEngineers()
+  {
+    return Meeples::getInReserve($this->id, [ENGINEER, ARCHITECT]);
+  }
+
+  public function countAvailableEngineers()
+  {
+    return $this->getAvailableEngineers()->count();
+  }
+
+  public function hasAvailableEngineer()
+  {
+    return $this->countAvailableEngineers() > 0;
+  }
 }

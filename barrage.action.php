@@ -43,4 +43,64 @@ class action_barrage extends APP_GameAction
     $this->game->actChangePreference($pref, $value);
     self::ajaxResponse();
   }
+
+  public function actConfirmTurn()
+  {
+    self::setAjaxMode();
+    $this->game->actConfirmTurn();
+    self::ajaxResponse();
+  }
+
+  public function actConfirmPartialTurn()
+  {
+    self::setAjaxMode();
+    $this->game->actConfirmPartialTurn();
+    self::ajaxResponse();
+  }
+
+  public function actRestart()
+  {
+    self::setAjaxMode();
+    $this->game->actRestart();
+    self::ajaxResponse();
+  }
+
+  public function actTakeAtomicAction()
+  {
+    self::setAjaxMode();
+    $args = self::getArg('actionArgs', AT_json, true);
+    $this->validateJSonAlphaNum($args, 'actionArgs');
+    $this->game->actTakeAtomicAction($args);
+    self::ajaxResponse();
+  }
+
+  public function actPlaceEngineer()
+  {
+    self::setAjaxMode();
+    $cId = self::getArg('sId', AT_alphanum, true);
+    $result = $this->game->actPlaceEngineer($sId);
+    self::ajaxResponse();
+  }
+
+  //////////////////
+  ///// UTILS  /////
+  //////////////////
+  public function validateJSonAlphaNum($value, $argName = 'unknown')
+  {
+    if (is_array($value)) {
+      foreach ($value as $key => $v) {
+        $this->validateJSonAlphaNum($key, $argName);
+        $this->validateJSonAlphaNum($v, $argName);
+      }
+      return true;
+    }
+    if (is_int($value)) {
+      return true;
+    }
+    $bValid = preg_match("/^[_0-9a-zA-Z- ]*$/", $value) === 1;
+    if (!$bValid) {
+      throw new feException("Bad value for: $argName", true, true, FEX_bad_input_argument);
+    }
+    return true;
+  }
 }

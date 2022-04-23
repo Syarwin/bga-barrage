@@ -142,6 +142,16 @@ html {
         background-size: auto 70%, 20px;
         background-repeat: no-repeat, repeat;
         background-position: center center; }
+      .action-board .action-board-inner .action-space.selectable {
+        cursor: pointer; }
+        .action-board .action-board-inner .action-space.selectable .action-space-slot {
+          background-image: url("img/ui/engineer_slot.png");
+          background-size: auto 70%;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-color: #364422; }
+        .action-board .action-board-inner .action-space.selectable:hover .action-space-slot {
+          background-color: #484848; }
 
 #game_play_area {
   font-size: 30px; }

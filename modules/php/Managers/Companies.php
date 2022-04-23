@@ -93,12 +93,14 @@ class Companies extends \BRG\Helpers\DB_Manager
     $query = self::DB()->multipleInsert(['id', 'no', 'player_id', 'name', 'score', 'score_aux']);
     Utils::shuffle($mapping);
     $values = [];
+    $order = [];
     $no = 0;
     foreach ($mapping as $pId => $company) {
+      $order[] = $company;
       $values[] = [$company, $no++, $pId, $players[$pId]['player_name'] ?? clienttranslate('Automa'), 0, 0];
     }
-
     $query->values($values);
+    Globals::setTurnOrder($order);
 
     // Update player colors
     foreach ($players as $pId => &$player) {
@@ -118,22 +120,29 @@ class Companies extends \BRG\Helpers\DB_Manager
     });
   }
 
-  /////////////////
-  // TODO
-  /////////////////
-  public function getActiveId()
+  /*
+   * Return the number of companies
+   */
+  protected static $nCompanies = null;
+  public function count()
   {
-    return Game::get()->getActivePlayerId();
-  }
-
-  public function getCurrentId()
-  {
-    return Game::get()->getCurrentPId();
+    if (is_null(self::$nCompanies)) {
+      self::$nCompanies = self::DB()->count();
+    }
+    return self::$nCompanies;
   }
 
   public function getAll()
   {
-    return self::DB()->get(false);
+    return self::DB()->get();
+  }
+
+  /*
+   * Get current turn order
+   */
+  public function getTurnOrder()
+  {
+    return Globals::getTurnOrder();
   }
 
   /*
@@ -147,10 +156,34 @@ class Companies extends \BRG\Helpers\DB_Manager
       ->getSingle();
   }
 
+  /**
+   * Emulate active company via a global
+   */
+  public function getActiveId()
+  {
+    return Globals::getActiveCompany();
+  }
+
   public function getActive()
   {
-    return self::get();
+    return self::get(self::getActiveId());
   }
+
+  public function changeActive($company)
+  {
+    if (is_int($company)) {
+      $company = self::get($company);
+    }
+    $companyId = $company->getId();
+    Globals::setActiveCompany($companyId);
+    if (!$company->isAI()) {
+      Game::get()->gamestate->changeActivePlayer($company->getPId());
+    }
+  }
+
+  /////////////////
+  // TODO
+  /////////////////
 
   public function getCurrent()
   {
@@ -162,18 +195,6 @@ class Companies extends \BRG\Helpers\DB_Manager
     $pId = is_int($player) ? $player : $player->getId();
     $table = Game::get()->getNextPlayerTable();
     return $table[$pId];
-  }
-
-  /*
-   * Return the number of players
-   */
-  protected static $nCompanies = null;
-  public function count()
-  {
-    if (is_null(self::$nCompanies)) {
-      self::$nCompanies = self::DB()->count();
-    }
-    return self::$nCompanies;
   }
 
   public function countUnallocatedFarmers()
@@ -198,20 +219,5 @@ class Companies extends \BRG\Helpers\DB_Manager
     foreach (self::getAll() as $player) {
       $player->returnHomeFarmers();
     }
-  }
-
-  /*
-   * Get current turn order according to first player variable
-   */
-  public function getTurnOrder($firstPlayer = null)
-  {
-    $firstPlayer = $firstPlayer ?? Globals::getFirstPlayer();
-    $order = [];
-    $p = $firstPlayer;
-    do {
-      $order[] = $p;
-      $p = self::getNextId($p);
-    } while ($p != $firstPlayer);
-    return $order;
   }
 }

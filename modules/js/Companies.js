@@ -116,22 +116,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             ${_(company.name)}
           </div>
 
-          <div class='action-space-wrapper construct-0' id='action-construct-0-${id}'>
+          <div class='action-space-wrapper construct-0' id='company-${id}-1'>
             <div class='engineer-slot' id='construct-0-0-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-1' id='action-construct-1-${id}'>
+          <div class='action-space-wrapper construct-1' id='company-${id}-2'>
             <div class='engineer-slot' id='construct-1-0-${id}'></div>
             <div class='engineer-slot' id='construct-1-1-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-2' id='action-construct-2-${id}'>
+          <div class='action-space-wrapper construct-2' id='company-${id}-3'>
             <div class='engineer-slot' id='construct-2-0-${id}'></div>
             <div class='engineer-slot' id='construct-2-1-${id}'></div>
             <div class='engineer-slot' id='construct-2-2-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-3' id='action-construct-3-${id}'>
+          <div class='action-space-wrapper construct-3' id='company-${id}-4'>
             <div class='engineer-slot' id='construct-3-0-${id}'></div>
             <div class='engineer-slot' id='construct-3-1-${id}'></div>
             <div class='engineer-slot' id='construct-3-2-${id}'></div>

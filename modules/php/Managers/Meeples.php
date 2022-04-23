@@ -85,6 +85,14 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::getFilteredQuery($cId, $sId, $type)->get();
   }
 
+  /**
+   * Get meeples in reserve
+   */
+  public function getInReserve($cId, $type = null)
+  {
+    return self::getFilteredQuery($cId, 'reserve', $type)->get();
+  }
+
   //   ___  _     ____
   //  / _ \| |   |  _ \
   // | | | | |   | | | |

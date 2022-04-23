@@ -17,10 +17,9 @@ const ST_GAME_SETUP = 1;
 const ST_FOO = 2;
 
 
-const ST_BEFORE_START_OF_TURN = 4;
-const ST_PREPARATION = 5;
-const ST_NEXT_PLAYER_LABOR = 6;
-const ST_LABOR = 7;
+const ST_BEFORE_START_OF_ROUND = 4;
+const ST_START_OF_ROUND = 5;
+const ST_ACTION_PHASE = 7;
 const ST_RETURNING_HOME = 8;
 const ST_RESOLVE_STACK = 10;
 const ST_RESOLVE_CHOICE = 11;
@@ -139,7 +138,10 @@ const BASE = 'base';
 const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
+
 const ENGINEER = 'engineer';
+const ARCHITECT = 'architect';
+const N_ARCHITECT = -1;
 
 /*
  * Boards

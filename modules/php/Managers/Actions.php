@@ -44,18 +44,21 @@ class Actions
     }
   }
 
-  public static function isDoable($actionId, $ctx, $player, $ignoreResources = false)
+  public static function isDoable($actionId, $ctx, $company, $ignoreResources = false)
   {
-    $res = self::get($actionId, $ctx)->isDoable($player, $ignoreResources);
+    $res = self::get($actionId, $ctx)->isDoable($company, $ignoreResources);
+    return $res;
+
+    // TODO
     // Cards that bypass isDoable (eg Paper Maker)
-    $args = [
-      'action' => $actionId,
-      'ignoreResources' => $ignoreResources,
-      'isDoable' => $res,
-      'ctx' => $ctx,
-    ];
-    PlayerCards::applyEffects($player, 'isDoable', $args);
-    return $args['isDoable'];
+    // $args = [
+    //   'action' => $actionId,
+    //   'ignoreResources' => $ignoreResources,
+    //   'isDoable' => $res,
+    //   'ctx' => $ctx,
+    // ];
+    // PlayerCards::applyEffects($company, 'isDoable', $args);
+    // return $args['isDoable'];
   }
 
   public static function getState($actionId, $ctx)
@@ -72,8 +75,8 @@ class Actions
 
   public static function takeAction($actionId, $args, $ctx)
   {
-    $player = Players::getActive();
-    if (!self::isDoable($actionId, $ctx, $player)) {
+    $company = Companies::getActive();
+    if (!self::isDoable($actionId, $ctx, $company)) {
       throw new \BgaUserException('Action not doable. Should not happen.' . $actionId);
     }
 
@@ -84,8 +87,8 @@ class Actions
 
   public static function stAction($actionId, $ctx)
   {
-    $player = Players::getActive();
-    if (!self::isDoable($actionId, $ctx, $player)) {
+    $company = Companies::getActive();
+    if (!self::isDoable($actionId, $ctx, $company)) {
       if (!$ctx->isOptional()) {
         throw new \BgaUserException('Action not doable. Should not happen' . $actionId);
       } else {

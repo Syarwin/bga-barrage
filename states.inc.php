@@ -24,6 +24,12 @@ $machinestates = [
     'transitions' => ['' => ST_FOO],
   ],
 
+  ST_GENERIC_NEXT_PLAYER => [
+    'name' => 'genericNextPlayer',
+    'type' => 'game',
+  ],
+
+  // TODO : remove
   ST_FOO => [
     'name' => 'playerTurn',
     'description' => clienttranslate('${actplayer} must play a card or pass'),
@@ -33,13 +39,31 @@ $machinestates = [
     'transitions' => ['done' => ST_FOO],
   ],
 
-  ST_BEFORE_START_OF_TURN => [
-    'name' => 'beforeStartOfTurn',
+  ST_BEFORE_START_OF_ROUND => [
+    'name' => 'beforeStartOfRound',
     'description' => '',
     'type' => 'game',
-    'action' => 'stBeforeStartOfTurn',
+    'action' => 'stBeforeStartOfRound',
+    'updateGameProgression' => true,
+    'transitions' => ['' => ST_START_OF_ROUND]
+  ],
+
+  ST_START_OF_ROUND => [
+    'name' => 'startOfRound',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stStartOfRound',
     'updateGameProgression' => true,
   ],
+
+  ST_ACTION_PHASE => [
+  'name' => 'actionPhase',
+  'description' => '',
+  'type' => 'game',
+  'action' => 'stActionPhase',
+  'transitions' => [],
+],
+
 
   ST_RESOLVE_STACK => [
     'name' => 'resolveStack',
@@ -80,16 +104,8 @@ $machinestates = [
     'transitions' => [],
   ],
 
-  ST_PREPARATION => [
-    'name' => 'preparation',
-    'description' => '',
-    'type' => 'game',
-    'action' => 'stPreparation',
-    'updateGameProgression' => true,
-  ],
-
   ST_PLACE_ENGINEER => [
-    'name' => 'placeFarmer',
+    'name' => 'placeEngineer',
     'description' => clienttranslate('${actplayer} must place an engineer'),
     'descriptionmyturn' => clienttranslate('${you} must place an engineer'),
     'descriptionskippable' => clienttranslate('${actplayer} may place an engineer'),

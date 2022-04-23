@@ -81,19 +81,12 @@ abstract class AbstractActionBoard
    */
   public function getPlayableSpaces($company)
   {
-    $spaces = self::getAvailableSpaces();
+    $spaces = static::getAvailableSpaces();
 
-    // Is there an engineer here ?
-    Utils::filter($spaces, function ($space) {
-      return Meeples::getOnSpace($space['uid'])->empty();
+    // Filter private spaces
+    Utils::filter($spaces, function ($space) use ($company) {
+      return !isset($space['cId']) || $space['cId'] == $company->getId();
     });
-
-    /*
-    // Check that the action is doable
-    $flow = $this->getFlow($player);
-    $flowTree = Engine::buildTree($flow);
-    return $flowTree->isDoable($player);
-*/
 
     return $spaces;
   }

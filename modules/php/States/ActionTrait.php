@@ -5,7 +5,6 @@ use BRG\Managers\Players;
 use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\Actions;
-use BRG\Managers\PlayerCards;
 use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Models\PlayerBoard;
@@ -49,6 +48,8 @@ trait ActionTrait
     }
     $player = Players::getActive();
 
+/*
+TODO
     // Anytime cards
     $listeningCards = PlayerCards::getReaction(
       [
@@ -81,6 +82,8 @@ trait ActionTrait
       }
     }
     $args['anytimeActions'] = $anytimeActions;
+*/
+    $args['anytimeActions'] = [];
   }
 
   function actAnytimeAction($choiceId)

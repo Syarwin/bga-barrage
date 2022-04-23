@@ -14,48 +14,9 @@ use BRG\Helpers\Utils;
 
 trait DebugTrait
 {
-  function dv()
+  public function tp()
   {
-    // throw new feException(print_r(Meeples::getRoomsToBuild(2305526)));
-    // throw new feException(print_r(ActionCards::getInLocation('turn%', 1)));
-    // ActionCards::accumulate();
-    // Meeples::createResource('wood', 'reserve', self::getCurrentPlayerId(), 0, 0, 5);
-    // Engine::insertAsChild(['action' => 'toto']);
-    // throw new feException(Fences::hasAvailable(self::getCurrentPlayerId()));
-    // $player = Players::getActive();
-    //$this->actFence([['x' => 0, 'y' => 1], ['x' => 1, 'y' => 0], ['x' => 1, 'y' => 2], ['x' => 2, 'y' => 1]]);
-    // Meeples::useResource($this->getCurrentPlayerId(), 'wood', 4);
-    //$this->actTakeAtomicAction([[['x' => 3, 'y' => 1], ['x' => 1, 'y' => 1]]]);
-    // $this->actTakeAtomicAction([[['x' => 5, 'y' => 1]]]);
-    //$this->gamestate->jumpToState(ST_HARVEST_FIELD);
-    //BRG\Managers\Scores::update(true);
-    // $this->saveSeed();
-    // $seed = Globals::getGameSeed();
-    // var_dump($seed);
-
-    $sql = "SELECT * FROM `global_variables` WHERE `name` = 'engine' AND `value` LIKE '%\"trigger\": 3%' ";
-    $row = self::getUniqueValueFromDB($sql);
-    var_dump($row);
-  }
-
-  function vt()
-  {
-    $map = [
-      83994342 => 2322020,
-      84579729 => 2322021,
-      90717377 => 2322022,
-      86928659 => 2322023,
-    ];
-    $engine = Globals::getEngine();
-    self::loadDebugUpdateEngine($engine, $map);
-    var_dump($engine);
-  }
-
-  public function dd()
-  {
-    // throw new \feException(print_r(Globals::getEngine()));
-    // PlayerCards::get('A71_ClearingSpade')->moveCrop(149, 165);
-    $this->actTakeAtomicAction([[['id' => 'B68_Beanfield', 'crop' => VEGETABLE]]]);
+    $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
   }
 
   function addResource($type, $qty = 1)
@@ -79,43 +40,6 @@ trait DebugTrait
     }
     Notifications::gainResources($player, $meeples);
     Engine::proceed();
-  }
-
-  function allVisible()
-  {
-    $sql = "UPDATE `cards` set `card_state` = 1 where `card_location` like 'turn%'";
-    self::DbQuery($sql);
-  }
-
-  function playCardAux($cardId, $doAction = true)
-  {
-    $player = Players::getCurrent();
-    $pId = $player->getId();
-
-    $sql = "SELECT * FROM cards WHERE card_id = '$cardId' LIMIT 1";
-    $card = self::getUniqueValueFromDB($sql);
-
-    if (is_null($card)) {
-      $sql = "UPDATE cards set card_id = '$cardId' where player_id = $pId AND `card_location` <> 'inPlay' LIMIT 1";
-    } else {
-      $sql = "UPDATE cards set player_id = $pId where card_id = '$cardId'";
-    }
-    self::DbQuery($sql);
-
-    if ($doAction) {
-      $this->actTakeAtomicAction([$cardId]);
-    }
-  }
-
-  function playCard($cardId)
-  {
-    self::playCardAux($cardId, true);
-  }
-  function addCard($cardId)
-  {
-    self::playCardAux($cardId, false);
-    $sql = "UPDATE cards set card_location = 'inPlay' where card_id = '$cardId'";
-    self::DbQuery($sql);
   }
 
   function engSetup()
@@ -242,10 +166,6 @@ trait DebugTrait
       $t[] = $map[$pId];
     }
     Globals::setSkippedPlayers($t);
-
-    // First player
-    $fp = Globals::getFirstPlayer();
-    Globals::setFirstPlayer($map[$fp]);
 
     self::reloadPlayersBasicInfos();
   }
