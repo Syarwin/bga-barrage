@@ -39,6 +39,26 @@ html {
 #topbar {
   background-color: #ebeaea; }
 
+#ebd-body.help-mode .tooltipable {
+  cursor: help; }
+
+.help-marker {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  z-index: 900;
+  border: 1px solid black;
+  border-radius: 50%; }
+  .help-marker svg {
+    width: 20px;
+    height: 20px; }
+
+#ebd-body:not(.help-mode) .help-marker {
+  opacity: 0;
+  pointer-events: none; }
+
 .barrage-frame {
   border: 10px solid transparent;
   border-image-slice: 85 85 85 85;
@@ -93,10 +113,15 @@ html {
       box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
     .action-board .action-board-inner .action-board-icon {
       width: 80px;
+      height: 35px;
       margin: 0px 12px;
       display: flex;
       justify-content: center;
-      align-items: center; }
+      align-items: center;
+      position: relative; }
+      .action-board .action-board-inner .action-board-icon .help-marker {
+        left: -2px;
+        top: -2px; }
     .action-board .action-board-inner .action-space {
       display: flex;
       background: grey;
@@ -299,16 +324,24 @@ html {
     min-width: 0.8em;
     height: 0.8em;
     background-image: url("img/icons/production.png"); }
-  .barrage-icon.icon-cost {
+  .barrage-icon.icon-cost, .barrage-icon.icon-credit {
     min-width: 0.7137em;
     height: 0.8em;
     background-image: url("img/icons/cost.png");
     text-align: center; }
-    .barrage-icon.icon-cost span {
+    .barrage-icon.icon-cost span, .barrage-icon.icon-credit span {
       font-size: 0.5em;
       line-height: 1.5em;
       color: #d70f0f;
       font-weight: bold; }
+  .barrage-icon.icon-credit {
+    min-width: 0.6125em;
+    height: 0.7em;
+    background-image: url("img/icons/credit.png"); }
+  .barrage-icon.icon-arrow {
+    min-width: 0.6em;
+    height: 0.456em;
+    background-image: url("img/icons/arrow.png"); }
   .barrage-icon.icon-water {
     min-width: 0.5895em;
     height: 0.8em;
@@ -462,26 +495,11 @@ html {
 
 #player_config {
   margin: 10px 0px; }
-  #player_config #player_config_row {
-    display: flex;
-    justify-content: space-around; }
-  #player_config #player_info_row {
+  #player_config .player_config_row {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 10px; }
-  #player_config #uwe-help {
-    width: 32px;
-    height: 32px;
-    background: url("img/help/uwe.png");
-    background-size: 80%;
-    background-repeat: no-repeat;
-    background-color: #fbfbfb;
-    background-position: bottom right;
-    border-radius: 50%;
-    border: 1px solid black;
-    margin: -4px -10px 7px 0px;
-    cursor: pointer; }
+    margin: 10px 0px; }
   #player_config #help-mode-switch .checkbox {
     display: none; }
   #player_config #help-mode-switch .label {

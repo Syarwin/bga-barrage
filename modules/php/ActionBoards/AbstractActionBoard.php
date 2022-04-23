@@ -46,8 +46,11 @@ abstract class AbstractActionBoard
    * getUiData : remove useless data for frontend, as the flow
    *  and organize this depending on board structure
    */
-//  abstract protected function getUiStructure();
-  protected function getUiStructure(){return [];}
+  //  abstract protected function getUiStructure();
+  protected function getUiStructure()
+  {
+    return [];
+  }
   public function getUiData()
   {
     $spaces = [];
@@ -59,6 +62,10 @@ abstract class AbstractActionBoard
     $structure = static::getUiStructure();
     foreach ($structure as &$row) {
       foreach ($row as $i => $elem) {
+        if (is_array($elem)) {
+          continue;
+        }
+
         $key = static::$id . '-' . $elem;
         if (\array_key_exists($key, $spaces)) {
           $row[$i] = $spaces[$key];
@@ -113,4 +120,34 @@ abstract class AbstractActionBoard
     return $this->tagTree($this->flow, $player); // Add card context for listeners
   }
 */
+
+  public function gainNode($gain, $pId = null)
+  {
+    return [
+      'action' => GAIN,
+      'args' => $gain,
+      'source' => static::getName(),
+    ];
+  }
+
+  public function payNode($cost, $sourceName = null, $nb = 1)
+  {
+    return [
+      'action' => PAY,
+      'args' => [
+        'nb' => $nb,
+        'costs' => Utils::formatCost($cost),
+        'source' => $sourceName ?? static::getName(),
+      ],
+    ];
+  }
+
+  public function payGainNode($cost, $gain, $sourceName = null, $optional = true)
+  {
+    return [
+      'type' => NODE_SEQ,
+      'optional' => $optional,
+      'childs' => [static::payNode($cost, $sourceName), static::gainNode($gain)],
+    ];
+  }
 }

@@ -26,7 +26,8 @@
     background-image: url('img/icons/production.png');
   }
 
-  &.icon-cost {
+  &.icon-cost,
+  &.icon-credit {
     min-width: 0.7137em;
     height: 0.8em;
     background-image: url('img/icons/cost.png');
@@ -38,6 +39,17 @@
       color: #d70f0f;
       font-weight: bold;
     }
+  }
+  &.icon-credit {
+    min-width: 0.6125em;
+    height: 0.7em;
+    background-image: url('img/icons/credit.png');
+  }
+
+  &.icon-arrow {
+    min-width: 0.6em;
+    height: 0.456em;
+    background-image: url('img/icons/arrow.png');
   }
 
   &.icon-water {
@@ -75,7 +87,6 @@
         rgb(0, 0, 0) 0.96017px -0.279416px 0px;
     }
   }
-
 }
 
 //action-space-cost

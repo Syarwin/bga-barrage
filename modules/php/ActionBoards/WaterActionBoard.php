@@ -22,8 +22,11 @@ class WaterActionBoard extends AbstractActionBoard
   public function getUiStructure()
   {
     $rows = [];
-    $rows[] = ['p2', '<WATER:2>', 'p2c'];
-    $rows[] = ['d1', '<WATER_DOWN:1>', 'd1c'];
+
+    $rows[] = ['p2', ['i' => '<WATER:2>', 't' => clienttranslate('Place 2 water drops')], 'p2c'];
+
+    $rows[] = ['d1', ['i' => '<WATER_DOWN:1>', 't' => clienttranslate('Place 1 water drop and let it flow')], 'd1c'];
+
     return $rows;
   }
 
@@ -35,7 +38,6 @@ class WaterActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-p2',
       'nEngineers' => 1,
-      'tooltip' => clienttranslate('Place 2 water drops'),
       'flow' => [
         'action' => PLACE_DROPLET,
         'args' => [
@@ -49,7 +51,6 @@ class WaterActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-d1',
       'nEngineers' => 1,
-      'tooltip' => clienttranslate('Place 1 water drop and let it flow'),
       'flow' => [
         'action' => PLACE_DROPLET,
         'args' => [

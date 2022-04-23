@@ -1,6 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
-  const ICONS = ['PRODUCTION', 'COST', 'WATER', 'WATER_DOWN'];
+  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN'];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {

@@ -22,11 +22,36 @@ class WorkshopActionBoard extends AbstractActionBoard
   public function getUiStructure()
   {
     $rows = [];
-    $rows[] = ['r1', '<ROTATE:1>', 'r1bis'];
+
+    $rows[] = [
+      'r1',
+      [
+        'i' => '<ROTATE:1>',
+        't' => clienttranslate('Rotate your construction wheel by one segment'),
+      ],
+      'r1bis',
+    ];
+
     if (Companies::count() >= 3) {
-      $rows[] = ['r2', '<CREDIT:2><ARROW><ROTATE:2>', 'r2c'];
+      $rows[] = [
+        'r2',
+        [
+          'i' => '<CREDIT:2><ARROW><ROTATE:2>',
+          't' => clienttranslate('Pay two credits to rotate your construction wheel by two segments'),
+        ],
+        'r2c',
+      ];
     }
-    $rows[] = ['r3', '<CREDIT:5><ARROW><ROTATE:3>', 'r3c'];
+
+    $rows[] = [
+      'r3',
+      [
+        'i' => '<CREDIT:5><ARROW><ROTATE:3>',
+        't' => clienttranslate('Pay five credits to rotate your construction wheel by three segments'),
+      ],
+      'r3c',
+    ];
+
     return $rows;
   }
 
@@ -39,7 +64,6 @@ class WorkshopActionBoard extends AbstractActionBoard
         'board' => self::$id,
         'uid' => self::$id . '-r2',
         'nEngineers' => 2,
-        'tooltip' => clienttranslate('Pay two credits to rotate your construction wheel by two segments'),
         'flow' => [
           'action' => ROTATE_WHEEL,
           'args' => [
@@ -54,7 +78,6 @@ class WorkshopActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-r3',
       'nEngineers' => 2,
-      'tooltip' => clienttranslate('Pay five credits to rotate your construction wheel by three segments'),
       'flow' => [
         'action' => ROTATE_WHEEL,
         'args' => [
@@ -76,7 +99,6 @@ class WorkshopActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-r1',
       'nEngineers' => 1,
-      'tooltip' => clienttranslate('Rotate your construction wheel by one segment'),
       'flow' => [
         'action' => ROTATE_WHEEL,
         'args' => [
@@ -89,7 +111,6 @@ class WorkshopActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-r1bis',
       'nEngineers' => 2,
-      'tooltip' => clienttranslate('Rotate your construction wheel by one segment'),
       'flow' => [
         'action' => ROTATE_WHEEL,
         'args' => [

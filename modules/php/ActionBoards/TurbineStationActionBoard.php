@@ -22,15 +22,21 @@ class TurbineStationActionBoard extends AbstractActionBoard
   public function getUiStructure()
   {
     $rows = [];
-    $rows[] = ['b2', '<PRODUCTION>[+2]', 'b2c'];
+
+    $rows[] = ['b2', ['i' => '<PRODUCTION>[+2]', 't' => clienttranslate('Product with +2 bonus')], 'b2c'];
+
     if (Companies::count() >= 4) {
-      $rows[] = ['b1', '<PRODUCTION>[+1]', 'b1c'];
+      $rows[] = ['b1', ['i' => '<PRODUCTION>[+1]', 't' => clienttranslate('Product with +1 bonus')], 'b1c'];
     }
-    $rows[] = ['0', '<PRODUCTION>', '0c'];
+
+    $rows[] = ['0', ['i' => '<PRODUCTION>', 't' => clienttranslate('Product energy')], '0c'];
+
     if (Companies::count() >= 3) {
-      $rows[] = ['m1', '<PRODUCTION>[-1]', 'm1c'];
+      $rows[] = ['m1', ['i' => '<PRODUCTION>[-1]', 't' => clienttranslate('Product with -1 bonus')], 'm1c'];
     }
-    $rows[] = ['m2', '<PRODUCTION>[-2]', 'm2bis'];
+
+    $rows[] = ['m2', ['i' => '<PRODUCTION>[-2]', 't' => clienttranslate('Product with -2 bonus')], 'm2bis'];
+
     return $rows;
   }
 
@@ -42,7 +48,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-b2',
       'nEngineers' => 2,
-      'tooltip' => clienttranslate('Product with +2 bonus'),
       'flow' => [
         'action' => PRODUCT,
         'args' => [
@@ -56,7 +61,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
         'board' => self::$id,
         'uid' => self::$id . '-b1',
         'nEngineers' => 2,
-        'tooltip' => clienttranslate('Product with +1 bonus'),
         'flow' => [
           'action' => PRODUCT,
           'args' => [
@@ -70,7 +74,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-0',
       'nEngineers' => 2,
-      'tooltip' => clienttranslate('Product'),
       'flow' => [
         'action' => PRODUCT,
       ],
@@ -81,7 +84,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
         'board' => self::$id,
         'uid' => self::$id . '-m1',
         'nEngineers' => 2,
-        'tooltip' => clienttranslate('Product with -1 bonus'),
         'flow' => [
           'action' => PRODUCT,
           'args' => [
@@ -103,7 +105,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-m2',
       'nEngineers' => 1,
-      'tooltip' => clienttranslate('Product with -2 bonus'),
       'flow' => [
         'action' => PRODUCT,
         'args' => [
@@ -116,7 +117,6 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-m2bis',
       'nEngineers' => 2,
-      'tooltip' => clienttranslate('Product with -2 bonus'),
       'flow' => [
         'action' => PRODUCT,
         'args' => [

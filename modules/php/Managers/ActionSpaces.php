@@ -14,7 +14,7 @@ class ActionSpaces
     'WaterActionBoard',
     // 'BankActionBoard',
     'WorkshopActionBoard',
-    // 'MachineryShopActionBoard',
+    'MachineryShopActionBoard',
     // 'ContractActionBoard',
   ];
 

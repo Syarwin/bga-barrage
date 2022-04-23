@@ -71,10 +71,17 @@
 
     .action-board-icon {
       width: 80px;
+      height: 35px;
       margin: 0px 12px;
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+
+      .help-marker {
+        left: -2px;
+        top: -2px;
+      }
     }
 
     .action-space {
