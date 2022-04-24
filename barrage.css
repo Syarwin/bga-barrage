@@ -39,6 +39,12 @@ html {
 #topbar {
   background-color: #ebeaea; }
 
+#customActions .bgabutton.disabled {
+  opacity: 0.5;
+  background: linear-gradient(rgba(189, 189, 189, 0.59), rgba(166, 165, 165, 0.45));
+  cursor: not-allowed;
+  pointer-events: all; }
+
 #ebd-body.help-mode .tooltipable {
   cursor: help; }
 
@@ -141,7 +147,11 @@ html {
         border-radius: 5px;
         background-size: auto 70%, 20px;
         background-repeat: no-repeat, repeat;
-        background-position: center center; }
+        background-position: center center;
+        font-size: 39px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end; }
       .action-board .action-board-inner .action-space.selectable {
         cursor: pointer; }
         .action-board .action-board-inner .action-space.selectable .action-space-slot {
@@ -162,9 +172,14 @@ html {
   margin: 0 0.08em;
   font-size: 1.3em; }
 
+.bgabutton .barrage-meeple {
+  margin: 0; }
+
 .barrage-meeple {
   background-image: url("img/meeples.png");
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  margin-right: -10%;
+  margin-bottom: -10%; }
   .barrage-meeple.meeple-credit {
     min-width: 0.9662em;
     height: 1em;
@@ -181,27 +196,27 @@ html {
     background-position: 36.4807% 0%;
     background-size: 1113.04%; }
   .barrage-meeple.meeple-engineer[data-company='1'] {
-    min-width: 0.6865em;
+    width: 0.6865em;
     height: 1.1441em;
     background-position: 71.6861% 0%;
     background-size: 1264.2%; }
   .barrage-meeple.meeple-engineer[data-company='2'] {
-    min-width: 0.695em;
+    width: 0.695em;
     height: 1.195em;
     background-position: 45.8599% 0%;
     background-size: 1248.78%; }
   .barrage-meeple.meeple-engineer[data-company='3'] {
-    min-width: 0.695em;
+    width: 0.695em;
     height: 1.1865em;
     background-position: 54.5648% 0%;
     background-size: 1248.78%; }
   .barrage-meeple.meeple-engineer[data-company='4'] {
-    min-width: 0.6865em;
+    width: 0.6865em;
     height: 1.2373em;
     background-position: 11.877% 0%;
     background-size: 1264.2%; }
   .barrage-meeple.meeple-engineer[data-company='5'] {
-    min-width: 0.678em;
+    width: 0.678em;
     height: 1.1611em;
     background-position: 63.1356% 0%;
     background-size: 1280%; }

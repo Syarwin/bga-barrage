@@ -313,16 +313,6 @@ class Meeples extends \BRG\Helpers\Pieces
       ->get();
   }
 
-  public function collectFirstPlayerToken($pId)
-  {
-    $tokenId = self::getSelectQuery()
-      ->where('type', 'firstPlayer')
-      ->getSingle()['id'];
-
-    self::DB()->update(['player_id' => $pId], $tokenId);
-    return $tokenId;
-  }
-
   /************************ Utility functions **********************/
 
   /**

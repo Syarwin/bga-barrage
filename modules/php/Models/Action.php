@@ -3,7 +3,7 @@ namespace BRG\Models;
 use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Core\Globals;
-use BRG\Managers\Company;
+use BRG\Managers\Companies;
 
 /*
  * Action: base class to handle atomic action
@@ -42,10 +42,10 @@ class Action
     return $this->description;
   }
 
-  public function getPlayer()
+  public function getCompany()
   {
-    $pId = $this->ctx->getPId() ?? Players::getActiveId();
-    return Players::get($pId);
+    $pId = $this->ctx->getCId() ?? Companies::getActiveId();
+    return Companies::get($pId);
   }
 
   public function getState()

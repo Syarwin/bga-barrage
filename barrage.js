@@ -31,7 +31,11 @@ define([
   return declare('bgagame.barrage', [customgame.game, barrage.companies, barrage.meeples], {
     constructor() {
       this._activeStates = ['placeEngineer'];
-      this._notifications = [];
+      this._notifications = [
+        ['clearTurn', 1],
+        ['refreshUI', 1],
+        ['placeEngineers', null],
+      ];
 
       // Fix mobile viewport (remove CSS zoom)
       this.default_viewport = 'width=900';
@@ -69,6 +73,70 @@ define([
       this.setupMap();
 
       this.inherited(arguments);
+    },
+
+    onEnteringState(stateName, args) {
+      debug('Entering state: ' + stateName, args);
+      if (this.isFastMode()) return;
+
+      /*
+      if (stateName == 'exchange' && args.args && args.args.automaticAction) {
+        args.args.descSuffix = 'cook';
+      }
+
+      if (args.args && args.args.descSuffix) {
+        this.changePageTitle(args.args.descSuffix);
+      }
+
+      if (args.args && args.args.optionalAction) {
+        let base = args.args.descSuffix ? args.args.descSuffix : '';
+        this.changePageTitle(base + 'skippable');
+      }
+      */
+
+      if (this._activeStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
+
+      if (args.args && args.args.optionalAction && !args.args.automaticAction) {
+        this.addSecondaryActionButton('btnPassAction', _('Pass'), () => this.takeAction('actPassOptionalAction'));
+      }
+
+      // Restart turn button
+      if (
+        args.args &&
+        args.args.previousEngineChoices &&
+        args.args.previousEngineChoices >= 1 &&
+        !args.args.automaticAction
+      ) {
+        this.addDangerActionButton('btnRestartTurn', _('Restart turn'), () => {
+          this.stopActionTimer();
+          this.takeAction('actRestart');
+        });
+      }
+
+      /*
+  TODO
+  if (this.isCurrentPlayerActive() && args.args) {
+    // Anytime buttons
+    if (args.args.anytimeActions) {
+      args.args.anytimeActions.forEach((action, i) => {
+        let msg = action.desc;
+        msg = msg.log ? this.format_string_recursive(msg.log, msg.args) : _(msg);
+        msg = this.formatStringMeeples(msg);
+
+        this.addPrimaryActionButton(
+          'btnAnytimeAction' + i,
+          msg,
+          () => this.takeAction('actAnytimeAction', { id: i }, false),
+          'anytimeActions',
+        );
+      });
+    }
+  }
+  */
+
+      // Call appropriate method
+      var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+      if (this[methodName] !== undefined) this[methodName](args.args);
     },
 
     /////////////////////////////
@@ -241,6 +309,72 @@ define([
 `;
     },
 
+    //////////////////////////////////////////////////////////////
+    //  _____             _              _____ _
+    // | ____|_ __   __ _(_)_ __   ___  |  ___| | _____      __
+    // |  _| | '_ \ / _` | | '_ \ / _ \ | |_  | |/ _ \ \ /\ / /
+    // | |___| | | | (_| | | | | |  __/ |  _| | | (_) \ V  V /
+    // |_____|_| |_|\__, |_|_| |_|\___| |_|   |_|\___/ \_/\_/
+    //              |___/
+    //////////////////////////////////////////////////////////////
+    onEnteringStateResolveChoice(args) {
+      let addChoice = (choice, disabled) => {
+        if ($('btnChoice' + choice.id)) return;
+
+        let desc =
+          typeof choice.description == 'string'
+            ? _(choice.description)
+            : this.format_string_recursive(_(choice.description.log), choice.description.args);
+
+        this.addSecondaryActionButton(
+          'btnChoice' + choice.id,
+          desc,
+          disabled ? () => {} : () => this.takeAction('actChooseAction', { id: choice.id }),
+        );
+        if (disabled) {
+          dojo.addClass('btnChoice' + choice.id, 'disabled');
+        }
+      };
+
+      Object.values(args.choices).forEach((choice) => addChoice(choice, false));
+      Object.values(args.allChoices).forEach((choice) => addChoice(choice, true));
+    },
+
+    addConfirmTurn(args, action) {
+      this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
+        this.stopActionTimer();
+        this.takeAction(action);
+      });
+
+      const OPTION_CONFIRM = 103;
+      let n = args.previousEngineChoices;
+      let timer = Math.min(10 + 2 * n, 20);
+      this.startActionTimer('btnConfirmTurn', timer, this.prefs[OPTION_CONFIRM].value);
+    },
+
+    onEnteringStateConfirmTurn(args) {
+      this.addConfirmTurn(args, 'actConfirmTurn');
+    },
+
+    onEnteringStateConfirmPartialTurn(args) {
+      this.addConfirmTurn(args, 'actConfirmPartialTurn');
+    },
+
+    notif_clearTurn(n) {
+      debug('Notif: restarting turn', n);
+      this.cancelLogs(n.args.notifIds);
+    },
+
+    notif_refreshUI(n) {
+      debug('Notif: refreshing UI', n);
+      //      ['meeples', 'players', 'scores', 'playerCards'].forEach((value) => {
+      ['meeples', 'players'].forEach((value) => {
+        this.gamedatas[value] = n.args.datas[value];
+      });
+      this.setupMeeples();
+      // this.updatePlayersScores();
+    },
+
     ////////////////////////////////////////////////////////////////////////////////
     //     _   _                  _           _        _   _
     //    / \ | |_ ___  _ __ ___ (_) ___     / \   ___| |_(_) ___  _ __  ___
@@ -262,7 +396,7 @@ define([
         this.onClick(uid, () => {
           let choices = args.spaces[uid];
           if (choices.length == 1) {
-            this.takeAtomicAction('actPlaceEngineer', [uid, choices[uid]]);
+            this.takeAtomicAction('actPlaceEngineer', [uid, choices[0]]);
           } else {
             alert('Not implemented yet!');
           }

@@ -1,6 +1,7 @@
 <?php
 namespace BRG\Core;
 use BRG\Managers\Players;
+use BRG\Managers\Companies;
 use BRG\Managers\Actions;
 use BRG\Managers\Scores;
 use BRG\Helpers\Log;
@@ -82,6 +83,8 @@ class Engine
       return;
     }
 
+    /*
+    TODO
     $oldPId = Game::get()->getActivePlayerId();
     $pId = $node->getPId();
 
@@ -106,15 +109,17 @@ class Engine
       Log::enable();
       Globals::setEngineChoices(0);
     }
+    */
+    $company = Companies::getActive();
 
     // If node with choice, switch to choice state
-    $choices = $node->getChoices($player);
-    $allChoices = $node->getChoices($player, true);
+    $choices = $node->getChoices($company);
+    $allChoices = $node->getChoices($company, true);
     if (!empty($allChoices) && $node->getType() != NODE_LEAF) {
       // Only one choice : auto choose
       if (count($choices) == 1 && count($allChoices) == 1 && array_keys($allChoices) == array_keys($choices)) {
         $id = array_keys($choices)[0];
-        self::chooseNode($player, $id, true);
+        self::chooseNode($company, $id, true);
       } else {
         // Otherwise, go in the RESOLVE_CHOICE state
         Game::get()->gamestate->jumpToState(ST_RESOLVE_CHOICE);
@@ -160,18 +165,18 @@ class Engine
   /**
    * Get the list of choices of current node
    */
-  public function getNextChoice($player = null, $ignoreResources = false)
+  public function getNextChoice($company = null, $ignoreResources = false)
   {
-    return self::$tree->getNextUnresolved()->getChoices($player, $ignoreResources);
+    return self::$tree->getNextUnresolved()->getChoices($company, $ignoreResources);
   }
 
   /**
    * Choose one option
    */
-  public function chooseNode($player, $nodeId, $auto = false)
+  public function chooseNode($company, $nodeId, $auto = false)
   {
     $node = self::$tree->getNextUnresolved();
-    $args = $node->getChoices($player);
+    $args = $node->getChoices($company);
     if (!isset($args[$nodeId])) {
       throw new \BgaVisibleSystemException('This choice is not possible');
     }
@@ -208,15 +213,15 @@ class Engine
   public function resolveAction($args = [])
   {
     $node = self::$tree->getNextUnresolved();
-    if(!$node->isReUsable()){
+    if (!$node->isReUsable()) {
       $node->resolveAction($args);
-      if($node->isResolvingParent()){
+      if ($node->isResolvingParent()) {
         $node->getParent()->resolve([]);
       }
     } else {
       // TODO : remove
       $node->resolveAction($args);
-      if(!$node->getParent()->isResolved()){
+      if (!$node->getParent()->isResolved()) {
         $node->unresolveAction();
         $node->getParent()->unchoose(); // TODO : add sanity checks ??
       }
@@ -293,6 +298,8 @@ class Engine
     }
   }
 
+  /*
+TODO
   public function confirmPartialTurn()
   {
     $node = self::$tree->getNextUnresolved();
@@ -315,6 +322,7 @@ class Engine
 
     Engine::proceed(true);
   }
+*/
 
   /**
    * Restart the whole flow
@@ -332,9 +340,9 @@ class Engine
   /**
    * Clear all nodes related to the current active zombie player
    */
-  public function clearZombieNodes($pId)
+  public function clearZombieNodes($cId)
   {
-    self::$tree->clearZombieNodes($pId);
+    self::$tree->clearZombieNodes($cId);
   }
 
   /**

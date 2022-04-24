@@ -23,11 +23,11 @@ class ParallelNode extends AbstractNode
   /**
    * A PARALLEL node is doable if all its mandatory childs are doable (or if the PARALLEL node itself is optional)
    */
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
     return $this->isOptional() ||
-      $this->childsReduceAnd(function ($child) use ($player, $ignoreResources) {
-        return $child->isDoable($player, $ignoreResources) || $child->isOptional();
+      $this->childsReduceAnd(function ($child) use ($company, $ignoreResources) {
+        return $child->isDoable($company, $ignoreResources) || $child->isOptional();
       });
   }
 
@@ -56,9 +56,9 @@ class ParallelNode extends AbstractNode
   /**
    * Specific case for parallel node : if a node is mandatory and independant, resolve it right away
    */
-  public function getChoices($player = null, $ignoreResources = false)
+  public function getChoices($company = null, $ignoreResources = false)
   {
-    $choices = parent::getChoices($player, $ignoreResources);
+    $choices = parent::getChoices($company, $ignoreResources);
     $independentChoices = array_values(
       \array_filter($choices, function ($choice) {
         return ($choice['independentAction'] ?? false) && !($choice['optionalAction'] ?? false);

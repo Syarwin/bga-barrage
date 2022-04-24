@@ -159,6 +159,8 @@ class Scores extends \BRG\Helpers\DB_Manager
    */
   public function update($bypassCheck = false)
   {
+    return; // TODO
+    
     if (!$bypassCheck && !Globals::isLiveScoring()) {
       return;
     }

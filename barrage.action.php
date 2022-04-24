@@ -74,14 +74,6 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
-  public function actPlaceEngineer()
-  {
-    self::setAjaxMode();
-    $cId = self::getArg('sId', AT_alphanum, true);
-    $result = $this->game->actPlaceEngineer($sId);
-    self::ajaxResponse();
-  }
-
   //////////////////
   ///// UTILS  /////
   //////////////////

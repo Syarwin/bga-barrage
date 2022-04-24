@@ -82,6 +82,17 @@ class Company extends \BRG\Helpers\DB_Model
     return false;
   }
 
+  public function canTakeAction($action, $ctx, $ignoreResources)
+  {
+    return Actions::isDoable($action, $ctx, $this, $ignoreResources);
+  }
+
+  public function getExchangeResources()
+  {
+    return []; // TODO
+    //die("test");
+  }
+
   //////////////////////////////////////////////////////
   //  _____             _
   // | ____|_ __   __ _(_)_ __   ___  ___ _ __ ___
@@ -104,5 +115,14 @@ class Company extends \BRG\Helpers\DB_Model
   public function hasAvailableEngineer()
   {
     return $this->countAvailableEngineers() > 0;
+  }
+
+  public function placeEngineer($spaceId, $nEngineers)
+  {
+    $engineerIds = array_slice($this->getAvailableEngineers()->getIds(), 0, $nEngineers);
+    foreach ($engineerIds as $i => $id) {
+      Meeples::move($id, $spaceId, $i);
+    }
+    return Meeples::get($engineerIds);
   }
 }

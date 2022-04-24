@@ -9,9 +9,14 @@
   font-size: 1.3em;
 }
 
+.bgabutton .barrage-meeple {
+  margin: 0;
+}
 .barrage-meeple {
   background-image: url('img/meeples.png');
   background-repeat: no-repeat;
+  margin-right: -10%;
+  margin-bottom: -10%;
 
   &.meeple-credit {
     min-width: 0.9662em;
@@ -35,35 +40,35 @@
   }
 
   &.meeple-engineer[data-company='1'] {
-    min-width: 0.6865em;
+    width: 0.6865em;
     height: 1.1441em;
     background-position: 71.6861% 0%;
     background-size: 1264.2%;
   }
 
   &.meeple-engineer[data-company='2'] {
-    min-width: 0.695em;
+    width: 0.695em;
     height: 1.195em;
     background-position: 45.8599% 0%;
     background-size: 1248.78%;
   }
 
   &.meeple-engineer[data-company='3'] {
-    min-width: 0.695em;
+    width: 0.695em;
     height: 1.1865em;
     background-position: 54.5648% 0%;
     background-size: 1248.78%;
   }
 
   &.meeple-engineer[data-company='4'] {
-    min-width: 0.6865em;
+    width: 0.6865em;
     height: 1.2373em;
     background-position: 11.877% 0%;
     background-size: 1264.2%;
   }
 
   &.meeple-engineer[data-company='5'] {
-    min-width: 0.678em;
+    width: 0.678em;
     height: 1.1611em;
     background-position: 63.1356% 0%;
     background-size: 1280%;

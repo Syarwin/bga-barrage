@@ -47,7 +47,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         let n = parseInt(parent.parentNode.getAttribute('data-n') || 0);
         n += leaving ? -1 : 1;
-        this._playerCounters[t[1]][t[2]].toValue(n);
+        this._companyCounters[t[1]][t[2]].toValue(n);
         parent.parentNode.setAttribute('data-n', n);
       }
 
@@ -73,6 +73,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return reserve;
       } else if (meeple.location == 'company') {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
+      } else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
+        let nChild = parseInt(meeple.state) + 1;
+        return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
       }
 
       console.error('Trying to get container of a meeple', meeple);
@@ -146,6 +149,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     /**
+     * Placing engineers on action board
+     */
+    notif_placeEngineers(n) {
+      debug('Notif: place engineers ', n);
+      this.slideResources(n.args.engineers, {});
+    },
+
+    /**
      * Replace some expressions by corresponding html formating
      */
     formatString(str) {
@@ -212,6 +223,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       try {
         if (log && args && !args.processed) {
           args.processed = true;
+
+          let company_keys = Object.keys(args).filter((key) => key.substr(0, 12) == 'company_name');
+          company_keys.forEach((key) => {
+            args[key] = this.coloredCompanyName(args[key]);
+          });
 
           // Representation of the class of a card
           if (args.resources_desc !== undefined) {

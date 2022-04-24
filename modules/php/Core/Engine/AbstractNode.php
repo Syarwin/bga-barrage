@@ -154,9 +154,9 @@ class AbstractNode
     return $this->infos['state'] ?? null;
   }
 
-  public function getPId()
+  public function getCId()
   {
-    return $this->infos['pId'] ?? null;
+    return $this->infos['cId'] ?? null;
   }
 
   public function getType()
@@ -169,17 +169,12 @@ class AbstractNode
     return $this->infos['args'] ?? null;
   }
 
-  public function getCardId()
-  {
-    return $this->infos['cardId'] ?? null;
-  }
-
   public function getSource()
   {
     return $this->infos['source'] ?? null;
   }
 
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
     return true;
   }
@@ -232,13 +227,13 @@ class AbstractNode
   }
 
   // Useful for zombie players
-  public function clearZombieNodes($pId)
+  public function clearZombieNodes($cId)
   {
     foreach ($this->childs as $child) {
-      $child->clearZombieNodes($pId);
+      $child->clearZombieNodes($cId);
     }
 
-    if ($this->getPId() == $pId) {
+    if ($this->getCId() == $cId) {
       $this->resolve(ZOMBIE);
     }
   }
@@ -256,29 +251,29 @@ class AbstractNode
     return $this->infos['optional'] ?? $this->parent != null && $this->parent->areChildrenOptional();
   }
 
-  public function isAutomatic($player = null)
+  public function isAutomatic($company = null)
   {
-    $choices = $this->getChoices($player);
+    $choices = $this->getChoices($company);
     return count($choices) < 2;
   }
 
   // Allow for automatic resolution in parallel node
-  public function isIndependent($player = null)
+  public function isIndependent($company = null)
   {
-    return $this->isAutomatic($player) &&
-      $this->childsReduceAnd(function ($child) use ($player) {
-        return $child->isIndependent($player);
+    return $this->isAutomatic($company) &&
+      $this->childsReduceAnd(function ($child) use ($company) {
+        return $child->isIndependent($company);
       });
   }
 
-  public function getChoices($player = null, $ignoreResources = false)
+  public function getChoices($company = null, $ignoreResources = false)
   {
     $choice = null;
     $choices = [];
     $childs = $this->getType() == NODE_SEQ && !empty($this->childs) ? [0 => $this->childs[0]] : $this->childs;
 
     foreach ($childs as $id => $child) {
-      if (!$child->isResolved() && $child->isDoable($player, $ignoreResources)) {
+      if (!$child->isResolved() && $child->isDoable($company, $ignoreResources)) {
         $choice = [
           'id' => $id,
           'description' =>
@@ -287,8 +282,8 @@ class AbstractNode
               : $child->getDescription($ignoreResources),
           'args' => $child->getArgs(),
           'optionalAction' => $child->isOptional(),
-          'automaticAction' => $child->isAutomatic($player),
-          'independentAction' => $child->isIndependent($player),
+          'automaticAction' => $child->isAutomatic($company),
+          'independentAction' => $child->isIndependent($company),
         ];
         $choices[$id] = $choice;
       }

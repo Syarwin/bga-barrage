@@ -18,6 +18,18 @@ class ActionSpaces
     // 'ContractActionBoard',
   ];
 
+  public function getBoard($id)
+  {
+    foreach (self::$boards as $name) {
+      $className = '\BRG\ActionBoards\\' . $name;
+      if ($className::getId() == $id) {
+        return $className;
+      }
+    }
+
+    return null;
+  }
+
   protected function getBoards()
   {
     $boards = [];

@@ -9,6 +9,7 @@ use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
+use BRG\Helpers\Collection;
 
 class PlaceEngineer extends \BRG\Models\Action
 {
@@ -30,33 +31,33 @@ class PlaceEngineer extends \BRG\Models\Action
 
   protected function getPlayableSpaces($company)
   {
-    $spaces = ActionSpaces::getPlayableSpaces($company);
     $availableEngineers = $company->countAvailableEngineers();
-
-    Utils::filter($spaces, function ($space) use ($availableEngineers) {
+    $spaces = new Collection([]);
+    foreach (ActionSpaces::getPlayableSpaces($company) as $space) {
       // Is there an engineer here ? (except Bank action space)
       if (($space['exclusive'] ?? true) && !Meeples::getOnSpace($space['uid'])->empty()) {
-        return false;
+        continue;
       }
 
       // Do we have enough engineer in reserve ?
       if ($space['nEngineers'] > $availableEngineers) {
-        return false;
+        continue;
+      }
+
+      // Handle cost
+      if(($space['cost'] ?? 0) > 0){
+        $flow = $space['flow']; // TODO
       }
 
       /*
       // Check that the action is doable
       $flow = $this->getFlow($player);
       $flowTree = Engine::buildTree($flow);
-      return $flowTree->isDoable($player);
+      return $flowTree->isDoable($company);
   */
 
-      return true;
-    });
-
-    // foreach($spaces as $space){
-    //
-    // }
+      $spaces[$space['uid']] = $space;
+    }
 
     return $spaces;
   }
@@ -67,8 +68,7 @@ class PlaceEngineer extends \BRG\Models\Action
   function argsPlaceEngineer()
   {
     $company = Companies::getActive();
-    $spaces = [];
-    foreach (self::getPlayableSpaces($company) as $space) {
+    $spaces = self::getPlayableSpaces($company)->map(function ($space) use ($company) {
       $n = $space['nEngineers'];
       $choices = [$n];
       if ($n == 0) {
@@ -78,11 +78,11 @@ class PlaceEngineer extends \BRG\Models\Action
         $choices[] = N_ARCHITECT;
       }
 
-      $spaces[$space['uid']] = $choices;
-    }
+      return $choices;
+    });
 
     $args = [
-      'spaces' => $spaces,
+      'spaces' => $spaces->toAssoc(),
     ];
 
     // TODO
@@ -98,20 +98,16 @@ class PlaceEngineer extends \BRG\Models\Action
   function actPlaceEngineer($spaceId, $nEngineers)
   {
     self::checkAction('actPlaceEngineer');
+    $args = self::argsPlaceEngineer();
+    if (!array_key_exists($spaceId, $args['spaces'])) {
+      throw new \BgaUserException('You cannot place an engineer here');
+    }
+    if (!in_array($nEngineers, $args['spaces'][$spaceId])) {
+      throw new \BgaUserException('Invalid engineer number');
+    }
+
     $company = Companies::getActive();
-
-    die('todo');
-
-    $spaceIds = self::argsPlaceEngineer()['spaceIds'];
-    if (!\in_array($spaceId, $spaceIds)) {
-      throw new \BgaUserException(clienttranslate('You cannot place an engineer here'));
-    }
-
-    if (in_array($cardId, $player->getActionCards()->getIds())) {
-      $card = PlayerCards::get($cardId);
-    } else {
-      $card = ActionCards::get($cardId);
-    }
+    $space = self::getPlayableSpaces($company)[$spaceId];
 
     /*
     $eventData = [
@@ -121,33 +117,22 @@ class PlaceEngineer extends \BRG\Models\Action
 */
 
     // Place engineer
-    $engineerIds = $player->moveNextFarmerAvailable($cardId);
-    Notifications::placeFarmer($player, $fId, $card, $this->ctx->getSource());
-    Stats::incPlacedFarmers($player);
+    $board = ActionSpaces::getBoard($space['board']);
+    $engineers = $company->placeEngineer($spaceId, $nEngineers);
+    Notifications::placeEngineers($company, $engineers, $board);
+    // TODO or not : Stats::incPlacedFarmers($player);
 
-    // Are there cards triggered by the placement ?
-    $this->checkListeners('PlaceFarmer', $player, $eventData);
+    // TODO : Are there cards triggered by the placement ?
+    // $this->checkListeners('PlaceFarmer', $player, $eventData);
 
     // Activate action card
-    $flow = $card->getFlow($player);
-    $this->checkModifiers('computePlaceFarmerFlow', $flow, 'flow', $player, $eventData);
+    $flow = $space['flow'];
+    // TODO : tag flow tree ?
+    // TODO : $this->checkModifiers('computePlaceFarmerFlow', $flow, 'flow', $player, $eventData);
 
-    // D101 side effect
-    if (!$card->hasAccumulation() && Meeples::getResourcesOnCard($cardId)->count() > 0) {
-      $flow = [
-        'type' => NODE_SEQ,
-        'childs' => [
-          [
-            'action' => COLLECT,
-            'cardId' => $cardId,
-          ],
-          $flow,
-        ],
-      ];
-    }
     Engine::insertAsChild($flow);
 
-    $this->checkAfterListeners($player, $eventData, false);
-    $this->resolveAction(['actionCardId' => $cardId]);
+    // TODO $this->checkAfterListeners($player, $eventData, false);
+    $this->resolveAction(['spaceId' => $spaceId, 'n' => $nEngineers]);
   }
 }

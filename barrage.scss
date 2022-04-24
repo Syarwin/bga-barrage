@@ -49,6 +49,16 @@ html {
   background-color: #ebeaea;
 }
 
+
+// Disabled button
+#customActions .bgabutton.disabled {
+  opacity: 0.5;
+  background: linear-gradient(rgba(189, 189, 189, 0.59), rgba(166, 165, 165, 0.45));
+  cursor: not-allowed;
+  pointer-events: all;
+}
+
+
 // SAFE MODE
 #ebd-body.help-mode {
   .tooltipable {

@@ -4,7 +4,7 @@ use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Managers\Players;
-use BRG\Managers\PlayerCards;
+use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Helpers\Utils;
 
@@ -20,11 +20,6 @@ class Pay extends \BRG\Models\Action
     $args = $this->argsPay(null, true);
     $combinations = $args['combinations'];
 
-    $harvestFlag = $this->getCtxArgs()['harvest'] ?? false;
-    if ($this->isHarvest() && $harvestFlag) {
-      return $this->getHarvestDescription();
-    }
-
     // one combination => automatic allocation
     if (count($args['combinations']) == 1) {
       $cost = reset($args['combinations']);
@@ -39,14 +34,13 @@ class Pay extends \BRG\Models\Action
     }
   }
 
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
-    $args = $this->argsPay($player);
-    $harvestFlag = $this->getCtxArgs()['harvest'] ?? false;
-    return $ignoreResources || ($this->isHarvest() && $harvestFlag) || !empty($args['combinations']);
+    $args = $this->argsPay($company);
+    return $ignoreResources || !empty($args['combinations']);
   }
 
-  public function isAutomatic($player = null)
+  public function isAutomatic($company = null)
   {
     $args = $this->argsPay();
     return count($args['combinations']) <= 1;
@@ -60,25 +54,17 @@ class Pay extends \BRG\Models\Action
     return $this->ctx == null ? null : (is_array($this->ctx) ? $this->ctx : $this->ctx->getArgs());
   }
 
-  public function argsPay($player = null, $ignoreResources = false)
+  public function argsPay($company = null, $ignoreResources = false)
   {
-    $player = $player ?? Players::getActive();
+    $company = $company ?? Companies::getActive();
     $args = $this->getCtxArgs();
     $nb = $args['nb'] ?? 0;
-    $combinations = self::computeAllBuyableCombinations($player, $args['costs'], $nb, $ignoreResources);
+    $combinations = self::computeAllBuyableCombinations($company, $args['costs'], $nb, $ignoreResources);
     $combinations = self::keepOnlyOptimals($combinations);
 
-    // Remove NB and fetch card names for UI
     $cardNames = [];
     foreach ($combinations as &$combination) {
       unset($combination['nb']);
-      if (isset($combination['card'])) {
-        $cardNames[$combination['card']] = PlayerCards::get($combination['card'])->getName();
-      }
-
-      foreach ($combination['sources'] ?? [] as $cardId) {
-        $cardNames[$cardId] = PlayerCards::get($cardId)->getName();
-      }
     }
 
     return [
@@ -94,19 +80,13 @@ class Pay extends \BRG\Models\Action
   public function stPay()
   {
     $args = $this->argsPay();
-    $harvestFlag = $this->getCtxArgs()['harvest'] ?? false;
 
     // one combination => automatic allocation
     if (count($args['combinations']) == 1) {
       $cost = reset($args['combinations']);
       $this->actPay($cost, true);
     } elseif (empty($args['combinations'])) {
-      // if we are in harvest we process harvest pay
-      if ($this->isHarvest() && $harvestFlag) {
-        $this->actPayHarvest();
-      } else {
-        throw new \BgaVisibleSystemException("No option to pay");
-      }
+      throw new \BgaVisibleSystemException("No option to pay");
     }
   }
 
@@ -114,18 +94,15 @@ class Pay extends \BRG\Models\Action
   {
     // Sanity checks
     self::checkAction('actPay', $isAuto);
+    /*
     $args = $this->argsPay();
     if (!in_array($cost, $args['combinations'])) {
       throw new \BgaVisibleSystemException('Cost not authorized');
     }
 
-    $player = Players::getActive();
-    if (isset($cost['card'])) {
-      // Paying by returning a card
-      $card = PlayerCards::get($cost['card']);
-      $card->returnToBoard();
-      Notifications::payWithCard($player, $card, $args['source']);
-    } elseif (isset($this->getCtxArgs()['to'])) {
+    $company = Companies::getActive();
+    // TODO
+    if (false && isset($this->getCtxArgs()['to'])) {
       // Payment to a player
       $moved = [];
       foreach ($cost as $resource => $amount) {
@@ -152,89 +129,18 @@ class Pay extends \BRG\Models\Action
         if ($resource == 'sources') {
           continue;
         }
-        $deleted = array_merge($deleted, $player->useResource($resource, $amount));
+        $deleted = array_merge($deleted, $company->useResource($resource, $amount));
       }
       if (!empty($deleted)) {
-        Notifications::payResources($player, $deleted, $args['source'], $cost['sources'] ?? [], $args['cardNames']);
+        Notifications::payResources($company, $deleted, $args['source'], $cost['sources'] ?? [], $args['cardNames']);
       }
     }
-
-    Notifications::updateDropZones($player);
-    $player->forceReorganizeIfNeeded();
+    */
 
     // Resolve the node
     $this->resolveAction(['cost' => $cost]);
   }
 
-  /***************************************
-   ***************************************
-   ************** HARVEST  ***************
-   ***************************************
-   **************************************/
-  public function getHarvestDescription()
-  {
-    $player = Players::getActive();
-    // if (!isset($this->getCtxArgs()['costs']['fees'])) {
-    //   throw new \feException(print_r(\debug_print_backtrace()));
-    // }
-    $cost = $this->getCtxArgs()['costs']['fees'][0];
-    $begging = 0;
-    foreach ($cost as $resource => $amount) {
-      if (in_array($resource, ['nb', 'sources', 'sourcesDesc'])) {
-        continue;
-      }
-      $reserve = $player->countReserveResource($resource);
-      if ($reserve < $amount) {
-        $cost[$resource] = $reserve;
-        $begging += $amount - $reserve;
-      }
-    }
-
-    $desc = [
-      'log' => clienttranslate('Pay ${resources_desc} to feed your family'),
-      'args' => [
-        'resources_desc' => Utils::resourcesToStr($cost),
-      ],
-    ];
-    if ($begging > 0) {
-      $desc['log'] = clienttranslate('Pay ${resources_desc} and take ${n} beggar cards to feed your family');
-      $desc['args']['n'] = $begging;
-    }
-
-    return $desc;
-  }
-
-  public function actPayHarvest()
-  {
-    // Sanity checks
-    self::checkAction('actPay', true);
-    $cost = $this->getCtxArgs()['costs']['fees'][0];
-
-    $player = Players::getActive();
-    $deleted = [];
-    $begging = 0;
-    foreach ($cost as $resource => $amount) {
-      if (in_array($resource, ['nb', 'sources', 'sourcesDesc'])) {
-        continue;
-      }
-      $reserve = $player->countReserveResource($resource);
-      if ($reserve < $amount) {
-        $begging += $amount - $reserve;
-        $amount = $reserve;
-      }
-
-      $deleted = array_merge($deleted, $player->useResource($resource, $amount));
-    }
-
-    Notifications::payResources($player, $deleted, clienttranslate('Harvest'));
-    if ($begging != 0) {
-      $created = $player->createResourceInReserve(BEGGING, $begging);
-      Notifications::begging($player, $created);
-    }
-
-    // Resolve the node
-    $this->resolveAction($cost);
-  }
 
   /***************************************
    ***************************************
@@ -276,26 +182,16 @@ class Pay extends \BRG\Models\Action
    *    ....
    * ]
    */
-  public static function canPayFee($player, $costs)
+  public static function canPayFee($company, $costs)
   {
-    return self::canBuy($player, $costs, 0);
+    return self::canBuy($company, $costs, 0);
   }
 
-  public static function canBuy($player, $costs, $n = 1)
+  public static function canBuy($company, $costs, $n = 1)
   {
-    // Handle major improvements that can be bought with another card
-    if (isset($costs['cards'])) {
-      $playerCards = $player->getCards($costs['cards']['type'])->getIds();
-      foreach ($costs['cards']['list'] as $cardId) {
-        if (in_array($cardId, $playerCards)) {
-          return true;
-        }
-      }
-    }
-
     // Compute all buyable combinations
     // NOTICE : can't use maxBuyableAmount since there can be gaps in buyable amounts !!
-    $combinations = self::computeAllBuyableCombinations($player, $costs);
+    $combinations = self::computeAllBuyableCombinations($company, $costs);
     return \array_reduce(
       $combinations,
       function ($acc, $combination) use ($n) {
@@ -305,10 +201,10 @@ class Pay extends \BRG\Models\Action
     );
   }
 
-  public static function maxBuyableAmount($player, $costs)
+  public static function maxBuyableAmount($company, $costs)
   {
     // Compute all buyable combinations
-    $combinations = self::computeAllBuyableCombinations($player, $costs);
+    $combinations = self::computeAllBuyableCombinations($company, $costs);
 
     // Reduce to get the max
     return \array_reduce(
@@ -324,9 +220,9 @@ class Pay extends \BRG\Models\Action
    * Compute all the possibles combinations that a player can buy
    * @param $target (opt) : keep only combinations with nb == target
    */
-  protected static function computeAllBuyableCombinations($player, $costs, $target = null, $ignoreResources = false)
+  protected static function computeAllBuyableCombinations($company, $costs, $target = null, $ignoreResources = false)
   {
-    $reserve = $player->getExchangeResources();
+    $reserve = $company->getExchangeResources();
 
     // Compute an artifical maxReserve to reduce computations by applying all potentially available bonuses
     $maxReserve = $reserve;
@@ -408,16 +304,6 @@ class Pay extends \BRG\Models\Action
     $combinations = [];
     foreach ($oldCombinations as $combination) {
       self::pushAux($combination, $combinations, $reserve, true, $ignoreResources);
-    }
-
-    // possibility to exchange one card for some major improvements
-    if (isset($costs['cards']['list']) && !empty($costs['cards']['list'])) {
-      $cards = $player->getCards()->getIds();
-      foreach ($cards as $card) {
-        if (in_array($card, $costs['cards']['list'])) {
-          $combinations[] = ['nb' => 1, 'card' => $card];
-        }
-      }
     }
 
     return $combinations;

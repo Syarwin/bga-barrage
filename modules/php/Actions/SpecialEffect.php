@@ -9,7 +9,7 @@ class SpecialEffect extends \BRG\Models\Action
     return ST_SPECIAL_EFFECT;
   }
 
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
     $args = $this->getCtxArgs();
     $card = PlayerCards::get($args['cardId']);

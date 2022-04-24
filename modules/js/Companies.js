@@ -52,6 +52,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return COMPANY_NAMES[companyId];
     },
 
+    coloredCompanyName(name) {
+      const company = Object.values(this.gamedatas.companies).find((company) => company.name == name);
+      if (company == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
+
+      const color = company.color;
+      let color_bg = ''; // TODO
+      if (color == 'ffffff') {
+        color_bg = 'background-color:#bbbbbb;';
+      }
+      return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
+    },
+
     tplPlayerBoard(company) {
       // prettier-ignore
       return `<div id="overall_player_board_${company.pId}" class="player-board" style="border-color: ${company.color};">

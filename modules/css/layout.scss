@@ -108,6 +108,11 @@
         background-size: auto 70%, 20px;
         background-repeat: no-repeat, repeat;
         background-position: center center;
+
+        font-size: 39px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
       }
 
       &.selectable {

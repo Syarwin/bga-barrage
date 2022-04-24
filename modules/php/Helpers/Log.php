@@ -109,10 +109,6 @@ class Log extends \APP_DbObject
     // Notify
     $datas = Game::get()->getAllDatas();
     Notifications::refreshUI($datas);
-    foreach (Players::getAll() as $player) {
-      Notifications::refreshHand($player, $player->getHand()->ui());
-    }
-
     return $moveIds;
   }
 

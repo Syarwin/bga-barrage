@@ -26,10 +26,10 @@ class SeqNode extends AbstractNode
    * WARNING: this is a very basic check that does not cover the case where the first action might make the second one doable
    *  -> maybe it would make more sense to only check first action ?
    */
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
-    return $this->childsReduceAnd(function ($child) use ($player, $ignoreResources) {
-      return $child->isDoable($player, $ignoreResources) || $child->isOptional();
+    return $this->childsReduceAnd(function ($child) use ($company, $ignoreResources) {
+      return $child->isDoable($company, $ignoreResources) || $child->isOptional();
     });
   }
 

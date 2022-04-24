@@ -2,6 +2,7 @@
 namespace BRG\States;
 use BRG\Core\Globals;
 use BRG\Managers\Players;
+use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\Actions;
@@ -26,11 +27,11 @@ trait ActionTrait
    */
   function argsAtomicAction()
   {
-    $player = Players::getActive();
+    $company = Companies::getActive();
     $action = $this->getCurrentAtomicAction();
     $node = Engine::getNextUnresolved();
     $args = Actions::getArgs($action, $node);
-    $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
+    $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($company);
     $args['previousEngineChoices'] = Globals::getEngineChoices();
     $this->addArgsAnytimeAction($args, $action);
 
@@ -46,7 +47,7 @@ trait ActionTrait
     if ($args['automaticAction'] ?? false) {
       return;
     }
-    $player = Players::getActive();
+    $company = Companies::getActive();
 
 /*
 TODO
@@ -74,7 +75,7 @@ TODO
     $anytimeActions = [];
     foreach ($listeningCards['childs'] as $flow) {
       $tree = Engine::buildTree($flow);
-      if ($tree->isDoable($player)) {
+      if ($tree->isDoable($company)) {
         $anytimeActions[] = [
           'flow' => $flow,
           'desc' => $flow['desc'] ?? $tree->getDescription(true),

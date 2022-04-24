@@ -115,10 +115,10 @@ trait RoundTrait
    ********************************/
   function argsResolveChoice()
   {
-    $player = Players::getActive();
+    $company = Companies::getActive();
     $args = [
-      'choices' => Engine::getNextChoice($player),
-      'allChoices' => Engine::getNextChoice($player, true),
+      'choices' => Engine::getNextChoice($company),
+      'allChoices' => Engine::getNextChoice($company, true),
       'previousEngineChoices' => Globals::getEngineChoices(),
     ];
     $this->addArgsAnytimeAction($args, 'resolveChoice');
@@ -127,8 +127,8 @@ trait RoundTrait
 
   function actChooseAction($choiceId)
   {
-    $player = Players::getActive();
-    Engine::chooseNode($player, $choiceId);
+    $company = Companies::getActive();
+    Engine::chooseNode($company, $choiceId);
   }
 
   public function stResolveStack()

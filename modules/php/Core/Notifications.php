@@ -41,32 +41,14 @@ class Notifications
     ]);
   }
 
-  // Remove extra information from cards
-  protected function filterCardDatas($card)
-  {
-    return [
-      'id' => $card['id'],
-      'location' => $card['location'],
-      'pId' => $card['pId'],
-      'state' => $card['state'],
-    ];
-  }
   public static function refreshUI($datas)
   {
     // Keep only the thing that matters
     $fDatas = [
       'meeples' => $datas['meeples'],
       'players' => $datas['players'],
-      'scores' => $datas['scores'],
-      'playerCards' => $datas['playerCards'],
+      //      'scores' => $datas['scores'],
     ];
-
-    foreach ($fDatas['playerCards'] as $i => $card) {
-      $fDatas['playerCards'][$i] = self::filterCardDatas($card);
-    }
-    foreach ($fDatas['players'] as &$player) {
-      $player['hand'] = []; // Hide hand !
-    }
 
     self::notifyAll('refreshUI', '', [
       'datas' => $fDatas,
@@ -91,18 +73,15 @@ class Notifications
     ]);
   }
 
-  public static function placeFarmer($player, $fId, $card, $source = null)
+  public static function placeEngineers($company, $engineers, $board)
   {
-    if ($source != null) {
-      $msg = clienttranslate('${player_name} places a person on card ${card_name} (${source})');
-    } else {
-      $msg = clienttranslate('${player_name} places a person on card ${card_name}');
-    }
-    self::notifyAll('placeFarmer', $msg, [
-      'card' => $card,
-      'player' => $player,
-      'farmer' => $fId,
-      'source' => $source,
+    $msg = clienttranslate('${company_name} places ${n} engineers on board ${board}');
+    self::notifyAll('placeEngineers', $msg, [
+      'i18n' => ['board'],
+      'company' => $company,
+      'n' => $engineers->count(),
+      'engineers' => $engineers->toArray(),
+      'board' => $board::getName(),
     ]);
   }
 
@@ -138,12 +117,11 @@ class Notifications
       unset($data['player']);
     }
 
-    if (isset($data['player2'])) {
-      $data['player_name2'] = $data['player2']->getName();
-      $data['player_id2'] = $data['player2']->getId();
-      unset($data['player2']);
+    if (isset($data['company'])) {
+      $data['company_name'] = $data['company']->getName();
+      $data['company_id'] = $data['company']->getId();
+      unset($data['company']);
     }
-
 
     if (isset($data['resources'])) {
       // Get an associative array $resource => $amount

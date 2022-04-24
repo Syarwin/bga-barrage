@@ -23,11 +23,11 @@ class OrNode extends AbstractNode
   /**
    * An OR node is doable if at least one of its child is doable (or if the OR node itself is optional)
    */
-  public function isDoable($player, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false)
   {
     return $this->isOptional() ||
-      $this->childsReduceOr(function ($child) use ($player, $ignoreResources) {
-        return $child->isDoable($player, $ignoreResources);
+      $this->childsReduceOr(function ($child) use ($company, $ignoreResources) {
+        return $child->isDoable($company, $ignoreResources);
       });
   }
 
