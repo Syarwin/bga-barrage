@@ -1,13 +1,5 @@
 <?php
-require_once("gameoptions.inc.php");
-
-/*
- * Game options
- */
-
-/*
- * User preferences
- */
+require_once 'gameoptions.inc.php';
 
 /*
  * State constants
@@ -16,14 +8,12 @@ const ST_GAME_SETUP = 1;
 
 const ST_FOO = 2;
 
-
 const ST_BEFORE_START_OF_ROUND = 4;
 const ST_START_OF_ROUND = 5;
 const ST_ACTION_PHASE = 7;
 const ST_RETURNING_HOME = 8;
 const ST_RESOLVE_STACK = 10;
 const ST_RESOLVE_CHOICE = 11;
-
 
 const ST_PLACE_ENGINEER = 20;
 const ST_GAIN = 21;
@@ -35,8 +25,6 @@ const ST_PLACE_DROPLET = 26;
 const ST_ROTATE_WHEEL = 27;
 const ST_TAKE_CONTRACT = 28;
 const ST_SPECIAL_EFFECT = 29;
-
-
 
 const ST_PRE_END_OF_TURN = 40;
 const ST_END_OF_TURN = 9;
@@ -50,7 +38,6 @@ const ST_GENERIC_NEXT_PLAYER = 97;
 const ST_PRE_END_OF_GAME = 98;
 const ST_END_GAME = 99;
 
-
 /*
  * ENGINE
  */
@@ -63,10 +50,8 @@ const NODE_LEAF = 'leaf';
 const ZOMBIE = 98;
 const PASS = 99;
 
-
 const INFTY = 9999;
 const NO_COST = ['trades' => [['max' => 1]]];
-
 
 /**
  * Map
@@ -75,11 +60,9 @@ const MAP_BASE = 1;
 const MAP_5P = 2;
 const MAP_2P = 3;
 
-
- const MOUNTAIN = 'mountain';
- const HILL = 'hill';
- const PLAIN = 'plain';
-
+const MOUNTAIN = 'mountain';
+const HILL = 'hill';
+const PLAIN = 'plain';
 
 // HeadstreamTiles
 const HT_1 = 1;
@@ -90,7 +73,6 @@ const HT_5 = 5;
 const HT_6 = 6;
 const HT_7 = 7;
 const HT_8 = 8;
-
 
 /*
  * Companies
@@ -120,7 +102,6 @@ const XO_LESLIE = 13;
 const XO_WU = 14;
 const XO_OCTAVIUS = 14;
 const XO_AMIR = 15;
-
 
 /*
  * Types of ressources
@@ -154,7 +135,6 @@ const BOARD_WORSKHOP = 'workshop';
 const BOARD_MACHINERY_SHOP = 'machinery';
 const BOARD_CONTRACT = 'contract';
 
-
 /*
  * Atomic action
  */
@@ -168,7 +148,6 @@ const PLACE_DROPLET = 'PLACE_DROPLET';
 const ROTATE_WHEEL = 'ROTATE_WHEEL';
 const TAKE_CONTRACT = 'TAKE_CONTRACT';
 const SPECIAL_EFFECT = 'SPECIAL_EFFECT';
-
 
 /** ExtraDatas**/
 const BONUS_VP = 'bonusVP';

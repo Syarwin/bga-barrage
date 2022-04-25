@@ -3,7 +3,7 @@ namespace BRG\Actions;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Game;
-use BRG\Managers\Players;
+use BRG\Managers\companys;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Helpers\Utils;
@@ -94,7 +94,6 @@ class Pay extends \BRG\Models\Action
   {
     // Sanity checks
     self::checkAction('actPay', $isAuto);
-    /*
     $args = $this->argsPay();
     if (!in_array($cost, $args['combinations'])) {
       throw new \BgaVisibleSystemException('Cost not authorized');
@@ -135,7 +134,6 @@ class Pay extends \BRG\Models\Action
         Notifications::payResources($company, $deleted, $args['source'], $cost['sources'] ?? [], $args['cardNames']);
       }
     }
-    */
 
     // Resolve the node
     $this->resolveAction(['cost' => $cost]);
@@ -212,17 +210,17 @@ class Pay extends \BRG\Models\Action
       function ($acc, $combination) {
         return max($acc, $combination['nb'] ?? -1);
       },
-      -1 // -1 instead of 0 to distinguish the case where player can afford the fee or not
+      -1 // -1 instead of 0 to distinguish the case where company can afford the fee or not
     );
   }
 
   /**
-   * Compute all the possibles combinations that a player can buy
+   * Compute all the possibles combinations that a company can buy
    * @param $target (opt) : keep only combinations with nb == target
    */
   protected static function computeAllBuyableCombinations($company, $costs, $target = null, $ignoreResources = false)
   {
-    $reserve = $company->getExchangeResources();
+    $reserve = $company->getAllReserveResources();
 
     // Compute an artifical maxReserve to reduce computations by applying all potentially available bonuses
     $maxReserve = $reserve;

@@ -88,24 +88,39 @@ abstract class AbstractActionBoard
       return !isset($space['cId']) || $space['cId'] == $company->getId();
     });
 
+    // Handle cost
+    foreach ($spaces as &$space) {
+      if (($space['cost'] ?? 0) == 0) {
+        continue;
+      }
+
+      $flow = $space['flow'];
+      $flow = [
+        'type' => NODE_SEQ,
+        'childs' => [self::payNode([CREDIT => $space['cost']]), $flow],
+      ];
+
+/*
+      if (isset($flow['action'])) {
+        $flow = [
+          'type' => NODE_SEQ,
+          'childs' => [self::payNode([CREDIT => $space['cost']]), $flow],
+        ];
+      } else if($flow['type'] == NODE_SEQ){
+        if($flow['childs'][0]['action'] == PAY){
+          $flow['childs'][0]['args'][CREDIT];
+
+        }
+      } else {
+        die("test");
+      }
+*/
+      $space['flow'] = $flow;
+    }
+
     return $spaces;
   }
 
-  /**
-   * Tag all the subtree flow with the information about this card so we can access it in the ctx later
-   *
-  protected function tagTree($t, $player)
-  {
-    $t['cardId'] = $this->id;
-    $t['pId'] = $player->getId();
-    if (isset($t['childs'])) {
-      $t['childs'] = array_map(function ($child) use ($player) {
-        return $this->tagTree($child, $player);
-      }, $t['childs']);
-    }
-    return $t;
-  }
-  */
 
   /*
   public function getFlow($player)

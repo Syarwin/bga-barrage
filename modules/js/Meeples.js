@@ -157,6 +157,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     /**
+     * Pay resources for an action
+     */
+    notif_payResources(n) {
+      debug('Notif: paying resoures', n);
+      this.slideResources(n.args.resources, (meeple) => ({
+        target: 'page-title',
+        destroy: true,
+      }));
+    },
+
+    /**
+     * Gain resources (create them from the reserve)
+     */
+    notif_gainResources(n) {
+      debug('Notif: gain resoures', n);
+      this.slideResources(n.args.resources, {
+        from: n.args.spaceId ? n.args.spaceId : 'page-title',
+      });
+    },
+
+    /**
      * Replace some expressions by corresponding html formating
      */
     formatString(str) {

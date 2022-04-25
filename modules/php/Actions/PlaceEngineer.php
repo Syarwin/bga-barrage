@@ -44,22 +44,32 @@ class PlaceEngineer extends \BRG\Models\Action
         continue;
       }
 
-      // Handle cost
-      if(($space['cost'] ?? 0) > 0){
-        $flow = $space['flow']; // TODO
-      }
-
-      /*
+      $flow = $space['flow'];
+      
       // Check that the action is doable
-      $flow = $this->getFlow($player);
-      $flowTree = Engine::buildTree($flow);
-      return $flowTree->isDoable($company);
-  */
-
-      $spaces[$space['uid']] = $space;
+      $space['flow'] = self::tagTree($flow, $company->getId(), $space['uid']);
+      $flowTree = Engine::buildTree($space['flow']);
+      if ($flowTree->isDoable($company)) {
+        $spaces[$space['uid']] = $space;
+      }
     }
 
     return $spaces;
+  }
+
+  /**
+   * Tag all the subtree flow with the information about the space so we can access it in the ctx later
+   */
+  protected function tagTree($t, $cId, $spaceId)
+  {
+    $t['spaceId'] = $spaceId;
+    $t['cId'] = $cId;
+    if (isset($t['childs'])) {
+      $t['childs'] = array_map(function ($child) use ($cId, $spaceId) {
+        return self::tagTree($child, $cId, $spaceId);
+      }, $t['childs']);
+    }
+    return $t;
   }
 
   /**

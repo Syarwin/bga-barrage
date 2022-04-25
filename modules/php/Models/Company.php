@@ -87,10 +87,54 @@ class Company extends \BRG\Helpers\DB_Model
     return Actions::isDoable($action, $ctx, $this, $ignoreResources);
   }
 
-  public function getExchangeResources()
+  /////////////////////////////////////////////////////
+  //  ____
+  // |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+  // | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+  // |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+  // |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+  //
+  /////////////////////////////////////////////////////
+
+  public function getAllReserveResources()
   {
-    return []; // TODO
-    //die("test");
+    $reserve = [];
+    foreach (RESOURCES as $res) {
+      $reserve[$res] = 0;
+    }
+
+    foreach (Meeples::getInReserve($this->id) as $meeple) {
+      if (in_array($meeple['type'], RESOURCES)) {
+        $reserve[$meeple['type']]++;
+      }
+    }
+
+    return $reserve;
+  }
+
+  public function getReserveResource($type = null)
+  {
+    return Meeples::getInReserve($this->id, $type);
+  }
+
+  public function countReserveResource($type)
+  {
+    return $this->getReserveResource($type)->count();
+  }
+
+  public function createResourceInReserve($type, $nbr = 1)
+  {
+    return Meeples::createResourceInReserve($this->id, $type, $nbr);
+  }
+
+  public function useResource($resource, $amount)
+  {
+    return Meeples::useResource($this->id, $resource, $amount);
+  }
+
+  public function payResourceTo($pId, $resource, $amount)
+  {
+    return Meeples::payResourceTo($this->id, $resource, $amount, $pId);
   }
 
   //////////////////////////////////////////////////////
@@ -104,7 +148,7 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function getAvailableEngineers()
   {
-    return Meeples::getInReserve($this->id, [ENGINEER, ARCHITECT]);
+    return $this->getReserveResource([ENGINEER, ARCHITECT]);
   }
 
   public function countAvailableEngineers()
@@ -123,6 +167,6 @@ class Company extends \BRG\Helpers\DB_Model
     foreach ($engineerIds as $i => $id) {
       Meeples::move($id, $spaceId, $i);
     }
-    return Meeples::get($engineerIds);
+    return Meeples::getMany($engineerIds);
   }
 }

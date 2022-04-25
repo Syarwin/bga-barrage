@@ -151,8 +151,8 @@ trait RoundTrait
   public function stConfirmTurn()
   {
     // Check user preference to bypass if DISABLED is picked
-    $pref = Players::getActive()->getPref(OPTION_CONFIRM);
-    if ($pref == OPTION_CONFIRM_DISABLED) {
+    $pref = Players::getActive()->getPref(\BRG\OPTION_CONFIRM);
+    if ($pref == \BRG\OPTION_CONFIRM_DISABLED) {
       $this->actConfirmTurn();
     }
   }

@@ -65,6 +65,29 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actChooseAction()
+  {
+    self::setAjaxMode();
+    $choiceId = self::getArg('id', AT_int, true);
+    $result = $this->game->actChooseAction($choiceId);
+    self::ajaxResponse();
+  }
+
+  public function actPassOptionalAction()
+  {
+    self::setAjaxMode();
+    $result = $this->game->actPassOptionalAction();
+    self::ajaxResponse();
+  }
+
+  public function actAnytimeAction()
+  {
+    self::setAjaxMode();
+    $choiceId = self::getArg('id', AT_int, true);
+    $result = $this->game->actAnytimeAction($choiceId);
+    self::ajaxResponse();
+  }
+
   public function actTakeAtomicAction()
   {
     self::setAjaxMode();

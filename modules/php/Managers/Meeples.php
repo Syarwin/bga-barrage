@@ -93,6 +93,87 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::getFilteredQuery($cId, 'reserve', $type)->get();
   }
 
+  /*************************** Resource management ***********************/
+  public function useResource($cId, $resourceType, $amount)
+  {
+    $deleted = [];
+    if ($amount == 0) {
+      return [];
+    }
+
+    $resource = self::getInReserve($cId, $resourceType);
+    if ($resource->count() < $amount) {
+      throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
+    }
+
+    foreach ($resource as $id => $res) {
+      $deleted[] = $res;
+      self::DB()->delete($id);
+      $amount--;
+      if ($amount == 0) {
+        break;
+      }
+    }
+
+    return $deleted;
+  }
+
+  /*
+  public function payResourceTo($player_id, $resourceType, $amount, $otherPlayer)
+  {
+    $moved = [];
+    if ($amount == 0) {
+      return [];
+    }
+
+    // $resource = self::getReserveResource($player_id, $resourceType);
+    $resource = self::getResourceOfType($player_id, $resourceType);
+
+    if (count($resource) < $amount) {
+      throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
+    }
+
+    foreach ($resource as $id => $res) {
+      self::DB()->update(
+        [
+          'player_id' => $otherPlayer,
+          'meeple_location' => 'reserve',
+        ],
+        $id
+      );
+      $res['pId'] = $otherPlayer;
+      $moved[] = $res;
+      // self::DB()->delete($id);
+      $amount--;
+      if ($amount == 0) {
+        break;
+      }
+    }
+    return $moved;
+  }
+*/
+
+  public function createResourceInLocation($type, $location, $cId, $nbr = 1, $state = null)
+  {
+    $meeples = [
+      [
+        'type' => $type,
+        'company_id' => $cId,
+        'location' => $location,
+        'nbr' => $nbr,
+        'state' => $state,
+      ],
+    ];
+
+    $ids = self::create($meeples);
+    return self::getMany($ids);
+  }
+
+  public function createResourceInReserve($cId, $type, $nbr = 1)
+  {
+    return self::createResourceInLocation($type, 'reserve', $cId, $nbr);
+  }
+
   //   ___  _     ____
   //  / _ \| |   |  _ \
   // | | | | |   | | | |
@@ -164,94 +245,9 @@ class Meeples extends \BRG\Helpers\Pieces
     return $roomsType[0];
   }
 
-  /*************************** Resource management ***********************/
-  public function useResource($player_id, $resourceType, $amount)
-  {
-    $deleted = [];
-    if ($amount == 0) {
-      return [];
-    }
-
-    // $resource = self::getReserveResource($player_id, $resourceType);
-    $resource = self::getResourceOfType($player_id, $resourceType);
-
-    if (count($resource) < $amount) {
-      throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
-    }
-
-    foreach ($resource as $id => $res) {
-      $deleted[] = $res;
-      self::DB()->delete($id);
-      $amount--;
-      if ($amount == 0) {
-        break;
-      }
-    }
-
-    return $deleted;
-  }
-
-  public function payResourceTo($player_id, $resourceType, $amount, $otherPlayer)
-  {
-    $moved = [];
-    if ($amount == 0) {
-      return [];
-    }
-
-    // $resource = self::getReserveResource($player_id, $resourceType);
-    $resource = self::getResourceOfType($player_id, $resourceType);
-
-    if (count($resource) < $amount) {
-      throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
-    }
-
-    foreach ($resource as $id => $res) {
-      self::DB()->update(
-        [
-          'player_id' => $otherPlayer,
-          'meeple_location' => 'reserve',
-        ],
-        $id
-      );
-      $res['pId'] = $otherPlayer;
-      $moved[] = $res;
-      // self::DB()->delete($id);
-      $amount--;
-      if ($amount == 0) {
-        break;
-      }
-    }
-    return $moved;
-  }
-
-  public function createResourceInLocation($type, $location, $player_id, $x, $y, $nbr = 1, $state = null)
-  {
-    $meeples = [
-      [
-        'type' => $type,
-        'player_id' => $player_id,
-        'location' => $location,
-        'x' => $x,
-        'y' => $y,
-        'nbr' => $nbr,
-        'state' => $state,
-      ],
-    ];
-
-    $ids = self::create($meeples);
-    self::updateMaxima();
-    return $ids;
-  }
-
   public function createResourceOnCard($type, $location, $nbr = 1, $state = null)
   {
     return self::createResourceInLocation($type, $location, 0, null, null, $nbr, $state);
-  }
-
-  // Default function to create a resource in reserve
-  public function createResourceInReserve($pId, $type, $nbr = 1)
-  {
-    return self::createResourceInLocation($type, 'reserve', $pId, null, null, $nbr);
   }
 
   public static function getOnCardQ($cId, $pId = null)
@@ -345,49 +341,6 @@ class Meeples extends \BRG\Helpers\Pieces
       $query = $query->where('type', $type);
     }
     return $query->get();
-  }
-
-  public function getResourceOfType($pId, $type)
-  {
-    $query = self::getSelectQuery()
-      ->wherePlayer($pId)
-      ->where('type', $type)
-      ->where('meeple_location', 'NOT LIKE', 'turn_%')
-      ->orderBy('meeple_location', 'DESC');
-
-    return $query->get();
-
-    /*
-TODO : smart choice for animals
-public function getNextSheep()
-{
-  // Try to find a sheep on the player board
-  $zones = $this->getPlayer()->board()->getAnimalsDropZonesWithAnimals();
-
-  // Sort rooms first, then stable, then pasture
-  usort($zones, function ($a, $b) {
-    $map = [
-      'D148_special' => 3,
-      'room' => 2,
-      'stable' => 1,
-      'pasture' => 0,
-    ];
-    return $map[$b['type']] - $map[$a['type']];
-  });
-
-  foreach ($zones as &$zone) {
-    if ($zone[SHEEP] > 0) {
-      foreach ($zone['meeples'] as $meeple) {
-        if ($meeple['type'] == SHEEP) {
-          return $meeple;
-        }
-      }
-    }
-  }
-
-  return null;
-}
-*/
   }
 
   public function countReserveResource($pId, $type = null)

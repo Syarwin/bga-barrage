@@ -159,6 +159,11 @@ class AbstractNode
     return $this->infos['cId'] ?? null;
   }
 
+  public function getSpaceId()
+  {
+    return $this->infos['spaceId'] ?? null;
+  }
+
   public function getType()
   {
     return $this->infos['type'] ?? NODE_LEAF;

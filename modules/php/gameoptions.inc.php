@@ -34,3 +34,12 @@ const COMPANY_GERMANY = 2;
 const COMPANY_ITALY = 3;
 const COMPANY_FRANCE = 4;
 const COMPANY_NETHERLANDS = 5;
+
+
+/**
+ * User preferences
+ */
+const OPTION_CONFIRM = 103;
+const OPTION_CONFIRM_DISABLED = 0;
+const OPTION_CONFIRM_TIMER = 1;
+const OPTION_CONFIRM_ENABLED = 2;

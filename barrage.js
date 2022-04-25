@@ -30,17 +30,20 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.barrage', [customgame.game, barrage.companies, barrage.meeples], {
     constructor() {
-      this._activeStates = ['placeEngineer'];
+      this._activeStates = ['placeEngineer', 'payResources', 'resolveChoice', 'confirmTurn', 'confirmPartialTurn'];
       this._notifications = [
         ['clearTurn', 1],
         ['refreshUI', 1],
         ['placeEngineers', null],
+        ['payResources', null],
+        ['gainResources', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
       this.default_viewport = 'width=900';
 
       this._settingsConfig = {
+        confirmMode: { type: 'pref', prefId: 103 },
         layout: {
           default: 0,
           name: _('Layout'),

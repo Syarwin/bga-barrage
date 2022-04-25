@@ -85,6 +85,41 @@ class Notifications
     ]);
   }
 
+  public static function payResources($company, $resources, $source, $cardSources = [], $cardNames = [])
+  {
+    $data = [
+      'i18n' => ['source'],
+      'company' => $company,
+      'resources' => $resources,
+      'source' => $source,
+    ];
+    $msg = clienttranslate('${company_name} pays ${resources_desc} for ${source}');
+
+    // Card sources modifiers
+    if (!empty($cardSources)) {
+      die('TODO NOTIF PAY');
+    }
+
+    self::notifyAll('payResources', $msg, $data);
+  }
+
+  public static function gainResources($company, $meeples, $spaceId = null, $source = null)
+  {
+    if ($source != null) {
+      $msg = clienttranslate('${company_name} gains ${resources_desc} (${source})');
+    } else {
+      $msg = clienttranslate('${company_name} gains ${resources_desc}');
+    }
+
+    self::notifyAll('gainResources', $msg, [
+      'i18n' => ['source'],
+      'company' => $company,
+      'resources' => $meeples,
+      'spaceId' => $spaceId,
+      'source' => $source,
+    ]);
+  }
+
   /*********************
    **** UPDATE ARGS ****
    *********************/

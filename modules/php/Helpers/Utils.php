@@ -29,25 +29,17 @@ abstract class Utils extends \APP_DbObject
     throw new \BgaVisibleSystemException(json_encode($args));
   }
 
-  public function filterExchanges(&$exchanges, $trigger = ANYTIME, $removeAnytime = false)
-  {
-    self::filter($exchanges, function ($exchange) use ($trigger, $removeAnytime) {
-      return (is_null($exchange['triggers']) && ($trigger == ANYTIME || !$removeAnytime)) ||
-        (is_array($exchange['triggers']) && in_array($trigger, $exchange['triggers']));
-    });
-  }
-
   /**
    * Reduce an array of meeples into a nice associative array $resource => $amount
    */
   public static function reduceResources($meeples)
   {
-    $allResources = array_merge(RESOURCES, [FIELD], ROOMS);
+    $allResources = RESOURCES;
     $t = [];
     foreach ($allResources as $resource) {
       $t[$resource] = 0;
     }
-
+    
     foreach ($meeples as $meeple) {
       $t[$meeple['type']]++;
     }
@@ -62,7 +54,7 @@ abstract class Utils extends \APP_DbObject
   {
     $descs = [];
     foreach ($resources as $resource => $amount) {
-      if (in_array($resource, ['sources', 'sourcesDesc', 'pId'])) {
+      if (in_array($resource, ['sources', 'sourcesDesc', 'cId'])) {
         continue;
       }
 
@@ -72,49 +64,6 @@ abstract class Utils extends \APP_DbObject
       $descs[] = $amount . '<' . strtoupper($resource) . '>';
     }
     return implode(',', $descs);
-  }
-
-  /**
-   * Intersect two arrays of obj with keys x,y
-   */
-  public static function intersectZones($arr1, $arr2)
-  {
-    return array_values(
-      \array_uintersect($arr1, $arr2, function ($a, $b) {
-        return $a['x'] == $b['x'] ? $a['y'] - $b['y'] : $a['x'] - $b['x'];
-      })
-    );
-  }
-
-  // $onlyNew allow to distinguish subdivided pastures from fresh new pasture
-  public static function diffPastures($newP, $oldP, $onlyNew)
-  {
-    $pastures = [];
-    foreach ($newP as $p1) {
-      $found = false;
-      foreach ($oldP as $p2) {
-        if ($onlyNew || count($p1['nodes']) == count($p2['nodes'])) {
-          $allIn = true;
-          foreach ($p1['nodes'] as $n) {
-            if (!in_array($n, $p2['nodes'])) {
-              $allIn = false;
-              break;
-            }
-          }
-
-          if ($allIn) {
-            $found = true;
-            break;
-          }
-        }
-      }
-
-      if (!$found) {
-        $pastures[] = $p1;
-      }
-    }
-
-    return $pastures;
   }
 
   public static function formatCost($cost)

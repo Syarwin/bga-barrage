@@ -1,7 +1,7 @@
 <?php
 namespace BRG\Actions;
 use BRG\Managers\Meeples;
-use BRG\Managers\Players;
+use BRG\Managers\Companies;
 use BRG\Core\Notifications;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
@@ -29,48 +29,35 @@ class Gain extends \BRG\Models\Action
     return true;
   }
 
-  public function getPlayer()
+  public function getCompany()
   {
     $args = $this->getCtxArgs();
-    $pId = $args['pId'] ?? Players::getActiveId();
-    return Players::get($pId);
+    $cId = $args['cId'] ?? Companies::getActiveId();
+    return Companies::get($cId);
   }
 
   public function stGain()
   {
-    die("todo");
-
-    /*
-    $player = $this->getPlayer();
+    $company = $this->getCompany();
     $args = $this->getCtxArgs();
-    $cardId = $this->ctx->getCardId();
+    $spaceId = $this->ctx->getSpaceId();
     $source = $this->ctx->getSource();
 
     // Create resources
     $meeples = [];
     foreach ($args as $resource => $amount) {
-      if (in_array($resource, ['cardId', 'skipReorganize', 'pId'])) {
+      if (in_array($resource, ['spaceId', 'cId'])) {
         continue;
       }
-      $meeples = array_merge($meeples, $player->createResourceInReserve($resource, $amount));
-      $statName = 'inc' . ($source == null ? 'Board' : 'Cards') . ucfirst($resource);
-      Stats::$statName($player, $amount);
 
-      if ($resource == GRAIN && $player->hasPlayedCard('C86_LivestockFeeder')) {
-        Notifications::updateDropZones($player);
-      }
+      $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
+      // TODO $statName = 'inc' . ($source == null ? 'Board' : 'Cards') . ucfirst($resource);
+      // Stats::$statName($player, $amount);
     }
 
-    // Auto reorganize if needed (return true if need to enter the state to confirm)
-    $reorganize = $player->checkAutoReorganize($meeples);
     // Notify
-    Notifications::gainResources($player, $meeples, $cardId, $source);
-    $player->updateObtainedResources($meeples);
-    if (!($args['skipReorganize'] ?? false)) {
-      $player->checkAnimalsInReserve($reorganize);
-    }
+    Notifications::gainResources($company, $meeples, $spaceId, $source);
     $this->resolveAction();
-    */
   }
 
   public function getDescription($ignoreResources = false)
