@@ -63,6 +63,7 @@ const MAP_2P = 3;
 const MOUNTAIN = 'mountain';
 const HILL = 'hill';
 const PLAIN = 'plain';
+const AREAS = [MOUNTAIN, HILL, PLAIN];
 
 // HeadstreamTiles
 const HT_1 = 1;
@@ -77,6 +78,7 @@ const HT_8 = 8;
 /*
  * Companies
  */
+const COMPANY_NEUTRAL = 0;
 const COMPANY_USA = 1;
 const COMPANY_GERMANY = 2;
 const COMPANY_ITALY = 3;

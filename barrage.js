@@ -71,9 +71,8 @@ define([
 
       this.setupActionBoards();
       this.setupCompanies();
-      this.setupMeeples();
-
       this.setupMap();
+      this.setupMeeples();
 
       this.inherited(arguments);
     },

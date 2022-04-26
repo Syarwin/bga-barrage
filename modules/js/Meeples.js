@@ -65,17 +65,33 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     getMeepleContainer(meeple) {
+      // Meeples in reserve (machines, credits)
       if (meeple.location == 'reserve') {
         let reserve = $(`reserve_${meeple.cId}_${meeple.type}`);
         if (reserve == null) {
           reserve = 'reserve-' + meeple.cId;
         }
         return reserve;
-      } else if (meeple.location == 'company') {
+      }
+      // Meeples in reserve on company boards
+      else if (meeple.location == 'company') {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
-      } else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
+      }
+      // Meeples on action space (engineer)
+      else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
         let nChild = parseInt(meeple.state) + 1;
         return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
+      }
+      // Base and elevation on board
+      else if (
+        ['base', 'elevation'].includes(meeple.type) &&
+        $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`)
+      ) {
+        return $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`);
+      }
+      // Droplets
+      else if(meeple.type == 'droplet'){
+        return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);        
       }
 
       console.error('Trying to get container of a meeple', meeple);

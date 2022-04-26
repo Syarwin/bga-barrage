@@ -25,7 +25,6 @@ class Meeples extends \BRG\Helpers\Pieces
   public static function getUiData()
   {
     return self::getSelectQuery()
-      ->orderBy('meeple_state')
       ->get()
       ->toArray();
   }

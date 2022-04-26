@@ -181,34 +181,39 @@ html {
   margin-right: -10%;
   margin-bottom: -10%; }
   .barrage-meeple.meeple-credit {
-    min-width: 0.9662em;
+    width: 0.9662em;
     height: 1em;
     background-position: 0% 17.7704%;
     background-size: 898.246%; }
   .barrage-meeple.meeple-excavator {
-    min-width: 1.2458em;
+    width: 1.1526em;
     height: 1.2289em;
-    background-position: 22.0068% 0%;
-    background-size: 696.599%; }
+    background-position: 21.7342% 0%;
+    background-size: 752.941%; }
   .barrage-meeple.meeple-mixer {
-    min-width: 0.7797em;
+    width: 0.7797em;
     height: 1.2034em;
-    background-position: 36.4807% 0%;
+    background-position: 35.3004% 0%;
     background-size: 1113.04%; }
+  .barrage-meeple.meeple-droplet {
+    width: 2.08em;
+    height: 2.42em;
+    background-position: 81.087% 0%;
+    background-size: 984.615%; }
   .barrage-meeple.meeple-engineer[data-company='1'] {
     width: 0.6865em;
     height: 1.1441em;
-    background-position: 71.6861% 0%;
+    background-position: 70.5196% 0%;
     background-size: 1264.2%; }
   .barrage-meeple.meeple-engineer[data-company='2'] {
     width: 0.695em;
     height: 1.195em;
-    background-position: 45.8599% 0%;
+    background-position: 44.6921% 0%;
     background-size: 1248.78%; }
   .barrage-meeple.meeple-engineer[data-company='3'] {
     width: 0.695em;
     height: 1.1865em;
-    background-position: 54.5648% 0%;
+    background-position: 53.397% 0%;
     background-size: 1248.78%; }
   .barrage-meeple.meeple-engineer[data-company='4'] {
     width: 0.6865em;
@@ -218,117 +223,117 @@ html {
   .barrage-meeple.meeple-engineer[data-company='5'] {
     width: 0.678em;
     height: 1.1611em;
-    background-position: 63.1356% 0%;
+    background-position: 61.9703% 0%;
     background-size: 1280%; }
   .barrage-meeple.meeple-base[data-company='0'] {
-    min-width: 3.6286em;
-    height: 3.1429em;
-    background-position: 0% 30.5252%;
-    background-size: 806.299%; }
-  .barrage-meeple.meeple-base[data-company='1'] {
-    min-width: 3.6572em;
+    width: 3.6572em;
     height: 3.2em;
     background-position: 36.1607% 17.6535%;
     background-size: 800%; }
-  .barrage-meeple.meeple-base[data-company='2'] {
-    min-width: 3.6572em;
+  .barrage-meeple.meeple-base[data-company='1'] {
+    width: 3.6572em;
     height: 3.2em;
     background-position: 50.4464% 17.6535%;
     background-size: 800%; }
-  .barrage-meeple.meeple-base[data-company='3'] {
-    min-width: 3.6572em;
+  .barrage-meeple.meeple-base[data-company='2'] {
+    width: 3.6572em;
     height: 3.2em;
     background-position: 64.7321% 17.6535%;
     background-size: 800%; }
-  .barrage-meeple.meeple-base[data-company='4'] {
-    min-width: 3.6572em;
+  .barrage-meeple.meeple-base[data-company='3'] {
+    width: 3.6572em;
     height: 3.2em;
     background-position: 79.0179% 17.6535%;
     background-size: 800%; }
+  .barrage-meeple.meeple-base[data-company='4'] {
+    width: 3.6572em;
+    height: 3.2em;
+    background-position: 93.3036% 17.6535%;
+    background-size: 800%; }
   .barrage-meeple.meeple-base[data-company='5'] {
-    min-width: 3.6858em;
+    width: 3.6858em;
     height: 3.2572em;
     background-position: 21.7877% 17.6923%;
     background-size: 793.798%; }
   .barrage-meeple.meeple-elevation[data-company='0'] {
-    min-width: 3.7143em;
+    width: 3.7143em;
     height: 2.8286em;
-    background-position: 95.5257% 42.0541%;
+    background-position: 95.5257% 42.1622%;
     background-size: 787.692%; }
   .barrage-meeple.meeple-elevation[data-company='1'] {
-    min-width: 3.6286em;
+    width: 3.6286em;
     height: 2.8286em;
-    background-position: 0% 53.9459%;
+    background-position: 0% 54.0541%;
     background-size: 806.299%; }
   .barrage-meeple.meeple-elevation[data-company='2'] {
-    min-width: 3.6858em;
+    width: 3.6858em;
     height: 2.7715em;
-    background-position: 43.352% 53.8296%;
+    background-position: 43.352% 53.9374%;
     background-size: 793.798%; }
   .barrage-meeple.meeple-elevation[data-company='3'] {
-    min-width: 3.6858em;
+    width: 3.6858em;
     height: 2.7715em;
-    background-position: 57.7654% 53.8296%;
+    background-position: 57.7654% 53.9374%;
     background-size: 793.798%; }
   .barrage-meeple.meeple-elevation[data-company='4'] {
-    min-width: 3.6286em;
+    width: 3.6286em;
     height: 2.6858em;
-    background-position: 82.3857% 53.6559%;
+    background-position: 82.3857% 53.7634%;
     background-size: 806.299%; }
   .barrage-meeple.meeple-elevation[data-company='5'] {
-    min-width: 3.6858em;
+    width: 3.6858em;
     height: 2.8em;
-    background-position: 28.9385% 53.8877%;
+    background-position: 28.9385% 53.9957%;
     background-size: 793.798%; }
   .barrage-meeple.meeple-conduit[data-company='1'] {
-    min-width: 2.3143em;
+    width: 2.3143em;
     height: 3.2858em;
     background-position: 12.0891% 17.7118%;
     background-size: 1264.2%; }
   .barrage-meeple.meeple-conduit[data-company='2'] {
-    min-width: 2.2em;
+    width: 2.2em;
     height: 3.1715em;
-    background-position: 88.2788% 17.6342%;
+    background-position: 0% 30.5586%;
     background-size: 1329.87%; }
   .barrage-meeple.meeple-conduit[data-company='3'] {
-    min-width: 2.2572em;
+    width: 2.2572em;
     height: 3.3715em;
-    background-position: 91.1111% 0%;
+    background-position: 89.9471% 0%;
     background-size: 1296.2%; }
   .barrage-meeple.meeple-conduit[data-company='4'] {
-    min-width: 2.0858em;
+    width: 2.0858em;
     height: 3.1715em;
-    background-position: 96.0042% 17.6342%;
+    background-position: 8.09674% 30.5586%;
     background-size: 1402.74%; }
   .barrage-meeple.meeple-conduit[data-company='5'] {
-    min-width: 2.2858em;
+    width: 2.2858em;
     height: 3.3715em;
-    background-position: 99.5763% 0%;
+    background-position: 98.411% 0%;
     background-size: 1280%; }
   .barrage-meeple.meeple-powerhouse[data-company='1'] {
-    min-width: 3.7715em;
+    width: 3.7715em;
     height: 2.8572em;
-    background-position: 55.9417% 42.0996%;
+    background-position: 55.9417% 42.2078%;
     background-size: 775.758%; }
   .barrage-meeple.meeple-powerhouse[data-company='2'] {
-    min-width: 3.8em;
+    width: 3.8em;
     height: 2.8858em;
-    background-position: 41.0774% 42.1452%;
+    background-position: 41.0774% 42.2535%;
     background-size: 769.925%; }
   .barrage-meeple.meeple-powerhouse[data-company='3'] {
-    min-width: 3.7715em;
+    width: 3.7715em;
     height: 2.8286em;
-    background-position: 14.2377% 53.9459%;
+    background-position: 14.2377% 54.0541%;
     background-size: 775.758%; }
   .barrage-meeple.meeple-powerhouse[data-company='4'] {
-    min-width: 3.7715em;
+    width: 3.7715em;
     height: 2.8572em;
-    background-position: 70.7399% 42.0996%;
+    background-position: 70.7399% 42.2078%;
     background-size: 775.758%; }
   .barrage-meeple.meeple-powerhouse[data-company='5'] {
-    min-width: 3.2572em;
+    width: 3.2572em;
     height: 2.4858em;
-    background-position: 19.8901% 63.8207%;
+    background-position: 19.8901% 63.9274%;
     background-size: 898.246%; }
 
 .action-board-icon .text {
@@ -900,7 +905,8 @@ html {
   border-radius: 29px;
   box-shadow: 1px 1px 3px black;
   border: 2px solid black;
-  position: relative; }
+  position: relative;
+  font-size: 21px; }
   #brg-map[data-map='1'] .headstream {
     width: 203px;
     height: 122px;
@@ -1099,12 +1105,12 @@ html {
     width: 73px;
     height: 59px;
     position: absolute;
-    background: blue;
-    opacity: 0.5;
     border-radius: 8px;
     border: 1px solid white; }
     #brg-map[data-map='1'] .dam-slot.paying {
       border: 1px solid red; }
+    #brg-map[data-map='1'] .dam-slot .meeple-elevation {
+      margin-top: -110%; }
     #brg-map[data-map='1'] .dam-slot[data-id='B1U'] {
       top: 259px;
       left: 123px; }
@@ -1165,5 +1171,72 @@ html {
     #brg-map[data-map='1'] .dam-slot[data-id='B10L'] {
       top: 1225px;
       left: 662px; }
+  #brg-map[data-map='1'] .basin {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    #brg-map[data-map='1'] .basin[data-id='B1U'] {
+      top: 150px;
+      left: 87px; }
+    #brg-map[data-map='1'] .basin[data-id='B1L'] {
+      top: 308px;
+      left: 89px; }
+    #brg-map[data-map='1'] .basin[data-id='B2U'] {
+      top: 157px;
+      left: 327px; }
+    #brg-map[data-map='1'] .basin[data-id='B2L'] {
+      top: 309px;
+      left: 322px; }
+    #brg-map[data-map='1'] .basin[data-id='B3U'] {
+      top: 178px;
+      left: 559px; }
+    #brg-map[data-map='1'] .basin[data-id='B3L'] {
+      top: 310px;
+      left: 562px; }
+    #brg-map[data-map='1'] .basin[data-id='B4U'] {
+      top: 185px;
+      left: 788px; }
+    #brg-map[data-map='1'] .basin[data-id='B4L'] {
+      top: 308px;
+      left: 792px; }
+    #brg-map[data-map='1'] .basin[data-id='B5U'] {
+      top: 629px;
+      left: 250px; }
+    #brg-map[data-map='1'] .basin[data-id='B5L'] {
+      top: 749px;
+      left: 247px; }
+    #brg-map[data-map='1'] .basin[data-id='B6U'] {
+      top: 625px;
+      left: 474px; }
+    #brg-map[data-map='1'] .basin[data-id='B6L'] {
+      top: 747px;
+      left: 488px; }
+    #brg-map[data-map='1'] .basin[data-id='B7U'] {
+      top: 630px;
+      left: 732px; }
+    #brg-map[data-map='1'] .basin[data-id='B7L'] {
+      top: 748px;
+      left: 737px; }
+    #brg-map[data-map='1'] .basin[data-id='B8U'] {
+      top: 1029px;
+      left: 127px; }
+    #brg-map[data-map='1'] .basin[data-id='B8L'] {
+      top: 1146px;
+      left: 129px; }
+    #brg-map[data-map='1'] .basin[data-id='B9U'] {
+      top: 1029px;
+      left: 375px; }
+    #brg-map[data-map='1'] .basin[data-id='B9L'] {
+      top: 1148px;
+      left: 376px; }
+    #brg-map[data-map='1'] .basin[data-id='B10U'] {
+      top: 1024px;
+      left: 636px; }
+    #brg-map[data-map='1'] .basin[data-id='B10L'] {
+      top: 1149px;
+      left: 626px; }
 
 /*# sourceMappingURL=barrage.css.map */

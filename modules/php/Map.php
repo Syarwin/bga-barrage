@@ -1,6 +1,8 @@
 <?php
 namespace BRG;
 use BRG\Core\Globals;
+use BRG\Helpers\Utils;
+use BRG\Managers\Meeples;
 
 class Map
 {
@@ -32,6 +34,30 @@ class Map
       $t[$hId] = $tiles[$i];
     }
     Globals::setHeadstreams($t);
+
+    // Put random neutral dams
+    $basins = self::$map->getBasinsByArea();
+    //    var_dump($basins);
+    $meeples = [];
+    foreach (AREAS as $i => $area) {
+      // Keep only bottom basins
+      Utils::filter($basins[$area], function ($basin) {
+        return $basin['cost'] == 0;
+      });
+      // Pick a random one
+      $key = array_rand($basins[$area]);
+      $basin = $basins[$area][$key];
+
+      // Create the base and elevations
+      $meeples[] = ['type' => BASE, 'company_id' => COMPANY_NEUTRAL, 'location' => $basin['id']];
+      for ($j = 0; $j < $i; $j++) {
+        $meeples[] = ['type' => ELEVATION, 'company_id' => COMPANY_NEUTRAL, 'location' => $basin['id']];
+      }
+
+      // Add droplet
+      $meeples[] = ['type' => DROPLET, 'location' => $basin['id']];
+    }
+    Meeples::create($meeples);
   }
 
   public static function getUiData()

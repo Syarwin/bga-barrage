@@ -45,9 +45,25 @@ abstract class AbstractMap
         $basins[$bId] = [
           'id' => $bId,
           'zone' => $zId,
+          'area' => $zone['area'],
           'cost' => strpos($bId, 'U') === false ? 0 : 3,
         ];
       }
+    }
+
+    return $basins;
+  }
+
+  public function getBasinsByArea()
+  {
+    $basins = [
+      MOUNTAIN => [],
+      HILL => [],
+      PLAIN => [],
+    ];
+
+    foreach (self::getBasins() as $basin) {
+      $basins[$basin['area']][] = $basin;
     }
 
     return $basins;
