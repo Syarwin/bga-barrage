@@ -200,24 +200,51 @@ class BaseMap extends AbstractMap
 
   public function getRivers()
   {
+    // return [
+    //   ['HA', 'B1U'],
+    //   ['HB', 'B2U'],
+    //   ['HC', 'B3U'],
+    //   ['HD', 'B4U'],
+    //
+    //   ['B1L', 'P8', 'B8U'],
+    //   ['B2L', 'P5', 'B5U'],
+    //   ['B3L', 'P6', 'B6U'],
+    //   ['B4L', 'P7', 'B7U'],
+    //
+    //   ['B5L', 'P9', 'B9U'],
+    //   ['B6L', 'P10', 'B10U'],
+    //   ['B7L', 'P10', 'B10U'],
+    //
+    //   ['B8L', 'P11', 'EXIT'],
+    //   ['B9L', 'P11', 'EXIT'],
+    //   ['B10L', 'P12', 'EXIT'],
+    // ];
     return [
-      ['HA', 'B1U'],
-      ['HB', 'B2U'],
-      ['HC', 'B3U'],
-      ['HD', 'B4U'],
+      'HA' => 'B1U',
+      'HB' => 'B2U',
+      'HC' => 'B3U',
+      'HD' => 'B4U',
+      'B1U' => 'B1L',
+      'B2U' => 'B2L',
+      'B3U' => 'B3L',
+      'B4U' => 'B4L',
+      'B1L' => 'B8U',
+      'B2L' => 'B5U',
+      'B3L' => 'B6U',
+      'B4L' => 'B7U',
 
-      ['B1L', 'P8', 'B8U'],
-      ['B2L', 'P5', 'B5U'],
-      ['B3L', 'P6', 'B6U'],
-      ['B4L', 'P7', 'B7U'],
-
-      ['B5L', 'P9', 'B9U'],
-      ['B6L', 'P10', 'B10U'],
-      ['B7L', 'P10', 'B10U'],
-
-      ['B8L', 'P11', 'EXIT'],
-      ['B9L', 'P11', 'EXIT'],
-      ['B10L', 'P12', 'EXIT'],
+      'B5U' => 'B5L',
+      'B6U' => 'B6L',
+      'B7U' => 'B7L',
+      'B5L' => 'B9U',
+      'B6L' => 'B10U',
+      'B7L' => 'B10U',
+      'B8U' => 'B8L',
+      'B9U' => 'B9L',
+      'B10U' => 'B10L',
+      'B8L' => 'EXIT',
+      'B9L' => 'EXIT',
+      'B10L' => 'EXIT',
     ];
   }
 }

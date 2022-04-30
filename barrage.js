@@ -37,6 +37,8 @@ define([
         ['placeEngineers', null],
         ['payResources', null],
         ['gainResources', null],
+        ['silentDestroy', null],
+        ['moveDroplet', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -179,6 +181,8 @@ define([
       map.basins.forEach((basin) => {
         this.place('tplBasin', basin, oMap);
       });
+
+      this.place('tplExit', '', oMap);
     },
 
     tplHeadstream(headstream) {
@@ -194,6 +198,10 @@ define([
     tplPowerhouseSlot(powerhouse) {
       let cost = powerhouse.cost > 0 ? 'paying' : '';
       return `<div class='powerhouse-slot ${cost}' data-zone="${powerhouse.zone}" data-id='${powerhouse.id}'></div>`;
+    },
+
+    tplExit() {
+      return `<div class='hidden' id='exit'></div>`;
     },
 
     tplBasin(basin) {

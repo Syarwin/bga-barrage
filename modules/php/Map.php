@@ -60,6 +60,12 @@ class Map
     Meeples::create($meeples);
   }
 
+  public static function get()
+  {
+    self::init();
+    return self::$map;
+  }
+
   public static function getUiData()
   {
     return [

@@ -111,11 +111,10 @@ const XO_AMIR = 15;
 const CREDIT = 'credit';
 const EXCAVATOR = 'excavator';
 const MIXER = 'mixer';
+const DROPLET = 'droplet';
 
 const MACHINERIES = [EXCAVATOR, MIXER];
-const RESOURCES = [CREDIT, EXCAVATOR, MIXER];
-
-const DROPLET = 'droplet';
+const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET];
 
 const BASE = 'base';
 const ELEVATION = 'elevation';

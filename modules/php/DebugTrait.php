@@ -19,6 +19,11 @@ trait DebugTrait
     $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
   }
 
+  public function vt()
+  {
+    $this->actTakeAtomicAction([['HC']]);
+  }
+
   function addResource($type, $qty = 1)
   {
     if (!in_array($type, RESOURCES)) {
@@ -226,10 +231,7 @@ trait DebugTrait
           $order[$cId2][$cId] = $symOp;
 
           // Add the edge
-          $edges[] = [
-            $op == '<'? $cId : $cId2,
-            $op == '<'? $cId2 : $cId,
-          ];
+          $edges[] = [$op == '<' ? $cId : $cId2, $op == '<' ? $cId2 : $cId];
         }
       }
     }
@@ -249,7 +251,7 @@ trait DebugTrait
     }
 
     $orderedCards = [];
-    foreach($topoOrder as $cId){
+    foreach ($topoOrder as $cId) {
       $orderedCards[] = $cards[$cId];
     }
 

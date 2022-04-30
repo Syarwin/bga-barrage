@@ -12,13 +12,12 @@ class Actions
     CONSTRUCT => 'Construct',
     PAY => 'Pay',
     PRODUCT => 'Product',
-    FULFILL_CONTRACT => 'FulfillContract',
+    // FULFILL_CONTRACT => 'FulfillContract', // TODO
     PLACE_DROPLET => 'PlaceDroplet',
     ROTATE_WHEEL => 'RotateWheel',
-    TAKE_CONTRACT => 'TakeContract',
+    // TAKE_CONTRACT => 'TakeContract', // TODO
     SPECIAL_EFFECT => 'SpecialEffect',
   ];
-
 
   public static function get($actionId, $ctx = null)
   {
