@@ -21,6 +21,20 @@ abstract class Utils extends \APP_DbObject
     return true;
   }
 
+  public function rand($array, $n = 1)
+  {
+    $keys = array_rand($array, $n);
+    if ($n == 1) {
+      $keys = [$keys];
+    }
+    $entries = [];
+    foreach ($keys as $key) {
+      $entries[] = $array[$key];
+    }
+
+    return $entries;
+  }
+
   public static function die($args = null)
   {
     if (is_null($args)) {
@@ -39,7 +53,7 @@ abstract class Utils extends \APP_DbObject
     foreach ($allResources as $resource) {
       $t[$resource] = 0;
     }
-    
+
     foreach ($meeples as $meeple) {
       $t[$meeple['type']]++;
     }

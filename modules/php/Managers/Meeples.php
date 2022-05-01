@@ -30,28 +30,28 @@ class Meeples extends \BRG\Helpers\Pieces
   }
 
   /* Creation of various meeples */
-  public static function setupNewGame($companies, $options)
+  public static function setupCompanies($companies)
   {
     $meeples = [];
-    foreach ($companies as $pId => $company) {
-      $meeples[] = ['type' => \ENGINEER, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 12];
-      $meeples[] = ['type' => \CREDIT, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 6];
-      $meeples[] = ['type' => \EXCAVATOR, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 6];
-      $meeples[] = ['type' => \MIXER, 'company_id' => $company, 'location' => 'reserve', 'nbr' => 4];
+    foreach ($companies as $cId => $company) {
+      $meeples[] = ['type' => \ENGINEER, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 12];
+      $meeples[] = ['type' => \CREDIT, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 6];
+      $meeples[] = ['type' => \EXCAVATOR, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 6];
+      $meeples[] = ['type' => \MIXER, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 4];
 
       // Structures
       for ($i = 0; $i < 5; $i++) {
-        $meeples[] = ['type' => BASE, 'company_id' => $company, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => ELEVATION, 'company_id' => $company, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => CONDUIT, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+        $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+        $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+        $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
         if ($i < 4) {
-          $meeples[] = ['type' => POWERHOUSE, 'company_id' => $company, 'location' => 'company', 'state' => $i];
+          $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
         }
         // TODO : expansion : create buildings
       }
     }
 
-    self::create($meeples);
+    return self::getMany(self::create($meeples));
   }
 
   /**

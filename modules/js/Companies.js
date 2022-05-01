@@ -22,46 +22,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     setupCompanies() {
-      this.forEachCompany((company) => {
-        company.color = COLOR_MAPPING[company.id];
-
-        // Add player board for Automas
-        if (company.ai) {
-          this.place('tplPlayerBoard', company, 'player_boards');
-        }
-
-        // Add additional info to player boards
-        this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
-
-        // Create company board
-        this.place('tplCompanyBoard', company, 'barrage-container');
-      });
-
+      this.forEachCompany((company) => this.setupCompany(company));
       this.setupCompaniesCounters();
     },
 
-    getCompanyName(companyId) {
-      const COMPANY_NAMES = {
-        1: _('USA'),
-        2: _('Germany'),
-        3: _('Italy'),
-        4: _('France'),
-        5: _('Netherlands'),
-      };
+    setupCompany(company) {
+      company.color = COLOR_MAPPING[company.id];
 
-      return COMPANY_NAMES[companyId];
-    },
-
-    coloredCompanyName(name) {
-      const company = Object.values(this.gamedatas.companies).find((company) => company.name == name);
-      if (company == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
-
-      const color = company.color;
-      let color_bg = ''; // TODO
-      if (color == 'ffffff') {
-        color_bg = 'background-color:#bbbbbb;';
+      // Add player board for Automas
+      if (company.ai) {
+        this.place('tplPlayerBoard', company, 'player_boards');
       }
-      return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
+
+      // Add additional info to player boards
+      this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
+
+      // Create company board
+      this.place('tplCompanyBoard', company, 'barrage-container');
     },
 
     tplPlayerBoard(company) {
@@ -183,20 +160,46 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       </div>`;
     },
 
+    getCompanyName(companyId) {
+      const COMPANY_NAMES = {
+        1: _('USA'),
+        2: _('Germany'),
+        3: _('Italy'),
+        4: _('France'),
+        5: _('Netherlands'),
+      };
+
+      return COMPANY_NAMES[companyId];
+    },
+
+    coloredCompanyName(name) {
+      const company = Object.values(this.gamedatas.companies).find((company) => company.name == name);
+      if (company == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
+
+      const color = company.color;
+      let color_bg = ''; // TODO
+      if (color == 'ffffff') {
+        color_bg = 'background-color:#bbbbbb;';
+      }
+      return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
+    },
+
     /**
      * Create all the counters for company panels
      */
     setupCompaniesCounters() {
       this._companyCounters = {};
       this._scoreCounters = {};
-      this.forEachCompany((company) => {
-        this._companyCounters[company.id] = {};
-        ALL_RESOURCES.forEach((res) => {
-          this._companyCounters[company.id][res] = this.createCounter('resource_' + company.id + '_' + res);
-        });
-        this._scoreCounters[company.id] = this.createCounter('company_score_' + company.id);
-      });
+      this.forEachCompany((company) => this.setupCompanyCounters(company));
       this.updateCompaniesCounters(false);
+    },
+
+    setupCompanyCounters(company) {
+      this._companyCounters[company.id] = {};
+      ALL_RESOURCES.forEach((res) => {
+        this._companyCounters[company.id][res] = this.createCounter('resource_' + company.id + '_' + res);
+      });
+      this._scoreCounters[company.id] = this.createCounter('company_score_' + company.id);
     },
 
     /**
@@ -213,6 +216,37 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           dojo.attr(reserve.parentNode, 'data-n', value);
         });
       });
+    },
+
+    onEnteringStatePickStart(args) {
+      Object.keys(args.matchups).forEach((i) => {
+        let matchup = args.matchups[i];
+        this.addPrimaryActionButton('btnMatchup' + i, _(matchup.cName) + ' & ' + _(matchup.xName), () =>
+          this.takeAction('actPickStart', { matchup: i, contract: 0 }),
+        );
+      });
+    },
+
+    notif_assignCompany(n) {
+      debug('Notif: assigning company to someone', n);
+      let company = n.args.datas;
+      company.color = COLOR_MAPPING[company.id];
+      let pId = n.args.player_id;
+      ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
+        $(id + this.gamedatas.players[pId].color).id = id + company.color;
+      });
+      $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
+      this.gamedatas.players[pId].color = company.color;
+      this.gamedatas.companies[n.args.company_id] = company;
+      this.setupCompany(company);
+      this.setupCompanyCounters(company);
+      this.updateCompaniesCounters();
+    },
+
+    notif_setupCompanies(n) {
+      debug('Notif: initializing companies meeples', n);
+      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      this.updateCompaniesCounters();
     },
   });
 });

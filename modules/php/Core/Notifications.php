@@ -66,6 +66,23 @@ class Notifications
     ]);
   }
 
+  public static function assignCompany($player, $company)
+  {
+    self::notifyAll('assignCompany', clienttranslate('${player_name} picks ${company_name}'), [
+      'player' => $player,
+      'company_name' => $company->getCname(),
+      'company_id' => $company->getId(),
+      'datas' => $company,
+    ]);
+  }
+
+  public static function setupCompanies($meeples)
+  {
+    self::notifyAll('setupCompanies', '', [
+      'meeples' => $meeples->toArray(),
+    ]);
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [

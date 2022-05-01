@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `name` varchar(32) NOT NULL,
   `score` int(10),
   `score_aux` int(10),
+  `xo` int(10),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -29,6 +30,23 @@ CREATE TABLE IF NOT EXISTS `meeples` (
   PRIMARY KEY (`meeple_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `technology_tiles` (
+  `tile_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tile_location` varchar(32) NOT NULL,
+  `tile_state` int(10),
+  `company_id` int(10) NULL,
+  `structure` varchar(32),
+  PRIMARY KEY (`tile_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `contracts` (
+  `contract_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contract_location` varchar(32) NOT NULL,
+  `contract_state` int(10),
+  `type` varchar(32),
+  PRIMARY KEY (`contract_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `global_variables` (

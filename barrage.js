@@ -37,6 +37,8 @@ define([
         ['placeEngineers', null],
         ['payResources', null],
         ['gainResources', null],
+        ['assignCompany', 1000],
+        ['setupCompanies', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)

@@ -19,11 +19,16 @@ class Globals extends \BRG\Helpers\DB_Manager
 
     // Game options
     'setup' => 'int',
+    'lWP' => 'bool',
     'map' => 'int',
 
     // Storage
     'headstreams' => 'obj',
+    'bonusTiles' => 'obj',
+    'objectiveTile' => 'int',
+    'startingMatchups' => 'obj', // Used for the setup "draft" phase
     'round' => 'int',
+
     'skippedCompanies' => 'obj',
   ];
 
@@ -148,6 +153,7 @@ class Globals extends \BRG\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSetup($options[\BRG\OPTION_SETUP]);
+    self::setLWP($options[\BRG\OPTION_EXPANSION_LWP] == \BRG\OPTION_EXPANSION_LWP_ON);
     self::setMap(MAP_BASE);
 
     self::setRound(0);
@@ -156,10 +162,5 @@ class Globals extends \BRG\Helpers\DB_Manager
   public static function isBeginner()
   {
     return self::getSetup() == \BRG\OPTION_SETUP_BEGINNER;
-  }
-
-  public static function isLWP()
-  {
-    return self::getSetup() == \BRG\OPTION_SETUP_LWP;
   }
 }

@@ -27,13 +27,41 @@ $game_options = [
         'tmdisplay' => totranslate('[Introductory]'),
       ],
       OPTION_SETUP_STANDARD => [
-        'name' => totranslate('Advanced rules'),
+        'name' => totranslate('Standard'),
         'nobeginner' => true,
       ],
-      OPTION_SETUP_LWP => [
-        'name' => totranslate('The Leeghwater Project expansion'),
+      OPTION_SETUP_FREE => [
+        'name' => totranslate('Free setup'),
+        'tmdisplay' => totranslate('Choose freely among the available companies and officers'),
+        'nobeginner' => true,
+      ],
+      OPTION_SETUP_SEED => [
+        'name' => totranslate('Seed mode - replay a game'),
+        'tmdisplay' => totranslate(
+          'Use the same setup as in an already finished game - YOU NEED A SEED TO PLAY THAT MODE'
+        ),
+        'nobeginner' => true,
+      ],
+    ],
+  ],
+
+  OPTION_EXPANSION_LWP => [
+    'name' => totranslate('The Leeghwater Project expansion'),
+    'values' => [
+      OPTION_EXPANSION_LWP_OFF => [
+        'name' => totranslate('Disabled'),
+      ],
+      OPTION_EXPANSION_LWP_ON => [
+        'name' => totranslate('Enabled'),
         'tmdisplay' => totranslate('[LWP]'),
         'nobeginner' => true,
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroptionisnot',
+        'id' => OPTION_SETUP,
+        'value' => [OPTION_SETUP_BEGINNER],
       ],
     ],
   ],
@@ -97,312 +125,6 @@ $game_options = [
           'value' => 4,
           'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
         ],
-      ],
-    ],
-  ],
-
-  OPTION_COMPANY_1 => [
-    'name' => totranslate('Company of the first player at the table'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:1]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:1]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:1]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:1]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:1]'),
-      ],
-    ],
-  ],
-  OPTION_COMPANY_2 => [
-    'name' => totranslate('Company of the second player at the table'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:2]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:2]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:2]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:2]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:2]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'minplayers',
-        'value' => [2, 3, 4, 5],
-      ],
-    ],
-  ],
-  OPTION_COMPANY_3 => [
-    'name' => totranslate('Company of the third player at the table'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:3]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:3]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:3]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:3]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:3]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'minplayers',
-        'value' => [3, 4, 5],
-      ],
-    ],
-  ],
-  OPTION_COMPANY_4 => [
-    'name' => totranslate('Company of the fourth player at the table'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:4]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:4]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:4]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:4]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:4]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'minplayers',
-        'value' => [4, 5],
-      ],
-    ],
-  ],
-  OPTION_COMPANY_5 => [
-    'name' => totranslate('Company of first player at the table'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:5]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:5]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:5]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:5]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:5]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'minplayers',
-        'value' => [5],
-      ],
-    ],
-  ],
-
-  OPTION_AUTOMA_1 => [
-    'name' => totranslate('Company of the first automa'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:AI 1]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:AI 1]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:AI 1]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:AI 1]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:AI 1]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'otheroption',
-        'id' => OPTION_AUTOMA,
-        'value' => [1, 2, 3, 4],
-      ],
-    ],
-  ],
-  OPTION_AUTOMA_2 => [
-    'name' => totranslate('Company of the second automa'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:AI 2]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:AI 2]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:AI 2]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:AI 2]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:AI 2]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'otheroption',
-        'id' => OPTION_AUTOMA,
-        'value' => [2, 3, 4],
-      ],
-    ],
-  ],
-  OPTION_AUTOMA_3 => [
-    'name' => totranslate('Company of the third automa'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:AI 3]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:AI 3]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:AI 3]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:AI 3]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:AI 3]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'otheroption',
-        'id' => OPTION_AUTOMA,
-        'value' => [3, 4],
-      ],
-    ],
-  ],
-  OPTION_AUTOMA_4 => [
-    'name' => totranslate('Company of the fourth automa'),
-    'values' => [
-      RANDOM => [
-        'name' => clienttranslate('Random'),
-      ],
-      COMPANY_USA => [
-        'name' => clienttranslate('USA'),
-        'tmdisplay' => clienttranslate('[USA:AI 4]'),
-      ],
-      COMPANY_GERMANY => [
-        'name' => clienttranslate('Germany'),
-        'tmdisplay' => clienttranslate('[De:AI 4]'),
-      ],
-      COMPANY_ITALY => [
-        'name' => clienttranslate('Italy'),
-        'tmdisplay' => clienttranslate('[It:AI 4]'),
-      ],
-      COMPANY_FRANCE => [
-        'name' => clienttranslate('France'),
-        'tmdisplay' => clienttranslate('[Fr:AI 4]'),
-      ],
-      COMPANY_NETHERLANDS => [
-        'name' => clienttranslate('Netherlands'),
-        'tmdisplay' => clienttranslate('[NL:AI 4]'),
-      ],
-    ],
-    'displaycondition' => [
-      [
-        'type' => 'otheroption',
-        'id' => OPTION_AUTOMA,
-        'value' => [4],
       ],
     ],
   ],
@@ -504,7 +226,6 @@ $game_options = [
     ],
   ],
 ];
-
 
 $game_preferences = [
   OPTION_CONFIRM => [

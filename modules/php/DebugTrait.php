@@ -14,6 +14,11 @@ use BRG\Helpers\Utils;
 
 trait DebugTrait
 {
+  public function reloadColors()
+  {
+    $this->reloadPlayersBasicInfos();
+  }
+
   public function tp()
   {
     $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
@@ -226,10 +231,7 @@ trait DebugTrait
           $order[$cId2][$cId] = $symOp;
 
           // Add the edge
-          $edges[] = [
-            $op == '<'? $cId : $cId2,
-            $op == '<'? $cId2 : $cId,
-          ];
+          $edges[] = [$op == '<' ? $cId : $cId2, $op == '<' ? $cId2 : $cId];
         }
       }
     }
@@ -249,7 +251,7 @@ trait DebugTrait
     }
 
     $orderedCards = [];
-    foreach($topoOrder as $cId){
+    foreach ($topoOrder as $cId) {
       $orderedCards[] = $cards[$cId];
     }
 

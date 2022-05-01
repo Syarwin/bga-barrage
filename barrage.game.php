@@ -37,13 +37,17 @@ use BRG\Core\Engine;
 use BRG\Core\Preferences;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
+use BRG\Managers\Officers;
 use BRG\Managers\Meeples;
+use BRG\Managers\Contracts;
+use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
 use BRG\Map;
 
 class Barrage extends Table
 {
   use BRG\DebugTrait;
+  use BRG\States\SetupTrait;
   use BRG\States\RoundTrait;
   use BRG\States\ActionTrait;
 
@@ -68,21 +72,6 @@ class Barrage extends Table
   protected function getGameName()
   {
     return 'barrage';
-  }
-
-  /*
-   * setupNewGame:
-   */
-  protected function setupNewGame($players, $options = [])
-  {
-    $companies = Companies::setupNewGame($players, $options);
-    Players::setupNewGame($players, $options);
-    Globals::setupNewGame($players, $options);
-    Preferences::setupNewGame($players, $options);
-    Meeples::setupNewGame($companies, $options);
-    Map::setupNewGame();
-
-    $this->activeNextPlayer();
   }
 
   /*
@@ -114,6 +103,11 @@ class Barrage extends Table
     Preferences::set($this->getCurrentPId(), $pref, $value);
   }
 
+  function getArgs()
+  {
+    return $this->gamestate->state()['args'];
+  }
+
   /////////////////////////////////////////////////////////////
   // Exposing protected methods, please use at your own risk //
   /////////////////////////////////////////////////////////////
@@ -135,14 +129,8 @@ class Barrage extends Table
   ////////////   Custom Turn Order   ////////////
   ///////////////////////////////////////////////
   ///////////////////////////////////////////////
-  public function initCustomTurnOrder(
-    $key,
-    $callback,
-    $endCallback,
-    $loop = false,
-    $autoNext = true,
-    $args = []
-  ) {
+  public function initCustomTurnOrder($key, $callback, $endCallback, $loop = false, $autoNext = true, $args = [])
+  {
     $turnOrders = Globals::getCustomTurnOrders();
     $turnOrders[$key] = [
       'order' => $order ?? Companies::getTurnOrder(),

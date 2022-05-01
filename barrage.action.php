@@ -97,6 +97,17 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
+
+  public function actPickStart()
+  {
+    self::setAjaxMode();
+    $matchup = self::getArg('matchup', AT_int, true);
+    $contract = self::getArg('contract', AT_int, true);
+    $result = $this->game->actPickStart($matchup, $contract);
+    self::ajaxResponse();
+  }
+
+
   //////////////////
   ///// UTILS  /////
   //////////////////

@@ -6,7 +6,7 @@ class Netherlands extends \BRG\Models\Company
   public function __construct($row)
   {
     $this->id = \COMPANY_NETHERLANDS;
-    $this->name = clienttranslate('Netherlands');
+    $this->cname = clienttranslate('Netherlands');
 
     parent::__construct($row);
   }

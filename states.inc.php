@@ -21,7 +21,7 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_FOO],
+    'transitions' => ['' => ST_SETUP_BRANCH],
   ],
 
   ST_GENERIC_NEXT_PLAYER => [
@@ -29,14 +29,41 @@ $machinestates = [
     'type' => 'game',
   ],
 
-  // TODO : remove
-  ST_FOO => [
-    'name' => 'playerTurn',
-    'description' => clienttranslate('${actplayer} must play a card or pass'),
-    'descriptionmyturn' => clienttranslate('${you} must play a card or pass'),
+  ST_SETUP_BRANCH => [
+    'name' => 'setupBranch',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stSetupBranch',
+    'transitions' => ['pick' => ST_PICK_START],
+  ],
+
+  ST_PICK_START_NEXT => [
+    'name' => 'pickStartNext',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stPickStartNext',
+    'transitions' => ['pick' => ST_PICK_START, 'done' => ST_BEFORE_START_OF_ROUND],
+  ],
+
+  ST_PICK_START => [
+    'name' => 'pickStart',
+    'description' => clienttranslate('${actplayer} must choose a company/officer pair and a starting contract'),
+    'descriptionmyturn' => clienttranslate('${you} must choose a company/officer pair and a starting contract'),
     'type' => 'activeplayer',
-    'possibleactions' => ['actPlayCard', 'actPpass'],
-    'transitions' => ['done' => ST_FOO],
+    'args' => 'argsPickStart',
+    'possibleactions' => ['actPickStart'],
+    'transitions' => ['nextPick' => ST_PICK_START_NEXT],
+  ],
+
+  ST_FREE_PICK_START => [
+    'name' => 'freePickStart',
+    'description' => clienttranslate('${actplayer} must choose a company, an officer and a starting contract'),
+    'descriptionmyturn' => clienttranslate('${you} must choose a company, an officer and a starting contract'),
+    'type' => 'activeplayer',
+    'args' => 'argsFreePickStart',
+    'action' => 'stFreePickStart',
+    'possibleactions' => ['actFreePickStart'],
+    'transitions' => ['done' => ST_BEFORE_START_OF_ROUND],
   ],
 
   ST_BEFORE_START_OF_ROUND => [
@@ -45,7 +72,7 @@ $machinestates = [
     'type' => 'game',
     'action' => 'stBeforeStartOfRound',
     'updateGameProgression' => true,
-    'transitions' => ['' => ST_START_OF_ROUND]
+    'transitions' => ['' => ST_START_OF_ROUND],
   ],
 
   ST_START_OF_ROUND => [
@@ -57,13 +84,12 @@ $machinestates = [
   ],
 
   ST_ACTION_PHASE => [
-  'name' => 'actionPhase',
-  'description' => '',
-  'type' => 'game',
-  'action' => 'stActionPhase',
-  'transitions' => [],
-],
-
+    'name' => 'actionPhase',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stActionPhase',
+    'transitions' => [],
+  ],
 
   ST_RESOLVE_STACK => [
     'name' => 'resolveStack',

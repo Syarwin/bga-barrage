@@ -22,22 +22,37 @@ class Map
     static::$map = new $className();
   }
 
-  public static function setupNewGame()
+  public static function getUiData()
   {
-    self::init();
+    return [
+      'id' => self::$map->getId(),
+      'headstreams' => Globals::getHeadstreams(),
+      'bonusTiles' => Globals::getBonusTiles(),
+      'conduits' => self::$map->getConduits(),
+      'powerhouses' => array_values(self::$map->getPowerhouses()),
+      'basins' => array_values(self::$map->getBasins()),
+    ];
+  }
 
-    // Draw random headstream tiles
-    $headstreams = self::$map->getHeadstreams();
-    $tiles = array_rand(array_flip([HT_1, HT_2, HT_3, HT_4, HT_5, HT_6, HT_7, HT_8]), count($headstreams));
-    $t = [];
-    foreach ($headstreams as $i => $hId) {
-      $t[$hId] = $tiles[$i];
+  /*
+   * Magic method that intercept not defined static method and do the appropriate stuff
+   */
+  public static function __callStatic($method, $args)
+  {
+    if (method_exists(self::$map, $method)) {
+      return self::$map->$method(...$args);
+    } else {
+      throw new \InvalidArgumentException("No such function in Map : {$method}");
     }
-    Globals::setHeadstreams($t);
+  }
 
-    // Put random neutral dams
+  /**
+   * Setup 11] place one neutral dam on each Area of the map
+   */
+  public static function placeNeutralDams()
+  {
+    // 11] Put random neutral dams
     $basins = self::$map->getBasinsByArea();
-    //    var_dump($basins);
     $meeples = [];
     foreach (AREAS as $i => $area) {
       // Keep only bottom basins
@@ -58,16 +73,5 @@ class Map
       $meeples[] = ['type' => DROPLET, 'location' => $basin['id']];
     }
     Meeples::create($meeples);
-  }
-
-  public static function getUiData()
-  {
-    return [
-      'id' => self::$map->getId(),
-      'headstreams' => Globals::getHeadstreams(),
-      'conduits' => self::$map->getConduits(),
-      'powerhouses' => array_values(self::$map->getPowerhouses()),
-      'basins' => array_values(self::$map->getBasins()),
-    ];
   }
 }

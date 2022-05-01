@@ -6,14 +6,21 @@ require_once 'gameoptions.inc.php';
  */
 const ST_GAME_SETUP = 1;
 
-const ST_FOO = 2;
+const ST_SETUP_BRANCH = 2;
 
-const ST_BEFORE_START_OF_ROUND = 4;
-const ST_START_OF_ROUND = 5;
-const ST_ACTION_PHASE = 7;
-const ST_RETURNING_HOME = 8;
-const ST_RESOLVE_STACK = 10;
-const ST_RESOLVE_CHOICE = 11;
+const ST_PICK_START_NEXT = 3;
+const ST_PICK_START = 4;
+const ST_FREE_PICK_START = 5;
+
+const ST_BEFORE_START_OF_ROUND = 10;
+const ST_START_OF_ROUND = 11;
+const ST_ACTION_PHASE = 12;
+const ST_RESOLVE_STACK = 13;
+const ST_RESOLVE_CHOICE = 14;
+
+const ST_RETURNING_HOME = 17;
+const ST_PRE_END_OF_TURN = 18;
+const ST_END_OF_TURN = 19;
 
 const ST_PLACE_ENGINEER = 20;
 const ST_GAIN = 21;
@@ -26,8 +33,6 @@ const ST_ROTATE_WHEEL = 27;
 const ST_TAKE_CONTRACT = 28;
 const ST_SPECIAL_EFFECT = 29;
 
-const ST_PRE_END_OF_TURN = 40;
-const ST_END_OF_TURN = 9;
 
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
@@ -76,6 +81,41 @@ const HT_7 = 7;
 const HT_8 = 8;
 
 /*
+ * Bonus tiles
+ */
+const BONUS_CONTRACT = 0;
+const BONUS_BASE = 1;
+const BONUS_ELEVATION = 2;
+const BONUS_CONDUIT = 3;
+const BONUS_POWERHOUSE = 4;
+const BONUS_ADVANCED_TILE = 5;
+const BONUS_EXTERNAL_WORK = 6;
+const BONUS_BUILDING = 7;
+
+/*
+ * Objective tiles
+ */
+const OBJECTIVE_PAYING_SLOT = 1;
+const OBJECTIVE_MOST_STRUCTURE = 2;
+const OBJECTIVE_CONNECTIONS = 3;
+const OBJECTIVE_LEAST_STRUCTURE = 4;
+const OBJECTIVE_BASIN_ONE = 5;
+const OBJECTIVE_BASIN_THREE = 6;
+const OBJECTIVE_TILES = [
+  OBJECTIVE_PAYING_SLOT,
+  OBJECTIVE_MOST_STRUCTURE,
+  OBJECTIVE_CONNECTIONS,
+  OBJECTIVE_LEAST_STRUCTURE,
+  OBJECTIVE_BASIN_ONE,
+  OBJECTIVE_BASIN_THREE,
+];
+
+/*
+ * Contracts
+ */
+const STARTING_CONTRACTS = [1, 2, 3, 4, 5];
+
+/*
  * Companies
  */
 const COMPANY_NEUTRAL = 0;
@@ -104,7 +144,6 @@ const XO_LESLIE = 13;
 const XO_WU = 14;
 const XO_OCTAVIUS = 14;
 const XO_AMIR = 15;
-
 /*
  * Types of ressources
  */

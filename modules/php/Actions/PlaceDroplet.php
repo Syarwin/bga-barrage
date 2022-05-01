@@ -15,6 +15,6 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return false;
+    return true;
   }
 }

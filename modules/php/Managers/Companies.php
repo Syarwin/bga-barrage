@@ -3,6 +3,7 @@ namespace BRG\Managers;
 use BRG\Core\Game;
 use BRG\Core\Globals;
 use BRG\Core\Stats;
+use BRG\Core\Notifications;
 use BRG\Helpers\Utils;
 
 /*
@@ -10,19 +11,24 @@ use BRG\Helpers\Utils;
  */
 class Companies extends \BRG\Helpers\DB_Manager
 {
+  protected static $classes = [
+    COMPANY_USA => 'USA',
+    COMPANY_ITALY => 'Italy',
+    COMPANY_FRANCE => 'France',
+    COMPANY_GERMANY => 'Germany',
+    COMPANY_NETHERLANDS => 'Netherlands',
+  ];
+
   protected static $table = 'companies';
   protected static $primary = 'id';
   protected static function cast($row)
   {
-    $classes = [
-      COMPANY_USA => 'USA',
-      COMPANY_ITALY => 'Italy',
-      COMPANY_FRANCE => 'France',
-      COMPANY_GERMANY => 'Germany',
-      COMPANY_NETHERLANDS => 'Netherlands',
-    ];
+    return self::getInstance($row['id'], $row);
+  }
 
-    $className = '\BRG\Companies\\' . $classes[$row['id']];
+  public static function getInstance($cId, $row = null)
+  {
+    $className = '\BRG\Companies\\' . static::$classes[$cId];
     return new $className($row);
   }
 
@@ -34,6 +40,33 @@ class Companies extends \BRG\Helpers\DB_Manager
     COMPANY_NETHERLANDS => 'ea4e1b',
   ];
 
+  public function randomStartingPick($nPlayers)
+  {
+    $companyIds = array_keys(static::$classes);
+    return Utils::rand($companyIds, $nPlayers);
+  }
+
+  public function assignCompany($player, $cId, $xId)
+  {
+    $nAutomas = 0; // TODO
+
+    self::DB()->insert([
+      'id' => $cId,
+      'no' => $nAutomas + self::count() + 1,
+      'player_id' => $player->getId(),
+      'name' => $player->getName(),
+      'xo' => $xId,
+      'score' => 0,
+      'score_aux' => 0,
+    ]);
+
+    // Change the player color
+    $player->setColor(static::$colorMapping[$cId]);
+    return self::get($cId);
+  }
+
+
+/*
   public function setupNewGame(&$players, $options)
   {
     // Allocate companies
@@ -109,6 +142,7 @@ class Companies extends \BRG\Helpers\DB_Manager
 
     return $mapping;
   }
+*/
 
   /*
    * getUiData : get all ui data of all players

@@ -28,6 +28,7 @@ class Company extends \BRG\Helpers\DB_Model
     'name' => 'name',
     'score' => ['score', 'int'],
     'scoreAux' => ['score_aux', 'int'],
+    'officerId' => ['officer', 'int'],
   ];
 
   protected $id;
@@ -36,11 +37,19 @@ class Company extends \BRG\Helpers\DB_Model
   protected $pId;
   protected $score = 0;
   protected $scoreAux = 0;
+  protected $officer = null;
+
+  protected $cname;
+  protected $staticAttributes = ['cname'];
 
   public function __construct($row)
   {
     if ($row != null) {
       parent::__construct($row);
+
+      if ($this->officerId != 0) {
+        $this->officer = Officers::getInstance($this->officerId, $this);
+      }
     }
   }
 
