@@ -102,6 +102,13 @@ class Notifications
     ]);
   }
 
+  public static function silentDestroy($resources)
+  {
+    self::notifyAll('silentDestroy', '', [
+      'resources' => $resources,
+    ]);
+  }
+
   public static function payResources($company, $resources, $source, $cardSources = [], $cardNames = [])
   {
     $data = [
@@ -134,6 +141,24 @@ class Notifications
       'resources' => $meeples,
       'spaceId' => $spaceId,
       'source' => $source,
+    ]);
+  }
+
+  public static function addDroplets($company, $meeples, $spaceId)
+  {
+    self::notifyAll('gainResources', clienttranslate('${company_name} place droplet(s) in headstream'), [
+      'company' => $company,
+      'resources' => $meeples,
+      'spaceId' => $spaceId,
+    ]);
+  }
+
+  public static function moveDroplet($droplet, $originalState)
+  {
+    self::notifyAll('moveDroplet', '', [
+      'droplet' => [$droplet],
+      'original' => $originalState,
+      // 'to' => $droplet['location'],
     ]);
   }
 

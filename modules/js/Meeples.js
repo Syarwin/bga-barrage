@@ -90,8 +90,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`);
       }
       // Droplets
-      else if(meeple.type == 'droplet'){
-        return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);        
+      else if (
+        meeple.type == 'droplet' &&
+        (meeple.location == 'HA' || meeple.location == 'HB' || meeple.location == 'HC' || meeple.location == 'HD')
+      ) {
+        return $('brg-map').querySelector(`.headstream[data-id="${meeple.location}"]`);
+      } else if (meeple.location == 'EXIT') {
+        return $('exit');
+      } else if (meeple.type == 'droplet') {
+        return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);
       }
 
       console.error('Trying to get container of a meeple', meeple);
@@ -191,6 +198,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.slideResources(n.args.resources, {
         from: n.args.spaceId ? n.args.spaceId : 'page-title',
       });
+    },
+
+    notif_moveDroplet(n) {
+      debug('Notif: moving droplet', n);
+      this.slideResources(n.args.droplet, {});
+    },
+
+    notif_silentDestroy(n) {
+      debug('Notif: destroying something silently', n);
+      n.args.resources.forEach((meeple) => dojo.destroy('meeple-' + meeple.id));
     },
 
     /**

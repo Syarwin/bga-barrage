@@ -34,6 +34,7 @@ class Map
     ];
   }
 
+
   /*
    * Magic method that intercept not defined static method and do the appropriate stuff
    */

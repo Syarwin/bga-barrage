@@ -1235,5 +1235,8 @@ html {
     #brg-map[data-map='1'] .basin[data-id='B10L'] {
       top: 1149px;
       left: 626px; }
+  #brg-map[data-map='1'] #exit {
+    position: absolute;
+    top: 100%; }
 
 /*# sourceMappingURL=barrage.css.map */

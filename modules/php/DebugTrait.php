@@ -24,6 +24,11 @@ trait DebugTrait
     $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
   }
 
+  public function vt()
+  {
+    $this->actTakeAtomicAction([['HC']]);
+  }
+
   function addResource($type, $qty = 1)
   {
     if (!in_array($type, RESOURCES)) {
