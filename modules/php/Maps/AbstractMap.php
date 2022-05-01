@@ -72,6 +72,8 @@ abstract class AbstractMap
     return $basins;
   }
 
+  /************* FLOW ************/
+
   public function flow($dropletId)
   {
     $droplet = Meeples::get($dropletId);
@@ -117,5 +119,59 @@ abstract class AbstractMap
   public function countDropletsInBasin($basin)
   {
     return Meeples::getFilteredQuery(null, $basin, [DROPLET])->count();
+  }
+
+  /*************** PRODUCTION *******************/
+  public function producingCapacity($company)
+  {
+    $capacity = [];
+    // for each basin check that we have
+    $conduits = $this->getConduits();
+    foreach ($this->getZones() as $zoneId => $zone) {
+      // check if there are some conduits
+      $conduits = [];
+      foreach ($zone['conduits'] ?? [] as $cId => $conduit) {
+        $con = Meeples::getFilteredQuery(null, $cId, [CONDUIT])->get();
+        if ($con->count() == 0) {
+          continue;
+        }
+        $conduit['owner'] = $con->first()['cId'];
+        if (Meeples::getFilteredQuery($company, 'P' . $conduit['end'] . '%', [POWERHOUSE])->count() == 0) {
+          continue;
+        }
+        $conduits[$cId] = $conduit;
+      }
+
+      // not conduit => cannot produce in this zone
+      if (empty($conduits)) {
+        continue;
+      }
+
+      $droplets = 0;
+      foreach ($zone['basins'] ?? [] as $basin) {
+        if (Meeples::getFilteredQuery(COMPANY_NEUTRAL, $basin, [BASE, \ELEVATION])->count() > 0) {
+          $droplets += $this->countDropletsInBasin($basin);
+        }
+        if (Meeples::getFilteredQuery($company, $basin, [BASE, \ELEVATION])->count() > 0) {
+          $droplets += $this->countDropletsInBasin($basin);
+        }
+        // TODO: update for each basin capacity
+      }
+      if ($droplets == 0) {
+        continue;
+      }
+
+      $capacity[] = ['conduits' => $conduits, 'droplets' => $droplets];
+    }
+    return $capacity;
+  }
+
+  public function produce()
+  {
+    // sanity checks
+    // produce energy + bonus + malus
+    // contract fullfilment?
+    // move droplet to new basin
+    // natural flow
   }
 }

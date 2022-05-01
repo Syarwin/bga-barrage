@@ -11,6 +11,7 @@ use BRG\Core\Game;
 use BRG\Models\PlayerBoard;
 use BRG\Core\Notifications;
 use BRG\Helpers\Utils;
+use BRG\Map;
 
 trait DebugTrait
 {
@@ -26,7 +27,8 @@ trait DebugTrait
 
   public function vt()
   {
-    $this->actTakeAtomicAction([['HC']]);
+    // $this->actTakeAtomicAction([['HC']]);
+    throw new \feException(print_r(Map::producingCapacity(4)));
   }
 
   function addResource($type, $qty = 1)
