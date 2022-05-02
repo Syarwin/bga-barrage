@@ -38,7 +38,7 @@ class Officers
   {
     $officerIds = [];
     foreach (static::$classes as $xId => $className) {
-      $officer = self::get($xId);
+      $officer = self::getInstance($xId);
       if ($officer->isAvailable()) {
         $officerIds[] = $xId;
       }

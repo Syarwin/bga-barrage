@@ -2,10 +2,13 @@
 namespace BRG\States;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
+use BRG\Core\Preferences;
 use BRG\Managers\Companies;
 use BRG\Managers\Players;
 use BRG\Managers\Officers;
 use BRG\Managers\Meeples;
+use BRG\Managers\Contracts;
+use BRG\Map;
 
 trait SetupTrait
 {

@@ -159,6 +159,11 @@ html {
           background-color: #364422; }
         .action-board .action-board-inner .action-space.selectable:hover .action-space-slot {
           background-color: #484848; }
+  .action-board[data-id='machinery'] .action-board-inner .action-board-row:first-of-type  {
+    margin-right: 35px; }
+  .action-board[data-id='machinery'] .action-board-inner .action-board-row .action-board-icon {
+    width: 120px;
+    margin: 0px 8px; }
 
 #game_play_area {
   font-size: 30px; }
@@ -344,6 +349,8 @@ html {
   vertical-align: middle;
   margin: 0 0.08em;
   font-size: 1.3em; }
+  .icon-container.icon-container-arrow {
+    margin: 0; }
 
 .barrage-icon {
   background-size: 100%; }
@@ -369,6 +376,10 @@ html {
     min-width: 0.6em;
     height: 0.456em;
     background-image: url("img/icons/arrow.png"); }
+  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span {
+    font-weight: bold;
+    color: white;
+    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
   .barrage-icon.icon-water {
     min-width: 0.5895em;
     height: 0.8em;
@@ -376,10 +387,7 @@ html {
     text-align: center; }
     .barrage-icon.icon-water span {
       font-size: 0.5em;
-      line-height: 1.9em;
-      font-weight: bold;
-      color: white;
-      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+      line-height: 1.9em; }
   .barrage-icon.icon-water_down {
     min-width: 0.4769em;
     height: 0.9em;
@@ -387,10 +395,25 @@ html {
     text-align: center; }
     .barrage-icon.icon-water_down span {
       font-size: 0.4em;
-      line-height: 1.8em;
-      font-weight: bold;
-      color: white;
-      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+      line-height: 1.8em; }
+  .barrage-icon.icon-rotate {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url("img/icons/rotate.png");
+    text-align: right; }
+    .barrage-icon.icon-rotate span {
+      font-size: 0.55em;
+      line-height: 0.9em; }
+  .barrage-icon.icon-excavator_icon, .barrage-icon.icon-mixer_icon {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url("img/icons/excavator.png");
+    text-align: center; }
+    .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span {
+      font-size: 0.5em;
+      line-height: 1.8em; }
+  .barrage-icon.icon-mixer_icon {
+    background-image: url("img/icons/mixer.png"); }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");
@@ -421,6 +444,20 @@ html {
     font-family: 'Oranienbaum';
     font-weight: bold;
     margin-left: 5px; }
+  .player_panel_content .company-info .company-no {
+    background-image: url("img/ui/turn_order.png");
+    width: 50px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: serif;
+    margin-right: 5px; }
 .player_panel_content .company-panel-resources {
   display: flex;
   flex-wrap: wrap;

@@ -132,4 +132,15 @@
       }
     }
   }
+
+  &[data-id='machinery'] .action-board-inner .action-board-row {
+    &:first-of-type  {
+      margin-right: 35px;
+    }
+
+    .action-board-icon {
+      width: 120px;
+      margin: 0px 8px;
+    }
+  }
 }
