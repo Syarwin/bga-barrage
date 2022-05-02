@@ -28,9 +28,10 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function argsPlaceDroplet()
   {
-    $map = Map::get();
-    $toFlow = Engine::getNextUnresolved()->getSpaceId() == 'water-d1' ? true : false;
-    return ['headstreams' => $map->getHeadstreams(), 'flow' => $toFlow, 'number' => $toFlow ? 1 : 2];
+    throw new \feException(print_r(Engine::getNextUnresolved()->getArgs()));
+    $ctxArgs = Engine::getNextUnresolved()->getArgs();
+    $toFlow = $ctxArgs['flows'] ?? false;
+    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'number' => $ctxArgs['n']];
   }
 
   public function actPlaceDroplet($headstreams)
