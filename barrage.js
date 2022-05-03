@@ -41,6 +41,7 @@ define([
         ['setupCompanies', 500],
         ['silentDestroy', null],
         ['moveDroplet', 1000],
+        ['produce', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -225,12 +226,16 @@ define([
       dojo.place('<div id="energy-track"></div>', 'barrage-container');
 
       let bonusTooltips = [
-        _('Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.'),
+        _(
+          'Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.',
+        ),
         _('Score 4 Victory Points for each Base you have built.'),
         _('Score 4 Victory Points for each Elevation you have built.'),
         _('Score 4 Victory Points for each Conduit you have built.'),
         _('Score 5 Victory Points for each Powerhouse you have built.'),
-        _('Score 4 Victory Points for each Advanced Technology tile you have acquired. Count all the Advanced Technology tile in your personal supply and in your Construction Wheel. Basic Technology tiles do not count.'),
+        _(
+          'Score 4 Victory Points for each Advanced Technology tile you have acquired. Count all the Advanced Technology tile in your personal supply and in your Construction Wheel. Basic Technology tiles do not count.',
+        ),
         _('Score 5 Victory Points for each External Work you have fulfilled.'),
         _('Score 4 Victory Points for each Building you have built.'),
       ];

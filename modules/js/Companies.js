@@ -252,5 +252,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
       this.updateCompaniesCounters();
     },
+
+    notif_produce(n) {
+      debug('Notif: producing energy', n);
+    },
   });
 });

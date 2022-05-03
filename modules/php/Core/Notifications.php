@@ -158,8 +158,20 @@ class Notifications
     self::notifyAll('moveDroplet', '', [
       'droplet' => [$droplet],
       'original' => $originalState,
-      // 'to' => $droplet['location'],
     ]);
+  }
+
+  public static function produce($company, $energy, $droplets)
+  {
+    self::notifyAll(
+      'produce',
+      clienttranslate('${company_name} produces ${energy} energies with ${droplets} droplet(s)'),
+      [
+        'company' => $company,
+        'energy' => $energy,
+        'droplets' => $droplets,
+      ]
+    );
   }
 
   /*********************

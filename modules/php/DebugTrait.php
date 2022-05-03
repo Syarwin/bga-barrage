@@ -28,7 +28,8 @@ trait DebugTrait
   public function vt()
   {
     // $this->actTakeAtomicAction([['HC']]);
-    throw new \feException(print_r(Map::producingCapacity(5)));
+    // throw new \feException(print_r(Map::producingCapacity(5)));
+    $this->actTakeAtomicAction(['C1L', 'B1L', 1]);
   }
 
   function addResource($type, $qty = 1)

@@ -148,19 +148,40 @@ abstract class AbstractMap
       }
 
       $droplets = 0;
-      foreach ($zone['basins'] ?? [] as $basin) {
-        if (Meeples::getFilteredQuery(COMPANY_NEUTRAL, $basin, [BASE, \ELEVATION])->count() > 0) {
-          $capacity[] = ['conduits' => $conduits, 'basin' => $basin, 'droplets' => $this->countDropletsInBasin($basin)];
+
+      foreach ($conduits as $cId => $conduit) {
+        foreach ($zone['basins'] ?? [] as $basin) {
+          if (Meeples::getFilteredQuery(COMPANY_NEUTRAL, $basin, [BASE, \ELEVATION])->count() > 0) {
+            $capacity[] = [
+              'conduit' => $conduit,
+              'conduitId' => $cId,
+              'basin' => $basin,
+              'droplets' => $this->countDropletsInBasin($basin),
+            ];
+          }
+          if (Meeples::getFilteredQuery($company, $basin, [BASE, \ELEVATION])->count() > 0) {
+            $capacity[] = [
+              'conduit' => $conduit,
+              'conduitId' => $cId,
+              'basin' => $basin,
+              'droplets' => $this->countDropletsInBasin($basin),
+            ];
+          }
         }
-        if (Meeples::getFilteredQuery($company, $basin, [BASE, \ELEVATION])->count() > 0) {
-          $capacity[] = ['conduits' => $conduits, 'basin' => $basin, 'droplets' => $this->countDropletsInBasin($basin)];
-        }
+        // throw new \feException(print_r($capacity));
       }
     }
 
     $capacity = array_filter($capacity, function ($c) {
       return $c['droplets'] != 0;
     });
+
+    $credits = Meeples::getFilteredQuery($company, 'reserve', [CREDIT])->count();
+    foreach ($capacity as &$cap) {
+      if ($cap['conduit']['owner'] != $company && $cap['droplets'] > $credits) {
+        $cap['droplets'] = $credits;
+      }
+    }
 
     return $capacity;
   }

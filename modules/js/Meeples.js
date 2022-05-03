@@ -1,6 +1,16 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
-  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN', 'ROTATE', 'EXCAVATOR_ICON', 'MIXER_ICON'];
+  const ICONS = [
+    'PRODUCTION',
+    'COST',
+    'CREDIT',
+    'ARROW',
+    'WATER',
+    'WATER_DOWN',
+    'ROTATE',
+    'EXCAVATOR_ICON',
+    'MIXER_ICON',
+  ];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {
@@ -97,6 +107,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.headstream[data-id="${meeple.location}"]`);
       } else if (meeple.location == 'EXIT') {
         return $('exit');
+      } else if (meeple.type == 'droplet' && meeple.location.indexOf('P') == 0) {
+        return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       } else if (meeple.type == 'droplet') {
         return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);
       }
