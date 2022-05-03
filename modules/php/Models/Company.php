@@ -29,6 +29,7 @@ class Company extends \BRG\Helpers\DB_Model
     'score' => ['score', 'int'],
     'scoreAux' => ['score_aux', 'int'],
     'officerId' => ['officer', 'int'],
+    'energy' => ['energy', 'int'],
   ];
 
   protected $id;
@@ -38,6 +39,7 @@ class Company extends \BRG\Helpers\DB_Model
   protected $score = 0;
   protected $scoreAux = 0;
   protected $officer = null;
+  protected $energy = 0;
 
   protected $cname;
   protected $staticAttributes = ['cname'];
@@ -65,6 +67,7 @@ class Company extends \BRG\Helpers\DB_Model
       'name' => $this->name,
       'score' => $this->score,
       'score' => $this->scoreAux,
+      'energy' => $this->energy,
       'resources' => [],
     ];
 

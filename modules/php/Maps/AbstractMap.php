@@ -122,7 +122,7 @@ abstract class AbstractMap
   }
 
   /*************** PRODUCTION *******************/
-  public function producingCapacity($company)
+  public function productionCapacity($company)
   {
     $capacity = [];
     // for each basin check that we have
@@ -150,28 +150,18 @@ abstract class AbstractMap
       $droplets = 0;
       foreach ($zone['basins'] ?? [] as $basin) {
         if (Meeples::getFilteredQuery(COMPANY_NEUTRAL, $basin, [BASE, \ELEVATION])->count() > 0) {
-          $droplets += $this->countDropletsInBasin($basin);
+          $capacity[] = ['conduits' => $conduits, 'basin' => $basin, 'droplets' => $this->countDropletsInBasin($basin)];
         }
         if (Meeples::getFilteredQuery($company, $basin, [BASE, \ELEVATION])->count() > 0) {
-          $droplets += $this->countDropletsInBasin($basin);
+          $capacity[] = ['conduits' => $conduits, 'basin' => $basin, 'droplets' => $this->countDropletsInBasin($basin)];
         }
-        // TODO: update for each basin capacity
       }
-      if ($droplets == 0) {
-        continue;
-      }
-
-      $capacity[] = ['conduits' => $conduits, 'droplets' => $droplets];
     }
-    return $capacity;
-  }
 
-  public function produce()
-  {
-    // sanity checks
-    // produce energy + bonus + malus
-    // contract fullfilment?
-    // move droplet to new basin
-    // natural flow
+    $capacity = array_filter($capacity, function ($c) {
+      return $c['droplets'] != 0;
+    });
+
+    return $capacity;
   }
 }

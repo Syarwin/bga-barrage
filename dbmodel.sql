@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `score` int(10),
   `score_aux` int(10),
   `xo` int(10),
+  `energy` int(10),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
