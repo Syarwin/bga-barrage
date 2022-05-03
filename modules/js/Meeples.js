@@ -89,6 +89,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
       // Meeples on action space (engineer)
       else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
+        // Handle bank
+        if(meeple.location == 'bank-b') return $('bank-b');
+        
         let nChild = parseInt(meeple.state) + 1;
         return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
       }

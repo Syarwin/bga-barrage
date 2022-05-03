@@ -63,9 +63,9 @@ html {
   pointer-events: none; }
 
 .barrage-frame {
-  border: 10px solid transparent;
-  border-image-slice: 85 85 85 85;
-  border-image-width: 40px 40px 40px 40px;
+  border: 5px solid transparent;
+  border-image-slice: 89 89 89 89;
+  border-image-width: 30px 30px 30px 30px;
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: stretch stretch;
   border-image-source: url("img/frame.png"); }
@@ -119,6 +119,12 @@ html {
       #energy-track .bonus-tile-slot .bonus-tile[data-id='8'] {
         background-position-x: 114.2857142857%; }
 
+#action-boards-container {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 450px; }
+
 .action-board {
   margin-top: 20px;
   width: 400px;
@@ -154,7 +160,7 @@ html {
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 6px 10px 10px;
     row-gap: 5px; }
     .action-board .action-board-inner .action-board-row {
       display: flex;
@@ -213,6 +219,28 @@ html {
   .action-board[data-id='machinery'] .action-board-inner .action-board-row .action-board-icon {
     width: 120px;
     margin: 0px 8px; }
+  .action-board[data-id='water'] {
+    width: 223px; }
+    .action-board[data-id='water'] .action-board-inner {
+      align-items: flex-start; }
+      .action-board[data-id='water'] .action-board-inner .action-board-row .action-board-icon {
+        width: 37px; }
+  .action-board[data-id='bank'] {
+    width: 167px; }
+    .action-board[data-id='bank'] .action-board-inner {
+      margin-bottom: 17px; }
+      .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b {
+        width: 130px;
+        height: 70px;
+        background-image: url("img/ui/bank.png");
+        background-color: transparent;
+        background-size: 85%;
+        background-repeat: no-repeat;
+        background-position: center center;
+        border: 4px solid gray;
+        flex-wrap: wrap; }
+        .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
+          background-color: #1a6210; }
 
 #game_play_area {
   font-size: 30px; }

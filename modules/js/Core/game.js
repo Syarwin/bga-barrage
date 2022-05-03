@@ -918,8 +918,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
     /**
      * Tooltip to work with help mode
      */
-    registerCustomTooltip(html) {
-      let id = this.game_name + '-tooltipable-' + this._customTooltipIdCounter++;
+    registerCustomTooltip(html, id = null) {
+      id = id || this.game_name + '-tooltipable-' + this._customTooltipIdCounter++;
       this._registeredCustomTooltips[id] = html;
       return id;
     },

@@ -83,6 +83,11 @@ define([
       this.inherited(arguments);
     },
 
+    clearPossible() {
+      this.inherited(arguments);
+      dojo.query('.selected').removeClass('selected');
+    },
+
     onEnteringState(stateName, args) {
       debug('Entering state: ' + stateName, args);
       if (this.isFastMode()) return;
@@ -262,10 +267,11 @@ define([
     //
     ////////////////////////////////////////////////////////////////////////
     setupActionBoards() {
+      let container = dojo.place('<div id="action-boards-container"></div>', 'barrage-container');
       this.gamedatas.actionBoards.forEach((board) => {
         if (board.id == 'company') {
         } else {
-          this.place('tplActionBoard', board, 'barrage-container');
+          this.place('tplActionBoard', board, container);
         }
       });
     },
@@ -306,6 +312,10 @@ define([
       let cost = '';
       if (space.cost > 0) {
         cost = '<div class="action-space-cost">' + this.formatString(`<COST:${space.cost}>`) + '</div>';
+      }
+
+      if (space.tooltip) {
+        this.registerCustomTooltip(_(space.tooltip), space.uid);
       }
 
       return `<div id='${space.uid}' class='action-space ${space.cost > 0 ? 'paying' : ''}'>
@@ -451,9 +461,22 @@ define([
           if (choices.length == 1) {
             this.takeAtomicAction('actPlaceEngineer', [uid, choices[0]]);
           } else {
-            alert('Not implemented yet!');
+            this.clientState('placeEngineerChooseNumber', _('How many engineer do you want to place here ?'), {
+              choices,
+              uid,
+            });
           }
         });
+      });
+    },
+
+    onEnteringStatePlaceEngineerChooseNumber(args) {
+      this.addCancelStateBtn();
+      $(args.uid).classList.add('selected');
+      args.choices.forEach((choice) => {
+        this.addPrimaryActionButton('btnChoice' + choice, choice, () =>
+          this.takeAtomicAction('actPlaceEngineer', [args.uid, choice]),
+        );
       });
     },
   });

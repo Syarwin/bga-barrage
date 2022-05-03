@@ -19,9 +19,29 @@ class BankActionBoard extends AbstractActionBoard
     return clienttranslate('Bank');
   }
 
+  public function getUiStructure()
+  {
+    $rows = [];
+
+    $rows[] = ['b'];
+
+    return $rows;
+  }
+
   public function getAvailableSpaces()
   {
     $spaces = [];
+
+    $spaces[] = [
+      'board' => self::$id,
+      'uid' => self::$id . '-b',
+      'nEngineers' => 0,
+      'exclusive' => false,
+      'flow' => static::gainNode([\CREDIT => 1]),
+      'tooltip' => clienttranslate(
+        'Take a number of Credits equal to the number of Engineers you placed in this action space'
+      ),
+    ];
 
     return $spaces;
   }

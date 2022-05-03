@@ -12,7 +12,7 @@ class ActionSpaces
     'CompanyActionBoard',
     'TurbineStationActionBoard',
     'WaterActionBoard',
-    // 'BankActionBoard',
+    'BankActionBoard',
     'WorkshopActionBoard',
     'MachineryShopActionBoard',
     // 'ContractActionBoard',
