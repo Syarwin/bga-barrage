@@ -2,10 +2,14 @@
 namespace BRG\States;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
+use BRG\Core\Preferences;
+use BRG\Helpers\Utils;
 use BRG\Managers\Companies;
 use BRG\Managers\Players;
 use BRG\Managers\Officers;
 use BRG\Managers\Meeples;
+use BRG\Managers\Contracts;
+use BRG\Map;
 
 trait SetupTrait
 {
@@ -26,7 +30,7 @@ trait SetupTrait
 
     // 6] Draw random headstream tiles
     $headstreams = Map::getHeadstreams();
-    $tiles = array_rand(array_flip([HT_1, HT_2, HT_3, HT_4, HT_5, HT_6, HT_7, HT_8]), count($headstreams));
+    $tiles = Utils::rand([HT_1, HT_2, HT_3, HT_4, HT_5, HT_6, HT_7, HT_8], count($headstreams));
     $t = [];
     foreach ($headstreams as $i => $hId) {
       $t[$hId] = $tiles[$i];
@@ -42,11 +46,11 @@ trait SetupTrait
       $bonusTiles[] = \BONUS_EXTERNAL_WORK;
       $bonusTiles[] = \BONUS_BUILDING;
     }
-    $tiles = array_rand(array_flip($bonusTiles), 5);
+    $tiles = Utils::rand($bonusTiles, 5);
     Globals::setBonusTiles($tiles);
 
     // 8] Draw 1 hidden objective tile
-    $objTile = array_rand(array_flip(\OBJECTIVE_TILES));
+    $objTile = Utils::rand(OBJECTIVE_TILES)[0];
     Globals::setObjectiveTile($objTile);
 
     // 9] 10] Draw contracts

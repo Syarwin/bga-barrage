@@ -15,6 +15,10 @@
   vertical-align: middle;
   margin: 0 0.08em;
   font-size: 1.3em;
+
+  &.icon-container-arrow {
+    margin: 0;
+  }
 }
 
 .barrage-icon {
@@ -52,6 +56,21 @@
     background-image: url('img/icons/arrow.png');
   }
 
+  &.icon-water,
+  &.icon-water_down,
+  &.icon-rotate,
+  &.icon-excavator_icon,
+  &.icon-mixer_icon {
+    span {
+      font-weight: bold;
+      color: white;
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+    }
+  }
+
   &.icon-water {
     min-width: 0.5895em;
     height: 0.8em;
@@ -61,12 +80,6 @@
     span {
       font-size: 0.5em;
       line-height: 1.9em;
-      font-weight: bold;
-      color: white;
-      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
-        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
-        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
-        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
     }
   }
 
@@ -79,13 +92,35 @@
     span {
       font-size: 0.4em;
       line-height: 1.8em;
-      font-weight: bold;
-      color: white;
-      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
-        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
-        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
-        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
     }
+  }
+
+  &.icon-rotate {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url('img/icons/rotate.png');
+    text-align: right;
+
+    span {
+      font-size: 0.55em;
+      line-height: 0.9em;
+    }
+  }
+
+  &.icon-excavator_icon,
+  &.icon-mixer_icon {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url('img/icons/excavator.png');
+    text-align: center;
+
+    span {
+      font-size: 0.5em;
+      line-height: 1.8em;
+    }
+  }
+  &.icon-mixer_icon {
+    background-image: url('img/icons/mixer.png');
   }
 }
 

@@ -1,6 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
-  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN'];
+  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN', 'ROTATE', 'EXCAVATOR_ICON', 'MIXER_ICON'];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {
@@ -229,7 +229,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       let jstpl_icon = `
-      <div class="icon-container">
+      <div class="icon-container icon-container-\${type}">
         <div class="barrage-icon icon-\${type}">\${text}</div>
       </div>
       `;

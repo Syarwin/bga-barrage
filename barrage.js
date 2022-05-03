@@ -73,6 +73,7 @@ define([
       debug('SETUP', gamedatas);
       this.setupInfoPanel();
 
+      this.setupEnergyTrack();
       this.setupActionBoards();
       this.setupCompanies();
       this.setupMap();
@@ -210,6 +211,41 @@ define([
       let cost = basin.cost > 0 ? 'paying' : '';
       return `<div class='basin' data-id='${basin.id}'></div>
         <div class='dam-slot ${cost}' data-id='${basin.id}'></div>`;
+    },
+
+    /////////////////////////////////////////////////////////////////////
+    //  _____                              _____               _
+    // | ____|_ __   ___ _ __ __ _ _   _  |_   _| __ __ _  ___| | __
+    // |  _| | '_ \ / _ \ '__/ _` | | | |   | || '__/ _` |/ __| |/ /
+    // | |___| | | |  __/ | | (_| | |_| |   | || | | (_| | (__|   <
+    // |_____|_| |_|\___|_|  \__, |\__, |   |_||_|  \__,_|\___|_|\_\
+    //                       |___/ |___/
+    /////////////////////////////////////////////////////////////////////
+    setupEnergyTrack() {
+      dojo.place('<div id="energy-track"></div>', 'barrage-container');
+
+      let bonusTooltips = [
+        _('Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.'),
+        _('Score 4 Victory Points for each Base you have built.'),
+        _('Score 4 Victory Points for each Elevation you have built.'),
+        _('Score 4 Victory Points for each Conduit you have built.'),
+        _('Score 5 Victory Points for each Powerhouse you have built.'),
+        _('Score 4 Victory Points for each Advanced Technology tile you have acquired. Count all the Advanced Technology tile in your personal supply and in your Construction Wheel. Basic Technology tiles do not count.'),
+        _('Score 5 Victory Points for each External Work you have fulfilled.'),
+        _('Score 4 Victory Points for each Building you have built.'),
+      ];
+
+      // Place bonus tiles
+      for (let i = 0; i < 6; i++) {
+        let slot = dojo.place(`<div id='bonus-tile-slot-${i}' class='bonus-tile-slot'></div>`, 'energy-track');
+        if (i == 0) {
+          this.addCustomTooltip(slot, _('No bonus if < 6 energy'));
+        } else {
+          let bonusId = this.gamedatas.bonusTiles[i - 1];
+          dojo.place(`<div class='bonus-tile' id='bonus-tile-${i}' data-id='${bonusId}'></div>`, slot);
+          this.addCustomTooltip(`bonus-tile-${i}`, bonusTooltips[bonusId]);
+        }
+      }
     },
 
     ////////////////////////////////////////////////////////////////////////

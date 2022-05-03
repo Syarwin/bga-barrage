@@ -44,7 +44,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
 use BRG\Map;
 
-class Barrage extends Table
+class barrage extends Table
 {
   use BRG\DebugTrait;
   use BRG\States\SetupTrait;
@@ -87,6 +87,7 @@ class Barrage extends Table
       'actionBoards' => ActionSpaces::getUiData(),
       'meeples' => Meeples::getUiData(),
       'map' => Map::getUiData(),
+      'bonusTiles' => Globals::getBonusTiles(),
     ];
   }
 

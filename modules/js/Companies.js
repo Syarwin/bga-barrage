@@ -65,10 +65,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     tplCompanyInfo(company) {
+      let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
+      let no = nos[company.no];
+
+      //      <div class='company-name'>${_(this.getCompanyName(company.id))}</div>
       return (
         `<div class='company-info'>
+        <div class='company-no' id='company-no-${company.id}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
-        <div class='company-name'>${_(this.getCompanyName(company.id))}</div>
       </div>
       <div class="company-panel-resources">
         <div class="company-reserve" id="reserve-${company.id}"></div>

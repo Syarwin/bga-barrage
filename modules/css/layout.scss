@@ -10,6 +10,55 @@
   border-image-source: url('img/frame.png');
 }
 
+#energy-track {
+  width: 1000px;
+  height: 202px;
+  background-image: url('img/energy_track.png');
+  background-size: 100%;
+  position: relative;
+
+  .bonus-tile-slot {
+    width: 58px;
+    height: 58px;
+    position: absolute;
+    top: 32px;
+
+    &#bonus-tile-slot-0 {
+      left: 90px;
+    }
+    &#bonus-tile-slot-1 {
+      left: 250px;
+    }
+    &#bonus-tile-slot-2 {
+      left: 430px;
+    }
+    &#bonus-tile-slot-3 {
+      left: 608px;
+    }
+    &#bonus-tile-slot-4 {
+      left: 784px;
+    }
+    &#bonus-tile-slot-5 {
+      left: 923px;
+    }
+
+    .bonus-tile {
+      width: 58px;
+      height: 58px;
+      background-image: url('img/bonus_tiles.jpg');
+      background-size: 800% 100%;
+      border-radius: 6px;
+      box-shadow: 2px 2px 3px black;
+
+      @for $i from 0 through 8 {
+        &[data-id='#{$i}'] {
+          background-position-x: $i * 100% / 7;
+        }
+      }
+    }
+  }
+}
+
 .action-board {
   margin-top: 20px;
   width: 400px;
@@ -130,6 +179,17 @@
           background-color: #484848;
         }
       }
+    }
+  }
+
+  &[data-id='machinery'] .action-board-inner .action-board-row {
+    &:first-of-type {
+      margin-right: 35px;
+    }
+
+    .action-board-icon {
+      width: 120px;
+      margin: 0px 8px;
     }
   }
 }
