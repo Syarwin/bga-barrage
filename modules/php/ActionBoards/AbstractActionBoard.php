@@ -95,39 +95,14 @@ abstract class AbstractActionBoard
       }
 
       $flow = $space['flow'];
-      $flow = [
+      $space['flow'] = [
         'type' => NODE_SEQ,
         'childs' => [self::payNode([CREDIT => $space['cost']]), $flow],
       ];
-
-/*
-      if (isset($flow['action'])) {
-        $flow = [
-          'type' => NODE_SEQ,
-          'childs' => [self::payNode([CREDIT => $space['cost']]), $flow],
-        ];
-      } else if($flow['type'] == NODE_SEQ){
-        if($flow['childs'][0]['action'] == PAY){
-          $flow['childs'][0]['args'][CREDIT];
-
-        }
-      } else {
-        die("test");
-      }
-*/
-      $space['flow'] = $flow;
     }
 
     return $spaces;
   }
-
-
-  /*
-  public function getFlow($player)
-  {
-    return $this->tagTree($this->flow, $player); // Add card context for listeners
-  }
-*/
 
   public function gainNode($gain, $pId = null)
   {

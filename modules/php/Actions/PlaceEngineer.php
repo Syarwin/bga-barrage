@@ -40,12 +40,12 @@ class PlaceEngineer extends \BRG\Models\Action
       }
 
       // Do we have enough engineer in reserve ?
-      if ($space['nEngineers'] > $availableEngineers) {
+      if ($space['nEngineers'] > $availableEngineers && $space['nEngineers'] != INFTY) {
         continue;
       }
 
       $flow = $space['flow'];
-      
+
       // Check that the action is doable
       $space['flow'] = self::tagTree($flow, $company->getId(), $space['uid']);
       $flowTree = Engine::buildTree($space['flow']);
@@ -137,6 +137,10 @@ class PlaceEngineer extends \BRG\Models\Action
 
     // Activate action card
     $flow = $space['flow'];
+    if ($space['uid'] == 'bank-b') {
+      // Handle the bank
+      $flow['args'] = [CREDIT => $nEngineers];
+    }
     // TODO : tag flow tree ?
     // TODO : $this->checkModifiers('computePlaceFarmerFlow', $flow, 'flow', $player, $eventData);
 
