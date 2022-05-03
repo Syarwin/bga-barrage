@@ -31,7 +31,7 @@ abstract class Utils extends \APP_DbObject
     foreach ($keys as $key) {
       $entries[] = $array[$key];
     }
-
+    shuffle($entries);
     return $entries;
   }
 

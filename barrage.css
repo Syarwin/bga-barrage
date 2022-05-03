@@ -70,6 +70,55 @@ html {
   border-image-repeat: stretch stretch;
   border-image-source: url("img/frame.png"); }
 
+#energy-track {
+  width: 1000px;
+  height: 202px;
+  background-image: url("img/energy_track.png");
+  background-size: 100%;
+  position: relative; }
+  #energy-track .bonus-tile-slot {
+    width: 58px;
+    height: 58px;
+    position: absolute;
+    top: 32px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-0 {
+      left: 90px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-1 {
+      left: 250px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-2 {
+      left: 430px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-3 {
+      left: 608px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-4 {
+      left: 784px; }
+    #energy-track .bonus-tile-slot#bonus-tile-slot-5 {
+      left: 923px; }
+    #energy-track .bonus-tile-slot .bonus-tile {
+      width: 58px;
+      height: 58px;
+      background-image: url("img/bonus_tiles.jpg");
+      background-size: 800% 100%;
+      border-radius: 6px;
+      box-shadow: 2px 2px 3px black; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='0'] {
+        background-position-x: 0%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='1'] {
+        background-position-x: 14.2857142857%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='2'] {
+        background-position-x: 28.5714285714%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='3'] {
+        background-position-x: 42.8571428571%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='4'] {
+        background-position-x: 57.1428571429%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='5'] {
+        background-position-x: 71.4285714286%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='6'] {
+        background-position-x: 85.7142857143%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='7'] {
+        background-position-x: 100%; }
+      #energy-track .bonus-tile-slot .bonus-tile[data-id='8'] {
+        background-position-x: 114.2857142857%; }
+
 .action-board {
   margin-top: 20px;
   width: 400px;
@@ -159,7 +208,7 @@ html {
           background-color: #364422; }
         .action-board .action-board-inner .action-space.selectable:hover .action-space-slot {
           background-color: #484848; }
-  .action-board[data-id='machinery'] .action-board-inner .action-board-row:first-of-type  {
+  .action-board[data-id='machinery'] .action-board-inner .action-board-row:first-of-type {
     margin-right: 35px; }
   .action-board[data-id='machinery'] .action-board-inner .action-board-row .action-board-icon {
     width: 120px;

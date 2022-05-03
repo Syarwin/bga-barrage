@@ -87,6 +87,7 @@ class barrage extends Table
       'actionBoards' => ActionSpaces::getUiData(),
       'meeples' => Meeples::getUiData(),
       'map' => Map::getUiData(),
+      'bonusTiles' => Globals::getBonusTiles(),
     ];
   }
 
