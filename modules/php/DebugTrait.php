@@ -72,7 +72,7 @@ trait DebugTrait
 
   function engDisplay()
   {
-    var_dump(Globals::getEngine());
+    throw new \feException(print_r(Globals::getEngine()));
   }
 
   function engProceed()

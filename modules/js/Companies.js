@@ -256,5 +256,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_produce(n) {
       debug('Notif: producing energy', n);
     },
+
+    notif_score(n) {
+      debug('Notif: updating scores', n);
+    },
   });
 });

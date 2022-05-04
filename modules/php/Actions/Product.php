@@ -52,10 +52,21 @@ class Product extends \BRG\Models\Action
     Notifications::produce($company, $energy, $droplets);
     $company->incEnergy($energy);
 
-    if ($oConduit != $company->getId()) {
-      // TODO
+    if ($oConduit['owner'] != $company->getId()) {
       // Pay X credit to other player (insert nodes?)
+      Engine::insertAsChild([
+        'action' => PAY,
+        'cId' => $company->getId(),
+        'args' => [
+          'nb' => $droplets,
+          'costs' => Utils::formatCost([CREDIT => 1]),
+          'source' => clienttranslate('use of conduit'),
+          'to' => $oConduit['owner'],
+        ],
+      ]);
       // gain x VP
+      Companies::get($oConduit['owner'])->incScore($droplets);
+      Notifications::score(Companies::get($oConduit['owner']), $droplets, clienttranslate('for use of conduit'));
     }
 
     // contract fullfilment?
@@ -74,5 +85,6 @@ class Product extends \BRG\Models\Action
       Notifications::moveDroplet($drop, $original);
       Map::flow($drop['id']);
     }
+    $this->resolveAction(['droplets' => $droplets]);
   }
 }

@@ -86,7 +86,7 @@ class Pay extends \BRG\Models\Action
       $cost = reset($args['combinations']);
       $this->actPay($cost, true);
     } elseif (empty($args['combinations'])) {
-      throw new \BgaVisibleSystemException("No option to pay");
+      throw new \BgaVisibleSystemException('No option to pay');
     }
   }
 
@@ -100,24 +100,24 @@ class Pay extends \BRG\Models\Action
     }
 
     $company = Companies::getActive();
-    // TODO
-    if (false && isset($this->getCtxArgs()['to'])) {
+
+    if (isset($this->getCtxArgs()['to'])) {
       // Payment to a player
       $moved = [];
       foreach ($cost as $resource => $amount) {
         if ($resource == 'sources') {
           continue;
         }
-        $moved = array_merge($moved, $player->payResourceTo($this->getCtxArgs()['to'], $resource, $amount));
+        $moved = array_merge($moved, $company->payResourceTo($this->getCtxArgs()['to'], $resource, $amount));
       }
       if (!empty($moved)) {
         Notifications::payResourcesTo(
-          $player,
+          $company,
           $moved,
           $args['source'],
           $cost['sources'] ?? [],
           $args['cardNames'],
-          Players::get($this->getCtxArgs()['to'])
+          Companies::get($this->getCtxArgs()['to'])
         );
       }
     } else {
@@ -138,7 +138,6 @@ class Pay extends \BRG\Models\Action
     // Resolve the node
     $this->resolveAction(['cost' => $cost]);
   }
-
 
   /***************************************
    ***************************************
