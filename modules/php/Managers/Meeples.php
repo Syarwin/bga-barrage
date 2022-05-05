@@ -117,8 +117,7 @@ class Meeples extends \BRG\Helpers\Pieces
     return $deleted;
   }
 
-  /*
-  public function payResourceTo($player_id, $resourceType, $amount, $otherPlayer)
+  public function payResourceTo($companyId, $resourceType, $amount, $otherCompany)
   {
     $moved = [];
     if ($amount == 0) {
@@ -126,7 +125,7 @@ class Meeples extends \BRG\Helpers\Pieces
     }
 
     // $resource = self::getReserveResource($player_id, $resourceType);
-    $resource = self::getResourceOfType($player_id, $resourceType);
+    $resource = self::getFilteredQuery($companyId, 'reserve', [$resourceType])->get();
 
     if (count($resource) < $amount) {
       throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
@@ -135,12 +134,12 @@ class Meeples extends \BRG\Helpers\Pieces
     foreach ($resource as $id => $res) {
       self::DB()->update(
         [
-          'player_id' => $otherPlayer,
+          'company_id' => $otherCompany,
           'meeple_location' => 'reserve',
         ],
         $id
       );
-      $res['pId'] = $otherPlayer;
+      $res['cId'] = $otherCompany;
       $moved[] = $res;
       // self::DB()->delete($id);
       $amount--;
@@ -150,7 +149,6 @@ class Meeples extends \BRG\Helpers\Pieces
     }
     return $moved;
   }
-*/
 
   public function createResourceInLocation($type, $location, $cId, $nbr = 1, $state = null)
   {

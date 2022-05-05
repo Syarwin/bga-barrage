@@ -80,7 +80,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // Meeples on action space (engineer)
       else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
         // Handle bank
-        if(meeple.location == 'bank-b') return $('bank-b');
+        if (meeple.location == 'bank-b') return $('bank-b');
 
         let nChild = parseInt(meeple.state) + 1;
         return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
@@ -100,6 +100,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.headstream[data-id="${meeple.location}"]`);
       } else if (meeple.location == 'EXIT') {
         return $('exit');
+      } else if (meeple.type == 'droplet' && meeple.location.indexOf('P') == 0) {
+        return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       } else if (meeple.type == 'droplet') {
         return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);
       }
@@ -191,6 +193,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         target: 'page-title',
         destroy: true,
       }));
+    },
+
+    /**
+     * Collect resources from a card
+     */
+    notif_collectResources(n) {
+      debug('Notif: collecting resoures', n);
+      this.slideResources(n.args.resources, {});
     },
 
     /**

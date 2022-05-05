@@ -127,6 +127,26 @@ class Notifications
     self::notifyAll('payResources', $msg, $data);
   }
 
+  public static function payResourcesTo(
+    $company,
+    $resources,
+    $source,
+    $cardSources = [],
+    $cardNames = [],
+    $otherCompany
+  ) {
+    $data = [
+      'i18n' => ['source'],
+      'company' => $company,
+      'resources' => $resources,
+      'source' => $source,
+      'company2' => $otherCompany,
+    ];
+    $msg = clienttranslate('${company_name} pays ${resources_desc} to ${company_name2} for ${source}');
+
+    self::notifyAll('collectResources', $msg, $data);
+  }
+
   public static function gainResources($company, $meeples, $spaceId = null, $source = null)
   {
     if ($source != null) {
@@ -158,7 +178,34 @@ class Notifications
     self::notifyAll('moveDroplet', '', [
       'droplet' => [$droplet],
       'original' => $originalState,
-      // 'to' => $droplet['location'],
+    ]);
+  }
+
+  public static function produce($company, $energy, $droplets)
+  {
+    self::notifyAll(
+      'produce',
+      clienttranslate('${company_name} produces ${energy} energies with ${droplets} droplet(s)'),
+      [
+        'company' => $company,
+        'energy' => $energy,
+        'droplets' => $droplets,
+      ]
+    );
+  }
+
+  public function score($company, $amount, $source = null)
+  {
+    if ($source != null) {
+      $msg = clienttranslate('${company_name} scores ${amount} VP(s) ${source}');
+    } else {
+      $msg = clienttranslate('${company_name} scores ${amount} VP(s)');
+    }
+    self::notifyAll('score', $msg, [
+      'i18n' => ['source'],
+      'company' => $company,
+      'amount' => $amount,
+      'source' => $source,
     ]);
   }
 
@@ -198,6 +245,12 @@ class Notifications
       $data['company_name'] = $data['company']->getName();
       $data['company_id'] = $data['company']->getId();
       unset($data['company']);
+    }
+
+    if (isset($data['company2'])) {
+      $data['company_name2'] = $data['company2']->getName();
+      $data['company_id2'] = $data['company2']->getId();
+      unset($data['company2']);
     }
 
     if (isset($data['resources'])) {

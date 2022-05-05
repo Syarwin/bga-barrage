@@ -18,7 +18,10 @@ class Product extends \BRG\Models\Action
 
   public function argsProduct()
   {
-    return Map::productionCapacity(Companies::getActive()->getId());
+    return [
+      'capacity' => Map::productionCapacity(Companies::getActive()->getId()),
+      'modifier' => '+' . Engine::getNextUnresolved()->getArgs()['bonus'] ?? '',
+    ];
   }
 
   public function stProduct()
@@ -29,39 +32,59 @@ class Product extends \BRG\Models\Action
   public function actProduct($conduit, $basin, $droplets)
   {
     // sanity checks
-    $args = $this->argsProduct();
+    $args = $this->argsProduct()['capacity'];
     $ctxArgs = Engine::getNextUnresolved()->getArgs();
     $company = Companies::getActive();
 
     $filter = array_filter($args, function ($c) use ($conduit, $basin, $droplets) {
-      return in_array($conduit, array_keys($c['conduits'])) && $c['droplets'] >= $droplets && $c['basin'] == $basin;
+      return $c['conduitId'] == $conduit && $c['droplets'] >= $droplets && $c['basin'] == $basin;
     });
 
     if (empty($filter)) {
       throw new \BgaVisibleSystemException('Combinaison not possible. Should not happen');
     }
-
-    $oConduit = $filter['conduits'][$conduit];
+    $selected = array_pop($filter);
+    $oConduit = $selected['conduit'];
     $bonus = $ctxArgs['bonus'] ?? 0;
 
     // produce energy + bonus + malus
     $energy = $oConduit['production'] * $droplets + $bonus;
+    Notifications::produce($company, $energy, $droplets);
     $company->incEnergy($energy);
+
+    if ($oConduit['owner'] != $company->getId()) {
+      // Pay X credit to other player (insert nodes?)
+      Engine::insertAsChild([
+        'action' => PAY,
+        'cId' => $company->getId(),
+        'args' => [
+          'nb' => $droplets,
+          'costs' => Utils::formatCost([CREDIT => 1]),
+          'source' => clienttranslate('use of conduit'),
+          'to' => $oConduit['owner'],
+        ],
+      ]);
+      // gain x VP
+      Companies::get($oConduit['owner'])->incScore($droplets);
+      Notifications::score(Companies::get($oConduit['owner']), $droplets, clienttranslate('for use of conduit'));
+    }
 
     // contract fullfilment?
     // TODO: insert child node
 
-    $zones = Map::getZones();
-    $newBasin = $zones[$oConduit['end']]['powerhouses'][0] . '_0';
+    $newBasin = 'P' . $oConduit['end'] . '_0';
 
     // move droplet to new basin
     for ($i = 0; $i < $droplets; $i++) {
-      $drop = Meeples::getFilteredQuery(null, $basin, [DROPLET])->first();
+      $drop = Meeples::getFilteredQuery(null, $basin, [DROPLET])
+        ->get()
+        ->first();
       $original = $drop;
       Meeples::DB()->update(['meeple_location' => $newBasin], $drop['id']);
       $drop['location'] = $newBasin;
       Notifications::moveDroplet($drop, $original);
+      Map::flow($drop['id']);
     }
-    // natural flow
+    $this->resolveAction(['droplets' => $droplets]);
   }
 }
