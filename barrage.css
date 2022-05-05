@@ -62,13 +62,20 @@ html {
   opacity: 0;
   pointer-events: none; }
 
+/*
 .barrage-frame {
   border: 5px solid transparent;
   border-image-slice: 89 89 89 89;
   border-image-width: 30px 30px 30px 30px;
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: stretch stretch;
-  border-image-source: url("img/frame.png"); }
+  border-image-source: url('img/frame.png');
+}
+*/
+.barrage-frame {
+  border: 3px solid #c8ba6a;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px black; }
 
 #energy-track {
   width: 1000px;
@@ -119,27 +126,36 @@ html {
       #energy-track .bonus-tile-slot .bonus-tile[data-id='8'] {
         background-position-x: 114.2857142857%; }
 
+#barrage-center-container {
+  display: flex; }
+
 #action-boards-container {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  width: 450px; }
+  align-items: flex-start;
+  align-content: baseline;
+  width: 357px; }
 
 .action-board {
   margin-top: 20px;
-  width: 400px;
+  width: 350px;
   background-clip: content-box;
   background-size: cover; }
+  [data-action-name='1'] .action-board {
+    margin-top: 8px; }
   .action-board .action-board-name-container {
     display: flex;
     justify-content: center;
-    margin-top: -20px; }
+    margin-top: -17px; }
+    [data-action-name='1'] .action-board .action-board-name-container {
+      display: none; }
     .action-board .action-board-name-container .action-board-name {
       color: #dbc85d;
       background: #513c29;
       border-radius: 8px;
-      font-size: 20px;
-      padding: 5px 8px;
+      font-size: 18px;
+      padding: 3px 7px;
       box-shadow: 0px 2px 3px black;
       font-family: 'Betty Noir';
       text-transform: uppercase; }
@@ -155,6 +171,18 @@ html {
     background-image: url("img/background_board_machinery.jpg"); }
   .action-board[data-id='contract'] {
     background-image: url("img/background_board_contract.jpg"); }
+  [data-action-background='1'] .action-board[data-id='turbine'] {
+    background: #8a5789; }
+  [data-action-background='1'] .action-board[data-id='water'] {
+    background: #57668a; }
+  [data-action-background='1'] .action-board[data-id='bank'] {
+    background: #8a8957; }
+  [data-action-background='1'] .action-board[data-id='workshop'] {
+    background: #7d7d7c; }
+  [data-action-background='1'] .action-board[data-id='machinery'] {
+    background: #8a6f57; }
+  [data-action-background='1'] .action-board[data-id='contract'] {
+    background: #75885d; }
   .action-board .action-board-inner {
     display: flex;
     flex-flow: column;
@@ -191,7 +219,8 @@ html {
         background: #d70f0f; }
       .action-board .action-board-inner .action-space .action-space-cost {
         position: absolute;
-        left: calc(100% - 4px); }
+        left: calc(100% - 4px);
+        display: none; }
       .action-board .action-board-inner .action-space .action-space-slot {
         background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
         width: 34px;
@@ -220,17 +249,19 @@ html {
     width: 120px;
     margin: 0px 8px; }
   .action-board[data-id='water'] {
-    width: 223px; }
+    width: 200px; }
     .action-board[data-id='water'] .action-board-inner {
-      align-items: flex-start; }
+      align-items: flex-start;
+      margin: 6px 7px 10px; }
       .action-board[data-id='water'] .action-board-inner .action-board-row .action-board-icon {
         width: 37px; }
   .action-board[data-id='bank'] {
-    width: 167px; }
+    width: 140px;
+    margin-left: 5px; }
     .action-board[data-id='bank'] .action-board-inner {
-      margin-bottom: 17px; }
+      margin: 8px 0px 7px; }
       .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b {
-        width: 130px;
+        width: 105px;
         height: 70px;
         background-image: url("img/ui/bank.png");
         background-color: transparent;
@@ -241,6 +272,15 @@ html {
         flex-wrap: wrap; }
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
           background-color: #1a6210; }
+  .action-board[data-id='contract'] .action-board-inner .action-board-row:nth-of-type(2) {
+    margin-right: 35px; }
+  .action-board[data-id='contract'] .action-board-inner .action-board-row .action-board-icon {
+    width: 110px;
+    margin: 0px 8px; }
+
+#brg-map {
+  margin-left: 20px;
+  margin-top: 10px; }
 
 #game_play_area {
   font-size: 30px; }
@@ -453,7 +493,7 @@ html {
     min-width: 0.6em;
     height: 0.456em;
     background-image: url("img/icons/arrow.png"); }
-  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span {
+  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-contract span {
     font-weight: bold;
     color: white;
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
@@ -491,6 +531,14 @@ html {
       line-height: 1.8em; }
   .barrage-icon.icon-mixer_icon {
     background-image: url("img/icons/mixer.png"); }
+  .barrage-icon.icon-contract {
+    min-width: 1em;
+    height: 0.68em;
+    background-image: url("img/icons/contract.png");
+    text-align: center; }
+    .barrage-icon.icon-contract span {
+      font-size: 0.5em;
+      line-height: 1.6em; }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");
@@ -564,6 +612,40 @@ html {
       height: 100%; }
       .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
         display: none; }
+.player_panel_content .company-panel-personal-resources {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 7px;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 0;
+  border-top: 1px solid #999898;
+  border-bottom: 1px solid #999898; }
+  .player_panel_content .company-panel-personal-resources span {
+    font-size: 18px; }
+    .player_panel_content .company-panel-personal-resources span::before {
+      content: '5'; }
+  .player_panel_content .company-panel-personal-resources .meeple-container {
+    margin-top: -0.7em; }
+.player_panel_content .company-panel-wheel-container {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0; }
+  .player_panel_content .company-panel-wheel-container .company-wheel-logo {
+    width: 40px;
+    height: 80px;
+    background: black;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px; }
+  .player_panel_content .company-panel-wheel-container .company-wheel {
+    display: flex;
+    flex-flow: column;
+    margin-left: 20px; }
+    .player_panel_content .company-panel-wheel-container .company-wheel .wheel-slot {
+      width: 160px;
+      height: 20px;
+      border: 1px solid black; }
 
 .company-board .company-board-wrapper {
   width: 1111px;

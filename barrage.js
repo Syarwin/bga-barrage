@@ -48,14 +48,24 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
-        layout: {
+        actionBoardBackground: {
           default: 0,
-          name: _('Layout'),
-          attribute: 'layout',
+          name: _('Action Board Background'),
+          attribute: 'action-background',
           type: 'select',
           values: {
-            0: _('Compact'),
-            1: _('Standard'),
+            0: _('Image'),
+            1: _('Plain'),
+          },
+        },
+        actionBoardName: {
+          default: 0,
+          name: _('Action Board Names'),
+          attribute: 'action-name',
+          type: 'select',
+          values: {
+            0: _('Display'),
+            1: _('Hide'),
           },
         },
       };
@@ -162,7 +172,7 @@ define([
 
     setupMap() {
       let map = this.gamedatas.map;
-      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'barrage-container');
+      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'barrage-center-container');
 
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
@@ -227,8 +237,6 @@ define([
     //                       |___/ |___/
     /////////////////////////////////////////////////////////////////////
     setupEnergyTrack() {
-      dojo.place('<div id="energy-track"></div>', 'barrage-container');
-
       let bonusTooltips = [
         _(
           'Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.',
@@ -266,7 +274,7 @@ define([
     //
     ////////////////////////////////////////////////////////////////////////
     setupActionBoards() {
-      let container = dojo.place('<div id="action-boards-container"></div>', 'barrage-container');
+      let container = dojo.place('<div id="action-boards-container"></div>', 'barrage-center-container');
       this.gamedatas.actionBoards.forEach((board) => {
         if (board.id == 'company') {
         } else {

@@ -1,5 +1,9 @@
 {OVERALL_GAME_HEADER}
-<div id="barrage-container"></div>
+<div id="barrage-container">
+  <div id="energy-track"></div>
+  <div id="barrage-center-container"></div>
+  <div id="company-boards-container"></div>
+</div>
 
 
 <svg style="display:none" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-question" role="img" xmlns="http://www.w3.org/2000/svg">

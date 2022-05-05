@@ -14,6 +14,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const COMPANY_NETHERLANDS = 5;
 
   const RESOURCES = ['credit', 'engineer', 'excavator', 'mixer'];
+  const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
   const ALL_RESOURCES = RESOURCES;
 
   return declare('barrage.companies', null, {
@@ -38,7 +39,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
 
       // Create company board
-      this.place('tplCompanyBoard', company, 'barrage-container');
+      this.place('tplCompanyBoard', company, 'company-boards-container');
     },
 
     tplPlayerBoard(company) {
@@ -80,13 +81,32 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
         `
         </div>
-      </div>`
+      </div>
+      <div class='company-panel-personal-resources'>
+      ` +
+        PERSONAL_RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
+        `
+      </div>
+      <div class='company-panel-wheel-container'>
+        <div class='company-wheel-logo'></div>
+        <div class='company-wheel'>
+          <div class='wheel-slot'></div>
+          <div class='wheel-slot'></div>
+          <div class='wheel-slot'></div>
+          <div class='wheel-slot'></div>
+          <div class='wheel-slot'></div>
+          <div class='wheel-slot'></div>
+        </div>
+      </div>
+      `
       );
     },
 
     tplResourceCounter(company, res, prefix = '') {
       let iconName = res.toUpperCase();
-      let dataAttr = res == 'engineer' ? ` data-company='${company.id}'` : '';
+      let dataAttr = ['engineer', 'base', 'elevation', 'conduit', 'powerhouse'].includes(res)
+        ? ` data-company='${company.id}'`
+        : '';
 
       return `
         <div class='company-resource resource-${res}'>

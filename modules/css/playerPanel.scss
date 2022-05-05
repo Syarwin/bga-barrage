@@ -84,4 +84,53 @@
       }
     }
   }
+
+  .company-panel-personal-resources {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 7px;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    padding: 0.5rem 0;
+    border-top: 1px solid #999898;
+    border-bottom: 1px solid #999898;
+
+    span {
+      font-size: 18px;
+      &::before {
+        content: '5';
+      }
+    }
+
+    .meeple-container {
+      margin-top: -0.7em;
+    }
+  }
+
+  .company-panel-wheel-container {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+
+    .company-wheel-logo {
+      width: 40px;
+      height: 80px;
+      background: black;
+      border-top-right-radius: 40px;
+      border-bottom-right-radius: 40px;
+    }
+
+    .company-wheel {
+      display: flex;
+      flex-flow: column;
+      margin-left: 20px;
+
+      .wheel-slot {
+        width: 160px;
+        height: 20px;
+        border: 1px solid black;
+      }
+    }
+  }
 }

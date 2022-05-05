@@ -1,6 +1,6 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
-  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN', 'ROTATE', 'EXCAVATOR_ICON', 'MIXER_ICON'];
+  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN', 'ROTATE', 'EXCAVATOR_ICON', 'MIXER_ICON', 'CONTRACT'];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {
@@ -81,7 +81,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
         // Handle bank
         if(meeple.location == 'bank-b') return $('bank-b');
-        
+
         let nChild = parseInt(meeple.state) + 1;
         return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
       }

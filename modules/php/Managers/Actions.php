@@ -15,7 +15,7 @@ class Actions
     // FULFILL_CONTRACT => 'FulfillContract', // TODO
     PLACE_DROPLET => 'PlaceDroplet',
     ROTATE_WHEEL => 'RotateWheel',
-    // TAKE_CONTRACT => 'TakeContract', // TODO
+    TAKE_CONTRACT => 'TakeContract',
     SPECIAL_EFFECT => 'SpecialEffect',
   ];
 

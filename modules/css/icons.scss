@@ -60,7 +60,8 @@
   &.icon-water_down,
   &.icon-rotate,
   &.icon-excavator_icon,
-  &.icon-mixer_icon {
+  &.icon-mixer_icon,
+  &.icon-contract {
     span {
       font-weight: bold;
       color: white;
@@ -121,6 +122,18 @@
   }
   &.icon-mixer_icon {
     background-image: url('img/icons/mixer.png');
+  }
+
+  &.icon-contract {
+    min-width: 1em;
+    height: 0.68em;
+    background-image: url('img/icons/contract.png');
+    text-align: center;
+    
+    span {
+      font-size: 0.5em;
+      line-height: 1.6em;
+    }
   }
 }
 

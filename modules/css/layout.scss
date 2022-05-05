@@ -1,6 +1,7 @@
-@import 'layout.central';
-@import 'layout.playerBoard';
+#barrage-container {
+}
 
+/*
 .barrage-frame {
   border: 5px solid transparent;
   border-image-slice: 89 89 89 89;
@@ -8,6 +9,13 @@
   border-image-outset: 0px 0px 0px 0px;
   border-image-repeat: stretch stretch;
   border-image-source: url('img/frame.png');
+}
+*/
+
+.barrage-frame {
+  border: 3px solid #c8ba6a;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px black;
 }
 
 #energy-track {
@@ -59,30 +67,43 @@
   }
 }
 
+#barrage-center-container {
+  display: flex;
+}
+
 #action-boards-container {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  width: 450px;
+  align-items: flex-start;
+  align-content: baseline;
+  width: 357px;
 }
 
 .action-board {
   margin-top: 20px;
-  width: 400px;
+  width: 350px;
   background-clip: content-box;
   background-size: cover;
+  [data-action-name='1'] & {
+    margin-top: 8px;
+  }
 
   .action-board-name-container {
     display: flex;
     justify-content: center;
-    margin-top: -20px;
+    margin-top: -17px;
+
+    [data-action-name='1'] & {
+      display: none;
+    }
 
     .action-board-name {
       color: #dbc85d;
       background: #513c29;
       border-radius: 8px;
-      font-size: 20px;
-      padding: 5px 8px;
+      font-size: 18px;
+      padding: 3px 7px;
       box-shadow: 0px 2px 3px black;
       font-family: 'Betty Noir';
       text-transform: uppercase;
@@ -106,6 +127,27 @@
   }
   &[data-id='contract'] {
     background-image: url('img/background_board_contract.jpg');
+  }
+
+  [data-action-background='1'] & {
+    &[data-id='turbine'] {
+      background: #8a5789;
+    }
+    &[data-id='water'] {
+      background: #57668a;
+    }
+    &[data-id='bank'] {
+      background: #8a8957;
+    }
+    &[data-id='workshop'] {
+      background: #7d7d7c;
+    }
+    &[data-id='machinery'] {
+      background: #8a6f57;
+    }
+    &[data-id='contract'] {
+      background: #75885d;
+    }
   }
 
   .action-board-inner {
@@ -154,6 +196,7 @@
       .action-space-cost {
         position: absolute;
         left: calc(100% - 4px);
+        display: none;
       }
 
       .action-space-slot {
@@ -201,9 +244,11 @@
   }
 
   &[data-id='water'] {
-    width: 223px;
+    width: 200px;
     .action-board-inner {
       align-items: flex-start;
+      margin: 6px 7px 10px;
+
       .action-board-row .action-board-icon {
         width: 37px;
       }
@@ -211,14 +256,15 @@
   }
 
   &[data-id='bank'] {
-    width: 167px;
+    width: 140px;
+    margin-left: 5px;
 
     .action-board-inner {
-      margin-bottom: 17px;
+      margin: 8px 0px 7px;
 
       .action-board-row {
         #bank-b {
-          width: 130px;
+          width: 105px;
           height: 70px;
           background-image: url('img/ui/bank.png');
           background-color: transparent;
@@ -235,4 +281,20 @@
       }
     }
   }
+
+  &[data-id='contract'] .action-board-inner .action-board-row {
+    &:nth-of-type(2) {
+      margin-right: 35px;
+    }
+
+    .action-board-icon {
+      width: 110px;
+      margin: 0px 8px;
+    }
+  }
+}
+
+#brg-map {
+  margin-left: 20px;
+  margin-top: 10px;
 }
