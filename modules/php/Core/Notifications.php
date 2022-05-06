@@ -147,6 +147,23 @@ class Notifications
     self::notifyAll('collectResources', $msg, $data);
   }
 
+  public static function recoverResources($company, $resources, $tile)
+  {
+    self::notifyAll(
+      'collectResources',
+      clienttranslate('${company_name} recovers ${resources_desc} and  ${nb} technology tile from the wheel'),
+      ['company' => $company, 'resources' => $resources, 'tile' => $tile, 'nb' => count($tile)]
+    );
+  }
+
+  public static function rotateWheel($company, $nb)
+  {
+    self::notifyAll('rotateWheel', clienttranslate('${company_name} rotates the wheel'), [
+      'company' => $company,
+      'nb' => $nb,
+    ]);
+  }
+
   public static function gainResources($company, $meeples, $spaceId = null, $source = null)
   {
     if ($source != null) {

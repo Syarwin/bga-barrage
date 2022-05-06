@@ -280,5 +280,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_score(n) {
       debug('Notif: updating scores', n);
     },
+
+    notif_rotateWheel(n) {
+      debug('Notif: rotating wheel', n);
+    },
   });
 });

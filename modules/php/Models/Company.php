@@ -12,6 +12,7 @@ use BRG\Core\Preferences;
 use BRG\Actions\Pay;
 use BRG\Actions\Reorganize;
 use BRG\Helpers\Utils;
+use BRG\Managers\TechnologyTiles;
 
 /*
  * Company: all utility functions concerning a player, real or not
@@ -30,6 +31,7 @@ class Company extends \BRG\Helpers\DB_Model
     'scoreAux' => ['score_aux', 'int'],
     'officerId' => ['officer', 'int'],
     'energy' => ['energy', 'int'],
+    'slot' => ['wheel_slot', 'int'],
   ];
 
   protected $id;
@@ -40,6 +42,7 @@ class Company extends \BRG\Helpers\DB_Model
   protected $scoreAux = 0;
   protected $officer = null;
   protected $energy = 0;
+  protected $slot = 0;
 
   protected $cname;
   protected $staticAttributes = ['cname'];
@@ -66,9 +69,10 @@ class Company extends \BRG\Helpers\DB_Model
       'no' => $this->no,
       'name' => $this->name,
       'score' => $this->score,
-      'score' => $this->scoreAux,
+      'scoreAux' => $this->scoreAux,
       'energy' => $this->energy,
       'resources' => [],
+      'wheel' => $this->getWheel(),
     ];
 
     /*
@@ -180,5 +184,47 @@ class Company extends \BRG\Helpers\DB_Model
       Meeples::move($id, $spaceId, $i);
     }
     return Meeples::getMany($engineerIds);
+  }
+
+  // Wheel
+  public function getWheel()
+  {
+    $wheel = [];
+    foreach (wheelSlots as $slot) {
+      $wheel[$slot] = [
+        'resources' => Meeples::getFilteredQuery($this->id, 'wheel_' . $slot, null)->get(),
+        'tile' => TechnologyTiles::getFilteredQuery($this->id, 'wheel_' . $slot, null)->get(),
+        'current' => $this->slot == $slot,
+      ];
+    }
+    return $wheel;
+  }
+
+  public function rotateWheel()
+  {
+    $this->setSlot(($this->slot + 1) % 6);
+
+    $mIds = Meeples::getFilteredQuery($this->id, 'wheel_' . $this->slot, null)
+      ->get()
+      ->getIds();
+    if (!empty($mIds)) {
+      Meeples::move($mIds, 'reserve');
+    }
+
+    $tId = TechnologyTiles::getFilteredQuery($this->id, 'wheel_' . $this->slot, null)
+      ->get()
+      ->getIds();
+    if (!empty($tId)) {
+      TechnologyTiles::move($tId, 'reserve');
+    }
+
+    Notifications::rotateWheel($this, 1);
+
+    Notifications::recoverResources(
+      $this,
+      empty($mIds) ? [] : Meeples::getMany($mIds)->toArray(),
+      empty($tId) ? [] : TechnologyTiles::getMany($tId)->toArray()
+    );
+    return;
   }
 }

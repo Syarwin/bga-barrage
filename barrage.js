@@ -44,6 +44,7 @@ define([
         ['moveDroplet', 1000],
         ['produce', 500],
         ['score', 500],
+        ['rotateWheel', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)

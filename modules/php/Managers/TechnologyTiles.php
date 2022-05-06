@@ -38,20 +38,20 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   /**
    * Generic base query
    */
-  public function getFilteredQuery($cId, $location, $type)
+  public function getFilteredQuery($cId, $location, $structure)
   {
     $query = self::getSelectQuery();
     if ($cId != null) {
       $query = $query->where('company_id', $cId);
     }
     if ($location != null) {
-      $query = $query->where('meeple_location', $location);
+      $query = $query->where('tile_location', $location);
     }
-    if ($type != null) {
-      if (is_array($type)) {
-        $query = $query->whereIn('type', $type);
+    if ($structure != null) {
+      if (is_array($structure)) {
+        $query = $query->whereIn('structure', $type);
       } else {
-        $query = $query->where('type', strpos($type, '%') === false ? '=' : 'LIKE', $type);
+        $query = $query->where('structure', strpos($structure, '%') === false ? '=' : 'LIKE', $structure);
       }
     }
     return $query;

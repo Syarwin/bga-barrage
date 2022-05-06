@@ -64,11 +64,11 @@ class WorkshopActionBoard extends AbstractActionBoard
         'board' => self::$id,
         'uid' => self::$id . '-r2',
         'nEngineers' => 2,
+        'cost' => 2,
         'flow' => [
           'action' => ROTATE_WHEEL,
           'args' => [
             'n' => 2,
-            'cost' => 2,
           ],
         ],
       ];
@@ -78,11 +78,11 @@ class WorkshopActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-r3',
       'nEngineers' => 2,
+      'cost' => 5,
       'flow' => [
         'action' => ROTATE_WHEEL,
         'args' => [
           'n' => 3,
-          'cost' => 5,
         ],
       ],
     ];
@@ -91,7 +91,7 @@ class WorkshopActionBoard extends AbstractActionBoard
     foreach ($spaces as $space) {
       $space['uid'] .= 'c';
       $space['nEngineers'] = 3;
-      $space['cost'] = 3;
+      $space['cost'] += 3;
       $spaces[] = $space;
     }
 

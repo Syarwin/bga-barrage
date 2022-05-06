@@ -33,7 +33,6 @@ const ST_ROTATE_WHEEL = 27;
 const ST_TAKE_CONTRACT = 28;
 const ST_SPECIAL_EFFECT = 29;
 
-
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
 
@@ -192,6 +191,7 @@ const SPECIAL_EFFECT = 'SPECIAL_EFFECT';
 /** ExtraDatas**/
 const BONUS_VP = 'bonusVP';
 
+const wheelSlots = [0, 1, 2, 3, 4, 5];
 /******************
  ****** STATS ******
  ******************/
