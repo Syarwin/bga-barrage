@@ -54,7 +54,7 @@ trait SetupTrait
     Globals::setObjectiveTile($objTile);
 
     // 9] 10] Draw contracts
-    //    Contracts::setupNewGame();
+    Contracts::setupNewGame();
 
     // 11] Place neutral dams
     Map::placeNeutralDams();

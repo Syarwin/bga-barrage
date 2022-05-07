@@ -91,6 +91,7 @@ define([
       this.setupCompanies();
       this.setupMap();
       this.setupMeeples();
+      this.setupContracts();
 
       this.inherited(arguments);
     },
@@ -488,6 +489,39 @@ define([
           this.takeAtomicAction('actPlaceEngineer', [args.uid, choice]),
         );
       });
+    },
+
+    //////////////////////////////////////////////////////
+    //   ____            _                  _
+    //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___
+    // | |   / _ \| '_ \| __| '__/ _` |/ __| __/ __|
+    // | |__| (_) | | | | |_| | | (_| | (__| |_\__ \
+    //  \____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
+    //
+    //////////////////////////////////////////////////////
+    setupContracts() {
+      return;//
+
+      Object.keys(this.gamedatas.contracts).forEach((contractId) => {
+        let contract = this.gamedatas.contracts[contractId];
+        contract.id = contractId;
+        this.place('tplContract', contract, 'contracts-test');
+      });
+    },
+
+    tplContract(contract) {
+      let icons = contract.icons.map((t) => this.formatString(t));
+
+      return (
+        `<div id='contract-${contract.id}' class='barrage-contract' data-parity='${contract.id % 2}'>
+        <div class='energy-cost'>${contract.cost}</div>
+        <div class='contract-reward' data-type='${contract.type}'>
+          <div class='contract-reward-row'>${icons[0]}</div>` +
+        (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
+        `
+        </div>
+      </div>`
+      );
     },
   });
 });

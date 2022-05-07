@@ -1,0 +1,82 @@
+#contracts-test {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.barrage-contract {
+  width: 139px;
+  height: 100px;
+  display: flex;
+  padding-top: 10px;
+  box-sizing: border-box;
+  margin: 5px;
+  border-bottom-right-radius: 17px;
+  overflow: hidden;
+
+  background: url('img/contract_background.png');
+  background-size: 100% 200%;
+  &[data-parity='0'] {
+    background-position-y: 100%;
+  }
+
+  .energy-cost {
+    width: 65px;
+    margin-right: -10px;
+    height: 100%;
+    background: url('img/icons/energy.png');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position: center 56%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal;
+    color: #bb3f90;
+    font-size: 34px;
+    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+      black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+      black 0.96017px -0.279416px 0px, white 0px 0px 8px;
+  }
+
+  .contract-reward {
+    width: 84px;
+    height: 100%;
+    background: url('img/contract_types.png');
+    background-size: 500% 105%;
+    background-position-y: 3px;
+    background-repeat: no-repeat;
+    padding: 14px 7px 4px;
+    box-sizing: border-box;
+    font-size: 0.8em;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+
+    .contract-reward-row {
+      margin: 5px 0px 2px;
+    }
+
+    @for $i from 0 through 5 {
+      &[data-type='#{$i}'] {
+        background-position-x: $i * 100%/4;
+      }
+    }
+
+    .icon-credit {
+      font-size: 1.4em;
+
+      span {
+        font-size: 0.45em;
+        line-height: 1.4em;
+        color: white;
+        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+          black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+          black 0.96017px -0.279416px 0px;
+      }
+    }
+  }
+}

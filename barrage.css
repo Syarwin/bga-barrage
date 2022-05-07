@@ -459,7 +459,10 @@ html {
   font-size: 0.9em;
   color: #8e1370;
   font-weight: bold;
-  text-shadow: #da94c8 1px 0px 0px, #da94c8 0.540302px 0.841471px 0px, #da94c8 -0.416147px 0.909297px 0px, #da94c8 -0.989993px 0.14112px 0px, #da94c8 -0.653644px -0.756803px 0px, #da94c8 0.283662px -0.958924px 0px, #da94c8 0.96017px -0.279416px 0px; }
+  text-shadow: #da94c8 1px 0px 0px, #da94c8 0.540302px 0.841471px 0px, #da94c8 -0.416147px 0.909297px 0px, #da94c8 -0.989993px 0.14112px 0px, #da94c8 -0.653644px -0.756803px 0px, #da94c8 0.283662px -0.958924px 0px, #da94c8 0.96017px -0.279416px 0px;
+  font-family: 'acumin-pro', serif;
+  font-weight: 900;
+  font-style: normal; }
 
 .icon-container {
   display: inline-block;
@@ -471,6 +474,10 @@ html {
 
 .barrage-icon {
   background-size: 100%; }
+  .barrage-icon span {
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal; }
   .barrage-icon.icon-production {
     min-width: 0.8em;
     height: 0.8em;
@@ -483,8 +490,7 @@ html {
     .barrage-icon.icon-cost span, .barrage-icon.icon-credit span {
       font-size: 0.5em;
       line-height: 1.5em;
-      color: #d70f0f;
-      font-weight: bold; }
+      color: #d70f0f; }
   .barrage-icon.icon-credit {
     min-width: 0.6125em;
     height: 0.7em;
@@ -493,7 +499,7 @@ html {
     min-width: 0.6em;
     height: 0.456em;
     background-image: url("img/icons/arrow.png"); }
-  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-contract span {
+  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-any_machine span, .barrage-icon.icon-contract span, .barrage-icon.icon-vp span {
     font-weight: bold;
     color: white;
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
@@ -521,16 +527,18 @@ html {
     .barrage-icon.icon-rotate span {
       font-size: 0.55em;
       line-height: 0.9em; }
-  .barrage-icon.icon-excavator_icon, .barrage-icon.icon-mixer_icon {
+  .barrage-icon.icon-excavator_icon, .barrage-icon.icon-mixer_icon, .barrage-icon.icon-any_machine {
     min-width: 0.8em;
     height: 0.8em;
     background-image: url("img/icons/excavator.png");
     text-align: center; }
-    .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span {
+    .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-any_machine span {
       font-size: 0.5em;
       line-height: 1.8em; }
   .barrage-icon.icon-mixer_icon {
     background-image: url("img/icons/mixer.png"); }
+  .barrage-icon.icon-any_machine {
+    background-image: url("img/icons/excavator_mixer.png"); }
   .barrage-icon.icon-contract {
     min-width: 1em;
     height: 0.68em;
@@ -539,6 +547,41 @@ html {
     .barrage-icon.icon-contract span {
       font-size: 0.5em;
       line-height: 1.6em; }
+  .barrage-icon.icon-vp {
+    min-width: 0.8em;
+    height: 0.649em;
+    background-image: url("img/icons/vp.png");
+    text-align: center; }
+    .barrage-icon.icon-vp span {
+      font-size: 0.6em;
+      line-height: 0.85em; }
+  .barrage-icon.icon-energy {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url("img/icons/energy.png");
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position: center 56%;
+    text-align: center; }
+    .barrage-icon.icon-energy span {
+      font-size: 0.8em;
+      line-height: 0.85em;
+      font-family: 'acumin-pro', serif;
+      font-weight: 800;
+      font-style: normal;
+      color: #bb3f90;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
+      .barrage-icon.icon-energy span::after {
+        content: '';
+        display: inline-block;
+        width: 0.5em;
+        height: 0.8em;
+        background-image: url("img/icons/short_arrow.png");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        margin-left: -2px;
+        margin-top: 2px;
+        vertical-align: middle; }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");
@@ -1434,5 +1477,75 @@ html {
   #brg-map[data-map='1'] #exit {
     position: absolute;
     top: 100%; }
+
+#contracts-test {
+  display: flex;
+  flex-wrap: wrap; }
+
+.barrage-contract {
+  width: 139px;
+  height: 100px;
+  display: flex;
+  padding-top: 10px;
+  box-sizing: border-box;
+  margin: 5px;
+  border-bottom-right-radius: 17px;
+  overflow: hidden;
+  background: url("img/contract_background.png");
+  background-size: 100% 200%; }
+  .barrage-contract[data-parity='0'] {
+    background-position-y: 100%; }
+  .barrage-contract .energy-cost {
+    width: 65px;
+    margin-right: -10px;
+    height: 100%;
+    background: url("img/icons/energy.png");
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position: center 56%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal;
+    color: #bb3f90;
+    font-size: 34px;
+    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
+  .barrage-contract .contract-reward {
+    width: 84px;
+    height: 100%;
+    background: url("img/contract_types.png");
+    background-size: 500% 105%;
+    background-position-y: 3px;
+    background-repeat: no-repeat;
+    padding: 14px 7px 4px;
+    box-sizing: border-box;
+    font-size: 0.8em;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center; }
+    .barrage-contract .contract-reward .contract-reward-row {
+      margin: 5px 0px 2px; }
+    .barrage-contract .contract-reward[data-type='0'] {
+      background-position-x: 0%; }
+    .barrage-contract .contract-reward[data-type='1'] {
+      background-position-x: 25%; }
+    .barrage-contract .contract-reward[data-type='2'] {
+      background-position-x: 50%; }
+    .barrage-contract .contract-reward[data-type='3'] {
+      background-position-x: 75%; }
+    .barrage-contract .contract-reward[data-type='4'] {
+      background-position-x: 100%; }
+    .barrage-contract .contract-reward[data-type='5'] {
+      background-position-x: 125%; }
+    .barrage-contract .contract-reward .icon-credit {
+      font-size: 1.4em; }
+      .barrage-contract .contract-reward .icon-credit span {
+        font-size: 0.45em;
+        line-height: 1.4em;
+        color: white;
+        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
 
 /*# sourceMappingURL=barrage.css.map */

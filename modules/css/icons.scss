@@ -7,6 +7,10 @@
       rgb(218, 148, 200) -0.416147px 0.909297px 0px, rgb(218, 148, 200) -0.989993px 0.14112px 0px,
       rgb(218, 148, 200) -0.653644px -0.756803px 0px, rgb(218, 148, 200) 0.283662px -0.958924px 0px,
       rgb(218, 148, 200) 0.96017px -0.279416px 0px;
+
+    font-family: 'acumin-pro', serif;
+    font-weight: 900;
+    font-style: normal;
   }
 }
 
@@ -23,6 +27,12 @@
 
 .barrage-icon {
   background-size: 100%;
+
+  span {
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal;
+  }
 
   &.icon-production {
     min-width: 0.8em;
@@ -41,7 +51,6 @@
       font-size: 0.5em;
       line-height: 1.5em;
       color: #d70f0f;
-      font-weight: bold;
     }
   }
   &.icon-credit {
@@ -61,7 +70,9 @@
   &.icon-rotate,
   &.icon-excavator_icon,
   &.icon-mixer_icon,
-  &.icon-contract {
+  &.icon-any_machine,
+  &.icon-contract,
+  &.icon-vp {
     span {
       font-weight: bold;
       color: white;
@@ -109,7 +120,8 @@
   }
 
   &.icon-excavator_icon,
-  &.icon-mixer_icon {
+  &.icon-mixer_icon,
+  &.icon-any_machine {
     min-width: 0.8em;
     height: 0.8em;
     background-image: url('img/icons/excavator.png');
@@ -123,16 +135,67 @@
   &.icon-mixer_icon {
     background-image: url('img/icons/mixer.png');
   }
+  &.icon-any_machine {
+    background-image: url('img/icons/excavator_mixer.png');
+  }
 
   &.icon-contract {
     min-width: 1em;
     height: 0.68em;
     background-image: url('img/icons/contract.png');
     text-align: center;
-    
+
     span {
       font-size: 0.5em;
       line-height: 1.6em;
+    }
+  }
+
+  &.icon-vp {
+    min-width: 0.8em;
+    height: 0.649em;
+    background-image: url('img/icons/vp.png');
+    text-align: center;
+
+    span {
+      font-size: 0.6em;
+      line-height: 0.85em;
+    }
+  }
+
+  &.icon-energy {
+    min-width: 0.8em;
+    height: 0.8em;
+    background-image: url('img/icons/energy.png');
+    background-size: 102% auto;
+    background-repeat: no-repeat;
+    background-position: center 56%;
+    text-align: center;
+
+    span {
+      font-size: 0.8em;
+      line-height: 0.85em;
+
+      font-family: 'acumin-pro', serif;
+      font-weight: 800;
+      font-style: normal;
+      color: #bb3f90;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+        black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+        black 0.96017px -0.279416px 0px, white 0px 0px 8px;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 0.5em;
+        height: 0.8em;
+        background-image: url("img/icons/short_arrow.png");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        margin-left: -2px;
+        margin-top: 2px;
+        vertical-align: middle;
+       }
     }
   }
 }

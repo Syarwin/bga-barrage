@@ -1,4 +1,7 @@
 {OVERALL_GAME_HEADER}
+<link rel="stylesheet" href="https://use.typekit.net/jim0ypy.css" />
+
+<div id="contracts-test"></div>
 <div id="barrage-container">
   <div id="energy-track"></div>
   <div id="barrage-center-container"></div>
