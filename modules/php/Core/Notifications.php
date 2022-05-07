@@ -76,10 +76,11 @@ class Notifications
     ]);
   }
 
-  public static function setupCompanies($meeples)
+  public static function setupCompanies($meeples, $tiles)
   {
     self::notifyAll('setupCompanies', '', [
       'meeples' => $meeples->toArray(),
+      'tiles' => $tiles->toArray(),
     ]);
   }
 
