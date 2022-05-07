@@ -9,6 +9,7 @@ use BRG\Managers\Players;
 use BRG\Managers\Officers;
 use BRG\Managers\Meeples;
 use BRG\Managers\Contracts;
+use BRG\Managers\TechnologyTiles;
 use BRG\Map;
 
 trait SetupTrait
@@ -98,14 +99,14 @@ trait SetupTrait
   {
     $companies = Companies::getAll();
     $meeples = Meeples::setupCompanies($companies);
-    if(!$silent){
-      Notifications::setupCompanies($meeples);
+    $tiles = TechnologyTiles::setupCompanies($companies);
+    if (!$silent) {
+      Notifications::setupCompanies($meeples, $tiles);
     }
-
 
     // Create turn order
     $turnOrder = [];
-    foreach($companies as $cId => $company){
+    foreach ($companies as $cId => $company) {
       $turnOrder[$company->getNo() - 1] = $cId;
     }
     Companies::changeActive($turnOrder[0]);

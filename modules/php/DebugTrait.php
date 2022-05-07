@@ -5,6 +5,7 @@ use BRG\Managers\Players;
 use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\Actions;
+use BRG\Managers\Companies;
 use BRG\Managers\PlayerCards;
 use BRG\Core\Engine;
 use BRG\Core\Game;
@@ -29,7 +30,8 @@ trait DebugTrait
   {
     // $this->actTakeAtomicAction([['HC']]);
     // throw new \feException(print_r(Map::producingCapacity(5)));
-    $this->actTakeAtomicAction(['C1L', 'B1L', 1]);
+    // $this->actTakeAtomicAction(['C1L', 'B1L', 1]);
+    Companies::getActive()->setSlot(4);
   }
 
   function addResource($type, $qty = 1)

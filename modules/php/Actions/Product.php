@@ -24,9 +24,9 @@ class Product extends \BRG\Models\Action
     ];
   }
 
-  public function stProduct()
+  public function isDoable($company, $ignoreResources = false)
   {
-    // throw new \feException(print_r(Engine::getNextUnresolved()->getArgs()));
+    return !empty(Map::productionCapacity($company->getId()));
   }
 
   public function actProduct($conduit, $basin, $droplets)

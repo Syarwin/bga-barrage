@@ -40,6 +40,8 @@ class PlaceDroplet extends \BRG\Models\Action
     $company = Companies::getActive();
     if (count($headstreams) > $args['number']) {
       throw new \BgaVisibleSystemException('Too many droplet sent. Should not happen');
+    } elseif (empty($headstream)) {
+      throw new \BgaVisibleSystemException('You must add at least one droplet. Should not happen');
     }
 
     $meeples = [];
