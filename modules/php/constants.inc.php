@@ -112,7 +112,8 @@ const OBJECTIVE_TILES = [
 /*
  * Contracts
  */
-const STARTING_CONTRACTS = [1, 2, 3, 4, 5];
+//const STARTING_CONTRACTS = [1, 2, 3, 4, 5];
+const STARTING_CONTRACTS = [1, 2, 3, 4];
 
 /*
  * Companies
@@ -153,6 +154,12 @@ const DROPLET = 'droplet';
 
 const MACHINERIES = [EXCAVATOR, MIXER];
 const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET];
+
+const ENERGY = 'energy';
+const VP = 'vp';
+const ANY_MACHINE = 'any_machine';
+const FLOW_DROPLET = 'flow_droplet';
+
 
 const BASE = 'base';
 const ELEVATION = 'elevation';

@@ -43,10 +43,10 @@ CREATE TABLE IF NOT EXISTS `technology_tiles` (
 
 
 CREATE TABLE IF NOT EXISTS `contracts` (
-  `contract_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `contract_id` int(10) unsigned NOT NULL,
   `contract_location` varchar(32) NOT NULL,
   `contract_state` int(10),
-  `type` varchar(32),
+  `type` int(3),
   PRIMARY KEY (`contract_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

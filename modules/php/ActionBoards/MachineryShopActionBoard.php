@@ -32,7 +32,7 @@ class MachineryShopActionBoard extends AbstractActionBoard
     if (Companies::count() >= 4) {
       $rows[] = [
         'a',
-        ['i' => '<CREDIT:4><ARROW><ANY>', 't' => clienttranslate('Pay four credits for one excavator or one mixer')],
+        ['i' => '<CREDIT:4><ARROW><ANY_MACHINE>', 't' => clienttranslate('Pay four credits for one excavator or one mixer')],
         'abis',
       ];
     }

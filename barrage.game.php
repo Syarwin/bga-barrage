@@ -88,6 +88,7 @@ class barrage extends Table
       'meeples' => Meeples::getUiData(),
       'map' => Map::getUiData(),
       'bonusTiles' => Globals::getBonusTiles(),
+      'contracts' => Contracts::getUiData(),
     ];
   }
 
