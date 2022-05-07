@@ -63,7 +63,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     }
     if ($structure != null) {
       if (is_array($structure)) {
-        $query = $query->whereIn('structure', $type);
+        $query = $query->whereIn('structure', $structure);
       } else {
         $query = $query->where('structure', strpos($structure, '%') === false ? '=' : 'LIKE', $structure);
       }

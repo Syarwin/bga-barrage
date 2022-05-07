@@ -171,6 +171,18 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::createResourceInLocation($type, 'reserve', $cId, $nbr);
   }
 
+  public function getTopOfType($type, $company, $location, $n = 1, $returnValueIfOnlyOneRow = true)
+  {
+    self::checkLocation($location);
+    self::checkPosInt($n);
+    return self::getSelectWhere(null, $location)
+      ->where([['type', $type]])
+      ->where([['company_id', $company]])
+      ->orderBy(static::$prefix . 'state', 'DESC')
+      ->limit($n)
+      ->get($returnValueIfOnlyOneRow);
+  }
+
   //   ___  _     ____
   //  / _ \| |   |  _ \
   // | | | | |   | | | |

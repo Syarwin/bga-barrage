@@ -227,4 +227,16 @@ class Company extends \BRG\Helpers\DB_Model
     );
     return;
   }
+
+  public function canConstruct($type)
+  {
+    if (Meeples::getFilteredQuery($this->id, 'company', [$type])->count() == 0) {
+      return false;
+    }
+
+    if (TechnologyTiles::getFilteredQuery($this->id, 'company', [$type, JOKER])->count() === 0) {
+      return false;
+    }
+    return true;
+  }
 }
