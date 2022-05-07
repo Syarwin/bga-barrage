@@ -158,10 +158,13 @@ const BASE = 'base';
 const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
+const JOKER = 'joker';
 
 const ENGINEER = 'engineer';
 const ARCHITECT = 'architect';
 const N_ARCHITECT = -1;
+
+const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
 
 /*
  * Boards

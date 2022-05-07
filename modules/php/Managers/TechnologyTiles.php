@@ -14,7 +14,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
 
   protected static function cast($row)
   {
-    if ($row['id'] < 100) {
+    if (in_array($row['structure'], BASIC_TILES)) {
       return new \BRG\TechTiles\BasicTile($row);
     } else {
       die('TODO : Advanced tech tiles not implemented');
@@ -33,6 +33,20 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   {
     // // TODO:
     die('todo : advanced tech tiles');
+  }
+
+  public static function setupCompanies($companies)
+  {
+    $meeples = [];
+    foreach ($companies as $cId => $company) {
+      $meeples[] = ['structure' => BASE, 'company_id' => $cId, 'location' => 'company'];
+      $meeples[] = ['structure' => ELEVATION, 'company_id' => $cId, 'location' => 'company'];
+      $meeples[] = ['structure' => CONDUIT, 'company_id' => $cId, 'location' => 'company'];
+      $meeples[] = ['structure' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company'];
+      $meeples[] = ['structure' => JOKER, 'company_id' => $cId, 'location' => 'company'];
+    }
+
+    return self::getMany(self::create($meeples));
   }
 
   /**
