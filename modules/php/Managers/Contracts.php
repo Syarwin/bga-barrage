@@ -20,13 +20,10 @@ class Contracts extends \BRG\Helpers\Pieces
 
   public static function getUiData()
   {
-    return self::getAll();
-
-    /*
-    self::getSelectQuery()
+    return self::getSelectQuery()
+      ->where('contract_location', '<>', 'box')
       ->get()
       ->toArray();
-*/
   }
 
   /* Creation of various contracts */
@@ -48,6 +45,11 @@ class Contracts extends \BRG\Helpers\Pieces
   {
     $contractIds = Utils::rand(STARTING_CONTRACTS, $nPlayers);
     self::move($contractIds, 'pickStart');
+  }
+
+  public function getStartingPick()
+  {
+    return self::getInLocation('pickStart');
   }
 
   public function getContracts()
@@ -80,7 +82,7 @@ class Contracts extends \BRG\Helpers\Pieces
       102 => $f(14, [VP => 8, CREDIT => 8]),
       103 => $f(14, [VP => 8, ENERGY => 6]),
       104 => $f(15, [VP => 12]),
-      105 => $f(15, [VP => 9, PLACE_DROPLET => 3]),
+      105 => $f(15, [VP => 9, FLOW_DROPLET => 3]),
 
       //   ____
       //  / ___|_ __ ___  ___ _ __
@@ -98,8 +100,8 @@ class Contracts extends \BRG\Helpers\Pieces
       207 => $f(3, [CREDIT => 4, FLOW_DROPLET => 1]),
       208 => $f(3, [ENERGY => 2, ROTATE_WHEEL => 2]),
       209 => $f(3, [VP => 4, CREDIT => 2]),
-      210 => $f(4, []), // CONDUIT ??
-      211 => $f(4, []), // BASE
+      210 => $f(4, [CONDUIT => 2]),
+      211 => $f(4, [BASE => [PLAIN]]),
       212 => $f(4, [VP => 5, EXCAVATOR => 1]),
       213 => $f(4, [VP => 1, ROTATE_WHEEL => 3]),
       214 => $f(4, [VP => 3, FLOW_DROPLET => 2]),
@@ -136,14 +138,14 @@ class Contracts extends \BRG\Helpers\Pieces
       400 => $f(8, [VP => 4, ROTATE_WHEEL => 3]),
       401 => $f(8, [BASE => 1]),
       402 => $f(8, [CREDIT => 4, MIXER => 1, \ROTATE_WHEEL => 2]),
-      403 => $f(8, []), // TODO
+      403 => $f(8, [CONDUIT => 4]),
       404 => $f(8, [VP => 4, ENERGY => 5]),
       405 => $f(9, [VP => 3, CREDIT => 2, ANY_MACHINE => 2]),
       406 => $f(9, [VP => 8, ROTATE_WHEEL => 1]),
       407 => $f(9, [VP => 5, PLACE_DROPLET => 3, EXCAVATOR => 1]),
       408 => $f(9, [POWERHOUSE => 1, ENERGY => 3]),
       409 => $f(9, [ELEVATION => 1, FLOW_DROPLET => 2]),
-      410 => $f(10, []), // CONDUIT ??
+      410 => $f(10, [CONDUIT => 5]),
       411 => $f(10, [VP => 7, CREDIT => 3]),
       412 => $f(10, [VP => 8, FLOW_DROPLET => 1]),
       413 => $f(10, [VP => 6, ROTATE_WHEEL => 2, PLACE_DROPLET => 2]),
@@ -165,7 +167,6 @@ class Contracts extends \BRG\Helpers\Pieces
       'reward' => $reward,
     ];
   }
-
 
   private function gainNode($gain)
   {

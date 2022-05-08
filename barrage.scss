@@ -38,7 +38,7 @@ html {
 }
 
 .player-board {
-//  background-color: #ebeaea;
+  //  background-color: #ebeaea;
 }
 
 #page-title {
@@ -49,7 +49,6 @@ html {
   background-color: #ebeaea;
 }
 
-
 // Disabled button
 #customActions .bgabutton.disabled {
   opacity: 0.5;
@@ -58,6 +57,9 @@ html {
   pointer-events: all;
 }
 
+#customActions .bgabutton.selected {
+  background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89));
+}
 
 // SAFE MODE
 #ebd-body.help-mode {
