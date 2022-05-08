@@ -42,6 +42,9 @@ html {
   cursor: not-allowed;
   pointer-events: all; }
 
+#customActions .bgabutton.selected {
+  background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89)); }
+
 #ebd-body.help-mode .tooltipable {
   cursor: help; }
 
@@ -61,6 +64,11 @@ html {
 #ebd-body:not(.help-mode) .help-marker {
   opacity: 0;
   pointer-events: none; }
+
+#pickStart {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
 /*
 .barrage-frame {
@@ -1518,18 +1526,26 @@ html {
   flex-wrap: wrap; }
 
 .barrage-contract {
-  width: 139px;
-  height: 100px;
+  width: 143px;
+  height: 104px;
   display: flex;
   padding-top: 10px;
   box-sizing: border-box;
-  margin: 5px;
-  border-bottom-right-radius: 17px;
+  margin: 3px;
+  border: 2px solid transparent;
+  border-radius: 20px;
   overflow: hidden;
   background: url("img/contract_background.png");
-  background-size: 100% 200%; }
+  background-size: 100% 200%;
+  background-clip: padding-box; }
   .barrage-contract[data-parity='0'] {
     background-position-y: 100%; }
+  .barrage-contract.selectable {
+    cursor: pointer; }
+    .barrage-contract.selectable:hover {
+      transform: scale(1.1); }
+  .barrage-contract.selected {
+    border: 2px solid red; }
   .barrage-contract .energy-cost {
     width: 65px;
     margin-right: -10px;
@@ -1556,7 +1572,7 @@ html {
     background-repeat: no-repeat;
     padding: 14px 7px 4px;
     box-sizing: border-box;
-    font-size: 0.8em;
+    font-size: 24px;
     display: flex;
     justify-content: center;
     flex-flow: column;

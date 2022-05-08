@@ -84,6 +84,14 @@ class Notifications
     ]);
   }
 
+  public static function pickContract($company, $contract)
+  {
+    self::notifyAll('pickContract', clienttranslate('${company_name} picks a contract'), [
+      'company' => $company,
+      'contract' => $contract,
+    ]);
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [

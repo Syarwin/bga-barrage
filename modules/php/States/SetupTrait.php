@@ -136,6 +136,7 @@ trait SetupTrait
 
   function argsPickStart()
   {
+    // Fetching additional matchups datas
     $matchups = Globals::getStartingMatchups();
     foreach ($matchups as &$matchup) {
       $company = Companies::getInstance($matchup['cId']);
@@ -144,12 +145,16 @@ trait SetupTrait
       $officer = Officers::getInstance($matchup['xId']);
       $matchup['xName'] = $officer->getName();
     }
+
+    // Fetching contracts
+    $contracts = Contracts::getStartingPick();
     return [
       'matchups' => $matchups,
+      'contracts' => $contracts,
     ];
   }
 
-  function actPickStart($matchupId, $contract, $auto = false)
+  function actPickStart($matchupId, $contractId, $auto = false)
   {
     if (!$auto) {
       self::checkAction('actPickStart');
@@ -159,14 +164,18 @@ trait SetupTrait
     if (is_null($matchup)) {
       throw new \BgaVisibleSystemException('Invalid matchup id');
     }
-    // TODO : contracts
+    $contract = $args['contracts'][$contractId] ?? null;
+    if(is_null($contract)){
+      throw new \BgaVisibleSystemException('Invalid contract id');
+    }
 
     $player = Players::getCurrent();
     $company = Companies::assignCompany($player, $matchup['cId'], $matchup['xId']);
     $this->reloadPlayersBasicInfos();
     Notifications::assignCompany($player, $company);
 
-    // TODO : contracts
+    $contract->pick($company);
+    Notifications::pickContract($company, $contract);
 
     $matchups = Globals::getStartingMatchups();
     unset($matchups[$matchupId]);

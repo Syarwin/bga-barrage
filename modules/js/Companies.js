@@ -82,6 +82,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `
         </div>
       </div>
+      <div class='company-panel-contracts' id='company-contracts-${company.id}'></div>
       <div class='company-panel-personal-resources'>
       ` +
         PERSONAL_RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
@@ -243,11 +244,50 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     onEnteringStatePickStart(args) {
+      let selectedMatchup = null;
+      let selectedContract = null;
+      let updateButton = () => {
+        dojo.destroy('btnConfirmChoice');
+        if (selectedMatchup != null && selectedContract != null) {
+          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
+            this.takeAction('actPickStart', { matchup: selectedMatchup, contract: selectedContract }),
+          );
+        }
+      };
+
       Object.keys(args.matchups).forEach((i) => {
         let matchup = args.matchups[i];
-        this.addPrimaryActionButton('btnMatchup' + i, _(matchup.cName) + ' & ' + _(matchup.xName), () =>
-          this.takeAction('actPickStart', { matchup: i, contract: 0 }),
-        );
+        this.addPrimaryActionButton('btnMatchup' + i, _(matchup.cName) + ' & ' + _(matchup.xName), () => {
+          if (selectedMatchup != null) {
+            $(`btnMatchup${selectedMatchup}`).classList.remove('selected');
+          }
+
+          if (selectedMatchup == i) {
+            selectedMatchup = null;
+          } else {
+            selectedMatchup = i;
+            $(`btnMatchup${i}`).classList.add('selected');
+          }
+          updateButton();
+        });
+      });
+
+      Object.keys(args.contracts).forEach((contractId) => {
+        let contract = args.contracts[contractId];
+        this.addContract(contract);
+        this.onClick(`contract-${contract.id}`, () => {
+          if (selectedContract != null) {
+            $(`contract-${selectedContract}`).classList.remove('selected');
+          }
+
+          if (selectedContract == contract.id) {
+            selectedContract = null;
+          } else {
+            selectedContract = contract.id;
+            $(`contract-${contract.id}`).classList.add('selected');
+          }
+          updateButton();
+        });
       });
     },
 

@@ -45,6 +45,7 @@ define([
         ['produce', 500],
         ['score', 500],
         ['rotateWheel', 500],
+        ['pickContract', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -501,13 +502,47 @@ define([
     //
     //////////////////////////////////////////////////////
     setupContracts() {
-      return;//
+      // This function is refreshUI compatible
+      let contractIds = this.gamedatas.contracts.map((contract) => {
+        this.addContract(contract);
+        let o = $(`contract-${contract.id}`);
+        let container = this.getContractContainer(contract);
+        if (o.parentNode != $(container)) {
+          dojo.place(o, container);
+        }
 
-      Object.keys(this.gamedatas.contracts).forEach((contractId) => {
-        let contract = this.gamedatas.contracts[contractId];
-        contract.id = contractId;
-        this.place('tplContract', contract, 'contracts-test');
+        return contract.id;
       });
+
+      /*
+      TODO : PROBABLY USELES
+      document.querySelectorAll('.barrage-meeple[id^="meeple-"]').forEach((oMeeple) => {
+        if (!meepleIds.includes(parseInt(oMeeple.getAttribute('data-id')))) {
+          dojo.destroy(oMeeple);
+        }
+      });
+      */
+    },
+
+    addContract(contract, container = null) {
+      if ($('contract-' + contract.id)) return;
+
+      if (!container) {
+        container = this.getContractContainer(contract);
+      }
+      this.place('tplContract', contract, container);
+    },
+
+    getContractContainer(contract) {
+      if (contract.location == 'pickStart') {
+        return 'pickStart';
+      } else if (contract.location.substr(0, 4) == 'hand') {
+        let cId = contract.location.substr(5);
+        return `company-contracts-${cId}`;
+      }
+
+      console.error('Trying to get container of a contract', contract);
+      return 'game_play_area';
     },
 
     tplContract(contract) {
@@ -523,6 +558,13 @@ define([
         </div>
       </div>`
       );
+    },
+
+    notif_pickContract(n) {
+      debug('Notif: someone picked a contract', n);
+      let contract = n.args.contract;
+      $(`contract-${contract.id}`).classList.remove('selected');
+      this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
     },
   });
 });

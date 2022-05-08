@@ -20,13 +20,10 @@ class Contracts extends \BRG\Helpers\Pieces
 
   public static function getUiData()
   {
-    return self::getAll();
-
-    /*
-    self::getSelectQuery()
+    return self::getSelectQuery()
+      ->where('contract_location', '<>', 'box')
       ->get()
       ->toArray();
-*/
   }
 
   /* Creation of various contracts */
@@ -48,6 +45,11 @@ class Contracts extends \BRG\Helpers\Pieces
   {
     $contractIds = Utils::rand(STARTING_CONTRACTS, $nPlayers);
     self::move($contractIds, 'pickStart');
+  }
+
+  public function getStartingPick()
+  {
+    return self::getInLocation('pickStart');
   }
 
   public function getContracts()
@@ -165,7 +167,6 @@ class Contracts extends \BRG\Helpers\Pieces
       'reward' => $reward,
     ];
   }
-
 
   private function gainNode($gain)
   {

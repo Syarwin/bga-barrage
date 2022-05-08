@@ -33,6 +33,11 @@ class Contract extends \BRG\Helpers\DB_Model
     return $data;
   }
 
+  public function pick($company)
+  {
+    $this->setLocation('hand_' . $company->getId());
+  }
+
   private function computeIcons()
   {
     $mapping = [
