@@ -45,6 +45,7 @@ define([
         ['produce', 500],
         ['score', 500],
         ['rotateWheel', 500],
+        ['construct', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -501,7 +502,7 @@ define([
     //
     //////////////////////////////////////////////////////
     setupContracts() {
-      return;//
+      return; //
 
       Object.keys(this.gamedatas.contracts).forEach((contractId) => {
         let contract = this.gamedatas.contracts[contractId];

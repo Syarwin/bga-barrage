@@ -227,6 +227,22 @@ class Notifications
     ]);
   }
 
+  public static function construct($company, $type, $target, $meeples, $technologyTlle)
+  {
+    self::notifyAll(
+      'construct',
+      clienttranslate('${company_name} constructs a ${type} in ${target} for ${resources_desc}'),
+      [
+        'company' => $company,
+        'i18n' => ['type'],
+        'type' => $type,
+        'target' => $target,
+        'resources' => $meeples,
+        'techTile' => $technologyTlle,
+      ]
+    );
+  }
+
   /*********************
    **** UPDATE ARGS ****
    *********************/

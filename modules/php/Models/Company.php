@@ -228,6 +228,11 @@ class Company extends \BRG\Helpers\DB_Model
     return;
   }
 
+  public function placeOnWheel($type, $n)
+  {
+    return Meeples::moveResource($this->id, $type, $n, 'wheel_' . $this->slot);
+  }
+
   public function canConstruct($type)
   {
     if (Meeples::getFilteredQuery($this->id, 'company', [$type])->count() == 0) {

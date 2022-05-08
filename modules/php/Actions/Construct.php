@@ -3,7 +3,9 @@ namespace BRG\Actions;
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
+use BRG\Managers\TechnologyTiles;
 use BRG\Core\Notifications;
+use BRG\Core\Engine;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 use BRG\Map;
@@ -118,7 +120,7 @@ class Construct extends \BRG\Models\Action
                   'type' => $t,
                   'creditCost' => 0,
                   'mType' => $this->costMap[$t]['type'],
-                  'mType' => 2 * $conduit['production'],
+                  'mCost' => 2 * $conduit['production'],
                   'target' => $cId,
                 ];
               }
@@ -127,6 +129,70 @@ class Construct extends \BRG\Models\Action
         }
       }
     }
-    return $possibilities;
+    return ['possibilities' => $possibilities];
+  }
+
+  public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
+  {
+    $args = $this->argsConstruct();
+    $company = Companies::getActive();
+
+    if (!isset($args['possibilities'][$type])) {
+      throw new \BgaVisibleSystemException('Cannot construct ' . $type . '. Should not happen');
+    }
+    $filter = array_filter($args['possibilities'][$type], function ($p) use ($meeple, $target) {
+      return $p['meeple'] == $meeple && $p['target'] == $target;
+    });
+
+    if (count($filter) != 1) {
+      throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
+    }
+    $filter = array_pop($filter);
+
+    // move cost on wheel
+    $movedResources = [];
+    if ($resources != null) {
+      foreach ($resources as $resource => $amount) {
+        $movedResources = array_merge($movedResources, $company->placeOnWheel($resource, $amount));
+      }
+    } else {
+      $movedResources = $company->placeOnWheel($filter['mType'], $filter['mCost']);
+    }
+    if (count($movedResources) != $filter['mCost']) {
+      throw new \BgaVisibleSystemException('Not enough resource placed on wheel during construct. Should not happen');
+    }
+
+    // move tech tile
+    $oTechnologyTiles = Meeples::getFilteredQuery($company->getId(), 'company', [$technologyTlle])
+      ->get()
+      ->first();
+    if (is_null($oTechnologyTiles)) {
+      throw new \BgaVisibleSystemException('Unavailable technology tile. Should not happen');
+    }
+    $techMoved = TechnologyTiles::move($oTechnologyTiles['id'], 'wheel_' . $company->getSlot());
+
+    // move meeple on location
+    $movedTarget = Meeples::move($meeple, $target);
+
+    Notifications::construct(
+      $company,
+      $type,
+      Meeples::get($movedTarget)['location'],
+      Meeples::getMany($movedResources),
+      $techMoved
+    );
+
+    // rorate wheel
+    Engine::insertAsChild([
+      'action' => ROTATE_WHEEL,
+      'args' => [
+        'n' => 1,
+      ],
+    ]);
+
+    // insert bonus revenue if there is any
+    // TODO : insert bonus
+
+    $this->resolveAction([$filter]);
   }
 }
