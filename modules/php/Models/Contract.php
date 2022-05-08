@@ -45,13 +45,21 @@ class Contract extends \BRG\Helpers\DB_Model
       FLOW_DROPLET => 'WATER_DOWN',
       ANY_MACHINE => 'ANY_MACHINE',
       ENERGY => 'ENERGY',
+      CONDUIT => 'CONDUIT_X',
+      POWERHOUSE => 'POWERHOUSE',
+      ELEVATION => 'ELEVATION',
+      BASE => 'BASE',
     ];
 
     $icons = [];
     foreach ($this->reward as $t => $n) {
       $icon = '<CREDIT>';
       if (array_key_exists($t, $mapping)) {
-        $icon = '<' . $mapping[$t] . ":$n>";
+        if (is_array($n)) {
+          $icon = '<' . $mapping[$t] . '_' . strtoupper(implode('_', $n)) . '>';
+        } else {
+          $icon = '<' . $mapping[$t] . ":$n>";
+        }
       }
 
       $icons[] = $icon;

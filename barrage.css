@@ -548,13 +548,19 @@ html {
       font-size: 0.5em;
       line-height: 1.6em; }
   .barrage-icon.icon-vp {
-    min-width: 0.8em;
-    height: 0.649em;
+    min-width: 0.9861em;
+    height: 0.8em;
     background-image: url("img/icons/vp.png");
     text-align: center; }
     .barrage-icon.icon-vp span {
-      font-size: 0.6em;
-      line-height: 0.85em; }
+      font-size: 0.7em;
+      line-height: 1em; }
+  .barrage-icon.icon-energy span, .barrage-icon.icon-conduit_x span {
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal;
+    color: #bb3f90;
+    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
   .barrage-icon.icon-energy {
     min-width: 0.8em;
     height: 0.8em;
@@ -565,12 +571,7 @@ html {
     text-align: center; }
     .barrage-icon.icon-energy span {
       font-size: 0.8em;
-      line-height: 0.85em;
-      font-family: 'acumin-pro', serif;
-      font-weight: 800;
-      font-style: normal;
-      color: #bb3f90;
-      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
+      line-height: 0.85em; }
       .barrage-icon.icon-energy span::after {
         content: '';
         display: inline-block;
@@ -582,6 +583,40 @@ html {
         margin-left: -2px;
         margin-top: 2px;
         vertical-align: middle; }
+  .barrage-icon.icon-conduit_x {
+    min-width: 1em;
+    height: 1.14em;
+    background-image: url("img/icons/conduitX.png"); }
+    .barrage-icon.icon-conduit_x span {
+      font-size: 0.5em;
+      line-height: 1.2em;
+      margin-left: 0.25em; }
+  .barrage-icon.icon-powerhouse {
+    min-width: 1em;
+    height: 0.69em;
+    background-image: url("img/icons/powerhouse.png"); }
+    .barrage-icon.icon-powerhouse span {
+      display: none; }
+  .barrage-icon.icon-elevation {
+    min-width: 1em;
+    height: 0.64em;
+    background-image: url("img/icons/elevation.png"); }
+    .barrage-icon.icon-elevation span {
+      display: none; }
+  .barrage-icon.icon-base {
+    min-width: 1em;
+    height: 0.59em;
+    background-image: url("img/icons/base.png"); }
+    .barrage-icon.icon-base span {
+      display: none; }
+  .barrage-icon.icon-base_plain_hill {
+    min-width: 1.1em;
+    height: 0.75em;
+    background-image: url("img/icons/base_plain_hill.png"); }
+  .barrage-icon.icon-base_plain {
+    min-width: 1.1em;
+    height: 0.75em;
+    background-image: url("img/icons/base_plain.png"); }
 
 .avatar.automa {
   background-image: url("img/companies.jpg");
