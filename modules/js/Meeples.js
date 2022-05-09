@@ -313,5 +313,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       return this.inherited(arguments);
     },
+
+    notif_construct(n) {
+      debug('Notif: construct on the map', n);
+    },
   });
 });

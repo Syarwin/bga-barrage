@@ -45,6 +45,7 @@ define([
         ['produce', 500],
         ['score', 500],
         ['rotateWheel', 500],
+        ['construct', 1000],
         ['pickContract', 1000],
       ];
 

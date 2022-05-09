@@ -150,6 +150,37 @@ class Meeples extends \BRG\Helpers\Pieces
     return $moved;
   }
 
+  public function moveResource($companyId, $resourceType, $amount, $location)
+  {
+    $moved = [];
+    if ($amount == 0) {
+      return [];
+    }
+
+    $resource = self::getFilteredQuery($companyId, 'reserve', [$resourceType])->get();
+
+    if (count($resource) < $amount) {
+      throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
+    }
+
+    foreach ($resource as $id => $res) {
+      self::DB()->update(
+        [
+          'meeple_location' => $location,
+        ],
+        $id
+      );
+      $res['meeple_location'] = $location;
+      $moved[] = $res['id'];
+      // self::DB()->delete($id);
+      $amount--;
+      if ($amount == 0) {
+        break;
+      }
+    }
+    return $moved;
+  }
+
   public function createResourceInLocation($type, $location, $cId, $nbr = 1, $state = null)
   {
     $meeples = [
