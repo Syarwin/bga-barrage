@@ -144,6 +144,17 @@ const XO_LESLIE = 13;
 const XO_WU = 14;
 const XO_OCTAVIUS = 14;
 const XO_AMIR = 15;
+
+/*
+ * Introductory Matchup
+ */
+const INTRODUCTORY_MATCHUPS = [
+  [COMPANY_USA, XO_WILHELM, 1],
+  [COMPANY_GERMANY, XO_JILL, 2],
+  [COMPANY_ITALY, XO_SOLOMON, 3],
+  [COMPANY_FRANCE, XO_VIKTOR, 4],
+];
+
 /*
  * Types of ressources
  */
@@ -159,7 +170,6 @@ const ENERGY = 'energy';
 const VP = 'vp';
 const ANY_MACHINE = 'any_machine';
 const FLOW_DROPLET = 'flow_droplet';
-
 
 const BASE = 'base';
 const ELEVATION = 'elevation';

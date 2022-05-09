@@ -34,7 +34,7 @@ $machinestates = [
     'description' => '',
     'type' => 'game',
     'action' => 'stSetupBranch',
-    'transitions' => ['pick' => ST_PICK_START],
+    'transitions' => ['pick' => ST_PICK_START, 'start' => ST_BEFORE_START_OF_ROUND],
   ],
 
   ST_PICK_START_NEXT => [

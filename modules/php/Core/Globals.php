@@ -153,7 +153,7 @@ class Globals extends \BRG\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSetup($options[\BRG\OPTION_SETUP]);
-    self::setLWP($options[\BRG\OPTION_EXPANSION_LWP] == \BRG\OPTION_EXPANSION_LWP_ON);
+    self::setLWP(($options[\BRG\OPTION_EXPANSION_LWP] ?? null) == \BRG\OPTION_EXPANSION_LWP_ON);
     self::setMap(MAP_BASE);
 
     self::setRound(0);

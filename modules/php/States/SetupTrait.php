@@ -60,14 +60,26 @@ trait SetupTrait
     // 11] Place neutral dams
     Map::placeNeutralDams();
 
+    // Introductory setup : assign companies
+    if (Globals::isBeginner()) {
+      $i = 0;
+      foreach (Players::getAll() as $pId => $player) {
+        $matchup = INTRODUCTORY_MATCHUPS[$i++];
+        $company = Companies::assignCompany($player, $matchup[0], $matchup[1]);
+        $contract = Contracts::get($matchup[2]);
+        $contract->pick($company);
+      }
+      $this->reloadPlayersBasicInfos();
+      $this->setupCompanies(true);
+    }
+
     $this->activeNextPlayer();
   }
 
   public function stSetupBranch()
   {
     if (Globals::isBeginner()) {
-      // TODO : default setup
-      die('TODO: Introductory matchups');
+      $this->gamestate->nextState('start');
     } else {
       // 12] Draw advanced tech tiles
       // TODO TechnologyTiles::setupAdvancedTiles();
@@ -165,7 +177,7 @@ trait SetupTrait
       throw new \BgaVisibleSystemException('Invalid matchup id');
     }
     $contract = $args['contracts'][$contractId] ?? null;
-    if(is_null($contract)){
+    if (is_null($contract)) {
       throw new \BgaVisibleSystemException('Invalid contract id');
     }
 
