@@ -14,6 +14,7 @@
 .barrage-contract {
   width: calc(var(--barrageContractScale) * 157px);
   height: calc(var(--barrageContractScale) * 117px);
+  position: relative;
 
   .contract-fixed-size {
     width: 157px;

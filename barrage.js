@@ -74,6 +74,16 @@ define([
             1: _('Hide'),
           },
         },
+        energyTrack: {
+          default: 0,
+          name: _('Energy track position'),
+          attribute: 'energy-track',
+          type: 'select',
+          values: {
+            0: _('Above the map'),
+            1: _('Right of the map'),
+          },
+        },
       };
     },
 
@@ -179,7 +189,11 @@ define([
 
     setupMap() {
       let map = this.gamedatas.map;
-      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'map-energy-wrapper');
+      dojo.place(
+        `<div id='brg-map-resizable' data-map='${map.id}'><div id='brg-map'></div></div>`,
+        'map-energy-wrapper',
+      );
+      let oMap = $('brg-map');
 
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
@@ -579,8 +593,8 @@ define([
             <div class='energy-cost'>${contract.cost}</div>
             <div class='contract-reward' data-type='${contract.type}'>
               <div class='contract-reward-row'>${icons[0]}</div>` +
-            (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
-            `
+        (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
+        `
             </div>
           </div>
       </div>`

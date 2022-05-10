@@ -1,444 +1,449 @@
-#brg-map[data-map='1'] {
-  width: 1000px;
-  height: 1464px;
-  background-image: url('img/base_map.jpg');
-  background-size: 100% 100%;
-  border-radius: 29px;
-  box-shadow: 1px 1px 3px black;
-  border: 2px solid black;
-  position: relative;
-  font-size: 21px;
+#brg-map-resizable[data-map='1'] {
+  width: calc(var(--barrageMapScale) * 1000px);
+  height: calc(var(--barrageMapScale) * 1464px);
 
-  .headstream {
-    width: 203px;
-    height: 122px;
-    position: absolute;
-    top: 9px;
+  #brg-map {
+    width: 1000px;
+    height: 1464px;
+    background-image: url('img/base_map.jpg');
+    background-size: 100% 100%;
+    border-radius: 29px;
+    box-shadow: 1px 1px 3px black;
+    border: 2px solid black;
+    position: relative;
+    font-size: 21px;
 
-    &[data-id='HA'] {
-      left: 53px;
-    }
-    &[data-id='HB'] {
-      left: 307px;
-    }
-    &[data-id='HC'] {
-      left: 534px;
-    }
-    &[data-id='HD'] {
-      left: 776px;
-    }
+    .headstream {
+      width: 203px;
+      height: 122px;
+      position: absolute;
+      top: 9px;
 
-    .headstream-tile {
-      width: 100%;
-      height: 100%;
-      background: url('img/headstreams.png');
-      background-size: 200% 400%;
+      &[data-id='HA'] {
+        left: 53px;
+      }
+      &[data-id='HB'] {
+        left: 307px;
+      }
+      &[data-id='HC'] {
+        left: 534px;
+      }
+      &[data-id='HD'] {
+        left: 776px;
+      }
 
-      @for $i from 0 through 8 {
-        &[data-tile='#{$i + 1}'] {
-          background-position-x: ($i % 2) * 100%;
-          background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
+      .headstream-tile {
+        width: 100%;
+        height: 100%;
+        background: url('img/headstreams.png');
+        background-size: 200% 400%;
+
+        @for $i from 0 through 8 {
+          &[data-tile='#{$i + 1}'] {
+            background-position-x: ($i % 2) * 100%;
+            background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
+          }
         }
       }
     }
-  }
 
-  .conduit-slot {
-    width: 47px;
-    height: 47px;
-    position: absolute;
-    background: red;
-    opacity: 0.5;
-    border-radius: 50%;
-    border: 1px solid white;
-
-    // Mountains
-    &[data-id='C1L'] {
-      top: 330px;
-      left: 62px;
-    }
-    &[data-id='C1R'] {
-      top: 330px;
-      left: 209px;
-    }
-    &[data-id='C2L'] {
-      top: 330px;
-      left: 297px;
-    }
-    &[data-id='C2R'] {
-      top: 330px;
-      left: 445px;
-    }
-    &[data-id='C3L'] {
-      top: 330px;
-      left: 537px;
-    }
-    &[data-id='C3R'] {
-      top: 330px;
-      left: 685px;
-    }
-    &[data-id='C4L'] {
-      top: 330px;
-      left: 767px;
-    }
-    &[data-id='C4R'] {
-      top: 330px;
-      left: 915px;
-    }
-    // Hills
-    &[data-id='C5L'] {
-      top: 766px;
-      left: 223px;
-    }
-    &[data-id='C5R'] {
-      top: 766px;
-      left: 372px;
-    }
-    &[data-id='C6L'] {
-      top: 766px;
-      left: 463px;
-    }
-    &[data-id='C6R'] {
-      top: 766px;
-      left: 611px;
-    }
-    &[data-id='C7L'] {
-      top: 766px;
-      left: 714px;
-    }
-    &[data-id='C7R'] {
-      top: 766px;
-      left: 861px;
-    }
-    // Plains
-    &[data-id='C8L'] {
-      top: 1166px;
-      left: 105px;
-    }
-    &[data-id='C8R'] {
-      top: 1166px;
-      left: 253px;
-    }
-    &[data-id='C9L'] {
-      top: 1166px;
-      left: 353px;
-    }
-    &[data-id='C9R'] {
-      top: 1166px;
-      left: 500px;
-    }
-    &[data-id='C10L'] {
-      top: 1166px;
-      left: 602px;
-    }
-    &[data-id='C10R'] {
-      top: 1166px;
-      left: 749px;
-    }
-  }
-
-  .powerhouse-slot {
-    width: 73px;
-    height: 32px;
-    position: absolute;
-    background: green;
-    opacity: 0.5;
-    border-radius: 8px;
-    border: 1px solid white;
-    &.paying {
-      border: 1px solid red;
-    }
-
-    &.highlight {
+    .conduit-slot {
+      width: 47px;
+      height: 47px;
+      position: absolute;
       background: red;
+      opacity: 0.5;
+      border-radius: 50%;
+      border: 1px solid white;
+
+      // Mountains
+      &[data-id='C1L'] {
+        top: 330px;
+        left: 62px;
+      }
+      &[data-id='C1R'] {
+        top: 330px;
+        left: 209px;
+      }
+      &[data-id='C2L'] {
+        top: 330px;
+        left: 297px;
+      }
+      &[data-id='C2R'] {
+        top: 330px;
+        left: 445px;
+      }
+      &[data-id='C3L'] {
+        top: 330px;
+        left: 537px;
+      }
+      &[data-id='C3R'] {
+        top: 330px;
+        left: 685px;
+      }
+      &[data-id='C4L'] {
+        top: 330px;
+        left: 767px;
+      }
+      &[data-id='C4R'] {
+        top: 330px;
+        left: 915px;
+      }
+      // Hills
+      &[data-id='C5L'] {
+        top: 766px;
+        left: 223px;
+      }
+      &[data-id='C5R'] {
+        top: 766px;
+        left: 372px;
+      }
+      &[data-id='C6L'] {
+        top: 766px;
+        left: 463px;
+      }
+      &[data-id='C6R'] {
+        top: 766px;
+        left: 611px;
+      }
+      &[data-id='C7L'] {
+        top: 766px;
+        left: 714px;
+      }
+      &[data-id='C7R'] {
+        top: 766px;
+        left: 861px;
+      }
+      // Plains
+      &[data-id='C8L'] {
+        top: 1166px;
+        left: 105px;
+      }
+      &[data-id='C8R'] {
+        top: 1166px;
+        left: 253px;
+      }
+      &[data-id='C9L'] {
+        top: 1166px;
+        left: 353px;
+      }
+      &[data-id='C9R'] {
+        top: 1166px;
+        left: 500px;
+      }
+      &[data-id='C10L'] {
+        top: 1166px;
+        left: 602px;
+      }
+      &[data-id='C10R'] {
+        top: 1166px;
+        left: 749px;
+      }
     }
 
-    &[data-id='P5_0'] {
-      top: 583px;
-      left: 284px;
-    }
-    &[data-id='P5_1'] {
-      top: 541px;
-      left: 284px;
-    }
-    &[data-id='P6_0'] {
-      top: 583px;
-      left: 524px;
-    }
-    &[data-id='P6_1'] {
-      top: 541px;
-      left: 524px;
-    }
-    &[data-id='P7_0'] {
-      top: 583px;
-      left: 774px;
-    }
-    &[data-id='P7_1'] {
-      top: 541px;
-      left: 774px;
+    .powerhouse-slot {
+      width: 73px;
+      height: 32px;
+      position: absolute;
+      background: green;
+      opacity: 0.5;
+      border-radius: 8px;
+      border: 1px solid white;
+      &.paying {
+        border: 1px solid red;
+      }
+
+      &.highlight {
+        background: red;
+      }
+
+      &[data-id='P5_0'] {
+        top: 583px;
+        left: 284px;
+      }
+      &[data-id='P5_1'] {
+        top: 541px;
+        left: 284px;
+      }
+      &[data-id='P6_0'] {
+        top: 583px;
+        left: 524px;
+      }
+      &[data-id='P6_1'] {
+        top: 541px;
+        left: 524px;
+      }
+      &[data-id='P7_0'] {
+        top: 583px;
+        left: 774px;
+      }
+      &[data-id='P7_1'] {
+        top: 541px;
+        left: 774px;
+      }
+
+      &[data-id='P8_0'] {
+        top: 983px;
+        left: 124px;
+      }
+      &[data-id='P8_1'] {
+        top: 983px;
+        left: 207px;
+      }
+      &[data-id='P8_2'] {
+        top: 942px;
+        left: 166px;
+      }
+      &[data-id='P9_0'] {
+        top: 983px;
+        left: 371px;
+      }
+      &[data-id='P9_1'] {
+        top: 983px;
+        left: 454px;
+      }
+      &[data-id='P9_2'] {
+        top: 942px;
+        left: 413px;
+      }
+      &[data-id='P10_0'] {
+        top: 983px;
+        left: 662px;
+      }
+      &[data-id='P10_1'] {
+        top: 942px;
+        left: 621px;
+      }
+      &[data-id='P10_2'] {
+        top: 942px;
+        left: 703px;
+      }
+
+      &[data-id='P11_0'] {
+        top: 1406px;
+        left: 236px;
+      }
+      &[data-id='P11_1'] {
+        top: 1406px;
+        left: 319px;
+      }
+      &[data-id='P11_2'] {
+        top: 1364px;
+        left: 236px;
+      }
+      &[data-id='P11_3'] {
+        top: 1364px;
+        left: 319px;
+      }
+
+      &[data-id='P12_0'] {
+        top: 1406px;
+        left: 672px;
+      }
+      &[data-id='P12_1'] {
+        top: 1406px;
+        left: 755px;
+      }
+      &[data-id='P12_2'] {
+        top: 1364px;
+        left: 672px;
+      }
+      &[data-id='P12_3'] {
+        top: 1364px;
+        left: 755px;
+      }
     }
 
-    &[data-id='P8_0'] {
-      top: 983px;
-      left: 124px;
-    }
-    &[data-id='P8_1'] {
-      top: 983px;
-      left: 207px;
-    }
-    &[data-id='P8_2'] {
-      top: 942px;
-      left: 166px;
-    }
-    &[data-id='P9_0'] {
-      top: 983px;
-      left: 371px;
-    }
-    &[data-id='P9_1'] {
-      top: 983px;
-      left: 454px;
-    }
-    &[data-id='P9_2'] {
-      top: 942px;
-      left: 413px;
-    }
-    &[data-id='P10_0'] {
-      top: 983px;
-      left: 662px;
-    }
-    &[data-id='P10_1'] {
-      top: 942px;
-      left: 621px;
-    }
-    &[data-id='P10_2'] {
-      top: 942px;
-      left: 703px;
+    .dam-slot {
+      width: 73px;
+      height: 59px;
+      position: absolute;
+      border-radius: 8px;
+      border: 1px solid white;
+      &.paying {
+        border: 1px solid red;
+      }
+
+      .meeple-elevation {
+        margin-top: -110%;
+      }
+
+      &[data-id='B1U'] {
+        top: 259px;
+        left: 123px;
+      }
+      &[data-id='B1L'] {
+        top: 389px;
+        left: 123px;
+      }
+      &[data-id='B2U'] {
+        top: 259px;
+        left: 358px;
+      }
+      &[data-id='B2L'] {
+        top: 389px;
+        left: 358px;
+      }
+      &[data-id='B3U'] {
+        top: 259px;
+        left: 598px;
+      }
+      &[data-id='B3L'] {
+        top: 389px;
+        left: 598px;
+      }
+      &[data-id='B4U'] {
+        top: 259px;
+        left: 828px;
+      }
+      &[data-id='B4L'] {
+        top: 389px;
+        left: 828px;
+      }
+      &[data-id='B5U'] {
+        top: 695px;
+        left: 284px;
+      }
+      &[data-id='B5L'] {
+        top: 825px;
+        left: 284px;
+      }
+      &[data-id='B6U'] {
+        top: 695px;
+        left: 524px;
+      }
+      &[data-id='B6L'] {
+        top: 825px;
+        left: 524px;
+      }
+      &[data-id='B7U'] {
+        top: 695px;
+        left: 775px;
+      }
+      &[data-id='B7L'] {
+        top: 825px;
+        left: 775px;
+      }
+
+      &[data-id='B8U'] {
+        top: 1095px;
+        left: 166px;
+      }
+      &[data-id='B8L'] {
+        top: 1225px;
+        left: 166px;
+      }
+      &[data-id='B9U'] {
+        top: 1095px;
+        left: 413px;
+      }
+      &[data-id='B9L'] {
+        top: 1225px;
+        left: 413px;
+      }
+      &[data-id='B10U'] {
+        top: 1095px;
+        left: 662px;
+      }
+      &[data-id='B10L'] {
+        top: 1225px;
+        left: 662px;
+      }
     }
 
-    &[data-id='P11_0'] {
-      top: 1406px;
-      left: 236px;
-    }
-    &[data-id='P11_1'] {
-      top: 1406px;
-      left: 319px;
-    }
-    &[data-id='P11_2'] {
-      top: 1364px;
-      left: 236px;
-    }
-    &[data-id='P11_3'] {
-      top: 1364px;
-      left: 319px;
-    }
+    .basin {
+      width: 150px;
+      height: 50px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    &[data-id='P12_0'] {
-      top: 1406px;
-      left: 672px;
-    }
-    &[data-id='P12_1'] {
-      top: 1406px;
-      left: 755px;
-    }
-    &[data-id='P12_2'] {
-      top: 1364px;
-      left: 672px;
-    }
-    &[data-id='P12_3'] {
-      top: 1364px;
-      left: 755px;
-    }
-  }
+      &[data-id='B1U'] {
+        top: 150px;
+        left: 87px;
+      }
+      &[data-id='B1L'] {
+        top: 308px;
+        left: 89px;
+      }
+      &[data-id='B2U'] {
+        top: 157px;
+        left: 327px;
+      }
+      &[data-id='B2L'] {
+        top: 309px;
+        left: 322px;
+      }
+      &[data-id='B3U'] {
+        top: 178px;
+        left: 559px;
+      }
+      &[data-id='B3L'] {
+        top: 310px;
+        left: 562px;
+      }
+      &[data-id='B4U'] {
+        top: 185px;
+        left: 788px;
+      }
+      &[data-id='B4L'] {
+        top: 308px;
+        left: 792px;
+      }
+      &[data-id='B5U'] {
+        top: 629px;
+        left: 250px;
+      }
+      &[data-id='B5L'] {
+        top: 749px;
+        left: 247px;
+      }
+      &[data-id='B6U'] {
+        top: 625px;
+        left: 474px;
+      }
+      &[data-id='B6L'] {
+        top: 747px;
+        left: 488px;
+      }
+      &[data-id='B7U'] {
+        top: 630px;
+        left: 732px;
+      }
+      &[data-id='B7L'] {
+        top: 748px;
+        left: 737px;
+      }
 
-  .dam-slot {
-    width: 73px;
-    height: 59px;
-    position: absolute;
-    border-radius: 8px;
-    border: 1px solid white;
-    &.paying {
-      border: 1px solid red;
+      &[data-id='B8U'] {
+        top: 1029px;
+        left: 127px;
+      }
+      &[data-id='B8L'] {
+        top: 1146px;
+        left: 129px;
+      }
+      &[data-id='B9U'] {
+        top: 1029px;
+        left: 375px;
+      }
+      &[data-id='B9L'] {
+        top: 1148px;
+        left: 376px;
+      }
+      &[data-id='B10U'] {
+        top: 1024px;
+        left: 636px;
+      }
+      &[data-id='B10L'] {
+        top: 1149px;
+        left: 626px;
+      }
     }
-
-    .meeple-elevation {
-      margin-top: -110%;
+    #exit {
+      position: absolute;
+      top: 100%;
     }
-
-    &[data-id='B1U'] {
-      top: 259px;
-      left: 123px;
-    }
-    &[data-id='B1L'] {
-      top: 389px;
-      left: 123px;
-    }
-    &[data-id='B2U'] {
-      top: 259px;
-      left: 358px;
-    }
-    &[data-id='B2L'] {
-      top: 389px;
-      left: 358px;
-    }
-    &[data-id='B3U'] {
-      top: 259px;
-      left: 598px;
-    }
-    &[data-id='B3L'] {
-      top: 389px;
-      left: 598px;
-    }
-    &[data-id='B4U'] {
-      top: 259px;
-      left: 828px;
-    }
-    &[data-id='B4L'] {
-      top: 389px;
-      left: 828px;
-    }
-    &[data-id='B5U'] {
-      top: 695px;
-      left: 284px;
-    }
-    &[data-id='B5L'] {
-      top: 825px;
-      left: 284px;
-    }
-    &[data-id='B6U'] {
-      top: 695px;
-      left: 524px;
-    }
-    &[data-id='B6L'] {
-      top: 825px;
-      left: 524px;
-    }
-    &[data-id='B7U'] {
-      top: 695px;
-      left: 775px;
-    }
-    &[data-id='B7L'] {
-      top: 825px;
-      left: 775px;
-    }
-
-    &[data-id='B8U'] {
-      top: 1095px;
-      left: 166px;
-    }
-    &[data-id='B8L'] {
-      top: 1225px;
-      left: 166px;
-    }
-    &[data-id='B9U'] {
-      top: 1095px;
-      left: 413px;
-    }
-    &[data-id='B9L'] {
-      top: 1225px;
-      left: 413px;
-    }
-    &[data-id='B10U'] {
-      top: 1095px;
-      left: 662px;
-    }
-    &[data-id='B10L'] {
-      top: 1225px;
-      left: 662px;
-    }
-  }
-
-  .basin {
-    width: 150px;
-    height: 50px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &[data-id='B1U'] {
-      top: 150px;
-      left: 87px;
-    }
-    &[data-id='B1L'] {
-      top: 308px;
-      left: 89px;
-    }
-    &[data-id='B2U'] {
-      top: 157px;
-      left: 327px;
-    }
-    &[data-id='B2L'] {
-      top: 309px;
-      left: 322px;
-    }
-    &[data-id='B3U'] {
-      top: 178px;
-      left: 559px;
-    }
-    &[data-id='B3L'] {
-      top: 310px;
-      left: 562px;
-    }
-    &[data-id='B4U'] {
-      top: 185px;
-      left: 788px;
-    }
-    &[data-id='B4L'] {
-      top: 308px;
-      left: 792px;
-    }
-    &[data-id='B5U'] {
-      top: 629px;
-      left: 250px;
-    }
-    &[data-id='B5L'] {
-      top: 749px;
-      left: 247px;
-    }
-    &[data-id='B6U'] {
-      top: 625px;
-      left: 474px;
-    }
-    &[data-id='B6L'] {
-      top: 747px;
-      left: 488px;
-    }
-    &[data-id='B7U'] {
-      top: 630px;
-      left: 732px;
-    }
-    &[data-id='B7L'] {
-      top: 748px;
-      left: 737px;
-    }
-
-    &[data-id='B8U'] {
-      top: 1029px;
-      left: 127px;
-    }
-    &[data-id='B8L'] {
-      top: 1146px;
-      left: 129px;
-    }
-    &[data-id='B9U'] {
-      top: 1029px;
-      left: 375px;
-    }
-    &[data-id='B9L'] {
-      top: 1148px;
-      left: 376px;
-    }
-    &[data-id='B10U'] {
-      top: 1024px;
-      left: 636px;
-    }
-    &[data-id='B10L'] {
-      top: 1149px;
-      left: 626px;
-    }
-  }
-  #exit {
-    position: absolute;
-    top: 100%;
   }
 }
