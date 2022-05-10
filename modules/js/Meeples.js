@@ -77,6 +77,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       else if (meeple.location == 'company') {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
       }
+      // Energy marker
+      else if(meeple.type == 'score'){
+        return $(meeple.location);
+      }
       // Meeples on action space (engineer)
       else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
         // Handle bank

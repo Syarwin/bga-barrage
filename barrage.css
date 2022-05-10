@@ -85,54 +85,112 @@ html {
   border-radius: 6px;
   box-shadow: 2px 2px 5px black; }
 
-#energy-track {
+#energy-track-board {
   width: 1000px;
-  height: 202px;
-  background-image: url("img/energy_track.png");
+  height: 130px;
+  background-image: url("img/background_board_energy.jpg");
   background-size: 100%;
-  position: relative; }
-  #energy-track .bonus-tile-slot {
+  position: relative;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr; }
+  [data-action-background='1'] #energy-track-board {
+    background: #b0b3ba; }
+  #energy-track-board #energy-track-first-second-bonus {
+    position: absolute;
+    width: 40px;
+    height: 75px;
+    background-image: url("img/ui/energy_bonus.png");
+    background-size: 100%;
+    top: 10px;
+    left: 24px; }
+  #energy-track-board .energy-track-portion {
+    border: 6px solid black;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px; }
+    #energy-track-board .energy-track-portion:first-of-type {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px; }
+      #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
+        background-image: url("img/ui/no_bonus.png");
+        margin-left: 30px; }
+    #energy-track-board .energy-track-portion:nth-of-type(6) {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px; }
+  #energy-track-board .bonus-tile-slot {
     width: 58px;
     height: 58px;
-    position: absolute;
-    top: 32px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-0 {
-      left: 90px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-1 {
-      left: 250px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-2 {
-      left: 430px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-3 {
-      left: 608px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-4 {
-      left: 784px; }
-    #energy-track .bonus-tile-slot#bonus-tile-slot-5 {
-      left: 923px; }
-    #energy-track .bonus-tile-slot .bonus-tile {
+    background-image: url("img/ui/bonus_slot.png");
+    background-size: 100% 100%;
+    position: relative; }
+    #energy-track-board .bonus-tile-slot .bonus-tile {
       width: 58px;
       height: 58px;
       background-image: url("img/bonus_tiles.jpg");
       background-size: 800% 100%;
       border-radius: 6px;
       box-shadow: 2px 2px 3px black; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='0'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='0'] {
         background-position-x: 0%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='1'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='1'] {
         background-position-x: 14.2857142857%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='2'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='2'] {
         background-position-x: 28.5714285714%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='3'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='3'] {
         background-position-x: 42.8571428571%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='4'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='4'] {
         background-position-x: 57.1428571429%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='5'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='5'] {
         background-position-x: 71.4285714286%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='6'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='6'] {
         background-position-x: 85.7142857143%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='7'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='7'] {
         background-position-x: 100%; }
-      #energy-track .bonus-tile-slot .bonus-tile[data-id='8'] {
+      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='8'] {
         background-position-x: 114.2857142857%; }
+  #energy-track-board #energy-track {
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+    right: 10px;
+    height: 35px;
+    display: flex;
+    background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
+    background-size: 1px 35px; }
+    #energy-track-board #energy-track .energy-track-slot {
+      width: 23px;
+      height: 23px;
+      margin: 0px 3px;
+      border-radius: 50%;
+      background: url("img/ui/texture.jpg");
+      box-shadow: 0px 0px 7px -1px white;
+      position: relative; }
+      #energy-track-board #energy-track .energy-track-slot::before {
+        content: attr(data-i);
+        position: absolute;
+        top: -1px;
+        left: 0;
+        right: 0;
+        z-index: 0;
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-size: 15px;
+        text-align: center;
+        line-height: 21px;
+        font-style: normal;
+        color: #bb3f90; }
+      #energy-track-board #energy-track .energy-track-slot .meeple-score {
+        margin-top: -154%;
+        position: relative;
+        z-index: 2;
+        margin-left: -3px; }
+        #energy-track-board #energy-track .energy-track-slot .meeple-score:first-of-type {
+          margin-top: 0; }
+      #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
+        margin-left: 11px; }
+        #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
+          margin-left: 0px; }
 
 #barrage-center-container {
   display: flex; }
@@ -144,6 +202,11 @@ html {
   align-items: flex-start;
   align-content: baseline;
   width: 357px; }
+
+#map-energy-wrapper {
+  display: flex;
+  flex-flow: column;
+  margin-left: 20px; }
 
 .action-board {
   margin-top: 20px;
@@ -287,7 +350,6 @@ html {
     margin: 0px 8px; }
 
 #brg-map {
-  margin-left: 20px;
   margin-top: 10px; }
 
 #game_play_area {
@@ -462,6 +524,31 @@ html {
     height: 2.4858em;
     background-position: 19.8901% 63.9274%;
     background-size: 898.246%; }
+  .barrage-meeple.meeple-score[data-company='1'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 16.6297% 30.5252%;
+    background-size: 839.344%; }
+  .barrage-meeple.meeple-score[data-company='2'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 30.1552% 30.5252%;
+    background-size: 839.344%; }
+  .barrage-meeple.meeple-score[data-company='3'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 43.6807% 30.5252%;
+    background-size: 839.344%; }
+  .barrage-meeple.meeple-score[data-company='4'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 57.2062% 30.5252%;
+    background-size: 839.344%; }
+  .barrage-meeple.meeple-score[data-company='5'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 70.7317% 30.5252%;
+    background-size: 839.344%; }
 
 .action-board-icon .text {
   font-size: 0.9em;

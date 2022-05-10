@@ -49,6 +49,9 @@ class Meeples extends \BRG\Helpers\Pieces
         }
         // TODO : expansion : create buildings
       }
+
+      $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
+
     }
 
     return self::getMany(self::create($meeples));

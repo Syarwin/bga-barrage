@@ -179,7 +179,7 @@ define([
 
     setupMap() {
       let map = this.gamedatas.map;
-      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'barrage-center-container');
+      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'map-energy-wrapper');
 
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
@@ -261,7 +261,17 @@ define([
 
       // Place bonus tiles
       for (let i = 0; i < 6; i++) {
-        let slot = dojo.place(`<div id='bonus-tile-slot-${i}' class='bonus-tile-slot'></div>`, 'energy-track');
+        let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
+        if (i == 0) {
+          // First/second bonus
+          let bonus = dojo.place('<div id="energy-track-first-second-bonus"></div', portion);
+          this.addCustomTooltip(
+            bonus,
+            _('The first player on the Energy Track scores 6 Victory Points; the second scores 2 Victory Points.'),
+          );
+        }
+
+        let slot = dojo.place(`<div id='bonus-tile-slot-${i}' class='bonus-tile-slot'></div>`, portion);
         if (i == 0) {
           this.addCustomTooltip(slot, _('No bonus if < 6 energy'));
         } else {
@@ -269,6 +279,15 @@ define([
           dojo.place(`<div class='bonus-tile' id='bonus-tile-${i}' data-id='${bonusId}'></div>`, slot);
           this.addCustomTooltip(`bonus-tile-${i}`, bonusTooltips[bonusId]);
         }
+      }
+
+      // Place track
+      let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
+      for (let i = 0; i < 32; i++) {
+        let slot = dojo.place(
+          `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`,
+          track,
+        );
       }
     },
 
@@ -281,11 +300,10 @@ define([
     //
     ////////////////////////////////////////////////////////////////////////
     setupActionBoards() {
-      let container = dojo.place('<div id="action-boards-container"></div>', 'barrage-center-container');
       this.gamedatas.actionBoards.forEach((board) => {
         if (board.id == 'company') {
         } else {
-          this.place('tplActionBoard', board, container);
+          this.place('tplActionBoard', board, 'action-boards-container');
         }
       });
     },

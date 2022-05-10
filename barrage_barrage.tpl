@@ -3,8 +3,12 @@
 
 <div id="pickStart"></div>
 <div id="barrage-container">
-  <div id="energy-track"></div>
-  <div id="barrage-center-container"></div>
+  <div id="barrage-center-container">
+    <div id="action-boards-container"></div>
+    <div id="map-energy-wrapper">
+      <div id="energy-track-board" class='barrage-frame'></div>
+    </div>
+  </div>
   <div id="company-boards-container"></div>
 </div>
 

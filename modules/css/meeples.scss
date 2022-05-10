@@ -235,4 +235,39 @@
     background-position: 19.8901% 63.9274%;
     background-size: 898.246%;
   }
+
+  &.meeple-score[data-company='1'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 16.6297% 30.5252%;
+    background-size: 839.344%;
+  }
+
+  &.meeple-score[data-company='2'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 30.1552% 30.5252%;
+    background-size: 839.344%;
+  }
+
+  &.meeple-score[data-company='3'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 43.6807% 30.5252%;
+    background-size: 839.344%;
+  }
+
+  &.meeple-score[data-company='4'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 57.2062% 30.5252%;
+    background-size: 839.344%;
+  }
+
+  &.meeple-score[data-company='5'] {
+    width: 1.0167em;
+    height: 0.9167em;
+    background-position: 70.7317% 30.5252%;
+    background-size: 839.344%;
+  }
 }

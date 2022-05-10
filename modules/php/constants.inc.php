@@ -162,14 +162,10 @@ const CREDIT = 'credit';
 const EXCAVATOR = 'excavator';
 const MIXER = 'mixer';
 const DROPLET = 'droplet';
+const SCORE = 'score';
 
 const MACHINERIES = [EXCAVATOR, MIXER];
 const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET];
-
-const ENERGY = 'energy';
-const VP = 'vp';
-const ANY_MACHINE = 'any_machine';
-const FLOW_DROPLET = 'flow_droplet';
 
 const BASE = 'base';
 const ELEVATION = 'elevation';
@@ -182,6 +178,12 @@ const ARCHITECT = 'architect';
 const N_ARCHITECT = -1;
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
+
+// Useful for contracts
+const ENERGY = 'energy';
+const VP = 'vp';
+const ANY_MACHINE = 'any_machine';
+const FLOW_DROPLET = 'flow_droplet';
 
 /*
  * Boards
