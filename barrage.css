@@ -343,6 +343,12 @@ html {
         flex-wrap: wrap; }
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
           background-color: #1a6210; }
+  .action-board[data-id='contract'] .action-board-inner #contract-stack-1,
+  .action-board[data-id='contract'] .action-board-inner #contract-stack-2,
+  .action-board[data-id='contract'] .action-board-inner #contract-stack-3,
+  .action-board[data-id='contract'] .action-board-inner #contract-stack-4 {
+    display: flex;
+    flex-wrap: wrap; }
   .action-board[data-id='contract'] .action-board-inner .action-board-row:nth-of-type(2) {
     margin-right: 35px; }
   .action-board[data-id='contract'] .action-board-inner .action-board-row .action-board-icon {
@@ -553,11 +559,12 @@ html {
 .action-board-icon .text {
   font-size: 0.9em;
   color: #8e1370;
-  font-weight: bold;
   text-shadow: #da94c8 1px 0px 0px, #da94c8 0.540302px 0.841471px 0px, #da94c8 -0.416147px 0.909297px 0px, #da94c8 -0.989993px 0.14112px 0px, #da94c8 -0.653644px -0.756803px 0px, #da94c8 0.283662px -0.958924px 0px, #da94c8 0.96017px -0.279416px 0px;
   font-family: 'acumin-pro', serif;
-  font-weight: 900;
-  font-style: normal; }
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1em;
+  margin-top: -5px; }
 
 .icon-container {
   display: inline-block;
@@ -571,7 +578,7 @@ html {
   background-size: 100%; }
   .barrage-icon span {
     font-family: 'acumin-pro', serif;
-    font-weight: 800;
+    font-weight: 700;
     font-style: normal; }
   .barrage-icon.icon-production {
     min-width: 0.8em;
@@ -584,7 +591,7 @@ html {
     text-align: center; }
     .barrage-icon.icon-cost span, .barrage-icon.icon-credit span {
       font-size: 0.5em;
-      line-height: 1.5em;
+      line-height: 1.3em;
       color: #d70f0f; }
   .barrage-icon.icon-credit {
     min-width: 0.6125em;
@@ -595,7 +602,6 @@ html {
     height: 0.456em;
     background-image: url("img/icons/arrow.png"); }
   .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-any_machine span, .barrage-icon.icon-contract span, .barrage-icon.icon-vp span {
-    font-weight: bold;
     color: white;
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
   .barrage-icon.icon-water {
@@ -652,7 +658,7 @@ html {
       line-height: 1em; }
   .barrage-icon.icon-energy span, .barrage-icon.icon-conduit_x span {
     font-family: 'acumin-pro', serif;
-    font-weight: 800;
+    font-weight: 00;
     font-style: normal;
     color: #bb3f90;
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
@@ -1613,12 +1619,12 @@ html {
   flex-wrap: wrap; }
 
 .barrage-contract {
-  width: 143px;
-  height: 104px;
+  width: 157px;
+  height: 117px;
   display: flex;
-  padding-top: 10px;
+  padding-top: 14px;
   box-sizing: border-box;
-  margin: 3px;
+  margin: -2px -6px -6px -2px;
   border: 2px solid transparent;
   border-radius: 20px;
   overflow: hidden;
@@ -1636,7 +1642,7 @@ html {
   .barrage-contract .energy-cost {
     width: 65px;
     margin-right: -10px;
-    height: 100%;
+    height: 90px;
     background: url("img/icons/energy.png");
     background-size: 102% auto;
     background-repeat: no-repeat;
@@ -1652,9 +1658,9 @@ html {
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
   .barrage-contract .contract-reward {
     width: 84px;
-    height: 100%;
+    height: 90px;
     background: url("img/contract_types.png");
-    background-size: 500% 105%;
+    background-size: 500% 110%;
     background-position-y: 3px;
     background-repeat: no-repeat;
     padding: 14px 7px 4px;

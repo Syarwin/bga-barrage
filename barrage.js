@@ -284,10 +284,7 @@ define([
       // Place track
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
       for (let i = 0; i < 32; i++) {
-        let slot = dojo.place(
-          `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`,
-          track,
-        );
+        let slot = dojo.place(`<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`, track);
       }
     },
 
@@ -322,6 +319,10 @@ define([
     },
 
     tplActionBoardRow(row) {
+      if (typeof row === 'string' || row instanceof String) {
+        return `<div id='${row}'></div>`;
+      }
+
       let slots = row.map((slot) => {
         if (slot['i'] != undefined) {
           let id = this.registerCustomTooltip(_(slot.t));
@@ -558,6 +559,8 @@ define([
       } else if (contract.location.substr(0, 4) == 'hand') {
         let cId = contract.location.substr(5);
         return `company-contracts-${cId}`;
+      } else if ($(contract.location)) {
+        return $(contract.location);
       }
 
       console.error('Trying to get container of a contract', contract);

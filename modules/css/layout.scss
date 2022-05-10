@@ -374,14 +374,24 @@
     }
   }
 
-  &[data-id='contract'] .action-board-inner .action-board-row {
-    &:nth-of-type(2) {
-      margin-right: 35px;
+  &[data-id='contract'] .action-board-inner {
+    #contract-stack-1,
+    #contract-stack-2,
+    #contract-stack-3,
+    #contract-stack-4 {
+      display: flex;
+      flex-wrap: wrap;
     }
 
-    .action-board-icon {
-      width: 110px;
-      margin: 0px 8px;
+    .action-board-row {
+      &:nth-of-type(2) {
+        margin-right: 35px;
+      }
+
+      .action-board-icon {
+        width: 110px;
+        margin: 0px 8px;
+      }
     }
   }
 }
