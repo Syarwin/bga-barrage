@@ -16,11 +16,6 @@ class Gain extends \BRG\Models\Action
   public function isIndependent($player = null)
   {
     $args = $this->getCtxArgs();
-    foreach ($args as $resource => $amount) {
-      if (\in_array($resource, [SHEEP, PIG, CATTLE])) {
-        return false;
-      }
-    }
 
     if ($this->ctx->forceConfirmation()) {
       return false;

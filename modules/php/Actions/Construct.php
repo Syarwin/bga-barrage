@@ -68,7 +68,7 @@ class Construct extends \BRG\Models\Action
                 // there is already a base or elevation of this company
                 Meeples::getFilteredQuery($company->getId(), $bId, [BASE, \ELEVATION])->count() > 0 &&
                 // but not more than the maximum
-                Meeples::getFilteredQuery($company->getId(), $bId, [BASE, \ELEVATION])->count() < 4 &&
+                Meeples::getFilteredQuery($company->getId(), $bId, [BASE, \ELEVATION])->count() < 3 &&
                 // company has enough money (if needed)
                 $resource[CREDIT] >= $basin['cost'] &&
                 // and enough machines
@@ -182,7 +182,7 @@ class Construct extends \BRG\Models\Action
       $techMoved
     );
 
-    // rorate wheel
+    // rotate wheel
     Engine::insertAsChild([
       'action' => ROTATE_WHEEL,
       'args' => [
@@ -191,7 +191,17 @@ class Construct extends \BRG\Models\Action
     ]);
 
     // insert bonus revenue if there is any
-    // TODO : insert bonus
+    if ($type != \POWERHOUSE) {
+      $nb = Meeples::getFilteredQuery($company->getId(), null, $type)
+        ->whereNotIn('meeple_location', ['company'])
+        ->count();
+      $bonus = $company->getRevenueBoard()[$type][$nb] ?? null;
+      if ($bonus !== null) {
+        Notifications::message(clienttranslate('A new revenue has been revealed. A bonus will be earned'));
+        $bonus['source'] = clienttranslate('board revenue');
+        Engine::insertAsChild($bonus);
+      }
+    }
 
     $this->resolveAction([$filter]);
   }
