@@ -723,108 +723,110 @@ html {
   background-image: url("img/companies.jpg");
   background-size: 600% 100%; }
 
-.player_panel_content .company-info {
-  display: flex; }
-  .player_panel_content .company-info .company-logo {
-    width: 40px;
-    height: 40px;
-    background-image: url("img/companies.jpg");
-    background-size: 600% 100%;
-    border: 2px solid black;
-    border-radius: 50%; }
-    .player_panel_content .company-info .company-logo[data-company='1'] {
-      background-position-x: 20%; }
-    .player_panel_content .company-info .company-logo[data-company='2'] {
-      background-position-x: 40%; }
-    .player_panel_content .company-info .company-logo[data-company='3'] {
-      background-position-x: 60%; }
-    .player_panel_content .company-info .company-logo[data-company='4'] {
-      background-position-x: 80%; }
-    .player_panel_content .company-info .company-logo[data-company='5'] {
-      background-position-x: 100%; }
-    .player_panel_content .company-info .company-logo[data-company='6'] {
-      background-position-x: 120%; }
-  .player_panel_content .company-info .company-name {
-    font-family: 'Oranienbaum';
-    font-weight: bold;
-    margin-left: 5px; }
-  .player_panel_content .company-info .company-no {
-    background-image: url("img/ui/turn_order.png");
-    width: 50px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
+.player_panel_content {
+  --barrageContractScale: 0.5; }
+  .player_panel_content .company-info {
+    display: flex; }
+    .player_panel_content .company-info .company-logo {
+      width: 40px;
+      height: 40px;
+      background-image: url("img/companies.jpg");
+      background-size: 600% 100%;
+      border: 2px solid black;
+      border-radius: 50%; }
+      .player_panel_content .company-info .company-logo[data-company='1'] {
+        background-position-x: 20%; }
+      .player_panel_content .company-info .company-logo[data-company='2'] {
+        background-position-x: 40%; }
+      .player_panel_content .company-info .company-logo[data-company='3'] {
+        background-position-x: 60%; }
+      .player_panel_content .company-info .company-logo[data-company='4'] {
+        background-position-x: 80%; }
+      .player_panel_content .company-info .company-logo[data-company='5'] {
+        background-position-x: 100%; }
+      .player_panel_content .company-info .company-logo[data-company='6'] {
+        background-position-x: 120%; }
+    .player_panel_content .company-info .company-name {
+      font-family: 'Oranienbaum';
+      font-weight: bold;
+      margin-left: 5px; }
+    .player_panel_content .company-info .company-no {
+      background-image: url("img/ui/turn_order.png");
+      width: 50px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      font-family: serif;
+      margin-right: 5px; }
+  .player_panel_content .company-panel-resources {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 18px;
+    justify-content: space-around;
     align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    font-family: serif;
-    margin-right: 5px; }
-.player_panel_content .company-panel-resources {
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 18px;
-  justify-content: space-around;
-  align-items: center;
-  position: relative;
-  padding: 0.5rem 0; }
-  .player_panel_content .company-panel-resources .company-reserve {
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%; }
-    .player_panel_content .company-panel-resources .company-reserve .barrage-meeple:not(.moving) {
-      display: none; }
-  .player_panel_content .company-panel-resources .company-resource {
-    margin: 4px 0px;
     position: relative;
-    flex-basis: 25%;
-    text-align: center; }
-    .player_panel_content .company-panel-resources .company-resource .reserve {
+    padding: 0.5rem 0; }
+    .player_panel_content .company-panel-resources .company-reserve {
       position: absolute;
       top: 0%;
       left: 0%;
       width: 100%;
       height: 100%; }
-      .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
+      .player_panel_content .company-panel-resources .company-reserve .barrage-meeple:not(.moving) {
         display: none; }
-.player_panel_content .company-panel-personal-resources {
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 7px;
-  justify-content: space-around;
-  align-items: center;
-  position: relative;
-  padding: 0.5rem 0;
-  border-top: 1px solid #999898;
-  border-bottom: 1px solid #999898; }
-  .player_panel_content .company-panel-personal-resources span {
-    font-size: 18px; }
-    .player_panel_content .company-panel-personal-resources span::before {
-      content: '5'; }
-  .player_panel_content .company-panel-personal-resources .meeple-container {
-    margin-top: -0.7em; }
-.player_panel_content .company-panel-wheel-container {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0; }
-  .player_panel_content .company-panel-wheel-container .company-wheel-logo {
-    width: 40px;
-    height: 80px;
-    background: black;
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px; }
-  .player_panel_content .company-panel-wheel-container .company-wheel {
+    .player_panel_content .company-panel-resources .company-resource {
+      margin: 4px 0px;
+      position: relative;
+      flex-basis: 25%;
+      text-align: center; }
+      .player_panel_content .company-panel-resources .company-resource .reserve {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%; }
+        .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
+          display: none; }
+  .player_panel_content .company-panel-personal-resources {
     display: flex;
-    flex-flow: column;
-    margin-left: 20px; }
-    .player_panel_content .company-panel-wheel-container .company-wheel .wheel-slot {
-      width: 160px;
-      height: 20px;
-      border: 1px solid black; }
+    flex-wrap: wrap;
+    font-size: 7px;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    padding: 0.5rem 0;
+    border-top: 1px solid #999898;
+    border-bottom: 1px solid #999898; }
+    .player_panel_content .company-panel-personal-resources span {
+      font-size: 18px; }
+      .player_panel_content .company-panel-personal-resources span::before {
+        content: '5'; }
+    .player_panel_content .company-panel-personal-resources .meeple-container {
+      margin-top: -0.7em; }
+  .player_panel_content .company-panel-wheel-container {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0; }
+    .player_panel_content .company-panel-wheel-container .company-wheel-logo {
+      width: 40px;
+      height: 80px;
+      background: black;
+      border-top-right-radius: 40px;
+      border-bottom-right-radius: 40px; }
+    .player_panel_content .company-panel-wheel-container .company-wheel {
+      display: flex;
+      flex-flow: column;
+      margin-left: 20px; }
+      .player_panel_content .company-panel-wheel-container .company-wheel .wheel-slot {
+        width: 160px;
+        height: 20px;
+        border: 1px solid black; }
 
 .company-board .company-board-wrapper {
   width: 1111px;
@@ -1618,78 +1620,89 @@ html {
   display: flex;
   flex-wrap: wrap; }
 
+:root {
+  --barrageContractScale: 0.9; }
+
+.dijitTooltipContainer {
+  --barrageContractScale: 1.2; }
+
 .barrage-contract {
-  width: 157px;
-  height: 117px;
-  display: flex;
-  padding-top: 14px;
-  box-sizing: border-box;
-  margin: -2px -6px -6px -2px;
-  border: 2px solid transparent;
-  border-radius: 20px;
-  overflow: hidden;
-  background: url("img/contract_background.png");
-  background-size: 100% 200%;
-  background-clip: padding-box; }
-  .barrage-contract[data-parity='0'] {
-    background-position-y: 100%; }
-  .barrage-contract.selectable {
-    cursor: pointer; }
-    .barrage-contract.selectable:hover {
-      transform: scale(1.1); }
-  .barrage-contract.selected {
-    border: 2px solid red; }
-  .barrage-contract .energy-cost {
-    width: 65px;
-    margin-right: -10px;
-    height: 90px;
-    background: url("img/icons/energy.png");
-    background-size: 102% auto;
-    background-repeat: no-repeat;
-    background-position: center 56%;
+  width: calc(var(--barrageContractScale) * 157px);
+  height: calc(var(--barrageContractScale) * 117px); }
+  .barrage-contract .contract-fixed-size {
+    width: 157px;
+    height: 117px;
+    transform: scale(var(--barrageContractScale));
+    transform-origin: top left;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'acumin-pro', serif;
-    font-weight: 800;
-    font-style: normal;
-    color: #bb3f90;
-    font-size: 34px;
-    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
-  .barrage-contract .contract-reward {
-    width: 84px;
-    height: 90px;
-    background: url("img/contract_types.png");
-    background-size: 500% 110%;
-    background-position-y: 3px;
-    background-repeat: no-repeat;
-    padding: 14px 7px 4px;
+    padding-top: 14px;
     box-sizing: border-box;
-    font-size: 24px;
-    display: flex;
-    justify-content: center;
-    flex-flow: column;
-    align-items: center; }
-    .barrage-contract .contract-reward .contract-reward-row {
-      margin: 5px 0px 2px; }
-    .barrage-contract .contract-reward[data-type='0'] {
-      background-position-x: 0%; }
-    .barrage-contract .contract-reward[data-type='1'] {
-      background-position-x: 25%; }
-    .barrage-contract .contract-reward[data-type='2'] {
-      background-position-x: 50%; }
-    .barrage-contract .contract-reward[data-type='3'] {
-      background-position-x: 75%; }
-    .barrage-contract .contract-reward[data-type='4'] {
-      background-position-x: 100%; }
-    .barrage-contract .contract-reward[data-type='5'] {
-      background-position-x: 125%; }
-    .barrage-contract .contract-reward .icon-credit {
-      font-size: 1.4em; }
-      .barrage-contract .contract-reward .icon-credit span {
-        font-size: 0.45em;
-        line-height: 1.4em;
-        color: white;
-        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+    margin: -2px -6px -6px -2px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    background: url("img/contract_background.png");
+    background-size: 100% 200%;
+    background-clip: padding-box; }
+    .barrage-contract .contract-fixed-size[data-parity='0'] {
+      background-position-y: 100%; }
+    .barrage-contract .contract-fixed-size.selectable {
+      cursor: pointer; }
+      .barrage-contract .contract-fixed-size.selectable:hover {
+        transform: scale(1.1); }
+    .barrage-contract .contract-fixed-size.selected {
+      border: 2px solid red; }
+    .barrage-contract .contract-fixed-size .energy-cost {
+      width: 65px;
+      margin-right: -10px;
+      height: 90px;
+      background: url("img/icons/energy.png");
+      background-size: 102% auto;
+      background-repeat: no-repeat;
+      background-position: center 56%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'acumin-pro', serif;
+      font-weight: 800;
+      font-style: normal;
+      color: #bb3f90;
+      font-size: 34px;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px, white 0px 0px 8px; }
+    .barrage-contract .contract-fixed-size .contract-reward {
+      width: 84px;
+      height: 90px;
+      background: url("img/contract_types.png");
+      background-size: 500% 110%;
+      background-position-y: 3px;
+      background-repeat: no-repeat;
+      padding: 14px 7px 4px;
+      box-sizing: border-box;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      flex-flow: column;
+      align-items: center; }
+      .barrage-contract .contract-fixed-size .contract-reward .contract-reward-row {
+        margin: 5px 0px 2px; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='0'] {
+        background-position-x: 0%; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='1'] {
+        background-position-x: 25%; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='2'] {
+        background-position-x: 50%; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='3'] {
+        background-position-x: 75%; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='4'] {
+        background-position-x: 100%; }
+      .barrage-contract .contract-fixed-size .contract-reward[data-type='5'] {
+        background-position-x: 125%; }
+      .barrage-contract .contract-fixed-size .contract-reward .icon-credit {
+        font-size: 1.4em; }
+        .barrage-contract .contract-fixed-size .contract-reward .icon-credit span {
+          font-size: 0.45em;
+          line-height: 1.4em;
+          color: white;
+          text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
 
 /*# sourceMappingURL=barrage.css.map */

@@ -1120,5 +1120,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       //this.clearPossible();
       this.restoreServerGameState();
     },
+
+    translate(t) {
+      if (typeof t === 'object') {
+        return this.format_string_recursive(t.log, t.args);
+      } else {
+        return _(t);
+      }
+    },
   });
 });

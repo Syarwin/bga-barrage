@@ -551,6 +551,7 @@ define([
         container = this.getContractContainer(contract);
       }
       this.place('tplContract', contract, container);
+      this.addCustomTooltip(`contract-${contract.id}`, this.tplContractTooltip(contract));
     },
 
     getContractContainer(contract) {
@@ -567,17 +568,33 @@ define([
       return 'game_play_area';
     },
 
-    tplContract(contract) {
+    tplContract(contract, tooltip = false) {
       let icons = contract.icons.map((t) => this.formatString(t));
 
       return (
-        `<div id='contract-${contract.id}' class='barrage-contract' data-parity='${contract.id % 2}'>
-        <div class='energy-cost'>${contract.cost}</div>
-        <div class='contract-reward' data-type='${contract.type}'>
-          <div class='contract-reward-row'>${icons[0]}</div>` +
-        (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
+        `<div id='contract-${contract.id}${tooltip ? '-tooltip' : ''}' class='barrage-contract' data-parity='${
+          contract.id % 2
+        }'>
+          <div class='contract-fixed-size'>
+            <div class='energy-cost'>${contract.cost}</div>
+            <div class='contract-reward' data-type='${contract.type}'>
+              <div class='contract-reward-row'>${icons[0]}</div>` +
+            (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
+            `
+            </div>
+          </div>
+      </div>`
+      );
+    },
+
+    tplContractTooltip(contract) {
+      return (
+        this.tplContract(contract, true) +
         `
-        </div>
+      <div class='contract-desc'>
+        ` +
+        contract.descs.map((t) => this.translate(t)).join('<br />') +
+        `
       </div>`
       );
     },
