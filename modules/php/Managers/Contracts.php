@@ -29,6 +29,7 @@ class Contracts extends \BRG\Helpers\Pieces
   /* Creation of various contracts */
   public static function setupNewGame()
   {
+    // Create them
     $contracts = [];
     foreach (self::getContracts() as $id => $contract) {
       $contracts[] = [
@@ -39,6 +40,23 @@ class Contracts extends \BRG\Helpers\Pieces
     }
 
     self::create($contracts);
+
+    // Draw national contracts
+    $n = Players::count() - 1;
+    $nationals = self::getSelectQuery()
+      ->where('type', 1)
+      ->get()
+      ->getIds();
+    self::move(Utils::rand($nationals, $n), 'contract-stack-1');
+
+    // Draw green/yellow/red
+    for ($i = 2; $i < 5; $i++) {
+      $contracts = self::getSelectQuery()
+        ->where('type', $i)
+        ->get()
+        ->getIds();
+      self::move(Utils::rand($contracts, 2), 'contract-stack-' . $i);
+    }
   }
 
   public function randomStartingPick($nPlayers)

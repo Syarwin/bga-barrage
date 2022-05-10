@@ -2,15 +2,16 @@
   .text {
     font-size: 0.9em;
     color: #8e1370;
-    font-weight: bold;
     text-shadow: rgb(218, 148, 200) 1px 0px 0px, rgb(218, 148, 200) 0.540302px 0.841471px 0px,
       rgb(218, 148, 200) -0.416147px 0.909297px 0px, rgb(218, 148, 200) -0.989993px 0.14112px 0px,
       rgb(218, 148, 200) -0.653644px -0.756803px 0px, rgb(218, 148, 200) 0.283662px -0.958924px 0px,
       rgb(218, 148, 200) 0.96017px -0.279416px 0px;
 
     font-family: 'acumin-pro', serif;
-    font-weight: 900;
+    font-weight: 700;
     font-style: normal;
+    line-height: 1em;
+    margin-top: -5px;
   }
 }
 
@@ -30,7 +31,7 @@
 
   span {
     font-family: 'acumin-pro', serif;
-    font-weight: 800;
+    font-weight: 700;
     font-style: normal;
   }
 
@@ -49,7 +50,7 @@
 
     span {
       font-size: 0.5em;
-      line-height: 1.5em;
+      line-height: 1.3em;
       color: #d70f0f;
     }
   }
@@ -74,7 +75,6 @@
   &.icon-contract,
   &.icon-vp {
     span {
-      font-weight: bold;
       color: white;
       text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
         rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
@@ -167,7 +167,7 @@
   &.icon-conduit_x {
     span {
       font-family: 'acumin-pro', serif;
-      font-weight: 800;
+      font-weight: 00;
       font-style: normal;
       color: #bb3f90;
       text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,

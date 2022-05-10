@@ -74,6 +74,16 @@ define([
             1: _('Hide'),
           },
         },
+        energyTrack: {
+          default: 0,
+          name: _('Energy track position'),
+          attribute: 'energy-track',
+          type: 'select',
+          values: {
+            0: _('Above the map'),
+            1: _('Right of the map'),
+          },
+        },
       };
     },
 
@@ -179,7 +189,11 @@ define([
 
     setupMap() {
       let map = this.gamedatas.map;
-      let oMap = dojo.place(`<div id='brg-map' data-map='${map.id}'></div>`, 'map-energy-wrapper');
+      dojo.place(
+        `<div id='brg-map-resizable' data-map='${map.id}'><div id='brg-map'></div></div>`,
+        'map-energy-wrapper',
+      );
+      let oMap = $('brg-map');
 
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
@@ -284,10 +298,7 @@ define([
       // Place track
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
       for (let i = 0; i < 32; i++) {
-        let slot = dojo.place(
-          `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`,
-          track,
-        );
+        let slot = dojo.place(`<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`, track);
       }
     },
 
@@ -322,6 +333,10 @@ define([
     },
 
     tplActionBoardRow(row) {
+      if (typeof row === 'string' || row instanceof String) {
+        return `<div id='${row}'></div>`;
+      }
+
       let slots = row.map((slot) => {
         if (slot['i'] != undefined) {
           let id = this.registerCustomTooltip(_(slot.t));
@@ -550,6 +565,7 @@ define([
         container = this.getContractContainer(contract);
       }
       this.place('tplContract', contract, container);
+      this.addCustomTooltip(`contract-${contract.id}`, this.tplContractTooltip(contract));
     },
 
     getContractContainer(contract) {
@@ -558,23 +574,41 @@ define([
       } else if (contract.location.substr(0, 4) == 'hand') {
         let cId = contract.location.substr(5);
         return `company-contracts-${cId}`;
+      } else if ($(contract.location)) {
+        return $(contract.location);
       }
 
       console.error('Trying to get container of a contract', contract);
       return 'game_play_area';
     },
 
-    tplContract(contract) {
+    tplContract(contract, tooltip = false) {
       let icons = contract.icons.map((t) => this.formatString(t));
 
       return (
-        `<div id='contract-${contract.id}' class='barrage-contract' data-parity='${contract.id % 2}'>
-        <div class='energy-cost'>${contract.cost}</div>
-        <div class='contract-reward' data-type='${contract.type}'>
-          <div class='contract-reward-row'>${icons[0]}</div>` +
+        `<div id='contract-${contract.id}${tooltip ? '-tooltip' : ''}' class='barrage-contract' data-parity='${
+          contract.id % 2
+        }'>
+          <div class='contract-fixed-size'>
+            <div class='energy-cost'>${contract.cost}</div>
+            <div class='contract-reward' data-type='${contract.type}'>
+              <div class='contract-reward-row'>${icons[0]}</div>` +
         (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
         `
-        </div>
+            </div>
+          </div>
+      </div>`
+      );
+    },
+
+    tplContractTooltip(contract) {
+      return (
+        this.tplContract(contract, true) +
+        `
+      <div class='contract-desc'>
+        ` +
+        contract.descs.map((t) => this.translate(t)).join('<br />') +
+        `
       </div>`
       );
     },

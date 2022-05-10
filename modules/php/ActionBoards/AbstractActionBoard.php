@@ -61,14 +61,16 @@ abstract class AbstractActionBoard
 
     $structure = static::getUiStructure();
     foreach ($structure as &$row) {
-      foreach ($row as $i => $elem) {
-        if (is_array($elem)) {
-          continue;
-        }
+      if (is_array($row)) {
+        foreach ($row as $i => $elem) {
+          if (is_array($elem)) {
+            continue;
+          }
 
-        $key = static::$id . '-' . $elem;
-        if (\array_key_exists($key, $spaces)) {
-          $row[$i] = $spaces[$key];
+          $key = static::$id . '-' . $elem;
+          if (\array_key_exists($key, $spaces)) {
+            $row[$i] = $spaces[$key];
+          }
         }
       }
     }
