@@ -1,0 +1,21 @@
+{
+  "name": "barrage",
+  "version": "1.0.0",
+  "description": "BGA implementation of Barrage",
+  "main": "barrage.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.1.0",
+    "node-scp": "^0.0.15",
+    "sass": "^1.37.2",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.39.1",
+    "webpack-cli": "^4.7.2"
+  }
+}
