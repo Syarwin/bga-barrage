@@ -23,12 +23,10 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function stPlaceDroplet()
   {
-    // throw new \feException('titi');
   }
 
   public function argsPlaceDroplet()
   {
-    throw new \feException(print_r(Engine::getNextUnresolved()->getArgs()));
     $ctxArgs = Engine::getNextUnresolved()->getArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
     return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'number' => $ctxArgs['n']];
@@ -40,7 +38,7 @@ class PlaceDroplet extends \BRG\Models\Action
     $company = Companies::getActive();
     if (count($headstreams) > $args['number']) {
       throw new \BgaVisibleSystemException('Too many droplet sent. Should not happen');
-    } elseif (empty($headstream)) {
+    } elseif (empty($headstreams)) {
       throw new \BgaVisibleSystemException('You must add at least one droplet. Should not happen');
     }
 
@@ -56,9 +54,11 @@ class PlaceDroplet extends \BRG\Models\Action
       Engine::getNextUnresolved()->getSpaceId()
     );
 
-    if ($args['flow'] === true) {
-      Notifications::message('Droplet is flowing');
-      Map::flow($created[0]);
+    if ($args['flow']) {
+      Notifications::message(clienttranslate('Droplets are flowing'));
+      foreach ($created as $droplet) {
+        Map::flow($droplet);
+      }
     }
     $this->resolveAction(['created' => $created]);
   }

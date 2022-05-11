@@ -103,6 +103,7 @@ abstract class AbstractMap
         Notifications::silentDestroy([$droplet]);
       }
       // Droplet is blocked
+      // TODO : handle company that can hold 4 droplet with 3 elevation or sthg like that
       elseif ($this->countDropletsInBasin($basin) < $this->countDamsInBasin($basin)) {
         Meeples::DB()->update(['meeple_location' => $basin], $droplet['id']);
         $blocked = true;

@@ -622,7 +622,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
           clearPos: true,
           beforeBrother: null,
 
-          phantom: false,
+          phantom: true,
         },
         options,
       );
@@ -654,14 +654,16 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         dojo.place(mobile, 'game_play_area');
         this.placeOnObject(mobile, mobileElt);
         dojo.addClass(mobileElt, 'phantom');
-        config.from = mobileElt;
+        if (config.from == null) {
+          config.from = mobileElt;
+        }
       }
 
       // Handle phantom at end
       if (config.phantomEnd) {
         targetId = dojo.clone(mobileElt);
         dojo.attr(targetId, 'id', mobileElt.id + '_afterSlide');
-        dojo.addClass(targetId, 'phantomm');
+        dojo.addClass(targetId, 'phantom');
         if (config.beforeBrother != null) {
           dojo.place(targetId, config.beforeBrother, 'before');
         } else {

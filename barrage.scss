@@ -61,6 +61,10 @@ html {
   background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89));
 }
 
+.phantom {
+  visibility: hidden;
+}
+
 // SAFE MODE
 #ebd-body.help-mode {
   .tooltipable {

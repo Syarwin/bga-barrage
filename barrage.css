@@ -45,6 +45,9 @@ html {
 #customActions .bgabutton.selected {
   background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89)); }
 
+.phantom {
+  visibility: hidden; }
+
 #ebd-body.help-mode .tooltipable {
   cursor: help; }
 
@@ -465,6 +468,8 @@ html {
     height: 2.42em;
     background-position: 81.087% 0%;
     background-size: 984.615%; }
+    .barrage-meeple.meeple-droplet.moving {
+      transform: scale(calc(2 * var(--barrageMapScale) / 3)); }
   .barrage-meeple.meeple-engineer[data-company='1'] {
     width: 0.6865em;
     height: 1.1441em;
@@ -862,7 +867,8 @@ html {
         width: 100%;
         height: 100%; }
         .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
-          display: none; }
+          visibility: hidden;
+          position: absolute; }
   .player_panel_content .company-panel-personal-resources {
     display: flex;
     flex-wrap: wrap;
@@ -1341,6 +1347,28 @@ html {
   .flip-container.flipped .flip-inner {
     transform: rotateY(180deg); }
 
+#brg-map .headstream.selectable {
+  cursor: pointer; }
+#brg-map .headstream[data-n]::before {
+  content: attr(data-n);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  background: red;
+  color: white;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  border-radius: 50%;
+  border: 2px solid white;
+  font-family: 'acumin-pro', serif;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 31px; }
+#brg-map .headstream[data-n='0']::before {
+  display: none; }
+
 #brg-map-resizable[data-map='1'] {
   width: calc(var(--barrageMapScale) * 1000px);
   height: calc(var(--barrageMapScale) * 1464px); }
@@ -1358,7 +1386,12 @@ html {
       width: 203px;
       height: 122px;
       position: absolute;
-      top: 9px; }
+      top: 9px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center; }
+      #brg-map-resizable[data-map='1'] #brg-map .headstream .meeple-droplet {
+        margin-right: -3%; }
       #brg-map-resizable[data-map='1'] #brg-map .headstream[data-id='HA'] {
         left: 53px; }
       #brg-map-resizable[data-map='1'] #brg-map .headstream[data-id='HB'] {
@@ -1368,6 +1401,8 @@ html {
       #brg-map-resizable[data-map='1'] #brg-map .headstream[data-id='HD'] {
         left: 776px; }
       #brg-map-resizable[data-map='1'] #brg-map .headstream .headstream-tile {
+        position: absolute;
+        z-index: -1;
         width: 100%;
         height: 100%;
         background: url("img/headstreams.png");

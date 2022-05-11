@@ -45,6 +45,10 @@
     height: 2.42em;
     background-position: 81.087% 0%;
     background-size: 984.615%;
+
+    &.moving {
+      transform: scale(calc(2 * var(--barrageMapScale) / 3));
+    }
   }
 
   &.meeple-engineer[data-company='1'] {

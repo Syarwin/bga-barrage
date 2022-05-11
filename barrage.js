@@ -30,7 +30,14 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.barrage', [customgame.game, barrage.companies, barrage.meeples], {
     constructor() {
-      this._activeStates = ['placeEngineer', 'payResources', 'resolveChoice', 'confirmTurn', 'confirmPartialTurn'];
+      this._activeStates = [
+        'placeEngineer',
+        'payResources',
+        'placeDroplet',
+        'resolveChoice',
+        'confirmTurn',
+        'confirmPartialTurn',
+      ];
       this._notifications = [
         ['clearTurn', 1],
         ['refreshUI', 1],
@@ -41,7 +48,7 @@ define([
         ['assignCompany', 1000],
         ['setupCompanies', 500],
         ['silentDestroy', null],
-        ['moveDroplet', 1000],
+        ['moveDroplet', null],
         ['produce', 500],
         ['score', 500],
         ['rotateWheel', 500],
@@ -112,6 +119,7 @@ define([
     clearPossible() {
       this.inherited(arguments);
       dojo.query('.selected').removeClass('selected');
+      dojo.query('.headstream[data-n]').forEach((h) => (h.dataset.n = 0));
     },
 
     onEnteringState(stateName, args) {
@@ -278,10 +286,7 @@ define([
         let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
         if (i == 0) {
           // First/second bonus
-          let bonus = dojo.place(
-            '<div id="energy-track-first-second-bonus"><div></div><div></div></div>',
-            portion,
-          );
+          let bonus = dojo.place('<div id="energy-track-first-second-bonus"><div></div><div></div></div>', portion);
           this.addCustomTooltip(
             bonus,
             _('The first player on the Energy Track scores 6 Victory Points; the second scores 2 Victory Points.'),
@@ -504,6 +509,7 @@ define([
       this.takeAction('actTakeAtomicAction', { actionArgs: JSON.stringify(args) }, false);
     },
 
+    // Place engineer
     onEnteringStatePlaceEngineer(args) {
       Object.keys(args.spaces).forEach((uid) => {
         this.onClick(uid, () => {
@@ -527,6 +533,40 @@ define([
         this.addPrimaryActionButton('btnChoice' + choice, choice, () =>
           this.takeAtomicAction('actPlaceEngineer', [args.uid, choice]),
         );
+      });
+    },
+
+    // Place Droplets
+    onEnteringStatePlaceDroplet(args) {
+      let headstreams = args.headstreams.map((hId) => $('brg-map').querySelector(`.headstream[data-id='${hId}']`));
+      let currentSelection = [];
+      let updateSelectable = () => {
+        headstreams.forEach((h) => {
+          h.classList.toggle('selectable', currentSelection.length < args.number);
+          h.dataset.n = currentSelection.reduce((c, v) => c + (v == h.dataset.id), 0);
+        });
+
+        dojo.destroy('btnConfirmDroplets');
+        dojo.destroy('btnCancelDroplets');
+        if (currentSelection.length > 0) {
+          this.addSecondaryActionButton('btnCancelDroplets', _('Cancel'), () => {
+            currentSelection = [];
+            updateSelectable();
+          });
+          this.addPrimaryActionButton('btnConfirmDroplets', _('Confirm'), () => {
+            this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
+          });
+        }
+      };
+
+      args.headstreams.forEach((hId) => {
+        let headstream = $('brg-map').querySelector(`.headstream[data-id='${hId}']`);
+        this.onClick(headstream, () => {
+          if (currentSelection.length < args.number) {
+            currentSelection.push(hId);
+            updateSelectable();
+          }
+        });
       });
     },
 
