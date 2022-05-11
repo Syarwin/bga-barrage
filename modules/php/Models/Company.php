@@ -245,4 +245,15 @@ class Company extends \BRG\Helpers\DB_Model
     }
     return true;
   }
+
+  public function incEnergy($n)
+  {
+    parent::incEnergy($n);
+    $scoreToken = Meeples::getFilteredQuery($this->id, null, [SCORE])
+      ->get()
+      ->first();
+
+    Meeples::move($scoreToken['id'], 'energy-track-' . $this->energy);
+    return $scoreToken['id'];
+  }
 }

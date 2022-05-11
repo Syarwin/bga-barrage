@@ -1,6 +1,26 @@
 define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const MEEPLES = ['ENGINEER', 'CREDIT', 'EXCAVATOR', 'MIXER'];
-  const ICONS = ['PRODUCTION', 'COST', 'CREDIT', 'ARROW', 'WATER', 'WATER_DOWN', 'ROTATE', 'EXCAVATOR_ICON', 'MIXER_ICON', 'CONTRACT', 'VP', 'ANY_MACHINE', 'ENERGY', 'CONDUIT_X', 'POWERHOUSE', 'ELEVATION', 'BASE', 'BASE_PLAIN_HILL', 'BASE_PLAIN'];
+  const ICONS = [
+    'PRODUCTION',
+    'COST',
+    'CREDIT',
+    'ARROW',
+    'WATER',
+    'WATER_DOWN',
+    'ROTATE',
+    'EXCAVATOR_ICON',
+    'MIXER_ICON',
+    'CONTRACT',
+    'VP',
+    'ANY_MACHINE',
+    'ENERGY',
+    'CONDUIT_X',
+    'POWERHOUSE',
+    'ELEVATION',
+    'BASE',
+    'BASE_PLAIN_HILL',
+    'BASE_PLAIN',
+  ];
   const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
 
   return declare('barrage.meeples', null, {
@@ -78,7 +98,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
       }
       // Energy marker
-      else if(meeple.type == 'score'){
+      else if (meeple.type == 'score') {
         return $(meeple.location);
       }
       // Meeples on action space (engineer)
@@ -119,6 +139,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     slideResources(meeples, configFn, syncNotif = true, updateHoldersAtEachMeeples = true) {
       let promises = meeples.map((resource, i) => {
+        if (resource.hasOwnProperty('ignore') && resource.ignore == true) {
+          return;
+        }
         // Get config for this slide
         let config = typeof configFn === 'function' ? configFn(resource, i) : configFn;
         // Default delay if not specified

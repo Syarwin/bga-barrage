@@ -55,6 +55,10 @@ abstract class Utils extends \APP_DbObject
     }
 
     foreach ($meeples as $meeple) {
+      if ($meeple['type'] == SCORE) {
+        continue;
+      }
+
       $t[$meeple['type']]++;
     }
 

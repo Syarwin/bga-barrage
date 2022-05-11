@@ -165,6 +165,11 @@ class Notifications
     );
   }
 
+  public static function moveTokens($tokens)
+  {
+    self::notifyAll('collectResources', '', ['resources' => $tokens->toArray()]);
+  }
+
   public static function rotateWheel($company, $nb)
   {
     self::notifyAll('rotateWheel', clienttranslate('${company_name} rotates the wheel'), [
@@ -220,10 +225,12 @@ class Notifications
     );
   }
 
-  public function score($company, $amount, $source = null)
+  public function score($company, $amount, $source = null, $silent = false)
   {
     if ($source != null) {
       $msg = clienttranslate('${company_name} scores ${amount} VP(s) ${source}');
+    } elseif ($silent) {
+      $msg = '';
     } else {
       $msg = clienttranslate('${company_name} scores ${amount} VP(s)');
     }
