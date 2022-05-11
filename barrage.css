@@ -88,22 +88,38 @@ html {
 #energy-track-board {
   width: 1000px;
   height: 130px;
-  background-image: url("img/background_board_energy.jpg");
-  background-size: 100%;
   position: relative;
   border-radius: 10px;
   display: grid;
   grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr; }
-  [data-action-background='1'] #energy-track-board {
+  #energy-track-board::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 130px;
+    background-image: url("img/ui/lightning.png"), url("img/background_board_energy.jpg");
+    background-size: 84%, 100%;
+    background-position: 128px 22px, center center;
+    background-repeat: no-repeat;
+    z-index: -1; }
+  [data-action-background='1'] #energy-track-board::before {
     background: #b0b3ba; }
   #energy-track-board #energy-track-first-second-bonus {
     position: absolute;
     width: 40px;
-    height: 75px;
-    background-image: url("img/ui/energy_bonus.png");
-    background-size: 100%;
+    height: 70px;
     top: 10px;
     left: 24px; }
+    #energy-track-board #energy-track-first-second-bonus div:not(.help-marker) {
+      width: 40px;
+      height: 35px;
+      background-size: 100%;
+      background-image: url("img/ui/energy_bonus_1.png"); }
+      #energy-track-board #energy-track-first-second-bonus div:not(.help-marker):nth-of-type(2) {
+        background-image: url("img/ui/energy_bonus_2.png"); }
   #energy-track-board .energy-track-portion {
     border: 6px solid black;
     display: flex;
@@ -152,7 +168,7 @@ html {
   #energy-track-board #energy-track {
     position: absolute;
     bottom: 0;
-    left: 7px;
+    left: 10px;
     right: 10px;
     height: 35px;
     display: flex;
@@ -163,8 +179,9 @@ html {
       height: 23px;
       margin: 0px 3px;
       border-radius: 50%;
-      background: url("img/ui/texture.jpg");
-      box-shadow: 0px 0px 7px -1px white;
+      background: url("img/ui/energy_slot.png");
+      background-size: 100%;
+      box-shadow: 0px 0px 5px -1px white;
       position: relative; }
       #energy-track-board #energy-track .energy-track-slot::before {
         content: attr(data-i);
@@ -196,12 +213,19 @@ html {
     width: 130px;
     height: 1000px;
     grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr;
-    grid-template-columns: 1fr;
-    background: #b0b3ba; }
+    grid-template-columns: 1fr; }
+    [data-energy-track='1'] #energy-track-board::before {
+      transform: translateX(130px) rotate(90deg);
+      transform-origin: top left; }
     [data-energy-track='1'] #energy-track-board .energy-track-portion {
       align-items: center;
       justify-content: flex-end;
-      padding: 0px 10px 0px; }
+      padding: 0px 8px 0px; }
+      [data-energy-track='1'] #energy-track-board .energy-track-portion #energy-track-first-second-bonus {
+        width: 80px;
+        height: 35px;
+        margin-left: 20px;
+        display: flex; }
       [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type {
         border-top-right-radius: 10px;
         border-bottom-left-radius: 0px; }
@@ -210,8 +234,8 @@ html {
         border-bottom-left-radius: 10px; }
     [data-energy-track='1'] #energy-track-board #energy-track {
       position: absolute;
-      top: 6px;
-      left: 7px;
+      top: 10px;
+      left: 11px;
       bottom: 7px;
       width: 35px;
       height: auto;
