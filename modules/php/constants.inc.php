@@ -163,9 +163,11 @@ const EXCAVATOR = 'excavator';
 const MIXER = 'mixer';
 const DROPLET = 'droplet';
 const SCORE = 'score';
+const ENERGY = 'energy';
+const VP = 'vp';
 
 const MACHINERIES = [EXCAVATOR, MIXER];
-const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET];
+const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET, VP, ENERGY];
 
 const BASE = 'base';
 const ELEVATION = 'elevation';
@@ -180,8 +182,6 @@ const N_ARCHITECT = -1;
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
 
 // Useful for contracts
-const ENERGY = 'energy';
-const VP = 'vp';
 const ANY_MACHINE = 'any_machine';
 const FLOW_DROPLET = 'flow_droplet';
 

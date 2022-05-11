@@ -139,6 +139,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     slideResources(meeples, configFn, syncNotif = true, updateHoldersAtEachMeeples = true) {
       let promises = meeples.map((resource, i) => {
+        if (resource.hasOwnProperty('ignore') && resource.ignore == true) {
+          return;
+        }
         // Get config for this slide
         let config = typeof configFn === 'function' ? configFn(resource, i) : configFn;
         // Default delay if not specified

@@ -44,12 +44,25 @@ class Gain extends \BRG\Models\Action
       if (in_array($resource, ['spaceId', 'cId'])) {
         continue;
       }
+      if ($resource == VP) {
+        $company->incScore($amount);
+        for ($i = 0; $i < $amount; $i++) {
+          $meeples[] = ['type' => $resource, 'ignore' => true];
+        }
+        Notifications::score($company, $amount, null, true);
+      } elseif ($resource == ENERGY) {
+        $tokens = $company->incEnergy($amount);
+        for ($i = 0; $i < $amount; $i++) {
+          $meeples[] = ['type' => $resource, 'ignore' => true];
+        }
 
-      $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
+        Notifications::moveTokens(Meeples::getMany($tokens));
+      } else {
+        $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
+      }
       // TODO $statName = 'inc' . ($source == null ? 'Board' : 'Cards') . ucfirst($resource);
       // Stats::$statName($player, $amount);
     }
-
     // Notify
     Notifications::gainResources($company, $meeples, $spaceId, $source);
     $this->resolveAction();
