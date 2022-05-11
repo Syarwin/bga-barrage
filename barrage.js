@@ -278,7 +278,10 @@ define([
         let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
         if (i == 0) {
           // First/second bonus
-          let bonus = dojo.place('<div id="energy-track-first-second-bonus"></div', portion);
+          let bonus = dojo.place(
+            '<div id="energy-track-first-second-bonus"><div></div><div></div></div>',
+            portion,
+          );
           this.addCustomTooltip(
             bonus,
             _('The first player on the Energy Track scores 6 Victory Points; the second scores 2 Victory Points.'),
