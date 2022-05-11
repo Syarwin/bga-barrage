@@ -45,7 +45,8 @@ class Company extends \BRG\Helpers\DB_Model
   protected $slot = 0;
 
   protected $cname;
-  protected $staticAttributes = ['cname'];
+  protected $staticAttributes = ['cname', 'revenueBoard'];
+  protected $revenueBoard = [BASE => [], \ELEVATION => [], CONDUIT => [], \POWERHOUSE => []];
 
   public function __construct($row)
   {
