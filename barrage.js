@@ -53,7 +53,7 @@ define([
         ['score', 500],
         ['rotateWheel', 500],
         ['construct', 1000],
-        ['pickContract', 1000],
+        ['pickContracts', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -656,11 +656,12 @@ define([
       );
     },
 
-    notif_pickContract(n) {
+    notif_pickContracts(n) {
       debug('Notif: someone picked a contract', n);
-      let contract = n.args.contract;
-      $(`contract-${contract.id}`).classList.remove('selected');
-      this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+      n.args.contracts.map((contract) => {
+        $(`contract-${contract.id}`).classList.remove('selected');
+        this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+      });
     },
   });
 });
