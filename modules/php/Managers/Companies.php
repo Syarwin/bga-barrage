@@ -52,7 +52,7 @@ class Companies extends \BRG\Helpers\DB_Manager
 
     self::DB()->insert([
       'id' => $cId,
-      'no' => $nAutomas + self::count() + 1,
+      'no' => $nAutomas + self::count(true) + 1,
       'player_id' => $player->getId(),
       'name' => $player->getName(),
       'xo' => $xId,
@@ -158,9 +158,9 @@ class Companies extends \BRG\Helpers\DB_Manager
    * Return the number of companies
    */
   protected static $nCompanies = null;
-  public function count()
+  public function count($forceRefresh = false)
   {
-    if (is_null(self::$nCompanies)) {
+    if (is_null(self::$nCompanies) || $forceRefresh) {
       self::$nCompanies = self::DB()->count();
     }
     return self::$nCompanies;

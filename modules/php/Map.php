@@ -34,7 +34,6 @@ class Map
     ];
   }
 
-
   /*
    * Magic method that intercept not defined static method and do the appropriate stuff
    */
@@ -74,5 +73,34 @@ class Map
       $meeples[] = ['type' => DROPLET, 'location' => $basin['id']];
     }
     Meeples::create($meeples);
+  }
+
+  /**
+   * At each start of round, place droplets on headstreams
+   */
+  protected static $headstreamTiles = [
+    HT_1 => [0, 2, 2, 0],
+    HT_2 => [0, 0, 1, 3],
+    HT_3 => [2, 0, 2, 0],
+    HT_4 => [1, 1, 1, 1],
+    HT_5 => [0, 1, 0, 2],
+    HT_6 => [0, 0, 1, 2],
+    HT_7 => [1, 0, 2, 2],
+    HT_8 => [0, 2, 1, 2],
+  ];
+
+  public static function fillHeadstreams()
+  {
+    $round = Globals::getRound();
+    $headstreams = Globals::getHeadstreams();
+    $droplets = [];
+    foreach ($headstreams as $hId => $tileId) {
+      $n = static::$headstreamTiles[$tileId][$round - 1];
+      if ($n > 0) {
+        $meeples[] = ['type' => DROPLET, 'location' => $hId, 'n' => $n];
+      }
+    }
+
+    return Meeples::getMany(Meeples::create($meeples));
   }
 }

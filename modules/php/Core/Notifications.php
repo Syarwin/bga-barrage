@@ -99,6 +99,13 @@ class Notifications
     ]);
   }
 
+  public static function fillHeadstreams($meeples)
+  {
+    self::notifyAll('gainResources', clienttranslate('Filling headstreams'), [
+      'resources' => $meeples,
+    ]);
+  }
+
   public static function placeEngineers($company, $engineers, $board)
   {
     $msg = clienttranslate('${company_name} places ${n} engineers on board ${board}');

@@ -648,15 +648,13 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       }
 
       // Handle phantom at start
-      if (config.phantomStart) {
+      if (config.phantomStart && config.from == null) {
         mobile = dojo.clone(mobileElt);
         dojo.attr(mobile, 'id', mobileElt.id + '_animated');
         dojo.place(mobile, 'game_play_area');
         this.placeOnObject(mobile, mobileElt);
         dojo.addClass(mobileElt, 'phantom');
-        if (config.from == null) {
-          config.from = mobileElt;
-        }
+        config.from = mobileElt;
       }
 
       // Handle phantom at end

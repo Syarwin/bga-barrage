@@ -1,5 +1,6 @@
 <?php
 namespace BRG\States;
+use BRG\Map;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
@@ -43,7 +44,8 @@ trait RoundTrait
     // TODO
 
     // 1. b) Headstreams
-    // TODO
+    $droplets = Map::fillHeadstreams();
+    Notifications::fillHeadstreams($droplets);
 
     // Change first player and start action phase (with loop = true)
     $this->initCustomDefaultTurnOrder('actionPhase', ST_ACTION_PHASE, ST_RETURNING_HOME, true);
@@ -78,9 +80,9 @@ trait RoundTrait
       return;
     }
 
-    if($company->isAI()){
+    if ($company->isAI()) {
       // TODO : handle AI
-      die("AI not implemented yet !");
+      die('AI not implemented yet !');
       return;
     }
 
