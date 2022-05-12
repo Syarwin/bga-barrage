@@ -93,6 +93,15 @@ class Notifications
     ]);
   }
 
+  public static function discardContracts($company, $contracts)
+  {
+    self::notifyAll('silentDestroy', clienttranslate('${company_name} discards ${nb} contract(s)'), [
+      'contracts' => $contracts,
+      'nb' => count($contracts),
+      'company' => $company,
+    ]);
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [

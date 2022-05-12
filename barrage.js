@@ -47,7 +47,7 @@ define([
         ['collectResources', null],
         ['assignCompany', 1000],
         ['setupCompanies', 500],
-        ['silentDestroy', null],
+        ['silentDestroy', 100],
         ['moveDroplet', null],
         ['produce', 500],
         ['score', 500],

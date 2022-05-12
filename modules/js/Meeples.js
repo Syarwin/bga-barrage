@@ -247,7 +247,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_silentDestroy(n) {
       debug('Notif: destroying something silently', n);
-      n.args.resources.forEach((meeple) => dojo.destroy('meeple-' + meeple.id));
+      if (n.args.hasOwnProperty('resources')) {
+        n.args.resources.forEach((meeple) => dojo.destroy('meeple-' + meeple.id));
+      }
+      if (n.args.hasOwnProperty('contracts')) {
+        n.args.contracts.forEach((contract) => dojo.destroy('contract-' + contract));
+      }
     },
 
     /**
