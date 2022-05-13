@@ -25,7 +25,7 @@ class TakeContract extends \BRG\Models\Action
       ->where('type', '<>', '1')
       ->get()
       ->getIds();
-    return ['nb' => $n, 'contracts' => $contracts];
+    return ['n' => $n, 'contracts' => $contracts];
   }
 
   public function actTakeContract($contractIds)
@@ -33,7 +33,7 @@ class TakeContract extends \BRG\Models\Action
     $company = Companies::getActive();
     $args = $this->argsTakeContract();
     // check max contract
-    if (count($contractIds) != $args['nb']) {
+    if (count($contractIds) != $args['n']) {
       throw new \BgaVisibleSystemException('Not enough contract selected. Should not happen');
     }
 

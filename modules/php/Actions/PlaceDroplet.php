@@ -29,14 +29,14 @@ class PlaceDroplet extends \BRG\Models\Action
   {
     $ctxArgs = Engine::getNextUnresolved()->getArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
-    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'number' => $ctxArgs['n']];
+    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'n' => $ctxArgs['n']];
   }
 
   public function actPlaceDroplet($headstreams)
   {
     $args = $this->argsPlaceDroplet();
     $company = Companies::getActive();
-    if (count($headstreams) > $args['number']) {
+    if (count($headstreams) > $args['n']) {
       throw new \BgaVisibleSystemException('Too many droplet sent. Should not happen');
     } elseif (empty($headstreams)) {
       throw new \BgaVisibleSystemException('You must add at least one droplet. Should not happen');

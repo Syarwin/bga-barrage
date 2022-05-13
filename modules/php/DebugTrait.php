@@ -34,9 +34,17 @@ trait DebugTrait
     // pick contract
     // $this->actTakeAtomicAction([[305, 403]]);
     // discard contracts
-    $this->actTakeAtomicAction([[3]]);
+    // $this->actTakeAtomicAction([[3]]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
     // throw new \feException(print_r(Companies::getActive()->countReserveResource()));
+    Engine::insertAsChild(['action' => \FULFILL_CONTRACT, 'args' => ['energy' => 7]]);
+    Engine::resolveAction([]);
+    Engine::proceed();
+  }
+
+  public function tv()
+  {
+    $this->actTakeAtomicAction([3]);
   }
 
   function addResource($type, $qty = 1)

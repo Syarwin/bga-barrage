@@ -105,6 +105,14 @@ class Notifications
     ]);
   }
 
+  public static function fulfillContract($company, $contract)
+  {
+    self::notifyAll('fulfillContract', clienttranslate('${company_name} fulfills one contract'), [
+      'company' => $company,
+      'contract' => $contract,
+    ]);
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [

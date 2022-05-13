@@ -209,7 +209,7 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
-    'possibleactions' => ['actContract', 'actPassOptionalAction', 'actRestart'],
+    'possibleactions' => ['actFulfillContract', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_PLACE_DROPLET => [

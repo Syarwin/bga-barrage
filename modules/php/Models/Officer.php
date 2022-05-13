@@ -11,6 +11,7 @@ class Officer
   protected $id;
   protected $name;
   protected $description;
+  protected $contractReduction = 0;
 
   public function __construct($company)
   {
@@ -25,5 +26,10 @@ class Officer
   public function isAvailable()
   {
     return true;
+  }
+
+  public function getContractReduction()
+  {
+    return $this->contractReduction;
   }
 }

@@ -328,6 +328,7 @@ class Company extends \BRG\Helpers\DB_Model
     ];
   }
 
+  // Contracts
   public function getContracts($resolved = null)
   {
     $q = Contracts::getSelectQuery()->where('contract_location', 'hand_' . $this->id);
@@ -337,5 +338,13 @@ class Company extends \BRG\Helpers\DB_Model
       $q = $q->where('contract_state', 0);
     }
     return $q->get();
+  }
+
+  public function getContractReduction()
+  {
+    if (is_null($this->officer)) {
+      return 0;
+    }
+    return $this->officer->getContractReduction();
   }
 }

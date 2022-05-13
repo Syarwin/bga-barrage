@@ -25,10 +25,15 @@ class USA extends \BRG\Models\Company
         ],
       ],
       \ELEVATION => [
-        2 => [
-          'type' => NODE_XOR,
-          'childs' => [['action' => GAIN, 'args' => [\EXCAVATOR => 1]], ['action' => GAIN, 'args' => [\MIXER => 1]]],
-        ],
+        2 =>
+          //  [
+          //   'type' => NODE_XOR,
+          //   'childs' => [['action' => GAIN, 'args' => [\EXCAVATOR => 1]], ['action' => GAIN, 'args' => [\MIXER => 1]]],
+          // ],
+          [
+            'action' => GAIN,
+            'args' => [\VP => 3, ENERGY => 4],
+          ],
         4 => [
           'type' => NODE_SEQ,
           'childs' => [

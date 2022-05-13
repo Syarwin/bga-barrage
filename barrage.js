@@ -57,6 +57,7 @@ define([
         ['rotateWheel', 1000],
         ['construct', null],
         ['pickContract', 1000],
+        ['fulfillContract', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -553,7 +554,7 @@ define([
       let currentSelection = [];
       let updateSelectable = () => {
         headstreams.forEach((h) => {
-          h.classList.toggle('selectable', currentSelection.length < args.number);
+          h.classList.toggle('selectable', currentSelection.length < args.n);
           h.dataset.n = currentSelection.reduce((c, v) => c + (v == h.dataset.id), 0);
         });
 
@@ -573,7 +574,7 @@ define([
       args.headstreams.forEach((hId) => {
         let headstream = $('brg-map').querySelector(`.headstream[data-id='${hId}']`);
         this.onClick(headstream, () => {
-          if (currentSelection.length < args.number) {
+          if (currentSelection.length < args.n) {
             currentSelection.push(hId);
             updateSelectable();
           }
@@ -849,6 +850,13 @@ define([
         `
       </div>`
       );
+    },
+
+    notif_fulfillContract(n) {
+      debug('Notif: someone fulfilled a contract', n);
+      contract = n.args.contract;
+      $(`contract-${contract.id}`).classList.add('fulfilled');
+      this.showMessage('animation to do');
     },
   });
 });
