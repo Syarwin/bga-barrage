@@ -16,6 +16,7 @@ abstract class AbstractMap
     $conduits = [];
     foreach ($this->getZones() as $zone) {
       foreach ($zone['conduits'] ?? [] as $cId => $conduit) {
+        $conduit['id'] = $cId;
         $conduits[$cId] = $conduit;
       }
     }
@@ -37,7 +38,7 @@ abstract class AbstractMap
       }
     }
 
-    return $powerhouses;
+    return \array_reverse($powerhouses);
   }
 
   public function getBasins()
@@ -55,6 +56,27 @@ abstract class AbstractMap
     }
 
     return $basins;
+  }
+
+  public function getConstructSlots()
+  {
+    $slots = [];
+    foreach ($this->getBasins() as $bId => $basin) {
+      $basin['type'] = Meeples::getOnSpace($bId)->empty() ? BASE : ELEVATION;
+      $slots[] = $basin;
+    }
+
+    foreach ($this->getPowerhouses() as $powerhouse) {
+      $powerhouse['type'] = POWERHOUSE;
+      $slots[] = $powerhouse;
+    }
+
+    foreach ($this->getConduits() as $conduit) {
+      $conduit['type'] = CONDUIT;
+      $slots[] = $conduit;
+    }
+
+    return $slots;
   }
 
   public function getBasinsByArea()

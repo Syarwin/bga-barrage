@@ -97,7 +97,7 @@ class Map
     foreach ($headstreams as $hId => $tileId) {
       $n = static::$headstreamTiles[$tileId][$round - 1];
       if ($n > 0) {
-        $meeples[] = ['type' => DROPLET, 'location' => $hId, 'n' => $n];
+        $meeples[] = ['type' => DROPLET, 'location' => $hId, 'nbr' => $n];
       }
     }
 

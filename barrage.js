@@ -34,6 +34,8 @@ define([
         'placeEngineer',
         'payResources',
         'placeDroplet',
+        'construct',
+        'placeStructure',
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
@@ -43,6 +45,7 @@ define([
         ['refreshUI', 1],
         ['placeEngineers', null],
         ['payResources', null],
+        ['payResourcesToWheel', null],
         ['gainResources', null],
         ['collectResources', null],
         ['assignCompany', 1000],
@@ -51,8 +54,8 @@ define([
         ['moveDroplet', null],
         ['produce', 500],
         ['score', 500],
-        ['rotateWheel', 500],
-        ['construct', 1000],
+        ['rotateWheel', 1000],
+        ['construct', null],
         ['pickContract', 1000],
       ];
 
@@ -112,6 +115,7 @@ define([
       this.setupMap();
       this.setupMeeples();
       this.setupContracts();
+      this.setupTechnologyTiles();
 
       this.inherited(arguments);
     },
@@ -126,14 +130,15 @@ define([
       debug('Entering state: ' + stateName, args);
       if (this.isFastMode()) return;
 
+      if (args.args && args.args.descSuffix) {
+        this.changePageTitle(args.args.descSuffix);
+      }
+
       /*
       if (stateName == 'exchange' && args.args && args.args.automaticAction) {
         args.args.descSuffix = 'cook';
       }
 
-      if (args.args && args.args.descSuffix) {
-        this.changePageTitle(args.args.descSuffix);
-      }
 
       if (args.args && args.args.optionalAction) {
         let base = args.args.descSuffix ? args.args.descSuffix : '';
@@ -230,6 +235,10 @@ define([
       });
 
       this.place('tplExit', '', oMap);
+    },
+
+    getConstructSlot(uid) {
+      return $('brg-map').querySelector(`:not(.basin)[data-id='${uid}']`);
     },
 
     tplHeadstream(headstream) {
@@ -485,11 +494,13 @@ define([
 
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
-      //      ['meeples', 'players', 'scores', 'playerCards'].forEach((value) => {
-      ['meeples', 'players'].forEach((value) => {
+      ['meeples', 'players', 'companies', 'techTiles', 'contracts'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
       this.setupMeeples();
+      this.setupTechnologyTiles();
+      this.setupContracts();
+      this.refreshCompanies();
       // this.updatePlayersScores();
     },
 
@@ -566,6 +577,106 @@ define([
             currentSelection.push(hId);
             updateSelectable();
           }
+        });
+      });
+    },
+
+    // Place structure
+    onEnteringStatePlaceStructure(args) {
+      args.spaces.forEach((uid) => {
+        let elt = this.getConstructSlot(uid);
+        this.onClick(elt, () => this.takeAtomicAction('actPlaceStructure', [uid]));
+      });
+    },
+
+    // Construct
+    onEnteringStateConstruct(args) {
+      // Compute for each tile, the corresponding spaces, and vice-versa
+      let byTile = [];
+      let bySpace = [];
+      let tileIds = [];
+      let spaceIds = [];
+      args.pairs.forEach((pair) => {
+        if (!byTile[pair.tileId]) {
+          byTile[pair.tileId] = [];
+          tileIds.push(pair.tileId);
+        }
+        byTile[pair.tileId].push(pair.spaceId);
+
+        if (!bySpace[pair.spaceId]) {
+          bySpace[pair.spaceId] = [];
+          spaceIds.push(pair.spaceId);
+        }
+        bySpace[pair.spaceId].push(pair.tileId);
+      });
+      console.log(byTile, bySpace);
+
+      // Store the selected tile and space
+      let selectedTile = null;
+      let selectedSpace = null;
+      let updateStatus = () => {
+        tileIds.forEach((tileId) => {
+          $(`tech-tile-${tileId}`).classList.toggle(
+            'selectable',
+            (tileId == selectedTile || selectedTile == null) &&
+              (selectedSpace == null || bySpace[selectedSpace].includes(tileId)),
+          );
+        });
+        spaceIds.forEach((spaceId) => {
+          this.getConstructSlot(spaceId).classList.toggle(
+            'selectable',
+            (spaceId == selectedSpace || selectedSpace == null) &&
+              (selectedTile == null || byTile[selectedTile].includes(spaceId)),
+          );
+        });
+
+        dojo.destroy('btnConfirmConstruct');
+        dojo.destroy('btnCancelConstruct');
+        if (selectedTile != null || selectedSpace != null) {
+          this.addSecondaryActionButton('btnCancelConstruct', _('Cancel'), () => {
+            selectedTile = null;
+            selectedSpace = null;
+            updateStatus();
+          });
+        }
+        if (selectedTile != null && selectedSpace != null) {
+          this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
+            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile]),
+          );
+        }
+      };
+
+      // Add listeners
+      tileIds.forEach((tileId) => {
+        let elt = $(`tech-tile-${tileId}`);
+        this.onClick(elt, () => {
+          if (!elt.classList.contains('selectable')) return;
+
+          if (selectedTile == tileId) {
+            selectedTile = null;
+          } else {
+            selectedTile = tileId;
+            if (byTile[tileId].length == 1) {
+              selectedSpace = byTile[tileId][0];
+            }
+          }
+          updateStatus();
+        });
+      });
+      spaceIds.forEach((spaceId) => {
+        let elt = this.getConstructSlot(spaceId);
+        this.onClick(elt, () => {
+          if (!elt.classList.contains('selectable')) return;
+
+          if (selectedSpace == spaceId) {
+            selectedSpace = null;
+          } else {
+            selectedSpace = spaceId;
+            if (bySpace[spaceId].length == 1) {
+              selectedTile = bySpace[spaceId][0];
+            }
+          }
+          updateStatus();
         });
       });
     },
@@ -661,6 +772,80 @@ define([
       let contract = n.args.contract;
       $(`contract-${contract.id}`).classList.remove('selected');
       this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+    },
+
+    ////////////////////////////////////////////////////////
+    //  _____         _       _____ _ _
+    // |_   _|__  ___| |__   |_   _(_) | ___  ___
+    //   | |/ _ \/ __| '_ \    | | | | |/ _ \/ __|
+    //   | |  __/ (__| | | |   | | | | |  __/\__ \
+    //   |_|\___|\___|_| |_|   |_| |_|_|\___||___/
+    //
+    ////////////////////////////////////////////////////////
+    setupTechnologyTiles() {
+      // This function is refreshUI compatible
+      let tilesIds = this.gamedatas.techTiles.map((tile) => {
+        this.addTechTile(tile);
+        let o = $(`tech-tile-${tile.id}`);
+        let container = this.getTechTileContainer(tile);
+        if (o.parentNode != $(container)) {
+          dojo.place(o, container);
+        }
+
+        return tile.id;
+      });
+
+      /*
+      TODO : PROBABLY USELES
+      document.querySelectorAll('.barrage-meeple[id^="meeple-"]').forEach((oMeeple) => {
+        if (!meepleIds.includes(parseInt(oMeeple.getAttribute('data-id')))) {
+          dojo.destroy(oMeeple);
+        }
+      });
+      */
+    },
+
+    addTechTile(tile, container = null) {
+      if ($(`tech-tile-${tile.id}`)) return;
+
+      if (!container) {
+        container = this.getTechTileContainer(tile);
+      }
+      this.place('tplTechTile', tile, container);
+      // TODO : this.addCustomTooltip(`contract-${contract.id}`, this.tplContractTooltip(contract));
+    },
+
+    getTechTileContainer(tile) {
+      if (tile.location == 'company') {
+        return `company-tech-tiles-${tile.cId}`;
+      }
+      // Resource wheel
+      else if (tile.location == 'wheel') {
+        let n = 1 + parseInt(tile.state);
+        return $(`wheel-${tile.cId}`).querySelector(`.wheel-sector:nth-of-type(${n}) .wheel-tile-slot`);
+      }
+
+      console.error('Trying to get container of a tech tile', tile);
+      return 'game_play_area';
+    },
+
+    tplTechTile(tile, tooltip = false) {
+      let t = tooltip ? '-tooltip' : '';
+      return `<div id='tech-tile-${tile.id}${t}' class='barrage-tech-tile'>
+          <div class='tech-tile-fixed-size' data-type='${tile.type}'></div>
+      </div>`;
+    },
+
+    tplTechTileTooltip(contract) {
+      return (
+        this.tplContract(contract, true) +
+        `
+      <div class='contract-desc'>
+        ` +
+        contract.descs.map((t) => this.translate(t)).join('<br />') +
+        `
+      </div>`
+      );
     },
   });
 });

@@ -67,7 +67,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
 
     onLoadingComplete() {
       debug('Loading complete');
-      //      this.cancelLogs(this.gamedatas.canceledNotifIds);
+      this.cancelLogs(this.gamedatas.canceledNotifIds);
     },
 
     /*

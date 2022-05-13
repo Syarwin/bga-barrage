@@ -27,6 +27,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.setupCompaniesCounters();
     },
 
+    refreshCompanies() {
+      this.forEachCompany((company) => {
+        this.updateWheelAngle(company);
+      });
+    },
+
     setupCompany(company) {
       company.color = COLOR_MAPPING[company.id];
 
@@ -40,6 +46,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // Create company board
       this.place('tplCompanyBoard', company, 'company-boards-container');
+      this.updateWheelAngle(company);
     },
 
     tplPlayerBoard(company) {
@@ -83,6 +90,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         </div>
       </div>
       <div class='company-panel-contracts' id='company-contracts-${company.id}'></div>
+      <div class='company-panel-tech-tiles' id='company-tech-tiles-${company.id}'></div>
       <div class='company-panel-personal-resources'>
       ` +
         PERSONAL_RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
@@ -130,25 +138,25 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             ${_(company.name)}
           </div>
 
-          <div class='action-space-wrapper construct-0' id='company-${id}-1'>
-            <div class='engineer-slot' id='construct-0-0-${id}'></div>
+          <div class='action-space-wrapper construct-0 action-space' id='company-${id}-1'>
+            <div class='action-space-slot' id='construct-0-0-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-1' id='company-${id}-2'>
-            <div class='engineer-slot' id='construct-1-0-${id}'></div>
-            <div class='engineer-slot' id='construct-1-1-${id}'></div>
+          <div class='action-space-wrapper construct-1 action-space' id='company-${id}-2'>
+            <div class='action-space-slot' id='construct-1-0-${id}'></div>
+            <div class='action-space-slot' id='construct-1-1-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-2' id='company-${id}-3'>
-            <div class='engineer-slot' id='construct-2-0-${id}'></div>
-            <div class='engineer-slot' id='construct-2-1-${id}'></div>
-            <div class='engineer-slot' id='construct-2-2-${id}'></div>
+          <div class='action-space-wrapper construct-2 action-space' id='company-${id}-3'>
+            <div class='action-space-slot' id='construct-2-0-${id}'></div>
+            <div class='action-space-slot' id='construct-2-1-${id}'></div>
+            <div class='action-space-slot' id='construct-2-2-${id}'></div>
           </div>
 
-          <div class='action-space-wrapper construct-3' id='company-${id}-4'>
-            <div class='engineer-slot' id='construct-3-0-${id}'></div>
-            <div class='engineer-slot' id='construct-3-1-${id}'></div>
-            <div class='engineer-slot' id='construct-3-2-${id}'></div>
+          <div class='action-space-wrapper construct-3 action-space' id='company-${id}-4'>
+            <div class='action-space-slot' id='construct-3-0-${id}'></div>
+            <div class='action-space-slot' id='construct-3-1-${id}'></div>
+            <div class='action-space-slot' id='construct-3-2-${id}'></div>
           </div>
 
           <div class='structures-wrapper bases-wrapper'>
@@ -182,7 +190,49 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             <div class='building-slot' id='powerhouse-0-${id}'></div>
           </div>
         </div>
+        <div class='wheel-wrapper'>
+          <div class='wheel' id='wheel-${company.id}' data-angle='${company.wheelAngle}'>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+            <div class='wheel-sector'>
+              <div class='wheel-tile-slot'></div>
+              <div class='wheel-machineries-slots'></div>
+            </div>
+          </div>
+        </div>
       </div>`;
+    },
+
+    updateWheelAngle(company) {
+      let wheel = $(`wheel-${company.id}`);
+      let angle = parseInt(company.wheelAngle);
+      wheel.dataset.angle = angle;
+      wheel.style.transform = `rotate(${angle * 60}deg)`;
+    },
+
+    notif_rotateWheel(n) {
+      debug('Notif: rotating wheel', n);
+      let company = this.gamedatas.companies[n.args.company_id];
+      company.wheelAngle += n.args.nb;
+      this.updateWheelAngle(company);
     },
 
     getCompanyName(companyId) {
@@ -319,10 +369,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_score(n) {
       debug('Notif: updating scores', n);
-    },
-
-    notif_rotateWheel(n) {
-      debug('Notif: rotating wheel', n);
     },
   });
 });

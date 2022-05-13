@@ -150,14 +150,28 @@ $machinestates = [
 
   ST_CONSTRUCT => [
     'name' => 'construct',
-    'description' => clienttranslate('${actplayer} must build'),
-    'descriptionmyturn' => clienttranslate('${you} must build'),
-    'descriptionskippable' => clienttranslate('${actplayer} may build'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may build'),
+    'description' => clienttranslate('${actplayer} must build a structure'),
+    'descriptionmyturn' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
+    'descriptionskippable' => clienttranslate('${actplayer} may build a structure'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may select a technology tile and a space to build a structure'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
     'possibleactions' => ['actConstruct', 'actPassOptionalAction', 'actRestart'],
+  ],
+
+  ST_PLACE_STRUCTURE => [
+    'name' => 'placeStructure',
+    'description' => clienttranslate('${actplayer} must place a structure (${structure}'),
+    'descriptionmyturn' => clienttranslate('${you} must place a structure (${structure})'),
+    'descriptionskippable' => clienttranslate('${actplayer} may place a structure (${structure})'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may place a structure (${structure})'),
+    'descriptionauto' => clienttranslate('${actplayer} place a structure (${structure})'),
+    'descriptionmyturnauto' => clienttranslate('${you} place a structure (${structure})'),
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'type' => 'activeplayer',
+    'possibleactions' => ['actPlaceStructure', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_PAY => [

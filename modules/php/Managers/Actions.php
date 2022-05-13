@@ -17,6 +17,7 @@ class Actions
     ROTATE_WHEEL => 'RotateWheel',
     TAKE_CONTRACT => 'TakeContract',
     SPECIAL_EFFECT => 'SpecialEffect',
+    PLACE_STRUCTURE => 'PlaceStructure',
   ];
 
   public static function get($actionId, $ctx = null)

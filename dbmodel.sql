@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `technology_tiles` (
   `tile_location` varchar(32) NOT NULL,
   `tile_state` int(10),
   `company_id` int(10) NULL,
-  `structure` varchar(32),
+  `type` varchar(32),
   PRIMARY KEY (`tile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

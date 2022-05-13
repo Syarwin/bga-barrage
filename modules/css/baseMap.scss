@@ -26,6 +26,17 @@
       display: none;
     }
   }
+
+  .dam-slot {
+    &.selectable {
+      cursor: pointer;
+      background: #38ff006b;
+
+      &:hover {
+        background: #35b71099;
+      }
+    }
+  }
 }
 
 #brg-map-resizable[data-map='1'] {
@@ -183,10 +194,10 @@
       width: 73px;
       height: 32px;
       position: absolute;
-      background: green;
-      opacity: 0.5;
       border-radius: 8px;
       border: 1px solid white;
+      display: flex;
+      align-items: end;
       &.paying {
         border: 1px solid red;
       }

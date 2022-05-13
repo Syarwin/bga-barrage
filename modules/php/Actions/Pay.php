@@ -120,6 +120,26 @@ class Pay extends \BRG\Models\Action
           Companies::get($this->getCtxArgs()['to'])
         );
       }
+    } elseif (($this->getCtxArgs()['target'] ?? null) == 'wheel') {
+      // Moving resources to wheel
+      // Delete meeples and notify
+      $deleted = [];
+      $moved = [];
+      foreach ($cost as $resource => $amount) {
+        if ($resource == 'sources') {
+          continue;
+        }
+        if (in_array($resource, MACHINERIES)) {
+          $moved = array_merge($moved, $company->placeOnWheel($resource, $amount));
+        } else {
+          $deleted = array_merge($deleted, $company->useResource($resource, $amount));
+        }
+      }
+
+      // Move tech tile
+      $tile = $company->placeTileOnWheel($this->getCtxArgs()['tileId']);
+
+      Notifications::payResourcesToWheel($company, $tile, $deleted, $moved, $args['source'], $cost['sources'] ?? []);
     } else {
       // "Normal" payment with ressources
       // Delete meeples and notify
