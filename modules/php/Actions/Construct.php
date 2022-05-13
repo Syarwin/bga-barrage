@@ -12,25 +12,90 @@ use BRG\Map;
 
 class Construct extends \BRG\Models\Action
 {
-  protected $costMap = [
-    BASE => ['type' => EXCAVATOR, MOUNTAIN => 5, HILL => 4, PLAIN => 3],
-    ELEVATION => ['type' => MIXER, MOUNTAIN => 4, HILL => 3, PLAIN => 2],
-    \POWERHOUSE => ['type' => MIXER],
-    CONDUIT => ['type' => \EXCAVATOR],
-  ];
   public function getState()
   {
     return \ST_CONSTRUCT;
   }
 
-  public function stConstruct()
+  public function getConstructablePairs($company)
   {
-    //not needed
+    $pairs = [];
+    $tiles = $company->getAvailableTechTiles();
+    foreach (Map::getConstructSlots() as $slot) {
+      foreach ($tiles as $tile) {
+        if (!$tile->canConstruct($slot['type'])) {
+          continue;
+        }
+
+        // Construct the flow
+        $childs = [];
+
+        // 2] 3] Move tech tile
+        $cost = $company->getConstructCost($slot, $tile);
+        $cost['target'] = 'wheel';
+        $cost['tileId'] = $tile->getId();
+        $childs[] = [
+          'action' => PAY,
+          'args' => $cost,
+        ];
+        // 4] Rotate the wheel
+        $childs[] = [
+          'action' => ROTATE_WHEEL,
+          'args' => ['n' => 1],
+        ];
+        // 5] Place the structure
+        $childs[] = [
+          'action' => PLACE_STRUCTURE,
+          'args' => [
+            'spaceId' => $slot['id'],
+            'type' => $slot['type'],
+          ],
+        ];
+        // 5bis] (OPT) Slot cost
+        if (($slot['cost'] ?? 0) > 0) {
+          $childs[] = [
+            'action' => PAY,
+            'args' => [
+              'nb' => $slot['cost'],
+              'costs' => Utils::formatCost([CREDIT => 1]),
+              'source' => clienttranslate('building space'),
+            ],
+          ];
+        }
+
+        // Construct the flow
+        $flow = [
+          'type' => NODE_SEQ,
+          'childs' => $childs,
+        ];
+
+        // TODO : add isDoable
+        if (true) {
+          $pairs[] = [
+            'spaceId' => $slot['id'],
+            'tileId' => $tile->getId(),
+            'flow' => $flow,
+          ];
+        }
+      }
+    }
+
+    return $pairs;
   }
 
   public function argsConstruct()
   {
     $company = Companies::getActive();
+    $pairs = self::getConstructablePairs($company);
+    // Clean the flow, useless for UI
+    foreach ($pairs as &$pair) {
+      unset($pair['flow']);
+    }
+
+    return ['pairs' => $pairs];
+    /*
+    die('test');
+
     $resource = $company->getAllReserveResources();
     $possibilities = [BASE => [], \ELEVATION => [], \POWERHOUSE => [], CONDUIT => []];
     // get type of structure available
@@ -130,25 +195,28 @@ class Construct extends \BRG\Models\Action
       }
     }
     return ['possibilities' => $possibilities];
+*/
   }
 
-  public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
+  public function actConstruct($spaceId, $tileId)
   {
-    $args = $this->argsConstruct();
+    // Sanity checks
+    self::checkAction('actConstruct');
     $company = Companies::getActive();
-
-    if (!isset($args['possibilities'][$type])) {
-      throw new \BgaVisibleSystemException('Cannot construct ' . $type . '. Should not happen');
-    }
-    $filter = array_filter($args['possibilities'][$type], function ($p) use ($meeple, $target) {
-      return $p['meeple'] == $meeple && $p['target'] == $target;
+    $pairs = self::getConstructablePairs($company);
+    Utils::filter($pairs, function ($pair) use ($spaceId, $tileId) {
+      return $pair['spaceId'] == $spaceId && $pair['tileId'] == $tileId;
     });
-
-    if (count($filter) != 1) {
+    if (count($pairs) != 1) {
       throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
     }
-    $filter = array_pop($filter);
+    $pair = array_pop($pairs);
 
+    // Insert the flow as a child and proceed
+    Engine::insertAsChild($pair['flow']);
+    $this->resolveAction(['space' => $spaceId, 'tile' => $tileId]);
+
+    /*
     // move cost on wheel
     $movedResources = [];
     if ($resources != null) {
@@ -169,7 +237,7 @@ class Construct extends \BRG\Models\Action
     if (is_null($oTechnologyTiles)) {
       throw new \BgaVisibleSystemException('Unavailable technology tile. Should not happen');
     }
-    $techMoved = TechnologyTiles::move($oTechnologyTiles['id'], 'wheel_' . $company->getSlot());
+    $techMoved = TechnologyTiles::move($oTechnologyTiles['id'], 'wheel', $company->getSlot());
 
     // move meeple on location
     $movedTarget = Meeples::move($meeple, $target);
@@ -204,5 +272,6 @@ class Construct extends \BRG\Models\Action
     }
 
     $this->resolveAction([$filter]);
+*/
   }
 }

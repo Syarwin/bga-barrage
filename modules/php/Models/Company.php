@@ -73,8 +73,8 @@ class Company extends \BRG\Helpers\DB_Model
       'score' => $this->score,
       'scoreAux' => $this->scoreAux,
       'energy' => $this->energy,
+      'wheelAngle' => $this->slot,
       'resources' => [],
-      'wheel' => $this->getWheel(),
     ];
 
     /*
@@ -155,6 +155,17 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::payResourceTo($this->id, $resource, $amount, $pId);
   }
 
+  public function incEnergy($n)
+  {
+    parent::incEnergy($n);
+    $scoreToken = Meeples::getFilteredQuery($this->id, null, [SCORE])
+      ->get()
+      ->first();
+
+    Meeples::move($scoreToken['id'], 'energy-track-' . $this->energy);
+    return $scoreToken['id'];
+  }
+
   //////////////////////////////////////////////////////
   //  _____             _
   // | ____|_ __   __ _(_)_ __   ___  ___ _ __ ___
@@ -188,7 +199,26 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getMany($engineerIds);
   }
 
-  // Wheel
+  ///////////////////////////////////////
+  // __        ___               _
+  // \ \      / / |__   ___  ___| |
+  //  \ \ /\ / /| '_ \ / _ \/ _ \ |
+  //   \ V  V / | | | |  __/  __/ |
+  //    \_/\_/  |_| |_|\___|\___|_|
+  //
+  ///////////////////////////////////////
+
+  public function placeOnWheel($type, $n)
+  {
+    return Meeples::moveResource($this->id, $type, $n, 'wheel', $this->slot);
+  }
+
+  public function placeTileOnWheel($tileId)
+  {
+    TechnologyTiles::move($tileId, 'wheel', $this->slot);
+    return TechnologyTiles::get($tileId);
+  }
+
   public function getWheel()
   {
     $wheel = [];
@@ -206,7 +236,7 @@ class Company extends \BRG\Helpers\DB_Model
   {
     $this->setSlot(($this->slot + 1) % 6);
 
-    $mIds = Meeples::getFilteredQuery($this->id, 'wheel_' . $this->slot, null)
+    $mIds = Meeples::getFilteredQuery($this->id, 'wheel', $this->slot, null)
       ->get()
       ->getIds();
     if (!empty($mIds)) {
@@ -230,11 +260,15 @@ class Company extends \BRG\Helpers\DB_Model
     return;
   }
 
-  public function placeOnWheel($type, $n)
-  {
-    return Meeples::moveResource($this->id, $type, $n, 'wheel_' . $this->slot);
-  }
-
+  ////////////////////////////////////////////////////
+  //   ____                _                   _
+  //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_
+  // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|
+  // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_
+  //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+  //
+  ////////////////////////////////////////////////////
+  /*
   public function canConstruct($type)
   {
     if (Meeples::getFilteredQuery($this->id, 'company', [$type])->count() == 0) {
@@ -246,16 +280,52 @@ class Company extends \BRG\Helpers\DB_Model
     }
     return true;
   }
+*/
 
-  public function incEnergy($n)
+  public function getAvailableTechTiles($structure = null)
   {
-    parent::incEnergy($n);
-    $scoreToken = Meeples::getFilteredQuery($this->id, null, [SCORE])
-      ->get()
-      ->first();
+    $tiles = TechnologyTiles::getFilteredQuery($this->id, 'company')->get();
+    if (!is_null($structure)) {
+      $tiles = $tiles->filter(function ($tile) use ($structure) {
+        return $tile->canConstruct($structure);
+      });
+    }
+    return $tiles;
+  }
 
-    Meeples::move($scoreToken['id'], 'energy-track-' . $this->energy);
-    return $scoreToken['id'];
+  protected $costMap = [
+    BASE => ['type' => EXCAVATOR, MOUNTAIN => 5, HILL => 4, PLAIN => 3],
+    ELEVATION => ['type' => MIXER, MOUNTAIN => 4, HILL => 3, PLAIN => 2],
+    POWERHOUSE => ['type' => MIXER],
+    CONDUIT => ['type' => EXCAVATOR],
+  ];
+
+  public function getConstructCost($slot, $tile)
+  {
+    $cost = $this->costMap[$slot['type']];
+    $machine = $cost['type'];
+    $n = 0;
+
+    switch ($slot['type']) {
+      case BASE:
+      case ELEVATION:
+        $n = $cost[$slot['area']];
+        break;
+
+      case POWERHOUSE:
+        $n = 6 - Meeples::getFilteredQuery($this->id, 'company', POWERHOUSE)->count();
+        break;
+
+      case CONDUIT:
+        $n = 2 * $slot['production'];
+        break;
+    }
+
+    // TODO : handle tile modifier
+    return [
+      'nb' => $n,
+      'costs' => Utils::formatCost([$machine => $n, 'nb' => $n]),
+    ];
   }
 
   // Contracts

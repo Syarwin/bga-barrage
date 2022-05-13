@@ -42,6 +42,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
+use BRG\Helpers\Log;
 use BRG\Map;
 
 class barrage extends Table
@@ -81,6 +82,7 @@ class barrage extends Table
   {
     $pId = self::getCurrentPId();
     return [
+      'canceledNotifIds' => Log::getCanceledNotifIds(),
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'companies' => Companies::getUiData($pId),
@@ -89,6 +91,7 @@ class barrage extends Table
       'map' => Map::getUiData(),
       'bonusTiles' => Globals::getBonusTiles(),
       'contracts' => Contracts::getUiData(),
+      'techTiles' => TechnologyTiles::getUiData(),
     ];
   }
 

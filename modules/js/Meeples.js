@@ -101,6 +101,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       else if (meeple.type == 'score') {
         return $(meeple.location);
       }
+      // Meeple on the wheel
+      else if (meeple.location == 'wheel') {
+        let n = 1 + parseInt(meeple.state);
+        return $('wheel-' + meeple.cId).querySelector(`.wheel-sector:nth-of-type(${n}) .wheel-machineries-slots`);
+      }
       // Meeples on action space (engineer)
       else if ($(meeple.location) && $(meeple.location).classList.contains('action-space')) {
         // Handle bank
@@ -115,6 +120,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`)
       ) {
         return $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`);
+      }
+      // Powerhouse on board
+      else if (
+        meeple.type == 'powerhouse' &&
+        $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`)
+      ) {
+        return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       }
       // Droplets
       else if (
@@ -219,7 +231,33 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.slideResources(n.args.resources, (meeple) => ({
         target: 'page-title',
         destroy: true,
+        phantom: false,
       }));
+    },
+
+    /**
+     * Pay resources to construction wheel
+     */
+    notif_payResourcesToWheel(n) {
+      debug('Notif: paying to wheel', n);
+      // Merge into one meeple list
+      n.args.resources.forEach((meeple) => {
+        meeple.delete = true;
+        n.args.resources2.push(meeple);
+      });
+      // Slide them all
+      this.slideResources(n.args.resources2, (meeple) =>
+        meeple.delete
+          ? {
+              target: 'page-title',
+              destroy: true,
+              phantom: false,
+            }
+          : {},
+      );
+
+      let tile = n.args.tile;
+      this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
     },
 
     /**
@@ -332,8 +370,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (args.resources_desc !== undefined) {
             args.resources_desc = this.formatString(args.resources_desc);
           }
-          if (args.resources2_desc !== undefined) {
-            args.resources2_desc = this.formatString(args.resources2_desc);
+          if (args.resources_desc2 !== undefined) {
+            args.resources_desc2 = this.formatString(args.resources_desc2);
           }
 
           // Replace __str__ by italic wrapper
@@ -348,6 +386,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_construct(n) {
       debug('Notif: construct on the map', n);
+      this.slideResources([n.args.meeple], {});
     },
   });
 });

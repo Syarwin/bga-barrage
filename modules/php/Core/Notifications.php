@@ -47,6 +47,9 @@ class Notifications
     $fDatas = [
       'meeples' => $datas['meeples'],
       'players' => $datas['players'],
+      'companies' => $datas['companies'],
+      'techTiles' => $datas['techTiles'],
+      'contracts' => $datas['contracts'],
       //      'scores' => $datas['scores'],
     ];
 
@@ -181,6 +184,28 @@ class Notifications
     self::notifyAll('collectResources', $msg, $data);
   }
 
+  public static function payResourcesToWheel(
+    $company,
+    $tile,
+    $deleted,
+    $moved,
+    $source,
+    $cardSources = [],
+    $cardNames = []
+  ) {
+    $data = [
+      'i18n' => ['source'],
+      'company' => $company,
+      'resources' => $deleted,
+      'resources2' => $moved,
+      'tile' => $tile,
+      'source' => $source,
+    ];
+    $msg = clienttranslate('${company_name} pays ${resources_desc} and place ${resources_desc2} for ${source}');
+
+    self::notifyAll('payResourcesToWheel', $msg, $data);
+  }
+
   public static function recoverResources($company, $resources, $tile)
   {
     self::notifyAll(
@@ -267,6 +292,7 @@ class Notifications
     ]);
   }
 
+  /*
   public static function construct($company, $type, $target, $meeples, $technologyTlle)
   {
     self::notifyAll(
@@ -279,6 +305,30 @@ class Notifications
         'target' => $target,
         'resources' => $meeples,
         'techTile' => $technologyTlle,
+      ]
+    );
+  }
+
+*/
+
+  public static function placeStructure($company, $type, $target, $meeple)
+  {
+    $typeDescs = [
+      BASE => clienttranslate('a Base'),
+      ELEVATION => clienttranslate('an Elevation'),
+      CONDUIT => clienttranslate('a Conduit'),
+      POWERHOUSE => clienttranslate('a Powerhouse'),
+    ];
+
+    self::notifyAll(
+      'construct',
+      clienttranslate('${company_name} constructs ${type_desc} in ${target}'),
+      [
+        'company' => $company,
+        'i18n' => ['type_desc'],
+        'type_desc' => $typeDescs[$type],
+        'target' => $target,
+        'meeple' => $meeple,
       ]
     );
   }
@@ -331,6 +381,12 @@ class Notifications
       // Get an associative array $resource => $amount
       $resources = Utils::reduceResources($data['resources']);
       $data['resources_desc'] = Utils::resourcesToStr($resources);
+    }
+
+    if (isset($data['resources2'])) {
+      // Get an associative array $resource => $amount
+      $resources = Utils::reduceResources($data['resources2']);
+      $data['resources_desc2'] = Utils::resourcesToStr($resources);
     }
   }
 }

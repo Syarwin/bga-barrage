@@ -51,7 +51,6 @@ class Meeples extends \BRG\Helpers\Pieces
       }
 
       $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
-
     }
 
     return self::getMany(self::create($meeples));
@@ -153,14 +152,16 @@ class Meeples extends \BRG\Helpers\Pieces
     return $moved;
   }
 
-  public function moveResource($companyId, $resourceType, $amount, $location)
+  public function moveResource($companyId, $resourceType, $amount, $location, $state = 0)
   {
     $moved = [];
     if ($amount == 0) {
       return [];
     }
 
-    $resource = self::getFilteredQuery($companyId, 'reserve', [$resourceType])->get();
+    $resource = self::getFilteredQuery($companyId, 'reserve', [$resourceType])
+      ->limit($amount)
+      ->get();
 
     if (count($resource) < $amount) {
       throw new UserException(sprintf(clienttranslate('You do not have enough %s'), $resourceType));
@@ -170,17 +171,15 @@ class Meeples extends \BRG\Helpers\Pieces
       self::DB()->update(
         [
           'meeple_location' => $location,
+          'meeple_state' => $state,
         ],
         $id
       );
-      $res['meeple_location'] = $location;
-      $moved[] = $res['id'];
-      // self::DB()->delete($id);
-      $amount--;
-      if ($amount == 0) {
-        break;
-      }
+      $res['location'] = $location;
+      $res['state'] = $state;
+      $moved[] = $res;
     }
+
     return $moved;
   }
 

@@ -44,8 +44,10 @@ trait RoundTrait
     // TODO
 
     // 1. b) Headstreams
-    $droplets = Map::fillHeadstreams();
-    Notifications::fillHeadstreams($droplets);
+    if ($round < 5) {
+      $droplets = Map::fillHeadstreams();
+      Notifications::fillHeadstreams($droplets);
+    }
 
     // Change first player and start action phase (with loop = true)
     $this->initCustomDefaultTurnOrder('actionPhase', ST_ACTION_PHASE, ST_RETURNING_HOME, true);
