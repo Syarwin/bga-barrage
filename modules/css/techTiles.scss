@@ -1,5 +1,5 @@
 :root {
-  --barrageTileScale: 0.65;
+  --barrageTileScale: 0.5;
 }
 
 .dijitTooltipContainer {
@@ -7,30 +7,39 @@
 }
 
 .barrage-tech-tile {
-  width: calc(var(--barrageTileScale) * 324px);
-  height: calc(var(--barrageTileScale) * 140px);
+  width: calc(var(--barrageTileScale) * 326px);
+  height: calc(var(--barrageTileScale) * 150px);
   position: relative;
 
   .tech-tile-fixed-size {
-    width: 324px;
-    height: 140px;
+    width: 326px;
+    height: 150px;
     transform: scale(var(--barrageTileScale));
     transform-origin: top left;
     display: flex;
+    clip-path: path(
+      'm 0,36.039021 4.7862223,-2.14359 C 96.936575,-7.375577 199.48816,-11.075077 294.63954,23.439117 304.0466,26.85133 322.92705,34.839732 324,35.861654 302.92944,76.017987 284.96133,111.31567 263.99736,147.67012 l -12.58518,-4.44385 C 187.60607,120.69621 125.06753,123.28908 61.578898,148.49197 36.513866,109.16123 18.424838,69.485334 0,36.039021 Z'
+    );
 
-    background: url('img/technology_tiles.png');
-    background-size: 700% 500%;
+    .tech-tile-image {
+      width: 290px;
+      height: 125px;
+      margin: 11px 17px 6px;
 
-    &[data-type='elevation'] {
+      background: url('img/technology_tiles.png');
+      background-size: 700% 500%;
+    }
+
+    &[data-type='elevation'] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
     }
-    &[data-type='conduit'] {
+    &[data-type='conduit'] .tech-tile-image {
       background-position-x: 2 * 100% / 6;
     }
-    &[data-type='powerhouse'] {
+    &[data-type='powerhouse'] .tech-tile-image {
       background-position-x: 3 * 100% / 6;
     }
-    &[data-type='joker'] {
+    &[data-type='joker'] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
     }
   }
@@ -38,7 +47,10 @@
   &.selectable {
     .tech-tile-fixed-size {
       cursor: pointer;
-      background-color: green;
+      background-color: red;
+    }
+    &.selected .tech-tile-fixed-size {
+      background-color: #17c817;
     }
 
     &:hover {

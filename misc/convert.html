@@ -11,16 +11,17 @@
 </div>
 
 <script type="text/javascript">
+  const margin = -0.08;
   const meeples = {
     credit: { r: 118 },
     excavator: { r: 118 },
     mixer: { r: 118 },
-    droplet: { r: 50 },
+    droplet: { r: 75 },
     engineer: { r: 118, n: 5, data: 'company' },
-    base: { r: 35, n: 5, data: 'company' },
-    elevation: { r: 35, n: 5, data: 'company' },
-    conduit: { r: 35, n: 5, data: 'company' },
-    powerhouse: { r: 35, n: 5, data: 'company' },
+    base: { r: 53, n: 5, data: 'company' },
+    elevation: { r: 53, n: 5, data: 'company' },
+    conduit: { r: 53, n: 5, data: 'company' },
+    powerhouse: { r: 53, n: 5, data: 'company' },
     score: { r: 120, n: 5, data: 'company' },
   };
 
@@ -52,8 +53,6 @@
     .barrage-meeple {
       background-image: url('img/meeples.png');
       background-repeat: no-repeat;
-		  margin-right: -10%;
-  		margin-bottom: -10%;
 `;
 
     Object.keys(meeples).forEach((type) => {
@@ -72,6 +71,8 @@
 &.meeple-${type}[data-${meeples[type].data}='${match[1]}'] {
   width: ${roundUp(w / ratio, 4)}em;
   height: ${roundUp(h / ratio, 4)}em;
+  margin-right: ${roundUp(margin * w / ratio, 4)}em;
+  margin-bottom: ${roundUp(margin * h / ratio, 4)}em;
 ${match[4]}
 }
             `;
@@ -89,6 +90,8 @@ ${match[4]}
   &.meeple-${type} {
     width: ${roundUp(w / ratio, 4)}em;
     height: ${roundUp(h / ratio, 4)}em;
+    margin-right: ${roundUp(margin * w / ratio, 4)}em;
+    margin-bottom: ${roundUp(margin * h / ratio, 4)}em;
   ${t[0][3]}
   }
         `;

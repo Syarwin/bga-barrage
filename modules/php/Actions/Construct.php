@@ -87,12 +87,13 @@ class Construct extends \BRG\Models\Action
   {
     $company = Companies::getActive();
     $pairs = self::getConstructablePairs($company);
-    // Clean the flow, useless for UI
+    // Aggregate by space and clear flow
+    $spaces = [];
     foreach ($pairs as &$pair) {
-      unset($pair['flow']);
+      $spaces[$pair['spaceId']][] = $pair['tileId'];
     }
 
-    return ['pairs' => $pairs];
+    return ['spaces' => $spaces];
     /*
     die('test');
 

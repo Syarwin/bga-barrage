@@ -2,8 +2,8 @@
   display: flex;
 
   .company-board-wrapper {
-    width: 1111px;
-    height: 702px;
+    width: 740px;
+    height: 468px;
     background-image: url('img/company_boards.jpg');
     background-size: 200% 300%;
     position: relative;
@@ -13,70 +13,70 @@
 
     .action-space-wrapper {
       position: absolute;
-      top: 52px;
-      height: 60px;
+      top: 35px;
+      height: 40px;
       background: rgba(255, 0, 0, 0.3);
-      border-radius: 8px;
+      border-radius: 6px;
 
       &.construct-0 {
-        width: 136px;
-        left: 160px;
+        width: 90px;
+        left: 107px;
       }
       &.construct-1 {
-        width: 190px;
-        left: 313px;
+        width: 127px;
+        left: 209px;
       }
       &.construct-2 {
-        width: 243px;
-        left: 520px;
+        width: 162px;
+        left: 347px;
       }
       &.construct-3 {
-        width: 243px;
-        left: 806px;
+        width: 162px;
+        left: 537px;
       }
     }
 
     .structures-wrapper {
       position: absolute;
-      left: 343px;
-      height: 105px;
-      width: 625px;
+      left: 229px;
+      height: 70px;
+      width: 417px;
       //      background: rgba(255, 0, 0, 0.3);
       display: flex;
 
       .building-slot {
-        width: 104px;
-        height: 85px;
+        width: 69px;
+        height: 57px;
         //        background: rgba(0, 255, 0, 0.3);
-        margin: 10px 11px 10px 10px;
+        margin: 7px 7px 7px 7px;
         display: flex;
       }
 
       &.bases-wrapper {
-        top: 165px;
+        top: 110px;
       }
 
       &.elevations-wrapper {
-        top: 285px;
+        top: 190px;
       }
 
       &.conduits-wrapper {
-        top: 407px;
+        top: 271px;
 
         .building-slot {
-          width: 64px;
-          margin: 0px 30px 20px 31px;
+          width: 43px;
+          margin: 0px 20px 14px 20px;
         }
       }
 
       &.powerhouses-wrapper {
-        top: 525px;
+        top: 350px;
 
         .building-slot:nth-of-type(2) {
-          margin: 10px 32px 10px 51px;
+          margin: 7px 21px 7px 34px;
         }
         .building-slot:nth-of-type(3) {
-          margin: 10px 51px 10px 32px;
+          margin: 7px 34px 7px 21px;
         }
       }
     }
@@ -90,32 +90,33 @@
   }
 
   .wheel-wrapper {
-    width: 680px;
-    height: 680px;
+    width: 454px;
+    height: 454px;
     background-image: url('img/construction_wheel.jpg');
     background-size: 100%;
-    margin-top: 10px;
-    margin-left: -120px;
+    margin-top: 7px;
+    margin-left: -80px;
     z-index: 2;
     clip-path: circle();
 
     .wheel {
-      width: 540px;
-      height: 540px;
-      margin: 70px;
+      width: 360px;
+      height: 360px;
+      margin: 47px;
       position: relative;
       background-image: url('img/construction_wheel_inner.png');
       background-size: 100%;
       clip-path: circle();
       transform: rotate(0deg);
       transition: transform 1s;
+      font-size: 20px;
 
       .wheel-sector {
-        width: 260px;
-        height: 270px;
+        width: 173px;
+        height: 180px;
         position: absolute;
         top: 0px;
-        left: 140px;
+        left: 94px;
         transform-origin: bottom center;
 
         @for $i from 2 to 7 {
@@ -125,19 +126,18 @@
         }
 
         .wheel-tile-slot {
-          width: 260px;
-          height: 80px;
+          width: 173px;
+          height: 60px;
           display: flex;
           justify-content: center;
-          padding-top: 6px;
         }
 
         .wheel-machineries-slots {
           display: grid;
-          grid-template-rows: repeat(4, 30px);
-          grid-template-columns: repeat(8, 16px);
+          grid-template-rows: repeat(4, 20px);
+          grid-template-columns: repeat(8, 11px);
           row-gap: 1px;
-          width: 124px;
+          width: 82px;
           margin: auto;
           position: relative;
           z-index: 2;

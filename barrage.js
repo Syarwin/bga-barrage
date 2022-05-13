@@ -593,41 +593,41 @@ define([
     onEnteringStateConstruct(args) {
       // Compute for each tile, the corresponding spaces, and vice-versa
       let byTile = [];
-      let bySpace = [];
+      let bySpace = args.spaces;
       let tileIds = [];
       let spaceIds = [];
-      args.pairs.forEach((pair) => {
-        if (!byTile[pair.tileId]) {
-          byTile[pair.tileId] = [];
-          tileIds.push(pair.tileId);
-        }
-        byTile[pair.tileId].push(pair.spaceId);
-
-        if (!bySpace[pair.spaceId]) {
-          bySpace[pair.spaceId] = [];
-          spaceIds.push(pair.spaceId);
-        }
-        bySpace[pair.spaceId].push(pair.tileId);
+      Object.keys(args.spaces).forEach((spaceId) => {
+        spaceIds.push(spaceId);
+        args.spaces[spaceId].forEach((tileId) => {
+          if (!byTile[tileId]) {
+            byTile[tileId] = [];
+            tileIds.push(tileId);
+          }
+          byTile[tileId].push(spaceId);
+        });
       });
-      console.log(byTile, bySpace);
 
       // Store the selected tile and space
       let selectedTile = null;
       let selectedSpace = null;
       let updateStatus = () => {
         tileIds.forEach((tileId) => {
-          $(`tech-tile-${tileId}`).classList.toggle(
+          let elt = $(`tech-tile-${tileId}`);
+          elt.classList.toggle(
             'selectable',
             (tileId == selectedTile || selectedTile == null) &&
               (selectedSpace == null || bySpace[selectedSpace].includes(tileId)),
           );
+          elt.classList.toggle('selected', tileId == selectedTile);
         });
         spaceIds.forEach((spaceId) => {
-          this.getConstructSlot(spaceId).classList.toggle(
+          let elt = this.getConstructSlot(spaceId);
+          elt.classList.toggle(
             'selectable',
             (spaceId == selectedSpace || selectedSpace == null) &&
               (selectedTile == null || byTile[selectedTile].includes(spaceId)),
           );
+          elt.classList.toggle('selected', spaceId == selectedSpace);
         });
 
         dojo.destroy('btnConfirmConstruct');
@@ -833,7 +833,9 @@ define([
     tplTechTile(tile, tooltip = false) {
       let t = tooltip ? '-tooltip' : '';
       return `<div id='tech-tile-${tile.id}${t}' class='barrage-tech-tile'>
-          <div class='tech-tile-fixed-size' data-type='${tile.type}'></div>
+          <div class='tech-tile-fixed-size' data-type='${tile.type}'>
+            <div class='tech-tile-image'></div>
+          </div>
       </div>`;
     },
 
