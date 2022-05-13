@@ -153,7 +153,9 @@ $machinestates = [
     'description' => clienttranslate('${actplayer} must build a structure'),
     'descriptionmyturn' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
     'descriptionskippable' => clienttranslate('${actplayer} may build a structure'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may select a technology tile and a space to build a structure'),
+    'descriptionmyturnskippable' => clienttranslate(
+      '${you} may select a technology tile and a space to build a structure'
+    ),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
@@ -238,6 +240,18 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
     'possibleactions' => ['actTakeContract', 'actPassOptionalAction', 'actRestart'],
+  ],
+
+  ST_DISCARD_CONTRACT => [
+    'name' => 'discardContract',
+    'description' => clienttranslate('${actplayer} must discard ${nb} contract(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must discard ${nb} contract(s)'),
+    'descriptionskippable' => clienttranslate('${actplayer} may discard ${nb} contract(s)'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may discard ${nb} contract(s)'),
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'type' => 'activeplayer',
+    'possibleactions' => ['actDiscardContract', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_SPECIAL_EFFECT => [

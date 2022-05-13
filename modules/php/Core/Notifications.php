@@ -87,11 +87,21 @@ class Notifications
     ]);
   }
 
-  public static function pickContract($company, $contract)
+  public static function pickContracts($company, $contracts)
   {
-    self::notifyAll('pickContract', clienttranslate('${company_name} picks a contract'), [
+    self::notifyAll('pickContracts', clienttranslate('${company_name} picks ${nb} contract(s)'), [
       'company' => $company,
-      'contract' => $contract,
+      'contracts' => $contracts,
+      'nb' => count($contracts),
+    ]);
+  }
+
+  public static function discardContracts($company, $contracts)
+  {
+    self::notifyAll('silentDestroy', clienttranslate('${company_name} discards ${nb} contract(s)'), [
+      'contracts' => $contracts,
+      'nb' => count($contracts),
+      'company' => $company,
     ]);
   }
 

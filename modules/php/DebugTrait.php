@@ -30,7 +30,11 @@ trait DebugTrait
   {
     // $this->actTakeAtomicAction([['HC']]);
     // throw new \feException(print_r(Map::producingCapacity(5)));
-    $this->actTakeAtomicAction(['B1U', 1]);
+    // $this->actTakeAtomicAction([55, \ELEVATION, 'B3L', ELEVATION]);
+    // pick contract
+    // $this->actTakeAtomicAction([[305, 403]]);
+    // discard contracts
+    $this->actTakeAtomicAction([[3]]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
     // throw new \feException(print_r(Companies::getActive()->countReserveResource()));
   }

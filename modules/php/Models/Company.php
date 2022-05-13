@@ -5,6 +5,7 @@ use BRG\Managers\Actions;
 use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\PlayerCards;
+use BRG\Managers\Contracts;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
@@ -325,5 +326,16 @@ class Company extends \BRG\Helpers\DB_Model
       'nb' => $n,
       'costs' => Utils::formatCost([$machine => $n, 'nb' => $n]),
     ];
+  }
+
+  public function getContracts($resolved = null)
+  {
+    $q = Contracts::getSelectQuery()->where('contract_location', 'hand_' . $this->id);
+    if ($resolved === true) {
+      $q = $q->where('contract_state', 1);
+    } elseif ($resolved === false) {
+      $q = $q->where('contract_state', 0);
+    }
+    return $q->get();
   }
 }

@@ -17,6 +17,7 @@ class Actions
     ROTATE_WHEEL => 'RotateWheel',
     TAKE_CONTRACT => 'TakeContract',
     SPECIAL_EFFECT => 'SpecialEffect',
+    DISCARD_CONTRACTS => 'DiscardContract',
     PLACE_STRUCTURE => 'PlaceStructure',
   ];
 

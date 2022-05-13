@@ -187,7 +187,7 @@ trait SetupTrait
     Notifications::assignCompany($player, $company);
 
     $contract->pick($company);
-    Notifications::pickContract($company, $contract);
+    Notifications::pickContracts($company, [$contract]);
 
     $matchups = Globals::getStartingMatchups();
     unset($matchups[$matchupId]);

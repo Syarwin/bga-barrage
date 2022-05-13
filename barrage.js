@@ -50,7 +50,7 @@ define([
         ['collectResources', null],
         ['assignCompany', 1000],
         ['setupCompanies', 500],
-        ['silentDestroy', null],
+        ['silentDestroy', 100],
         ['moveDroplet', null],
         ['produce', 500],
         ['score', 500],
@@ -767,11 +767,12 @@ define([
       );
     },
 
-    notif_pickContract(n) {
+    notif_pickContracts(n) {
       debug('Notif: someone picked a contract', n);
-      let contract = n.args.contract;
-      $(`contract-${contract.id}`).classList.remove('selected');
-      this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+      n.args.contracts.map((contract) => {
+        $(`contract-${contract.id}`).classList.remove('selected');
+        this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+      });
     },
 
     ////////////////////////////////////////////////////////
