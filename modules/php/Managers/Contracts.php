@@ -65,6 +65,14 @@ class Contracts extends \BRG\Helpers\Pieces
     self::move($contractIds, 'pickStart');
   }
 
+  public function getNationalContracts()
+  {
+    return self::getSelectQuery()
+      ->where('contract_location', 'LIKE', 'contract-stack%')
+      ->where('type', '1')
+      ->get();
+  }
+
   public function getStartingPick()
   {
     return self::getInLocation('pickStart');

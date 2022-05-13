@@ -12,7 +12,7 @@ class Actions
     CONSTRUCT => 'Construct',
     PAY => 'Pay',
     PRODUCT => 'Product',
-    // FULFILL_CONTRACT => 'FulfillContract', // TODO
+    FULFILL_CONTRACT => 'FulfillContract',
     PLACE_DROPLET => 'PlaceDroplet',
     ROTATE_WHEEL => 'RotateWheel',
     TAKE_CONTRACT => 'TakeContract',

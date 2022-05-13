@@ -70,7 +70,7 @@ class Product extends \BRG\Models\Action
     }
 
     // contract fullfilment?
-    // TODO: insert child node
+    Engine::insertAsChild(['action' => \FULFILL_CONTRACT, 'args' => [ENERGY => $energy]]);
 
     $newBasin = 'P' . $oConduit['end'] . '_0';
 

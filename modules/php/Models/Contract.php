@@ -121,4 +121,78 @@ class Contract extends \BRG\Helpers\DB_Model
 
     return $descs;
   }
+
+  public function fulfill($company)
+  {
+    // move contract to resolved
+    $this->setLocation('fulfilled_' . $company->getId());
+
+    // return flow of reward
+    return $this->computeRewardFlow();
+  }
+
+  private function computeRewardFlow()
+  {
+    $mapping = [
+      CREDIT => [['action' => GAIN, 'args' => [CREDIT]]],
+      EXCAVATOR => [['action' => GAIN, 'args' => [EXCAVATOR]]],
+      MIXER => [['action' => GAIN, 'args' => [MIXER]]],
+      ROTATE_WHEEL => [['action' => \ROTATE_WHEEL]],
+      VP => [['action' => GAIN, 'args' => [VP]]],
+      PLACE_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => false]]],
+      FLOW_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => true]]],
+      ANY_MACHINE => [['type' => NODE_XOR, 'what' => ['action' => GAIN, 'args' => [EXCAVATOR, MIXER]]]],
+      ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
+      CONDUIT => [['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT]]],
+      POWERHOUSE => [['action' => PLACE_STRUCTURE, 'args' => ['type' => POWERHOUSE]]],
+      ELEVATION => [['action' => PLACE_STRUCTURE, 'args' => ['type' => ELEVATION]]],
+      BASE => [['action' => PLACE_STRUCTURE, 'args' => ['type' => BASE]]],
+    ];
+
+    $flows = ['type' => NODE_SEQ, 'childs' => []];
+    $gainFlow = null;
+
+    foreach ($this->reward as $t => $n) {
+      foreach ($mapping[$t] ?? null as $rFlow) {
+        // if gain node, we will aggregate all gain
+        if (isset($rFlow['action']) && $rFlow['action'] == GAIN) {
+          if (is_null($gainFlow)) {
+            $gainFlow = ['action' => GAIN, 'args' => []];
+          }
+          // foreach resource type of the node
+          foreach ($rFlow['args'] ?? null as $resource) {
+            if (!isset($gainFlow['args'][$resource])) {
+              $gainFlow['args'][$resource] = 0;
+            }
+            $gainFlow['args'][$resource] += $n;
+          }
+          // throw new \feException(print_r($gainFlow));
+        }
+        // if XOR we know it's to gain EXCAVATOR or MIXER
+        elseif (isset($rFlow['type']) && $rFlow['type'] == NODE_XOR) {
+          $node = $rFlow;
+          for ($i = 0; $i <= $n; $i++) {
+            $node['childs'][] = ['action' => GAIN, 'args' => [EXCAVATOR => $i, MIXER => $n - $i]];
+          }
+          $flows['childs'][] = $node;
+        } elseif (is_array($n)) {
+          $rFlow['args']['constraints'] = $n;
+          $flows['childs'][] = $rFlow;
+        } else {
+          $rFlow['args']['n'] = $n;
+          $flows['childs'][] = $rFlow;
+        }
+      }
+    }
+
+    // filter out 0 resource value from the gain node
+    if (!is_null($gainFlow)) {
+      $gainFlow['args'] = array_filter($gainFlow['args'], function ($r) {
+        return $r != 0;
+      });
+      \array_unshift($flows['childs'], $gainFlow);
+    }
+    // throw new \feException(print_r($flows));
+    return $flows;
+  }
 }

@@ -19,7 +19,7 @@ class DiscardContract extends \BRG\Models\Action
   public function argsDiscardContract()
   {
     $contracts = Companies::getActive()->getContracts(false);
-    return ['nb' => $contracts->count() - 3, 'contracts' => $contracts->getIds()];
+    return ['n' => $contracts->count() - 3, 'contracts' => $contracts->getIds()];
   }
 
   public function actDiscardContract($contractIds)
