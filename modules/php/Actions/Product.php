@@ -18,9 +18,10 @@ class Product extends \BRG\Models\Action
 
   public function argsProduct()
   {
+    $args = Engine::getNextUnresolved()->getArgs() ?? [];
     return [
       'capacity' => Map::productionCapacity(Companies::getActive()->getId()),
-      'modifier' => '+' . Engine::getNextUnresolved()->getArgs()['bonus'] ?? '',
+      'modifier' => isset($args['bonus']) ? '+' . $args['bonus'] : '',
     ];
   }
 

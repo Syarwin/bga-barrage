@@ -214,10 +214,10 @@ $machinestates = [
 
   ST_PLACE_DROPLET => [
     'name' => 'placeDroplet',
-    'description' => clienttranslate('${actplayer} must choose where to place the ${number} droplet(s)'),
-    'descriptionmyturn' => clienttranslate('${you} must choose where to place the ${number} droplet(s)'),
-    'descriptionskippable' => clienttranslate('${actplayer} may place ${number} droplet(s)'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may place ${number} droplet(s)'),
+    'description' => clienttranslate('${actplayer} must choose where to place the ${n} droplet(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must choose where to place the ${n} droplet(s)'),
+    'descriptionskippable' => clienttranslate('${actplayer} may place ${n} droplet(s)'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may place ${n} droplet(s)'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
