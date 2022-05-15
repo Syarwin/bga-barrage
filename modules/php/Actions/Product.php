@@ -51,7 +51,7 @@ class Product extends \BRG\Models\Action
     // produce energy + bonus + malus
     $energy = $oConduit['production'] * $droplets + $bonus;
     Notifications::produce($company, $energy, $droplets);
-    Engine::insertAsChild(['action', 'args' => [ENERGY => $energy]]);
+    Engine::insertAsChild(['action' => GAIN, 'args' => [ENERGY => $energy]]);
 
     if ($oConduit['owner'] != $company->getId()) {
       // Pay X credit to other player (insert nodes?)
