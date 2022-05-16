@@ -59,6 +59,7 @@ define([
         ['construct', null],
         ['pickContracts', 1000],
         ['fulfillContract', 1000],
+        ['refillStacks', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -709,7 +710,7 @@ define([
     //////////////////////////////////////////////////////
     setupContracts() {
       // This function is refreshUI compatible
-      let contractIds = this.gamedatas.contracts.map((contract) => {
+      let contractIds = this.gamedatas.contracts.board.map((contract) => {
         this.addContract(contract);
         let o = $(`contract-${contract.id}`);
         let container = this.getContractContainer(contract);
@@ -720,14 +721,19 @@ define([
         return contract.id;
       });
 
-      /*
-      TODO : PROBABLY USELES
-      document.querySelectorAll('.barrage-meeple[id^="meeple-"]').forEach((oMeeple) => {
-        if (!meepleIds.includes(parseInt(oMeeple.getAttribute('data-id')))) {
-          dojo.destroy(oMeeple);
+      if (!this._contractStackCounters) {
+        this._contractStackCounters = {};
+        for (let i = 2; i <= 4; i++) {
+          this._contractStackCounters[i] = this.createCounter(
+            `contract-counter-${i}`,
+            this.gamedatas.contracts.stacks[i],
+          );
         }
-      });
-      */
+      } else {
+        for (let i = 2; i <= 4; i++) {
+          this._contractStackCounters[i].setValue(this.gamedatas.contracts.stacks[i]);
+        }
+      }
     },
 
     addContract(contract, container = null) {
@@ -789,6 +795,16 @@ define([
       debug('Notif: someone picked contract(s)', n);
       n.args.contracts.forEach((contract) => {
         $(`contract-${contract.id}`).classList.remove('selected');
+        this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+      });
+    },
+
+    notif_refillStacks(n) {
+      debug('Notif: refilling contract stack', n);
+      n.args.contracts.forEach((contract) => {
+        let type = contract.type;
+        this.addContract(contract, `contract-counter-${type}`);
+        this._contractStackCounters[type].incValue(-1);
         this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
       });
     },

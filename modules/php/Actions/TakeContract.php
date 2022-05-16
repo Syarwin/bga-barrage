@@ -20,7 +20,7 @@ class TakeContract extends \BRG\Models\Action
   {
     $args = $this->getCtxArgs();
     $n = $args['n'] ?? 1;
-    $contracts = Contracts::getAvailable();
+    $contracts = Contracts::getAvailableToTake();
 
     return [
       'n' => $n,

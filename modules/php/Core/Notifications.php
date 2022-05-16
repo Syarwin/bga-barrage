@@ -113,6 +113,18 @@ class Notifications
     ]);
   }
 
+  public static function refillStacks($contracts)
+  {
+    self::notifyAll(
+      'refillStacks',
+      clienttranslate('${n} new private contracts are drawn for refilling contracts stacks'),
+      [
+        'contracts' => $contracts->toArray(),
+        'n' => $contracts->count(),
+      ]
+    );
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [
@@ -320,17 +332,13 @@ class Notifications
       POWERHOUSE => clienttranslate('a Powerhouse'),
     ];
 
-    self::notifyAll(
-      'construct',
-      clienttranslate('${company_name} constructs ${type_desc} in ${target}'),
-      [
-        'company' => $company,
-        'i18n' => ['type_desc'],
-        'type_desc' => $typeDescs[$type],
-        'target' => $target,
-        'meeple' => $meeple,
-      ]
-    );
+    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${target}'), [
+      'company' => $company,
+      'i18n' => ['type_desc'],
+      'type_desc' => $typeDescs[$type],
+      'target' => $target,
+      'meeple' => $meeple,
+    ]);
   }
 
   /*********************

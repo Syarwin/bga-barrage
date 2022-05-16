@@ -10,6 +10,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Managers\Scores;
 use BRG\Managers\Actions;
+use BRG\Managers\Contracts;
 
 trait RoundTrait
 {
@@ -58,6 +59,14 @@ trait RoundTrait
    */
   function stActionPhase()
   {
+    // Check whether contracts need to be filled up again or not
+    if (Contracts::needRefill()) {
+      $contracts = Contracts::refillStacks();
+      if (!$contracts->empty()) {
+        Notifications::refillStacks($contracts);
+      }
+    }
+
     $company = Companies::getActive();
 
     // Already out of round ? => Go to the next company if one is left

@@ -507,6 +507,12 @@
           font-size: 15px;
           border: 1px solid #c8ba6a;
 
+          .barrage-contract {
+            position: absolute;
+            top: 0;
+            left: -50%;
+          }
+
           &::after {
             content: '';
             display: inline-block;

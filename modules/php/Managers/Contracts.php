@@ -1,6 +1,7 @@
 <?php
 namespace BRG\Managers;
 use BRG\Helpers\Utils;
+use BRG\Helpers\Collection;
 
 /* Class to manage all the contracts for Barrage */
 
@@ -20,10 +21,24 @@ class Contracts extends \BRG\Helpers\Pieces
 
   public static function getUiData()
   {
-    return self::getSelectQuery()
-      ->where('contract_location', '<>', 'box')
-      ->get()
-      ->toArray();
+    // Visible contracts
+    $data = [
+      'board' => self::getSelectQuery()
+        ->where('contract_location', '<>', 'box')
+        ->get()
+        ->toArray(),
+      'stacks' => [],
+    ];
+
+    // Contracts in the stack
+    for ($i = 2; $i <= 4; $i++) {
+      $data['stacks'][$i] = self::getSelectQuery()
+        ->where('type', $i)
+        ->where('contract_location', 'box')
+        ->count();
+    }
+
+    return $data;
   }
 
   /* Creation of various contracts */
@@ -73,17 +88,46 @@ class Contracts extends \BRG\Helpers\Pieces
       ->get();
   }
 
-  public function getAvailable()
+  public function getAvailableToTake($type = null)
   {
-    return self::getSelectQuery()
-      ->where('contract_location', 'LIKE', 'contract-stack%')
-      ->where('type', '<>', '1')
-      ->get();
+    $query = self::getSelectQuery()->where('contract_location', 'LIKE', 'contract-stack%');
+    if (is_null($type)) {
+      $query = $query->where('type', '<>', '1');
+    } else {
+      $query = $query->where('type', $type);
+    }
+
+    return $query->get();
   }
 
   public function getStartingPick()
   {
     return self::getInLocation('pickStart');
+  }
+
+  public function needRefill()
+  {
+    return self::getAvailableToTake()->count() < 6;
+  }
+
+  public function refillStacks()
+  {
+    $moved = [];
+    for ($i = 2; $i <= 4; $i++) {
+      $n = self::getAvailableToTake($i)->count();
+      if ($n < 2) {
+        $contractIds = self::getSelectQuery()
+          ->where('contract_location', 'box')
+          ->where('type', $i)
+          ->get()
+          ->getIds();
+        $contractIds = Utils::rand($contractIds, 2 - $n);
+        self::move($contractIds, 'contract-stack-' . $i);
+        $moved = array_merge($moved, $contractIds);
+      }
+    }
+
+    return self::getMany($moved);
   }
 
   public function getContracts()

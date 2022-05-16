@@ -453,6 +453,10 @@ html {
           box-sizing: border-box;
           font-size: 15px;
           border: 1px solid #c8ba6a; }
+          .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack .contract-counter .barrage-contract {
+            position: absolute;
+            top: 0;
+            left: -50%; }
           .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack .contract-counter::after {
             content: '';
             display: inline-block;
