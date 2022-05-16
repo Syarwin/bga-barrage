@@ -146,7 +146,7 @@
         font-weight: 700;
         font-size: 15px;
         text-align: center;
-        line-height: 21px;
+        line-height: 24px;
         font-style: normal;
         color: #bb3f90;
       }
@@ -273,7 +273,8 @@
   background-clip: content-box;
   background-size: cover;
   [data-action-name='1'] & {
-    margin-top: 8px;
+    margin-top: 0px;
+    margin-bottom: 8px;
   }
 
   .action-board-name-container {
@@ -389,7 +390,8 @@
       .action-space-slot {
         background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
         width: 34px;
-        height: 30px;
+        height: 29px;
+        padding-bottom: 1px;
         border-radius: 5px;
         background-size: auto 70%, 20px;
         background-repeat: no-repeat, repeat;
@@ -399,6 +401,10 @@
         display: flex;
         justify-content: center;
         align-items: flex-end;
+
+        &:not(:empty) {
+          background: #bbb9b9;
+        }
       }
 
       &.selectable {
@@ -470,12 +476,59 @@
   }
 
   &[data-id='contract'] .action-board-inner {
-    #contract-stack-1,
-    #contract-stack-2,
-    #contract-stack-3,
-    #contract-stack-4 {
+    --barrageContractScale: 0.75;
+    margin-bottom: 0;
+
+    #contract-stack-1 {
       display: flex;
       flex-wrap: wrap;
+    }
+
+    #private-contracts {
+      display: flex;
+
+      .contract-stack {
+        position: relative;
+        padding-bottom: 22px;
+
+        .contract-counter {
+          position: absolute;
+          width: 56%;
+          bottom: -1px;
+          left: 22%;
+          background: #c9b891;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
+          font-family: 'acumin-pro', serif;
+          font-weight: 700;
+          font-style: normal;
+          text-align: center;
+          box-sizing: border-box;
+          font-size: 15px;
+          border: 1px solid #c8ba6a;
+
+          &::after {
+            content: '';
+            display: inline-block;
+            width: 31px;
+            height: 22px;
+            background: url('img/contract_hands.png');
+            background-size: 500%;
+            vertical-align: middle;
+            margin-left: 4px;
+          }
+
+          &#contract-counter-2::after {
+            background-position-x: 50%;
+          }
+          &#contract-counter-3::after {
+            background-position-x: 75%;
+          }
+          &#contract-counter-4::after {
+            background-position-x: 100%;
+          }
+        }
+      }
     }
 
     .action-board-row {

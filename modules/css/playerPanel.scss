@@ -4,7 +4,7 @@
 }
 
 .player_panel_content {
-  --barrageContractScale: 0.5;
+  --barrageContractScale: 0.52;
   --barrageTileScale: 0.23;
 
   .company-info {
@@ -87,6 +87,11 @@
         }
       }
     }
+  }
+
+  .company-panel-contracts {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .company-panel-tech-tiles {

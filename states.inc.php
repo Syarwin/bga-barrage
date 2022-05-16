@@ -234,10 +234,10 @@ $machinestates = [
 
   ST_TAKE_CONTRACT => [
     'name' => 'takeContract',
-    'description' => clienttranslate('${actplayer} must take ${nb} available contract(s)'),
-    'descriptionmyturn' => clienttranslate('${you} must take ${nb} available contract(s)'),
-    'descriptionskippable' => clienttranslate('${actplayer} may take ${nb} available contract(s)'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may take ${nb} available contract(s)'),
+    'description' => clienttranslate('${actplayer} must take ${n} available contract(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must take ${n} available contract(s)'),
+    'descriptionskippable' => clienttranslate('${actplayer} may take ${n} available contract(s)'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may take ${n} available contract(s)'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',

@@ -73,6 +73,14 @@ class Contracts extends \BRG\Helpers\Pieces
       ->get();
   }
 
+  public function getAvailable()
+  {
+    return self::getSelectQuery()
+      ->where('contract_location', 'LIKE', 'contract-stack%')
+      ->where('type', '<>', '1')
+      ->get();
+  }
+
   public function getStartingPick()
   {
     return self::getInLocation('pickStart');
