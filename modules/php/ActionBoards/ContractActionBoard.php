@@ -48,9 +48,7 @@ class ContractActionBoard extends AbstractActionBoard
       'tbis',
     ];
 
-    $rows[] = 'contract-stack-2';
-    $rows[] = 'contract-stack-3';
-    $rows[] = 'contract-stack-4';
+    $rows[] = 'private-contracts';
 
     return $rows;
   }

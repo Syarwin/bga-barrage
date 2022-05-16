@@ -18,34 +18,38 @@ class TakeContract extends \BRG\Models\Action
 
   public function argsTakeContract()
   {
-    $ctxArgs = Engine::getNextUnresolved()->getArgs();
-    $n = $ctxArgs['n'] ?? 1;
-    $contracts = Contracts::getSelectQuery()
-      ->where('contract_location', 'LIKE', 'contract-stack%')
-      ->where('type', '<>', '1')
-      ->get()
-      ->getIds();
-    return ['n' => $n, 'contracts' => $contracts];
+    $args = $this->getCtxArgs();
+    $n = $args['n'] ?? 1;
+    $contracts = Contracts::getAvailable();
+
+    return [
+      'n' => $n,
+      'contractIds' => $contracts->getIds(),
+    ];
   }
 
   public function actTakeContract($contractIds)
   {
+    // Sanity checks
+    self::checkAction('actTakeContract');
     $company = Companies::getActive();
     $args = $this->argsTakeContract();
     // check max contract
     if (count($contractIds) != $args['n']) {
-      throw new \BgaVisibleSystemException('Not enough contract selected. Should not happen');
+      throw new \BgaVisibleSystemException('Incorrect number of contracts selected. Should not happen');
     }
 
     // check contracts are in the args
-    if (count(array_diff($contractIds, $args['contracts'])) > 0) {
+    if (count(array_diff($contractIds, $args['contractIds'])) > 0) {
       throw new \feException('You cannot take those contracts. Should not happen');
     }
 
-    Contracts::move($contractIds, 'hand_' . $company->getId());
-
+    // Move them and notify
+    Contracts::move($contractIds, ['hand', $company->getId()]);
     Notifications::pickContracts($company, Contracts::getMany($contractIds)->toArray());
 
+    // If too many contract in hand => must discard
+    // TODO : handle the guy that allows 4 contracts
     if ($company->getContracts(false)->count() > 3) {
       Engine::insertAsChild(['action' => DISCARD_CONTRACTS]);
     }

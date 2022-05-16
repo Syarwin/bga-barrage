@@ -1128,5 +1128,46 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         return _(t);
       }
     },
+
+    onSelectN(elements, n, callback) {
+      let selectedElements = [];
+      let updateStatus = () => {
+        if ($('btnConfirmChoice')) $('btnConfirmChoice').remove();
+        if (selectedElements.length == n) {
+          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () => callback(selectedElements));
+        }
+
+        if ($('btnCancelChoice')) $('btnCancelChoice').remove();
+        if (selectedElements > 0) {
+          this.addSecondaryActionButton('btnCancelChoice', _('Cancel'), () => {
+            selectedElements = [];
+            updateStatus();
+          });
+        }
+
+        Object.keys(elements).forEach((id) => {
+          let elt = elements[id];
+          let selected = selectedElements.includes(id);
+          elt.classList.toggle('selected', selected);
+          elt.classList.toggle('selectable', selected || selectedElements.length < n);
+        });
+      };
+
+      Object.keys(elements).forEach((id) => {
+        let elt = elements[id];
+
+        this.onClick(elt, () => {
+          let index = selectedElements.findIndex((t) => t == id);
+
+          if (index === -1) {
+            if (selectedElements.length >= n) return;
+            selectedElements.push(id);
+          } else {
+            selectedElements.splice(index, 1);
+          }
+          updateStatus();
+        });
+      });
+    },
   });
 });

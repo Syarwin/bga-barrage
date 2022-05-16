@@ -36,6 +36,7 @@ define([
         'placeDroplet',
         'construct',
         'placeStructure',
+        'takeContract',
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
@@ -56,7 +57,7 @@ define([
         ['score', 500],
         ['rotateWheel', 1000],
         ['construct', null],
-        ['pickContract', 1000],
+        ['pickContracts', 1000],
         ['fulfillContract', 1000],
       ];
 
@@ -352,7 +353,15 @@ define([
 
     tplActionBoardRow(row) {
       if (typeof row === 'string' || row instanceof String) {
-        return `<div id='${row}'></div>`;
+        let content = '';
+        if (row == 'private-contracts') {
+          content = `
+            <div class="contract-stack" id="contract-stack-2"><div class="contract-counter" id="contract-counter-2">10</div></div>
+            <div class="contract-stack" id="contract-stack-3"><div class="contract-counter" id="contract-counter-3">11</div></div>
+            <div class="contract-stack" id="contract-stack-4"><div class="contract-counter" id="contract-counter-4">12</div></div>`;
+        }
+
+        return `<div id='${row}'>${content}</div>`;
       }
 
       let slots = row.map((slot) => {
@@ -590,6 +599,14 @@ define([
       });
     },
 
+    // Take contract
+    onEnteringStateTakeContract(args) {
+      let contracts = {};
+      args.contractIds.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
+
+      this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actTakeContract', [cIds]));
+    },
+
     // Construct
     onEnteringStateConstruct(args) {
       // Compute for each tile, the corresponding spaces, and vice-versa
@@ -769,8 +786,8 @@ define([
     },
 
     notif_pickContracts(n) {
-      debug('Notif: someone picked a contract', n);
-      n.args.contracts.map((contract) => {
+      debug('Notif: someone picked contract(s)', n);
+      n.args.contracts.forEach((contract) => {
         $(`contract-${contract.id}`).classList.remove('selected');
         this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
       });

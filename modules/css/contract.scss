@@ -12,12 +12,23 @@
 }
 
 .barrage-contract {
-  width: calc(var(--barrageContractScale) * 157px);
+  width: calc(var(--barrageContractScale) * 150px);
   height: calc(var(--barrageContractScale) * 117px);
   position: relative;
 
+  &.selectable {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &.selected .contract-fixed-size {
+    border: 2px solid red;
+  }
+
   .contract-fixed-size {
-    width: 157px;
+    width: 152px;
     height: 117px;
     transform: scale(var(--barrageContractScale));
     transform-origin: top left;
@@ -30,21 +41,10 @@
     overflow: hidden;
 
     background: url('img/contract_background.png');
-    background-size: 100% 200%;
+    background-size: 152px 200%;
     background-clip: padding-box;
     &[data-parity='0'] {
       background-position-y: 100%;
-    }
-
-    &.selectable {
-      cursor: pointer;
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-
-    &.selected {
-      border: 2px solid red;
     }
 
     .energy-cost {
