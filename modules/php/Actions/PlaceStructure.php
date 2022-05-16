@@ -28,7 +28,7 @@ class PlaceStructure extends \BRG\Models\Action
   public function argsPlaceStructure()
   {
     $args = $this->getCtxArgs();
-
+    $constraints = $args['constraints'] ?? null;
     // Type of structure
     $structureNames = [
       BASE => clienttranslate('Base'),
@@ -47,6 +47,11 @@ class PlaceStructure extends \BRG\Models\Action
           continue;
         }
 
+        // if we have a constraing of placement for base / elevation
+        if (!is_null($constraints) && !in_array($slot['area'], $constraints)) {
+          continue;
+        }
+
         // TODO : Add other check like area and conduit production
 
         $spaces[] = $slot['id'];
@@ -54,10 +59,11 @@ class PlaceStructure extends \BRG\Models\Action
     }
 
     return [
-      'i18n' => ['structure'],
+      'i18n' => ['structure', 'location'],
       'structure' => $structureNames[$args['type']],
+      'location' => $constraints,
       'spaces' => $spaces,
-      'descSuffix' => count($spaces) == 1 ? 'auto' : '',
+      'descSuffix' => count($spaces) == 1 ? 'auto' : (is_null($constraints) ? '' : 'constraints'),
     ];
   }
 
