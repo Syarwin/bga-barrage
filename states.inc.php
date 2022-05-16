@@ -164,12 +164,14 @@ $machinestates = [
 
   ST_PLACE_STRUCTURE => [
     'name' => 'placeStructure',
-    'description' => clienttranslate('${actplayer} must place a structure (${structure}'),
+    'description' => clienttranslate('${actplayer} must place a structure (${structure})'),
     'descriptionmyturn' => clienttranslate('${you} must place a structure (${structure})'),
     'descriptionskippable' => clienttranslate('${actplayer} may place a structure (${structure})'),
     'descriptionmyturnskippable' => clienttranslate('${you} may place a structure (${structure})'),
     'descriptionauto' => clienttranslate('${actplayer} place a structure (${structure})'),
     'descriptionmyturnauto' => clienttranslate('${you} place a structure (${structure})'),
+    'descriptionconstraints' => clienttranslate('${you} place a structure (${structure}) in ${location}'),
+    'descriptionmyturnconstraints' => clienttranslate('${you} place a structure (${structure}) in ${location}'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
