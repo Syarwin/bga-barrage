@@ -42,8 +42,27 @@ trait RoundTrait
     Notifications::startNewRound($round);
 
     // 1. a) Income
-    // TODO
+    $this->initCustomTurnOrder('incomePhase', 'stIncomePhase', 'stEndOfStartOfRound');
+  }
 
+  function stIncomePhase()
+  {
+    $company = Companies::getActive();
+    $income = $company->earnIncome();
+    if (empty($income)) {
+      $this->nextPlayerCustomOrder('incomePhase');
+    } else {
+      Engine::setup($income, ['order' => 'incomePhase']);
+      Engine::proceed();
+    }
+  }
+
+  /**
+   * Prepare the new round
+   */
+  function stEndOfStartOfRound()
+  {
+    $round = Globals::getRound();
     // 1. b) Headstreams
     if ($round < 5) {
       $droplets = Map::fillHeadstreams();
