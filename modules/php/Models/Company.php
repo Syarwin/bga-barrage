@@ -6,6 +6,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\PlayerCards;
 use BRG\Managers\Contracts;
+use BRG\Managers\Officers;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
@@ -30,7 +31,7 @@ class Company extends \BRG\Helpers\DB_Model
     'name' => 'name',
     'score' => ['score', 'int'],
     'scoreAux' => ['score_aux', 'int'],
-    'officerId' => ['officer', 'int'],
+    'officerId' => ['xo', 'int'],
     'energy' => ['energy', 'int'],
     'slot' => ['wheel_slot', 'int'],
   ];
@@ -71,6 +72,7 @@ class Company extends \BRG\Helpers\DB_Model
       'no' => $this->no,
       'name' => $this->name,
       'score' => $this->score,
+      'officer' => $this->officer,
       'scoreAux' => $this->scoreAux,
       'energy' => $this->energy,
       'wheelAngle' => $this->slot,

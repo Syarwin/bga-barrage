@@ -10,27 +10,6 @@
   .company-info {
     display: flex;
 
-    .company-logo {
-      width: 40px;
-      height: 40px;
-      background-image: url('img/companies.jpg');
-      background-size: 600% 100%;
-      border: 2px solid black;
-      border-radius: 50%;
-
-      @for $i from 1 through 6 {
-        &[data-company='#{$i}'] {
-          background-position-x: $i * 100% / 5;
-        }
-      }
-    }
-
-    .company-name {
-      font-family: 'Oranienbaum';
-      font-weight: bold;
-      margin-left: 5px;
-    }
-
     .company-no {
       background-image: url('img/ui/turn_order.png');
       width: 50px;
@@ -45,6 +24,46 @@
       font-size: 20px;
       font-family: serif;
       margin-right: 5px;
+    }
+
+    .company-logo {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background-image: url('img/companies.jpg');
+      background-size: 600% 100%;
+      border: 2px solid black;
+      border-radius: 50%;
+      margin-right: 5px;
+
+      @for $i from 1 through 6 {
+        &[data-company='#{$i}'] {
+          background-position-x: $i * 100% / 5;
+        }
+      }
+    }
+
+    .officer-logo {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background-image: url('img/executive_officers.jpg');
+      background-size: 500% 300%;
+      border: 2px solid black;
+      border-radius: 50%;
+
+      @for $i from 0 through 15 {
+        &[data-officer='#{$i + 1}'] {
+          background-position-x: ($i % 5) * 100% / 4;
+          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+        }
+      }
+    }
+
+    .company-name {
+      font-family: 'Oranienbaum';
+      font-weight: bold;
+      margin-left: 5px;
     }
   }
 
