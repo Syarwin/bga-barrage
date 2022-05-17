@@ -128,6 +128,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       ) {
         return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       }
+      // Conduit on board
+      else if (
+        meeple.type == 'conduit' &&
+        $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`)
+      ) {
+        return $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`);
+      }
       // Droplets
       else if (
         meeple.type == 'droplet' &&

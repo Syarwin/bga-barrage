@@ -1,0 +1,212 @@
+#energy-track-board {
+  width: 1000px;
+  height: 130px;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 130px;
+    background-image: url('img/ui/lightning.png'), url('img/background_board_energy.jpg');
+    background-size: 84%, 100%;
+    background-position: 128px 22px, center center;
+    background-repeat: no-repeat;
+    z-index: -1;
+  }
+  [data-action-background='1'] &::before {
+    background: #b0b3ba;
+  }
+
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr;
+
+  #energy-track-first-second-bonus {
+    position: absolute;
+    width: 40px;
+    height: 70px;
+    top: 10px;
+    left: 24px;
+
+    div:not(.help-marker) {
+      width: 40px;
+      height: 35px;
+      background-size: 100%;
+      background-image: url('img/ui/energy_bonus_1.png');
+
+      &:nth-of-type(2) {
+        background-image: url('img/ui/energy_bonus_2.png');
+      }
+    }
+  }
+
+  .energy-track-portion {
+    border: 6px solid black;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+
+    &:first-of-type {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+
+      .bonus-tile-slot {
+        background-image: url('img/ui/no_bonus.png');
+        margin-left: 30px;
+      }
+    }
+    &:nth-of-type(6) {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+
+  .bonus-tile-slot {
+    width: 58px;
+    height: 58px;
+    background-image: url('img/ui/bonus_slot.png');
+    background-size: 100% 100%;
+    position: relative;
+
+    .bonus-tile {
+      width: 58px;
+      height: 58px;
+      background-image: url('img/bonus_tiles.jpg');
+      background-size: 800% 100%;
+      border-radius: 6px;
+      box-shadow: 2px 2px 3px black;
+
+      @for $i from 0 through 8 {
+        &[data-id='#{$i}'] {
+          background-position-x: $i * 100% / 7;
+        }
+      }
+    }
+  }
+
+  #energy-track {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    height: 35px;
+    display: flex;
+    background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
+    background-size: 1px 35px;
+
+    .energy-track-slot {
+      width: 23px;
+      height: 23px;
+      margin: 0px 3px;
+      border-radius: 50%;
+      background: url('img/ui/energy_slot.png');
+      background-size: 100%;
+      box-shadow: 0px 0px 5px -1px white;
+      position: relative;
+
+      &::before {
+        content: attr(data-i);
+        position: absolute;
+        top: -1px;
+        left: 0;
+        right: 0;
+        z-index: 0;
+
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-size: 15px;
+        text-align: center;
+        line-height: 24px;
+        font-style: normal;
+        color: #bb3f90;
+      }
+
+      .meeple-score {
+        margin-top: -154%;
+        position: relative;
+        z-index: 2;
+        margin-left: -3px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      &:nth-of-type(6n + 1) {
+        margin-left: 11px;
+        &:first-of-type {
+          margin-left: 0px;
+        }
+
+        //        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+        //          black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+        //          black 0.96017px -0.279416px 0px, white 0px 0px 10px;
+      }
+    }
+  }
+
+  // VERTICAL
+  [data-energy-track='1'] & {
+    margin-left: 15px;
+    width: 130px;
+    height: 1000px;
+    grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr;
+    grid-template-columns: 1fr;
+
+    &::before {
+      transform: translateX(130px) rotate(90deg);
+      transform-origin: top left;
+    }
+
+    .energy-track-portion {
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0px 8px 0px;
+
+      #energy-track-first-second-bonus {
+        width: 80px;
+        height: 35px;
+        margin-left: 20px;
+        display: flex;
+      }
+
+      &:first-of-type {
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 0px;
+      }
+      &:nth-of-type(6) {
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 10px;
+      }
+    }
+
+    #energy-track {
+      position: absolute;
+      top: 10px;
+      left: 11px;
+      bottom: 7px;
+      width: 35px;
+      height: auto;
+      flex-flow: column;
+      background: linear-gradient(90deg, #eeeeee82 6%, transparent 1%) 10px 11px;
+      background-size: 35px 10px;
+
+      .energy-track-slot {
+        margin: 3px 0px;
+
+        &:nth-of-type(6n + 1) {
+          margin-left: 0px;
+          margin-top: 11px;
+
+          &:first-of-type {
+            margin-top: 0px;
+          }
+        }
+      }
+    }
+  }
+}

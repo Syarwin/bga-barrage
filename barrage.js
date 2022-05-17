@@ -85,6 +85,7 @@ define([
           values: {
             0: _('Display'),
             1: _('Hide'),
+            2: _('Hide and collapse borders')
           },
         },
         energyTrack: {

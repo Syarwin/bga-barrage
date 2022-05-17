@@ -1,58 +1,3 @@
-#brg-map {
-  .barrage-meeple {
-    display: inline-block;
-  }
-
-  .headstream {
-    &.selectable {
-      cursor: pointer;
-    }
-
-    &[data-n]::before {
-      content: attr(data-n);
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      background: red;
-      color: white;
-      width: 35px;
-      height: 35px;
-      text-align: center;
-      border-radius: 50%;
-      border: 2px solid white;
-      font-family: 'acumin-pro', serif;
-      font-weight: 800;
-      font-style: normal;
-      line-height: 31px;
-    }
-    &[data-n='0']::before {
-      display: none;
-    }
-  }
-
-  .dam-slot,
-  .conduit-slot {
-    text-align: center;
-
-    &.selectable {
-      cursor: pointer;
-      background: #ff000057;
-
-      &:hover {
-        background: #ff000090;
-      }
-    }
-
-    &.selected {
-      background: #35b7107d;
-      &.selectable:hover {
-        background: #23880691;
-      }
-    }
-  }
-}
-
 #brg-map-resizable[data-map='1'] {
   width: calc(var(--barrageMapScale) * 1000px);
   height: calc(var(--barrageMapScale) * 1464px);
@@ -207,8 +152,6 @@
       position: absolute;
       border-radius: 8px;
       border: 1px solid white;
-      display: flex;
-      align-items: end;
       &.paying {
         border: 1px solid red;
       }

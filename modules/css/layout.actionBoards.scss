@@ -1,0 +1,316 @@
+#action-boards-container {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: baseline;
+  width: 357px;
+
+  [data-action-name='2'] & {
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+  }
+}
+
+.action-board {
+  margin-top: 20px;
+  width: 350px;
+  background-clip: content-box;
+  background-size: cover;
+  [data-action-name='1'] & {
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
+  [data-action-name='2'] & {
+    margin-top: 0px;
+    margin-bottom: -3px;
+    border-radius: 0px;
+    box-shadow: none;
+
+    &:first-of-type {
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+    &:last-of-type {
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+
+  .action-board-name-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -17px;
+
+    [data-action-name='1'] &,
+    [data-action-name='2'] & {
+      display: none;
+    }
+
+    .action-board-name {
+      color: #dbc85d;
+      background: #513c29;
+      border-radius: 8px;
+      font-size: 18px;
+      padding: 3px 7px;
+      box-shadow: 0px 2px 3px black;
+      font-family: 'Betty Noir';
+      text-transform: uppercase;
+    }
+  }
+
+  &[data-id='turbine'] {
+    background-image: url('img/background_board_turbine.jpg');
+  }
+  &[data-id='water'] {
+    background-image: url('img/background_board_water.jpg');
+  }
+  &[data-id='bank'] {
+    background-image: url('img/background_board_bank.jpg');
+  }
+  &[data-id='workshop'] {
+    background-image: url('img/background_board_workshop.jpg');
+  }
+  &[data-id='machinery'] {
+    background-image: url('img/background_board_machinery.jpg');
+  }
+  &[data-id='contract'] {
+    background-image: url('img/background_board_contract.jpg');
+  }
+
+  [data-action-background='1'] & {
+    &[data-id='turbine'] {
+      background: #8a5789;
+    }
+    &[data-id='water'] {
+      background: #57668a;
+    }
+    &[data-id='bank'] {
+      background: #8a8957;
+    }
+    &[data-id='workshop'] {
+      background: #7d7d7c;
+    }
+    &[data-id='machinery'] {
+      background: #8a6f57;
+    }
+    &[data-id='contract'] {
+      background: #75885d;
+    }
+  }
+
+  .action-board-inner {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 10px 10px;
+    row-gap: 5px;
+
+    .action-board-row {
+      display: flex;
+      align-items: center;
+      background: url('img/ui/texture.jpg');
+      padding: 4px 2px 2px 4px;
+      border-radius: 8px;
+      box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
+    }
+
+    .action-board-icon {
+      width: 80px;
+      height: 35px;
+      margin: 0px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      .help-marker {
+        left: -2px;
+        top: -2px;
+      }
+    }
+
+    .action-space {
+      display: flex;
+      background: grey;
+      padding: 3px;
+      border-radius: 5px;
+      column-gap: 3px;
+      position: relative;
+      &.paying {
+        background: #d70f0f;
+      }
+
+      .action-space-cost {
+        position: absolute;
+        left: calc(100% - 4px);
+        display: none;
+      }
+
+      .action-space-slot {
+        background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+        width: 34px;
+        height: 29px;
+        padding-bottom: 1px;
+        border-radius: 5px;
+        background-size: auto 70%, 20px;
+        background-repeat: no-repeat, repeat;
+        background-position: center center;
+
+        font-size: 39px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        &:not(:empty) {
+          background: #bbb9b9;
+        }
+      }
+
+      &.selectable {
+        cursor: pointer;
+        .action-space-slot {
+          background-image: url('img/ui/engineer_slot.png');
+          background-size: auto 70%;
+          background-repeat: no-repeat;
+          background-position: center center;
+
+          background-color: #364422;
+        }
+
+        &:hover .action-space-slot {
+          background-color: #484848;
+        }
+      }
+    }
+  }
+
+  &[data-id='machinery'] .action-board-inner .action-board-row {
+    &:first-of-type {
+      margin-right: 35px;
+    }
+
+    .action-board-icon {
+      width: 120px;
+      margin: 0px 8px;
+    }
+  }
+
+  &[data-id='water'] {
+    width: 200px;
+    .action-board-inner {
+      align-items: flex-start;
+      margin: 6px 7px 10px;
+
+      .action-board-row .action-board-icon {
+        width: 37px;
+      }
+    }
+  }
+
+  &[data-id='bank'] {
+    width: 139px;
+    margin-left: 5px;
+    [data-action-name='2'] & {
+      width: 147px;
+      margin-left: -3px;
+    }
+
+    .action-board-inner {
+      margin: 8px 0px 7px;
+
+      .action-board-row {
+        #bank-b {
+          width: 105px;
+          height: 70px;
+          background-image: url('img/ui/bank.png');
+          background-color: transparent;
+          background-size: 85%;
+          background-repeat: no-repeat;
+          background-position: center center;
+          border: 4px solid gray;
+          flex-wrap: wrap;
+
+          &.selected {
+            background-color: #1a6210;
+          }
+        }
+      }
+    }
+  }
+
+  &[data-id='contract'] .action-board-inner {
+    --barrageContractScale: 0.75;
+    margin-bottom: 0;
+
+    #contract-stack-1 {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #private-contracts {
+      display: flex;
+
+      .contract-stack {
+        position: relative;
+        padding-bottom: 22px;
+
+        .contract-counter {
+          position: absolute;
+          width: 56%;
+          bottom: -1px;
+          left: 22%;
+          background: #c9b891;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
+          font-family: 'acumin-pro', serif;
+          font-weight: 700;
+          font-style: normal;
+          text-align: center;
+          box-sizing: border-box;
+          font-size: 15px;
+          border: 1px solid #c8ba6a;
+
+          .barrage-contract {
+            position: absolute;
+            top: 0;
+            left: -50%;
+          }
+
+          &::after {
+            content: '';
+            display: inline-block;
+            width: 31px;
+            height: 22px;
+            background: url('img/contract_hands.png');
+            background-size: 500%;
+            vertical-align: middle;
+            margin-left: 4px;
+          }
+
+          &#contract-counter-2::after {
+            background-position-x: 50%;
+          }
+          &#contract-counter-3::after {
+            background-position-x: 75%;
+          }
+          &#contract-counter-4::after {
+            background-position-x: 100%;
+          }
+        }
+      }
+    }
+
+    .action-board-row {
+      &:nth-of-type(2) {
+        margin-right: 35px;
+      }
+
+      .action-board-icon {
+        width: 110px;
+        margin: 0px 8px;
+      }
+    }
+  }
+}

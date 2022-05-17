@@ -1,0 +1,88 @@
+:root {
+  --barrageMapScale: 0.8;
+}
+
+#brg-map-resizable {
+  [data-energy-track='0'] & {
+    margin-top: 10px;
+  }
+
+  #brg-map {
+    transform: scale(var(--barrageMapScale));
+    transform-origin: top left;
+
+    .barrage-meeple {
+      display: inline-block;
+    }
+
+    .headstream {
+      &.selectable {
+        cursor: pointer;
+      }
+
+      &[data-n]::before {
+        content: attr(data-n);
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        background: red;
+        color: white;
+        width: 35px;
+        height: 35px;
+        text-align: center;
+        border-radius: 50%;
+        border: 2px solid white;
+        font-family: 'acumin-pro', serif;
+        font-weight: 800;
+        font-style: normal;
+        line-height: 31px;
+      }
+      &[data-n='0']::before {
+        display: none;
+      }
+    }
+
+    .dam-slot,
+    .conduit-slot,
+    .powerhouse-slot {
+      text-align: center;
+
+      &.selectable {
+        cursor: pointer;
+        background: #ff000057;
+
+        &:hover {
+          background: #ff000090;
+        }
+      }
+
+      &.selected {
+        background: #35b7107d;
+        &.selectable:hover {
+          background: #23880691;
+        }
+      }
+    }
+
+    .conduit-slot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .powerhouse-slot {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+
+      .meeple-droplet {
+        position: absolute;
+        top: 1%;
+        left: 50%;
+      }
+    }
+  }
+}
+
+@import 'map.base';

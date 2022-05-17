@@ -101,6 +101,21 @@ html {
   border-radius: 6px;
   box-shadow: 2px 2px 5px black; }
 
+#barrage-center-container {
+  display: flex;
+  align-items: flex-start; }
+
+#map-energy-wrapper {
+  display: flex;
+  flex-flow: column;
+  margin-left: 20px; }
+  [data-energy-track='1'] #map-energy-wrapper {
+    flex-flow: row; }
+    [data-energy-track='1'] #map-energy-wrapper #energy-track-board {
+      order: 2; }
+    [data-energy-track='1'] #map-energy-wrapper #brg-map-resizable {
+      order: 1; }
+
 #energy-track-board {
   width: 1000px;
   height: 130px;
@@ -266,9 +281,6 @@ html {
           [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
             margin-top: 0px; }
 
-#barrage-center-container {
-  display: flex; }
-
 #action-boards-container {
   display: flex;
   flex-flow: row;
@@ -276,17 +288,9 @@ html {
   align-items: flex-start;
   align-content: baseline;
   width: 357px; }
-
-#map-energy-wrapper {
-  display: flex;
-  flex-flow: column;
-  margin-left: 20px; }
-  [data-energy-track='1'] #map-energy-wrapper {
-    flex-flow: row; }
-    [data-energy-track='1'] #map-energy-wrapper #energy-track-board {
-      order: 2; }
-    [data-energy-track='1'] #map-energy-wrapper #brg-map-resizable {
-      order: 1; }
+  [data-action-name='2'] #action-boards-container {
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black; }
 
 .action-board {
   margin-top: 20px;
@@ -296,11 +300,22 @@ html {
   [data-action-name='1'] .action-board {
     margin-top: 0px;
     margin-bottom: 8px; }
+  [data-action-name='2'] .action-board {
+    margin-top: 0px;
+    margin-bottom: -3px;
+    border-radius: 0px;
+    box-shadow: none; }
+    [data-action-name='2'] .action-board:first-of-type {
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px; }
+    [data-action-name='2'] .action-board:last-of-type {
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px; }
   .action-board .action-board-name-container {
     display: flex;
     justify-content: center;
     margin-top: -17px; }
-    [data-action-name='1'] .action-board .action-board-name-container {
+    [data-action-name='1'] .action-board .action-board-name-container, [data-action-name='2'] .action-board .action-board-name-container {
       display: none; }
     .action-board .action-board-name-container .action-board-name {
       color: #dbc85d;
@@ -411,8 +426,11 @@ html {
       .action-board[data-id='water'] .action-board-inner .action-board-row .action-board-icon {
         width: 37px; }
   .action-board[data-id='bank'] {
-    width: 140px;
+    width: 139px;
     margin-left: 5px; }
+    [data-action-name='2'] .action-board[data-id='bank'] {
+      width: 147px;
+      margin-left: -3px; }
     .action-board[data-id='bank'] .action-board-inner {
       margin: 8px 0px 7px; }
       .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b {
@@ -477,15 +495,6 @@ html {
     .action-board[data-id='contract'] .action-board-inner .action-board-row .action-board-icon {
       width: 110px;
       margin: 0px 8px; }
-
-:root {
-  --barrageMapScale: 0.8; }
-
-[data-energy-track='0'] #brg-map-resizable {
-  margin-top: 10px; }
-#brg-map-resizable #brg-map {
-  transform: scale(var(--barrageMapScale));
-  transform-origin: top left; }
 
 #game_play_area {
   font-size: 30px; }
@@ -1541,45 +1550,70 @@ html {
   .flip-container.flipped .flip-inner {
     transform: rotateY(180deg); }
 
-#brg-map .barrage-meeple {
-  display: inline-block; }
-#brg-map .headstream.selectable {
-  cursor: pointer; }
-#brg-map .headstream[data-n]::before {
-  content: attr(data-n);
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  background: red;
-  color: white;
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  border-radius: 50%;
-  border: 2px solid white;
-  font-family: 'acumin-pro', serif;
-  font-weight: 800;
-  font-style: normal;
-  line-height: 31px; }
-#brg-map .headstream[data-n='0']::before {
-  display: none; }
-#brg-map .dam-slot,
-#brg-map .conduit-slot {
-  text-align: center; }
-  #brg-map .dam-slot.selectable,
-  #brg-map .conduit-slot.selectable {
-    cursor: pointer;
-    background: #ff000057; }
-    #brg-map .dam-slot.selectable:hover,
-    #brg-map .conduit-slot.selectable:hover {
-      background: #ff000090; }
-  #brg-map .dam-slot.selected,
-  #brg-map .conduit-slot.selected {
-    background: #35b7107d; }
-    #brg-map .dam-slot.selected.selectable:hover,
-    #brg-map .conduit-slot.selected.selectable:hover {
-      background: #23880691; }
+:root {
+  --barrageMapScale: 0.8; }
+
+[data-energy-track='0'] #brg-map-resizable {
+  margin-top: 10px; }
+#brg-map-resizable #brg-map {
+  transform: scale(var(--barrageMapScale));
+  transform-origin: top left; }
+  #brg-map-resizable #brg-map .barrage-meeple {
+    display: inline-block; }
+  #brg-map-resizable #brg-map .headstream.selectable {
+    cursor: pointer; }
+  #brg-map-resizable #brg-map .headstream[data-n]::before {
+    content: attr(data-n);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background: red;
+    color: white;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid white;
+    font-family: 'acumin-pro', serif;
+    font-weight: 800;
+    font-style: normal;
+    line-height: 31px; }
+  #brg-map-resizable #brg-map .headstream[data-n='0']::before {
+    display: none; }
+  #brg-map-resizable #brg-map .dam-slot,
+  #brg-map-resizable #brg-map .conduit-slot,
+  #brg-map-resizable #brg-map .powerhouse-slot {
+    text-align: center; }
+    #brg-map-resizable #brg-map .dam-slot.selectable,
+    #brg-map-resizable #brg-map .conduit-slot.selectable,
+    #brg-map-resizable #brg-map .powerhouse-slot.selectable {
+      cursor: pointer;
+      background: #ff000057; }
+      #brg-map-resizable #brg-map .dam-slot.selectable:hover,
+      #brg-map-resizable #brg-map .conduit-slot.selectable:hover,
+      #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
+        background: #ff000090; }
+    #brg-map-resizable #brg-map .dam-slot.selected,
+    #brg-map-resizable #brg-map .conduit-slot.selected,
+    #brg-map-resizable #brg-map .powerhouse-slot.selected {
+      background: #35b7107d; }
+      #brg-map-resizable #brg-map .dam-slot.selected.selectable:hover,
+      #brg-map-resizable #brg-map .conduit-slot.selected.selectable:hover,
+      #brg-map-resizable #brg-map .powerhouse-slot.selected.selectable:hover {
+        background: #23880691; }
+  #brg-map-resizable #brg-map .conduit-slot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; }
+  #brg-map-resizable #brg-map .powerhouse-slot {
+    display: flex;
+    align-items: end;
+    justify-content: center; }
+    #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet {
+      position: absolute;
+      top: 1%;
+      left: 50%; }
 
 #brg-map-resizable[data-map='1'] {
   width: calc(var(--barrageMapScale) * 1000px);
@@ -1716,9 +1750,7 @@ html {
       height: 32px;
       position: absolute;
       border-radius: 8px;
-      border: 1px solid white;
-      display: flex;
-      align-items: end; }
+      border: 1px solid white; }
       #brg-map-resizable[data-map='1'] #brg-map .powerhouse-slot.paying {
         border: 1px solid red; }
       #brg-map-resizable[data-map='1'] #brg-map .powerhouse-slot.highlight {
