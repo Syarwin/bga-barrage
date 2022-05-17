@@ -5,7 +5,7 @@ namespace BRG\Models;
  * Officer: all utility functions concerning an executive officer
  */
 
-class Officer
+class Officer implements \JsonSerializable
 {
   protected $company;
   protected $id;
@@ -18,9 +18,23 @@ class Officer
     $this->company = $company;
   }
 
+  public function jsonSerialize()
+  {
+    return [
+      'id' => $this->id,
+      'name' => $this->name,
+      'description' => $this->description,
+    ];
+  }
+
   public function getName()
   {
     return $this->name;
+  }
+
+  public function getDescription()
+  {
+    return $this->description;
   }
 
   public function isAvailable()
