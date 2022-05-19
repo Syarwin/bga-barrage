@@ -129,10 +129,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       }
       // Conduit on board
-      else if (
-        meeple.type == 'conduit' &&
-        $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`)
-      ) {
+      else if (meeple.type == 'conduit' && $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`)) {
         return $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`);
       }
       // Droplets
@@ -273,6 +270,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_collectResources(n) {
       debug('Notif: collecting resoures', n);
       this.slideResources(n.args.resources, {});
+      if (n.args.tile) {
+        this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile));
+      }
     },
 
     /**

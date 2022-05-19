@@ -9,8 +9,11 @@
   font-size: 1.3em;
 }
 
-.bgabutton .barrage-meeple {
+.bgabutton .meeple-container {
   margin: 0;
+  .barrage-meeple {
+    margin: 0;
+  }
 }
 
 .barrage-meeple {

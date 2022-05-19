@@ -102,6 +102,16 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::getFilteredQuery($cId, 'reserve', $type)->get();
   }
 
+  /**
+   * Get meeples on wheel
+   */
+  public function getOnWheel($cId, $slot)
+  {
+    return self::getFilteredQuery($cId, 'wheel', null)
+      ->where('meeple_state', $slot)
+      ->get();
+  }
+
   /*************************** Resource management ***********************/
   public function useResource($cId, $resourceType, $amount)
   {

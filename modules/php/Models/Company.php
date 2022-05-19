@@ -225,45 +225,23 @@ class Company extends \BRG\Helpers\DB_Model
     return TechnologyTiles::get($tileId);
   }
 
-  public function getWheel()
-  {
-    $wheel = [];
-    foreach (wheelSlots as $slot) {
-      $wheel[$slot] = [
-        'resources' => Meeples::getFilteredQuery($this->id, 'wheel_' . $slot, null)->get(),
-        'tile' => TechnologyTiles::getFilteredQuery($this->id, 'wheel_' . $slot, null)->get(),
-        'current' => $this->slot == $slot,
-      ];
-    }
-    return $wheel;
-  }
-
   public function rotateWheel()
   {
+    // Increase slot and notify to turn wheel
     $this->setSlot(($this->slot + 1) % 6);
-
-    $mIds = Meeples::getFilteredQuery($this->id, 'wheel', $this->slot, null)
-      ->get()
-      ->getIds();
-    if (!empty($mIds)) {
-      Meeples::move($mIds, 'reserve');
-    }
-
-    $tId = TechnologyTiles::getFilteredQuery($this->id, 'wheel_' . $this->slot, null)
-      ->get()
-      ->getIds();
-    if (!empty($tId)) {
-      TechnologyTiles::move($tId, 'reserve');
-    }
-
     Notifications::rotateWheel($this, 1);
 
-    Notifications::recoverResources(
-      $this,
-      empty($mIds) ? [] : Meeples::getMany($mIds)->toArray(),
-      empty($tId) ? [] : TechnologyTiles::getMany($tId)->toArray()
-    );
-    return;
+    // Return back the meeples
+    $mIds = Meeples::getOnWheel($this->id, $this->slot)->getIds();
+    Meeples::move($mIds, 'reserve');
+
+    // Return back the tile
+    $tId = TechnologyTiles::getOnWheel($this->id, $this->slot)->getIds();
+    TechnologyTiles::move($tId, 'company');
+
+    if (count($mIds) + count($tId) > 1) {
+      Notifications::recoverResources($this, Meeples::getMany($mIds), TechnologyTiles::get($tId[0]));
+    }
   }
 
   ////////////////////////////////////////////////////
