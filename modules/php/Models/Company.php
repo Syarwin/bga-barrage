@@ -353,4 +353,43 @@ class Company extends \BRG\Helpers\DB_Model
     }
     return $this->officer->getContractReduction();
   }
+
+  public function earnIncome()
+  {
+    $revenueBoard = $this->getRevenueBoard();
+    $flows = ['type' => NODE_SEQ, 'childs' => []];
+    $gainFlow = [];
+    foreach ([BASE, ELEVATION, CONDUIT] as $type) {
+      $nb = Meeples::getFilteredQuery($this->id, null, $type)
+        ->whereNotIn('meeple_location', ['company'])
+        ->count();
+
+      for ($i = 1; $i <= $nb; $i++) {
+        if (!isset($revenueBoard[$type][$i])) {
+          continue;
+        }
+
+        $tmpFlow = $revenueBoard[$type][$i];
+        if (isset($tmpFlow['action']) && $tmpFlow['action'] == GAIN) {
+          foreach ($tmpFlow['args'] as $resource => $amount) {
+            if (!isset($gainFlow[$resource])) {
+              $gainFlow[$resource] = $amount;
+            } else {
+              $gainFlow[$resource] += $amount;
+            }
+          }
+        } else {
+          $flows['childs'][] = $tmpFlow;
+        }
+      }
+    }
+    if (!empty($gainFlow)) {
+      \array_unshift($flows['childs'], ['action' => GAIN, 'args' => $gainFlow]);
+    }
+    if (!empty($flows['childs'])) {
+      return $flows;
+    } else {
+      return [];
+    }
+  }
 }

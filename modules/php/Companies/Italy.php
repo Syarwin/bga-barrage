@@ -44,12 +44,9 @@ class Italy extends \BRG\Models\Company
           'childs' => [['action' => GAIN, 'args' => [\EXCAVATOR => 1]], ['action' => GAIN, 'args' => [\MIXER => 1]]],
         ],
         4 => [
-          'type' => NODE_SEQ,
-          'childs' => [
-            [
-              'action' => GAIN,
-              'args' => [\VP => 2, CREDIT => 5],
-            ],
+          [
+            'action' => GAIN,
+            'args' => [\VP => 2, CREDIT => 5],
           ],
         ],
         5 => [
