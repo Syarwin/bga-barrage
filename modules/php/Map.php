@@ -1,6 +1,7 @@
 <?php
 namespace BRG;
 use BRG\Core\Globals;
+use BRG\Core\Notifications;
 use BRG\Helpers\Utils;
 use BRG\Managers\Meeples;
 
@@ -25,12 +26,12 @@ class Map
   public static function getUiData()
   {
     return [
-      'id' => self::$map->getId(),
+      'id' => self::getId(),
       'headstreams' => Globals::getHeadstreams(),
       'bonusTiles' => Globals::getBonusTiles(),
-      'conduits' => self::$map->getConduits(),
-      'powerhouses' => array_values(self::$map->getPowerhouses()),
-      'basins' => array_values(self::$map->getBasins()),
+      'conduits' => self::getConduits(),
+      'powerhouses' => array_values(self::getPowerhouses()),
+      'basins' => array_values(self::getBasins()),
     ];
   }
 
@@ -102,5 +103,172 @@ class Map
     }
 
     return Meeples::getMany(Meeples::create($meeples));
+  }
+
+  /////////////////////////////////////////////
+  //  __  __                 _
+  // |  \/  | ___  ___ _ __ | | ___  ___
+  // | |\/| |/ _ \/ _ \ '_ \| |/ _ \/ __|
+  // | |  | |  __/  __/ |_) | |  __/\__ \
+  // |_|  |_|\___|\___| .__/|_|\___||___/
+  //                  |_|
+  /////////////////////////////////////////////
+
+  public function countDamsInBasin($basin)
+  {
+    return Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->count();
+  }
+
+  public function getDropletsInBasin($basin)
+  {
+    return Meeples::getFilteredQuery(null, $basin, [DROPLET])->get();
+  }
+
+  public function countDropletsInBasin($basin)
+  {
+    return self::getDropletsInBasin($basin)->count();
+  }
+
+  ////////////////////////////////////////////////////////////
+  // __        __    _              _____ _
+  // \ \      / /_ _| |_ ___ _ __  |  ___| | _____      __
+  //  \ \ /\ / / _` | __/ _ \ '__| | |_  | |/ _ \ \ /\ / /
+  //   \ V  V / (_| | ||  __/ |    |  _| | | (_) \ V  V /
+  //    \_/\_/ \__,_|\__\___|_|    |_|   |_|\___/ \_/\_/
+  //
+  ////////////////////////////////////////////////////////////
+
+  public function flow($droplet)
+  {
+    // Sanity check
+    if (!is_array($droplet)) {
+      $droplet = Meeples::get($droplet);
+      if ($droplet == null) {
+        throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
+      }
+    }
+
+    $blocked = false;
+    $rivers = self::getRivers();
+    do {
+      // Search for the next location
+      $original = $droplet;
+      $location = $droplet['location'];
+      if ($location[0] == 'P') {
+        $location = explode('_', $location)[0];
+      }
+      $basin = $rivers[$location] ?? null;
+      if (\is_null($basin)) {
+        throw new \BgaVisibleSystemException('Unknown route for droplet. Should not happen');
+      }
+
+      // Move the droplet to that location
+      $droplet['location'] = $basin;
+      Notifications::moveDroplets([$droplet]);
+      // TODO : handle company that gain thing when water pass by powerhouse
+
+      // If location is EXIT, destroy the droplet
+      if ($basin == 'EXIT') {
+        $blocked = true;
+        Meeples::DB()->delete($droplet['id']);
+        Notifications::silentDestroy([$droplet]);
+      }
+      // Droplet is blocked
+      // TODO : handle company that can hold 4 droplet with 3 elevation or sthg like that
+      elseif (self::countDropletsInBasin($basin) < self::countDamsInBasin($basin)) {
+        Meeples::move($droplet['id'], $basin);
+        $blocked = true;
+      }
+    } while (!$blocked);
+
+    return $droplet;
+  }
+
+  /////////////////////////////////////////////////////////////
+  //  ____                _            _   _
+  // |  _ \ _ __ ___   __| |_   _  ___| |_(_) ___  _ __
+  // | |_) | '__/ _ \ / _` | | | |/ __| __| |/ _ \| '_ \
+  // |  __/| | | (_) | (_| | |_| | (__| |_| | (_) | | | |
+  // |_|   |_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|
+  //
+  /////////////////////////////////////////////////////////////
+  public function getProductionSystems($company, $bonus)
+  {
+    $credits = $company->countReserveResource(CREDIT);
+    $systems = [];
+    foreach (self::getZones() as $zoneId => $zone) {
+      // Compute the possible conduits
+      $conduits = [];
+      foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+        // Is this conduit built by someone ?
+        $meeple = Meeples::getOnSpace($sId, CONDUIT)->first();
+        if (is_null($meeple)) {
+          continue;
+        }
+
+        // Is it linked to a powerhouse built by the company ?
+        $endingSpace = 'P' . $conduit['end'] . '%'; // Any powerhouse in the ending zone
+        $powerhouse = Meeples::getOnSpace($endingSpace, POWERHOUSE, $company)->first();
+        if (is_null($powerhouse)) {
+          continue;
+        }
+
+        $conduits[$sId] = [
+          'conduitOwnerId' => $meeple['cId'],
+          'conduitSpaceId' => $sId,
+          'powerhouseSpaceId' => $powerhouse['location'],
+          'conduitProduction' => $conduit['production'],
+        ];
+      }
+
+      // Compute the possible dams
+      $dams = [];
+      foreach ($zone['basins'] ?? [] as $basin) {
+        $dam = Meeples::getOnSpace($basin, BASE, [COMPANY_NEUTRAL, $company])->first();
+        $nDroplets = self::countDropletsInBasin($basin);
+        if (is_null($dam) || $nDroplets == 0) {
+          continue;
+        }
+
+        $dams[] = [
+          'basin' => $basin,
+          'droplets' => $nDroplets,
+        ];
+      }
+
+      // Take all the pair to have corresponding systems for that zone
+      foreach ($conduits as $conduit) {
+        foreach ($dams as $dam) {
+          // Filter number of usable droplets for paying conduits
+          $maxDroplets = $dam['droplets'];
+          if ($conduit['conduitOwnerId'] != $company->getId()) {
+            $maxDroplets = min($credits, $maxDroplets);
+          }
+
+          // Compute potential energy production
+          $system = array_merge($dam, $conduit);
+          $system['productions'] = [];
+
+          for ($i = 1; $i <= $maxDroplets; $i++) {
+            $energy = $system['conduitProduction'] * $i;
+            if ($company->isXO(\XO_VIKTOR)) {
+              $energy = max($energy, 4);
+            }
+            $energy += $bonus;
+
+            if ($energy > 0) {
+              $system['productions'][$i] = $energy;
+            }
+          }
+
+          // Add it to the list if at least one possible > 0 production
+          if (!empty($system['productions'])) {
+            $systems[] = $system;
+          }
+        }
+      }
+    }
+
+    return $systems;
   }
 }

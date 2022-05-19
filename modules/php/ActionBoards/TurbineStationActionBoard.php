@@ -23,19 +23,19 @@ class TurbineStationActionBoard extends AbstractActionBoard
   {
     $rows = [];
 
-    $rows[] = ['b2', ['i' => '<PRODUCTION>[+2]', 't' => clienttranslate('Product with +2 bonus')], 'b2c'];
+    $rows[] = ['b2', ['i' => '<PRODUCTION>[+2]', 't' => clienttranslate('Produce with +2 bonus')], 'b2c'];
 
     if (Companies::count() >= 4) {
-      $rows[] = ['b1', ['i' => '<PRODUCTION>[+1]', 't' => clienttranslate('Product with +1 bonus')], 'b1c'];
+      $rows[] = ['b1', ['i' => '<PRODUCTION>[+1]', 't' => clienttranslate('Produce with +1 bonus')], 'b1c'];
     }
 
-    $rows[] = ['0', ['i' => '<PRODUCTION>', 't' => clienttranslate('Product energy')], '0c'];
+    $rows[] = ['0', ['i' => '<PRODUCTION>', 't' => clienttranslate('Produce energy')], '0c'];
 
     if (Companies::count() >= 3) {
-      $rows[] = ['m1', ['i' => '<PRODUCTION>[-1]', 't' => clienttranslate('Product with -1 bonus')], 'm1c'];
+      $rows[] = ['m1', ['i' => '<PRODUCTION>[-1]', 't' => clienttranslate('Produce with -1 bonus')], 'm1c'];
     }
 
-    $rows[] = ['m2', ['i' => '<PRODUCTION>[-2]', 't' => clienttranslate('Product with -2 bonus')], 'm2bis'];
+    $rows[] = ['m2', ['i' => '<PRODUCTION>[-2]', 't' => clienttranslate('Produce with -2 bonus')], 'm2bis'];
 
     return $rows;
   }
@@ -49,7 +49,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'uid' => self::$id . '-b2',
       'nEngineers' => 2,
       'flow' => [
-        'action' => PRODUCT,
+        'action' => PRODUCE,
         'args' => [
           'bonus' => 2,
         ],
@@ -62,7 +62,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
         'uid' => self::$id . '-b1',
         'nEngineers' => 2,
         'flow' => [
-          'action' => PRODUCT,
+          'action' => PRODUCE,
           'args' => [
             'bonus' => 1,
           ],
@@ -75,7 +75,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'uid' => self::$id . '-0',
       'nEngineers' => 2,
       'flow' => [
-        'action' => PRODUCT,
+        'action' => PRODUCE,
       ],
     ];
 
@@ -85,7 +85,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
         'uid' => self::$id . '-m1',
         'nEngineers' => 2,
         'flow' => [
-          'action' => PRODUCT,
+          'action' => PRODUCE,
           'args' => [
             'bonus' => -1,
           ],
@@ -106,7 +106,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'uid' => self::$id . '-m2',
       'nEngineers' => 1,
       'flow' => [
-        'action' => PRODUCT,
+        'action' => PRODUCE,
         'args' => [
           'bonus' => -2,
         ],
@@ -118,7 +118,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
       'uid' => self::$id . '-m2bis',
       'nEngineers' => 2,
       'flow' => [
-        'action' => PRODUCT,
+        'action' => PRODUCE,
         'args' => [
           'bonus' => -2,
         ],

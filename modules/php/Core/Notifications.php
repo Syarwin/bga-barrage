@@ -266,21 +266,21 @@ class Notifications
     ]);
   }
 
-  public static function moveDroplet($droplet, $originalState)
+  public static function moveDroplets($droplets)
   {
-    self::notifyAll('moveDroplet', '', [
-      'droplet' => [$droplet],
-      'original' => $originalState,
+    self::notifyAll('moveDroplets', '', [
+      'droplets' => is_array($droplets)? $droplets : $droplets->toArray(),
     ]);
   }
 
-  public static function produce($company, $energy, $droplets)
+  public static function produce($company, $powerhouseSpaceId, $energy, $droplets)
   {
     self::notifyAll(
       'produce',
-      clienttranslate('${company_name} produces ${energy} energies with ${droplets} droplet(s)'),
+      clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s)'),
       [
         'company' => $company,
+        'powerhouse' => $powerhouseSpaceId,
         'energy' => $energy,
         'droplets' => $droplets,
       ]

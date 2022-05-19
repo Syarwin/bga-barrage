@@ -190,16 +190,16 @@ $machinestates = [
     'possibleactions' => ['actPay', 'actPassOptionalAction', 'actRestart'],
   ],
 
-  ST_PRODUCT => [
-    'name' => 'product',
-    'description' => clienttranslate('${actplayer} must product energy ${modifier}'),
-    'descriptionmyturn' => clienttranslate('${you} must choose where to product energy ${modifier}'),
-    'descriptionskippable' => clienttranslate('${actplayer} may product energy ${modifier})'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may product energy ${modifier}'),
+  ST_PRODUCE => [
+    'name' => 'produce',
+    'description' => clienttranslate('${actplayer} must produce energy ${modifier}'),
+    'descriptionmyturn' => clienttranslate('${you} must choose where to produce energy ${modifier}'),
+    'descriptionskippable' => clienttranslate('${actplayer} may produce energy ${modifier})'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may produce energy ${modifier}'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
-    'possibleactions' => ['actProduct', 'actPassOptionalAction', 'actRestart'],
+    'possibleactions' => ['actProduce', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_FULFILL_CONTRACT => [

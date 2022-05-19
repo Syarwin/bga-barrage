@@ -143,10 +143,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.headstream[data-id="${meeple.location}"]`);
       } else if (meeple.location == 'EXIT') {
         return $('exit');
-      } else if (meeple.type == 'droplet' && meeple.location.indexOf('P') == 0) {
-        return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
-      } else if (meeple.type == 'droplet') {
+      } else if (meeple.type == 'droplet' && meeple.location.indexOf('B') == 0) {
         return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);
+      } else if (meeple.type == 'droplet') {
+        return $('brg-map').querySelector(`[data-id="${meeple.location}"]`);
       }
 
       console.error('Trying to get container of a meeple', meeple);
@@ -285,9 +285,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
-    notif_moveDroplet(n) {
-      debug('Notif: moving droplet', n);
-      this.slideResources(n.args.droplet, {});
+    notif_moveDroplets(n) {
+      debug('Notif: moving droplets', n);
+      this.slideResources(n.args.droplets, {});
     },
 
     notif_silentDestroy(n) {

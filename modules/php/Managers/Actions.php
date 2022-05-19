@@ -11,7 +11,7 @@ class Actions
     GAIN => 'Gain',
     CONSTRUCT => 'Construct',
     PAY => 'Pay',
-    PRODUCT => 'Product',
+    PRODUCE => 'Produce',
     FULFILL_CONTRACT => 'FulfillContract',
     PLACE_DROPLET => 'PlaceDroplet',
     ROTATE_WHEEL => 'RotateWheel',

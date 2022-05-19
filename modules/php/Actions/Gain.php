@@ -51,12 +51,10 @@ class Gain extends \BRG\Models\Action
         }
         Notifications::score($company, $amount, null, true);
       } elseif ($resource == ENERGY) {
-        $tokens = $company->incEnergy($amount);
+        $company->incEnergy($amount, true);
         for ($i = 0; $i < $amount; $i++) {
           $meeples[] = ['type' => $resource, 'ignore' => true];
         }
-
-        Notifications::moveTokens(Meeples::getMany($tokens));
       } else {
         $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
       }

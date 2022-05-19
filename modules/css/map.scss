@@ -2,6 +2,17 @@
   --barrageMapScale: 0.8;
 }
 
+#produce-energy-counter {
+  background: white;
+  border-radius: 6px;
+  padding: 3px 5px;
+  position: absolute;
+  font-size: 32px;
+  width: 45px;
+  text-align: center;
+  border: 2px solid #3f9bec;
+}
+
 #brg-map-resizable {
   [data-energy-track='0'] & {
     margin-top: 10px;
@@ -58,9 +69,12 @@
       }
 
       &.selected {
-        background: #35b7107d;
+        background: #35b710aa;
+        border: 2px solid #227b09 !important;
+        margin-top: -1px;
+        margin-left: -1px;
         &.selectable:hover {
-          background: #23880691;
+          background: #238806aa;
         }
       }
     }
@@ -69,6 +83,25 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
+
+      .meeple-droplet {
+        position: absolute;
+        top: 1%;
+        left: 5%;
+
+        &:nth-of-type(2) {
+          left: 20%;
+        }
+        &:nth-of-type(3) {
+          left: 45%;
+        }
+        &:nth-of-type(4) {
+          left: 60%;
+        }
+        &:nth-of-type(5) {
+          left: 75%;
+        }
+      }
     }
 
     .powerhouse-slot {
@@ -76,10 +109,52 @@
       align-items: end;
       justify-content: center;
 
+      &.producing::after {
+        content: '';
+        position: absolute;
+        left: calc(50% - 20px);
+        top: 50%;
+        width: 40px;
+        height: 40px;
+        background-image: url('img/icons/production.png');
+        background-size: 80%;
+        background-position: 4px 2px;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 50%;
+        animation-name: rotate;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        background-repeat: no-repeat;
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(720deg);
+          }
+        }
+      }
+
       .meeple-droplet {
         position: absolute;
         top: 1%;
-        left: 50%;
+        left: 20%;
+
+        &:nth-of-type(2) {
+          left: 30%;
+        }
+        &:nth-of-type(3) {
+          left: 40%;
+        }
+        &:nth-of-type(4) {
+          left: 50%;
+        }
+        &:nth-of-type(5) {
+          left: 60%;
+        }
       }
     }
   }

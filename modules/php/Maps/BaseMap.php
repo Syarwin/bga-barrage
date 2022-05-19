@@ -232,10 +232,10 @@ class BaseMap extends AbstractMap
       'B2L' => 'P5_0',
       'B3L' => 'P6_0',
       'B4L' => 'P70',
-      'P8_0' => 'B8U',
-      'P5_0' => 'B5U',
-      'P6_0' => 'B6U',
-      'P7_0' => 'B7U',
+      'P8' => 'B8U',
+      'P5' => 'B5U',
+      'P6' => 'B6U',
+      'P7' => 'B7U',
 
       'B5U' => 'B5L',
       'B6U' => 'B6L',
@@ -243,8 +243,8 @@ class BaseMap extends AbstractMap
       'B5L' => 'P9_0',
       'B6L' => 'P10_0',
       'B7L' => 'P10_0',
-      'P9_0' => 'B9U',
-      'P10_0' => 'B10U',
+      'P9' => 'B9U',
+      'P10' => 'B10U',
 
       'B8U' => 'B8L',
       'B9U' => 'B9L',
@@ -253,8 +253,8 @@ class BaseMap extends AbstractMap
       'B9L' => 'P11_0',
       'B10L' => 'P12_0',
 
-      'P11_0' => 'EXIT',
-      'P12_0' => 'EXIT',
+      'P11' => 'EXIT',
+      'P12' => 'EXIT',
     ];
   }
 }

@@ -78,7 +78,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       //      <div class='company-name'>${_(this.getCompanyName(company.id))}</div>
       // TODO : handle no officer (for automas) + display description and icons
-      this.registerCustomTooltip(`<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`, `officer-${company.id}`);
+      this.registerCustomTooltip(
+        `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
+        `officer-${company.id}`,
+      );
       return (
         `<div class='company-info'>
         <div class='company-no' id='company-no-${company.id}'>${no}</div>
@@ -238,6 +241,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.updateWheelAngle(company);
     },
 
+    getCompanyScoreToken(companyId) {
+      return $('energy-track').querySelector(`.meeple-score[data-company="${companyId}"]`);
+    },
+
     getCompanyName(companyId) {
       const COMPANY_NAMES = {
         1: _('USA'),
@@ -368,6 +375,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_produce(n) {
       debug('Notif: producing energy', n);
+      if (this.isFastMode()) return;
+
+      let powerhouse = this.getConstructSlot(n.args.powerhouse);
+      powerhouse.classList.add('producing');
+      this.wait(100).then(() => {
+        // Create temporary icon and slide it
+        dojo.place(
+          `<div id='produce-energy-counter'>${this.formatString('<ENERGY:' + n.args.energy + '>')}</div>`,
+          powerhouse,
+        );
+        this.slide('produce-energy-counter', this.getCompanyScoreToken(n.args.company_id), {
+          destroy: true,
+          duration: 1350,
+          phantom: false,
+        }).then(() => powerhouse.classList.remove('producing'));
+      });
     },
 
     notif_score(n) {

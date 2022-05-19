@@ -36,6 +36,7 @@ define([
         'placeDroplet',
         'construct',
         'placeStructure',
+        'produce',
         'takeContract',
         'resolveChoice',
         'confirmTurn',
@@ -52,8 +53,8 @@ define([
         ['assignCompany', 1000],
         ['setupCompanies', 500],
         ['silentDestroy', 100],
-        ['moveDroplet', null],
-        ['produce', 500],
+        ['moveDroplets', null],
+        ['produce', 1500],
         ['score', 500],
         ['rotateWheel', 1000],
         ['construct', null],
@@ -85,7 +86,7 @@ define([
           values: {
             0: _('Display'),
             1: _('Hide'),
-            2: _('Hide and collapse borders')
+            2: _('Hide and collapse borders'),
           },
         },
         energyTrack: {
@@ -163,10 +164,15 @@ define([
         args.args.previousEngineChoices >= 1 &&
         !args.args.automaticAction
       ) {
-        this.addDangerActionButton('btnRestartTurn', _('Restart turn'), () => {
-          this.stopActionTimer();
-          this.takeAction('actRestart');
-        });
+        this.addDangerActionButton(
+          'btnRestartTurn',
+          _('Restart turn'),
+          () => {
+            this.stopActionTimer();
+            this.takeAction('actRestart');
+          },
+          'restartAction',
+        );
       }
 
       /*
@@ -699,6 +705,109 @@ define([
           updateStatus();
         });
       });
+    },
+
+    // Produce
+    onEnteringStateProduce(args) {
+      // Compute aggregated data
+      let systems = args.systems;
+      let byPowerhouse = [];
+      let byBasin = [];
+      let byConduit = [];
+      systems.forEach((system, i) => {
+        system.id = i;
+
+        if (!byPowerhouse[system.powerhouseSpaceId]) byPowerhouse[system.powerhouseSpaceId] = [];
+        byPowerhouse[system.powerhouseSpaceId].push(i);
+
+        if (!byBasin[system.basin]) byBasin[system.basin] = [];
+        byBasin[system.basin].push(i);
+
+        if (!byConduit[system.conduitSpaceId]) byConduit[system.conduitSpaceId] = [];
+        byConduit[system.conduitSpaceId].push(i);
+      });
+
+      // Store the selected stuff
+      let selectedConduit = null;
+      let selectedPowerhouse = null;
+      let selectedBasin = null;
+      let updateStatus = () => {
+        dojo.query('#brg-map .selectable').removeClass('selectable selected');
+        // Keep only available systems
+        let possibleSystems = systems.filter(
+          (system, i) =>
+            (selectedConduit == null || byConduit[selectedConduit].includes(i)) &&
+            (selectedPowerhouse == null || byPowerhouse[selectedPowerhouse].includes(i)) &&
+            (selectedBasin == null || byBasin[selectedBasin].includes(i)),
+        );
+        possibleSystems.forEach((system) => {
+          let basin = this.getConstructSlot(system.basin);
+          basin.classList.toggle('selectable', systems.length > 1);
+          basin.classList.toggle('selected', system.basin == selectedBasin);
+
+          let powerhouse = this.getConstructSlot(system.powerhouseSpaceId);
+          powerhouse.classList.toggle('selectable', systems.length > 1);
+          powerhouse.classList.toggle('selected', system.powerhouseSpaceId == selectedPowerhouse);
+
+          let conduit = this.getConstructSlot(system.conduitSpaceId);
+          conduit.classList.toggle('selectable', systems.length > 1);
+          conduit.classList.toggle('selected', system.conduitSpaceId == selectedConduit);
+        });
+
+        dojo.empty('customActions');
+        if (selectedBasin != null || selectedPowerhouse != null || selectedConduit != null) {
+          if (systems.length > 1) {
+            this.addSecondaryActionButton('btnCancelProduce', _('Cancel'), () => {
+              selectedBasin = null;
+              selectedPowerhouse = null;
+              selectedConduit = null;
+              updateStatus();
+            });
+          }
+        }
+        if (selectedBasin != null && selectedPowerhouse != null && selectedConduit != null) {
+          let system = possibleSystems[0];
+          Object.keys(system.productions).forEach((nDroplets) => {
+            let production = system.productions[nDroplets];
+            let msg = this.formatString(
+              dojo.string.substitute(_('Produce <ENERGY:${n}> with ${m} <WATER>'), { n: production, m: nDroplets }),
+            );
+            this.addPrimaryActionButton('btnConfirmProduce' + nDroplets, msg, () =>
+              this.takeAtomicAction('actProduce', [system.id, nDroplets]),
+            );
+          });
+        } else if (possibleSystems.length == 1) {
+          let system = possibleSystems[0];
+          selectedBasin = system.basin;
+          selectedPowerhouse = system.powerhouseSpaceId;
+          selectedConduit = system.conduitSpaceId;
+          updateStatus();
+        }
+      };
+
+      // Add listeners
+      systems.forEach((system) => {
+        let basin = this.getConstructSlot(system.basin);
+        this.onClick(basin, () => {
+          selectedBasin = selectedBasin == system.basin ? null : system.basin;
+          updateStatus();
+        });
+
+        let powerhouse = this.getConstructSlot(system.powerhouseSpaceId);
+        this.onClick(powerhouse, () => {
+          selectedPowerhouse = selectedPowerhouse == system.powerhouseSpaceId ? null : system.powerhouseSpaceId;
+          updateStatus();
+        });
+
+        let conduit = this.getConstructSlot(system.conduitSpaceId);
+        this.onClick(conduit, () => {
+          selectedConduit = selectedConduit == system.conduitSpaceId ? null : system.conduitSpaceId;
+          updateStatus();
+        });
+      });
+
+      // Autoselect if only one
+      updateStatus();
     },
 
     //////////////////////////////////////////////////////

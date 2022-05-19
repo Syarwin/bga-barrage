@@ -63,7 +63,15 @@ class Meeples extends \BRG\Helpers\Pieces
   {
     $query = self::getSelectQuery();
     if ($cId != null) {
-      $query = $query->where('company_id', $cId);
+      if (is_array($cId)) {
+        $ids = array_map(function ($c) {
+          return is_int($c) ? $c : $c->getId();
+        }, $cId);
+        $query = $query->whereIn('company_id', $ids);
+      } else {
+        $cId = is_int($cId) ? $cId : $cId->getId();
+        $query = $query->where('company_id', $cId);
+      }
     }
     if ($location != null) {
       $query = $query->where('meeple_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);

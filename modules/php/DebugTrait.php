@@ -110,7 +110,7 @@ trait DebugTrait
       [
         'urls' => [
           // Emulates "load bug report" in control panel
-          "https://studio.boardgamearena.com/admin/studio/getSavedGameStateFromProduction.html?game=$game&report_id=$reportId&table_id=$tableId",
+          "https://studio.boardgamearena.com/admin/studio/getSavedGameStateFromProduceion.html?game=$game&report_id=$reportId&table_id=$tableId",
 
           // Emulates "load 1" at this table
           "https://studio.boardgamearena.com/table/table/loadSaveState.html?table=$tableId&state=1",
