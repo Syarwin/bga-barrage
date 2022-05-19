@@ -38,6 +38,7 @@ define([
         'placeStructure',
         'produce',
         'takeContract',
+        'fulfillContract',
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
@@ -59,7 +60,7 @@ define([
         ['rotateWheel', 1000],
         ['construct', null],
         ['pickContracts', 1000],
-        ['fulfillContract', 1000],
+        ['fulfillContract', 2000],
         ['refillStacks', 1000],
       ];
 
@@ -139,17 +140,10 @@ define([
         this.changePageTitle(args.args.descSuffix);
       }
 
-      /*
-      if (stateName == 'exchange' && args.args && args.args.automaticAction) {
-        args.args.descSuffix = 'cook';
-      }
-
-
       if (args.args && args.args.optionalAction) {
         let base = args.args.descSuffix ? args.args.descSuffix : '';
         this.changePageTitle(base + 'skippable');
       }
-      */
 
       if (this._activeStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
 
@@ -810,6 +804,14 @@ define([
       updateStatus();
     },
 
+    // Fulfill contract
+    onEnteringStateFulfillContract(args) {
+      let contracts = {};
+      args.contractIds.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
+
+      this.onSelectN(contracts, 1, (cIds) => this.takeAtomicAction('actFulfillContract', [cIds[0]]));
+    },
+
     //////////////////////////////////////////////////////
     //   ____            _                  _
     //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___
@@ -862,6 +864,9 @@ define([
       } else if (contract.location.substr(0, 4) == 'hand') {
         let cId = contract.location.substr(5);
         return `company-contracts-${cId}`;
+      } else if (contract.location.substr(0, 9) == 'fulfilled') {
+        let cId = contract.location.substr(10);
+        return `company-fulfilled-contracts-${cId}`;
       } else if ($(contract.location)) {
         return $(contract.location);
       }
@@ -872,15 +877,15 @@ define([
 
     tplContract(contract, tooltip = false) {
       let icons = contract.icons.map((t) => this.formatString(t));
-
+      contract.parity = contract.parity === undefined ? contract.id % 2 : contract.parity;
       return (
-        `<div id='contract-${contract.id}${tooltip ? '-tooltip' : ''}' class='barrage-contract' data-parity='${
-          contract.id % 2
-        }'>
+        `<div id='contract-${contract.id}${tooltip ? '-tooltip' : ''}' class='barrage-contract ${
+          contract.id == -1 ? 'fake' : ''
+        }' data-parity='${contract.parity}'>
           <div class='contract-fixed-size'>
             <div class='energy-cost'>${contract.cost}</div>
             <div class='contract-reward' data-type='${contract.type}'>
-              <div class='contract-reward-row'>${icons[0]}</div>` +
+              <div class='contract-reward-row'>${icons.length > 0 ? icons[0] : ''}</div>` +
         (icons.length > 1 ? `<div class='contract-reward-row'>${icons.slice(1).join('')}</div>` : '') +
         `
             </div>
@@ -919,6 +924,42 @@ define([
       });
     },
 
+    notif_fulfillContract(n) {
+      debug('Notif: someone fulfilled a contract', n);
+      let contract = n.args.contract;
+      let fakeContract = {
+        id: -1,
+        type: contract.type,
+        location: contract.location,
+        cost: '',
+        icons: [],
+        parity: 1 - (contract.id % 2),
+      };
+
+      if (this.isFastMode()) {
+        dojo.place(`contract-${id}`, this.getContractContainer(contract));
+        return;
+      }
+
+      this.flipAndReplace(`contract-${contract.id}`, this.tplContract(fakeContract)).then(() => {
+        if (contract.type == 1) {
+          this.slide('contract--1', this.getContractContainer(fakeContract), {
+            destroy: true,
+          }).then(() => this.addContract(contract));
+        } else {
+          let o = $('contract--1');
+          o.style.transform = 'translateX(0px)';
+          o.style.transition = 'transform 0.8s';
+          let dx = -o.offsetLeft - o.offsetWidth - 20;
+          o.style.transform = `translateX(${dx}px)`;
+          this.wait(800).then(() => {
+            o.remove();
+            this.addContract(contract);
+          });
+        }
+      });
+    },
+
     ////////////////////////////////////////////////////////
     //  _____         _       _____ _ _
     // |_   _|__  ___| |__   |_   _(_) | ___  ___
@@ -939,15 +980,6 @@ define([
 
         return tile.id;
       });
-
-      /*
-      TODO : PROBABLY USELES
-      document.querySelectorAll('.barrage-meeple[id^="meeple-"]').forEach((oMeeple) => {
-        if (!meepleIds.includes(parseInt(oMeeple.getAttribute('data-id')))) {
-          dojo.destroy(oMeeple);
-        }
-      });
-      */
     },
 
     addTechTile(tile, container = null) {
@@ -993,13 +1025,6 @@ define([
         `
       </div>`
       );
-    },
-
-    notif_fulfillContract(n) {
-      debug('Notif: someone fulfilled a contract', n);
-      contract = n.args.contract;
-      $(`contract-${contract.id}`).classList.add('fulfilled');
-      this.showMessage('animation to do');
     },
   });
 });

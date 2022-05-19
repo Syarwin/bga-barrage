@@ -124,14 +124,10 @@ class Contract extends \BRG\Helpers\DB_Model
 
   public function fulfill($company)
   {
-    // move contract to resolved
     $this->setLocation('fulfilled_' . $company->getId());
-
-    // return flow of reward
-    return $this->computeRewardFlow();
   }
 
-  private function computeRewardFlow()
+  public function computeRewardFlow()
   {
     $mapping = [
       CREDIT => [['action' => GAIN, 'args' => [CREDIT]]],
@@ -141,7 +137,7 @@ class Contract extends \BRG\Helpers\DB_Model
       VP => [['action' => GAIN, 'args' => [VP]]],
       PLACE_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => false]]],
       FLOW_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => true]]],
-      ANY_MACHINE => [['type' => NODE_XOR, 'what' => ['action' => GAIN, 'args' => [EXCAVATOR, MIXER]]]],
+      ANY_MACHINE => [['type' => NODE_XOR]],
       ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
       CONDUIT => [['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT]]],
       POWERHOUSE => [['action' => PLACE_STRUCTURE, 'args' => ['type' => POWERHOUSE]]],
@@ -166,33 +162,32 @@ class Contract extends \BRG\Helpers\DB_Model
             }
             $gainFlow['args'][$resource] += $n;
           }
-          // throw new \feException(print_r($gainFlow));
         }
         // if XOR we know it's to gain EXCAVATOR or MIXER
         elseif (isset($rFlow['type']) && $rFlow['type'] == NODE_XOR) {
-          $node = $rFlow;
           for ($i = 0; $i <= $n; $i++) {
-            $node['childs'][] = ['action' => GAIN, 'args' => [EXCAVATOR => $i, MIXER => $n - $i]];
+            $rFlow['childs'][] = ['action' => GAIN, 'args' => [EXCAVATOR => $i, MIXER => $n - $i]];
           }
-          $flows['childs'][] = $node;
-        } elseif (is_array($n)) {
+          $flows['childs'][] = $rFlow;
+        }
+        // if $n is an array, it's the constraint for placement of a structure
+        elseif (is_array($n)) {
           $rFlow['args']['constraints'] = $n;
           $flows['childs'][] = $rFlow;
-        } else {
+        }
+        // Otherwise it's just a basic action
+        else {
           $rFlow['args']['n'] = $n;
           $flows['childs'][] = $rFlow;
         }
       }
     }
 
-    // filter out 0 resource value from the gain node
+    // Add the gainFlow node
     if (!is_null($gainFlow)) {
-      $gainFlow['args'] = array_filter($gainFlow['args'], function ($r) {
-        return $r != 0;
-      });
-      \array_unshift($flows['childs'], $gainFlow);
+      array_unshift($flows['childs'], $gainFlow);
     }
-    // throw new \feException(print_r($flows));
+
     return $flows;
   }
 }

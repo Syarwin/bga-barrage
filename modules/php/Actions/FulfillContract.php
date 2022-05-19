@@ -16,41 +16,57 @@ class FulfillContract extends \BRG\Models\Action
     return \ST_FULFILL_CONTRACT;
   }
 
-  public function argsFulfillContract()
+  protected function getFulfillableContracts($company, $energy)
   {
-    $ctxArgs = Engine::getNextUnresolved()->getArgs();
-    $energy = $ctxArgs['energy'] ?? 0;
-    $company = Companies::getActive();
-
-    $contracts = $company->getContracts(false)->merge(Contracts::getNationalContracts());
-    $solvableContracts = [];
-    foreach ($contracts as $cId => $contract) {
-      if ($contract->getCost() - $company->getContractReduction() <= $energy) {
-        $solvableContracts[] = $cId;
-      }
-    }
-    return ['contracts' => $solvableContracts];
+    return $company
+      ->getAvailableContracts()
+      ->merge(Contracts::getNationalContracts())
+      ->filter(function ($contract) use ($company, $energy) {
+        return $contract->getCost() - $company->getContractReduction() <= $energy;
+      });
   }
 
-  public function stFulfillContract()
+  protected function getEnergy()
   {
-    if (empty($this->argsFulfillContract()['contracts'])) {
-      $this->resolveAction([]);
-    }
+    return $this->getCtxArgs()['energy'] ?? 0;
+  }
+
+  public function isDoable($company, $ignoreResources = false)
+  {
+    $energy = $this->getEnergy();
+    return !$this->getFulfillableContracts($company, $energy)->empty();
+  }
+
+  public function argsFulfillContract()
+  {
+    $company = Companies::getActive();
+    $energy = $this->getEnergy();
+
+    return [
+      'n' => $energy,
+      'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
+    ];
   }
 
   public function actFulfillContract($contractId)
   {
+    // Sanity checks
+    self::checkAction('actFulfillContract');
     $company = Companies::getActive();
-    $args = $this->argsFulfillContract();
-
-    // check contracts are in the args
-    if (!in_array($contractId, $args['contracts'])) {
+    $energy = $this->getEnergy();
+    $contracts = $this->getFulfillableContracts($company, $energy);
+    $contract = $contracts[$contractId] ?? null;
+    if (is_null($contract)) {
       throw new \feException('You cannot fulfill this contract. Should not happen');
     }
-    $oContract = Contracts::get($contractId);
-    Engine::insertAsChild($oContract->fulfill($company));
-    Notifications::fulfillContract($company, Contracts::get($contractId));
+
+    // Make it fulfilled
+    $contract->fulfill($company);
+    Notifications::fulfillContract($company, $contract);
+
+    // Insert its flow as a child
+    $flow = $contract->computeRewardFlow();
+    Engine::insertAsChild($flow);
 
     $this->resolveAction(['resolvedContract' => $contractId]);
   }

@@ -937,6 +937,9 @@ html {
   background-image: url("img/companies.jpg");
   background-size: 600% 100%; }
 
+.player-board {
+  overflow: hidden; }
+
 .player_panel_content {
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23; }
@@ -1070,6 +1073,10 @@ html {
   .player_panel_content .company-panel-contracts {
     display: flex;
     flex-wrap: wrap; }
+    .player_panel_content .company-panel-contracts .company-fulfilled-contracts {
+      visibility: hidden; }
+      .player_panel_content .company-panel-contracts .company-fulfilled-contracts .barrage-contract {
+        position: absolute; }
   .player_panel_content .company-panel-tech-tiles {
     display: flex;
     flex-wrap: wrap; }
@@ -1612,6 +1619,10 @@ html {
   .flip-container.flipped .flip-inner {
     transform: rotateY(180deg); }
 
+.company-panel-contracts .flip-container {
+  width: calc(var(--barrageContractScale) * 150px);
+  height: calc(var(--barrageContractScale) * 117px); }
+
 :root {
   --barrageMapScale: 0.8; }
 
@@ -2120,8 +2131,6 @@ html {
     background: url("img/contract_background.png");
     background-size: 152px 200%;
     background-clip: padding-box; }
-    .barrage-contract .contract-fixed-size[data-parity='0'] {
-      background-position-y: 100%; }
     .barrage-contract .contract-fixed-size .energy-cost {
       width: 65px;
       margin-right: -10px;
@@ -2174,6 +2183,16 @@ html {
           line-height: 1.4em;
           color: white;
           text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+  .barrage-contract[data-parity='0'] .contract-fixed-size {
+    background-position-y: 100%; }
+  .barrage-contract.fake .contract-fixed-size .energy-cost {
+    display: none; }
+  .barrage-contract.fake .contract-fixed-size .contract-reward {
+    width: 95px;
+    height: 68px;
+    background-image: url("img/contract_hands.png");
+    background-size: 500% 100%;
+    margin: 10px auto; }
 
 :root {
   --barrageTileScale: 0.5; }

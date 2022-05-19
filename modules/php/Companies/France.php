@@ -59,4 +59,9 @@ class France extends \BRG\Models\Company
     ];
     parent::__construct($row);
   }
+
+  public function getContractReduction()
+  {
+    return 3;
+  }
 }

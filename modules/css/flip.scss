@@ -10,7 +10,7 @@
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 1s;
-    transform:rotateY(0deg);
+    transform: rotateY(0deg);
 
     .flip-front,
     .flip-back {
@@ -19,7 +19,7 @@
       height: 100%;
       -webkit-backface-visibility: hidden; /* Safari */
       backface-visibility: hidden;
-      transform:rotateY(0deg);
+      transform: rotateY(0deg);
     }
 
     .flip-back {
@@ -28,6 +28,11 @@
   }
 
   &.flipped .flip-inner {
-    transform:rotateY(180deg);
+    transform: rotateY(180deg);
   }
+}
+
+.company-panel-contracts .flip-container {
+  width: calc(var(--barrageContractScale) * 150px);
+  height: calc(var(--barrageContractScale) * 117px);
 }

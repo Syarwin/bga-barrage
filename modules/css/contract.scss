@@ -43,9 +43,6 @@
     background: url('img/contract_background.png');
     background-size: 152px 200%;
     background-clip: padding-box;
-    &[data-parity='0'] {
-      background-position-y: 100%;
-    }
 
     .energy-cost {
       width: 65px;
@@ -105,6 +102,27 @@
             black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
             black 0.96017px -0.279416px 0px;
         }
+      }
+    }
+  }
+  &[data-parity='0'] .contract-fixed-size {
+    background-position-y: 100%;
+  }
+
+
+  // Back of a contract
+  &.fake {
+    .contract-fixed-size {
+      .energy-cost {
+        display: none;
+      }
+
+      .contract-reward {
+        width: 95px;
+        height: 68px;
+        background-image: url('img/contract_hands.png');
+        background-size: 500% 100%;
+        margin: 10px auto;
       }
     }
   }

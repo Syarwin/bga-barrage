@@ -204,10 +204,14 @@ $machinestates = [
 
   ST_FULFILL_CONTRACT => [
     'name' => 'fulfillContract',
-    'description' => clienttranslate('${actplayer} may choose a contract to fulfill'),
-    'descriptionmyturn' => clienttranslate('${you} may choose a contract to fulfill'),
-    'descriptionskippable' => clienttranslate('${actplayer} may choose a contract to fulfill'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may choose a contract to fulfill'),
+    'description' => '',
+    'descriptionmyturn' => '',
+    'descriptionskippable' => clienttranslate(
+      '${actplayer} may fulfill a contract with an energy requirement of at most ${n}'
+    ),
+    'descriptionmyturnskippable' => clienttranslate(
+      '${you} may fulfill a contract with an energy requirement of at most ${n}'
+    ),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',

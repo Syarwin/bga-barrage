@@ -334,26 +334,40 @@ class Company extends \BRG\Helpers\DB_Model
     ];
   }
 
-  // Contracts
-  public function getContracts($resolved = null)
+  /////////////////////////////////////////////////
+  //   ____            _                  _
+  //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___
+  // | |   / _ \| '_ \| __| '__/ _` |/ __| __/ __|
+  // | |__| (_) | | | | |_| | | (_| | (__| |_\__ \
+  //  \____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
+  //
+  /////////////////////////////////////////////////
+  public function getContracts($resolved = false)
   {
-    $q = Contracts::getSelectQuery()->where('contract_location', 'hand_' . $this->id);
-    if ($resolved === true) {
-      $q = $q->where('contract_state', 1);
-    } elseif ($resolved === false) {
-      $q = $q->where('contract_state', 0);
-    }
-    return $q->get();
+    return Contracts::getSelectQuery()
+      ->where('contract_location', 'hand_' . $this->id)
+      ->where('contract_state', $resolved ? 1 : 0)
+      ->get();
+  }
+
+  public function getAvailableContracts()
+  {
+    return Contracts::getInLocation(['hand', $this->id]);
   }
 
   public function getContractReduction()
   {
-    if (is_null($this->officer)) {
-      return 0;
-    }
-    return $this->officer->getContractReduction();
+    return 0;
   }
 
+  ////////////////////////////////////////////////
+  //  ___
+  // |_ _|_ __   ___ ___  _ __ ___   ___  ___
+  //  | || '_ \ / __/ _ \| '_ ` _ \ / _ \/ __|
+  //  | || | | | (_| (_) | | | | | |  __/\__ \
+  // |___|_| |_|\___\___/|_| |_| |_|\___||___/
+  //
+  ////////////////////////////////////////////////
   public function earnIncome()
   {
     $revenueBoard = $this->getRevenueBoard();

@@ -102,7 +102,11 @@ class Produce extends \BRG\Models\Action
     }
 
     // Contract fullfilment?
-    Engine::insertAsChild(['action' => \FULFILL_CONTRACT, 'args' => [ENERGY => $production]]);
+    Engine::insertAsChild([
+      'action' => \FULFILL_CONTRACT,
+      'optional' => true,
+      'args' => [ENERGY => $production],
+    ]);
     $this->resolveAction(['droplets' => $droplets]);
   }
 }

@@ -3,6 +3,10 @@
   background-size: 600% 100%;
 }
 
+.player-board {
+  overflow: hidden; // Used for contract slideout animation
+}
+
 .player_panel_content {
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23;
@@ -111,6 +115,13 @@
   .company-panel-contracts {
     display: flex;
     flex-wrap: wrap;
+
+    .company-fulfilled-contracts {
+      visibility: hidden;
+      .barrage-contract {
+        position: absolute;
+      }
+    }
   }
 
   .company-panel-tech-tiles {

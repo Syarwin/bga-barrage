@@ -349,24 +349,6 @@ class Notifications
    */
   protected static function updateArgs(&$data)
   {
-    if (isset($data['resource'])) {
-      $names = [
-        WOOD => clienttranslate('wood'),
-        CLAY => clienttranslate('clay'),
-        REED => clienttranslate('reed'),
-        STONE => clienttranslate('stone'),
-        GRAIN => clienttranslate('grain'),
-        VEGETABLE => clienttranslate('vegetable'),
-        SHEEP => clienttranslate('sheep'),
-        PIG => clienttranslate('pig'),
-        CATTLE => clienttranslate('cattle'),
-        FOOD => clienttranslate('food'),
-      ];
-
-      $data['resource_name'] = $names[$data['resource']];
-      $data['i18n'][] = 'resource_name';
-    }
-
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();

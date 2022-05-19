@@ -95,7 +95,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `
         </div>
       </div>
-      <div class='company-panel-contracts' id='company-contracts-${company.id}'></div>
+      <div class='company-panel-contracts' id='company-contracts-${company.id}'>
+        <div class='company-fulfilled-contracts' id='company-fulfilled-contracts-${company.id}'></div>
+      </div>
       <div class='company-panel-tech-tiles' id='company-tech-tiles-${company.id}'></div>
       <div class='company-panel-personal-resources'>
       ` +

@@ -79,7 +79,12 @@ abstract class Utils extends \APP_DbObject
       if ($amount == 0) {
         continue;
       }
-      $descs[] = $amount . '<' . strtoupper($resource) . '>';
+
+      if (in_array($resource, [ENERGY])) {
+        $descs[] = '<' . strtoupper($resource) . ':' . $amount . '>';
+      } else {
+        $descs[] = $amount . '<' . strtoupper($resource) . '>';
+      }
     }
     return implode(',', $descs);
   }
