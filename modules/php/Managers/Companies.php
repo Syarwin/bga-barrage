@@ -65,8 +65,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     return self::get($cId);
   }
 
-
-/*
+  /*
   public function setupNewGame(&$players, $options)
   {
     // Allocate companies
@@ -250,8 +249,8 @@ class Companies extends \BRG\Helpers\DB_Manager
 
   public function returnHome()
   {
-    foreach (self::getAll() as $player) {
-      $player->returnHomeFarmers();
+    foreach (self::getAll() as $company) {
+      $company->returnHomeEngineers();
     }
   }
 }

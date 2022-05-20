@@ -227,6 +227,11 @@ class Notifications
     );
   }
 
+  public static function returnHomeEngineers($engineers)
+  {
+    self::notifyAll('collectResources', '', ['resources' => $engineers]);
+  }
+
   public static function moveTokens($tokens)
   {
     self::notifyAll('collectResources', '', ['resources' => $tokens->toArray()]);
@@ -269,7 +274,7 @@ class Notifications
   public static function moveDroplets($droplets)
   {
     self::notifyAll('moveDroplets', '', [
-      'droplets' => is_array($droplets)? $droplets : $droplets->toArray(),
+      'droplets' => is_array($droplets) ? $droplets : $droplets->toArray(),
     ]);
   }
 

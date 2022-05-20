@@ -135,7 +135,7 @@ trait RoundTrait
     }
     */
 
-    // Inserting leaf PLACE_FARMER
+    // Inserting leaf PLACE_ENGINEER
     Engine::setup($node, ['order' => 'actionPhase']);
     Engine::proceed();
   }
@@ -217,12 +217,81 @@ trait RoundTrait
    ********************************/
   function stReturnHome()
   {
-    Players::returnHome();
-    Notifications::returnHome(Farmers::getAllAvailable());
-    Globals::setWorkPhase(false);
+    $creditMap = [
+      0 => [VP => -3, CREDIT => 3],
+      1 => [CREDIT => 1],
+      2 => [CREDIT => 2],
+      3 => [CREDIT => 2],
+      4 => [CREDIT => 3],
+      5 => [CREDIT => 3],
+      6 => [CREDIT => 3],
+      7 => [CREDIT => 4],
+      8 => [CREDIT => 4],
+      9 => [CREDIT => 4],
+      10 => [CREDIT => 4],
+      11 => [CREDIT => 5],
+      12 => [CREDIT => 5],
+      13 => [CREDIT => 5],
+      14 => [CREDIT => 5],
+      15 => [CREDIT => 5],
+      16 => [CREDIT => 6],
+      17 => [CREDIT => 6],
+      18 => [CREDIT => 6],
+      19 => [CREDIT => 6],
+      20 => [CREDIT => 6],
+      21 => [CREDIT => 6],
+      22 => [CREDIT => 7],
+      23 => [CREDIT => 7],
+      24 => [CREDIT => 7],
+      25 => [CREDIT => 7],
+      26 => [CREDIT => 7],
+      27 => [CREDIT => 7],
+      28 => [CREDIT => 7],
+      29 => [CREDIT => 8],
+    ];
+    // Score VP based on energy track
+    $cEnergies = Companies::getAll()->map(function ($c) {
+      return $c->getEnergy();
+    });
+    arsort($cEnergies);
+    $first = 0;
+    $countFirst = 0;
+    $countSecond = 0;
+    $second = 0;
+    $gains = [];
 
-    // 1) Listen for cards onReturnHome
-    $this->checkCardListeners('ReturnHome', ST_PRE_END_OF_TURN);
+    foreach ($cEnergies as $cId => $energy) {
+      if (!isset($gains[$cId])) {
+        $gains[$cId] = [];
+      }
+
+      // get position on the board
+      if ($energy != 0 && $energy >= $first) {
+        $first = $energy;
+        $countFirst++;
+        $gains[$cId]['track'] = 1;
+      } elseif ($energy != 0 && $energy >= $second) {
+        $second = $energy;
+        $countSecond++ . ($gains[$cId]['track'] = 2);
+      }
+
+      // Score credit based on energy track
+      $gains[$cId]['position'] = [CREDIT => $creditMap[$energy] ?? 8];
+
+      // score for bonus
+      if ($energy >= 6) {
+        //
+      }
+    }
+
+    // Score for bonus
+
+    // Change turn order
+
+    // return home of engineers
+    Companies::returnHome();
+
+    // remove advanced tiles
   }
 
   function stPreEndOfTurn()
