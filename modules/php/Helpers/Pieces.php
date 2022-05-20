@@ -332,7 +332,6 @@ class Pieces extends DB_Manager
     return self::getInLocation($location, $state, [static::$prefix . 'state', 'ASC']);
   }
 
-
   /**
    * Return number of pieces in specific location
    */
@@ -362,6 +361,9 @@ class Pieces extends DB_Manager
   {
     if (!is_array($ids)) {
       $ids = [$ids];
+    }
+    if (empty($ids)) {
+      return [];
     }
 
     self::checkLocation($location);

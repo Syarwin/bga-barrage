@@ -222,8 +222,12 @@ class Notifications
   {
     self::notifyAll(
       'collectResources',
-      clienttranslate('${company_name} recovers ${resources_desc} and  ${nb} technology tile from the wheel'),
-      ['company' => $company, 'resources' => $resources, 'tile' => $tile, 'nb' => count($tile)]
+      clienttranslate('${company_name} recovers ${resources_desc} and a technology tile from the wheel'),
+      [
+        'company' => $company,
+        'resources' => $resources->toArray(),
+        'tile' => $tile,
+      ]
     );
   }
 
