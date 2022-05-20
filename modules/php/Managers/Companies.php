@@ -249,8 +249,10 @@ class Companies extends \BRG\Helpers\DB_Manager
 
   public function returnHome()
   {
+    $engineers = [];
     foreach (self::getAll() as $company) {
-      $company->returnHomeEngineers();
+      $engineers = array_merge($engineers, $company->returnHomeEngineers());
     }
+    Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
   }
 }

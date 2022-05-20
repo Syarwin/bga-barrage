@@ -207,9 +207,12 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function returnHomeEngineers()
   {
-    $engineers = Meeples::getFilteredQuery($this->id, null, [\ENGINEER, \ARCHITECT])->getIds();
+    $engineers = Meeples::getFilteredQuery($this->id, null, [\ENGINEER, \ARCHITECT])
+      ->get()
+      ->getIds();
     Meeples::move($engineers, 'reserve');
-    Notifications::returnHomeEngineers(Meeples::getMany($engineers));
+    return $engineers;
+    // Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
   }
 
   ///////////////////////////////////////

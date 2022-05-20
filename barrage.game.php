@@ -51,6 +51,7 @@ class barrage extends Table
   use BRG\States\SetupTrait;
   use BRG\States\RoundTrait;
   use BRG\States\ActionTrait;
+  use BRG\States\BonusTileTrait;
 
   public static $instance = null;
   function __construct()

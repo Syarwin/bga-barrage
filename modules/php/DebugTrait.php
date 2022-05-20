@@ -34,12 +34,13 @@ trait DebugTrait
     // pick contract
     // $this->actTakeAtomicAction([[305, 403]]);
     // discard contracts
-    $this->actTakeAtomicAction(['C2L', 'B2L', 2]);
+    // $this->actTakeAtomicAction(['C2L', 'B2L', 2]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
     // throw new \feException(print_r(Companies::getActive()->countReserveResource()));
     // Engine::insertAsChild(['action' => \FULFILL_CONTRACT, 'args' => ['energy' => 7]]);
     // Engine::resolveAction([]);
     // Engine::proceed();
+    $this->gamestate->jumpToState(ST_RETURNING_HOME);
   }
 
   public function tv()

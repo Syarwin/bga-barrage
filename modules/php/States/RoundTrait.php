@@ -218,53 +218,60 @@ trait RoundTrait
   function stReturnHome()
   {
     $creditMap = [
-      0 => [VP => -3, CREDIT => 3],
-      1 => [CREDIT => 1],
-      2 => [CREDIT => 2],
-      3 => [CREDIT => 2],
-      4 => [CREDIT => 3],
-      5 => [CREDIT => 3],
-      6 => [CREDIT => 3],
-      7 => [CREDIT => 4],
-      8 => [CREDIT => 4],
-      9 => [CREDIT => 4],
-      10 => [CREDIT => 4],
-      11 => [CREDIT => 5],
-      12 => [CREDIT => 5],
-      13 => [CREDIT => 5],
-      14 => [CREDIT => 5],
-      15 => [CREDIT => 5],
-      16 => [CREDIT => 6],
-      17 => [CREDIT => 6],
-      18 => [CREDIT => 6],
-      19 => [CREDIT => 6],
-      20 => [CREDIT => 6],
-      21 => [CREDIT => 6],
-      22 => [CREDIT => 7],
-      23 => [CREDIT => 7],
-      24 => [CREDIT => 7],
-      25 => [CREDIT => 7],
-      26 => [CREDIT => 7],
-      27 => [CREDIT => 7],
-      28 => [CREDIT => 7],
-      29 => [CREDIT => 8],
+      0 => 3,
+      1 => 1,
+      2 => 2,
+      3 => 2,
+      4 => 3,
+      5 => 3,
+      6 => 3,
+      7 => 4,
+      8 => 4,
+      9 => 4,
+      10 => 4,
+      11 => 5,
+      12 => 5,
+      13 => 5,
+      14 => 5,
+      15 => 5,
+      16 => 6,
+      17 => 6,
+      18 => 6,
+      19 => 6,
+      20 => 6,
+      21 => 6,
+      22 => 7,
+      23 => 7,
+      24 => 7,
+      25 => 7,
+      26 => 7,
+      27 => 7,
+      28 => 7,
+      29 => 8,
     ];
-    // Score VP based on energy track
-    $cEnergies = Companies::getAll()->map(function ($c) {
-      return $c->getEnergy();
-    });
+    $necessaryEnergy = Globals::getRound() * 6;
+
+    $cEnergies = Companies::getAll()
+      ->map(function ($c) {
+        return $c->getEnergy();
+      })
+      ->toAssoc();
     arsort($cEnergies);
+
     $first = 0;
     $countFirst = 0;
     $countSecond = 0;
     $second = 0;
     $gains = [];
+    $turnOrder = [];
 
     foreach ($cEnergies as $cId => $energy) {
       if (!isset($gains[$cId])) {
         $gains[$cId] = [];
       }
+      $turnOrder[$energy][] = $cId;
 
+      // Score VP based on energy track
       // get position on the board
       if ($energy != 0 && $energy >= $first) {
         $first = $energy;
@@ -277,32 +284,107 @@ trait RoundTrait
 
       // Score credit based on energy track
       $gains[$cId]['position'] = [CREDIT => $creditMap[$energy] ?? 8];
+      $gains[$cId]['malus'] = [VP => $energy == 0 ? -3 : 0];
 
       // score for bonus
       if ($energy >= 6) {
-        //
+        $bonus = $this->calculateRoundBonus($cId);
+        if ($energy >= $necessaryEnergy) {
+          $malus = 0;
+        } else {
+          $malus = ceil(($necessaryEnergy - $energy) / 6) * 4;
+        }
+        if ($bonus - $malus > 0) {
+          $gains[$cId]['bonus'] = [VP => $bonus - $malus];
+        }
       }
     }
 
-    // Score for bonus
+    $flow = ['type' => NODE_SEQ, 'childs' => []];
+    foreach ($gains as $cId => $bonuses) {
+      $node = ['action' => GAIN, 'automatic' => true, 'cId' => $cId, 'args' => ['cId' => $cId]];
+      foreach ($bonuses as $bonusType => $resources) {
+        if ($bonusType == 'track') {
+          if (!isset($node['args'][VP])) {
+            $node['args'][VP] = 0;
+          }
+
+          if ($resources == 1 && $countFirst == 1) {
+            $node['args'][VP] += 6;
+          } elseif ($resources == 1) {
+            // we split evenly
+            $node['args'][VP] += ceil(8 / $countFirst);
+          }
+          if ($resources == 2 && $countFirst == 1 && $countSecond == 1) {
+            $node['args'][VP] += 2;
+          } elseif ($resources == 2 && $countFirst == 1 && $countSecond != 1) {
+            $node['args'][VP] += 1;
+          }
+        } else {
+          $node['args'] = array_merge($node['args'], $resources);
+        }
+      }
+      $flow['childs'][] = $node;
+    }
+    Engine::setup($flow, ['method' => 'stPreEndOfTurn']);
 
     // Change turn order
+    ksort($turnOrder, SORT_NUMERIC);
+    $finalOrder = [];
+    $cCount = 1;
+    foreach ($turnOrder as $en => &$companies) {
+      // No tie in energy production
+      if (count($companies) == 1) {
+        $cId = array_pop($companies);
+        $finalOrder[$cCount] = $cId;
+        Companies::get($cId)->setNo($cCount);
+        $cCount++;
+      } else {
+        usort($companies, function ($c1, $c2) {
+          return Companies::get($c2)->getNo() - Companies::get($c1)->getNo();
+        });
 
+        for ($i = 0; $i < count($companies) / 2; $i++) {
+          $c1 = $companies[$i];
+          $c2 = $companies[count($companies) - 1 - $i];
+          // setting turn order for player that was placed before
+          $finalOrder[$cCount] = $c2;
+          Companies::get($c2)->setNo($cCount);
+          $cCount++;
+
+          $finalOrder[$cCount] = $c1;
+          Companies::get($c1)->setNo($cCount);
+          $cCount++;
+        }
+      }
+    }
     // return home of engineers
     Companies::returnHome();
 
-    // remove advanced tiles
+    // reset energy on track
+    foreach (Companies::getAll() as $cId => $company) {
+      $company->setEnergy(0);
+    }
+    Meeples::move(
+      Meeples::getFilteredQuery(null, null, [SCORE])
+        ->get()
+        ->getIds(),
+      'energy-track-0'
+    );
+    Notifications::moveTokens(Meeples::getFilteredQuery(null, null, [SCORE])->get());
+
+    // TODO: remove advanced tiles
+    Engine::proceed();
   }
 
   function stPreEndOfTurn()
   {
-    // Next turn or harvest
+    // Next turn or final scoring
     $round = Globals::getRound();
-    $harvest = [4, 7, 9, 11, 13, 14];
-    if (in_array($turn, $harvest)) {
-      $this->checkCardListeners('BeforeHarvest', ST_START_HARVEST);
+    if ($round < 5) {
+      $this->gamestate->jumpToState(ST_BEFORE_START_OF_ROUND);
     } else {
-      $this->gamestate->nextState('end');
+      $this->gamestate->nextState('endScoring');
     }
   }
 

@@ -135,7 +135,7 @@ class Notifications
   public static function fillHeadstreams($meeples)
   {
     self::notifyAll('gainResources', clienttranslate('Filling headstreams'), [
-      'resources' => $meeples,
+      'resources' => $meeples->toArray(),
     ]);
   }
 

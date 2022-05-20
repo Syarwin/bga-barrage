@@ -167,19 +167,18 @@ const DROPLET = 'droplet';
 const SCORE = 'score';
 const ENERGY = 'energy';
 const VP = 'vp';
+const ENGINEER = 'engineer';
+const ARCHITECT = 'architect';
+const N_ARCHITECT = -1;
 
 const MACHINERIES = [EXCAVATOR, MIXER];
-const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET, VP, ENERGY];
+const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET, VP, ENERGY, ENGINEER, ARCHITECT];
 
 const BASE = 'base';
 const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
 const JOKER = 'joker';
-
-const ENGINEER = 'engineer';
-const ARCHITECT = 'architect';
-const N_ARCHITECT = -1;
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
 
