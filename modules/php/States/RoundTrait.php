@@ -251,6 +251,16 @@ trait RoundTrait
     ];
     $necessaryEnergy = Globals::getRound() * 6;
 
+    // water flow
+    $droplets = Meeples::getSelectQuery()
+      ->where('type', DROPLET)
+      ->get();
+    $notifs = [];
+    foreach ($droplets as $dId => $droplet) {
+      $notifs = array_merge($notifs, Map::flow($droplet));
+    }
+    Notifications::moveDroplets($notifs);
+
     $cEnergies = Companies::getAll()
       ->map(function ($c) {
         return $c->getEnergy();
@@ -321,7 +331,13 @@ trait RoundTrait
             $node['args'][VP] += 1;
           }
         } else {
-          $node['args'] = array_merge($node['args'], $resources);
+          foreach ($resources as $type => $amount) {
+            if (isset($node['args'][$type])) {
+              $node['args'][$type] += $amount;
+            } else {
+              $node['args'][$type] = $amount;
+            }
+          }
         }
       }
       $flow['childs'][] = $node;
@@ -361,6 +377,8 @@ trait RoundTrait
     // return home of engineers
     Companies::returnHome();
 
+    // TODO: Notify turn order
+
     // reset energy on track
     foreach (Companies::getAll() as $cId => $company) {
       $company->setEnergy(0);
@@ -374,6 +392,10 @@ trait RoundTrait
     Notifications::moveTokens(Meeples::getFilteredQuery(null, null, [SCORE])->get());
 
     // TODO: remove advanced tiles
+
+    // remove the bonus tile
+    Notifications::removeBonusTile(Globals::getRound());
+
     Engine::proceed();
   }
 

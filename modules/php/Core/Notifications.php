@@ -158,6 +158,13 @@ class Notifications
     ]);
   }
 
+  public static function removeBonusTile($bonus)
+  {
+    self::notifyAll('silentDestroy', '', [
+      'bonusTile' => $bonus,
+    ]);
+  }
+
   public static function payResources($company, $resources, $source, $cardSources = [], $cardNames = [])
   {
     $data = [

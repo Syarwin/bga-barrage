@@ -298,6 +298,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (n.args.hasOwnProperty('contracts')) {
         n.args.contracts.forEach((contract) => dojo.destroy('contract-' + contract));
       }
+      if (n.args.hasOwnProperty('bonusTile')) {
+        dojo.destroy('bonus-tile-' + n.args.bonusTile);
+      }
     },
 
     /**

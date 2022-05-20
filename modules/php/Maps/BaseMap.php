@@ -231,7 +231,7 @@ class BaseMap extends AbstractMap
       'B1L' => 'P8_0',
       'B2L' => 'P5_0',
       'B3L' => 'P6_0',
-      'B4L' => 'P70',
+      'B4L' => 'P7_0',
       'P8' => 'B8U',
       'P5' => 'B5U',
       'P6' => 'B6U',

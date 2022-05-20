@@ -93,6 +93,7 @@ class barrage extends Table
       'bonusTiles' => Globals::getBonusTiles(),
       'contracts' => Contracts::getUiData(),
       'techTiles' => TechnologyTiles::getUiData(),
+      'round' => Globals::getRound(),
     ];
   }
 

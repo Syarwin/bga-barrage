@@ -309,6 +309,8 @@ define([
         let slot = dojo.place(`<div id='bonus-tile-slot-${i}' class='bonus-tile-slot'></div>`, portion);
         if (i == 0) {
           this.addCustomTooltip(slot, _('No bonus if < 6 energy'));
+        } else if (i < this.gamedatas.round) {
+          // do nothing
         } else {
           let bonusId = this.gamedatas.bonusTiles[i - 1];
           dojo.place(`<div class='bonus-tile' id='bonus-tile-${i}' data-id='${bonusId}'></div>`, slot);

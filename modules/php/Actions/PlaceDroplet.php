@@ -55,10 +55,12 @@ class PlaceDroplet extends \BRG\Models\Action
     );
 
     if ($args['flow']) {
+      $notifs = [];
       Notifications::message(clienttranslate('Droplets are flowing'));
       foreach ($created as $droplet) {
-        Map::flow($droplet);
+        $notifs = array_merge($notifs, Map::flow($droplet));
       }
+      Notifications::moveDroplets($notifs);
     }
     $this->resolveAction(['created' => $created]);
   }
