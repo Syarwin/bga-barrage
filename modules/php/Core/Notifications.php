@@ -284,9 +284,7 @@ class Notifications
 
   public static function moveDroplets($droplets)
   {
-    self::notifyAll('moveDroplets', '', [
-      'droplets' => is_array($droplets) ? $droplets : $droplets->toArray(),
-    ]);
+    self::notifyAll('moveDroplets', '', ['slide' => $droplets['slide'], 'destroy' => $droplets['destroy']]);
   }
 
   public static function produce($company, $powerhouseSpaceId, $energy, $droplets)

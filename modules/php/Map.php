@@ -147,7 +147,7 @@ class Map
         throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
       }
     }
-    $notif = [];
+    $notifs = ['slide' => [], 'destroy' => []];
     $blocked = false;
     $rivers = self::getRivers();
     do {
@@ -166,7 +166,7 @@ class Map
 
       // Move the droplet to that location
       $droplet['location'] = $basin;
-      $notifs[] = ['meeple' => $droplet, 'type' => 'slide'];
+      $notifs['slide'][] = $droplet;
       // Notifications::moveDroplets([$droplet]);
       // TODO : handle company that gain thing when water pass by powerhouse
 
@@ -174,7 +174,7 @@ class Map
       if ($basin == 'EXIT') {
         $blocked = true;
         Meeples::DB()->delete($droplet['id']);
-        $notifs[] = ['meeple' => $droplet, 'type' => 'destroy'];
+        $notifs['destroy'][] = $droplet;
         // Notifications::silentDestroy([$droplet]);
       }
       // Droplet is blocked

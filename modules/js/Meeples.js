@@ -287,7 +287,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_moveDroplets(n) {
       debug('Notif: moving droplets', n);
-      this.slideResources(n.args.droplets, {});
+      this.slideResources(n.args.slide, {});
+      n.args.destroy.forEach((droplet) => dojo.destroy('meeple-' + droplet.id));
     },
 
     notif_silentDestroy(n) {
