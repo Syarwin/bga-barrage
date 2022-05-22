@@ -344,57 +344,59 @@ trait RoundTrait
     }
     Engine::setup($flow, ['method' => 'stPreEndOfTurn']);
 
-    // Change turn order
-    ksort($turnOrder, SORT_NUMERIC);
-    $finalOrder = [];
-    $cCount = 1;
-    foreach ($turnOrder as $en => &$companies) {
-      // No tie in energy production
-      if (count($companies) == 1) {
-        $cId = array_pop($companies);
-        $finalOrder[$cCount] = $cId;
-        Companies::get($cId)->setNo($cCount);
-        $cCount++;
-      } else {
-        usort($companies, function ($c1, $c2) {
-          return Companies::get($c2)->getNo() - Companies::get($c1)->getNo();
-        });
-
-        for ($i = 0; $i < count($companies) / 2; $i++) {
-          $c1 = $companies[$i];
-          $c2 = $companies[count($companies) - 1 - $i];
-          // setting turn order for player that was placed before
-          $finalOrder[$cCount] = $c2;
-          Companies::get($c2)->setNo($cCount);
+    if (Globals::getRound() < 5) {
+      // Change turn order
+      ksort($turnOrder, SORT_NUMERIC);
+      $finalOrder = [];
+      $cCount = 1;
+      foreach ($turnOrder as $en => &$companies) {
+        // No tie in energy production
+        if (count($companies) == 1) {
+          $cId = array_pop($companies);
+          $finalOrder[$cCount] = $cId;
+          Companies::get($cId)->setNo($cCount);
           $cCount++;
+        } else {
+          usort($companies, function ($c1, $c2) {
+            return Companies::get($c2)->getNo() - Companies::get($c1)->getNo();
+          });
 
-          $finalOrder[$cCount] = $c1;
-          Companies::get($c1)->setNo($cCount);
-          $cCount++;
+          for ($i = 0; $i < count($companies) / 2; $i++) {
+            $c1 = $companies[$i];
+            $c2 = $companies[count($companies) - 1 - $i];
+            // setting turn order for player that was placed before
+            $finalOrder[$cCount] = $c2;
+            Companies::get($c2)->setNo($cCount);
+            $cCount++;
+
+            $finalOrder[$cCount] = $c1;
+            Companies::get($c1)->setNo($cCount);
+            $cCount++;
+          }
         }
       }
+      // return home of engineers
+      Companies::returnHome();
+
+      // TODO: Notify turn order
+
+      // reset energy on track
+      foreach (Companies::getAll() as $cId => $company) {
+        $company->setEnergy(0);
+      }
+      Meeples::move(
+        Meeples::getFilteredQuery(null, null, [SCORE])
+          ->get()
+          ->getIds(),
+        'energy-track-0'
+      );
+      Notifications::moveTokens(Meeples::getFilteredQuery(null, null, [SCORE])->get());
+
+      // TODO: remove advanced tiles
+
+      // remove the bonus tile
+      Notifications::removeBonusTile(Globals::getRound());
     }
-    // return home of engineers
-    Companies::returnHome();
-
-    // TODO: Notify turn order
-
-    // reset energy on track
-    foreach (Companies::getAll() as $cId => $company) {
-      $company->setEnergy(0);
-    }
-    Meeples::move(
-      Meeples::getFilteredQuery(null, null, [SCORE])
-        ->get()
-        ->getIds(),
-      'energy-track-0'
-    );
-    Notifications::moveTokens(Meeples::getFilteredQuery(null, null, [SCORE])->get());
-
-    // TODO: remove advanced tiles
-
-    // remove the bonus tile
-    Notifications::removeBonusTile(Globals::getRound());
 
     Engine::proceed();
   }
@@ -406,63 +408,27 @@ trait RoundTrait
     if ($round < 5) {
       $this->gamestate->jumpToState(ST_BEFORE_START_OF_ROUND);
     } else {
-      $this->gamestate->nextState('endScoring');
+      $this->gamestate->jumpToState(ST_PRE_END_OF_GAME);
     }
   }
 
-  function stEndOfTurn()
+  function stEndScoring()
   {
-    if (Globals::isHarvest()) {
-      Globals::setSkipHarvest([]);
-    }
-
-    Globals::setHarvest(false);
-    if (Globals::getTurn() == 14) {
-      $this->gamestate->nextState('end');
-      return;
-    }
-
-    // Pig Breeder
-    if (Globals::getTurn() == 12) {
-      $card = PlayerCards::getSingle('A165_PigBreeder', false);
-      if ($card != null && $card->isPlayed()) {
-        $player = $card->getPlayer();
-        if ($player->breed(PIG, clienttranslate("Pig breeder's effect"))) {
-          // Inserting leaf REORGANIZE
-          Engine::setup(
-            [
-              'pId' => $player->getId(),
-              'action' => REORGANIZE,
-              'args' => [
-                'trigger' => HARVEST,
-                'breedTypes' => [PIG => true],
-              ],
-            ],
-            ['state' => ST_BEFORE_START_OF_TURN]
-          );
-          Engine::proceed();
-          return;
-        }
+    $flow = ['type' => NODE_SEQ, 'childs' => []];
+    $this->calculateObjectiveTile();
+    foreach (Companies::getAll() as $cId => $company) {
+      $count = 0;
+      foreach ([CREDIT, EXCAVATOR, MIXER, EXCAMIXER] as $type) {
+        $count += $company->countReserveResource($type);
+      }
+      if ($count >= 5) {
+        $flow['childs'][] = [
+          'action' => GAIN,
+          'args' => ['cId' => $company->getId(), VP => intdiv($count, 5), 'source' => clienttranslate('End scoring')],
+        ];
       }
     }
-
-    $this->gamestate->nextState('newTurn');
-  }
-
-  function stPreEndOfGame()
-  {
-    $this->checkCardListeners('BeforeEndOfGame', 'stLaunchEndOfGame');
-  }
-
-  function stLaunchEndOfGame()
-  {
-    foreach (PlayerCards::getAllCardsWithMethod('EndOfGame') as $card) {
-      $card->onEndOfGame();
-    }
-    Globals::setTurn(15);
-    Globals::setLiveScoring(true);
-    Scores::update(true);
-    Notifications::seed(Globals::getGameSeed());
-    $this->gamestate->jumpToState(\ST_END_GAME);
+    Engine::setup($flow, ['state' => ST_END_GAME]);
+    Engine::proceed();
   }
 }

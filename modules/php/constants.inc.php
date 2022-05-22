@@ -163,6 +163,7 @@ const INTRODUCTORY_MATCHUPS = [
 const CREDIT = 'credit';
 const EXCAVATOR = 'excavator';
 const MIXER = 'mixer';
+const EXCAMIXER = 'excamixer';
 const DROPLET = 'droplet';
 const SCORE = 'score';
 const ENERGY = 'energy';

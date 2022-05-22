@@ -274,8 +274,16 @@ $machinestates = [
     'name' => 'endOfTurn',
     'description' => '',
     'type' => 'game',
-    'transitions' => ['end' => ST_END_GAME, 'next' => ST_BEFORE_START_OF_ROUND],
+    'transitions' => ['end' => ST_PRE_END_OF_GAME, 'next' => ST_BEFORE_START_OF_ROUND],
     'action' => 'stReturnHome',
+  ],
+
+  ST_PRE_END_OF_GAME => [
+    'name' => 'endScoring',
+    'description' => '',
+    'type' => 'game',
+    'transitions' => ['' => ST_END_GAME],
+    'action' => 'stEndScoring',
   ],
 
   // Final state.

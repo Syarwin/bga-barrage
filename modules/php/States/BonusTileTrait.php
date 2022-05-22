@@ -10,6 +10,7 @@ use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Models\PlayerBoard;
 use BRG\Core\Notifications;
+use BRG\Map;
 
 trait BonusTileTrait
 {
@@ -62,5 +63,68 @@ trait BonusTileTrait
         break;
     }
     throw new \feException('bonus tile not implemnted');
+  }
+
+  public function calculateObjectiveTile()
+  {
+    $tile = Globals::getObjectiveTile();
+    $score = [];
+    $map = Map::getZones();
+    foreach (Companies::getAll() as $cId => $company) {
+      switch ($tile) {
+        case OBJECTIVE_PAYING_SLOT:
+          $c = 0;
+          $meeples = Meeples::getFilteredQuery($cId, null, [BASE, POWERHOUSE])
+            ->whereNotIn('meeple_location', ['company'])
+            ->get();
+          foreach ($meeples as $mId => $m) {
+            if ($m['type'] == BASE && substr($m['location'], -1) == 'U') {
+              $c++;
+            }
+            if ($m['type'] == POWERHOUSE) {
+              $zone = substr(explode('_', $m['location'])[0], 1);
+              $pow = explode('_', $m['location'])[1];
+              $cost = $map[$zone]['powerhouses'][$pow] ?? 0;
+              if ($cost == 3) {
+                $c++;
+              }
+            }
+          }
+          $score[$c][] = $cId;
+          break;
+        case OBJECTIVE_MOST_STRUCTURE:
+          $max = 0;
+          foreach ($map as $zId => $zone) {
+            $locations = $zone['basins'] ?? [];
+            $locations = array_merge($locations, array_keys($zone['conduits'] ?? []));
+            for ($i = 0; $i < count($zone['powerhouses'] ?? []); $i++) {
+              $locations[] = 'P' . $zId . '_' . $i;
+            }
+            $c = Meeples::getFilteredQuery($cId, $locations, [BASE, ELEVATION, CONDUIT, POWERHOUSE])->count();
+            $max = max($c, $max);
+          }
+          $score[$max][] = $cId;
+          break;
+        case OBJECTIVE_CONNECTIONS:
+          break;
+        case OBJECTIVE_LEAST_STRUCTURE:
+          $max = 999;
+          foreach ($map as $zId => $zone) {
+            $locations = $zone['basins'] ?? [];
+            $locations = array_merge($locations, array_keys($zone['conduits'] ?? []));
+            for ($i = 0; $i < count($zone['powerhouses'] ?? []); $i++) {
+              $locations[] = 'P' . $zId . '_' . $i;
+            }
+            $c = Meeples::getFilteredQuery($cId, $locations, [BASE, ELEVATION, CONDUIT, POWERHOUSE])->count();
+            $max = min($c, $max);
+          }
+          $score[$max * -1][] = $cId;
+          break;
+        case OBJECTIVE_BASIN_ONE:
+          break;
+        case OBJECTIVE_BASIN_THREE:
+          break;
+      }
+    }
   }
 }
