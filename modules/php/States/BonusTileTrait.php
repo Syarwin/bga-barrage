@@ -95,12 +95,12 @@ trait BonusTileTrait
         case OBJECTIVE_MOST_STRUCTURE:
           $max = 0;
           foreach ($map as $zId => $zone) {
-            $locations = $zone['basins'] ?? [];
-            $locations = array_merge($locations, array_keys($zone['conduits'] ?? []));
-            for ($i = 0; $i < count($zone['powerhouses'] ?? []); $i++) {
-              $locations[] = 'P' . $zId . '_' . $i;
-            }
-            $c = Meeples::getFilteredQuery($cId, $locations, [BASE, ELEVATION, CONDUIT, POWERHOUSE])->count();
+            $c = Meeples::getFilteredQuery($cId, Map::getLocationsInZone($zId), [
+              BASE,
+              ELEVATION,
+              CONDUIT,
+              POWERHOUSE,
+            ])->count();
             $max = max($c, $max);
           }
           $score[$max][] = $cId;
@@ -110,12 +110,12 @@ trait BonusTileTrait
         case OBJECTIVE_LEAST_STRUCTURE:
           $max = 999;
           foreach ($map as $zId => $zone) {
-            $locations = $zone['basins'] ?? [];
-            $locations = array_merge($locations, array_keys($zone['conduits'] ?? []));
-            for ($i = 0; $i < count($zone['powerhouses'] ?? []); $i++) {
-              $locations[] = 'P' . $zId . '_' . $i;
-            }
-            $c = Meeples::getFilteredQuery($cId, $locations, [BASE, ELEVATION, CONDUIT, POWERHOUSE])->count();
+            $c = Meeples::getFilteredQuery($cId, Map::getLocationsInZone($zId), [
+              BASE,
+              ELEVATION,
+              CONDUIT,
+              POWERHOUSE,
+            ])->count();
             $max = min($c, $max);
           }
           $score[$max * -1][] = $cId;

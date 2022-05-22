@@ -91,4 +91,16 @@ abstract class AbstractMap
 
     return $basins;
   }
+
+  public function getLocationsInZone($zId)
+  {
+    $zone = $this->getZones()[$zId];
+
+    $locations = $zone['basins'] ?? [];
+    $locations = array_merge($locations, array_keys($zone['conduits'] ?? []));
+    for ($i = 0; $i < count($zone['powerhouses'] ?? []); $i++) {
+      $locations[] = 'P' . $zId . '_' . $i;
+    }
+    return $locations;
+  }
 }
