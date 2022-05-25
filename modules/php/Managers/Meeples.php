@@ -74,7 +74,11 @@ class Meeples extends \BRG\Helpers\Pieces
       }
     }
     if ($location != null) {
-      $query = $query->where('meeple_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
+      if (is_array($location)) {
+        $query = $query->whereIn('meeple_location', $location);
+      } else {
+        $query = $query->where('meeple_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
+      }
     }
     if ($type != null) {
       if (is_array($type)) {
