@@ -52,16 +52,17 @@ class Construct extends \BRG\Models\Action
           ],
         ];
         // 5bis] (OPT) Slot cost
-        if (($slot['cost'] ?? 0) > 0) {
-          $childs[] = [
-            'action' => PAY,
-            'args' => [
-              'nb' => $slot['cost'],
-              'costs' => Utils::formatCost([CREDIT => 1]),
-              'source' => clienttranslate('building space'),
-            ],
-          ];
-        }
+        // moved in place structure
+        // if (($slot['cost'] ?? 0) > 0) {
+        //   $childs[] = [
+        //     'action' => PAY,
+        //     'args' => [
+        //       'nb' => $slot['cost'],
+        //       'costs' => Utils::formatCost([CREDIT => 1]),
+        //       'source' => clienttranslate('building space'),
+        //     ],
+        //   ];
+        // }
 
         // Construct the flow
         $flow = [

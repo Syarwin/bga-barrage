@@ -84,9 +84,11 @@ class PlaceEngineer extends \BRG\Models\Action
       if ($n == 0) {
         // BANK
         $choices = range(1, $company->countAvailableEngineers());
-      } elseif ($n == 1 && $company->isXO(XO_TOMMASO)) {
-        $choices[] = N_ARCHITECT;
       }
+      // TODO: XO_TOMMASO
+      // elseif ($n == 1 && $company->isXO(XO_TOMMASO)) {
+      //   $choices[] = N_ARCHITECT;
+      // }
 
       return $choices;
     });
