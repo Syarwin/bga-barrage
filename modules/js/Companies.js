@@ -84,7 +84,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       );
       return (
         `<div class='company-info'>
-        <div class='company-no' id='company-no-${company.id}'>${no}</div>
+        <div class='company-no' id='company-position-${company.no}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
       </div>
@@ -397,6 +397,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_score(n) {
       debug('Notif: updating scores', n);
+    },
+
+    notif_updateTurnOrder(n) {
+      debug('Notif: updating turn order', n);
+      // TODO: see how it can be placed before
+      n.args.companies.forEach((company) => {
+        this.slide(
+          'company-position-' + company.no,
+          $('overall_player_board_' + company.pId).getElementsByClassName('company-info')[0],
+        );
+      });
     },
   });
 });

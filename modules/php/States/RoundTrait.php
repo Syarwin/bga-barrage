@@ -379,6 +379,7 @@ trait RoundTrait
       Companies::returnHome();
 
       // TODO: Notify turn order
+      Notifications::updateTurnOrder(Companies::getAll());
 
       // reset energy on track
       foreach (Companies::getAll() as $cId => $company) {
@@ -451,9 +452,9 @@ trait RoundTrait
       }
     }
     // debug
-    Engine::setup($flow, ['state' => ST_BEFORE_START_OF_ROUND]);
+    // Engine::setup($flow, ['state' => ST_BEFORE_START_OF_ROUND]);
 
-    // Engine::setup($flow, ['state' => ST_END_GAME]);
+    Engine::setup($flow, ['state' => ST_END_GAME]);
     Engine::proceed();
   }
 }

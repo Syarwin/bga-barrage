@@ -62,6 +62,7 @@ define([
         ['pickContracts', 1000],
         ['fulfillContract', 2000],
         ['refillStacks', 1000],
+        ['updateTurnOrder', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
