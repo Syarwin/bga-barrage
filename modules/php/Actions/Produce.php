@@ -79,9 +79,7 @@ class Produce extends \BRG\Models\Action
     $company->incEnergy($production, true);
 
     // Let water flows
-    foreach ($droplets as $droplet) {
-      Map::flow($droplet);
-    }
+    Map::flowDroplets($droplets);
 
     // Pay X credit to other player if needed
     if ($system['conduitOwnerId'] != $company->getId()) {

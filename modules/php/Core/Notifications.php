@@ -284,7 +284,7 @@ class Notifications
 
   public static function moveDroplets($droplets)
   {
-    self::notifyAll('moveDroplets', '', ['slide' => $droplets['slide'], 'destroy' => $droplets['destroy']]);
+    self::notifyAll('moveDroplets', '', ['droplets' => $droplets->toArray()]);
   }
 
   public function updateTurnOrder($companies)

@@ -212,7 +212,7 @@ trait RoundTrait
 
   /********************************
    ********************************
-   ********** END OF TURN *********
+   ********** END OF ROUND ********
    ********************************
    ********************************/
   function stReturnHome()
@@ -255,11 +255,7 @@ trait RoundTrait
     $droplets = Meeples::getSelectQuery()
       ->where('type', DROPLET)
       ->get();
-    $notifs = [];
-    foreach ($droplets as $dId => $droplet) {
-      $notifs = array_merge($notifs, Map::flow($droplet));
-    }
-    Notifications::moveDroplets($notifs);
+    Map::flowDroplets($droplets);
 
     $cEnergies = Companies::getAll()
       ->map(function ($c) {

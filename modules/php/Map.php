@@ -138,7 +138,28 @@ class Map
   //
   ////////////////////////////////////////////////////////////
 
-  public function flow($droplet)
+  public function flowDroplets($droplets)
+  {
+    foreach ($droplets as &$droplet) {
+      $path = self::getFlowPath($droplet);
+      $droplet['path'] = $path;
+      $location = $path[count($path) - 1];
+
+      // Check whether the last location is EXIT or not
+      if ($location == 'EXIT') {
+        Meeples::DB()->delete($droplet['id']);
+      } else {
+        Meeples::move($droplet['id'], $location);
+      }
+    }
+
+    Notifications::moveDroplets($droplets);
+
+    // TODO : handle company that gain thing when water pass by powerhouse
+    // => postpone the notifications in this case somehow !
+  }
+
+  public function getFlowPath($droplet)
   {
     // Sanity check
     if (!is_array($droplet)) {
@@ -147,13 +168,12 @@ class Map
         throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
       }
     }
-    $notifs = ['slide' => [], 'destroy' => []];
+    $location = $droplet['location'];
+    $path = [];
     $blocked = false;
     $rivers = self::getRivers();
     do {
       // Search for the next location
-      $original = $droplet;
-      $location = $droplet['location'];
       if ($location[0] == 'P') {
         $location = explode('_', $location)[0];
       }
@@ -165,27 +185,17 @@ class Map
       }
 
       // Move the droplet to that location
-      $droplet['location'] = $basin;
-      $notifs['slide'][] = $droplet;
-      // Notifications::moveDroplets([$droplet]);
-      // TODO : handle company that gain thing when water pass by powerhouse
+      $location = $basin;
+      $path[] = $basin;
 
-      // If location is EXIT, destroy the droplet
-      if ($basin == 'EXIT') {
-        $blocked = true;
-        Meeples::DB()->delete($droplet['id']);
-        $notifs['destroy'][] = $droplet;
-        // Notifications::silentDestroy([$droplet]);
-      }
-      // Droplet is blocked
+      // If location is EXIT or Droplet is blocked by dam, stop here
       // TODO : handle company that can hold 4 droplet with 3 elevation or sthg like that
-      elseif (self::countDropletsInBasin($basin) < self::countDamsInBasin($basin)) {
-        Meeples::move($droplet['id'], $basin);
+      if ($basin == 'EXIT' || self::countDropletsInBasin($basin) < self::countDamsInBasin($basin)) {
         $blocked = true;
       }
     } while (!$blocked);
 
-    return $notifs;
+    return $path;
   }
 
   /////////////////////////////////////////////////////////////

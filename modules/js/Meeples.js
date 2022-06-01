@@ -133,21 +133,24 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`);
       }
       // Droplets
-      else if (
-        meeple.type == 'droplet' &&
-        (meeple.location == 'HA' || meeple.location == 'HB' || meeple.location == 'HC' || meeple.location == 'HD')
-      ) {
-        return $('brg-map').querySelector(`.headstream[data-id="${meeple.location}"]`);
-      } else if (meeple.location == 'EXIT') {
-        return $('exit');
-      } else if (meeple.type == 'droplet' && meeple.location.indexOf('B') == 0) {
-        return $('brg-map').querySelector(`.basin[data-id="${meeple.location}"]`);
-      } else if (meeple.type == 'droplet') {
-        return $('brg-map').querySelector(`[data-id="${meeple.location}"]`);
+      else if (meeple.type == 'droplet') {
+        return this.getDropletContainer(meeple.location);
       }
 
       console.error('Trying to get container of a meeple', meeple);
       return 'game_play_area';
+    },
+
+    getDropletContainer(location) {
+      if (['HA', 'HB', 'HC', 'HD'].includes(location)) {
+        return $('brg-map').querySelector(`.headstream[data-id="${location}"]`);
+      } else if (location == 'EXIT') {
+        return $('exit');
+      } else if (location.indexOf('B') == 0) {
+        return $('brg-map').querySelector(`.basin[data-id="${location}"]`);
+      } else {
+        return $('brg-map').querySelector(`[data-id="${location}"]`);
+      }
     },
 
     /**
@@ -287,8 +290,33 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_moveDroplets(n) {
       debug('Notif: moving droplets', n);
-      this.slideResources(n.args.slide, {});
-      n.args.destroy.forEach((droplet) => dojo.destroy('meeple-' + droplet.id));
+      let maxDuration = 0;
+      Promise.all(
+        n.args.droplets.map((droplet, j) => {
+          let oDroplet = $(`meeple-${droplet.id}`);
+          let lastLocation = droplet.path[droplet.path - 1];
+          if (this.isFastMode()) {
+            // Fast mode => no need for fancy animations
+            if (lastLocation == 'EXIT') oDroplet.remove();
+            else dojo.place(oDroplet, this.getDropletContainer(lastLocation));
+            this.notifqueue.setSynchronousDuration(0);
+            return;
+          }
+
+          let promises = Promise.resolve();
+          droplet.path.forEach((location, i) => {
+            promises = promises.then(() => this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }));
+          });
+
+          return promises.then(() => {
+            if (lastLocation == 'EXIT') {
+              oDroplet.remove();
+            }
+          });
+        }),
+      ).then(() => {
+        this.notifqueue.setSynchronousDuration(10);
+      });
     },
 
     notif_silentDestroy(n) {
