@@ -98,21 +98,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       <div class='company-panel-contracts' id='company-contracts-${company.id}'>
         <div class='company-fulfilled-contracts' id='company-fulfilled-contracts-${company.id}'></div>
       </div>
-      <div class='company-panel-tech-tiles' id='company-tech-tiles-${company.id}'></div>
       <div class='company-panel-personal-resources'>
       ` +
         PERSONAL_RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
         `
       </div>
       <div class='company-panel-wheel-container'>
-        <div class='company-wheel-logo'></div>
-        <div class='company-wheel'>
-          <div class='wheel-slot'></div>
-          <div class='wheel-slot'></div>
-          <div class='wheel-slot'></div>
-          <div class='wheel-slot'></div>
-          <div class='wheel-slot'></div>
-          <div class='wheel-slot'></div>
+        <div class='company-panel-tech-tiles' id='company-tech-tiles-${company.id}'></div>
+        <div class='company-summary-wheel'>
+          <div class='summary-wheel-inner' id='summary-wheel-${company.id}'>
+            <div class='summary-wheel-sector'></div>
+            <div class='summary-wheel-sector'></div>
+            <div class='summary-wheel-sector'></div>
+            <div class='summary-wheel-sector'></div>
+            <div class='summary-wheel-sector'></div>
+            <div class='summary-wheel-sector'></div>
+          </div>
         </div>
       </div>
       `
@@ -227,20 +228,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           </div>
         </div>
       </div>`;
-    },
-
-    updateWheelAngle(company) {
-      let wheel = $(`wheel-${company.id}`);
-      let angle = parseInt(company.wheelAngle);
-      wheel.dataset.angle = angle;
-      wheel.style.transform = `rotate(${angle * 60}deg)`;
-    },
-
-    notif_rotateWheel(n) {
-      debug('Notif: rotating wheel', n);
-      let company = this.gamedatas.companies[n.args.company_id];
-      company.wheelAngle += n.args.nb;
-      this.updateWheelAngle(company);
     },
 
     getCompanyScoreToken(companyId) {
@@ -408,6 +395,62 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           $('overall_player_board_' + company.pId).getElementsByClassName('company-info')[0],
         );
       });
+    },
+
+    //////////////////////////////////////////
+    // __        ___               _
+    // \ \      / / |__   ___  ___| |
+    //  \ \ /\ / /| '_ \ / _ \/ _ \ |
+    //   \ V  V / | | | |  __/  __/ |
+    //    \_/\_/  |_| |_|\___|\___|_|
+    //////////////////////////////////////////
+    updateWheelAngle(company) {
+      let wheel = $(`wheel-${company.id}`);
+      let angle = parseInt(company.wheelAngle);
+      wheel.dataset.angle = angle;
+      wheel.style.transform = `rotate(${angle * 60}deg)`;
+    },
+
+    notif_rotateWheel(n) {
+      debug('Notif: rotating wheel', n);
+      let company = this.gamedatas.companies[n.args.company_id];
+      company.wheelAngle += n.args.nb;
+      this.updateWheelAngle(company);
+      this.updateWheelSummary(company);
+    },
+
+    updateWheelSummaries() {
+      this.forEachCompany((company) => this.updateWheelSummary(company));
+    },
+
+    updateWheelSummary(company) {
+      let sectors = [...$(`wheel-${company.id}`).querySelectorAll('.wheel-sector')];
+      let summarySectors = [...$(`summary-wheel-${company.id}`).querySelectorAll('.summary-wheel-sector')];
+      sectors.forEach((sector, i) => {
+        let container = summarySectors[i];
+        dojo.empty(container);
+
+        let tile = sector.querySelector('.wheel-tile-slot .barrage-tech-tile');
+        if (tile) {
+          let summaryTile = dojo.clone(tile);
+          summaryTile.setAttribute('id', tile.id + '_summary');
+          dojo.place(summaryTile, container);
+        }
+
+        let meeples = [...sector.querySelectorAll('.wheel-machineries-slots .barrage-meeple')];
+        let countByType = {};
+        meeples.forEach((meeple) => {
+          if (!countByType[meeple.dataset.type]) countByType[meeple.dataset.type] = 0;
+          countByType[meeple.dataset.type]++;
+        });
+        Object.keys(countByType).forEach((type) => {
+          let n = countByType[type];
+          debug(this.formatString(`${n} <${type.toUpperCase()}_ICON>`));
+          dojo.place(this.formatString(`<${type.toUpperCase()}_ICON:${n}>`), container);
+        });
+      });
+
+      $(`summary-wheel-${company.id}`).dataset.angle = company.wheelAngle % 6;
     },
   });
 });

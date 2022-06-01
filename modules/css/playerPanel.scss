@@ -124,11 +124,6 @@
     }
   }
 
-  .company-panel-tech-tiles {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   .company-panel-personal-resources {
     display: flex;
     flex-wrap: wrap;
@@ -157,23 +152,117 @@
     align-items: center;
     padding: 0.5rem 0;
 
-    .company-wheel-logo {
-      width: 40px;
-      height: 80px;
-      background: black;
-      border-top-right-radius: 40px;
-      border-bottom-right-radius: 40px;
+    .company-summary-wheel {
+      height: 127px;
+      width: 98px;
+      margin-left: -10px;
+      flex-shrink: 0;
+
+      .summary-wheel-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        clip-path: circle(150px at -53px 62px);
+
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 25px;
+          background: #ebd5bd; //#484540;
+          z-index: 2;
+          clip-path: circle(150px at -133px 62px);
+        }
+
+        .summary-wheel-sector {
+          position: absolute;
+          width: 90px;
+          height: 20px;
+          transition: bottom 0.8s, left 0.8s;
+          border: 1px solid #484540;
+          background: #b09977;
+          display: flex;
+          align-items: center;
+
+          .barrage-tech-tile {
+            clip-path: polygon(25% 15%, 75% 15%, 75% 78%, 25% 77%);
+            margin-left: calc(-1 * var(--barrageTileScale) * 61px);
+            margin-right: calc(-1 * var(--barrageTileScale) * 40px);
+          }
+        }
+
+        @for $i from 0 to 6 {
+          &[data-angle='#{$i}'] {
+            @for $j from 1 to 7 {
+              $k: ($j - $i + 10) % 6;
+              .summary-wheel-sector:nth-of-type(#{$j}) {
+                bottom: $k * 21px;
+
+                @if $k == 0 {
+                  left: 0px;
+                }
+                @elseif $k == 1 {
+                  left: 6px;
+                }
+                @elseif $k == 2 {
+                  left: 11px;
+                }
+                @elseif $k == 3 {
+                  left: 11px;
+                }
+                @elseif $k == 4 {
+                  left: 6px;
+                }
+                @elseif $k == 5 {
+                  left: 0px;
+                }
+              }
+            }
+          }
+        }
+      }
     }
 
-    .company-wheel {
+    .company-panel-tech-tiles {
       display: flex;
-      flex-flow: column;
-      margin-left: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 4;
 
-      .wheel-slot {
-        width: 160px;
-        height: 20px;
-        border: 1px solid black;
+      .barrage-tech-tile {
+        margin-bottom: -22px;
+
+        &:nth-child(2n) {
+          margin-left: -10px;
+          margin-top: 15px;
+        }
+
+        &:last-child {
+          margin-bottom: 0px;
+        }
+      }
+    }
+  }
+
+  [data-wheel-summary='1'] .player-board.current-player-board &,
+  [data-wheel-summary='2'] .player-board:not(.current-player-board) &,
+  [data-wheel-summary='3'] & {
+    .company-panel-wheel-container {
+      .company-summary-wheel {
+        display: none;
+      }
+
+      .company-panel-tech-tiles {
+        .barrage-tech-tile {
+          margin-bottom: 0px;
+
+          &:nth-child(2n) {
+            margin: 0px;
+          }
+        }
       }
     }
   }

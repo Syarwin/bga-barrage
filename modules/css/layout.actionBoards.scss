@@ -99,6 +99,10 @@
     }
   }
 
+[data-action-background='2'] & {
+  background: $plainBackground;
+}
+
   .action-board-inner {
     display: flex;
     flex-flow: column;

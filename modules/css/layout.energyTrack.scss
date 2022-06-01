@@ -17,8 +17,18 @@
     background-repeat: no-repeat;
     z-index: -1;
   }
-  [data-action-background='1'] &::before {
-    background: #b0b3ba;
+  [data-action-background='1'],
+  [data-action-background='2'] {
+    &::before {
+      background-color: #b0b3ba;
+      background-image: url('img/ui/lightning.png');
+      background-size: 84%;
+      background-position: 128px 22px;
+      background-repeat: no-repeat;
+    }
+  }
+  [data-action-background='2'] &::before {
+    background: $plainBackground;
   }
 
   border-radius: 10px;

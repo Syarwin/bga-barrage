@@ -77,7 +77,8 @@ define([
           type: 'select',
           values: {
             0: _('Image'),
-            1: _('Plain'),
+            1: _('Plain with distinct color'),
+            2: _('Plain with same color'),
           },
         },
         actionBoardName: {
@@ -99,6 +100,18 @@ define([
           values: {
             0: _('Above the map'),
             1: _('Right of the map'),
+          },
+        },
+        wheelSummaries: {
+          default: 0,
+          name: _('Wheel summaries in player panels'),
+          attribute: 'wheel-summary',
+          type: 'select',
+          values: {
+            0: _('Displayed for all players'),
+            1: _('Only opponents'),
+            2: _('Only mine'),
+            3: _('None'),
           },
         },
       };
@@ -123,6 +136,7 @@ define([
       this.setupMeeples();
       this.setupContracts();
       this.setupTechnologyTiles();
+      this.updateWheelSummaries();
 
       this.inherited(arguments);
     },
@@ -516,6 +530,7 @@ define([
       this.setupTechnologyTiles();
       this.setupContracts();
       this.refreshCompanies();
+      this.updateWheelSummaries();
       // this.updatePlayersScores();
     },
 
