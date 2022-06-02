@@ -213,14 +213,11 @@ class Notifications
     $cardNames = []
   ) {
     $data = [
-      'i18n' => ['source'],
       'company' => $company,
-      'resources' => $deleted,
       'resources2' => $moved,
       'tile' => $tile,
-      'source' => $source,
     ];
-    $msg = clienttranslate('${company_name} pays ${resources_desc} and place ${resources_desc2} for ${source}');
+    $msg = clienttranslate('${company_name} place ${resources_desc2} on the wheel');
 
     self::notifyAll('payResourcesToWheel', $msg, $data);
   }

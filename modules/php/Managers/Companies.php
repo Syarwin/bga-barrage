@@ -16,7 +16,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     COMPANY_ITALY => 'Italy',
     COMPANY_FRANCE => 'France',
     COMPANY_GERMANY => 'Germany',
-    COMPANY_NETHERLANDS => 'Netherlands',
+    // COMPANY_NETHERLANDS => 'Netherlands', // TODO: LWP
   ];
 
   protected static $table = 'companies';

@@ -248,10 +248,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_payResourcesToWheel(n) {
       debug('Notif: paying to wheel', n);
       // Merge into one meeple list
-      n.args.resources.forEach((meeple) => {
-        meeple.delete = true;
-        n.args.resources2.push(meeple);
-      });
+      // n.args.resources.forEach((meeple) => {
+      //   meeple.delete = true;
+      //   n.args.resources2.push(meeple);
+      // });
       // Slide them all
       this.slideResources(n.args.resources2, (meeple) =>
         meeple.delete
@@ -305,8 +305,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           let promises = Promise.resolve();
           droplet.path.forEach((location, i) => {
-            promises = promises.then(() =>
-              this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }) //, delay: i == 0 ? j * 60 : 0 }),
+            promises = promises.then(
+              () => this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }), //, delay: i == 0 ? j * 60 : 0 }),
             );
           });
 
