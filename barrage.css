@@ -25,7 +25,7 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap; }
-html {
+body[data-background='0'] {
   background-image: url("img/ui/texture.jpg");
   background-repeat: repeat;
   background-size: 50px; }
@@ -120,6 +120,7 @@ html {
   width: 1090px;
   height: 130px;
   position: relative;
+  z-index: 2;
   border-radius: 10px;
   display: grid;
   grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr; }
@@ -144,6 +145,8 @@ html {
     background-repeat: no-repeat; }
   [data-action-background='2'] #energy-track-board::before {
     background-color: #333232; }
+  [data-background='1'][data-action-background='2'] #energy-track-board::before {
+    background-color: #393939; }
   #energy-track-board #energy-track-first-second-bonus {
     position: absolute;
     width: 80px;
@@ -389,11 +392,17 @@ html {
     [data-action-name='2'] .action-board:last-of-type {
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px; }
+  [data-action-name='3'] .action-board {
+    margin-top: 0px;
+    margin-bottom: -3px;
+    border-radius: 0px;
+    box-shadow: none;
+    border: none; }
   .action-board .action-board-name-container {
     display: flex;
     justify-content: center;
     margin-top: -17px; }
-    [data-action-name='1'] .action-board .action-board-name-container, [data-action-name='2'] .action-board .action-board-name-container {
+    [data-action-name='1'] .action-board .action-board-name-container, [data-action-name='2'] .action-board .action-board-name-container, [data-action-name='3'] .action-board .action-board-name-container {
       display: none; }
     .action-board .action-board-name-container .action-board-name {
       color: #dbc85d;
@@ -430,6 +439,8 @@ html {
     background: #75885d; }
   [data-action-background='2'] .action-board {
     background: #333232; }
+  [data-action-name='3'] .action-board {
+    background: transparent; }
   .action-board .action-board-inner {
     display: flex;
     flex-flow: column;
@@ -444,6 +455,10 @@ html {
       padding: 4px 2px 2px 4px;
       border-radius: 8px;
       box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
+      [data-action-name='3'] .action-board .action-board-inner .action-board-row {
+        background: #292b23; }
+      [data-action-name='3'][data-background='1'] .action-board .action-board-inner .action-board-row {
+        background: #393939; }
     .action-board .action-board-inner .action-board-icon {
       width: 80px;
       height: 35px;

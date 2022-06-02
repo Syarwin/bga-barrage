@@ -31,7 +31,7 @@
   font-display: swap;
 }
 
-html {
+body[data-background='0'] {
   background-image: url('img/ui/texture.jpg');
   background-repeat: repeat;
   background-size: 50px;

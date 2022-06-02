@@ -37,13 +37,22 @@
     }
   }
 
+  [data-action-name='3'] & {
+    margin-top: 0px;
+    margin-bottom: -3px;
+    border-radius: 0px;
+    box-shadow: none;
+    border: none;
+  }
+
   .action-board-name-container {
     display: flex;
     justify-content: center;
     margin-top: -17px;
 
     [data-action-name='1'] &,
-    [data-action-name='2'] & {
+    [data-action-name='2'] &,
+    [data-action-name='3'] & {
       display: none;
     }
 
@@ -99,9 +108,13 @@
     }
   }
 
-[data-action-background='2'] & {
-  background: $plainBackground;
-}
+  [data-action-background='2'] & {
+    background: $plainBackground;
+  }
+
+  [data-action-name='3'] & {
+    background: transparent;
+  }
 
   .action-board-inner {
     display: flex;
@@ -118,6 +131,13 @@
       padding: 4px 2px 2px 4px;
       border-radius: 8px;
       box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
+
+      [data-action-name='3'] & {
+        background: #292b23;
+      }
+      [data-action-name='3'][data-background='1'] & {
+        background: #393939;
+      }
     }
 
     .action-board-icon {

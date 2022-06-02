@@ -70,6 +70,16 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
+        background: {
+          default: 0,
+          name: _('Background'),
+          attribute: 'background',
+          type: 'select',
+          values: {
+            0: _('Barrage texture (dark)'),
+            1: _('Default BGA (light)'),
+          },
+        },
         actionBoardBackground: {
           default: 0,
           name: _('Action Board Background'),
@@ -90,6 +100,7 @@ define([
             0: _('Display'),
             1: _('Hide'),
             2: _('Hide and collapse borders'),
+            3: _('Hide and blend boards with background'),
           },
         },
         energyTrack: {
