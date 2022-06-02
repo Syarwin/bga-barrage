@@ -66,84 +66,6 @@ class Companies extends \BRG\Helpers\DB_Manager
   }
 
   /*
-  public function setupNewGame(&$players, $options)
-  {
-    // Allocate companies
-    $companies = [\COMPANY_USA, \COMPANY_ITALY, \COMPANY_FRANCE, \COMPANY_GERMANY, \COMPANY_NETHERLANDS];
-
-    // Compute player order around the table
-    $orderTable = [];
-    foreach ($players as $pId => $player) {
-      $orderTable[$player['player_table_order']] = $pId;
-    }
-    ksort($orderTable);
-
-    // We are building a mapping pId => company
-    $mapping = [];
-
-    // Assign human players with preference first
-    $i = 0;
-    foreach ($orderTable as $order => $pId) {
-      $c = $options[101 + $i] ?? null;
-      if ($c != null && in_array($c, $companies)) {
-        $mapping[$pId] = $c;
-        array_splice($companies, array_search($c, $companies), 1);
-      }
-      $i++;
-    }
-
-    // Assign IA players with preference
-    for ($i = 0; $i < 4; $i++) {
-      $c = $options[106 + $i] ?? null;
-      if ($c != null && in_array($c, $companies)) {
-        $lvl = $options[110 + $i];
-        $mapping[-3 * ($i + 1) + $lvl] = $c;
-        array_splice($companies, array_search($c, $companies), 1);
-      }
-    }
-
-    // Assign remaining players
-    foreach ($orderTable as $order => $pId) {
-      if (!\array_key_exists($pId, $mapping)) {
-        shuffle($companies);
-        $c = array_pop($companies);
-        $mapping[$pId] = $c;
-      }
-    }
-
-    for ($i = 0; $i < $options[\BRG\OPTION_AUTOMA]; $i++) {
-      $lvl = $options[110 + $i];
-      $id = -3 * ($i + 1) + $lvl;
-      if (!\array_key_exists($id, $mapping)) {
-        shuffle($companies);
-        $c = array_pop($companies);
-        $mapping[$id] = $c;
-      }
-    }
-
-    // Create the companies
-    $query = self::DB()->multipleInsert(['id', 'no', 'player_id', 'name', 'score', 'score_aux']);
-    Utils::shuffle($mapping);
-    $values = [];
-    $order = [];
-    $no = 0;
-    foreach ($mapping as $pId => $company) {
-      $order[] = $company;
-      $values[] = [$company, $no++, $pId, $players[$pId]['player_name'] ?? clienttranslate('Automa'), 0, 0];
-    }
-    $query->values($values);
-    Globals::setTurnOrder($order);
-
-    // Update player colors
-    foreach ($players as $pId => &$player) {
-      $player['color'] = self::$colorMapping[$mapping[$pId]];
-    }
-
-    return $mapping;
-  }
-*/
-
-  /*
    * getUiData : get all ui data of all players
    */
   public function getUiData($pId)
@@ -214,6 +136,22 @@ class Companies extends \BRG\Helpers\DB_Manager
     }
   }
 
+  public function resetEnergies()
+  {
+    self::DB()
+      ->update(['energy' => 0])
+      ->run();
+  }
+
+  public function returnHome()
+  {
+    $engineers = [];
+    foreach (self::getAll() as $company) {
+      $engineers = array_merge($engineers, $company->returnHomeEngineers());
+    }
+    Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
+  }
+
   /////////////////
   // TODO
   /////////////////
@@ -245,14 +183,5 @@ class Companies extends \BRG\Helpers\DB_Manager
         return !in_array($meeple['pId'], $zombies);
       })
       ->count();
-  }
-
-  public function returnHome()
-  {
-    $engineers = [];
-    foreach (self::getAll() as $company) {
-      $engineers = array_merge($engineers, $company->returnHomeEngineers());
-    }
-    Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
   }
 }

@@ -573,11 +573,6 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       `;
     },
 
-    updatePlayerOrdering() {
-      this.inherited(arguments);
-      dojo.place('player_board_config', 'player_boards', 'first');
-    },
-
     toggleSettings() {
       dojo.toggleClass('settings-controls-container', 'settingsControlsHidden');
 

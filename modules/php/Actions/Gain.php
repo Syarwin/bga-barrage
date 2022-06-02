@@ -38,6 +38,12 @@ class Gain extends \BRG\Models\Action
     $spaceId = $this->ctx->getSpaceId();
     $source = $this->ctx->getSource();
 
+    $this->gainResources($company, $args, $spaceId, $source);
+    $this->resolveAction();
+  }
+
+  public function gainResources($company, $args, $spaceId = null, $source = null)
+  {
     // Create resources
     $meeples = [];
     foreach ($args as $resource => $amount) {
@@ -63,7 +69,6 @@ class Gain extends \BRG\Models\Action
     }
     // Notify
     Notifications::gainResources($company, $meeples, $spaceId, $source);
-    $this->resolveAction();
   }
 
   public function getDescription($ignoreResources = false)

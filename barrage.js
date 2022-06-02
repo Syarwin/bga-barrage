@@ -335,8 +335,13 @@ define([
 
       // Place track
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
+      let bonuses = { 29: 8, 22: 7, 16: 6, 11: 5, 7: 4, 4: 3, 2: 2, 1: 1, 0: 3 };
       for (let i = 0; i < 32; i++) {
-        let slot = dojo.place(`<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}'></div>`, track);
+        let bonus = bonuses[i] ? ` data-bonus='${bonuses[i]}'` : '';
+        let slot = dojo.place(
+          `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
+          track,
+        );
       }
     },
 

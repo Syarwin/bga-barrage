@@ -49,8 +49,11 @@ class barrage extends Table
 {
   use BRG\DebugTrait;
   use BRG\States\SetupTrait;
-  use BRG\States\RoundTrait;
+  use BRG\States\RoundStartTrait;
+  use BRG\States\RoundEndTrait;
   use BRG\States\ActionTrait;
+  use BRG\States\EngineTrait;
+  use BRG\States\EndOfGameTrait;
   use BRG\States\BonusTileTrait;
 
   public static $instance = null;

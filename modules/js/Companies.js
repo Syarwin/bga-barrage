@@ -25,11 +25,29 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompanies() {
       this.forEachCompany((company) => this.setupCompany(company));
       this.setupCompaniesCounters();
+      this.updateCompaniesOrder();
     },
 
     refreshCompanies() {
       this.forEachCompany((company) => {
         this.updateWheelAngle(company);
+      });
+    },
+
+    updateCompaniesOrder() {
+      // Compute number of companies and no offset to let player be on top
+      let no = 0;
+      let n = 0;
+      this.forEachCompany((company) => {
+        n++;
+        if (company.pId == this.player_id) {
+          no = company.no;
+        }
+      });
+
+      this.forEachCompany((company) => {
+        // TODO : handle automa
+        $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
       });
     },
 
@@ -273,7 +291,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       ALL_RESOURCES.forEach((res) => {
         this._companyCounters[company.id][res] = this.createCounter('resource_' + company.id + '_' + res);
       });
-      this._scoreCounters[company.id] = this.createCounter('company_score_' + company.id);
+
+      this._scoreCounters[company.id] = this.createCounter(
+        company.isAI ? `company_score_${company.id}` : `player_score_${company.pId}`,
+        company.score,
+      );
     },
 
     /**
@@ -289,6 +311,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this._companyCounters[company.id][res][anim ? 'toValue' : 'setValue'](value);
           dojo.attr(reserve.parentNode, 'data-n', value);
         });
+
+        this._scoreCounters[company.id][anim ? 'toValue' : 'setValue'](company.score);
       });
     },
 
@@ -384,17 +408,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_score(n) {
       debug('Notif: updating scores', n);
+      this._scoreCounters[n.args.company_id].incValue(n.args.amount);
     },
 
     notif_updateTurnOrder(n) {
       debug('Notif: updating turn order', n);
-      // TODO: see how it can be placed before
-      n.args.companies.forEach((company) => {
-        this.slide(
-          'company-position-' + company.no,
-          $('overall_player_board_' + company.pId).getElementsByClassName('company-info')[0],
-        );
+      let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
+      n.args.order.forEach((cId, i) => {
+        let no = i + 1;
+        this.gamedatas.companies[cId].no = no;
+        $(`company-position-${cId}`).innerHTML = nos[no];
       });
+      this.updateCompaniesOrder();
     },
 
     //////////////////////////////////////////
@@ -445,7 +470,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         });
         Object.keys(countByType).forEach((type) => {
           let n = countByType[type];
-          debug(this.formatString(`${n} <${type.toUpperCase()}_ICON>`));
           dojo.place(this.formatString(`<${type.toUpperCase()}_ICON:${n}>`), container);
         });
       });

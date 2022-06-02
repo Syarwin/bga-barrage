@@ -305,7 +305,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           let promises = Promise.resolve();
           droplet.path.forEach((location, i) => {
-            promises = promises.then(() => this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }));
+            promises = promises.then(() =>
+              this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }) //, delay: i == 0 ? j * 60 : 0 }),
+            );
           });
 
           return promises.then(() => {

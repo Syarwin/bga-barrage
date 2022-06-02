@@ -287,9 +287,9 @@ class Notifications
     self::notifyAll('moveDroplets', '', ['droplets' => $droplets->toArray()]);
   }
 
-  public function updateTurnOrder($companies)
+  public function updateTurnOrder($order)
   {
-    self::notifyAll('updateTurnOrder', '', ['companies' => $companies->toArray()]);
+    self::notifyAll('updateTurnOrder', '', ['order' => $order]);
   }
 
   public static function produce($company, $powerhouseSpaceId, $energy, $droplets)

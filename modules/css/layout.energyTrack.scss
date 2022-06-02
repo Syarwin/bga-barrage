@@ -17,8 +17,8 @@
     background-repeat: no-repeat;
     z-index: -1;
   }
-  [data-action-background='1'],
-  [data-action-background='2'] {
+  [data-action-background='1'] &,
+  [data-action-background='2'] & {
     &::before {
       background-color: #b0b3ba;
       background-image: url('img/ui/lightning.png');
@@ -28,7 +28,7 @@
     }
   }
   [data-action-background='2'] &::before {
-    background: $plainBackground;
+    background-color: $plainBackground;
   }
 
   border-radius: 10px;
@@ -37,10 +37,12 @@
 
   #energy-track-first-second-bonus {
     position: absolute;
-    width: 40px;
-    height: 70px;
-    top: 10px;
-    left: 24px;
+
+    width: 80px;
+    height: 35px;
+    display: flex;
+    left: 7px;
+    top: 7px;
 
     div:not(.help-marker) {
       width: 40px;
@@ -66,7 +68,7 @@
 
       .bonus-tile-slot {
         background-image: url('img/ui/no_bonus.png');
-        margin-left: 30px;
+        margin-left: 72px;
       }
     }
     &:nth-of-type(6) {
@@ -100,13 +102,35 @@
 
   #energy-track {
     position: absolute;
-    bottom: 0;
+    bottom: 11px;
     left: 10px;
     right: 10px;
     height: 35px;
     display: flex;
     background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
     background-size: 1px 35px;
+
+    &::before {
+      content: '-3';
+      position: absolute;
+      display: block;
+      width: 18px;
+      height: 14px;
+      background-image: url('img/icons/vp.png');
+      background-size: 100% auto;
+      left: 1px;
+      top: -18px;
+      font-family: 'acumin-pro', serif;
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+      line-height: 13px;
+      font-style: normal;
+      color: white;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+        black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+        black 0.96017px -0.279416px 0px;
+    }
 
     .energy-track-slot {
       width: 23px;
@@ -133,6 +157,28 @@
         line-height: 24px;
         font-style: normal;
         color: #bb3f90;
+      }
+
+      &[data-bonus]::after {
+        content: attr(data-bonus);
+        position: absolute;
+        display: block;
+        width: 16px;
+        height: 17px;
+        background-image: url('img/icons/credit.png');
+        background-size: 100%;
+        left: 3px;
+        top: 22px;
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-size: 12px;
+        text-align: center;
+        line-height: 17px;
+        font-style: normal;
+        color: white;
+        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+          black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
+          black 0.96017px -0.279416px 0px;
       }
 
       .meeple-score {
@@ -178,15 +224,21 @@
       padding: 0px 8px 0px;
 
       #energy-track-first-second-bonus {
-        width: 80px;
-        height: 35px;
-        margin-left: 20px;
-        display: flex;
+        display: block;
+        width: 40px;
+        height: 70px;
+        top: 10px;
+        left: 85px;
       }
 
       &:first-of-type {
         border-top-right-radius: 10px;
         border-bottom-left-radius: 0px;
+
+        .bonus-tile-slot {
+          margin-left: 37px;
+          margin-top: 65px;
+        }
       }
       &:nth-of-type(6) {
         border-top-right-radius: 0px;
@@ -197,7 +249,7 @@
     #energy-track {
       position: absolute;
       top: 10px;
-      left: 11px;
+      left: 22px;
       bottom: 7px;
       width: 35px;
       height: auto;
@@ -205,8 +257,18 @@
       background: linear-gradient(90deg, #eeeeee82 6%, transparent 1%) 10px 11px;
       background-size: 35px 10px;
 
+      &::before {
+        top: 4px;
+        left: 25px;
+      }
+
       .energy-track-slot {
         margin: 3px 0px;
+
+        &[data-bonus]::after {
+          left: -18px;
+          top: 3px;
+        }
 
         &:nth-of-type(6n + 1) {
           margin-left: 0px;

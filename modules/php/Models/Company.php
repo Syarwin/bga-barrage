@@ -3,6 +3,7 @@ namespace BRG\Models;
 use BRG\Managers\Farmers;
 use BRG\Managers\Actions;
 use BRG\Managers\Meeples;
+use BRG\Managers\Players;
 use BRG\Managers\Fences;
 use BRG\Managers\PlayerCards;
 use BRG\Managers\Contracts;
@@ -157,19 +158,32 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::payResourceTo($this->id, $resource, $amount, $pId);
   }
 
+  public function incScore($n)
+  {
+    parent::incScore($n);
+    if (!$this->isAI()) {
+      Players::get($this->pId)->incScore($n);
+    }
+  }
+
   public function incEnergy($n, $notif = true)
   {
     parent::incEnergy($n);
-    $scoreToken = Meeples::getFilteredQuery($this->id, null, [SCORE])
-      ->get()
-      ->first();
 
+    $scoreToken = $this->getEnergyToken();
     Meeples::move($scoreToken['id'], 'energy-track-' . $this->energy);
     if ($notif) {
       Notifications::moveTokens(Meeples::getMany($scoreToken['id']));
     }
 
     return $scoreToken['id'];
+  }
+
+  public function getEnergyToken()
+  {
+    return Meeples::getFilteredQuery($this->id, null, [SCORE])
+      ->get()
+      ->first();
   }
 
   //////////////////////////////////////////////////////

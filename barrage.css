@@ -136,21 +136,21 @@ html {
     background-position: 128px 22px, center center;
     background-repeat: no-repeat;
     z-index: -1; }
-  #energy-track-board [data-action-background='1']::before,
-  #energy-track-board [data-action-background='2']::before {
+  [data-action-background='1'] #energy-track-board::before, [data-action-background='2'] #energy-track-board::before {
     background-color: #b0b3ba;
     background-image: url("img/ui/lightning.png");
     background-size: 84%;
     background-position: 128px 22px;
     background-repeat: no-repeat; }
   [data-action-background='2'] #energy-track-board::before {
-    background: #333232; }
+    background-color: #333232; }
   #energy-track-board #energy-track-first-second-bonus {
     position: absolute;
-    width: 40px;
-    height: 70px;
-    top: 10px;
-    left: 24px; }
+    width: 80px;
+    height: 35px;
+    display: flex;
+    left: 7px;
+    top: 7px; }
     #energy-track-board #energy-track-first-second-bonus div:not(.help-marker) {
       width: 40px;
       height: 35px;
@@ -168,7 +168,7 @@ html {
       border-bottom-left-radius: 10px; }
       #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
         background-image: url("img/ui/no_bonus.png");
-        margin-left: 30px; }
+        margin-left: 72px; }
     #energy-track-board .energy-track-portion:nth-of-type(6) {
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px; }
@@ -205,13 +205,31 @@ html {
         background-position-x: 114.2857142857%; }
   #energy-track-board #energy-track {
     position: absolute;
-    bottom: 0;
+    bottom: 11px;
     left: 10px;
     right: 10px;
     height: 35px;
     display: flex;
     background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
     background-size: 1px 35px; }
+    #energy-track-board #energy-track::before {
+      content: '-3';
+      position: absolute;
+      display: block;
+      width: 18px;
+      height: 14px;
+      background-image: url("img/icons/vp.png");
+      background-size: 100% auto;
+      left: 1px;
+      top: -18px;
+      font-family: 'acumin-pro', serif;
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+      line-height: 13px;
+      font-style: normal;
+      color: white;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
     #energy-track-board #energy-track .energy-track-slot {
       width: 23px;
       height: 23px;
@@ -235,6 +253,24 @@ html {
         line-height: 24px;
         font-style: normal;
         color: #bb3f90; }
+      #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
+        content: attr(data-bonus);
+        position: absolute;
+        display: block;
+        width: 16px;
+        height: 17px;
+        background-image: url("img/icons/credit.png");
+        background-size: 100%;
+        left: 3px;
+        top: 22px;
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-size: 12px;
+        text-align: center;
+        line-height: 17px;
+        font-style: normal;
+        color: white;
+        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
       #energy-track-board #energy-track .energy-track-slot .meeple-score {
         margin-top: -154%;
         position: relative;
@@ -260,28 +296,38 @@ html {
       justify-content: flex-end;
       padding: 0px 8px 0px; }
       [data-energy-track='1'] #energy-track-board .energy-track-portion #energy-track-first-second-bonus {
-        width: 80px;
-        height: 35px;
-        margin-left: 20px;
-        display: flex; }
+        display: block;
+        width: 40px;
+        height: 70px;
+        top: 10px;
+        left: 85px; }
       [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type {
         border-top-right-radius: 10px;
         border-bottom-left-radius: 0px; }
+        [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
+          margin-left: 37px;
+          margin-top: 65px; }
       [data-energy-track='1'] #energy-track-board .energy-track-portion:nth-of-type(6) {
         border-top-right-radius: 0px;
         border-bottom-left-radius: 10px; }
     [data-energy-track='1'] #energy-track-board #energy-track {
       position: absolute;
       top: 10px;
-      left: 11px;
+      left: 22px;
       bottom: 7px;
       width: 35px;
       height: auto;
       flex-flow: column;
       background: linear-gradient(90deg, #eeeeee82 6%, transparent 1%) 10px 11px;
       background-size: 35px 10px; }
+      [data-energy-track='1'] #energy-track-board #energy-track::before {
+        top: 4px;
+        left: 25px; }
       [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot {
         margin: 3px 0px; }
+        [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
+          left: -18px;
+          top: 3px; }
         [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
           margin-left: 0px;
           margin-top: 11px; }
@@ -944,6 +990,17 @@ html {
     height: 0.75em;
     background-image: url("img/icons/base_plain.png"); }
 
+#player_boards {
+  display: flex;
+  flex-flow: column; }
+  .mobile_version #player_boards {
+    flex-flow: row;
+    flex-wrap: wrap; }
+    .mobile_version #player_boards .player-board {
+      float: none; }
+  #player_boards #player_board_config {
+    order: 1; }
+
 .avatar.automa {
   background-image: url("img/companies.jpg");
   background-size: 600% 100%; }
@@ -1107,7 +1164,7 @@ html {
   .player_panel_content .company-panel-wheel-container {
     display: flex;
     align-items: center;
-    padding: 0.5rem 0; }
+    padding: 0.1rem 0; }
     .player_panel_content .company-panel-wheel-container .company-summary-wheel {
       height: 127px;
       width: 98px;
@@ -1256,7 +1313,8 @@ html {
       position: relative;
       z-index: 4; }
       .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile {
-        margin-bottom: -22px; }
+        margin-bottom: -22px;
+        flex-basis: 40%; }
         .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n) {
           margin-left: -10px;
           margin-top: 15px; }
@@ -1265,6 +1323,7 @@ html {
   [data-wheel-summary='1'] .player-board.current-player-board .player_panel_content .company-panel-wheel-container .company-summary-wheel, [data-wheel-summary='2'] .player-board:not(.current-player-board) .player_panel_content .company-panel-wheel-container .company-summary-wheel, [data-wheel-summary='3'] .player_panel_content .company-panel-wheel-container .company-summary-wheel {
     display: none; }
   [data-wheel-summary='1'] .player-board.current-player-board .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile, [data-wheel-summary='2'] .player-board:not(.current-player-board) .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile, [data-wheel-summary='3'] .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile {
+    flex-basis: auto;
     margin-bottom: 0px; }
     [data-wheel-summary='1'] .player-board.current-player-board .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='2'] .player-board:not(.current-player-board) .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='3'] .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n) {
       margin: 0px; }
