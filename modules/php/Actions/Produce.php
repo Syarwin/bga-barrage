@@ -117,6 +117,7 @@ class Produce extends \BRG\Models\Action
       'args' => [ENERGY => $production],
     ]);
 
+    // Germany power
     if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
       Engine::insertAsChild([
         'action' => \PRODUCE,
@@ -124,6 +125,11 @@ class Produce extends \BRG\Models\Action
         'args' => ['germanPower' => true, 'constraints' => $system['powerhouseSpaceId']],
       ]);
     }
+    // Italy power
+    elseif ($company->getId() == \COMPANY_ITALY && $company->productionPowerEnabled()) {
+      Gain::gainResources($company, [ENERGY => 3], null, clienttranslate('nation\'s power'));
+    }
+
     $this->resolveAction(['droplets' => $droplets]);
   }
 }
