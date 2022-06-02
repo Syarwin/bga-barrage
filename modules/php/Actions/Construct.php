@@ -51,18 +51,6 @@ class Construct extends \BRG\Models\Action
             'type' => $slot['type'],
           ],
         ];
-        // 5bis] (OPT) Slot cost
-        // moved in place structure
-        // if (($slot['cost'] ?? 0) > 0) {
-        //   $childs[] = [
-        //     'action' => PAY,
-        //     'args' => [
-        //       'nb' => $slot['cost'],
-        //       'costs' => Utils::formatCost([CREDIT => 1]),
-        //       'source' => clienttranslate('building space'),
-        //     ],
-        //   ];
-        // }
 
         // Construct the flow
         $flow = [
@@ -70,8 +58,8 @@ class Construct extends \BRG\Models\Action
           'childs' => $childs,
         ];
 
-        // TODO : add isDoable
-        if (true) {
+        $flowTree = Engine::buildTree($flow);
+        if ($flowTree->isDoable($company)) {
           $pairs[] = [
             'spaceId' => $slot['id'],
             'tileId' => $tile->getId(),

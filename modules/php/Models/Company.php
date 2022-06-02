@@ -336,6 +336,11 @@ class Company extends \BRG\Helpers\DB_Model
     ];
   }
 
+  public function getStructures($spaceId, $type = null)
+  {
+    return Meeples::getOnSpace($spaceId, $type, $this->id);
+  }
+
   /////////////////////////////////////////////////
   //   ____            _                  _
   //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___
