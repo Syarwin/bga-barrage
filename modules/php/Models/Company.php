@@ -413,4 +413,11 @@ class Company extends \BRG\Helpers\DB_Model
       return [];
     }
   }
+
+  public function productionPowerEnabled()
+  {
+    return Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
+      ->get()
+      ->count() < 2;
+  }
 }
