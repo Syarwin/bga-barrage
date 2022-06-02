@@ -1,5 +1,6 @@
 <?php
 namespace BRG\Models;
+use BRG\Helpers\Utils;
 
 /*
  * Officer: all utility functions concerning an executive officer
@@ -45,5 +46,13 @@ class Officer implements \JsonSerializable
   public function getContractReduction()
   {
     return $this->contractReduction;
+  }
+
+  public function getCostModifier($type, $machine, $n)
+  {
+    return [
+      'nb' => $n,
+      'costs' => Utils::formatCost([$machine => $n, 'nb' => $n]),
+    ];
   }
 }

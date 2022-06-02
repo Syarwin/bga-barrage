@@ -4,6 +4,8 @@ use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Helpers\Utils;
 use BRG\Managers\Meeples;
+use BRG\Actions\Gain;
+use BRG\Managers\Companies;
 
 class Map
 {
@@ -140,10 +142,12 @@ class Map
 
   public function flowDroplets($droplets)
   {
+    $bonusEnergy = 0;
     foreach ($droplets as &$droplet) {
-      $path = self::getFlowPath($droplet);
+      list($path, $energy) = self::getFlowPath($droplet);
       $droplet['path'] = $path;
       $location = $path[count($path) - 1];
+      $bonusEnergy += $energy;
 
       // Check whether the last location is EXIT or not
       if ($location == 'EXIT') {
@@ -154,6 +158,16 @@ class Map
     }
 
     Notifications::moveDroplets($droplets);
+
+    // USA power
+    if ($bonusEnergy > 0) {
+      Gain::gainResources(
+        Companies::get(COMPANY_USA),
+        [ENERGY => $bonusEnergy],
+        null,
+        clienttranslate('nation\'s power')
+      );
+    }
 
     // TODO : handle company that gain thing when water pass by powerhouse
     // => postpone the notifications in this case somehow !
@@ -168,6 +182,22 @@ class Map
         throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
       }
     }
+
+    // If production power of USA is enabled
+    if (Companies::get(COMPANY_USA) != null && Companies::get(COMPANY_USA)->productionPowerEnabled()) {
+      $USAPowerHouses = Meeples::getFilteredQuery(COMPANY_USA, null, \POWERHOUSE)
+        ->whereNotIn('meeple_location', ['company'])
+        ->get()
+        ->map(function ($m) {
+          return explode('_', $m['location'])[0];
+        })
+        ->toArray();
+    } else {
+      $USAPowerHouses = [];
+    }
+
+    $USABonusEnergy = 0;
+
     $location = $droplet['location'];
     $path = [];
     $blocked = false;
@@ -187,6 +217,9 @@ class Map
       // Move the droplet to that location
       $location = $basin;
       $path[] = $basin;
+      if (in_array(explode('_', $basin)[0], $USAPowerHouses)) {
+        $USABonusEnergy++;
+      }
 
       // If location is EXIT or Droplet is blocked by dam, stop here
       // TODO : handle company that can hold 4 droplet with 3 elevation or sthg like that
@@ -195,7 +228,7 @@ class Map
       }
     } while (!$blocked);
 
-    return $path;
+    return [$path, $USABonusEnergy];
   }
 
   /////////////////////////////////////////////////////////////
@@ -206,7 +239,7 @@ class Map
   // |_|   |_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|
   //
   /////////////////////////////////////////////////////////////
-  public function getProductionSystems($company, $bonus)
+  public function getProductionSystems($company, $bonus, $constraints = null)
   {
     $credits = $company->countReserveResource(CREDIT);
     $systems = [];
@@ -223,7 +256,7 @@ class Map
         // Is it linked to a powerhouse built by the company ?
         $endingSpace = 'P' . $conduit['end'] . '%'; // Any powerhouse in the ending zone
         $powerhouse = Meeples::getOnSpace($endingSpace, POWERHOUSE, $company)->first();
-        if (is_null($powerhouse)) {
+        if (is_null($powerhouse) || $powerhouse['location'] == $constraints) {
           continue;
         }
 

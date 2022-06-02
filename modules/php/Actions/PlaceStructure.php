@@ -38,6 +38,7 @@ class PlaceStructure extends \BRG\Models\Action
     $constraints = $args['constraints'] ?? null;
 
     $spaces = [];
+
     foreach (Map::getConstructSlots() as $space) {
       if ($space['type'] != $args['type']) {
         continue;
@@ -48,7 +49,10 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
-      // TODO : Add other check like conduit production
+      // If constraints on conduit, continue if it products more
+      if ($args['type'] == CONDUIT && isset($args['n']) && $space['production'] > $args['n']) {
+        continue;
+      }
 
       // Check that the elevation is on a base owned by the company
       // and that elevation + base is not more than 3

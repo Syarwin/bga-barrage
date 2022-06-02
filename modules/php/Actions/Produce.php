@@ -7,6 +7,7 @@ use BRG\Core\Notifications;
 use BRG\Core\Stats;
 use BRG\Core\Engine;
 use BRG\Helpers\Utils;
+use BRG\Helpers\Collection;
 use BRG\Map;
 
 class Produce extends \BRG\Models\Action
@@ -26,10 +27,16 @@ class Produce extends \BRG\Models\Action
   {
     $args = $this->getCtxArgs();
     $bonus = $args['bonus'] ?? 0;
+    $germanPower = $args['germanPower'] ?? false;
+
+    if ($germanPower) {
+      $bonus = 0;
+    }
+
     $company = Companies::getActive();
     return [
       'i18n' => ['modifier'],
-      'systems' => Map::getProductionSystems($company, $bonus),
+      'systems' => Map::getProductionSystems($company, $bonus, $args['constraints'] ?? null),
       'modifier' =>
         $bonus == 0
           ? ''
@@ -48,6 +55,8 @@ class Produce extends \BRG\Models\Action
     self::checkAction('actProduce');
     $systems = $this->argsProduce()['systems'];
     $system = $systems[$systemId] ?? null;
+    $args = $this->getCtxArgs();
+
     if (is_null($system)) {
       throw new \BgaVisibleSystemException('Combinaison not possible. Should not happen');
     }
@@ -61,15 +70,17 @@ class Produce extends \BRG\Models\Action
     }
 
     // Move droplets to conduit
-    $tDroplets = []; // Avoid issue with two notifs in a row modifying same object
+    $tDroplets = new Collection([]); // Avoid issue with two notifs in a row modifying same object
     foreach ($droplets as $droplet) {
       $droplet['location'] = $system['conduitSpaceId'];
+      $droplet['path'] = [$system['conduitSpaceId']];
       $tDroplets[] = $droplet;
     }
     Notifications::moveDroplets($tDroplets);
     // Move droplets to powerhouses
     foreach ($droplets as &$drop) {
       $drop['location'] = $system['powerhouseSpaceId'];
+      $drop['path'] = [$system['powerhouseSpaceId']];
     }
     Notifications::moveDroplets($droplets);
 
@@ -105,6 +116,20 @@ class Produce extends \BRG\Models\Action
       'optional' => true,
       'args' => [ENERGY => $production],
     ]);
+
+    // Germany power
+    if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+      Engine::insertAsChild([
+        'action' => \PRODUCE,
+        'optional' => true,
+        'args' => ['germanPower' => true, 'constraints' => $system['powerhouseSpaceId']],
+      ]);
+    }
+    // Italy power
+    elseif ($company->getId() == \COMPANY_ITALY && $company->productionPowerEnabled()) {
+      Gain::gainResources($company, [ENERGY => 3], null, clienttranslate('nation\'s power'));
+    }
+
     $this->resolveAction(['droplets' => $droplets]);
   }
 }
