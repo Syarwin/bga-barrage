@@ -25,7 +25,7 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap; }
-html {
+body[data-background='0'] {
   background-image: url("img/ui/texture.jpg");
   background-repeat: repeat;
   background-size: 50px; }
@@ -117,33 +117,36 @@ html {
       order: 1; }
 
 #energy-track-board {
-  width: 1000px;
+  width: 1090px;
   height: 130px;
   position: relative;
+  z-index: 2;
   border-radius: 10px;
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr; }
+  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr; }
   #energy-track-board::before {
     content: '';
     display: block;
     position: absolute;
     top: 0;
     left: 0;
-    width: 1000px;
+    width: 1090px;
     height: 130px;
     background-image: url("img/ui/lightning.png"), url("img/background_board_energy.jpg");
-    background-size: 84%, 100%;
+    background-size: 842px, 100%;
     background-position: 128px 22px, center center;
     background-repeat: no-repeat;
     z-index: -1; }
   [data-action-background='1'] #energy-track-board::before, [data-action-background='2'] #energy-track-board::before {
     background-color: #b0b3ba;
     background-image: url("img/ui/lightning.png");
-    background-size: 84%;
+    background-size: 842px;
     background-position: 128px 22px;
     background-repeat: no-repeat; }
   [data-action-background='2'] #energy-track-board::before {
     background-color: #333232; }
+  [data-background='1'][data-action-background='2'] #energy-track-board::before {
+    background-color: #393939; }
   #energy-track-board #energy-track-first-second-bonus {
     position: absolute;
     width: 80px;
@@ -169,9 +172,10 @@ html {
       #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
         background-image: url("img/ui/no_bonus.png");
         margin-left: 72px; }
-    #energy-track-board .energy-track-portion:nth-of-type(6) {
+    #energy-track-board .energy-track-portion:nth-of-type(7) {
       border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px; }
+      border-bottom-right-radius: 10px;
+      padding-top: 4px; }
   #energy-track-board .bonus-tile-slot {
     width: 58px;
     height: 58px;
@@ -207,7 +211,7 @@ html {
     position: absolute;
     bottom: 11px;
     left: 10px;
-    right: 10px;
+    right: 114px;
     height: 35px;
     display: flex;
     background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
@@ -285,10 +289,11 @@ html {
   [data-energy-track='1'] #energy-track-board {
     margin-left: 15px;
     width: 130px;
-    height: 1000px;
-    grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr;
+    height: 1120px;
+    grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr;
     grid-template-columns: 1fr; }
     [data-energy-track='1'] #energy-track-board::before {
+      width: 1120px;
       transform: translateX(130px) rotate(90deg);
       transform-origin: top left; }
     [data-energy-track='1'] #energy-track-board .energy-track-portion {
@@ -307,14 +312,14 @@ html {
         [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
           margin-left: 37px;
           margin-top: 65px; }
-      [data-energy-track='1'] #energy-track-board .energy-track-portion:nth-of-type(6) {
+      [data-energy-track='1'] #energy-track-board .energy-track-portion:nth-of-type(7) {
         border-top-right-radius: 0px;
         border-bottom-left-radius: 10px; }
     [data-energy-track='1'] #energy-track-board #energy-track {
       position: absolute;
       top: 10px;
       left: 22px;
-      bottom: 7px;
+      bottom: 143px;
       width: 35px;
       height: auto;
       flex-flow: column;
@@ -333,6 +338,29 @@ html {
           margin-top: 11px; }
           [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
             margin-top: 0px; }
+
+.objective-tile {
+  position: relative;
+  width: 55px;
+  height: 109px;
+  background-image: url("img/objective_tiles.jpg");
+  background-size: 700% 100%;
+  border-radius: 6px;
+  box-shadow: 2px 2px 3px black; }
+  .objective-tile[data-id='1'] {
+    background-position-x: 16.6666666667%; }
+  .objective-tile[data-id='2'] {
+    background-position-x: 33.3333333333%; }
+  .objective-tile[data-id='3'] {
+    background-position-x: 50%; }
+  .objective-tile[data-id='4'] {
+    background-position-x: 66.6666666667%; }
+  .objective-tile[data-id='5'] {
+    background-position-x: 83.3333333333%; }
+  .objective-tile[data-id='6'] {
+    background-position-x: 100%; }
+  .objective-tile[data-id='7'] {
+    background-position-x: 116.6666666667%; }
 
 #action-boards-container {
   display: flex;
@@ -364,11 +392,17 @@ html {
     [data-action-name='2'] .action-board:last-of-type {
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px; }
+  [data-action-name='3'] .action-board {
+    margin-top: 0px;
+    margin-bottom: -3px;
+    border-radius: 0px;
+    box-shadow: none;
+    border: none; }
   .action-board .action-board-name-container {
     display: flex;
     justify-content: center;
     margin-top: -17px; }
-    [data-action-name='1'] .action-board .action-board-name-container, [data-action-name='2'] .action-board .action-board-name-container {
+    [data-action-name='1'] .action-board .action-board-name-container, [data-action-name='2'] .action-board .action-board-name-container, [data-action-name='3'] .action-board .action-board-name-container {
       display: none; }
     .action-board .action-board-name-container .action-board-name {
       color: #dbc85d;
@@ -405,6 +439,8 @@ html {
     background: #75885d; }
   [data-action-background='2'] .action-board {
     background: #333232; }
+  [data-action-name='3'] .action-board {
+    background: transparent; }
   .action-board .action-board-inner {
     display: flex;
     flex-flow: column;
@@ -419,6 +455,10 @@ html {
       padding: 4px 2px 2px 4px;
       border-radius: 8px;
       box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
+      [data-action-name='3'] .action-board .action-board-inner .action-board-row {
+        background: #292b23; }
+      [data-action-name='3'][data-background='1'] .action-board .action-board-inner .action-board-row {
+        background: #393939; }
     .action-board .action-board-inner .action-board-icon {
       width: 80px;
       height: 35px;

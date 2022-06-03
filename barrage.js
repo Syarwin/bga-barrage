@@ -70,6 +70,16 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
+        background: {
+          default: 0,
+          name: _('Background'),
+          attribute: 'background',
+          type: 'select',
+          values: {
+            0: _('Barrage texture (dark)'),
+            1: _('Default BGA (light)'),
+          },
+        },
         actionBoardBackground: {
           default: 0,
           name: _('Action Board Background'),
@@ -90,6 +100,7 @@ define([
             0: _('Display'),
             1: _('Hide'),
             2: _('Hide and collapse borders'),
+            3: _('Hide and blend boards with background'),
           },
         },
         energyTrack: {
@@ -309,6 +320,28 @@ define([
         _('Score 4 Victory Points for each Building you have built.'),
       ];
 
+      let objectiveTooltips = [
+        _('Count all the Bases and all the Powherouses you have built in building spaces with a red bordered icons.'),
+        _(
+          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the most structure pieces.',
+        ),
+        _(
+          'Count all your Bases connected by a Conduit of your color to a Powerhouse of your color. If there are two Bases connected to the same Powerhouse they both count.',
+        ),
+        _(
+          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the least structure pieces.',
+        ),
+        _(
+          'Count all the basins where you have built at least one structure piece of any type. The maxium is 12 (one structure in all the twelve basins).',
+        ),
+        _(
+          'Count all the basins where you have built at least three structure piece of any type. The maxium is 5 (three structures in five basins).',
+        ),
+      ];
+      let objectiveTooltipsGeneric = _(
+        "Determine the players' classification according to that condition. The first player scores 15 Victory Points, the second player scores 10 VPs and the third player scores 5VPs. In case of a tie, evenly divide the VPs of the respective tiers among the players who tied (round up if necessary)",
+      );
+
       // Place bonus tiles
       for (let i = 0; i < 6; i++) {
         let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
@@ -332,6 +365,12 @@ define([
           this.addCustomTooltip(`bonus-tile-${i}`, bonusTooltips[bonusId]);
         }
       }
+
+      // Place objective tile
+      let objective = this.gamedatas.objectiveTile;
+      let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
+      dojo.place(`<div class='objective-tile' id='objective-tile' data-id='${objective}'></div>`, portion);
+      this.addCustomTooltip('objective-tile', objectiveTooltips[objective - 1] + objectiveTooltipsGeneric);
 
       // Place track
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
