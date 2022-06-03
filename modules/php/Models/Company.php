@@ -329,12 +329,12 @@ class Company extends \BRG\Helpers\DB_Model
         break;
     }
 
-    return $this->officer->getCostModifier($slot['type'], $machine, $n);
-    // throw new \feException(print_r($combo));
+    $costs = $this->officer->getCostModifier($slot, $machine, $n);
+    // throw new \feException(print_r($costs));
     // TODO : handle tile modifier
     return [
-      'nb' => $n,
-      'costs' => Utils::formatCost($combo),
+      'nb' => $this->isXO(XO_SOLOMON) ? $n : 1,
+      'costs' => $costs,
     ];
   }
 

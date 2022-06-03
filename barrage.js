@@ -983,6 +983,35 @@ define([
       });
     },
 
+    onEnteringStatePayResources(args) {
+      if (args.combinations.length == 1) {
+        return;
+      }
+
+      args.combinations.forEach((cost, i) => {
+        // Compute desc
+        let log = '',
+          arg = {};
+        if (cost.card == undefined) {
+          if (cost.sources && cost.sources.length) {
+            log = _('Pay ${resource} (${cards})');
+            arg.resource = this.formatResourceArray(cost);
+            arg.cards = cost.sources.map((cardId) => _(args.cardNames[cardId])).join(', ');
+          } else {
+            log = _('Pay ${resource}');
+            arg.resource = this.formatResourceArray(cost);
+          }
+        } else {
+          log = _('Return ${card}');
+          arg.card = _(args.cardNames[cost.card]);
+        }
+        let desc = this.format_string_recursive(log, arg);
+
+        // Add button
+        this.addSecondaryActionButton('btnChoicePay' + i, desc, () => this.takeAtomicAction('actPay', [cost]));
+      });
+    },
+
     ////////////////////////////////////////////////////////
     //  _____         _       _____ _ _
     // |_   _|__  ___| |__   |_   _(_) | ___  ___

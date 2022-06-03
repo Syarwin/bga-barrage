@@ -48,11 +48,8 @@ class Officer implements \JsonSerializable
     return $this->contractReduction;
   }
 
-  public function getCostModifier($type, $machine, $n)
+  public function getCostModifier($slot, $machine, $n)
   {
-    return [
-      'nb' => $n,
-      'costs' => Utils::formatCost([$machine => $n, 'nb' => $n]),
-    ];
+    return Utils::formatCost([$machine => $n, 'nb' => 1]);
   }
 }

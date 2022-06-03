@@ -67,6 +67,10 @@ class Pay extends \BRG\Models\Action
       unset($combination['nb']);
     }
 
+    foreach ($combination['sources'] ?? [] as $cardId) {
+      $cardNames[$cardId] = $cardId;
+    }
+
     return [
       'i18n' => ['source'],
       'nb' => $nb,

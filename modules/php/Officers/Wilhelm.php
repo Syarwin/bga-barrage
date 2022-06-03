@@ -14,14 +14,11 @@ class Wilhelm extends \BRG\Models\Officer
     );
   }
 
-  public function getCostModifier($type, $machine, $n)
+  public function getCostModifier($slot, $machine, $n)
   {
-    if ($type == BASE) {
-      return [
-        'nb' => 3,
-        'costs' => Utils::formatCost([$machine => 3, 'nb' => 3]),
-      ];
+    if ($slot['type'] == BASE) {
+      return Utils::formatCost([$machine => 3, 'nb' => 1]);
     }
-    return parent::getCostModifier($type, $machine, $n);
+    return parent::getCostModifier($slot, $machine, $n);
   }
 }

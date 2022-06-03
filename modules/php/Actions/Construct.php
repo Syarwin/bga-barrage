@@ -68,7 +68,6 @@ class Construct extends \BRG\Models\Action
         }
       }
     }
-
     return $pairs;
   }
 
