@@ -118,7 +118,13 @@ class Map
 
   public function countDamsInBasin($basin)
   {
-    return Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->count();
+    $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
+
+    if (count($dams) == 3 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
+      return 4;
+    } else {
+      return count($dams);
+    }
   }
 
   public function getDropletsInBasin($basin)
@@ -210,7 +216,6 @@ class Map
 
       $basin = $rivers[$location] ?? null;
       if (\is_null($basin)) {
-        throw new \feException($location);
         throw new \BgaVisibleSystemException('Unknown route for droplet. Should not happen');
       }
 
