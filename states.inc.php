@@ -270,6 +270,16 @@ $machinestates = [
     'possibleactions' => ['actPassOptionalAction', 'actRestart'],
   ],
 
+  ST_TILE_EFFECT => [
+    'name' => 'tileEffect',
+    'description' => '',
+    'descriptionmyturn' => '',
+    'action' => 'stAtomicAction',
+    'args' => 'argsAtomicAction',
+    'type' => 'activeplayer',
+    'possibleactions' => ['actPassOptionalAction', 'actRestart'],
+  ],
+
   ST_RETURNING_HOME => [
     'name' => 'endOfTurn',
     'description' => '',

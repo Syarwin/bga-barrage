@@ -16,6 +16,8 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   {
     if (in_array($row['type'], BASIC_TILES)) {
       return new \BRG\TechTiles\BasicTile($row);
+    } elseif ($row['type'] == ANTON_TILE) {
+      return new \BRG\TechTiles\AntonTile($row);
     } else {
       die('TODO : Advanced tech tiles not implemented');
     }
@@ -44,6 +46,10 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company'];
       $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company'];
       $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
+
+      if ($company->isXO(\XO_ANTON)) {
+        $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];
+      }
     }
 
     return self::getMany(self::create($meeples));

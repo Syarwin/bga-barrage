@@ -34,6 +34,7 @@ const ST_TAKE_CONTRACT = 28;
 const ST_SPECIAL_EFFECT = 29;
 const ST_DISCARD_CONTRACT = 30;
 const ST_PLACE_STRUCTURE = 31;
+const ST_TILE_EFFECT = 32;
 
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
@@ -180,6 +181,7 @@ const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
 const JOKER = 'joker';
+const ANTON_TILE = 'anton';
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
 
@@ -213,6 +215,7 @@ const TAKE_CONTRACT = 'TAKE_CONTRACT';
 const SPECIAL_EFFECT = 'SPECIAL_EFFECT';
 const DISCARD_CONTRACTS = 'DISCARD_CONTRACTS';
 const PLACE_STRUCTURE = 'PLACE_STRUCTURE';
+const TILE_EFFECT = 'TILE_EFFECT';
 
 /** ExtraDatas**/
 const BONUS_VP = 'bonusVP';

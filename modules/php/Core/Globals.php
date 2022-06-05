@@ -30,6 +30,8 @@ class Globals extends \BRG\Helpers\DB_Manager
     'round' => 'int',
 
     'skippedCompanies' => 'obj',
+
+    'antonPower' => 'str',
   ];
 
   protected static $table = 'global_variables';

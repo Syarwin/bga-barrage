@@ -17,8 +17,26 @@ class BasicTile extends \BRG\Helpers\DB_Model
     'cId' => ['company_id', 'int'],
   ];
 
+  protected $staticAttributes = ['engineersNeeded'];
+  protected $engineersNeeded = true;
+
   public function canConstruct($structure)
   {
     return $this->type == JOKER || $this->type == $structure;
+  }
+
+  public function getPowerFlow($slot)
+  {
+    return null;
+  }
+
+  public function getCostModifier($cost)
+  {
+    return $cost;
+  }
+
+  public function engineersNeeded()
+  {
+    return $this->engineersNeeded;
   }
 }

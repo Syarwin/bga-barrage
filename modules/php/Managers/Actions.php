@@ -19,6 +19,7 @@ class Actions
     SPECIAL_EFFECT => 'SpecialEffect',
     DISCARD_CONTRACTS => 'DiscardContract',
     PLACE_STRUCTURE => 'PlaceStructure',
+    TILE_EFFECT => 'TileEffect',
   ];
 
   public static function get($actionId, $ctx = null)
