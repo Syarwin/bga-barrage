@@ -26,15 +26,18 @@ class TileEffect extends \BRG\Models\Action
   {
     $args = $this->getCtxArgs();
     $tile = TechnologyTiles::get($args['tileId']);
-
     if (!$tile->isAutomatic()) {
       return;
     }
 
-    $flow = $tile->getPowerFlow($args['slot']);
-    if (!is_null($flow)) {
-      Engine::insertAsChild($flow);
+    // we do not take power flow from anytime as they were triggered before
+    if (!$tile->isAnyTime()) {
+      $flow = $tile->getPowerFlow($args['slot']);
+      if (!is_null($flow)) {
+        Engine::insertAsChild($flow);
+      }
     }
+    $this->resolveAction([]);
   }
 
   public function actTileEffect()

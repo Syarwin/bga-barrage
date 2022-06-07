@@ -40,6 +40,7 @@ class PlaceStructure extends \BRG\Models\Action
     $spaces = [];
 
     foreach (Map::getConstructSlots() as $space) {
+      $ignoreMalus = false;
       if ($space['type'] != $args['type']) {
         continue;
       }
@@ -61,8 +62,12 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
+      if (isset($args['tileId']) && TechnologyTiles::get($args['tileId'])->ignoreCostMalus()) {
+        $ignoreMalus = true;
+      }
+
       // Check that the player can afford the cost
-      if (!$ignoreResources && ($space['cost'] ?? 0) > $credit) {
+      if (!$ignoreResources && !$ignoreMalus && ($space['cost'] ?? 0) > $credit) {
         continue;
       }
 
@@ -105,6 +110,7 @@ class PlaceStructure extends \BRG\Models\Action
   public function actPlaceStructure($spaceId, $auto = false)
   {
     self::checkAction('actPlaceStructure', $auto);
+    $args = $this->getCtxArgs();
     $company = Companies::getActive();
     $spaces = $this->getAvailableSpaces($company);
     $space = $spaces[$spaceId] ?? null;
@@ -118,7 +124,10 @@ class PlaceStructure extends \BRG\Models\Action
     Meeples::move($mId, $spaceId);
     Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
 
-    if (($space['cost'] ?? 0) > 0) {
+    if (
+      ($space['cost'] ?? 0) > 0 &&
+      (!isset($args['tileId']) || !TechnologyTiles::get($args['tileId'])->ignoreCostMalus())
+    ) {
       Engine::insertAsChild([
         'action' => PAY,
         'args' => [

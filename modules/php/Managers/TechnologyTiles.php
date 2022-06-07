@@ -12,6 +12,24 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   protected static $prefix = 'tile_';
   protected static $customFields = ['type', 'company_id'];
 
+  static $classes = [
+    L1_BASE => 'L1Base',
+    \L1_ELEVATION => 'L1Elevation',
+    \L1_CONDUIT => 'L1Conduit',
+    \L1_POWERHOUSE => 'L1Powerhouse',
+    \L1_JOKER => 'L1Joker',
+    \L2_BASE => 'L2Base',
+    \L2_ELEVATION => 'L2Elevation',
+    \L2_CONDUIT => 'L2Conduit',
+    \L2_POWERHOUSE => 'L2Powerhouse',
+    \L2_JOKER => 'L2Joker',
+    \L3_BASE => 'L3Base',
+    \L3_ELEVATION => 'L3Elevation',
+    \L3_CONDUIT => 'L3Conduit',
+    \L3_POWERHOUSE => 'L3Powerhouse',
+    \L3_JOKER => 'L3Joker',
+  ];
+
   protected static function cast($row)
   {
     if (in_array($row['type'], BASIC_TILES)) {
@@ -19,13 +37,20 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     } elseif ($row['type'] == ANTON_TILE) {
       return new \BRG\TechTiles\AntonTile($row);
     } else {
-      die('TODO : Advanced tech tiles not implemented');
+      if (!\array_key_exists($row['type'], self::$classes)) {
+        throw new \BgaVisibleSystemException(
+          'Trying to get an advanced tile not defined in TechnologyTiles.php : ' . $row['type']
+        );
+      }
+      $name = '\BRG\TechTiles\\' . self::$classes[$row['type']];
+      return new $name($row);
     }
   }
 
   public static function getUiData()
   {
     return self::getSelectQuery()
+      ->whereNotIn('tile_location', ['deckL1', 'deckL2', 'deckL3'])
       ->get()
       ->toArray();
   }
@@ -33,8 +58,27 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   /* Creation of advanced tech tiles */
   public static function setupAdvancedTiles()
   {
-    // // TODO:
-    die('todo : advanced tech tiles');
+    $meeples = [];
+    foreach (L1_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL1'];
+    }
+    foreach (L2_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL2'];
+    }
+    foreach (L3_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL3'];
+    }
+
+    self::create($meeples);
+
+    for ($i = 1; $i <= 3; $i++) {
+      // shuffle each deck
+      self::shuffle('deckL' . $i);
+
+      // pick the advanced tiles
+      self::pickForLocation(1, 'deckL' . $i, 'patent_' . $i);
+    }
+    return;
   }
 
   public static function setupCompanies($companies)

@@ -6,6 +6,7 @@ use BRG\Helpers\Utils;
 use BRG\Managers\Meeples;
 use BRG\Actions\Gain;
 use BRG\Managers\Companies;
+use BRG\Helpers\Collection;
 
 class Map
 {
@@ -100,11 +101,14 @@ class Map
     foreach ($headstreams as $hId => $tileId) {
       $n = static::$headstreamTiles[$tileId][$round - 1];
       if ($n > 0) {
-        $meeples[] = ['type' => DROPLET, 'location' => $hId, 'nbr' => $n];
+        $droplets[] = ['type' => DROPLET, 'location' => $hId, 'nbr' => $n];
       }
     }
-
-    return Meeples::getMany(Meeples::create($meeples));
+    if (count($droplets) > 0) {
+      return Meeples::getMany(Meeples::create($droplets));
+    } else {
+      return new Collection();
+    }
   }
 
   /////////////////////////////////////////////

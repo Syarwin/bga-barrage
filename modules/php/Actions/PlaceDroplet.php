@@ -23,13 +23,24 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function stPlaceDroplet()
   {
+    $args = $this->getCtxArgs();
+    if (isset($args['autoDroplet']) && count($args['autoDroplet']) > 0) {
+      $meeples = [];
+      foreach ($args['autoDroplet'] as $d) {
+        $meeples[] = ['type' => DROPLET, 'nbr' => $d['nb'], 'location' => $d['location']];
+      }
+      $created = Meeples::create($meeples);
+      $droplets = Meeples::getMany($created);
+      Notifications::addAutoDroplets(Companies::getActive(), $droplets->toArray());
+      $this->resolveAction(['created' => $created]);
+    }
   }
 
   public function argsPlaceDroplet()
   {
     $ctxArgs = Engine::getNextUnresolved()->getArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
-    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'n' => $ctxArgs['n']];
+    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'n' => $ctxArgs['n'] ?? 0];
   }
 
   public function actPlaceDroplet($headstreams)

@@ -149,11 +149,20 @@ define([
       this.setupTechnologyTiles();
       this.updateWheelSummaries();
 
+      // Create a new div for "anytime" buttons
+      dojo.place(
+        "<div id='anytimeActions' style='display:inline-block;float:right'></div>",
+        $('generalactions'),
+        'after',
+      );
+
       this.inherited(arguments);
     },
 
     clearPossible() {
       this.inherited(arguments);
+      dojo.empty('anytimeActions');
+
       dojo.query('.selected').removeClass('selected');
       dojo.query('.headstream[data-n]').forEach((h) => (h.dataset.n = 0));
     },
@@ -195,26 +204,23 @@ define([
         );
       }
 
-      /*
-  TODO
-  if (this.isCurrentPlayerActive() && args.args) {
-    // Anytime buttons
-    if (args.args.anytimeActions) {
-      args.args.anytimeActions.forEach((action, i) => {
-        let msg = action.desc;
-        msg = msg.log ? this.format_string_recursive(msg.log, msg.args) : _(msg);
-        msg = this.formatStringMeeples(msg);
+      if (this.isCurrentPlayerActive() && args.args) {
+        // Anytime buttons
+        if (args.args.anytimeActions) {
+          args.args.anytimeActions.forEach((action, i) => {
+            let msg = action.desc;
+            msg = msg.log ? this.format_string_recursive(msg.log, msg.args) : _(msg);
+            // msg = this.formatStringMeeples(msg);
 
-        this.addPrimaryActionButton(
-          'btnAnytimeAction' + i,
-          msg,
-          () => this.takeAction('actAnytimeAction', { id: i }, false),
-          'anytimeActions',
-        );
-      });
-    }
-  }
-  */
+            this.addPrimaryActionButton(
+              'btnAnytimeAction' + i,
+              msg,
+              () => this.takeAction('actAnytimeAction', { id: i }, false),
+              'anytimeActions',
+            );
+          });
+        }
+      }
 
       // Call appropriate method
       var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);

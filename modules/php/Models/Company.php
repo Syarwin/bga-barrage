@@ -436,4 +436,22 @@ class Company extends \BRG\Helpers\DB_Model
       ->get()
       ->count() < 2;
   }
+
+  /********** Check Anytime ****************/
+  public function getAnyTimeActions()
+  {
+    $anytime = ['childs' => []];
+    foreach (self::getAvailableTechTiles() as $tile) {
+      if ($tile->isAnyTime()) {
+        $anytime['childs'][] = array_merge(
+          [
+            'id' => $tile->getId(),
+            'desc' => $tile->getAnyTimeDesc(),
+          ],
+          $tile->getPowerFlow(null)
+        );
+      }
+    }
+    return $anytime;
+  }
 }

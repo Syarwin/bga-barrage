@@ -237,6 +237,19 @@ class Notifications
     );
   }
 
+  public static function acquirePatent($company, $resources, $tile)
+  {
+    self::notifyAll(
+      'collectResources',
+      clienttranslate('${company_name} acquires a new technology tile (Patent office)'),
+      [
+        'company' => $company,
+        'resources' => [],
+        'tile' => $tile,
+      ]
+    );
+  }
+
   public static function returnHomeEngineers($engineers)
   {
     self::notifyAll('collectResources', '', ['resources' => $engineers]);
@@ -279,6 +292,18 @@ class Notifications
       'resources' => $meeples,
       'spaceId' => $spaceId,
     ]);
+  }
+
+  public static function addAutoDroplets($company, $meeples)
+  {
+    self::notifyAll(
+      'gainResources',
+      clienttranslate('${company_name} place droplet(s) in dams (technology tile effect)'),
+      [
+        'company' => $company,
+        'resources' => $meeples,
+      ]
+    );
   }
 
   public static function moveDroplets($droplets)

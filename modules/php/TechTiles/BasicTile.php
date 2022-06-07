@@ -17,14 +17,28 @@ class BasicTile extends \BRG\Helpers\DB_Model
     'cId' => ['company_id', 'int'],
   ];
 
-  protected $staticAttributes = ['engineersNeeded'];
+  protected $staticAttributes = ['engineersNeeded', 'automatic', 'ignoreCostMalus'];
   protected $engineersNeeded = true;
+  protected $automatic = true;
+  protected $ignoreCostMalus = false;
 
   public function canConstruct($structure)
   {
     return $this->type == JOKER || $this->type == $structure;
   }
 
+  /*************** ANYTIME management **************/
+  public function isAnyTime()
+  {
+    return false;
+  }
+
+  public function getAnyTimeDesc()
+  {
+    return '';
+  }
+
+  /**************** Tile Power **************/
   public function getPowerFlow($slot)
   {
     return null;
@@ -42,6 +56,11 @@ class BasicTile extends \BRG\Helpers\DB_Model
 
   public function isAutomatic()
   {
-    return true;
+    return $this->automatic;
+  }
+
+  public function ignoreCostMalus()
+  {
+    return $this->ignoreCostMalus;
   }
 }

@@ -21,9 +21,21 @@ class Construct extends \BRG\Models\Action
   {
     $pairs = [];
     $tiles = $company->getAvailableTechTiles();
+    $args = $this->getCtxArgs();
+    $constraintType = $args['type'] ?? null;
+    $constraintTile = $args['tileId'] ?? null;
     foreach (Map::getConstructSlots() as $slot) {
       foreach ($tiles as $tile) {
         if (!$tile->canConstruct($slot['type'])) {
+          continue;
+        }
+
+        // constraints from advanced tiles
+        if (!is_null($constraintTile) && $tile->getId() != $constraintTile) {
+          continue;
+        }
+
+        if (!is_null($constraintType) && $constraintType != $slot['type']) {
           continue;
         }
 
@@ -49,9 +61,11 @@ class Construct extends \BRG\Models\Action
           'args' => [
             'spaceId' => $slot['id'],
             'type' => $slot['type'],
+            'tileId' => $tile->getId(),
           ],
         ];
 
+        // 6] Manage bonus linked to the tile
         $childs[] = [
           'action' => \TILE_EFFECT,
           'args' => ['tileId' => $tile->getId(), 'slot' => $slot],
@@ -102,7 +116,8 @@ class Construct extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
     }
     $pair = array_pop($pairs);
-    if ($tileId == \ANTON_TILE) {
+    $tile = TechnologyTiles::get($tileId);
+    if ($tile->getType() == \ANTON_TILE) {
       if (
         !in_array(
           $copiedTile,
