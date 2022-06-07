@@ -10,6 +10,7 @@ use BRG\Core\Globals;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
+use BRG\Core\Game;
 
 class PlaceEngineer extends \BRG\Models\Action
 {
@@ -93,8 +94,11 @@ class PlaceEngineer extends \BRG\Models\Action
       return $choices;
     });
 
+    $anyTime = Game::get()->addArgsAnytimeAction();
+
     $args = [
       'spaces' => $spaces->toAssoc(),
+      'anytimeActions' => $anyTime,
     ];
 
     // TODO

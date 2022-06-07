@@ -41,7 +41,7 @@ trait ActionTrait
   /**
    * Add anytime actions
    */
-  function addArgsAnytimeAction(&$args, $action)
+  function addArgsAnytimeAction()
   {
     // If the action is auto => don't display anytime buttons
     if ($args['automaticAction'] ?? false) {
@@ -49,31 +49,12 @@ trait ActionTrait
     }
     $company = Companies::getActive();
 
-    /*
-TODO
     // Anytime cards
-    $listeningCards = PlayerCards::getReaction(
-      [
-        'type' => 'anytime',
-        'method' => 'atAnytime',
-        'action' => $action,
-        'pId' => $player->getId(),
-      ],
-      false
-    );
-
-    // Reorganize animals
-    if ($args['canGoToReorganize'] ?? true) {
-      $listeningCards['childs'][] = ['action' => REORGANIZE, 'pId' => $player->getId(), 'desc' => '<REORGANIZE>'];
-    }
-    // Cook/exchange
-    if ($args['canGoToExchange'] ?? true) {
-      $listeningCards['childs'][] = ['action' => EXCHANGE, 'pId' => $player->getId(), 'desc' => '<COOK>'];
-    }
+    $listeningTiles = $company->getAnyTimeActions();
 
     // Keep only doable actions
     $anytimeActions = [];
-    foreach ($listeningCards['childs'] as $flow) {
+    foreach ($listeningTiles['childs'] as $flow) {
       $tree = Engine::buildTree($flow);
       if ($tree->isDoable($company)) {
         $anytimeActions[] = [
@@ -82,9 +63,7 @@ TODO
         ];
       }
     }
-    $args['anytimeActions'] = $anytimeActions;
-*/
-    $args['anytimeActions'] = [];
+    return $anytimeActions;
   }
 
   function actAnytimeAction($choiceId)
@@ -96,7 +75,9 @@ TODO
 
     $flow = $args['anytimeActions'][$choiceId]['flow'];
     Globals::incEngineChoices();
-    Engine::insertAtRoot($flow, false);
+    Engine::insertAsChild($flow, false);
+    // we resolve the action as it replaces the place engineer action
+    Engine::resolveAction(['anytimeAction' => $choiceId]);
     Engine::proceed();
   }
 

@@ -5,7 +5,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\TechnologyTiles;
 
 /*
- * Anton Tile: all utility functions concerning a tech tile
+ * Anton Tile: Anton XO special tile
  */
 
 class AntonTile extends \BRG\TechTiles\BasicTile

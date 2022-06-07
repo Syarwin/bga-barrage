@@ -82,7 +82,7 @@ trait SetupTrait
       $this->gamestate->nextState('start');
     } else {
       // 12] Draw advanced tech tiles
-      // TODO TechnologyTiles::setupAdvancedTiles();
+      TechnologyTiles::setupAdvancedTiles();
 
       if (Globals::getSetup() == \BRG\OPTION_SETUP_FREE) {
         die('TODO: free setup mode');

@@ -343,6 +343,13 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getOnSpace($spaceId, $type, $this->id);
   }
 
+  public function getPlacedStructures($type)
+  {
+    return Meeples::getFilteredQuery($this->id, null, $type)
+      ->whereNotIn('meeple_location', ['company'])
+      ->get();
+  }
+
   /////////////////////////////////////////////////
   //   ____            _                  _
   //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___
@@ -421,5 +428,23 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
       ->get()
       ->count() < 2;
+  }
+
+  /********** Check Anytime ****************/
+  public function getAnyTimeActions()
+  {
+    $anytime = ['childs' => []];
+    foreach (self::getAvailableTechTiles() as $tile) {
+      if ($tile->isAnyTime()) {
+        $anytime['childs'][] = array_merge(
+          [
+            'id' => $tile->getId(),
+            'desc' => $tile->getAnyTimeDesc(),
+          ],
+          $tile->getPowerFlow(null)
+        );
+      }
+    }
+    return $anytime;
   }
 }

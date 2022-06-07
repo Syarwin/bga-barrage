@@ -35,6 +35,7 @@ const ST_SPECIAL_EFFECT = 29;
 const ST_DISCARD_CONTRACT = 30;
 const ST_PLACE_STRUCTURE = 31;
 const ST_TILE_EFFECT = 32;
+const ST_PATENT = 33;
 
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
@@ -182,8 +183,26 @@ const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
 const JOKER = 'joker';
 const ANTON_TILE = 'anton';
+const L1_BASE = 'L1_BASE';
+const L1_ELEVATION = 'L1_ELEVATION';
+const L1_CONDUIT = 'L1_CONDUIT';
+const L1_POWERHOUSE = 'L1_POWERHOUSE';
+const L1_JOKER = 'L1_JOKER';
+const L2_BASE = 'L2_BASE';
+const L2_ELEVATION = 'L2_ELEVATION';
+const L2_CONDUIT = 'L2_CONDUIT';
+const L2_POWERHOUSE = 'L2_POWERHOUSE';
+const L2_JOKER = 'L2_JOKER';
+const L3_BASE = 'L3_BASE';
+const L3_ELEVATION = 'L3_ELEVATION';
+const L3_CONDUIT = 'L3_CONDUIT';
+const L3_POWERHOUSE = 'L3_POWERHOUSE';
+const L3_JOKER = 'L3_JOKER';
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
+const L1_TILES = [L1_BASE, L1_ELEVATION, L1_CONDUIT, L1_POWERHOUSE, L1_JOKER];
+const L2_TILES = [L2_BASE, L2_ELEVATION, L2_CONDUIT, L2_POWERHOUSE, L2_JOKER];
+const L3_TILES = [L3_BASE, L3_ELEVATION, L3_CONDUIT, L3_POWERHOUSE, L3_JOKER];
 
 // Useful for contracts
 const ANY_MACHINE = 'any_machine';
@@ -199,6 +218,7 @@ const BOARD_BANK = 'bank';
 const BOARD_WORSKHOP = 'workshop';
 const BOARD_MACHINERY_SHOP = 'machinery';
 const BOARD_CONTRACT = 'contract';
+const BOARD_PATENT = 'patent';
 
 /*
  * Atomic action
@@ -216,6 +236,7 @@ const SPECIAL_EFFECT = 'SPECIAL_EFFECT';
 const DISCARD_CONTRACTS = 'DISCARD_CONTRACTS';
 const PLACE_STRUCTURE = 'PLACE_STRUCTURE';
 const TILE_EFFECT = 'TILE_EFFECT';
+const PATENT = 'PATENT';
 
 /** ExtraDatas**/
 const BONUS_VP = 'bonusVP';

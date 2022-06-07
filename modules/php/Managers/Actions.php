@@ -20,6 +20,7 @@ class Actions
     DISCARD_CONTRACTS => 'DiscardContract',
     PLACE_STRUCTURE => 'PlaceStructure',
     TILE_EFFECT => 'TileEffect',
+    PATENT => 'Patent',
   ];
 
   public static function get($actionId, $ctx = null)

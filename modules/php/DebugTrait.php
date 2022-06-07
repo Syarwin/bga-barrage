@@ -40,7 +40,10 @@ trait DebugTrait
     // Engine::insertAsChild(['action' => \FULFILL_CONTRACT, 'args' => ['energy' => 7]]);
     // Engine::resolveAction([]);
     // Engine::proceed();
-    $this->gamestate->jumpToState(ST_RETURNING_HOME);
+    // $this->gamestate->jumpToState(ST_RETURNING_HOME);
+    // throw new \feException(print_r(Map::getConstructSlots()));
+    Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
+    Engine::proceed();
   }
 
   public function tv()
