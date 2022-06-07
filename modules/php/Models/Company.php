@@ -343,6 +343,20 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getOnSpace($spaceId, $type, $this->id);
   }
 
+  public function getBuiltStructures($type = null, $location = null)
+  {
+    return Meeples::getFilteredQuery($this->id, $location, $type)
+      ->where('meeple_location', '<>', 'company')
+      ->get();
+  }
+
+  public function countBuiltStructures($type = null, $location = null)
+  {
+    return Meeples::getFilteredQuery($this->id, $location, $type)
+      ->where('meeple_location', '<>', 'company')
+      ->count();
+  }
+
   /////////////////////////////////////////////////
   //   ____            _                  _
   //  / ___|___  _ __ | |_ _ __ __ _  ___| |_ ___

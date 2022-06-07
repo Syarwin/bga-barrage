@@ -54,7 +54,7 @@ class Construct extends \BRG\Models\Action
 
         $childs[] = [
           'action' => \TILE_EFFECT,
-          'args' => ['tile' => $tile->getId(), 'slot' => $slot],
+          'args' => ['tileId' => $tile->getId(), 'slot' => $slot],
         ];
 
         // Construct the flow

@@ -54,9 +54,9 @@ trait DebugTrait
       throw new BgaVisibleSystemException("Didn't recognized the resource : " . $type);
     }
 
-    $player = Players::getCurrent();
-    $meeples = $player->createResourceInReserve($type, $qty);
-    Notifications::gainResources($player, $meeples);
+    $company = Companies::getActive();
+    $meeples = $company->createResourceInReserve($type, $qty);
+    Notifications::gainResources($company, $meeples->toArray());
     Engine::proceed();
   }
 

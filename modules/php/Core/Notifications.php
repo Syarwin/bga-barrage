@@ -50,6 +50,7 @@ class Notifications
       'companies' => $datas['companies'],
       'techTiles' => $datas['techTiles'],
       'contracts' => $datas['contracts'],
+      'bonuses' => $datas['bonuses'],
       //      'scores' => $datas['scores'],
     ];
 
@@ -110,6 +111,7 @@ class Notifications
     self::notifyAll('fulfillContract', clienttranslate('${company_name} fulfills one contract'), [
       'company' => $company,
       'contract' => $contract,
+      'bonuses' => Game::get()->computeBonuses(),
     ]);
   }
 
@@ -320,25 +322,6 @@ class Notifications
     ]);
   }
 
-  /*
-  public static function construct($company, $type, $target, $meeples, $technologyTlle)
-  {
-    self::notifyAll(
-      'construct',
-      clienttranslate('${company_name} constructs a ${type} in ${target} for ${resources_desc}'),
-      [
-        'company' => $company,
-        'i18n' => ['type'],
-        'type' => $type,
-        'target' => $target,
-        'resources' => $meeples,
-        'techTile' => $technologyTlle,
-      ]
-    );
-  }
-
-*/
-
   public static function placeStructure($company, $type, $target, $meeple)
   {
     $typeDescs = [
@@ -354,6 +337,7 @@ class Notifications
       'type_desc' => $typeDescs[$type],
       'target' => $target,
       'meeple' => $meeple,
+      'bonuses' => Game::get()->computeBonuses(),
     ]);
   }
 

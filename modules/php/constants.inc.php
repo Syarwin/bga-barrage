@@ -184,6 +184,7 @@ const JOKER = 'joker';
 const ANTON_TILE = 'anton';
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
+const STRUCTURES = [BASE, ELEVATION, CONDUIT, POWERHOUSE];
 
 // Useful for contracts
 const ANY_MACHINE = 'any_machine';

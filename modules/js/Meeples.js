@@ -428,6 +428,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_construct(n) {
       debug('Notif: construct on the map', n);
       this.slideResources([n.args.meeple], {});
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
     },
   });
 });

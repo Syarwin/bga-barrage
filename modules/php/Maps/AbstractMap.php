@@ -103,4 +103,16 @@ abstract class AbstractMap
     }
     return $locations;
   }
+
+  public function getLocationsInArea($area)
+  {
+    $locations = [];
+    foreach ($this->getZones() as $zId => $zone) {
+      if ($zone['area'] == $area) {
+        $locations = array_merge($locations, self::getLocationsInZone($zId));
+      }
+    }
+
+    return $locations;
+  }
 }

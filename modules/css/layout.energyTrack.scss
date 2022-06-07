@@ -12,8 +12,9 @@
     left: 0;
     width: 1090px;
     height: 130px;
+    border-radius: 11px;
     background-image: url('img/ui/lightning.png'), url('img/background_board_energy.jpg');
-    background-size: 842px, 100%;
+    background-size: 845px, 100%;
     background-position: 128px 22px, center center;
     background-repeat: no-repeat;
     z-index: -1;
@@ -23,7 +24,7 @@
     &::before {
       background-color: #b0b3ba;
       background-image: url('img/ui/lightning.png');
-      background-size: 842px;
+      background-size: 845px;
       background-position: 128px 22px;
       background-repeat: no-repeat;
     }

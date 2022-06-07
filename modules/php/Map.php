@@ -116,17 +116,6 @@ class Map
   //                  |_|
   /////////////////////////////////////////////
 
-  public function countDamsInBasin($basin)
-  {
-    $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
-
-    if (count($dams) == 3 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
-      return 4;
-    } else {
-      return count($dams);
-    }
-  }
-
   public function getDropletsInBasin($basin)
   {
     return Meeples::getFilteredQuery(null, $basin, [DROPLET])->get();
@@ -135,6 +124,17 @@ class Map
   public function countDropletsInBasin($basin)
   {
     return self::getDropletsInBasin($basin)->count();
+  }
+
+  public function getBasinCapacity($basin)
+  {
+    $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
+
+    if (count($dams) == 3 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
+      return 4;
+    } else {
+      return count($dams);
+    }
   }
 
   ////////////////////////////////////////////////////////////
@@ -227,8 +227,7 @@ class Map
       }
 
       // If location is EXIT or Droplet is blocked by dam, stop here
-      // TODO : handle company that can hold 4 droplet with 3 elevation or sthg like that
-      if ($basin == 'EXIT' || self::countDropletsInBasin($basin) < self::countDamsInBasin($basin)) {
+      if ($basin == 'EXIT' || self::countDropletsInBasin($basin) < self::getBasinCapacity($basin)) {
         $blocked = true;
       }
     } while (!$blocked);
@@ -244,7 +243,7 @@ class Map
   // |_|   |_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|
   //
   /////////////////////////////////////////////////////////////
-  public function getProductionSystems($company, $bonus, $constraints = null)
+  public function getProductionSystems($company, $bonus, $constraints = null, $objTileComputation = false)
   {
     $credits = $company->countReserveResource(CREDIT);
     $systems = [];
@@ -253,7 +252,7 @@ class Map
       $conduits = [];
       foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
         // Is this conduit built by someone ?
-        $meeple = Meeples::getOnSpace($sId, CONDUIT)->first();
+        $meeple = Meeples::getOnSpace($sId, CONDUIT, $objTileComputation ? $company : null)->first();
         if (is_null($meeple)) {
           continue;
         }
@@ -276,9 +275,10 @@ class Map
       // Compute the possible dams
       $dams = [];
       foreach ($zone['basins'] ?? [] as $basin) {
-        $dam = Meeples::getOnSpace($basin, BASE, [COMPANY_NEUTRAL, $company])->first();
+        $owners = $objTileComputation ? [$company] : [COMPANY_NEUTRAL, $company];
+        $dam = Meeples::getOnSpace($basin, BASE, $owners)->first();
         $nDroplets = self::countDropletsInBasin($basin);
-        if (is_null($dam) || $nDroplets == 0) {
+        if (!$objTileComputation && (is_null($dam) || $nDroplets == 0)) {
           continue;
         }
 
@@ -314,7 +314,7 @@ class Map
           }
 
           // Add it to the list if at least one possible > 0 production
-          if (!empty($system['productions'])) {
+          if (!empty($system['productions']) || $objTileComputation) {
             $systems[] = $system;
           }
         }

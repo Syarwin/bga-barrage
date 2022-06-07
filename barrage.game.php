@@ -54,7 +54,7 @@ class barrage extends Table
   use BRG\States\ActionTrait;
   use BRG\States\EngineTrait;
   use BRG\States\EndOfGameTrait;
-  use BRG\States\BonusTileTrait;
+  use BRG\States\BonusObjectiveTileTrait;
 
   public static $instance = null;
   function __construct()
@@ -98,6 +98,7 @@ class barrage extends Table
       'contracts' => Contracts::getUiData(),
       'techTiles' => TechnologyTiles::getUiData(),
       'round' => Globals::getRound(),
+      'bonuses' => $this->computeBonuses(),
     ];
   }
 

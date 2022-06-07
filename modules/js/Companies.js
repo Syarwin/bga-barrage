@@ -26,12 +26,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.forEachCompany((company) => this.setupCompany(company));
       this.setupCompaniesCounters();
       this.updateCompaniesOrder();
+      this.updateCompanyBonuses();
     },
 
     refreshCompanies() {
       this.forEachCompany((company) => {
         this.updateWheelAngle(company);
       });
+      this.updateCompanyBonuses();
     },
 
     updateCompaniesOrder() {
@@ -105,6 +107,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         <div class='company-no' id='company-position-${company.no}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
+        <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
+        <div class='company-obj-tile' id='company-obj-tile-${company.id}'></div>
       </div>
       <div class="company-panel-resources">
         <div class="company-reserve" id="reserve-${company.id}"></div>
@@ -475,6 +479,20 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       $(`summary-wheel-${company.id}`).dataset.angle = company.wheelAngle % 6;
+    },
+
+    ///////////////////////////////////////////////
+    //  ____
+    // | __ )  ___  _ __  _   _ ___  ___  ___
+    // |  _ \ / _ \| '_ \| | | / __|/ _ \/ __|
+    // | |_) | (_) | | | | |_| \__ \  __/\__ \
+    // |____/ \___/|_| |_|\__,_|___/\___||___/
+    ///////////////////////////////////////////////
+    updateCompanyBonuses() {
+      this.forEachCompany((company) => {
+        $(`company-round-bonus-${company.id}`).dataset.value = this.gamedatas.bonuses[company.id].round;
+        $(`company-obj-tile-${company.id}`).dataset.value = this.gamedatas.bonuses[company.id].obj;
+      });
     },
   });
 });

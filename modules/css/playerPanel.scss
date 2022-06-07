@@ -30,10 +30,12 @@
 
   .company-info {
     display: flex;
+    justify-content: space-between;
 
     .company-no {
       background-image: url('img/ui/turn_order.png');
-      width: 50px;
+      width: 44px;
+      height: 41px;
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
@@ -42,20 +44,18 @@
       align-items: center;
       color: white;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 19px;
       font-family: serif;
-      margin-right: 5px;
     }
 
     .company-logo {
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
       background-image: url('img/companies.jpg');
       background-size: 600% 100%;
       border: 2px solid black;
       border-radius: 50%;
-      margin-right: 5px;
 
       @for $i from 1 through 6 {
         &[data-company='#{$i}'] {
@@ -66,8 +66,8 @@
 
     .officer-logo {
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
       background-image: url('img/executive_officers.jpg');
       background-size: 500% 300%;
       border: 2px solid black;
@@ -78,6 +78,72 @@
           background-position-x: ($i % 5) * 100% / 4;
           background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
         }
+      }
+    }
+
+    .company-round-bonus {
+      width: 35px;
+      height: 35px;
+      background-image: url('img/ui/texture_light.jpg');
+      border-radius: 3px;
+      box-shadow: 2px 2px 3px 0px black;
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+
+      &[data-value]::before {
+        content: attr(data-value);
+        display: inline-block;
+        width: 32px;
+        height: 28px;
+        background: url('img/icons/vp.png');
+        background-size: 100%;
+        color: white;
+        font-family: 'acumin-pro', serif;
+        font-size: 21px;
+        line-height: 21px;
+        text-align: center;
+      }
+
+      &[data-value='null']::before {
+        content: 'X';
+        color: #ea2225;
+        font-size: 25px;
+        line-height: 25px;
+        background: none;
+      }
+    }
+
+    .company-obj-tile {
+      width: 28px;
+      height: 47px;
+      background-image: url('img/ui/texture_light.jpg');
+      border-radius: 3px;
+      box-shadow: 2px 2px 3px 0px black;
+      border: 1px solid black;
+      background-size: 20px;
+      margin-top: -14px;
+      margin-right: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+
+      &[data-value]::before {
+        content: attr(data-value);
+        color: white;
+        font-family: 'acumin-pro', serif;
+        font-size: 21px;
       }
     }
 

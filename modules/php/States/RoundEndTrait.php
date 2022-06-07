@@ -119,26 +119,19 @@ trait RoundEndTrait
     // | |_) | (_) | | | | |_| \__ \   | | | | |  __/
     // |____/ \___/|_| |_|\__,_|___/   |_| |_|_|\___|
     //////////////////////////////////////////////////////
-    $necessaryEnergy = Globals::getRound() * 6;
     foreach ($cEnergies as $energy => $companies) {
       foreach ($companies as $company) {
-        if ($energy < 6) {
+        $bonus = $this->computeRoundBonus($company);
+        if (is_null($bonus)) {
           Notifications::message(
             clienttranslate(
               '${company_name} produced less than 6 energy this round and will therefore receive no VP from bonus tile'
             ),
             ['company' => $company]
           );
-          continue;
-        }
-
-        // Compute bonus/malus
-        $bonus = $this->calculateRoundBonus($cId);
-        $malus = max(0, ceil(($necessaryEnergy - $energy) / 6) * 4);
-        $vp = $bonus - $malus;
-        if ($vp > 0) {
-          $company->incScore($vp);
-          Notifications::score($company, $vp, clienttranslate('(bonus tile reward)'));
+        } elseif ($bonus > 0) {
+          $company->incScore($bonus);
+          Notifications::score($company, $bonus, clienttranslate('(bonus tile reward)'));
         }
       }
     }

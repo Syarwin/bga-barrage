@@ -132,15 +132,16 @@ body[data-background='0'] {
     left: 0;
     width: 1090px;
     height: 130px;
+    border-radius: 11px;
     background-image: url("img/ui/lightning.png"), url("img/background_board_energy.jpg");
-    background-size: 842px, 100%;
+    background-size: 845px, 100%;
     background-position: 128px 22px, center center;
     background-repeat: no-repeat;
     z-index: -1; }
   [data-action-background='1'] #energy-track-board::before, [data-action-background='2'] #energy-track-board::before {
     background-color: #b0b3ba;
     background-image: url("img/ui/lightning.png");
-    background-size: 842px;
+    background-size: 845px;
     background-position: 128px 22px;
     background-repeat: no-repeat; }
   [data-action-background='2'] #energy-track-board::before {
@@ -1052,10 +1053,12 @@ body[data-background='0'] {
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23; }
   .player_panel_content .company-info {
-    display: flex; }
+    display: flex;
+    justify-content: space-between; }
     .player_panel_content .company-info .company-no {
       background-image: url("img/ui/turn_order.png");
-      width: 50px;
+      width: 44px;
+      height: 41px;
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: center center;
@@ -1064,18 +1067,16 @@ body[data-background='0'] {
       align-items: center;
       color: white;
       font-weight: bold;
-      font-size: 20px;
-      font-family: serif;
-      margin-right: 5px; }
+      font-size: 19px;
+      font-family: serif; }
     .player_panel_content .company-info .company-logo {
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
       background-image: url("img/companies.jpg");
       background-size: 600% 100%;
       border: 2px solid black;
-      border-radius: 50%;
-      margin-right: 5px; }
+      border-radius: 50%; }
       .player_panel_content .company-info .company-logo[data-company='1'] {
         background-position-x: 20%; }
       .player_panel_content .company-info .company-logo[data-company='2'] {
@@ -1090,8 +1091,8 @@ body[data-background='0'] {
         background-position-x: 120%; }
     .player_panel_content .company-info .officer-logo {
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
       background-image: url("img/executive_officers.jpg");
       background-size: 500% 300%;
       border: 2px solid black;
@@ -1144,6 +1145,54 @@ body[data-background='0'] {
       .player_panel_content .company-info .officer-logo[data-officer='16'] {
         background-position-x: 0%;
         background-position-y: 150%; }
+    .player_panel_content .company-info .company-round-bonus {
+      width: 35px;
+      height: 35px;
+      background-image: url("img/ui/texture_light.jpg");
+      border-radius: 3px;
+      box-shadow: 2px 2px 3px 0px black;
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+      .player_panel_content .company-info .company-round-bonus[data-value]::before {
+        content: attr(data-value);
+        display: inline-block;
+        width: 32px;
+        height: 28px;
+        background: url("img/icons/vp.png");
+        background-size: 100%;
+        color: white;
+        font-family: 'acumin-pro', serif;
+        font-size: 21px;
+        line-height: 21px;
+        text-align: center; }
+      .player_panel_content .company-info .company-round-bonus[data-value='null']::before {
+        content: 'X';
+        color: #ea2225;
+        font-size: 25px;
+        line-height: 25px;
+        background: none; }
+    .player_panel_content .company-info .company-obj-tile {
+      width: 28px;
+      height: 47px;
+      background-image: url("img/ui/texture_light.jpg");
+      border-radius: 3px;
+      box-shadow: 2px 2px 3px 0px black;
+      border: 1px solid black;
+      background-size: 20px;
+      margin-top: -14px;
+      margin-right: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+      .player_panel_content .company-info .company-obj-tile[data-value]::before {
+        content: attr(data-value);
+        color: white;
+        font-family: 'acumin-pro', serif;
+        font-size: 21px; }
     .player_panel_content .company-info .company-name {
       font-family: 'Oranienbaum';
       font-weight: bold;

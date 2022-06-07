@@ -39,4 +39,9 @@ class BasicTile extends \BRG\Helpers\DB_Model
   {
     return $this->engineersNeeded;
   }
+
+  public function isAutomatic()
+  {
+    return true;
+  }
 }

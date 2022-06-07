@@ -567,7 +567,7 @@ define([
 
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
-      ['meeples', 'players', 'companies', 'techTiles', 'contracts'].forEach((value) => {
+      ['meeples', 'players', 'companies', 'techTiles', 'contracts', 'bonuses'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
       this.setupMeeples();
@@ -997,6 +997,9 @@ define([
         icons: [],
         parity: 1 - (contract.id % 2),
       };
+
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
 
       if (this.isFastMode()) {
         dojo.place(`contract-${id}`, this.getContractContainer(contract));
