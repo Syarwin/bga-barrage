@@ -19,7 +19,7 @@ class Jill extends \BRG\Models\Officer
   {
     $costs = parent::getCostModifier($slot, $machine, $n);
     if ($slot['type'] == CONDUIT) {
-      Utils::addCost($costs, [MIXER => $slot['production'], 'nb' => 1], $this->name);
+      Utils::addCost($costs, [MIXER => 1, 'nb' => 1], $this->name);
     }
     return $costs;
   }

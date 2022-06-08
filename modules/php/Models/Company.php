@@ -301,6 +301,13 @@ class Company extends \BRG\Helpers\DB_Model
     return $tiles;
   }
 
+  public function countAdvancedTiles()
+  {
+    return TechnologyTiles::getFilteredQuery($this->id)
+      ->where('type', 'LIKE', 'L%')
+      ->count();
+  }
+
   protected $costMap = [
     BASE => ['type' => EXCAVATOR, MOUNTAIN => 5, HILL => 4, PLAIN => 3],
     ELEVATION => ['type' => MIXER, MOUNTAIN => 4, HILL => 3, PLAIN => 2],
@@ -325,15 +332,20 @@ class Company extends \BRG\Helpers\DB_Model
         break;
 
       case CONDUIT:
-        $n = 2 * $slot['production'];
+        $n = $slot['production'];
         break;
     }
 
     $costs = $this->officer->getCostModifier($slot, $machine, $n);
+    $costs = $tile->getCostModifier($costs, $slot, $machine, $n);
+    $neededUnits = $this->officer->getUnitsModifier($slot, $machine, $n);
+
+    $neededUnits = $tile->getUnitsModifier($neededUnits);
+
     // throw new \feException(print_r($costs));
     // TODO : handle tile modifier
     return [
-      'nb' => $this->isXO(XO_SOLOMON) ? $n : 1,
+      'nb' => $neededUnits,
       'costs' => $costs,
     ];
   }
@@ -453,5 +465,10 @@ class Company extends \BRG\Helpers\DB_Model
       }
     }
     return $anytime;
+  }
+
+  public function hasAnyTimeActions()
+  {
+    return count($this->getAnyTimeActions()['childs']) > 0;
   }
 }

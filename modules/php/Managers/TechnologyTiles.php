@@ -102,7 +102,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   /**
    * Generic base query
    */
-  public function getFilteredQuery($cId, $location)
+  public function getFilteredQuery($cId, $location = null)
   {
     $query = self::getSelectQuery();
     if ($cId != null) {

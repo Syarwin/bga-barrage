@@ -18,14 +18,14 @@ class Solomon extends \BRG\Models\Officer
   public function getCostModifier($slot, $machine, $n)
   {
     $costs = parent::getCostModifier($slot, $machine, $n);
-    foreach ($costs['trades'] as &$c) {
-      foreach ($c as $type => &$value) {
-        if ($type == 'nb') {
-          continue;
-        }
-        $c[$type] = 1;
-      }
-    }
+    // foreach ($costs['trades'] as &$c) {
+    //   foreach ($c as $type => &$value) {
+    //     if ($type == 'nb') {
+    //       continue;
+    //     }
+    //     $c[$type] = 1;
+    //   }
+    // }
     Utils::addCost($costs, [CREDIT => 3, 'nb' => 1], $this->name);
     return $costs;
   }

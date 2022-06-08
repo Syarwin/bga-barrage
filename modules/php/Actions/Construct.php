@@ -46,6 +46,7 @@ class Construct extends \BRG\Models\Action
         $cost = $company->getConstructCost($slot, $tile);
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
+
         $childs[] = [
           'action' => PAY,
           'args' => $cost,
@@ -116,6 +117,7 @@ class Construct extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
     }
     $pair = array_pop($pairs);
+    // throw new \feException(print_r($pair));
     $tile = TechnologyTiles::get($tileId);
     if ($tile->getType() == \ANTON_TILE) {
       if (

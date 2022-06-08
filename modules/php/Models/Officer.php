@@ -50,6 +50,15 @@ class Officer implements \JsonSerializable
 
   public function getCostModifier($slot, $machine, $n)
   {
-    return Utils::formatCost([$machine => $n, 'nb' => 1]);
+    // Conduit cost 2 of machine
+    if ($slot['type'] == CONDUIT) {
+      return Utils::formatCost([$machine => 2, 'nb' => 1]);
+    }
+    return Utils::formatCost([$machine => 1, 'nb' => 1]);
+  }
+
+  public function getUnitsModifier($slot, $machine, $n)
+  {
+    return $n;
   }
 }

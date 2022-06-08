@@ -42,6 +42,66 @@
     &[data-type='joker'] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
     }
+    &[data-type='L1_BASE'] .tech-tile-image {
+      background-position-x: 1 * 100% / 6;
+      background-position-y: 25%;
+    }
+    &[data-type='L1_ELEVATION'] .tech-tile-image {
+      background-position-x: 2 * 100% / 6;
+      background-position-y: 25%;
+    }
+    &[data-type='L1_CONDUIT'] .tech-tile-image {
+      background-position-x: 3 * 100% / 6;
+      background-position-y: 25%;
+    }
+    &[data-type='L1_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 4 * 100% / 6;
+      background-position-y: 25%;
+    }
+    &[data-type='L1_JOKER'] .tech-tile-image {
+      background-position-x: 5 * 100% / 6;
+      background-position-y: 25%;
+    }
+    &[data-type='L2_BASE'] .tech-tile-image {
+      background-position-x: 1 * 100% / 6;
+      background-position-y: 50%;
+    }
+    &[data-type='L2_ELEVATION'] .tech-tile-image {
+      background-position-x: 2 * 100% / 6;
+      background-position-y: 50%;
+    }
+    &[data-type='L2_CONDUIT'] .tech-tile-image {
+      background-position-x: 3 * 100% / 6;
+      background-position-y: 50%;
+    }
+    &[data-type='L2_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 4 * 100% / 6;
+      background-position-y: 50%;
+    }
+    &[data-type='L2_JOKER'] .tech-tile-image {
+      background-position-x: 5 * 100% / 6;
+      background-position-y: 50%;
+    }
+    &[data-type='L3_BASE'] .tech-tile-image {
+      background-position-x: 1 * 100% / 6;
+      background-position-y: 75%;
+    }
+    &[data-type='L3_ELEVATION'] .tech-tile-image {
+      background-position-x: 2 * 100% / 6;
+      background-position-y: 75%;
+    }
+    &[data-type='L3_CONDUIT'] .tech-tile-image {
+      background-position-x: 3 * 100% / 6;
+      background-position-y: 75%;
+    }
+    &[data-type='L3_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 4 * 100% / 6;
+      background-position-y: 75%;
+    }
+    &[data-type='L3_JOKER'] .tech-tile-image {
+      background-position-x: 5 * 100% / 6;
+      background-position-y: 75%;
+    }
   }
 
   &.selectable {

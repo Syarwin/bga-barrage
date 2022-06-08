@@ -19,6 +19,16 @@ class L3Conduit extends \BRG\TechTiles\BasicTile
 
   public function getPowerFlow($slot)
   {
-    //TODO
+    return [
+      'type' => NODE_SEQ,
+      'childs' => [
+        ['action' => GAIN, 'args' => [ENERGY => 2 * $slot['production']]],
+        [
+          'action' => \FULFILL_CONTRACT,
+          'optional' => true,
+          'args' => [ENERGY => 2 * $slot['production']],
+        ],
+      ],
+    ];
   }
 }

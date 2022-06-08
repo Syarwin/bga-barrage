@@ -44,9 +44,14 @@ class BasicTile extends \BRG\Helpers\DB_Model
     return null;
   }
 
-  public function getCostModifier($cost)
+  public function getCostModifier($costs, $slot, $machine, $n)
   {
-    return $cost;
+    return $costs;
+  }
+
+  public function getUnitsModifier($n)
+  {
+    return $n;
   }
 
   public function engineersNeeded()
