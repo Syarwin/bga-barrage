@@ -148,7 +148,7 @@ trait RoundEndTrait
     //   |_| \__,_|_|  |_| |_|  \___/|_|  \__,_|\___|_|
     //
     ///////////////////////////////////////////////////////////
-    if (Globals::getRound() == 5) {
+    if (Globals::getRound() == 2) {
       $this->gamestate->jumpToState(ST_PRE_END_OF_GAME);
       return;
     }

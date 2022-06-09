@@ -125,6 +125,9 @@ class Globals extends \BRG\Helpers\DB_Manager
         return (bool) self::$data[$name];
       } elseif ($match[1] == 'set') {
         // Setters in DB and update cache
+        if(!isset($args[0])){
+          throw new \InvalidArgumentException("Setting {$name} require a value");          
+        }
         $value = $args[0];
         if (self::$variables[$name] == 'int') {
           $value = (int) $value;

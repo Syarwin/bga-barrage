@@ -17,6 +17,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
   const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract']);
 
+  function arrayEquals(a, b) {
+    return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
+  }
+
   return declare('barrage.companies', null, {
     forEachCompany(callback) {
       Object.values(this.gamedatas.companies).forEach((company) => callback(company));
@@ -279,7 +283,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (color == 'ffffff') {
         color_bg = 'background-color:#bbbbbb;';
       }
-      return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
+      return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${_(name)}</span><!--PNE-->`;
     },
 
     /**
@@ -494,6 +498,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     // |____/ \___/|_| |_|\__,_|___/\___||___/
     ///////////////////////////////////////////////
     updateCompanyBonuses() {
+      let objTileDesc = this.computeObjTileTooltip();
       this.forEachCompany((company) => {
         // Round bonus
         let roundBonus = this.gamedatas.bonuses[company.id].round;
@@ -514,7 +519,49 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         // Obj tile
         $(`company-obj-tile-${company.id}`).dataset.value = this.gamedatas.bonuses[company.id].obj;
+        this.addCustomTooltip(`company-obj-tile-${company.id}`, objTileDesc);
       });
+    },
+
+    computeObjTileTooltip() {
+      // Compute obj tile desc
+      let desc = '';
+      this.gamedatas.bonuses['objTile'].forEach((bonus) => {
+        // No tie
+        if (bonus.cIds.length == 1) {
+          let placeNames = {
+            1: _('first place'),
+            2: _('second place'),
+            3: _('third place'),
+          };
+
+          let cId = bonus.cIds[0];
+          desc +=
+            this.format_string_recursive(_('${name} will earn ${n}VPs for ${place}'), {
+              name: this.coloredCompanyName(this.gamedatas.companies[cId].name),
+              n: bonus.share,
+              place: placeNames[bonus.pos[0]],
+            }) + '<br />';
+        }
+        // Tie
+        else {
+          let place = '';
+          if (arrayEquals(bonus.pos, [1, 2])) place = _('first and second place');
+          if (arrayEquals(bonus.pos, [2, 3])) place = _('second and third place');
+          if (arrayEquals(bonus.pos, [1, 2, 3])) place = _('first, second and third place');
+
+          let names = bonus.cIds.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
+          desc +=
+            this.format_string_recursive(_('${names} will share ${n}VPs for ${place}, gaining ${m}VPs each'), {
+              names,
+              n: bonus.vp,
+              m: bonus.share,
+              place,
+            }) + '<br />';
+        }
+      });
+
+      return desc;
     },
 
     //////////////////////////////////////////////////
@@ -528,14 +575,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     updateCompanyIncomes() {
       this.forEachCompany((company) => {
         let incomes = this.gamedatas.companies[company.id].incomes;
+        let hasIncome = incomes.descs.length > 0;
         let container = $(`company-income-${company.id}`);
         container.innerHTML = '';
 
-        let icons = incomes.icons.map((t) => this.formatString(t)).join('');
-        dojo.place(icons, container);
+        if (hasIncome) {
+          let icons = incomes.icons.map((t) => this.formatString(t)).join('');
+          dojo.place(icons, container);
 
-        let desc = incomes.descs.map((t) => this.translate(t)).join('<br />');
-        this.addCustomTooltip(container, desc);
+          let desc = incomes.descs.map((t) => this.translate(t)).join('<br />');
+          this.addCustomTooltip(container, desc);
+        }
       });
     },
 

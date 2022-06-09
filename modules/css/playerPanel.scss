@@ -265,6 +265,7 @@
   .company-income-wrapper {
     display: flex;
     position: relative;
+    height: 30px;
 
     .company-income {
       font-size: 20px;
@@ -291,6 +292,10 @@
           rgb(0, 0, 0) 0.96017px -0.279416px 0px;
         position: relative;
         z-index: 2;
+      }
+
+      &:empty::before {
+        display: none;
       }
     }
 

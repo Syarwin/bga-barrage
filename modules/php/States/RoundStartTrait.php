@@ -85,7 +85,7 @@ trait RoundStartTrait
     }
 
     $company = Companies::getActive();
-    Globals::setAntonPower();
+    Globals::setAntonPower('');
 
     // Already out of round ? => Go to the next company if one is left
     $skipped = Globals::getSkippedCompanies();

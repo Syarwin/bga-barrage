@@ -23,6 +23,8 @@ trait BonusObjectiveTileTrait
         'obj' => $this->computeObjectiveQuantity($company),
       ];
     }
+    
+    $bonuses['objTile'] = $this->computeObjectiveTileBonuses();
 
     return $bonuses;
   }
@@ -72,7 +74,7 @@ trait BonusObjectiveTileTrait
       BONUS_BASE => 4,
       BONUS_ELEVATION => 4,
       BONUS_CONDUIT => 4,
-      BONUS_POWERHOUSE => 5
+      BONUS_POWERHOUSE => 5,
     ];
     return $multiplicativeCoeffs[$bonusTile];
   }
@@ -92,7 +94,7 @@ trait BonusObjectiveTileTrait
     // Add malus
     $datas['malus'] = max(0, ceil(($necessaryEnergy - $energy) / 6) * 4);
     // Total
-    $datas['vp'] = $energy < 6? null : max(0, $datas['bonus'] - $datas['malus']);
+    $datas['vp'] = $energy < 6 ? null : max(0, $datas['bonus'] - $datas['malus']);
 
     return $datas;
   }
@@ -178,25 +180,43 @@ trait BonusObjectiveTileTrait
         break;
       }
 
-      // TODO : share VP in case of tie
+      // Compute the number of VP to share
+      $vp = 0;
+      $positions = [];
       foreach ($companies as $cId) {
-        /*
-        $bonuses[] = [$cId, $n, ]
-        $flow[] = [
-          'action' => GAIN,
-          'source' =>
-            $n == 1
-              ? clienttranslate('1st place on objective tile')
-              : ($n == 2
-                ? clienttranslate('2nd place on objective tile')
-                : clienttranslate('3rd place on objective tile')),
-          'args' => ['cId' => $cId, VP => ceil($scoreMap[$n] / count($companies))],
-        ];
-        */
+        if ($n < 3) {
+          $positions[] = $n;
+          $vp += $scoreMap[$n];
+          $n++;
+        }
       }
-      $n++;
+
+      // Compute the share
+      $share = ceil($vp / count($companies));
+
+      $bonuses[] = [
+        'pos' => $positions,
+        'vp' => $vp,
+        'cIds' => $companies,
+        'share' => $share,
+      ];
     }
-    // TODO : stats
-    return $flow;
+
+    return $bonuses;
   }
 }
+
+/*
+/*
+$bonuses[] = [$cId, $n, ]
+$flow[] = [
+  'action' => GAIN,
+  'source' =>
+    $n == 1
+      ? clienttranslate('1st place on objective tile')
+      : ($n == 2
+        ? clienttranslate('2nd place on objective tile')
+        : clienttranslate('3rd place on objective tile')),
+  'args' => ['cId' => $cId, VP => ceil($scoreMap[$n] / count($companies))],
+];
+*/

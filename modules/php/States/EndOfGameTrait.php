@@ -16,46 +16,88 @@ trait EndOfGameTrait
 {
   function stEndScoring()
   {
-    $flow = ['type' => NODE_SEQ, 'childs' => []];
-    $flow['childs'] = array_merge($this->calculateObjectiveTile(), $flow['childs']);
-    foreach (Companies::getAll() as $cId => $company) {
-      $count = 0;
-      foreach ([CREDIT, EXCAVATOR, MIXER, EXCAMIXER] as $type) {
-        $count += $company->countReserveResource($type);
+    $companies = Companies::getAll();
+
+    //////////////////////////////////////////////////////
+    //   ___  _     _           _   _
+    //  / _ \| |__ (_) ___  ___| |_(_)_   _____
+    // | | | | '_ \| |/ _ \/ __| __| \ \ / / _ \
+    // | |_| | |_) | |  __/ (__| |_| |\ V /  __/
+    //  \___/|_.__// |\___|\___|\__|_| \_/ \___|
+    //           |__/
+    //////////////////////////////////////////////////////
+    $bonuses = $this->computeObjectiveTileBonuses();
+    foreach ($bonuses as $bonus) {
+      $vp = $bonus['share'];
+      if ($vp == 0) {
+        continue;
       }
-      if ($count >= 5) {
-        $flow['childs'][] = [
-          'action' => GAIN,
-          'source' => clienttranslate('bundle of 5 resources'),
-          'args' => [
-            'cId' => $company->getId(),
-            VP => intdiv($count, 5),
-          ],
+
+      // No tie
+      if (count($bonus['cIds']) == 1) {
+        $company = $companies[$bonus['cIds'][0]];
+        $company->incScore($vp);
+        $sources = [
+          1 => clienttranslate('(objective tile first place)'),
+          2 => clienttranslate('(objective tile second place)'),
+          3 => clienttranslate('(objective tile third place)'),
         ];
+        $pos = $bonus['pos'][0];
+        Notifications::score($company, $vp, $sources[$pos]);
       }
-      // count number of water on barrage
-      $drops = 0;
-      foreach (Meeples::getFilteredQuery($cId, null, [BASE]) as $mId => $m) {
-        if ($m['location'] == 'company') {
-          continue;
+      // Tie
+      else {
+        $pos = implode('', $bonus['pos']);
+        $sources = [
+          '12' => clienttranslate('(sharing objective tile first and second place)'),
+          '23' => clienttranslate('(sharing objective tile second and third place)'),
+          '123' => clienttranslate('(sharing objective tile first, second and third place)'),
+        ];
+
+        foreach ($bonus['cIds'] as $cId) {
+          $company = $companies[$cId];
+          $company->incScore($vp);
+          Notifications::score($company, $vp, $sources[$pos]);
         }
-        $drops += count(Meeples::getOnSpace($m['location'], DROPLET, $cId));
-      }
-      if ($drops != 0) {
-        $flow['childs'][] = [
-          'action' => GAIN,
-          'source' => clienttranslate('droplets retained by dams'),
-          'args' => [
-            'cId' => $company->getId(),
-            VP => $drops,
-          ],
-        ];
       }
     }
-    // debug
-    // Engine::setup($flow, ['state' => ST_BEFORE_START_OF_ROUND]);
 
-    Engine::setup($flow, ['state' => ST_END_GAME]);
-    Engine::proceed();
+    //////////////////////////////////////////////////////
+    //  ____
+    // |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+    // | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+    // |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+    // |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+    //////////////////////////////////////////////////////
+    foreach ($companies as $cId => $company) {
+      $count = $company->countReserveResource([CREDIT, EXCAVATOR, MIXER, EXCAMIXER]);
+      $vp = intdiv($count, 5);
+      if ($vp > 0) {
+        $company->incScore($vp);
+        Notifications::score($company, $vp, clienttranslate('(bundle(s) of 5 resources left)'));
+      }
+    }
+
+    ///////////////////////////////////////////
+    //  ____                  _      _
+    // |  _ \ _ __ ___  _ __ | | ___| |_ ___
+    // | | | | '__/ _ \| '_ \| |/ _ \ __/ __|
+    // | |_| | | | (_) | |_) | |  __/ |_\__ \
+    // |____/|_|  \___/| .__/|_|\___|\__|___/
+    //                 |_|
+    ///////////////////////////////////////////
+    foreach ($companies as $cId => $company) {
+      $vp = 0;
+      foreach ($company->getBuiltStructures(BASE) as $mId => $m) {
+        $vp += Map::countDropletsInBasin($m['location']);
+      }
+
+      if ($vp > 0) {
+        $company->incScore($vp);
+        Notifications::score($company, $vp, clienttranslate('(droplet(s) retained by dams)'));
+      }
+    }
+
+    $this->gamestate->nextState();
   }
 }
