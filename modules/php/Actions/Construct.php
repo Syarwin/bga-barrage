@@ -7,6 +7,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Stats;
+use BRG\Core\Globals;
 use BRG\Helpers\Utils;
 use BRG\Map;
 
@@ -29,6 +30,10 @@ class Construct extends \BRG\Models\Action
         if (!$tile->canConstruct($slot['type'])) {
           continue;
         }
+
+        // if ($slot['id'] != 'B1U' || $slot['type'] != BASE) {
+        //   continue;
+        // }
 
         // constraints from advanced tiles
         if (!is_null($constraintTile) && $tile->getId() != $constraintTile) {
@@ -101,7 +106,10 @@ class Construct extends \BRG\Models\Action
       $spaces[$pair['spaceId']][] = $pair['tileId'];
     }
 
-    return ['spaces' => $spaces];
+    return [
+      'spaces' => $spaces,
+      'antonPower' => $company->isAntonTileAvailable() ? $company->getWheelTiles()->toArray() : [],
+    ];
   }
 
   public function actConstruct($spaceId, $tileId, $copiedTile = null)
@@ -119,7 +127,7 @@ class Construct extends \BRG\Models\Action
     $pair = array_pop($pairs);
     // throw new \feException(print_r($pair));
     $tile = TechnologyTiles::get($tileId);
-    if ($tile->getType() == \ANTON_TILE) {
+    if ($tile->getType() == \ANTON_TILE && Globals::getAntonPower() == '') {
       if (
         !in_array(
           $copiedTile,

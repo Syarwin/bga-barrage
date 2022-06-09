@@ -285,6 +285,21 @@ class Company extends \BRG\Helpers\DB_Model
     return $tiles;
   }
 
+  public function isAntonTileAvailable()
+  {
+    $tiles = $this->getAvailableTechTiles();
+    $tiles->filter(function ($tile) {
+      return $tile->getId() == \ANTON_TILE;
+    });
+
+    return count($tiles) != 0;
+  }
+
+  public function getWheelTiles()
+  {
+    return TechnologyTiles::getFilteredQuery($this->id, 'wheel')->get();
+  }
+
   public function countAdvancedTiles()
   {
     return TechnologyTiles::getFilteredQuery($this->id)
@@ -327,7 +342,6 @@ class Company extends \BRG\Helpers\DB_Model
     $neededUnits = $tile->getUnitsModifier($neededUnits);
 
     // throw new \feException(print_r($costs));
-    // TODO : handle tile modifier
     return [
       'nb' => $neededUnits,
       'costs' => $costs,

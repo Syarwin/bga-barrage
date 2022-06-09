@@ -23,7 +23,7 @@ trait BonusObjectiveTileTrait
         'obj' => $this->computeObjectiveQuantity($company),
       ];
     }
-    
+
     $bonuses['objTile'] = $this->computeObjectiveTileBonuses();
 
     return $bonuses;
@@ -82,6 +82,9 @@ trait BonusObjectiveTileTrait
   public function computeRoundBonus($company, $round = null)
   {
     $round = $round ?? Globals::getRound();
+    if ($round == 0) {
+      return [];
+    }
     $energy = $company->getEnergy();
     $necessaryEnergy = $round * 6;
 

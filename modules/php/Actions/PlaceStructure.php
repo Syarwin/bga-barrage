@@ -65,6 +65,13 @@ class PlaceStructure extends \BRG\Models\Action
 
       if (isset($args['tileId']) && TechnologyTiles::get($args['tileId'])->ignoreCostMalus()) {
         $ignoreMalus = true;
+      } elseif ($company->isAntonTileAvailable()) {
+        foreach (TechnologyTiles::getFilteredQuery($company->getId(), 'wheel')->get() as $tileId => $tile) {
+          if ($tile->canConstruct($space['type']) && $tile->ignoreCostMalus()) {
+            $ignoreMalus = true;
+            break;
+          }
+        }
       }
 
       // Check that the player can afford the cost

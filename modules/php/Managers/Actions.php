@@ -80,6 +80,9 @@ class Actions
   {
     $company = Companies::getActive();
     if (!self::isDoable($actionId, $ctx, $company)) {
+      if ($actionId == PAY) {
+        throw new \BgaUserException(clienttranslate('You cannot pay the needed cost. Choose another combination'));
+      }
       throw new \BgaUserException('Action not doable. Should not happen.' . $actionId);
     }
 
@@ -93,6 +96,9 @@ class Actions
     $company = Companies::getActive();
     if (!self::isDoable($actionId, $ctx, $company)) {
       if (!$ctx->isOptional()) {
+        if ($actionId == PAY) {
+          throw new \BgaUserException(clienttranslate('You cannot pay the needed cost. Choose another combination'));
+        }
         throw new \BgaUserException('Action not doable. Should not happen' . $actionId);
       } else {
         // Auto pass if optional and not doable

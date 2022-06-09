@@ -84,6 +84,9 @@ class LeafNode extends AbstractNode
    */
   public function getDescription($ignoreResources = false)
   {
+    if (isset($this->infos['description'])) {
+      return $this->infos['description'];
+    }
     if (isset($this->infos['action'])) {
       return Actions::get($this->infos['action'], $this)->getDescription($ignoreResources);
     }

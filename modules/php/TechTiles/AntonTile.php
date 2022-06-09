@@ -3,6 +3,7 @@ namespace BRG\TechTiles;
 
 use BRG\Managers\Companies;
 use BRG\Managers\TechnologyTiles;
+use BRG\Core\Globals;
 
 /*
  * Anton Tile: Anton XO special tile
@@ -13,12 +14,16 @@ class AntonTile extends \BRG\TechTiles\BasicTile
   // Can copy another tech tile placed on the wheel.
   public function canConstruct($structure)
   {
-    foreach ($this->getWheelTiles() as $tile) {
-      if ($tile->canConstruct($structure)) {
-        return true;
+    if (Globals::getAntonPower() == '') {
+      foreach ($this->getWheelTiles() as $tile) {
+        if ($tile->canConstruct($structure)) {
+          return true;
+        }
       }
+      return false;
+    } else {
+      return TechnologyTiles::get(Globals::getAntonPower())->canConstruct($structure);
     }
-    return false;
   }
 
   protected function getWheelTiles()
@@ -33,9 +38,27 @@ class AntonTile extends \BRG\TechTiles\BasicTile
       $flow = ['type' => NODE_XOR, 'childs' => []];
       foreach ($this->getWheelTiles() as $tile) {
         if ($tile->isAnyTime()) {
-          $flow['childs'] = $tile->getPowerFlow($slot);
+          $f = $tile->getPowerFlow($slot);
+          $f['description'] = $tile->getAnyTimeDesc();
+          $f['args']['tileId'] = $this->id;
+          $flow['childs'][] = [
+            'type' => NODE_SEQ,
+            'childs' => [
+              [
+                'action' => \SPECIAL_EFFECT,
+                'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => [$tile->getId()]],
+              ],
+              $f,
+            ],
+          ];
         }
       }
+      // array_unshift($flow['childs'], ['action' => \SPECIAL_EFFECT, 'args' => ['tileId' => $this->id]]);
+      // throw new \feException(print_r($flow));
+      // return [
+      //   'type' => NODE_SEQ,
+      //   'childs' => [['action' => \SPECIAL_EFFECT, 'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => ['tile' => $tile]]], $flow],
+      // ];
       return $flow;
     } else {
       return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot);
@@ -59,26 +82,46 @@ class AntonTile extends \BRG\TechTiles\BasicTile
 
   public function getCostModifier($costs, $slot, $machine, $n)
   {
+    if (Globals::getAntonPower() == '') {
+      return parent::getCostModifier($costs, $slot, $machine, $n);
+    }
     return TechnologyTiles::get(Globals::getAntonPower())->getCostModifier($costs, $slot, $machine, $n);
   }
 
   public function getUnitsModifier($n)
   {
-    return TechnologyTiles::get(Globals::getAntonPower())->getUnitModifier($n);
+    if (Globals::getAntonPower() == '') {
+      return parent::getUnitsModifier($n);
+    }
+    return TechnologyTiles::get(Globals::getAntonPower())->getUnitsModifier($n);
   }
 
   public function engineersNeeded()
   {
+    if (Globals::getAntonPower() == '') {
+      return parent::engineersNeeded();
+    }
     return TechnologyTiles::get(Globals::getAntonPower())->engineersNeeded();
   }
 
   public function isAutomatic()
   {
+    if (Globals::getAntonPower() == '') {
+      return parent::isAutomatic();
+    }
     return TechnologyTiles::get(Globals::getAntonPower())->isAutomatic();
   }
 
   public function ignoreCostMalus()
   {
-    return TechnologyTiles::get(Globals::getAntonPower())->isAutomatic();
+    if (Globals::getAntonPower() == '') {
+      return parent::ignoreCostMalus();
+    }
+    return TechnologyTiles::get(Globals::getAntonPower())->ignoreCostMalus();
+  }
+
+  public function activate($tile)
+  {
+    Globals::setAntonPower($tile);
   }
 }

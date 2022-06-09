@@ -102,6 +102,10 @@
       background-position-x: 5 * 100% / 6;
       background-position-y: 75%;
     }
+    &[data-type='anton'] .tech-tile-image {
+      background-position-x: 0%;
+      background-position-y: 100%;
+    }
   }
 
   &.selectable {

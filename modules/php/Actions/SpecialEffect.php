@@ -1,6 +1,6 @@
 <?php
 namespace BRG\Actions;
-use BRG\Managers\PlayerCards;
+use BRG\Managers\TechnologyTiles;
 
 class SpecialEffect extends \BRG\Models\Action
 {
@@ -12,7 +12,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function isDoable($company, $ignoreResources = false)
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = 'is' . \ucfirst($args['method']) . 'Doable';
     $arguments = $args['args'] ?? [];
     return \method_exists($card, $method) ? $card->$method($player, $ignoreResources, ...$arguments) : true;
@@ -21,7 +21,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function getDescription($ignoreResources = false)
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = 'get' . \ucfirst($args['method']) . 'Description';
     $arguments = $args['args'] ?? [];
     return \method_exists($card, $method) ? $card->$method(...$arguments) : '';
@@ -30,7 +30,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function isIndependent($player = null)
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = 'isIndependent' . \ucfirst($args['method']);
     return \method_exists($card, $method) ? $card->$method($player) : false;
   }
@@ -38,7 +38,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function isAutomatic($player = null)
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = $args['method'];
     return \method_exists($card, $method);
   }
@@ -46,7 +46,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function stSpecialEffect()
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = $args['method'];
     $arguments = $args['args'] ?? [];
     if (\method_exists($card, $method)) {
@@ -58,7 +58,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function argsSpecialEffect()
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = 'args' . \ucfirst($args['method']);
     $arguments = $args['args'] ?? [];
     return \method_exists($card, $method) ? $card->$method(...$arguments) : [];
@@ -67,7 +67,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function actSpecialEffect(...$actArgs)
   {
     $args = $this->getCtxArgs();
-    $card = PlayerCards::get($args['cardId']);
+    $card = TechnologyTiles::get($args['tileId']);
     $method = 'act' . \ucfirst($args['method']);
     $arguments = $args['args'] ?? [];
     if (!\method_exists($card, $method)) {

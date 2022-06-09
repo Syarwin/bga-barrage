@@ -2,6 +2,7 @@
 namespace BRG\Managers;
 use BRG\Core\Stats;
 use BRG\Helpers\UserException;
+use BRG\Core\Globals;
 
 /* Class to manage all the meeples for Barrage */
 
@@ -89,7 +90,9 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company'];
       $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company'];
       $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company'];
-      $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
+      if (Globals::isBeginner()) {
+        $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
+      }
 
       if ($company->isXO(\XO_ANTON)) {
         $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];

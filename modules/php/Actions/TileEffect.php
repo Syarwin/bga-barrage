@@ -18,7 +18,7 @@ class TileEffect extends \BRG\Models\Action
 
   public function argsTileEffect()
   {
-    // TODO
+    // TODO?
     return [];
   }
 
@@ -42,7 +42,7 @@ class TileEffect extends \BRG\Models\Action
 
   public function actTileEffect()
   {
-    // TODO
+    // TODO?
     return;
   }
 }
