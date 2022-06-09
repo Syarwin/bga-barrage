@@ -234,9 +234,8 @@ define([
       if (this[methodName] !== undefined) this[methodName](args.args);
     },
 
-
-    notif_startNewRound(n){
-      debug("Notif: starting new round", n)
+    notif_startNewRound(n) {
+      debug('Notif: starting new round', n);
       this.gamedatas.bonuses = n.args.bonuses;
       this.updateCompanyBonuses();
     },
@@ -1121,6 +1120,8 @@ define([
       else if (tile.location == 'wheel') {
         let n = 1 + parseInt(tile.state);
         return $(`wheel-${tile.cId}`).querySelector(`.wheel-sector:nth-of-type(${n}) .wheel-tile-slot`);
+      } else if ($(tile.location)) {
+        return $(tile.location);
       }
 
       console.error('Trying to get container of a tech tile', tile);

@@ -106,6 +106,9 @@
     &[data-id='contract'] {
       background: #75885d;
     }
+    &[data-id='patent'] {
+      background: #b39348;
+    }
   }
 
   [data-action-background='2'] & {
@@ -343,6 +346,19 @@
         width: 110px;
         margin: 0px 8px;
       }
+    }
+  }
+
+  &[data-id='patent'] .action-board-inner {
+    --barragetisaacTileScale: 0.45;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 54px);
+
+    .action-board-icon {
+      width: 78px;
+      margin: 0px 8px;
+      justify-content: end;
     }
   }
 }

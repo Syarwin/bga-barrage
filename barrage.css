@@ -461,6 +461,8 @@ body {
     background: #8a6f57; }
   [data-action-background='1'] .action-board[data-id='contract'] {
     background: #75885d; }
+  [data-action-background='1'] .action-board[data-id='patent'] {
+    background: #b39348; }
   [data-action-background='2'] .action-board {
     background: #333232; }
   [data-action-name='3'] .action-board {
@@ -618,6 +620,15 @@ body {
     .action-board[data-id='contract'] .action-board-inner .action-board-row .action-board-icon {
       width: 110px;
       margin: 0px 8px; }
+  .action-board[data-id='patent'] .action-board-inner {
+    --barragetisaacTileScale: 0.45;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 54px); }
+    .action-board[data-id='patent'] .action-board-inner .action-board-icon {
+      width: 78px;
+      margin: 0px 8px;
+      justify-content: end; }
 
 #game_play_area {
   font-size: 30px; }

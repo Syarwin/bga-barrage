@@ -14,6 +14,7 @@ use BRG\Core\Globals;
 class PatentActionBoard extends AbstractActionBoard
 {
   protected static $id = BOARD_PATENT;
+  protected static $isNotBeginner = true;
   public static function getName()
   {
     return clienttranslate('Patent office');
@@ -23,9 +24,12 @@ class PatentActionBoard extends AbstractActionBoard
   {
     $rows = [];
 
-    $rows[] = ['p1', ['i' => '<PATENT:1>', 't' => clienttranslate('Acquire a level 1 tile')], 'p1c'];
-    $rows[] = ['p2', ['i' => '<PATENT:2>', 't' => clienttranslate('Acquire a level 2 tile')], 'p2c'];
-    $rows[] = ['p3', ['i' => '<PATENT:3>', 't' => clienttranslate('Acquire a level 3 tile')], 'p3c'];
+    $rows[] = ['p1', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 1 tile')]];
+    $rows[] = 'patent_1';
+    $rows[] = ['p2', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 2 tile')]];
+    $rows[] = 'patent_2';
+    $rows[] = ['p3', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 3 tile')]];
+    $rows[] = 'patent_3';
 
     return $rows;
   }
