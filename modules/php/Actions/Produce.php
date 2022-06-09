@@ -28,12 +28,13 @@ class Produce extends \BRG\Models\Action
     $args = $this->getCtxArgs();
     $bonus = $args['bonus'] ?? 0;
     $germanPower = $args['germanPower'] ?? false;
+    $company = Companies::getActive();
+    $bonus += $company->getProductionBonus();
 
     if ($germanPower) {
       $bonus = 0;
     }
 
-    $company = Companies::getActive();
     return [
       'i18n' => ['modifier'],
       'systems' => Map::getProductionSystems($company, $bonus, $args['constraints'] ?? null),

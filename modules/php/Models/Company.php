@@ -436,7 +436,7 @@ class Company extends \BRG\Helpers\DB_Model
   {
     $incomes = $this->getIncomes();
     $flow = FlowConvertor::computeRewardFlow($incomes, clienttranslate('income'));
-    return empty($flow['childs'])? [] : $flow;
+    return empty($flow['childs']) ? [] : $flow;
   }
 
   public function productionPowerEnabled()
@@ -444,6 +444,19 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
       ->get()
       ->count() < 2;
+  }
+
+  public function getProductionBonus()
+  {
+    $left = Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
+      ->get()
+      ->count();
+    if ($left == 0) {
+      return 3;
+    } elseif ($left >= 2) {
+      return 1;
+    }
+    return 0;
   }
 
   /********** Check Anytime ****************/
