@@ -17,8 +17,26 @@ class L3Base extends \BRG\TechTiles\BasicTile
     return $structure == BASE;
   }
 
+  public function isAnyTime()
+  {
+    return true;
+  }
+
+  public function getAnyTimeDesc()
+  {
+    return clienttranslate('Construct a <BASE> without <ENGINEER> & <EXCAVATOR>');
+  }
+
   public function getPowerFlow($slot)
   {
-    //TODO
+    return [
+      'action' => CONSTRUCT,
+      'args' => ['type' => BASE, 'tileId' => $this->id],
+    ];
+  }
+
+  public function getUnitsModifier($n)
+  {
+    return -99;
   }
 }

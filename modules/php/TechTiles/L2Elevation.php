@@ -19,6 +19,12 @@ class L2Elevation extends \BRG\TechTiles\BasicTile
 
   public function getPowerFlow($slot)
   {
-    //TODO
+    $toCreate = Map::getBasinCapacity($slot['id']) - Map::countDropletsInBasin($slot['id']);
+    if ($toCreate > 0) {
+      $dropletsToAdd = [];
+      $dropletsToAdd[] = ['location' => $slot['id'], 'nb' => $toCreate];
+      return ['action' => PLACE_DROPLET, 'args' => ['autoDroplet' => $dropletsToAdd]];
+    }
+    return null;
   }
 }

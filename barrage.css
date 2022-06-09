@@ -2734,6 +2734,51 @@ body {
       background-position-x: 50%; }
     .barrage-tech-tile .tech-tile-fixed-size[data-type='joker'] .tech-tile-image {
       background-position-x: 66.6666666667%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L1_BASE'] .tech-tile-image {
+      background-position-x: 16.6666666667%;
+      background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L1_ELEVATION'] .tech-tile-image {
+      background-position-x: 33.3333333333%;
+      background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L1_CONDUIT'] .tech-tile-image {
+      background-position-x: 50%;
+      background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L1_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 66.6666666667%;
+      background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L1_JOKER'] .tech-tile-image {
+      background-position-x: 83.3333333333%;
+      background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L2_BASE'] .tech-tile-image {
+      background-position-x: 16.6666666667%;
+      background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L2_ELEVATION'] .tech-tile-image {
+      background-position-x: 33.3333333333%;
+      background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L2_CONDUIT'] .tech-tile-image {
+      background-position-x: 50%;
+      background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L2_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 66.6666666667%;
+      background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L2_JOKER'] .tech-tile-image {
+      background-position-x: 83.3333333333%;
+      background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L3_BASE'] .tech-tile-image {
+      background-position-x: 16.6666666667%;
+      background-position-y: 75%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L3_ELEVATION'] .tech-tile-image {
+      background-position-x: 33.3333333333%;
+      background-position-y: 75%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L3_CONDUIT'] .tech-tile-image {
+      background-position-x: 50%;
+      background-position-y: 75%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L3_POWERHOUSE'] .tech-tile-image {
+      background-position-x: 66.6666666667%;
+      background-position-y: 75%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type='L3_JOKER'] .tech-tile-image {
+      background-position-x: 83.3333333333%;
+      background-position-y: 75%; }
   .barrage-tech-tile.selectable .tech-tile-fixed-size {
     cursor: pointer;
     background-color: red; }

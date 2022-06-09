@@ -19,6 +19,12 @@ class L2Powerhouse extends \BRG\TechTiles\BasicTile
 
   public function getPowerFlow($slot)
   {
-    //TODO
+    return [
+      'action' => PRODUCE,
+      'optional' => true,
+      'args' => [
+        'bonus' => 2,
+      ],
+    ];
   }
 }

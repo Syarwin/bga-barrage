@@ -40,7 +40,6 @@ trait RoundStartTrait
     $this->initCustomTurnOrder('incomePhase', 'stIncomePhase', 'stEndOfStartOfRound');
   }
 
-
   /**
    * Income phase for each player
    */
@@ -86,6 +85,7 @@ trait RoundStartTrait
     }
 
     $company = Companies::getActive();
+    Globals::setAntonPower();
 
     // Already out of round ? => Go to the next company if one is left
     $skipped = Globals::getSkippedCompanies();
@@ -102,7 +102,7 @@ trait RoundStartTrait
 
     // No engineer to allocate ?
     // TODO : handle special tech tiles working kind of like adoptive parent :  && !$player->hasAdoptiveAvailable()
-    if (!$company->hasAvailableEngineer()) {
+    if (!$company->hasAvailableEngineer() && !$company->hasAnyTimeActions()) {
       $skipped[] = $company->getId();
       Globals::setSkippedCompanies($skipped);
       $this->nextPlayerCustomOrder('actionPhase');

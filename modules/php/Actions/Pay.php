@@ -62,6 +62,10 @@ class Pay extends \BRG\Models\Action
     $combinations = self::computeAllBuyableCombinations($company, $args['costs'], $nb, $ignoreResources);
     $combinations = self::keepOnlyOptimals($combinations);
 
+    if ($nb == -99) {
+      $combinations = [['nb' => 1]];
+    }
+
     $cardNames = [];
     foreach ($combinations as &$combination) {
       unset($combination['nb']);
