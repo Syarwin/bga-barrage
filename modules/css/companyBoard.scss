@@ -1,55 +1,130 @@
+#company-boards-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .company-board {
   display: flex;
+  margin: 20px 8px 8px;
+  order: 2;
+  &.current {
+    order: 1;
+  }
 
   .company-board-wrapper {
-    width: 740px;
+    width: 770px;
     height: 468px;
-    background-image: url('img/company_boards.jpg');
+    background-image: url('img/company_boards.png');
     background-size: 200% 300%;
     position: relative;
 
-    .company-owner {
+    .company-owner-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: -12px;
+      .company-owner {
+        background: #ebd5bd;
+        border-radius: 8px;
+        font-size: 18px;
+        padding: 4px 31px;
+        box-shadow: 0px 2px 3px black;
+        font-family: 'Betty Noir';
+        border: 1px solid black;
+      }
     }
 
-    .action-space-wrapper {
-      position: absolute;
-      top: 35px;
-      height: 40px;
-      background: rgba(255, 0, 0, 0.3);
-      border-radius: 6px;
+    .action-board {
+      width: 625px;
+      margin-left: 118px;
+      margin-top: 7px;
 
-      &.construct-0 {
-        width: 90px;
-        left: 107px;
-      }
-      &.construct-1 {
-        width: 127px;
-        left: 209px;
-      }
-      &.construct-2 {
-        width: 162px;
-        left: 347px;
-      }
-      &.construct-3 {
-        width: 162px;
-        left: 537px;
+      .action-board-inner {
+        display: flex;
+        flex-wrap: wrap;
+        flex-flow: row;
+        justify-content: space-between;
+        margin: 0px;
+
+        .action-board-row {
+          background: url('img/ui/texture.jpg');
+        }
+
+        .action-board-icon {
+          width: 24px;
+          margin-left: 20px;
+        }
       }
     }
 
     .structures-wrapper {
       position: absolute;
-      left: 229px;
+      left: 144px;
       height: 70px;
-      width: 417px;
+      width: 555px;
       //      background: rgba(255, 0, 0, 0.3);
       display: flex;
 
+      .building-slot-header {
+        width: 99px;
+        height: 66px;
+        background: url('img/construction_costs.png');
+        background-size: 100% 400%;
+      }
+
       .building-slot {
         width: 69px;
-        height: 57px;
-        //        background: rgba(0, 255, 0, 0.3);
+        height: 53px;
+        background: #35312c;
         margin: 7px 7px 7px 7px;
         display: flex;
+        justify-content: center;
+        position: relative;
+
+        .company-income {
+          position: absolute;
+          z-index: 1;
+          font-size: 25px;
+          width: 60px;
+          top: 8px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: scale(1);
+          transition: transform 0.8s, top 0.8s;
+
+          &::before {
+            display: inline-block;
+            margin-top: -5px;
+            margin-right: -6px;
+            content: '!';
+            font-family: 'acumin-pro', serif;
+            font-weight: 700;
+            font-style: normal;
+            color: #ddd563;
+            font-size: 31px;
+            text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+              rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+              rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+              rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+            position: relative;
+            z-index: 2;
+          }
+
+          .barrage-icon.icon-vp {
+            font-size: 24px;
+          }
+        }
+
+        .barrage-meeple {
+          position: relative;
+          z-index: 2;
+
+          & ~ .company-income {
+            transform: scale(0.8);
+            top: -34px;
+          }
+        }
       }
 
       &.bases-wrapper {
@@ -57,26 +132,80 @@
       }
 
       &.elevations-wrapper {
+        .building-slot-header {
+          background-position-y: 33.3333%;
+        }
+
         top: 190px;
+        .building-slot {
+          height: 43px;
+          margin: 12px 7px 2px;
+
+          .company-income {
+            top: 1px;
+          }
+
+          .barrage-meeple ~ .company-income {
+            top: -31px;
+          }
+        }
       }
 
       &.conduits-wrapper {
         top: 271px;
+        .building-slot-header {
+          background-position-y: 66.6666%;
+        }
 
         .building-slot {
+          height: 43px;
           width: 43px;
-          margin: 0px 20px 14px 20px;
+          border-radius: 50%;
+          margin: 17px 20px 0px 20px;
+          align-items: end;
+
+          .company-income {
+            top: 2px;
+            font-size: 21px;
+            .barrage-icon.icon-vp {
+              font-size: 20px;
+            }
+          }
+
+          .barrage-meeple ~ .company-income {
+            top: -43px;
+          }
         }
       }
 
       &.powerhouses-wrapper {
         top: 350px;
-
-        .building-slot:nth-of-type(2) {
-          margin: 7px 21px 7px 34px;
+        .building-slot-header {
+          background-position-y: 100%;
         }
+
+        .building-slot {
+          height: 37px;
+          margin: 17px 8px 0px 8px;
+          align-items: end;
+
+          .company-income {
+            top: 1px;
+            &::before {
+              display: none;
+            }
+          }
+
+          .barrage-meeple ~ .company-income {
+            top: -40px;
+          }
+        }
+
         .building-slot:nth-of-type(3) {
-          margin: 7px 34px 7px 21px;
+          margin: 17px 21px 0px 34px;
+        }
+        .building-slot:nth-of-type(4) {
+          margin: 17px 34px 0px 21px;
         }
       }
     }

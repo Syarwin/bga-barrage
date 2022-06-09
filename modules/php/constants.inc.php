@@ -206,9 +206,13 @@ const L1_TILES = [L1_BASE, L1_ELEVATION, L1_CONDUIT, L1_POWERHOUSE, L1_JOKER];
 const L2_TILES = [L2_BASE, L2_ELEVATION, L2_CONDUIT, L2_POWERHOUSE, L2_JOKER];
 const L3_TILES = [L3_BASE, L3_ELEVATION, L3_CONDUIT, L3_POWERHOUSE, L3_JOKER];
 
-// Useful for contracts
+// Useful for contracts/incomes
 const ANY_MACHINE = 'any_machine';
 const FLOW_DROPLET = 'flow_droplet';
+const PRODUCTION_BONUS = 'production_bonus';
+
+const SPECIAL_POWER = 'special_power';
+const SPECIAL_POWER_USA = 'special_power_usa';
 
 /*
  * Boards

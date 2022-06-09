@@ -3,7 +3,8 @@
   vertical-align: bottom;
 }
 
-.action-board-icon {
+.action-board-icon,
+.building-slot {
   .text {
     font-size: 0.9em;
     color: #8e1370;
@@ -18,6 +19,14 @@
     line-height: 1em;
     margin-top: -5px;
   }
+}
+
+.building-slot .text {
+  background-image: url('img/icons/energy.png');
+  background-size: auto 90%;
+  display: inline-block;
+  padding: 13px;
+  background-position: center bottom;
 }
 
 .icon-container {
@@ -46,8 +55,15 @@
     background-image: url('img/icons/production.png');
   }
 
+  &.icon-construct {
+    min-width: 1.1em;
+    height: 0.8em;
+    background-image: url('img/icons/construct.png');
+  }
+
   &.icon-cost,
-  &.icon-credit {
+  &.icon-credit,
+  &.icon-pay {
     min-width: 0.7137em;
     height: 0.8em;
     background-image: url('img/icons/cost.png');
@@ -59,7 +75,8 @@
       color: #d70f0f;
     }
   }
-  &.icon-credit {
+  &.icon-credit,
+  &.icon-pay {
     min-width: 0.6125em;
     height: 0.7em;
     background-image: url('img/icons/credit.png');
@@ -71,6 +88,7 @@
     background-image: url('img/icons/arrow.png');
   }
 
+  &.icon-credit,
   &.icon-water,
   &.icon-water_down,
   &.icon-rotate,

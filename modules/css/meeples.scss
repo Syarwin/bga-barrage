@@ -20,6 +20,13 @@
   background-image: url('img/meeples.png');
   background-repeat: no-repeat;
 
+  &.meeple-fcontract {
+    min-width: 1.5em;
+    height: 1.02em;
+    background-image: url('img/icons/fcontract.png');
+    background-size: cover;
+  }
+
   &.meeple-credit {
     width: 0.9662em;
     height: 1em;

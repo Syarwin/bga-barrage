@@ -25,21 +25,21 @@ class MachineryShopActionBoard extends AbstractActionBoard
 
     $rows[] = [
       'e',
-      ['i' => '<CREDIT:2><ARROW><EXCAVATOR_ICON:1>', 't' => clienttranslate('Pay two credits for one excavator')],
+      ['i' => '<PAY:2><ARROW><EXCAVATOR_ICON:1>', 't' => clienttranslate('Pay two credits for one excavator')],
       'ec',
     ];
 
     if (Companies::count() >= 4) {
       $rows[] = [
         'a',
-        ['i' => '<CREDIT:4><ARROW><ANY_MACHINE>', 't' => clienttranslate('Pay four credits for one excavator or one mixer')],
+        ['i' => '<PAY:4><ARROW><ANY_MACHINE>', 't' => clienttranslate('Pay four credits for one excavator or one mixer')],
         'abis',
       ];
     }
 
     $rows[] = [
       'b',
-      ['i' => '<CREDIT:5><ARROW><EXCAVATOR_ICON:1><MIXER_ICON:1>', 't' => clienttranslate('Pay five credits for one excavator and one mixer')],
+      ['i' => '<PAY:5><ARROW><EXCAVATOR_ICON:1><MIXER_ICON:1>', 't' => clienttranslate('Pay five credits for one excavator and one mixer')],
       'bc',
     ];
 

@@ -259,6 +259,10 @@
           &.selected {
             background-color: #1a6210;
           }
+
+          .barrage-meeple {
+            margin-top: -10px;
+          }
         }
       }
     }
@@ -288,6 +292,10 @@
           background: #c9b891;
           border-top-right-radius: 5px;
           border-top-left-radius: 5px;
+          [data-action-name='3'] & {
+            border-radius: 5px;
+          }
+
           font-family: 'acumin-pro', serif;
           font-weight: 700;
           font-style: normal;

@@ -131,6 +131,7 @@ class Notifications
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [
       'round' => $round,
+      'bonuses' => Game::get()->computeBonuses(),
     ]);
   }
 
@@ -227,7 +228,7 @@ class Notifications
   public static function recoverResources($company, $resources, $tile)
   {
     self::notifyAll(
-      'collectResources',
+      'recoverResources',
       clienttranslate('${company_name} recovers ${resources_desc} and a technology tile from the wheel'),
       [
         'company' => $company,

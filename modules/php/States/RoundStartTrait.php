@@ -47,11 +47,11 @@ trait RoundStartTrait
   function stIncomePhase()
   {
     $company = Companies::getActive();
-    $income = $company->earnIncome();
-    if (empty($income)) {
+    $flow = $company->getIncomesFlow();
+    if (empty($flow)) {
       $this->nextPlayerCustomOrder('incomePhase');
     } else {
-      Engine::setup($income, ['order' => 'incomePhase']);
+      Engine::setup($flow, ['order' => 'incomePhase']);
       Engine::proceed();
     }
   }

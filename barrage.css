@@ -30,11 +30,34 @@ body[data-background='0'] {
   background-repeat: repeat;
   background-size: 50px; }
 
+body[data-background='1'] {
+  background-image: url("img/ui/texture_light.jpg");
+  background-repeat: repeat;
+  background-size: 24px; }
+
 #page-title {
   background-color: #ebeaea; }
 
 #topbar {
   background-color: #ebeaea; }
+
+html,
+body {
+  scroll-behavior: smooth; }
+
+#go-to-top {
+  display: none;
+  width: 35px;
+  height: 35px;
+  float: left;
+  background: url("img/ui/arrow_top.jpg");
+  background-size: 100%;
+  cursor: pointer;
+  margin: -1px; }
+
+#page-title.fixed-page-title #go-to-top {
+  display: block;
+  margin-right: 15px; }
 
 #customActions .bgabutton.disabled {
   opacity: 0.5;
@@ -541,6 +564,8 @@ body[data-background='0'] {
         flex-wrap: wrap; }
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
           background-color: #1a6210; }
+        .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b .barrage-meeple {
+          margin-top: -10px; }
   .action-board[data-id='contract'] .action-board-inner {
     --barrageContractScale: 0.75;
     margin-bottom: 0; }
@@ -567,6 +592,8 @@ body[data-background='0'] {
           box-sizing: border-box;
           font-size: 15px;
           border: 1px solid #c8ba6a; }
+          [data-action-name='3'] .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack .contract-counter {
+            border-radius: 5px; }
           .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack .contract-counter .barrage-contract {
             position: absolute;
             top: 0;
@@ -609,6 +636,11 @@ body[data-background='0'] {
 .barrage-meeple {
   background-image: url("img/meeples.png");
   background-repeat: no-repeat; }
+  .barrage-meeple.meeple-fcontract {
+    min-width: 1.5em;
+    height: 1.02em;
+    background-image: url("img/icons/fcontract.png");
+    background-size: cover; }
   .barrage-meeple.meeple-credit {
     width: 0.9662em;
     height: 1em;
@@ -868,7 +900,8 @@ body[data-background='0'] {
   font-size: 1.6em;
   vertical-align: bottom; }
 
-.action-board-icon .text {
+.action-board-icon .text,
+.building-slot .text {
   font-size: 0.9em;
   color: #8e1370;
   text-shadow: #da94c8 1px 0px 0px, #da94c8 0.540302px 0.841471px 0px, #da94c8 -0.416147px 0.909297px 0px, #da94c8 -0.989993px 0.14112px 0px, #da94c8 -0.653644px -0.756803px 0px, #da94c8 0.283662px -0.958924px 0px, #da94c8 0.96017px -0.279416px 0px;
@@ -877,6 +910,13 @@ body[data-background='0'] {
   font-style: normal;
   line-height: 1em;
   margin-top: -5px; }
+
+.building-slot .text {
+  background-image: url("img/icons/energy.png");
+  background-size: auto 90%;
+  display: inline-block;
+  padding: 13px;
+  background-position: center bottom; }
 
 .icon-container {
   display: inline-block;
@@ -896,16 +936,20 @@ body[data-background='0'] {
     min-width: 0.8em;
     height: 0.8em;
     background-image: url("img/icons/production.png"); }
-  .barrage-icon.icon-cost, .barrage-icon.icon-credit {
+  .barrage-icon.icon-construct {
+    min-width: 1.1em;
+    height: 0.8em;
+    background-image: url("img/icons/construct.png"); }
+  .barrage-icon.icon-cost, .barrage-icon.icon-credit, .barrage-icon.icon-pay {
     min-width: 0.7137em;
     height: 0.8em;
     background-image: url("img/icons/cost.png");
     text-align: center; }
-    .barrage-icon.icon-cost span, .barrage-icon.icon-credit span {
+    .barrage-icon.icon-cost span, .barrage-icon.icon-credit span, .barrage-icon.icon-pay span {
       font-size: 0.5em;
       line-height: 1.3em;
       color: #d70f0f; }
-  .barrage-icon.icon-credit {
+  .barrage-icon.icon-credit, .barrage-icon.icon-pay {
     min-width: 0.6125em;
     height: 0.7em;
     background-image: url("img/icons/credit.png"); }
@@ -913,7 +957,7 @@ body[data-background='0'] {
     min-width: 0.6em;
     height: 0.456em;
     background-image: url("img/icons/arrow.png"); }
-  .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-any_machine span, .barrage-icon.icon-contract span, .barrage-icon.icon-vp span {
+  .barrage-icon.icon-credit span, .barrage-icon.icon-water span, .barrage-icon.icon-water_down span, .barrage-icon.icon-rotate span, .barrage-icon.icon-excavator_icon span, .barrage-icon.icon-mixer_icon span, .barrage-icon.icon-any_machine span, .barrage-icon.icon-contract span, .barrage-icon.icon-vp span {
     color: white;
     text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
   .barrage-icon.icon-water {
@@ -1042,6 +1086,9 @@ body[data-background='0'] {
   #player_boards #player_board_config {
     order: 1; }
 
+.player_panel_content {
+  position: initial; }
+
 .avatar.automa {
   background-image: url("img/companies.jpg");
   background-size: 600% 100%; }
@@ -1052,9 +1099,24 @@ body[data-background='0'] {
 .player_panel_content {
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23; }
+  .player_panel_content .company-jump-to {
+    display: block;
+    width: 52px;
+    height: 22px;
+    background: url("img/ui/eye.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 41px;
+    top: 10px;
+    opacity: 0.8;
+    cursor: pointer; }
+    .player_panel_content .company-jump-to:hover {
+      opacity: 1; }
   .player_panel_content .company-info {
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    padding-bottom: 3px; }
     .player_panel_content .company-info .company-no {
       background-image: url("img/ui/turn_order.png");
       width: 44px;
@@ -1097,6 +1159,9 @@ body[data-background='0'] {
       background-size: 500% 300%;
       border: 2px solid black;
       border-radius: 50%; }
+      .player_panel_content .company-info .officer-logo .help-marker {
+        top: -8px;
+        left: -8px; }
       .player_panel_content .company-info .officer-logo[data-officer='1'] {
         background-position-x: 0%;
         background-position-y: 0%; }
@@ -1146,16 +1211,20 @@ body[data-background='0'] {
         background-position-x: 0%;
         background-position-y: 150%; }
     .player_panel_content .company-info .company-round-bonus {
+      position: relative;
       width: 35px;
       height: 35px;
       background-image: url("img/ui/texture_light.jpg");
       border-radius: 3px;
-      box-shadow: 2px 2px 3px 0px black;
+      box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
       display: flex;
       justify-content: center;
       align-items: center;
       text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+      .player_panel_content .company-info .company-round-bonus .help-marker {
+        top: -8px;
+        left: -8px; }
       .player_panel_content .company-info .company-round-bonus[data-value]::before {
         content: attr(data-value);
         display: inline-block;
@@ -1175,14 +1244,15 @@ body[data-background='0'] {
         line-height: 25px;
         background: none; }
     .player_panel_content .company-info .company-obj-tile {
+      position: relative;
       width: 28px;
       height: 47px;
       background-image: url("img/ui/texture_light.jpg");
       border-radius: 3px;
-      box-shadow: 2px 2px 3px 0px black;
+      box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
       background-size: 20px;
-      margin-top: -14px;
+      margin-top: -11px;
       margin-right: 2px;
       display: flex;
       justify-content: center;
@@ -1204,7 +1274,8 @@ body[data-background='0'] {
     justify-content: space-around;
     align-items: center;
     position: relative;
-    padding: 0.5rem 0; }
+    padding: 1px 0;
+    border-top: 1px solid #d5bea6; }
     .player_panel_content .company-panel-resources .company-reserve {
       position: absolute;
       top: 0%;
@@ -1218,6 +1289,9 @@ body[data-background='0'] {
       position: relative;
       flex-basis: 25%;
       text-align: center; }
+      .player_panel_content .company-panel-resources .company-resource > span {
+        font-family: 'Oranienbaum';
+        font-weight: bold; }
       .player_panel_content .company-panel-resources .company-resource .reserve {
         position: absolute;
         top: 0%;
@@ -1227,29 +1301,71 @@ body[data-background='0'] {
         .player_panel_content .company-panel-resources .company-resource .reserve > div.barrage-meeple:not(.moving) {
           visibility: hidden;
           position: absolute; }
-  .player_panel_content .company-panel-contracts {
-    display: flex;
-    flex-wrap: wrap; }
-    .player_panel_content .company-panel-contracts .company-fulfilled-contracts {
-      visibility: hidden; }
-      .player_panel_content .company-panel-contracts .company-fulfilled-contracts .barrage-contract {
-        position: absolute; }
   .player_panel_content .company-panel-personal-resources {
     display: flex;
     flex-wrap: wrap;
-    font-size: 7px;
+    font-size: 8px;
     justify-content: space-around;
     align-items: center;
     position: relative;
-    padding: 0.5rem 0;
-    border-top: 1px solid #999898;
-    border-bottom: 1px solid #999898; }
-    .player_panel_content .company-panel-personal-resources span {
-      font-size: 18px; }
-      .player_panel_content .company-panel-personal-resources span::before {
-        content: '5'; }
+    padding: 4px 0;
+    border-top: 1px solid #d5bea6; }
+    .player_panel_content .company-panel-personal-resources .company-resource {
+      margin: 4px 0px;
+      position: relative;
+      flex-basis: 25%;
+      text-align: center; }
+      .player_panel_content .company-panel-personal-resources .company-resource > span {
+        font-size: 18px;
+        font-family: 'Oranienbaum';
+        font-weight: bold; }
     .player_panel_content .company-panel-personal-resources .meeple-container {
-      margin-top: -0.7em; }
+      margin-top: -0.8em; }
+  .player_panel_content .company-income-wrapper {
+    display: flex;
+    position: relative; }
+    .player_panel_content .company-income-wrapper .company-income {
+      font-size: 20px;
+      flex-grow: 1;
+      border-bottom: 1px solid #d5bea6;
+      border-right: 1px solid #d5bea6;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .player_panel_content .company-income-wrapper .company-income::before {
+        display: inline-block;
+        margin-top: -5px;
+        margin-right: -4px;
+        content: '!';
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-style: normal;
+        color: #ddd563;
+        font-size: 25px;
+        text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px;
+        position: relative;
+        z-index: 2; }
+    .player_panel_content .company-income-wrapper .company-fulfilled-contracts {
+      flex-grow: 1;
+      border-top: 1px solid #d5bea6;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .player_panel_content .company-income-wrapper .company-fulfilled-contracts span {
+        font-family: 'Oranienbaum';
+        font-weight: bold; }
+      .player_panel_content .company-income-wrapper .company-fulfilled-contracts .meeple-container {
+        vertical-align: bottom; }
+      .player_panel_content .company-income-wrapper .company-fulfilled-contracts .reserve {
+        position: relative; }
+        .player_panel_content .company-income-wrapper .company-fulfilled-contracts .reserve .barrage-contract {
+          visibility: hidden;
+          position: absolute; }
+  .player_panel_content .company-panel-contracts {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #d5bea6;
+    padding-top: 3px; }
   .player_panel_content .company-panel-wheel-container {
     display: flex;
     align-items: center;
@@ -1397,6 +1513,7 @@ body[data-background='0'] {
           bottom: 105px;
           left: 0px; }
     .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles {
+      flex-grow: 1;
       display: flex;
       flex-wrap: wrap;
       position: relative;
@@ -1417,58 +1534,149 @@ body[data-background='0'] {
     [data-wheel-summary='1'] .player-board.current-player-board .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='2'] .player-board:not(.current-player-board) .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='3'] .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n) {
       margin: 0px; }
 
+#company-boards-container {
+  display: flex;
+  flex-wrap: wrap; }
+
 .company-board {
-  display: flex; }
+  display: flex;
+  margin: 20px 8px 8px;
+  order: 2; }
+  .company-board.current {
+    order: 1; }
   .company-board .company-board-wrapper {
-    width: 740px;
+    width: 770px;
     height: 468px;
-    background-image: url("img/company_boards.jpg");
+    background-image: url("img/company_boards.png");
     background-size: 200% 300%;
     position: relative; }
-    .company-board .company-board-wrapper .action-space-wrapper {
-      position: absolute;
-      top: 35px;
-      height: 40px;
-      background: rgba(255, 0, 0, 0.3);
-      border-radius: 6px; }
-      .company-board .company-board-wrapper .action-space-wrapper.construct-0 {
-        width: 90px;
-        left: 107px; }
-      .company-board .company-board-wrapper .action-space-wrapper.construct-1 {
-        width: 127px;
-        left: 209px; }
-      .company-board .company-board-wrapper .action-space-wrapper.construct-2 {
-        width: 162px;
-        left: 347px; }
-      .company-board .company-board-wrapper .action-space-wrapper.construct-3 {
-        width: 162px;
-        left: 537px; }
+    .company-board .company-board-wrapper .company-owner-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: -12px; }
+      .company-board .company-board-wrapper .company-owner-wrapper .company-owner {
+        background: #ebd5bd;
+        border-radius: 8px;
+        font-size: 18px;
+        padding: 4px 31px;
+        box-shadow: 0px 2px 3px black;
+        font-family: 'Betty Noir';
+        border: 1px solid black; }
+    .company-board .company-board-wrapper .action-board {
+      width: 625px;
+      margin-left: 118px;
+      margin-top: 7px; }
+      .company-board .company-board-wrapper .action-board .action-board-inner {
+        display: flex;
+        flex-wrap: wrap;
+        flex-flow: row;
+        justify-content: space-between;
+        margin: 0px; }
+        .company-board .company-board-wrapper .action-board .action-board-inner .action-board-row {
+          background: url("img/ui/texture.jpg"); }
+        .company-board .company-board-wrapper .action-board .action-board-inner .action-board-icon {
+          width: 24px;
+          margin-left: 20px; }
     .company-board .company-board-wrapper .structures-wrapper {
       position: absolute;
-      left: 229px;
+      left: 144px;
       height: 70px;
-      width: 417px;
+      width: 555px;
       display: flex; }
+      .company-board .company-board-wrapper .structures-wrapper .building-slot-header {
+        width: 99px;
+        height: 66px;
+        background: url("img/construction_costs.png");
+        background-size: 100% 400%; }
       .company-board .company-board-wrapper .structures-wrapper .building-slot {
         width: 69px;
-        height: 57px;
+        height: 53px;
+        background: #35312c;
         margin: 7px 7px 7px 7px;
-        display: flex; }
+        display: flex;
+        justify-content: center;
+        position: relative; }
+        .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income {
+          position: absolute;
+          z-index: 1;
+          font-size: 25px;
+          width: 60px;
+          top: 8px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: scale(1);
+          transition: transform 0.8s, top 0.8s; }
+          .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income::before {
+            display: inline-block;
+            margin-top: -5px;
+            margin-right: -6px;
+            content: '!';
+            font-family: 'acumin-pro', serif;
+            font-weight: 700;
+            font-style: normal;
+            color: #ddd563;
+            font-size: 31px;
+            text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px;
+            position: relative;
+            z-index: 2; }
+          .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income .barrage-icon.icon-vp {
+            font-size: 24px; }
+        .company-board .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple {
+          position: relative;
+          z-index: 2; }
+          .company-board .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple ~ .company-income {
+            transform: scale(0.8);
+            top: -34px; }
       .company-board .company-board-wrapper .structures-wrapper.bases-wrapper {
         top: 110px; }
       .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper {
         top: 190px; }
+        .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot-header {
+          background-position-y: 33.3333%; }
+        .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot {
+          height: 43px;
+          margin: 12px 7px 2px; }
+          .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .company-income {
+            top: 1px; }
+          .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .barrage-meeple ~ .company-income {
+            top: -31px; }
       .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper {
         top: 271px; }
+        .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot-header {
+          background-position-y: 66.6666%; }
         .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot {
+          height: 43px;
           width: 43px;
-          margin: 0px 20px 14px 20px; }
+          border-radius: 50%;
+          margin: 17px 20px 0px 20px;
+          align-items: end; }
+          .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income {
+            top: 2px;
+            font-size: 21px; }
+            .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income .barrage-icon.icon-vp {
+              font-size: 20px; }
+          .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .barrage-meeple ~ .company-income {
+            top: -43px; }
       .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
         top: 350px; }
-        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(2) {
-          margin: 7px 21px 7px 34px; }
+        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot-header {
+          background-position-y: 100%; }
+        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot {
+          height: 37px;
+          margin: 17px 8px 0px 8px;
+          align-items: end; }
+          .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income {
+            top: 1px; }
+            .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income::before {
+              display: none; }
+          .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .barrage-meeple ~ .company-income {
+            top: -40px; }
         .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(3) {
-          margin: 7px 34px 7px 21px; }
+          margin: 17px 21px 0px 34px; }
+        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(4) {
+          margin: 17px 34px 0px 21px; }
   .company-board[data-company='1'] .company-board-wrapper {
     background-position-x: 0%;
     background-position-y: 0%; }

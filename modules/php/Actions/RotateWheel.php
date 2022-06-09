@@ -15,6 +15,11 @@ class RotateWheel extends \BRG\Models\Action
     return ST_ROTATE_WHEEL;
   }
 
+  public function isAutomatic($player = null)
+  {
+    return true;
+  }
+
   public function isDoable($company, $ignoreResources = false)
   {
     return true;

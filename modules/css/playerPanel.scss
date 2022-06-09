@@ -15,6 +15,10 @@
   }
 }
 
+.player_panel_content {
+  position: initial;
+}
+
 .avatar.automa {
   background-image: url('img/companies.jpg');
   background-size: 600% 100%;
@@ -28,9 +32,28 @@
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23;
 
+  .company-jump-to {
+    display: block;
+    width: 52px;
+    height: 22px;
+    background: url('img/ui/eye.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 41px;
+    top: 10px;
+    opacity: 0.8;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   .company-info {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 3px;
 
     .company-no {
       background-image: url('img/ui/turn_order.png');
@@ -72,6 +95,10 @@
       background-size: 500% 300%;
       border: 2px solid black;
       border-radius: 50%;
+      .help-marker {
+        top: -8px;
+        left: -8px;
+      }
 
       @for $i from 0 through 15 {
         &[data-officer='#{$i + 1}'] {
@@ -82,15 +109,20 @@
     }
 
     .company-round-bonus {
+      position: relative;
       width: 35px;
       height: 35px;
       background-image: url('img/ui/texture_light.jpg');
       border-radius: 3px;
-      box-shadow: 2px 2px 3px 0px black;
+      box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
       display: flex;
       justify-content: center;
       align-items: center;
+      .help-marker {
+        top: -8px;
+        left: -8px;
+      }
 
       text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
         rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
@@ -121,14 +153,15 @@
     }
 
     .company-obj-tile {
+      position: relative;
       width: 28px;
       height: 47px;
       background-image: url('img/ui/texture_light.jpg');
       border-radius: 3px;
-      box-shadow: 2px 2px 3px 0px black;
+      box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
       background-size: 20px;
-      margin-top: -14px;
+      margin-top: -11px;
       margin-right: 2px;
       display: flex;
       justify-content: center;
@@ -161,7 +194,8 @@
     justify-content: space-around;
     align-items: center;
     position: relative;
-    padding: 0.5rem 0;
+    padding: 1px 0;
+    border-top: 1px solid #d5bea6;
 
     .company-reserve {
       position: absolute;
@@ -181,6 +215,11 @@
       flex-basis: 25%;
       text-align: center;
 
+      & > span {
+        font-family: 'Oranienbaum';
+        font-weight: bold;
+      }
+
       .reserve {
         position: absolute;
         top: 0%;
@@ -195,39 +234,97 @@
     }
   }
 
-  .company-panel-contracts {
-    display: flex;
-    flex-wrap: wrap;
-
-    .company-fulfilled-contracts {
-      visibility: hidden;
-      .barrage-contract {
-        position: absolute;
-      }
-    }
-  }
-
   .company-panel-personal-resources {
     display: flex;
     flex-wrap: wrap;
-    font-size: 7px;
+    font-size: 8px;
     justify-content: space-around;
     align-items: center;
     position: relative;
-    padding: 0.5rem 0;
-    border-top: 1px solid #999898;
-    border-bottom: 1px solid #999898;
+    padding: 4px 0;
+    border-top: 1px solid #d5bea6;
 
-    span {
-      font-size: 18px;
-      &::before {
-        content: '5';
+    .company-resource {
+      margin: 4px 0px;
+      position: relative;
+      flex-basis: 25%;
+      text-align: center;
+
+      & > span {
+        font-size: 18px;
+        font-family: 'Oranienbaum';
+        font-weight: bold;
       }
     }
 
     .meeple-container {
-      margin-top: -0.7em;
+      margin-top: -0.8em;
     }
+  }
+
+  .company-income-wrapper {
+    display: flex;
+    position: relative;
+
+    .company-income {
+      font-size: 20px;
+      flex-grow: 1;
+      border-bottom: 1px solid #d5bea6;
+      border-right: 1px solid #d5bea6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::before {
+        display: inline-block;
+        margin-top: -5px;
+        margin-right: -4px;
+        content: '!';
+        font-family: 'acumin-pro', serif;
+        font-weight: 700;
+        font-style: normal;
+        color: #ddd563;
+        font-size: 25px;
+        text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+          rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+          rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+          rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+        position: relative;
+        z-index: 2;
+      }
+    }
+
+    .company-fulfilled-contracts {
+      flex-grow: 1;
+      border-top: 1px solid #d5bea6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-family: 'Oranienbaum';
+        font-weight: bold;
+      }
+
+      .meeple-container {
+        vertical-align: bottom;
+      }
+
+      .reserve {
+        position: relative;
+        .barrage-contract {
+          visibility: hidden;
+          position: absolute;
+        }
+      }
+    }
+  }
+
+  .company-panel-contracts {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #d5bea6;
+    padding-top: 3px;
   }
 
   .company-panel-wheel-container {
@@ -310,6 +407,7 @@
     }
 
     .company-panel-tech-tiles {
+      flex-grow: 1;
       display: flex;
       flex-wrap: wrap;
       position: relative;

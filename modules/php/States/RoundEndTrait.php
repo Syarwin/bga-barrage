@@ -122,16 +122,17 @@ trait RoundEndTrait
     foreach ($cEnergies as $energy => $companies) {
       foreach ($companies as $company) {
         $bonus = $this->computeRoundBonus($company);
-        if (is_null($bonus)) {
+        $vp = $bonus['vp'];
+        if (is_null($vp)) {
           Notifications::message(
             clienttranslate(
               '${company_name} produced less than 6 energy this round and will therefore receive no VP from bonus tile'
             ),
             ['company' => $company]
           );
-        } elseif ($bonus > 0) {
-          $company->incScore($bonus);
-          Notifications::score($company, $bonus, clienttranslate('(bonus tile reward)'));
+        } elseif ($vp > 0) {
+          $company->incScore($vp);
+          Notifications::score($company, $vp, clienttranslate('(bonus tile reward)'));
         }
       }
     }

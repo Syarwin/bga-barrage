@@ -36,7 +36,7 @@ class WorkshopActionBoard extends AbstractActionBoard
       $rows[] = [
         'r2',
         [
-          'i' => '<CREDIT:2><ARROW><ROTATE:2>',
+          'i' => '<PAY:2><ARROW><ROTATE:2>',
           't' => clienttranslate('Pay two credits to rotate your construction wheel by two segments'),
         ],
         'r2c',
@@ -46,7 +46,7 @@ class WorkshopActionBoard extends AbstractActionBoard
     $rows[] = [
       'r3',
       [
-        'i' => '<CREDIT:5><ARROW><ROTATE:3>',
+        'i' => '<PAY:5><ARROW><ROTATE:3>',
         't' => clienttranslate('Pay five credits to rotate your construction wheel by three segments'),
       ],
       'r3c',

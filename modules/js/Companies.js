@@ -15,7 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
   const RESOURCES = ['credit', 'engineer', 'excavator', 'mixer'];
   const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
-  const ALL_RESOURCES = RESOURCES;
+  const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract']);
 
   return declare('barrage.companies', null, {
     forEachCompany(callback) {
@@ -27,6 +27,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.setupCompaniesCounters();
       this.updateCompaniesOrder();
       this.updateCompanyBonuses();
+      this.updateCompanyIncomes();
     },
 
     refreshCompanies() {
@@ -34,6 +35,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.updateWheelAngle(company);
       });
       this.updateCompanyBonuses();
+      this.updateCompanyIncomes();
     },
 
     updateCompaniesOrder() {
@@ -56,20 +58,24 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompany(company) {
       company.color = COLOR_MAPPING[company.id];
 
-      // Add player board for Automas
+      // Add player panel for Automas
       if (company.ai) {
-        this.place('tplPlayerBoard', company, 'player_boards');
+        this.place('tplPlayerPanel', company, 'player_boards');
       }
 
       // Add additional info to player boards
       this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
+      $(`company-jump-to-${company.id}`).addEventListener('click', () => {
+        window.scrollTo(0, $(`company-board-${company.id}`).getBoundingClientRect()['top'] - 30);
+      });
 
       // Create company board
       this.place('tplCompanyBoard', company, 'company-boards-container');
       this.updateWheelAngle(company);
+      this.addBoardIncomes(company);
     },
 
-    tplPlayerBoard(company) {
+    tplPlayerPanel(company) {
       // prettier-ignore
       return `<div id="overall_player_board_${company.pId}" class="player-board" style="border-color: ${company.color};">
           <div class="player_board_inner">
@@ -104,6 +110,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       );
       return (
         `<div class='company-info'>
+        <div class='company-jump-to' id='company-jump-to-${company.id}'></div>
         <div class='company-no' id='company-position-${company.no}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
@@ -117,13 +124,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `
         </div>
       </div>
-      <div class='company-panel-contracts' id='company-contracts-${company.id}'>
-        <div class='company-fulfilled-contracts' id='company-fulfilled-contracts-${company.id}'></div>
-      </div>
       <div class='company-panel-personal-resources'>
       ` +
         PERSONAL_RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
         `
+      </div>
+      <div class='company-income-wrapper'>
+          <div class='company-income' id='company-income-${company.id}'></div>
+          <div class='company-fulfilled-contracts'>
+            ${this.tplResourceCounter(company, 'fcontract')}
+          </div>
+      </div>
+      <div class='company-panel-contracts' id='company-contracts-${company.id}'>
       </div>
       <div class='company-panel-wheel-container'>
         <div class='company-panel-tech-tiles' id='company-tech-tiles-${company.id}'></div>
@@ -162,35 +174,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplCompanyBoard(company) {
       const id = company.id;
+      const current = company.pId == this.player_id ? 'current' : '';
 
-      return `<div class='company-board' data-company='${id}'>
+      return `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
         <div class='company-board-wrapper'>
-          <div class='company-owner'>
-            ${_(company.name)}
+          <div class='company-owner-wrapper'>
+            <div class='company-owner' style='color:#${company.color}'>
+              ${_(company.name)}
+            </div>
           </div>
 
-          <div class='action-space-wrapper construct-0 action-space' id='company-${id}-1'>
-            <div class='action-space-slot' id='construct-0-0-${id}'></div>
-          </div>
-
-          <div class='action-space-wrapper construct-1 action-space' id='company-${id}-2'>
-            <div class='action-space-slot' id='construct-1-0-${id}'></div>
-            <div class='action-space-slot' id='construct-1-1-${id}'></div>
-          </div>
-
-          <div class='action-space-wrapper construct-2 action-space' id='company-${id}-3'>
-            <div class='action-space-slot' id='construct-2-0-${id}'></div>
-            <div class='action-space-slot' id='construct-2-1-${id}'></div>
-            <div class='action-space-slot' id='construct-2-2-${id}'></div>
-          </div>
-
-          <div class='action-space-wrapper construct-3 action-space' id='company-${id}-4'>
-            <div class='action-space-slot' id='construct-3-0-${id}'></div>
-            <div class='action-space-slot' id='construct-3-1-${id}'></div>
-            <div class='action-space-slot' id='construct-3-2-${id}'></div>
+          <div class='action-board' data-id='company-${id}'>
+            <div class='action-board-inner'></div>
           </div>
 
           <div class='structures-wrapper bases-wrapper'>
+            <div class='building-slot-header'></div>
             <div class='building-slot' id='base-4-${id}'></div>
             <div class='building-slot' id='base-3-${id}'></div>
             <div class='building-slot' id='base-2-${id}'></div>
@@ -199,6 +198,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           </div>
 
           <div class='structures-wrapper elevations-wrapper'>
+            <div class='building-slot-header'></div>
             <div class='building-slot' id='elevation-4-${id}'></div>
             <div class='building-slot' id='elevation-3-${id}'></div>
             <div class='building-slot' id='elevation-2-${id}'></div>
@@ -207,6 +207,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           </div>
 
           <div class='structures-wrapper conduits-wrapper'>
+            <div class='building-slot-header'></div>
             <div class='building-slot' id='conduit-4-${id}'></div>
             <div class='building-slot' id='conduit-3-${id}'></div>
             <div class='building-slot' id='conduit-2-${id}'></div>
@@ -215,6 +216,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           </div>
 
           <div class='structures-wrapper powerhouses-wrapper'>
+            <div class='building-slot-header'></div>
             <div class='building-slot' id='powerhouse-3-${id}'></div>
             <div class='building-slot' id='powerhouse-2-${id}'></div>
             <div class='building-slot' id='powerhouse-1-${id}'></div>
@@ -309,7 +311,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.forEachCompany((company) => {
         ALL_RESOURCES.forEach((res) => {
           let reserve = $(`reserve_${company.id}_${res}`);
-          let meeples = reserve.querySelectorAll(`.meeple-${res}`);
+          if (PERSONAL_RESOURCES.includes(res)) {
+            reserve = $(`company-board-${company.id}`);
+          }
+          let meeples = reserve.querySelectorAll(res == 'fcontract' ? '.barrage-contract' : `.meeple-${res}`);
           let value = meeples.length;
 
           this._companyCounters[company.id][res][anim ? 'toValue' : 'setValue'](value);
@@ -490,8 +495,65 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     ///////////////////////////////////////////////
     updateCompanyBonuses() {
       this.forEachCompany((company) => {
-        $(`company-round-bonus-${company.id}`).dataset.value = this.gamedatas.bonuses[company.id].round;
+        // Round bonus
+        let roundBonus = this.gamedatas.bonuses[company.id].round;
+        $(`company-round-bonus-${company.id}`).dataset.value = roundBonus.vp;
+        let msg = _('No round bonus since energy produced is < 6');
+        if (roundBonus.vp !== null) {
+          msg = roundBonus.n + ' * ' + roundBonus.mult + _('VP');
+          if (roundBonus.malus > 0) {
+            msg += ' - ' + roundBonus.malus + _('VP');
+          }
+          let total = roundBonus.n * roundBonus.mult - roundBonus.malus;
+          msg += ' = ' + total + _('VP');
+          if (total < 0) {
+            msg += '<br/>' + _('Players can never lose VPs from the Bonus tile scoring => 0VP');
+          }
+        }
+        this.addCustomTooltip(`company-round-bonus-${company.id}`, msg);
+
+        // Obj tile
         $(`company-obj-tile-${company.id}`).dataset.value = this.gamedatas.bonuses[company.id].obj;
+      });
+    },
+
+    //////////////////////////////////////////////////
+    //  ___
+    // |_ _|_ __   ___ ___  _ __ ___   ___  ___
+    //  | || '_ \ / __/ _ \| '_ ` _ \ / _ \/ __|
+    //  | || | | | (_| (_) | | | | | |  __/\__ \
+    // |___|_| |_|\___\___/|_| |_| |_|\___||___/
+    //
+    //////////////////////////////////////////////////
+    updateCompanyIncomes() {
+      this.forEachCompany((company) => {
+        let incomes = this.gamedatas.companies[company.id].incomes;
+        let container = $(`company-income-${company.id}`);
+        container.innerHTML = '';
+
+        let icons = incomes.icons.map((t) => this.formatString(t)).join('');
+        dojo.place(icons, container);
+
+        let desc = incomes.descs.map((t) => this.translate(t)).join('<br />');
+        this.addCustomTooltip(container, desc);
+      });
+    },
+
+    addBoardIncomes(company) {
+      PERSONAL_RESOURCES.forEach((structure) => {
+        let incomes = company.boardIncomes[structure];
+        Object.keys(incomes).forEach((n) => {
+          let income = incomes[n];
+          let rank = (structure == 'powerhouse' ? 4 : 5) - n;
+          let icons = income.i.map((t) => this.formatString(t));
+          let desc = income.d.map((t) => this.translate(t)).join('<br />');
+
+          let uid = this.registerCustomTooltip(desc);
+          dojo.place(
+            `<div class='company-income' id='${uid}'>${icons.join('')}</div>`,
+            `${structure}-${rank}-${company.id}`,
+          );
+        });
       });
     },
   });

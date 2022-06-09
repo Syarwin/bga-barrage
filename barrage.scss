@@ -37,6 +37,12 @@ body[data-background='0'] {
   background-size: 50px;
 }
 
+body[data-background='1'] {
+  background-image: url('img/ui/texture_light.jpg');
+  background-repeat: repeat;
+  background-size: 24px;
+}
+
 $plainBackground: #333232;
 
 .player-board {
@@ -49,6 +55,28 @@ $plainBackground: #333232;
 
 #topbar {
   background-color: #ebeaea;
+}
+
+// Scroll stuff
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+#go-to-top {
+  display: none;
+  width: 35px;
+  height: 35px;
+  float: left;
+  background: url('img/ui/arrow_top.jpg');
+  background-size: 100%;
+  cursor: pointer;
+  margin: -1px;
+}
+
+#page-title.fixed-page-title #go-to-top {
+  display: block;
+  margin-right: 15px;
 }
 
 // Disabled button

@@ -46,6 +46,7 @@ class Construct extends \BRG\Models\Action
         $cost = $company->getConstructCost($slot, $tile);
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
+        $cost['source'] = clienttranslate('construction');
         $childs[] = [
           'action' => PAY,
           'args' => $cost,

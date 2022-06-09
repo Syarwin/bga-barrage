@@ -15,6 +15,7 @@ use BRG\Core\Preferences;
 use BRG\Actions\Pay;
 use BRG\Actions\Reorganize;
 use BRG\Helpers\Utils;
+use BRG\Helpers\FlowConvertor;
 use BRG\Managers\TechnologyTiles;
 
 /*
@@ -48,8 +49,8 @@ class Company extends \BRG\Helpers\DB_Model
   protected $slot = 0;
 
   protected $cname;
-  protected $staticAttributes = ['cname', 'revenueBoard'];
-  protected $revenueBoard = [BASE => [], \ELEVATION => [], CONDUIT => [], \POWERHOUSE => []];
+  protected $staticAttributes = ['cname', 'boardIncomes'];
+  protected $boardIncomes = [BASE => [], \ELEVATION => [], CONDUIT => [], \POWERHOUSE => []];
 
   public function __construct($row)
   {
@@ -77,14 +78,10 @@ class Company extends \BRG\Helpers\DB_Model
       'scoreAux' => $this->scoreAux,
       'energy' => $this->energy,
       'wheelAngle' => $this->slot,
-      'resources' => [],
+      'boardIncomes' => $this->getBoardIncomesUI(),
+      'incomes' => $this->getIncomesUI(),
     ];
 
-    /*
-    foreach (RESOURCES as $resource) {
-      $data['resources'][$resource] = $this->countReserveResource($resource);
-    }
-*/
     return $data;
   }
 
@@ -276,19 +273,6 @@ class Company extends \BRG\Helpers\DB_Model
   //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|
   //
   ////////////////////////////////////////////////////
-  /*
-  public function canConstruct($type)
-  {
-    if (Meeples::getFilteredQuery($this->id, 'company', [$type])->count() == 0) {
-      return false;
-    }
-
-    if (TechnologyTiles::getFilteredQuery($this->id, 'company', [$type, JOKER])->count() === 0) {
-      return false;
-    }
-    return true;
-  }
-*/
 
   public function getAvailableTechTiles($structure = null)
   {
@@ -365,12 +349,14 @@ class Company extends \BRG\Helpers\DB_Model
   //  \____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
   //
   /////////////////////////////////////////////////
-  public function getContracts($resolved = false)
+  public function getContracts()
   {
-    return Contracts::getSelectQuery()
-      ->where('contract_location', 'hand_' . $this->id)
-      ->where('contract_state', $resolved ? 1 : 0)
-      ->get();
+    return Contracts::getInLocation(['hand', $this->id]);
+  }
+
+  public function getFulfilledContracts()
+  {
+    return Contracts::getInLocation(['fulfilled', $this->id]);
   }
 
   public function getAvailableContracts()
@@ -391,43 +377,54 @@ class Company extends \BRG\Helpers\DB_Model
   // |___|_| |_|\___\___/|_| |_| |_|\___||___/
   //
   ////////////////////////////////////////////////
-  public function earnIncome()
+  public function getBoardIncomesUI()
   {
-    $revenueBoard = $this->getRevenueBoard();
-    $flows = ['type' => NODE_SEQ, 'childs' => []];
-    $gainFlow = [];
+    $incomes = [];
+    foreach ($this->boardIncomes as $structureType => $slotIncomes) {
+      $incomes[$structureType] = [];
+      foreach ($slotIncomes as $n => $income) {
+        $incomes[$structureType][$n] = [
+          'i' => FlowConvertor::computeIcons($income),
+          'd' => FlowConvertor::computeDescs($income),
+        ];
+      }
+    }
+
+    return $incomes;
+  }
+
+  public function getIncomesUI()
+  {
+    $rewards = $this->getIncomes();
+    return [
+      'icons' => FlowConvertor::computeIcons($rewards),
+      'descs' => FlowConvertor::computeDescs($rewards),
+    ];
+  }
+
+  public function getIncomes()
+  {
+    $rewards = [];
     foreach ([BASE, ELEVATION, CONDUIT] as $type) {
-      $nb = Meeples::getFilteredQuery($this->id, null, $type)
-        ->whereNotIn('meeple_location', ['company'])
-        ->count();
-
+      $nb = $this->countBuiltStructures($type);
       for ($i = 1; $i <= $nb; $i++) {
-        if (!isset($revenueBoard[$type][$i])) {
-          continue;
-        }
-
-        $tmpFlow = $revenueBoard[$type][$i];
-        if (isset($tmpFlow['action']) && $tmpFlow['action'] == GAIN) {
-          foreach ($tmpFlow['args'] as $resource => $amount) {
-            if (!isset($gainFlow[$resource])) {
-              $gainFlow[$resource] = $amount;
-            } else {
-              $gainFlow[$resource] += $amount;
-            }
+        $reward = $this->boardIncomes[$type][$i] ?? null;
+        if (!is_null($reward)) {
+          foreach ($reward as $t => $n) {
+            $rewards[$t] = ($rewards[$t] ?? 0) + $n;
           }
-        } else {
-          $flows['childs'][] = $tmpFlow;
         }
       }
     }
-    if (!empty($gainFlow)) {
-      \array_unshift($flows['childs'], ['action' => GAIN, 'args' => $gainFlow]);
-    }
-    if (!empty($flows['childs'])) {
-      return $flows;
-    } else {
-      return [];
-    }
+
+    return $rewards;
+  }
+
+  public function getIncomesFlow()
+  {
+    $incomes = $this->getIncomes();
+    $flow = FlowConvertor::computeRewardFlow($incomes, clienttranslate('income'));
+    return empty($flow['childs'])? [] : $flow;
   }
 
   public function productionPowerEnabled()

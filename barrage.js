@@ -45,12 +45,14 @@ define([
       ];
       this._notifications = [
         ['clearTurn', 1],
+        ['startNewRound', 1],
         ['refreshUI', 1],
         ['placeEngineers', null],
         ['payResources', null],
         ['payResourcesToWheel', null],
         ['gainResources', null],
         ['collectResources', null],
+        ['recoverResources', null],
         ['assignCompany', 1000],
         ['setupCompanies', 500],
         ['silentDestroy', 100],
@@ -76,8 +78,9 @@ define([
           attribute: 'background',
           type: 'select',
           values: {
-            0: _('Barrage texture (dark)'),
-            1: _('Default BGA (light)'),
+            0: _('Dark Barrage texture'),
+            1: _('Light Barrage texture'),
+            2: _('Default BGA'),
           },
         },
         actionBoardBackground: {
@@ -139,10 +142,11 @@ define([
     setup(gamedatas) {
       debug('SETUP', gamedatas);
       this.setupInfoPanel();
+      dojo.destroy('debug_output');
 
       this.setupEnergyTrack();
-      this.setupActionBoards();
       this.setupCompanies();
+      this.setupActionBoards();
       this.setupMap();
       this.setupMeeples();
       this.setupContracts();
@@ -155,6 +159,9 @@ define([
         $('generalactions'),
         'after',
       );
+      // Create the "go to top" button
+      dojo.place("<div id='go-to-top'></div>", $('active_player_statusbar'), 'before');
+      $('go-to-top').addEventListener('click', () => window.scrollTo(0, 0));
 
       this.inherited(arguments);
     },
@@ -225,6 +232,13 @@ define([
       // Call appropriate method
       var methodName = 'onEnteringState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
       if (this[methodName] !== undefined) this[methodName](args.args);
+    },
+
+
+    notif_startNewRound(n){
+      debug("Notif: starting new round", n)
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
     },
 
     /////////////////////////////
@@ -401,6 +415,11 @@ define([
     setupActionBoards() {
       this.gamedatas.actionBoards.forEach((board) => {
         if (board.id == 'company') {
+          board.structure.forEach((row) => {
+            let cId = row[0].cId;
+            let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+            this.place('tplActionBoardRow', row, container);
+          });
         } else {
           this.place('tplActionBoard', board, 'action-boards-container');
         }
@@ -914,6 +933,8 @@ define([
           this._contractStackCounters[i].setValue(this.gamedatas.contracts.stacks[i]);
         }
       }
+
+      this.updateCompaniesCounters();
     },
 
     addContract(contract, container = null) {
@@ -934,7 +955,7 @@ define([
         return `company-contracts-${cId}`;
       } else if (contract.location.substr(0, 9) == 'fulfilled') {
         let cId = contract.location.substr(10);
-        return `company-fulfilled-contracts-${cId}`;
+        return `reserve_${cId}_fcontract`;
       } else if ($(contract.location)) {
         return $(contract.location);
       }

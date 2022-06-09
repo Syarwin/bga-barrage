@@ -4,6 +4,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'PRODUCTION',
     'COST',
     'CREDIT',
+    'PAY',
     'ARROW',
     'WATER',
     'WATER_DOWN',
@@ -20,8 +21,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'BASE',
     'BASE_PLAIN_HILL',
     'BASE_PLAIN',
+    'CONSTRUCT',
   ];
-  const PERSONAL_RESOURCES = []; //'farmer', 'fence', 'stable'];
+  const PERSONAL_RESOURCES = ['BASE', 'ELEVATION', 'CONDUIT', 'POWHERHOUSE'];
 
   return declare('barrage.meeples', null, {
     setupMeeples() {
@@ -61,10 +63,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         parent.setAttribute('data-n', n + (leaving ? -1 : 1));
       } else if (parent.classList.contains('reserve')) {
         let t = parent.id.split('_');
-        if (PERSONAL_RESOURCES.includes(t[2])) {
-          leaving = !leaving;
-        }
-
         let n = parseInt(parent.parentNode.getAttribute('data-n') || 0);
         n += leaving ? -1 : 1;
         this._companyCounters[t[1]][t[2]].toValue(n);
@@ -76,7 +74,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     addMeeple(meeple, location = null) {
       if ($('meeple-' + meeple.id)) return;
-      this.place('tplMeeple', meeple, location == null ? this.getMeepleContainer(meeple) : location);
+      this.place(
+        'tplMeeple',
+        meeple,
+        location == null ? this.getMeepleContainer(meeple) : location,
+        meeple.location == 'company' ? 'first' : null,
+      );
     },
 
     tplMeeple(meeple) {
@@ -114,21 +117,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let nChild = parseInt(meeple.state) + 1;
         return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
       }
-      // Base and elevation on board
+      // Base and elevation on map
       else if (
         ['base', 'elevation'].includes(meeple.type) &&
         $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`)
       ) {
         return $('brg-map').querySelector(`.dam-slot[data-id="${meeple.location}"]`);
       }
-      // Powerhouse on board
+      // Powerhouse on map
       else if (
         meeple.type == 'powerhouse' &&
         $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`)
       ) {
         return $('brg-map').querySelector(`.powerhouse-slot[data-id="${meeple.location}"]`);
       }
-      // Conduit on board
+      // Conduit on map
       else if (meeple.type == 'conduit' && $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`)) {
         return $('brg-map').querySelector(`.conduit-slot[data-id="${meeple.location}"]`);
       }
@@ -273,6 +276,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_collectResources(n) {
       debug('Notif: collecting resoures', n);
       this.slideResources(n.args.resources, {});
+      if (n.args.tile) {
+        this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile));
+      }
+    },
+
+    /**
+     * Recover resources from the wheel
+     */
+    notif_recoverResources(n) {
+      debug('Notif: collecting resoures', n);
+      this.slideResources(n.args.resources, {}).then(() => this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]));
       if (n.args.tile) {
         this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile));
       }

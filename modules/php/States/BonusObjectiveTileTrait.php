@@ -35,22 +35,22 @@ trait BonusObjectiveTileTrait
   // |____/ \___/|_| |_|\__,_|___/   |_| |_|_|\___||___/
   ////////////////////////////////////////////////////////////
 
-  public function computeRoundReward($company, $round = null)
+  public function computeRoundBonusQuantity($company, $round = null)
   {
     $round = $round ?? Globals::getRound();
     $bonusTile = Globals::getBonusTiles()[$round - 1];
 
     switch ($bonusTile) {
       case BONUS_CONTRACT:
-        return count($company->getContracts(true)) * 2;
+        return $company->getFulfilledContracts()->count();
       case BONUS_BASE:
-        return 4 * $company->countBuiltStructures(BASE);
+        return $company->countBuiltStructures(BASE);
       case BONUS_ELEVATION:
-        return 4 * $company->countBuiltStructures(ELEVATION);
+        return $company->countBuiltStructures(ELEVATION);
       case BONUS_CONDUIT:
-        return 4 * $company->countBuiltStructures(CONDUIT);
+        return $company->countBuiltStructures(CONDUIT);
       case BONUS_POWERHOUSE:
-        return 5 * $company->countBuiltStructures(POWERHOUSE);
+        return $company->countBuiltStructures(POWERHOUSE);
       case BONUS_ADVANCED_TILE:
         //TODO bonus advancer
         break;
@@ -64,18 +64,37 @@ trait BonusObjectiveTileTrait
     throw new \feException('bonus tile not implemnted');
   }
 
+  public function getRoundBonusMultCoeff($round = null)
+  {
+    $bonusTile = Globals::getBonusTiles()[$round - 1];
+    $multiplicativeCoeffs = [
+      BONUS_CONTRACT => 2,
+      BONUS_BASE => 4,
+      BONUS_ELEVATION => 4,
+      BONUS_CONDUIT => 4,
+      BONUS_POWERHOUSE => 5
+    ];
+    return $multiplicativeCoeffs[$bonusTile];
+  }
+
   public function computeRoundBonus($company, $round = null)
   {
+    $round = $round ?? Globals::getRound();
     $energy = $company->getEnergy();
-    if ($energy < 6) {
-      return null;
-    }
+    $necessaryEnergy = $round * 6;
 
-    $necessaryEnergy = Globals::getRound() * 6;
-    $bonus = $this->computeRoundReward($company, $round);
-    $malus = max(0, ceil(($necessaryEnergy - $energy) / 6) * 4);
-    $vp = $bonus - $malus;
-    return max($vp, 0);
+    $datas = [];
+    // Compute number of stuff
+    $datas['n'] = $this->computeRoundBonusQuantity($company, $round);
+    // Compute bonus
+    $datas['mult'] = $this->getRoundBonusMultCoeff($round);
+    $datas['bonus'] = $datas['n'] * $datas['mult'];
+    // Add malus
+    $datas['malus'] = max(0, ceil(($necessaryEnergy - $energy) / 6) * 4);
+    // Total
+    $datas['vp'] = $energy < 6? null : max(0, $datas['bonus'] - $datas['malus']);
+
+    return $datas;
   }
 
   /////////////////////////////////////////////////////////////////

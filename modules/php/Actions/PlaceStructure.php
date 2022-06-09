@@ -8,6 +8,7 @@ use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
+use BRG\Helpers\FlowConvertor;
 use BRG\Map;
 
 class PlaceStructure extends \BRG\Models\Action
@@ -136,6 +137,19 @@ class PlaceStructure extends \BRG\Models\Action
           'source' => clienttranslate('building space'),
         ],
       ]);
+    }
+
+    // insert bonus revenue if there is any
+    $nb = $company->countBuiltStructures($type);
+    $bonus = $company->getBoardIncomes()[$type][$nb] ?? null;
+    if ($bonus !== null) {
+      if ($type == POWERHOUSE) {
+        Notifications::message('TODO');
+      } else {
+        Notifications::message(clienttranslate('A new income has been revealed. A bonus will be earned.'));
+        $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
+        Engine::insertAsChild($flow);
+      }
     }
 
     $this->resolveAction([$spaceId]);

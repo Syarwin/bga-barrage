@@ -831,7 +831,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       return this.inherited(arguments);
     },
 
-    place(tplMethodName, object, container) {
+    place(tplMethodName, object, container, position = null) {
       if ($(container) == null) {
         console.error('Trying to place on null container', container);
         return;
@@ -842,7 +842,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         return;
       }
 
-      return dojo.place(this[tplMethodName](object), container);
+      return dojo.place(this[tplMethodName](object), container, position);
     },
 
     /* Helper to work with local storage */
