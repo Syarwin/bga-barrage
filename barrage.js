@@ -68,7 +68,7 @@ define([
       ];
 
       // Fix mobile viewport (remove CSS zoom)
-      this.default_viewport = 'width=900';
+      this.default_viewport = 'width=1328';
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
@@ -1046,6 +1046,7 @@ define([
           this.wait(800).then(() => {
             o.remove();
             this.addContract(contract);
+            this.updateResourcesHolders(false, false);
           });
         }
       });

@@ -462,12 +462,10 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function getProductionBonus()
   {
-    $left = Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
-      ->get()
-      ->count();
-    if ($left == 0) {
+    $built = $this->countBuiltStructures(\POWERHOUSE);
+    if ($built == 4) {
       return 3;
-    } elseif ($left >= 2) {
+    } elseif ($built >= 2) {
       return 1;
     }
     return 0;
