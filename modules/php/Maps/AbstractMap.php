@@ -61,6 +61,9 @@ abstract class AbstractMap
     $slots = [];
     foreach ($this->getBasins() as $bId => $basin) {
       $basin['type'] = Meeples::getOnSpace($bId)->empty() ? BASE : ELEVATION;
+      if ($basin['type'] == ELEVATION) {
+        $basin['cost'] = 0;
+      }
       $slots[] = $basin;
     }
 
