@@ -156,6 +156,9 @@ class Map
     foreach ($droplets as &$droplet) {
       list($path, $energy) = self::getFlowPath($droplet);
       $droplet['path'] = $path;
+      if (count($path) == 0) {
+        continue;
+      }
       $location = $path[count($path) - 1];
       $bonusEnergy += $energy;
 
@@ -212,6 +215,12 @@ class Map
     $path = [];
     $blocked = false;
     $rivers = self::getRivers();
+
+    // if the droplet starts at a dam, we leave it (could have been added by XO power)
+    if (Meeples::getFilteredQuery(null, $location, BASE)->count() > 0) {
+      return [[], 0];
+    }
+
     do {
       // Search for the next location
       if ($location[0] == 'P') {

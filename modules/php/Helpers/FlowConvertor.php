@@ -65,7 +65,7 @@ abstract class FlowConvertor
       POWERHOUSE => clienttranslate('Place one of your Powerhouse in a free building space on the Map.'),
       ELEVATION => clienttranslate('Place one of your Elevation over one of your Dams.'),
       BASE => clienttranslate('Place one of your Bases in a free building space on the Map.'),
-      PRODUCTION_BONUS => clienttranslate('Permanent bonus of +${n} on your productions.')
+      PRODUCTION_BONUS => clienttranslate('Permanent bonus of +${n} on your productions.'),
     ];
 
     $descs = [];
@@ -98,8 +98,8 @@ abstract class FlowConvertor
       MIXER => [['action' => GAIN, 'args' => [MIXER]]],
       ROTATE_WHEEL => [['action' => \ROTATE_WHEEL]],
       VP => [['action' => GAIN, 'args' => [VP]]],
-      PLACE_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => false]]],
-      FLOW_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flow' => true]]],
+      PLACE_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flows' => false]]],
+      FLOW_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flows' => true]]],
       ANY_MACHINE => [['type' => NODE_XOR]],
       ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
       CONDUIT => [['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT]]],

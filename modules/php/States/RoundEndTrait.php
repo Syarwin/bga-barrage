@@ -41,7 +41,7 @@ trait RoundEndTrait
       $company = Companies::get($cId);
       $cEnergies[$company->getEnergy()][] = $company;
     }
-    arsort($cEnergies);
+    krsort($cEnergies);
 
     // 1st and 2nd award
     $energies = array_keys($cEnergies);
@@ -162,6 +162,7 @@ trait RoundEndTrait
         $company->setNo($no--);
       }
     }
+
     $order = array_reverse($order);
     Globals::setTurnOrder($order);
 

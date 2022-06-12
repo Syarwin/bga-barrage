@@ -63,6 +63,13 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
+      if (
+        $space['type'] == \POWERHOUSE &&
+        count($company->getBuiltStructures(\POWERHOUSE, 'P' . $space['zone'] . '%')) > 0
+      ) {
+        continue;
+      }
+
       if (isset($args['tileId']) && TechnologyTiles::get($args['tileId'])->ignoreCostMalus()) {
         $ignoreMalus = true;
       } elseif ($company->isAntonTileAvailable()) {

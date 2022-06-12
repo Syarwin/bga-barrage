@@ -115,7 +115,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return (
         `<div class='company-info'>
         <div class='company-jump-to' id='company-jump-to-${company.id}'></div>
-        <div class='company-no' id='company-position-${company.no}'>${no}</div>
+        <div class='company-no' id='company-position-${company.id}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
         <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
