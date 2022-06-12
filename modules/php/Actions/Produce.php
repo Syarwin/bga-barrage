@@ -100,7 +100,7 @@ class Produce extends \BRG\Models\Action
         'action' => PAY,
         'cId' => $company->getId(),
         'args' => [
-          'nb' => $nDroplets,
+          'nb' => 1,
           'costs' => Utils::formatCost([CREDIT => $nDroplets]),
           'source' => clienttranslate('use of conduit'),
           'to' => $opponent->getId(),
