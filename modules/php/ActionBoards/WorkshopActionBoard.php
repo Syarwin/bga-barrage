@@ -6,6 +6,7 @@ use BRG\Managers\Companies;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
+use BRG\Helpers\Utils;
 
 /*
  * Workshop action space board
@@ -64,12 +65,20 @@ class WorkshopActionBoard extends AbstractActionBoard
         'board' => self::$id,
         'uid' => self::$id . '-r2',
         'nEngineers' => 2,
-        'cost' => 2,
         'flow' => [
-          'action' => ROTATE_WHEEL,
-          'args' => [
-            'n' => 2,
-          ],
+          'type' => NODE_SEQ,
+          'childs' => [
+            [
+              'action' => PAY,
+              'args' => ['costs' => Utils::formatFee([CREDIT => 2])],
+            ],
+            [
+              'action' => ROTATE_WHEEL,
+              'args' => [
+                'n' => 2,
+              ],
+            ]
+          ]
         ],
       ];
     }
@@ -78,12 +87,20 @@ class WorkshopActionBoard extends AbstractActionBoard
       'board' => self::$id,
       'uid' => self::$id . '-r3',
       'nEngineers' => 2,
-      'cost' => 5,
       'flow' => [
-        'action' => ROTATE_WHEEL,
-        'args' => [
-          'n' => 3,
-        ],
+        'type' => NODE_SEQ,
+        'childs' => [
+          [
+            'action' => PAY,
+            'args' => ['costs' => Utils::formatFee([CREDIT => 5])],
+          ],
+          [
+            'action' => ROTATE_WHEEL,
+            'args' => [
+              'n' => 3,
+            ],
+          ]
+        ]
       ],
     ];
 
@@ -91,7 +108,7 @@ class WorkshopActionBoard extends AbstractActionBoard
     foreach ($spaces as $space) {
       $space['uid'] .= 'c';
       $space['nEngineers'] = 3;
-      $space['cost'] += 3;
+      $space['cost'] = 3;
       $spaces[] = $space;
     }
 
