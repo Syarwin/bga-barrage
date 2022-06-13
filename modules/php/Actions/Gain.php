@@ -62,7 +62,9 @@ class Gain extends \BRG\Models\Action
           $meeples[] = ['type' => $resource, 'ignore' => true];
         }
       } else {
-        $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
+        if ($amount != 0) {
+          $meeples = array_merge($meeples, $company->createResourceInReserve($resource, $amount)->toArray());
+        }
       }
       // TODO $statName = 'inc' . ($source == null ? 'Board' : 'Cards') . ucfirst($resource);
       // Stats::$statName($player, $amount);

@@ -250,10 +250,10 @@ $machinestates = [
 
   ST_DISCARD_CONTRACT => [
     'name' => 'discardContract',
-    'description' => clienttranslate('${actplayer} must discard ${nb} contract(s)'),
-    'descriptionmyturn' => clienttranslate('${you} must discard ${nb} contract(s)'),
-    'descriptionskippable' => clienttranslate('${actplayer} may discard ${nb} contract(s)'),
-    'descriptionmyturnskippable' => clienttranslate('${you} may discard ${nb} contract(s)'),
+    'description' => clienttranslate('${actplayer} must discard ${n} contract(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must discard ${n} contract(s)'),
+    'descriptionskippable' => clienttranslate('${actplayer} may discard ${n} contract(s)'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may discard ${n} contract(s)'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',

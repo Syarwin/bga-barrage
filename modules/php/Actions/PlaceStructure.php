@@ -70,6 +70,19 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
+      // cannot place if the spot is taken
+      if (
+        $space['type'] == \POWERHOUSE &&
+        count(Meeples::getFilteredQuery(null, $space['id'], \POWERHOUSE)->get()) > 0
+      ) {
+        continue;
+      }
+
+      // same player cannot have 2 bases on the same basin
+      if ($space['type'] == BASE && count($company->getBuiltStructures(\BASE, substr($space['id'], 0, -1) . '%')) > 0) {
+        continue;
+      }
+
       if (isset($args['tileId']) && TechnologyTiles::get($args['tileId'])->ignoreCostMalus()) {
         $ignoreMalus = true;
       } elseif ($company->isAntonTileAvailable()) {
