@@ -144,8 +144,12 @@ class Pay extends \BRG\Models\Action
         }
       }
 
-      // Move tech tile
-      $tile = $company->placeTileOnWheel($this->getCtxArgs()['tileId']);
+      if (isset($this->getCtxArgs()['tileId'])) {
+        // Move tech tile
+        $tile = $company->placeTileOnWheel($this->getCtxArgs()['tileId']);
+      } else {
+        $tile = null;
+      }
 
       Notifications::payResourcesToWheel($company, $tile, $deleted, $moved, $args['source'], $cost['sources'] ?? []);
     } else {

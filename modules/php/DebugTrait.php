@@ -32,7 +32,7 @@ trait DebugTrait
     // throw new \feException(print_r(Map::producingCapacity(5)));
     // $this->actTakeAtomicAction([55, \ELEVATION, 'B3L', ELEVATION]);
     // pick contract
-    // $this->actTakeAtomicAction([[305, 403]]);
+    $this->actTakeAtomicAction(['B3U', 75, 5]);
     // discard contracts
     // $this->actTakeAtomicAction(['C2L', 'B2L', 2]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
@@ -42,8 +42,10 @@ trait DebugTrait
     // Engine::proceed();
     // $this->gamestate->jumpToState(ST_RETURNING_HOME);
     // throw new \feException(print_r(Map::getConstructSlots()));
-    Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
-    Engine::proceed();
+    // Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
+    // Engine::proceed();
+    // Companies::getActive()->incEnergy(6);
+    // $this->gamestate->jumpToState(ST_RETURNING_HOME);
   }
 
   public function tv()

@@ -234,6 +234,36 @@ define([
       if (this[methodName] !== undefined) this[methodName](args.args);
     },
 
+    onEnteringStateSpecialEffect(args) {
+      if (args.description) {
+        this.gamedatas.gamestate.descriptionmyturn = args.description;
+        this.gamedatas.gamestate.descriptionmyturn = args.description;
+
+        // this.gamedatas.gamestate.description = this.format_string_recursive(args.description, {
+        //   actplayer: this.gamedatas.players[this.getActivePlayerId()].name,
+        // });
+        this.updatePageTitle();
+      }
+      if (!this.isCurrentPlayerActive()) {
+        // dojo.destroy('btnPassAction');
+        dojo.destroy('btnRestartTurn');
+        return;
+      }
+
+      let method = args.method;
+      if (this[method] != undefined) {
+        this[method](args);
+      }
+    },
+
+    copyPower(args) {
+      Object.keys(args.power).forEach((key) => {
+        this.addPrimaryActionButton('btnPower' + args.power[key].id, _('Use ') + args.power[key].officer.name, () => {
+          this.takeAtomicAction('actCopyPower', [args.power[key].id]);
+        });
+      });
+    },
+
     notif_startNewRound(n) {
       debug('Notif: starting new round', n);
       this.gamedatas.bonuses = n.args.bonuses;

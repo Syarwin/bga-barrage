@@ -266,8 +266,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           : {},
       );
 
-      let tile = n.args.tile;
-      this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
+      if (n.args.tile !== null) {
+        let tile = n.args.tile;
+        this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
+      }
     },
 
     /**
@@ -286,7 +288,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     notif_recoverResources(n) {
       debug('Notif: collecting resoures', n);
-      this.slideResources(n.args.resources, {}).then(() => this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]));
+      this.slideResources(n.args.resources, {}).then(() =>
+        this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]),
+      );
       if (n.args.tile) {
         this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile));
       }

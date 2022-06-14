@@ -31,7 +31,7 @@ class Construct extends \BRG\Models\Action
           continue;
         }
 
-        // if ($slot['id'] != 'B1U' || $slot['type'] != BASE) {
+        // if ($slot['id'] != 'B3U' || $slot['type'] != BASE) {
         //   continue;
         // }
 
@@ -51,6 +51,9 @@ class Construct extends \BRG\Models\Action
         $cost = $company->getConstructCost($slot, $tile);
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
+        if (Globals::getMahiriPower() == \XO_ANTON) {
+          unset($cost['tileId']);
+        }
         $cost['source'] = clienttranslate('construction');
         $childs[] = [
           'action' => PAY,

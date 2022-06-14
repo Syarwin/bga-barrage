@@ -49,7 +49,7 @@ class Company extends \BRG\Helpers\DB_Model
   protected $slot = 0;
 
   protected $cname;
-  protected $staticAttributes = ['cname', 'boardIncomes'];
+  protected $staticAttributes = ['cname', 'boardIncomes', 'officer'];
   protected $boardIncomes = [BASE => [], \ELEVATION => [], CONDUIT => [], \POWERHOUSE => []];
 
   public function __construct($row)
@@ -97,6 +97,10 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function isXO($xId)
   {
+    // superseed XO if mahiri is copying power
+    if ($this->officerId == \XO_MAHIRI && Globals::getMahiriPower() != '') {
+      return $xId == Globals::getMahiriPower();
+    }
     return $this->officerId == $xId;
   }
 
@@ -258,10 +262,16 @@ class Company extends \BRG\Helpers\DB_Model
 
     // Return back the tile
     $tId = TechnologyTiles::getOnWheel($this->id, $this->slot)->getIds();
-    TechnologyTiles::move($tId, 'company');
+    if (count($tId) > 0) {
+      TechnologyTiles::move($tId, 'company');
+    }
 
     if (count($mIds) + count($tId) > 1) {
-      Notifications::recoverResources($this, Meeples::getMany($mIds), TechnologyTiles::get($tId[0]));
+      Notifications::recoverResources(
+        $this,
+        Meeples::getMany($mIds) ?? [],
+        count($tId) > 0 ? TechnologyTiles::get($tId[0]) : null
+      );
     }
   }
 
@@ -282,6 +292,15 @@ class Company extends \BRG\Helpers\DB_Model
         return $tile->canConstruct($structure);
       });
     }
+
+    // Mahiri power
+    if (Globals::getMahiriPower() == \XO_ANTON) {
+      $tiles[\ANTON_TILE] = TechnologyTiles::getSelectQuery()
+        ->where('type', \ANTON_TILE)
+        ->get()
+        ->first();
+    }
+
     return $tiles;
   }
 
@@ -477,6 +496,8 @@ class Company extends \BRG\Helpers\DB_Model
     $anytime = ['childs' => []];
     foreach (self::getAvailableTechTiles() as $tile) {
       if ($tile->isAnyTime()) {
+        // throw new \feException(print_r(\debug_print_backtrace()));
+        // throw new \feException(print_r($tile));
         $anytime['childs'][] = array_merge(
           [
             'id' => $tile->getId(),

@@ -51,7 +51,7 @@ class LeafNode extends AbstractNode
   /**
    * A Leaf is doable if the corresponding action is doable by the player
    */
-  public function isDoable($company, $ignoreResources = false)
+  public function isDoable($company, $ignoreResources = false, $doNoThrow = true)
   {
     // Useful for a SEQ node where the 2nd node might become doable thanks to the first one
     if (isset($this->infos['willBeDoable'])) {
@@ -60,7 +60,11 @@ class LeafNode extends AbstractNode
     if (isset($this->infos['action'])) {
       return $company->canTakeAction($this->infos['action'], $this, $ignoreResources);
     }
-    throw new \BgaVisibleSystemException('Unimplemented isDoable function for non-action Leaf');
+    if ($doNoThrow) {
+      throw new \feException(print_r(\debug_print_backtrace()));
+      throw new \BgaVisibleSystemException('Unimplemented isDoable function for non-action Leaf');
+    }
+    return false;
   }
 
   /**

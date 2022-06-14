@@ -56,7 +56,7 @@ trait ActionTrait
     $anytimeActions = [];
     foreach ($listeningTiles['childs'] as $flow) {
       $tree = Engine::buildTree($flow);
-      if ($tree->isDoable($company)) {
+      if ($tree->isDoable($company, null, false)) {
         $anytimeActions[] = [
           'flow' => $flow,
           'desc' => $flow['desc'] ?? $tree->getDescription(true),

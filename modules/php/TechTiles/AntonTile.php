@@ -28,7 +28,7 @@ class AntonTile extends \BRG\TechTiles\BasicTile
 
   protected function getWheelTiles()
   {
-    return TechnologyTiles::getFilteredQuery($this->cId, 'wheel')->get();
+    return TechnologyTiles::getFilteredQuery(Companies::getActive()->getId(), 'wheel')->get();
   }
 
   public function getPowerFlow($slot)
@@ -39,6 +39,9 @@ class AntonTile extends \BRG\TechTiles\BasicTile
       foreach ($this->getWheelTiles() as $tile) {
         if ($tile->isAnyTime()) {
           $f = $tile->getPowerFlow($slot);
+          if (is_null($f)) {
+            continue;
+          }
           $f['description'] = $tile->getAnyTimeDesc();
           $f['args']['tileId'] = $this->id;
           $flow['childs'][] = [
@@ -53,15 +56,9 @@ class AntonTile extends \BRG\TechTiles\BasicTile
           ];
         }
       }
-      // array_unshift($flow['childs'], ['action' => \SPECIAL_EFFECT, 'args' => ['tileId' => $this->id]]);
-      // throw new \feException(print_r($flow));
-      // return [
-      //   'type' => NODE_SEQ,
-      //   'childs' => [['action' => \SPECIAL_EFFECT, 'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => ['tile' => $tile]]], $flow],
-      // ];
       return $flow;
     } else {
-      return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot);
+      return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot) ?? [];
     }
   }
 

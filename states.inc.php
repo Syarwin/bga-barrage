@@ -267,7 +267,7 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'args' => 'argsAtomicAction',
     'type' => 'activeplayer',
-    'possibleactions' => ['actPassOptionalAction', 'actRestart'],
+    'possibleactions' => ['actPassOptionalAction', 'actRestart', 'actCopyPower'],
   ],
 
   ST_TILE_EFFECT => [

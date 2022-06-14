@@ -86,6 +86,7 @@ trait RoundStartTrait
 
     $company = Companies::getActive();
     Globals::setAntonPower('');
+    Globals::setMahiriPower('');
 
     // Already out of round ? => Go to the next company if one is left
     $skipped = Globals::getSkippedCompanies();
@@ -101,7 +102,6 @@ trait RoundStartTrait
     }
 
     // No engineer to allocate ?
-    // TODO : handle special tech tiles working kind of like adoptive parent :  && !$player->hasAdoptiveAvailable()
     if (!$company->hasAvailableEngineer() && !$company->hasAnyTimeActions()) {
       $skipped[] = $company->getId();
       Globals::setSkippedCompanies($skipped);
@@ -126,13 +126,6 @@ trait RoundStartTrait
       'action' => PLACE_ENGINEER,
       'cId' => $company->getId(),
     ];
-    /*
-    TODO : handle advanced tech tile
-    if (!$player->hasFarmerAvailable() && $player->hasAdoptiveAvailable()) {
-      $card = PlayerCards::get('A92_AdoptiveParents');
-      $node = $card->getStartOfRoundChoice($player);
-    }
-    */
 
     // Inserting leaf PLACE_ENGINEER
     Engine::setup($node, ['order' => 'actionPhase']);

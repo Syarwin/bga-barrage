@@ -33,6 +33,11 @@ class Officer implements \JsonSerializable
     return $this->name;
   }
 
+  public function getId()
+  {
+    return $this->id;
+  }
+
   public function getDescription()
   {
     return $this->description;
