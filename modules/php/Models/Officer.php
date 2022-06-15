@@ -66,4 +66,20 @@ class Officer implements \JsonSerializable
   {
     return $n;
   }
+
+  /************** SETUP **************/
+  public function getStartCredit()
+  {
+    return -1;
+  }
+
+  public function getStartMixer()
+  {
+    return -1;
+  }
+
+  public function getStartExcavator()
+  {
+    return -1;
+  }
 }

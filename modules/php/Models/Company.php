@@ -514,4 +514,32 @@ class Company extends \BRG\Helpers\DB_Model
   {
     return count($this->getAnyTimeActions()['childs']) > 0;
   }
+
+  /******************** SETUP *********************/
+  public function getStartCredit()
+  {
+    $off = $this->officer->getStartCredit();
+    if ($off < 0) {
+      return 6;
+    }
+    return $off;
+  }
+
+  public function getStartMixer()
+  {
+    $off = $this->officer->getStartMixer();
+    if ($off < 0) {
+      return 4;
+    }
+    return $off;
+  }
+
+  public function getStartExcavator()
+  {
+    $off = $this->officer->getStartExcavator();
+    if ($off < 0) {
+      return 6;
+    }
+    return $off;
+  }
 }

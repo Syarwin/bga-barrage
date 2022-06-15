@@ -83,4 +83,9 @@ class Mahiri extends \BRG\Models\Officer
     }
     return parent::getUnitsModifier($slot, $machine, $n);
   }
+
+  public function getStartCredit()
+  {
+    return 9;
+  }
 }
