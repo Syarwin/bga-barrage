@@ -19,8 +19,26 @@ class Jill extends \BRG\Models\Officer
   {
     $costs = parent::getCostModifier($slot, $machine, $n);
     if ($slot['type'] == CONDUIT) {
-      Utils::addCost($costs, [MIXER => 1, 'nb' => 1], $this->name);
+      // As we cannot combo Mixer & Excavator, change of logic to buy 1 item at cost for the item
+      foreach ($costs['trades'] as &$c) {
+        foreach ($c as $machine => $nb) {
+          if ($machine == 'nb') {
+            continue;
+          }
+          $c[$machine] = $nb * $n;
+        }
+      }
+      Utils::addCost($costs, [MIXER => $n, 'nb' => 1], $this->name);
     }
+
     return $costs;
+  }
+
+  public function getUnitsModifier($slot, $machine, $n)
+  {
+    if ($slot['type'] == CONDUIT) {
+      return 1;
+    }
+    return parent::getUnitsModifier($slot, $machine, $n);
   }
 }
