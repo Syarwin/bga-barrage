@@ -127,7 +127,7 @@ abstract class AbstractActionBoard
     ];
   }
 
-  public function payGainNode($cost, $gain, $sourceName = null, $optional = true)
+  public function payGainNode($cost, $gain, $sourceName = null, $optional = false)
   {
     return [
       'type' => NODE_SEQ,

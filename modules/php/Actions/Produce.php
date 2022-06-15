@@ -79,11 +79,13 @@ class Produce extends \BRG\Models\Action
     }
     Notifications::moveDroplets($tDroplets);
     // Move droplets to powerhouses
+    $pDroplets = new Collection([]); // Avoid pointer issue
     foreach ($droplets as &$drop) {
       $drop['location'] = $system['powerhouseSpaceId'];
       $drop['path'] = [$system['powerhouseSpaceId']];
+      $pDroplets[] = $drop;
     }
-    Notifications::moveDroplets($droplets);
+    Notifications::moveDroplets($pDroplets);
 
     // Produce energy
     $company = Companies::getActive();

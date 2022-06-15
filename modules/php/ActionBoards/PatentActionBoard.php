@@ -15,6 +15,12 @@ class PatentActionBoard extends AbstractActionBoard
 {
   protected static $id = BOARD_PATENT;
   protected static $isNotBeginner = true;
+
+  public function isSupported()
+  {
+    return Globals::isBeginner() == false;
+  }
+
   public static function getName()
   {
     return clienttranslate('Patent office');
