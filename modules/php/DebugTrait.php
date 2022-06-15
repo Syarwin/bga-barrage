@@ -32,7 +32,8 @@ trait DebugTrait
     // throw new \feException(print_r(Map::producingCapacity(5)));
     // $this->actTakeAtomicAction([55, \ELEVATION, 'B3L', ELEVATION]);
     // pick contract
-    $this->actTakeAtomicAction(['B3U', 75, 5]);
+    // $this->actTakeAtomicAction(['B3U', 75, 5]);
+    $this->argsAtomicAction();
     // discard contracts
     // $this->actTakeAtomicAction(['C2L', 'B2L', 2]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)

@@ -46,6 +46,10 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
+      // if ($space['id'] != 'B1L' || $space['type'] != BASE) {
+      //   continue;
+      // }
+
       // if we have a constraint on AREA placement for base / elevation
       if (!is_null($constraints) && !in_array($space['area'], $constraints)) {
         continue;
@@ -79,7 +83,12 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       // same player cannot have 2 bases on the same basin
-      if ($space['type'] == BASE && count($company->getBuiltStructures(\BASE, substr($space['id'], 0, -1) . '%')) > 0) {
+      if (
+        $space['type'] == BASE &&
+        count(
+          $company->getBuiltStructures(\BASE, [substr($space['id'], 0, -1) . 'L', substr($space['id'], 0, -1) . 'U'])
+        ) > 0
+      ) {
         continue;
       }
 
