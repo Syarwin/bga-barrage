@@ -5,14 +5,39 @@
   #brg-map {
     width: 1000px;
     height: 1464px;
-    background-image: url('img/base_map.jpg');
+    background-image: url('img/base_map_test.jpg');
     background-size: 100% 100%;
     border-radius: 29px;
-    box-shadow: 1px 1px 3px black;
-    border: 2px solid black;
     position: relative;
+    border: 3px solid #c8ba6a;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff50;
+      z-index: 1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: url('img/base_map.svg');
+      background-size: 100%;
+      z-index: 2;
+    }
 
     .headstream {
+      z-index: 3;
       width: 203px;
       height: 122px;
       position: absolute;

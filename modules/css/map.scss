@@ -54,9 +54,15 @@
       }
     }
 
+    .basin {
+      z-index: 3;
+    }
+
     .dam-slot,
     .conduit-slot,
     .powerhouse-slot {
+      z-index: 3;
+      background: #d5d1e8;
       text-align: center;
 
       &.selectable {
@@ -79,10 +85,23 @@
       }
     }
 
+    .dam-slot {
+      background-image: url('img/icons/base.png');
+      background-size: auto 50%;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
     .conduit-slot {
+      z-index: 3;
       display: flex;
       align-items: flex-end;
       justify-content: center;
+
+      background-image: url('img/icons/conduit.png');
+      background-size: auto 70%;
+      background-position: center center;
+      background-repeat: no-repeat;
 
       .meeple-droplet {
         position: absolute;
@@ -108,6 +127,10 @@
       display: flex;
       align-items: end;
       justify-content: center;
+      background-image: url('img/icons/powerhouse.png');
+      background-size: auto 70%;
+      background-position: center center;
+      background-repeat: no-repeat;
 
       &.producing::after {
         content: '';
