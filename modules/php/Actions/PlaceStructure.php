@@ -158,7 +158,7 @@ class PlaceStructure extends \BRG\Models\Action
     // Take top meeple and slide it
     $type = $this->getCtxArgs()['type'];
     $mId = Meeples::getTopOfType($type, $company->getId(), 'company')['id'];
-    Meeples::move($mId, $spaceId);
+    Meeples::insertOnTop($mId, $spaceId);
     Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
 
     if (
