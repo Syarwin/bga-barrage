@@ -10,7 +10,7 @@ class France extends \BRG\Models\Company
     $this->boardIncomes = [
       BASE => [
         2 => [ANY_MACHINE => 1],
-        4 => [ROTATE_WHEEL => 1],
+        4 => [ROTATE_WHEEL => 2],
         5 => [VP => 7],
       ],
       ELEVATION => [
