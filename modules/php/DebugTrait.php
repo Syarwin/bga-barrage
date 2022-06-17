@@ -33,7 +33,7 @@ trait DebugTrait
     // $this->actTakeAtomicAction([55, \ELEVATION, 'B3L', ELEVATION]);
     // pick contract
     // $this->actTakeAtomicAction(['B3U', 75, 5]);
-    $this->argsAtomicAction();
+    // $this->argsAtomicAction();
     // discard contracts
     // $this->actTakeAtomicAction(['C2L', 'B2L', 2]);
     // public function actConstruct($meeple, $type, $target, $technologyTlle, $resources = null)
@@ -45,7 +45,7 @@ trait DebugTrait
     // throw new \feException(print_r(Map::getConstructSlots()));
     // Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
     // Engine::proceed();
-    // Companies::getActive()->incEnergy(6);
+    Companies::getActive()->incEnergy(20);
     // $this->gamestate->jumpToState(ST_RETURNING_HOME);
   }
 

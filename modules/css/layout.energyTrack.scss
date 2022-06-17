@@ -188,6 +188,17 @@
       }
 
       .meeple-score {
+        // margin-top: -154%;
+        position: relative;
+        z-index: 2;
+        margin-left: -2px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+
+      .meeple-score-30 {
         margin-top: -154%;
         position: relative;
         z-index: 2;

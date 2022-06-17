@@ -42,6 +42,7 @@ define([
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
+        'flipToken',
       ];
       this._notifications = [
         ['clearTurn', 1],
@@ -65,6 +66,7 @@ define([
         ['fulfillContract', 2000],
         ['refillStacks', 1000],
         ['updateTurnOrder', 500],
+        ['flipToken', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -425,11 +427,23 @@ define([
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
       let bonuses = { 29: 8, 22: 7, 16: 6, 11: 5, 7: 4, 4: 3, 2: 2, 1: 1, 0: 3 };
       for (let i = 0; i < 32; i++) {
+        let j = i + 30;
         let bonus = bonuses[i] ? ` data-bonus='${bonuses[i]}'` : '';
-        let slot = dojo.place(
-          `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
-          track,
-        );
+        if (i == 0) {
+          let slot = dojo.place(
+            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}>
+            <div id='fake-track' />
+              </div>`,
+            track,
+          );
+        } else {
+          let slot = dojo.place(
+            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}>
+          <div id='energy-track-${j}' data-i='${j}' ${bonus}/>
+          </div>`,
+            track,
+          );
+        }
       }
     },
 

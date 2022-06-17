@@ -261,6 +261,11 @@ class Notifications
     self::notifyAll('collectResources', '', ['resources' => $tokens->toArray()]);
   }
 
+  public static function flipToken($tokenId)
+  {
+    self::notifyAll('flipToken', '', ['token' => $tokenId]);
+  }
+
   public static function rotateWheel($company, $nb)
   {
     self::notifyAll('rotateWheel', clienttranslate('${company_name} rotates the wheel'), [
