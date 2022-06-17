@@ -218,9 +218,10 @@ class Notifications
     $data = [
       'company' => $company,
       'resources2' => $moved,
+      'resources' => $deleted,
       'tile' => $tile,
     ];
-    $msg = clienttranslate('${company_name} place ${resources_desc2} on the wheel');
+    $msg = clienttranslate('${company_name} place ${resources_desc2} ${resources_desc} on the wheel');
 
     self::notifyAll('payResourcesToWheel', $msg, $data);
   }
