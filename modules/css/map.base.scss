@@ -1,54 +1,20 @@
-#brg-map-resizable[data-map='1'] {
+#brg-map-resizable {
   width: calc(var(--barrageMapScale) * 1000px);
   height: calc(var(--barrageMapScale) * 1464px);
 
   #brg-map {
     width: 1000px;
     height: 1464px;
-    background-image: url('img/base_map_test.jpg');
+    background-image: url('img/base_map_blank.jpg');
     background-size: 100% 100%;
-    border-radius: 29px;
-    position: relative;
-    border: 3px solid #c8ba6a;
-    border-radius: 6px;
-    box-shadow: 2px 2px 5px black;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #ffffff50;
-      z-index: 1;
+    [data-map='0'] & {
+      background-image: url('img/base_map.jpg');
     }
-
     &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: url('img/base_map.svg');
-      background-size: 100%;
-      z-index: 2;
+      background-image: url('img/base_map.svg');
     }
 
     .headstream {
-      z-index: 3;
-      width: 203px;
-      height: 122px;
-      position: absolute;
-      top: 9px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      .meeple-droplet {
-        margin-right: -3%;
-      }
-
       &[data-id='HA'] {
         left: 53px;
       }
@@ -61,31 +27,9 @@
       &[data-id='HD'] {
         left: 776px;
       }
-
-      .headstream-tile {
-        position: absolute;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background: url('img/headstreams.png');
-        background-size: 200% 400%;
-
-        @for $i from 0 through 8 {
-          &[data-tile='#{$i + 1}'] {
-            background-position-x: ($i % 2) * 100%;
-            background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
-          }
-        }
-      }
     }
 
     .conduit-slot {
-      width: 47px;
-      height: 47px;
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid white;
-
       // Mountains
       &[data-id='C1L'] {
         top: 330px;
@@ -172,19 +116,6 @@
     }
 
     .powerhouse-slot {
-      width: 73px;
-      height: 32px;
-      position: absolute;
-      border-radius: 8px;
-      border: 1px solid white;
-      &.paying {
-        border: 1px solid red;
-      }
-
-      &.highlight {
-        background: red;
-      }
-
       &[data-id='P5_0'] {
         top: 583px;
         left: 284px;
@@ -283,22 +214,6 @@
     }
 
     .dam-slot {
-      width: 73px;
-      height: 59px;
-      position: absolute;
-      border-radius: 8px;
-      border: 1px solid white;
-      &.paying {
-        border: 1px solid red;
-      }
-
-      .meeple-elevation {
-        margin-top: -104%;
-        &:nth-of-type(3) {
-          margin-top: -140%;
-        }
-      }
-
       &[data-id='B1U'] {
         top: 259px;
         left: 123px;
@@ -383,13 +298,6 @@
     }
 
     .basin {
-      width: 150px;
-      height: 50px;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
       &[data-id='B1U'] {
         top: 150px;
         left: 87px;
@@ -475,6 +383,87 @@
     #exit {
       position: absolute;
       top: 100%;
+    }
+
+    .powerhouse-zone {
+      &[data-zone='5'] {
+        left: 276px;
+        top: 534px;
+        width: 91px;
+      }
+      &[data-zone='6'] {
+        left: 515px;
+        top: 534px;
+        width: 91px;
+      }
+      &[data-zone='7'] {
+        left: 765px;
+        top: 534px;
+        width: 91px;
+      }
+      &[data-zone='8'] {
+        left: 117px;
+        top: 935px;
+      }
+      &[data-zone='9'] {
+        left: 363px;
+        top: 935px;
+      }
+      &[data-zone='10'] {
+        left: 612px;
+        top: 935px;
+      }
+      &[data-zone='11'] {
+        left: 227px;
+        top: 1358px;
+      }
+      &[data-zone='12'] {
+        left: 663px;
+        top: 1358px;
+      }
+    }
+
+    .basin-zone {
+      &[data-zone='1'] {
+        left: 82px;
+        top: 288px;
+      }
+      &[data-zone='2'] {
+        left: 320px;
+        top: 288px;
+      }
+      &[data-zone='3'] {
+        left: 560px;
+        top: 288px;
+      }
+      &[data-zone='4'] {
+        left: 790px;
+        top: 288px;
+      }
+      &[data-zone='5'] {
+        left: 245px;
+        top: 725px;
+      }
+      &[data-zone='6'] {
+        left: 486px;
+        top: 725px;
+      }
+      &[data-zone='7'] {
+        left: 733px;
+        top: 725px;
+      }
+      &[data-zone='8'] {
+        left: 126px;
+        top: 1125px;
+      }
+      &[data-zone='9'] {
+        left: 374px;
+        top: 1125px;
+      }
+      &[data-zone='10'] {
+        left: 623px;
+        top: 1125px;
+      }
     }
   }
 }

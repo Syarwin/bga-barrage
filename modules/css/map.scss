@@ -1,5 +1,18 @@
 :root {
-  --barrageMapScale: 0.8;
+  --barrageMapScale: 0.6;
+  --barrageMapOverlay: 0.5;
+}
+
+.barrage-svg-overlay {
+  display: none;
+
+  path {
+    fill: none;
+  }
+
+  .rivier {
+    stroke: none;
+  }
 }
 
 #produce-energy-counter {
@@ -14,6 +27,11 @@
 }
 
 #brg-map-resizable {
+  border-radius: 29px;
+  border: 3px solid #c8ba6a;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px black;
+
   [data-energy-track='0'] & {
     margin-top: 10px;
   }
@@ -21,12 +39,88 @@
   #brg-map {
     transform: scale(var(--barrageMapScale));
     transform-origin: top left;
+    position: relative;
+
+    // White overlay
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      z-index: 1;
+      pointer-events: none;
+      opacity: var(--barrageMapOverlay);
+      [data-map='0'] & {
+        display: none;
+      }
+    }
+
+    // SVG with conduit
+    .barrage-svg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      [data-map='1'] & {
+        display: block;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-size: 100%;
+      z-index: 2;
+      pointer-events: none;
+      [data-map='0'] & {
+        display: none;
+      }
+    }
 
     .barrage-meeple {
       display: inline-block;
     }
 
     .headstream {
+      z-index: 4;
+      width: 203px;
+      height: 122px;
+      position: absolute;
+      top: 9px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+
+      .meeple-droplet {
+        margin-right: -3%;
+      }
+
+      .headstream-tile {
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        background: url('img/headstreams.png');
+        background-size: 200% 400%;
+
+        @for $i from 0 through 8 {
+          &[data-tile='#{$i + 1}'] {
+            background-position-x: ($i % 2) * 100%;
+            background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
+          }
+        }
+      }
+
       &.selectable {
         cursor: pointer;
       }
@@ -54,16 +148,20 @@
       }
     }
 
+    // All the slots should be over the overlay
     .basin {
-      z-index: 3;
+      z-index: 4;
     }
 
     .dam-slot,
     .conduit-slot,
     .powerhouse-slot {
-      z-index: 3;
+      z-index: 4;
       background: #d5d1e8;
       text-align: center;
+      [data-map='0'] & {
+        background: transparent;
+      }
 
       &.selectable {
         cursor: pointer;
@@ -85,23 +183,41 @@
       }
     }
 
-    .dam-slot {
-      background-image: url('img/icons/base.png');
-      background-size: auto 50%;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
-
     .conduit-slot {
-      z-index: 3;
+      width: 47px;
+      height: 47px;
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid white;
+      z-index: 4;
       display: flex;
       align-items: flex-end;
       justify-content: center;
 
-      background-image: url('img/icons/conduit.png');
-      background-size: auto 70%;
-      background-position: center center;
-      background-repeat: no-repeat;
+      [data-map='1'] & {
+        background-image: url('img/icons/conduit.png');
+        background-size: auto 70%;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+
+      [data-map='1'][data-conduit='1'] &::before {
+        content: attr(data-production);
+        display: block;
+        position: absolute;
+        width: 33px;
+        height: 66px;
+        background: url('img/icons/conduit_value.png');
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        font-family: 'acumin-pro', serif;
+        font-weight: 800;
+        font-style: normal;
+        color: #bb3f90;
+        font-size: 31px;
+        line-height: 34px;
+        top: -69px;
+      }
 
       .meeple-droplet {
         position: absolute;
@@ -124,14 +240,33 @@
     }
 
     .powerhouse-slot {
+      width: 73px;
+      height: 32px;
+      position: absolute;
+      border-radius: 8px;
+      border: 1px solid white;
+      &.paying {
+        border: 1px solid red;
+      }
+      &.highlight {
+        background: red;
+      }
+
       display: flex;
       align-items: end;
       justify-content: center;
-      background-image: url('img/icons/powerhouse.png');
-      background-size: auto 70%;
-      background-position: center center;
-      background-repeat: no-repeat;
 
+      [data-map='1'] & {
+        background-image: url('img/icons/powerhouse.png');
+        background-size: auto 70%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        &.paying {
+          background-image: url('img/icons/powerhouse_paying.png');
+        }
+      }
+
+      // Producing animation
       &.producing::after {
         content: '';
         position: absolute;
@@ -178,6 +313,66 @@
         &:nth-of-type(5) {
           left: 60%;
         }
+      }
+    }
+
+    .dam-slot {
+      width: 73px;
+      height: 59px;
+      position: absolute;
+      border-radius: 8px;
+      border: 1px solid white;
+
+      &.paying {
+        border: 1px solid red;
+      }
+
+      [data-map='1'] & {
+        background-image: url('img/icons/base.png');
+        background-size: auto 50%;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        &.paying {
+          background-image: url('img/icons/base_paying.png');
+        }
+      }
+
+      .meeple-elevation {
+        margin-top: -104%;
+        &:nth-of-type(3) {
+          margin-top: -140%;
+        }
+      }
+    }
+
+    .basin {
+      width: 150px;
+      height: 50px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    [data-map='1'] & {
+      .powerhouse-zone {
+        position: absolute;
+        width: 172px;
+        height: 89px;
+        background: #919191;
+        border-radius: 7px;
+        border: 1px solid black;
+        z-index: 3;
+      }
+
+      .basin-zone {
+        position: absolute;
+        width: 134px;
+        height: 118px;
+        border-radius: 13px;
+        border: 10px solid #444;
+        z-index: 3;
       }
     }
   }
