@@ -72,6 +72,8 @@ define([
       // Fix mobile viewport (remove CSS zoom)
       this.default_viewport = 'width=1328';
 
+      this._antonTile = 0;
+
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
         background: {
@@ -144,7 +146,7 @@ define([
     setup(gamedatas) {
       debug('SETUP', gamedatas);
       this.setupInfoPanel();
-      dojo.destroy('debug_output');
+      // dojo.destroy('debug_output');
 
       this.setupEnergyTrack();
       this.setupCompanies();
@@ -658,7 +660,7 @@ define([
     // Generic call for Atomic Action that encode args as a JSON to be decoded by backend
     takeAtomicAction(action, args) {
       if (!this.checkAction(action)) return false;
-
+      debug('TakeAtomicAction ', args);
       this.takeAction('actTakeAtomicAction', { actionArgs: JSON.stringify(args) }, false);
     },
 
@@ -760,6 +762,7 @@ define([
       // Store the selected tile and space
       let selectedTile = null;
       let selectedSpace = null;
+      let copiedTile = null;
       let updateStatus = () => {
         tileIds.forEach((tileId) => {
           let elt = $(`tech-tile-${tileId}`);
@@ -780,18 +783,46 @@ define([
           elt.classList.toggle('selected', spaceId == selectedSpace);
         });
 
+        args.antonPower.forEach((t) => {
+          let elt = $(`tech-tile-${t.id}`);
+          elt.classList.toggle('selectable', false);
+        });
+
         dojo.destroy('btnConfirmConstruct');
         dojo.destroy('btnCancelConstruct');
         if (selectedTile != null || selectedSpace != null) {
           this.addSecondaryActionButton('btnCancelConstruct', _('Cancel'), () => {
             selectedTile = null;
             selectedSpace = null;
+            copiedTile = null;
             updateStatus();
           });
         }
-        if (selectedTile != null && selectedSpace != null) {
+
+        if (selectedTile == this._antonTile && selectedSpace != null && copiedTile == null) {
+          debug('Anton tile copied tile todo');
+          this.gamedatas.gamestate.descriptionmyturn = _('You must select a Technology tile to copy');
+          this.updatePageTitle();
+
+          args.antonPower.forEach((aTile) => {
+            let elt = $(`tech-tile-${aTile.id}`);
+            elt.classList.toggle('selectable', true);
+            this.onClick(elt, () => {
+              if (!elt.classList.contains('selectable')) return;
+
+              if (copiedTile == aTile.id) {
+                copiedTile = null;
+              } else {
+                copiedTile = aTile.id;
+              }
+              elt.classList.toggle('selected', aTile.id == copiedTile);
+
+              updateStatus();
+            });
+          });
+        } else if (selectedTile != null && selectedSpace != null) {
           this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
-            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile]),
+            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, copiedTile]),
           );
         }
       };
@@ -1142,7 +1173,9 @@ define([
         if (o.parentNode != $(container)) {
           dojo.place(o, container);
         }
-
+        if (tile.type == 'anton') {
+          this._antonTile = tile.id;
+        }
         return tile.id;
       });
     },
