@@ -218,9 +218,10 @@ class Notifications
     $data = [
       'company' => $company,
       'resources2' => $moved,
+      'resources' => $deleted,
       'tile' => $tile,
     ];
-    $msg = clienttranslate('${company_name} place ${resources_desc2} on the wheel');
+    $msg = clienttranslate('${company_name} place ${resources_desc2} ${resources_desc} on the wheel');
 
     self::notifyAll('payResourcesToWheel', $msg, $data);
   }
@@ -259,6 +260,11 @@ class Notifications
   public static function moveTokens($tokens)
   {
     self::notifyAll('collectResources', '', ['resources' => $tokens->toArray()]);
+  }
+
+  public static function flipToken($tokenId)
+  {
+    self::notifyAll('flipToken', '', ['token' => $tokenId]);
   }
 
   public static function rotateWheel($company, $nb)

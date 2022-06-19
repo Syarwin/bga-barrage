@@ -169,11 +169,21 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function incEnergy($n, $notif = true)
   {
+    $previousEnergy = $this->energy;
+    $flip = false;
     parent::incEnergy($n);
+
+    if ($previousEnergy <= 31 && $previousEnergy + $n > 31) {
+      $flip = true;
+    }
 
     $scoreToken = $this->getEnergyToken();
     Meeples::move($scoreToken['id'], 'energy-track-' . $this->energy);
     if ($notif) {
+      if ($flip) {
+        Notifications::flipToken($scoreToken['id']);
+      }
+
       Notifications::moveTokens(Meeples::getMany($scoreToken['id']));
     }
 

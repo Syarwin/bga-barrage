@@ -91,6 +91,7 @@ class Construct extends \BRG\Models\Action
           $pairs[] = [
             'spaceId' => $slot['id'],
             'tileId' => $tile->getId(),
+            'type' => $slot['type'],
             'flow' => $flow,
           ];
         }
@@ -131,6 +132,7 @@ class Construct extends \BRG\Models\Action
     // throw new \feException(print_r($pair));
     $tile = TechnologyTiles::get($tileId);
     if ($tile->getType() == \ANTON_TILE && Globals::getAntonPower() == '') {
+      // throw new \feException($copiedTile);
       if (
         !in_array(
           $copiedTile,
@@ -140,6 +142,11 @@ class Construct extends \BRG\Models\Action
         )
       ) {
         throw new \feException("You cannot copy this tile. it's not placed (anton power). Should not happen");
+      }
+      if (!TechnologyTiles::get($copiedTile)->canConstruct($pair['type'])) {
+        throw new \BgaVisibleSystemException(
+          clienttranslate('You cannot construct with this tile. Please select a valid one')
+        );
       }
       Globals::setAntonPower($copiedTile);
     }

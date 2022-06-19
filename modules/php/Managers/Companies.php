@@ -56,7 +56,7 @@ class Companies extends \BRG\Helpers\DB_Manager
       'player_id' => $player->getId(),
       'name' => $player->getName(),
       'xo' => $xId,
-      'score' => 0,
+      'score' => 10,
       'score_aux' => 0,
     ]);
 

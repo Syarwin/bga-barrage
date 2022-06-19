@@ -863,7 +863,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
 
     place(tplMethodName, object, container, position = null) {
       if ($(container) == null) {
-        console.error('Trying to place on null container', container);
+        console.error('Trying to place on null container', container, tplMethodName, object);
         return;
       }
 

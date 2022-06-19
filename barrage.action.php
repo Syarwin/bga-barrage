@@ -97,7 +97,6 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
-
   public function actPickStart()
   {
     self::setAjaxMode();
@@ -107,7 +106,6 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
-
   //////////////////
   ///// UTILS  /////
   //////////////////
@@ -115,6 +113,10 @@ class action_barrage extends APP_GameAction
   {
     if (is_array($value)) {
       foreach ($value as $key => $v) {
+        if ($key == 'sources') {
+          unset($value['sources']);
+          continue;
+        }
         $this->validateJSonAlphaNum($key, $argName);
         $this->validateJSonAlphaNum($v, $argName);
       }

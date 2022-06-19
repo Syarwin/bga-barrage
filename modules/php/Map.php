@@ -91,7 +91,7 @@ class Map
     HT_5 => [0, 1, 0, 2],
     HT_6 => [0, 0, 1, 2],
     HT_7 => [1, 0, 2, 2],
-    HT_8 => [0, 2, 1, 2],
+    HT_8 => [0, 1, 2, 1],
   ];
 
   public static function fillHeadstreams()

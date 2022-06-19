@@ -74,6 +74,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     addMeeple(meeple, location = null) {
       if ($('meeple-' + meeple.id)) return;
+      if (meeple.type == 'score' && parseInt(meeple.location.substring(13, 99)) > 31) {
+        meeple.type = 'score-30';
+      }
       this.place(
         'tplMeeple',
         meeple,
@@ -101,7 +104,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
       }
       // Energy marker
-      else if (meeple.type == 'score') {
+      else if (meeple.type == 'score' || meeple.type == 'score-30') {
         return $(meeple.location);
       }
       // Meeple on the wheel
@@ -304,6 +307,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.slideResources(n.args.resources, {
         from: n.args.spaceId ? n.args.spaceId : 'page-title',
       });
+    },
+
+    notif_flipToken(n) {
+      debug('Notif: Flipping score token', n);
+      if ($('meeple-' + n.args.token).classList.contains('meeple-score'))
+        dojo
+          .query('#meeple-' + n.args.token)
+          .removeClass('meeple-score')
+          .addClass('meeple-score-30');
+      else {
+        dojo
+          .query('#meeple-' + n.args.token)
+          .removeClass('meeple-score-30')
+          .addClass('meeple-score');
+      }
     },
 
     notif_moveDroplets(n) {
