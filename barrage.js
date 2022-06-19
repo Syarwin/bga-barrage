@@ -475,9 +475,7 @@ define([
         let bonus = bonuses[i] ? ` data-bonus='${bonuses[i]}'` : '';
         if (i == 0) {
           let slot = dojo.place(
-            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}>
-            <div id='fake-track' />
-              </div>`,
+            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
             track,
           );
         } else {
