@@ -76,6 +76,19 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
+        mapScale: {
+          default: 60,
+          name: _('Map scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 5,
+            padding: 10,
+            range: {
+              min: [30],
+              max: [100],
+            },
+          },
+        },
         map: {
           default: 1,
           name: _('Enhanced map display'),
@@ -624,6 +637,11 @@ define([
   </div>
 </div>
 `;
+    },
+
+    onChangeMapScaleSetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--barrageMapScale', scale / 100);
     },
 
     //////////////////////////////////////////////////////////////

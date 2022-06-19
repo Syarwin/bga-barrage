@@ -1,7 +1,11 @@
 var isDebug = window.location.host == 'studio.boardgamearena.com' || window.location.hash.indexOf('debug') > -1;
 var debug = isDebug ? console.info.bind(window.console) : function () {};
 
-define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
+define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouislider.min.js', 'ebg/core/gamegui'], (
+  dojo,
+  declare,
+  noUiSlider,
+) => {
   return declare('customgame.game', ebg.core.gamegui, {
     /*
      * Constructor
@@ -565,14 +569,15 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
         <div class='row-label'>${_(setting.name)}</div>
         <div class='row-value'>
           <label class="switch" for="setting-${setting.id}">
-            <input type="checkbox" id="setting-${setting.id}" ${this.settings[setting.id] == 1? 'checked="checked"' : ''} />
+            <input type="checkbox" id="setting-${setting.id}" ${
+        this.settings[setting.id] == 1 ? 'checked="checked"' : ''
+      } />
             <div class="slider round"></div>
           </label>
         </div>
       </div>
       `;
     },
-
 
     tplSettingSelect(setting) {
       let values = Object.keys(setting.values)
