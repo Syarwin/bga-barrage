@@ -76,14 +76,60 @@
   }
 }
 
+#popin_showSettings_underlay {
+  background-color: black !important;
+}
+
+#popin_showSettings {
+  background-color: #ebd5bd;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px black;
+  position: relative;
+
+  .barrage_popin_closeicon {
+    background-color: #a47a77;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    font-size: 90%;
+    color: white !important;
+    border: 1px solid #dfbda8;
+
+    &:hover {
+      text-decoration: none;
+      color: #ccc !important;
+      transform: scale(1.1);
+    }
+
+    i {
+      margin-top: -2px;
+    }
+  }
+
+  h2 {
+    font-family: 'Oranienbaum';
+    text-align: center;
+    font-size: 23px;
+    margin: 0px;
+    background: #b79570;
+    border-radius: 8px 8px 0px 0px;
+    padding: 7px 0px;
+    border-bottom: 1px solid #734f2a;
+  }
+}
+
 /*
  * Controls in the top bar
  */
 #settings-controls-container {
   position: relative;
   text-align: center;
-  border-top: 1px solid gray;
-  margin-top: 10px;
 
   &.settingsControlsHidden {
     display: none;
@@ -92,10 +138,14 @@
   .row-data {
     border: none;
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid gray;
+
+    [data-map="0"] &[data-id="conduits"] {
+      display: none;
+    }
 
     .row-label {
       width: 100%;
@@ -110,6 +160,49 @@
     .row-value {
       width: 85%;
       margin: 0;
+    }
+
+    &.row-data-switch .row-value {
+      padding: 6px 0px;
+    }
+
+    label.switch {
+      display: block;
+
+      input {
+        display: none;
+      }
+
+      .slider {
+        margin: auto;
+        height: 27px;
+        width: 55px;
+        position: relative;
+        background-color: #a6a6a6;
+        cursor: pointer;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 34px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          background-color: #fff;
+          bottom: 4px;
+          height: 19px;
+          left: 4px;
+          width: 19px;
+          border-radius: 50%;
+          transition: 0.4s;
+        }
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+        &::before {
+          left: 30px;
+        }
+      }
     }
   }
 }

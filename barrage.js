@@ -76,6 +76,18 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
+        map: {
+          default: 1,
+          name: _('Enhanced map display'),
+          attribute: 'map',
+          type: 'switch',
+        },
+        conduits: {
+          default: 1,
+          name: _('Conduit values'),
+          attribute: 'conduit',
+          type: 'switch',
+        },
         background: {
           default: 0,
           name: _('Background'),
@@ -291,6 +303,11 @@ define([
       );
       let oMap = $('brg-map');
 
+      let svgIds = {
+        1: 'base-map-svg',
+      };
+      dojo.place($(svgIds[map.id]), oMap);
+
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) =>
         this.place('tplHeadstream', { hId, tileId: map.headstreams[hId] }, oMap),
@@ -298,7 +315,9 @@ define([
 
       // Conduits
       Object.keys(map.conduits).forEach((cId) => {
-        let o = this.place('tplConduitSlot', { cId }, oMap);
+        let conduit = map.conduits[cId];
+        conduit.cId = cId;
+        let o = this.place('tplConduitSlot', conduit, oMap);
         o.addEventListener('mouseenter', () => {
           dojo.query(`.powerhouse-slot[data-zone="${map.conduits[cId].end}"]`).addClass('highlight');
         });
@@ -307,14 +326,29 @@ define([
         });
       });
 
+      let powerhouseZones = [];
       // Powerhouses
       map.powerhouses.forEach((powerhouse) => {
         this.place('tplPowerhouseSlot', powerhouse, oMap);
+        powerhouseZones.push(powerhouse.zone);
       });
 
       // Basins
+      let basinZones = [];
       map.basins.forEach((basin) => {
         this.place('tplBasin', basin, oMap);
+        basinZones.push(basin.zone);
+      });
+
+      // Zone overlays
+      map.zoneIds.forEach((zoneId) => {
+        if (powerhouseZones.includes(zoneId)) {
+          this.place('tplPowerhouseZone', { id: zoneId }, oMap);
+        }
+
+        if (basinZones.includes(zoneId)) {
+          this.place('tplBasinZone', { id: zoneId }, oMap);
+        }
       });
 
       this.place('tplExit', '', oMap);
@@ -331,7 +365,7 @@ define([
     },
 
     tplConduitSlot(conduit) {
-      return `<div class='conduit-slot' data-id='${conduit.cId}'></div>`;
+      return `<div class='conduit-slot' data-id='${conduit.cId}' data-production='${conduit.production}'></div>`;
     },
 
     tplPowerhouseSlot(powerhouse) {
@@ -347,6 +381,14 @@ define([
       let cost = basin.cost > 0 ? 'paying' : '';
       return `<div class='basin' data-id='${basin.id}'></div>
         <div class='dam-slot ${cost}' data-id='${basin.id}'></div>`;
+    },
+
+    tplPowerhouseZone(zone) {
+      return `<div class='powerhouse-zone' data-zone="${zone.id}"></div>`;
+    },
+
+    tplBasinZone(zone) {
+      return `<div class='basin-zone' data-zone="${zone.id}"></div>`;
     },
 
     /////////////////////////////////////////////////////////////////////
@@ -546,6 +588,15 @@ define([
       let chk = $('help-mode-chk');
       dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
       this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
+
+      this._settingsModal = new customgame.modal('showSettings', {
+        class: 'barrage_popin',
+        closeIcon: 'fa-times',
+        title: _('Settings'),
+        closeAction: 'hide',
+        verticalAlign: 'flex-start',
+        contentsTpl: `<div id="settings-controls-container"></div>`,
+      });
     },
 
     tplConfigPlayerBoard() {
@@ -572,8 +623,6 @@ define([
         </svg>
       </div>
     </div>
-
-    <div class='settingsControlsHidden' id="settings-controls-container"></div>
   </div>
 </div>
 `;

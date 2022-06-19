@@ -35,6 +35,7 @@ class Map
       'conduits' => self::getConduits(),
       'powerhouses' => array_values(self::getPowerhouses()),
       'basins' => array_values(self::getBasins()),
+      'zoneIds' => array_keys(self::getZones()),
     ];
   }
 

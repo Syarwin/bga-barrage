@@ -518,6 +518,18 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
             }
           });
         }
+        // Switch type => create a select
+        else if (config.type == 'switch') {
+          config.id = settingName;
+          this.place('tplSettingSwitch', config, container);
+          $('setting-' + settingName).addEventListener('change', () => {
+            let newValue = $('setting-' + settingName).checked ? 1 : 0;
+            this.changeSetting(settingName, newValue);
+            if (config.attribute) {
+              $('ebd-body').setAttribute('data-' + config.attribute, newValue);
+            }
+          });
+        }
 
         if (config.attribute) {
           $('ebd-body').setAttribute('data-' + config.attribute, value);
@@ -547,6 +559,21 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
       `;
     },
 
+    tplSettingSwitch(setting) {
+      return `
+      <div class='row-data row-data-large row-data-switch' data-id='${setting.id}'>
+        <div class='row-label'>${_(setting.name)}</div>
+        <div class='row-value'>
+          <label class="switch" for="setting-${setting.id}">
+            <input type="checkbox" id="setting-${setting.id}" ${this.settings[setting.id] == 1? 'checked="checked"' : ''} />
+            <div class="slider round"></div>
+          </label>
+        </div>
+      </div>
+      `;
+    },
+
+
     tplSettingSelect(setting) {
       let values = Object.keys(setting.values)
         .map(
@@ -574,6 +601,8 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
     },
 
     toggleSettings() {
+      this._settingsModal.show();
+      /*
       dojo.toggleClass('settings-controls-container', 'settingsControlsHidden');
 
       // Hacking BGA framework
@@ -585,6 +614,7 @@ define(['dojo', 'dojo/_base/declare', 'ebg/core/gamegui'], (dojo, declare) => {
           }
         });
       }
+      */
     },
 
     getScale(id) {
