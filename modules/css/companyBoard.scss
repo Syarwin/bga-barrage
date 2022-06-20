@@ -56,9 +56,105 @@
       }
     }
 
+    .company-board-resources {
+      position: absolute;
+      left: 35px;
+      bottom: 67px;
+      height: 168px;
+      width: 80px;
+      //      background-color: #ebd5bd;
+      background: url('img/ui/texture.jpg');
+      background-size: 30px;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px black;
+      border: 3px solid gray;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 21px;
+      padding-bottom: 12px;
+
+      .company-resource {
+        & > span {
+          display: inline-block;
+          font-family: 'Oranienbaum';
+          font-weight: bold;
+          width: 30px;
+          text-align: right;
+          color: white;
+        }
+
+        .meeple-container {
+          width: 40px;
+          text-align: center;
+          vertical-align: bottom;
+
+          .barrage-meeple {
+            display: inline-block;
+          }
+        }
+
+        .reserve {
+          display: none;
+        }
+      }
+    }
+
+    .officer-logo {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #dbdbdb;
+      background-image: url('img/executive_officers.png');
+      background-size: 500% 300%;
+      border: 3px solid gray;
+      border-radius: 50%;
+      bottom: 29px;
+      left: 32px;
+      box-shadow: 2px 2px 3px black;
+
+      .help-marker {
+        top: -8px;
+        left: -8px;
+      }
+
+      @for $i from 0 through 15 {
+        &[data-officer='#{$i + 1}'] {
+          background-position-x: ($i % 5) * 100% / 4;
+          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+        }
+      }
+    }
+
+    .officer-symbol {
+      position: absolute;
+      width: 120px;
+      height: 42px;
+      background-image: url('img/executive_officers_powers.png'), url('img/ui/texture.jpg');
+      background-size: 500% 300%, 25px;
+      border: 3px solid gray;
+      box-shadow: 2px 2px 3px black;
+      bottom: 15px;
+      left: 77px;
+      border-radius: 6px;
+      .help-marker {
+        top: -8px;
+        left: auto;
+        right: -12px;
+      }
+
+      @for $i from 0 through 15 {
+        &[data-officer='#{$i + 1}'] {
+          background-position-x: ($i % 5) * 100% / 4, center;
+          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2, center;
+        }
+      }
+    }
+
     .structures-wrapper {
       position: absolute;
-      left: 144px;
+      left: 170px;
       height: 70px;
       width: 555px;
       //      background: rgba(255, 0, 0, 0.3);

@@ -13,7 +13,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const COMPANY_FRANCE = 4;
   const COMPANY_NETHERLANDS = 5;
 
-  const RESOURCES = ['credit', 'engineer', 'excavator', 'mixer'];
+  const RESOURCES = ['engineer', 'credit', 'excavator', 'mixer'];
   const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
   const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract']);
 
@@ -180,6 +180,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       const id = company.id;
       const current = company.pId == this.player_id ? 'current' : '';
 
+      this.registerCustomTooltip(
+        `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
+        `officer-power-${company.officer.id}`,
+      );
+      this.registerCustomTooltip(
+        `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
+        `officer-logo-${company.officer.id}`,
+      );
+
+
       return `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
         <div class='company-board-wrapper'>
           <div class='company-owner-wrapper'>
@@ -191,6 +201,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           <div class='action-board' data-id='company-${id}'>
             <div class='action-board-inner'></div>
           </div>
+
+          <div class="company-board-resources">
+          ` +
+            RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
+            `
+          </div>
+
+          <div class='officer-symbol' data-officer='${company.officer.id}' id="officer-power-${company.officer.id}"></div>
+          <div class='officer-logo' data-officer='${company.officer.id}' id="officer-logo-${company.officer.id}"></div>
 
           <div class='structures-wrapper bases-wrapper'>
             <div class='building-slot-header'></div>
@@ -299,7 +318,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompanyCounters(company) {
       this._companyCounters[company.id] = {};
       ALL_RESOURCES.forEach((res) => {
-        this._companyCounters[company.id][res] = this.createCounter('resource_' + company.id + '_' + res);
+        this._companyCounters[company.id][res] = this.createCounter(`resource_${company.id}_${res}`, 0, `company_resource_${company.id}_${res}`);
       });
 
       this._scoreCounters[company.id] = this.createCounter(

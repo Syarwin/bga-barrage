@@ -1208,7 +1208,8 @@ body {
       position: relative;
       width: 37px;
       height: 37px;
-      background-image: url("img/executive_officers.jpg");
+      background-color: #e6e7e9;
+      background-image: url("img/executive_officers.png");
       background-size: 500% 300%;
       border: 2px solid black;
       border-radius: 50%; }
@@ -1633,9 +1634,167 @@ body {
         .company-board .company-board-wrapper .action-board .action-board-inner .action-board-icon {
           width: 24px;
           margin-left: 20px; }
+    .company-board .company-board-wrapper .company-board-resources {
+      position: absolute;
+      left: 35px;
+      bottom: 67px;
+      height: 168px;
+      width: 80px;
+      background: url("img/ui/texture.jpg");
+      background-size: 30px;
+      border-radius: 6px;
+      box-shadow: 0 3px 8px black;
+      border: 3px solid gray;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 21px;
+      padding-bottom: 12px; }
+      .company-board .company-board-wrapper .company-board-resources .company-resource > span {
+        display: inline-block;
+        font-family: 'Oranienbaum';
+        font-weight: bold;
+        width: 30px;
+        text-align: right;
+        color: white; }
+      .company-board .company-board-wrapper .company-board-resources .company-resource .meeple-container {
+        width: 40px;
+        text-align: center;
+        vertical-align: bottom; }
+        .company-board .company-board-wrapper .company-board-resources .company-resource .meeple-container .barrage-meeple {
+          display: inline-block; }
+      .company-board .company-board-wrapper .company-board-resources .company-resource .reserve {
+        display: none; }
+    .company-board .company-board-wrapper .officer-logo {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #dbdbdb;
+      background-image: url("img/executive_officers.png");
+      background-size: 500% 300%;
+      border: 3px solid gray;
+      border-radius: 50%;
+      bottom: 29px;
+      left: 32px;
+      box-shadow: 2px 2px 3px black; }
+      .company-board .company-board-wrapper .officer-logo .help-marker {
+        top: -8px;
+        left: -8px; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='1'] {
+        background-position-x: 0%;
+        background-position-y: 0%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='2'] {
+        background-position-x: 25%;
+        background-position-y: 0%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='3'] {
+        background-position-x: 50%;
+        background-position-y: 0%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='4'] {
+        background-position-x: 75%;
+        background-position-y: 0%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='5'] {
+        background-position-x: 100%;
+        background-position-y: 0%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='6'] {
+        background-position-x: 0%;
+        background-position-y: 50%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='7'] {
+        background-position-x: 25%;
+        background-position-y: 50%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='8'] {
+        background-position-x: 50%;
+        background-position-y: 50%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='9'] {
+        background-position-x: 75%;
+        background-position-y: 50%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='10'] {
+        background-position-x: 100%;
+        background-position-y: 50%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='11'] {
+        background-position-x: 0%;
+        background-position-y: 100%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='12'] {
+        background-position-x: 25%;
+        background-position-y: 100%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='13'] {
+        background-position-x: 50%;
+        background-position-y: 100%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='14'] {
+        background-position-x: 75%;
+        background-position-y: 100%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='15'] {
+        background-position-x: 100%;
+        background-position-y: 100%; }
+      .company-board .company-board-wrapper .officer-logo[data-officer='16'] {
+        background-position-x: 0%;
+        background-position-y: 150%; }
+    .company-board .company-board-wrapper .officer-symbol {
+      position: absolute;
+      width: 120px;
+      height: 42px;
+      background-image: url("img/executive_officers_powers.png"), url("img/ui/texture.jpg");
+      background-size: 500% 300%, 25px;
+      border: 3px solid gray;
+      box-shadow: 2px 2px 3px black;
+      bottom: 15px;
+      left: 77px;
+      border-radius: 6px; }
+      .company-board .company-board-wrapper .officer-symbol .help-marker {
+        top: -8px;
+        left: auto;
+        right: -12px; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='1'] {
+        background-position-x: 0%, center;
+        background-position-y: 0%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='2'] {
+        background-position-x: 25%, center;
+        background-position-y: 0%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='3'] {
+        background-position-x: 50%, center;
+        background-position-y: 0%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='4'] {
+        background-position-x: 75%, center;
+        background-position-y: 0%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='5'] {
+        background-position-x: 100%, center;
+        background-position-y: 0%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='6'] {
+        background-position-x: 0%, center;
+        background-position-y: 50%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='7'] {
+        background-position-x: 25%, center;
+        background-position-y: 50%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='8'] {
+        background-position-x: 50%, center;
+        background-position-y: 50%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='9'] {
+        background-position-x: 75%, center;
+        background-position-y: 50%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='10'] {
+        background-position-x: 100%, center;
+        background-position-y: 50%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='11'] {
+        background-position-x: 0%, center;
+        background-position-y: 100%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='12'] {
+        background-position-x: 25%, center;
+        background-position-y: 100%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='13'] {
+        background-position-x: 50%, center;
+        background-position-y: 100%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='14'] {
+        background-position-x: 75%, center;
+        background-position-y: 100%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='15'] {
+        background-position-x: 100%, center;
+        background-position-y: 100%, center; }
+      .company-board .company-board-wrapper .officer-symbol[data-officer='16'] {
+        background-position-x: 0%, center;
+        background-position-y: 150%, center; }
     .company-board .company-board-wrapper .structures-wrapper {
       position: absolute;
-      left: 144px;
+      left: 170px;
       height: 70px;
       width: 555px;
       display: flex; }
