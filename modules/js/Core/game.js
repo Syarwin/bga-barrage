@@ -1066,7 +1066,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     /**
      * Own counter implementation that works with replay
      */
-    createCounter(id, defaultValue = 0) {
+    createCounter(id, defaultValue = 0, linked = null) {
       if (!$(id)) {
         console.error('Counter : element does not exist', id);
         return null;
@@ -1075,6 +1075,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       let game = this;
       let o = {
         span: $(id),
+        linked: linked? $(linked) : null,
         targetValue: 0,
         currentValue: 0,
         speed: 100,
@@ -1085,6 +1086,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           this.currentValue = +n;
           this.targetValue = +n;
           this.span.innerHTML = +n;
+          if(this.linked) this.linked.innerHTML = +n;
         },
         toValue: function (n) {
           if (game.isFastMode()) {
@@ -1111,6 +1113,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           let step = Math.ceil(Math.abs(this.targetValue - this.currentValue) / 5);
           this.currentValue += (this.currentValue < this.targetValue ? 1 : -1) * step;
           this.span.innerHTML = this.currentValue;
+          if(this.linked) this.linked.innerHTML = this.currentValue;
           setTimeout(() => this.makeCounterProgress(), this.speed);
         },
       };
