@@ -236,6 +236,12 @@ $machinestates = [
     'action' => 'stAtomicAction',
   ],
 
+  ST_PATENT => [
+    'name' => 'patent',
+    'type' => 'game',
+    'action' => 'stAtomicAction',
+  ],
+
   ST_TAKE_CONTRACT => [
     'name' => 'takeContract',
     'description' => clienttranslate('${actplayer} must take ${n} available contract(s)'),

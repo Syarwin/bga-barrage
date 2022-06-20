@@ -106,6 +106,13 @@ class Notifications
     ]);
   }
 
+  public static function discardTiles($tiles)
+  {
+    self::notifyAll('silentDestroy', clienttranslate('All advanced tiles are discarded'), [
+      'tiles' => $tiles,
+    ]);
+  }
+
   public static function fulfillContract($company, $contract)
   {
     self::notifyAll('fulfillContract', clienttranslate('${company_name} fulfills one contract'), [
@@ -125,6 +132,14 @@ class Notifications
         'n' => $contracts->count(),
       ]
     );
+  }
+
+  public static function refillTechTiles($tiles)
+  {
+    self::notifyAll('refillTechTiles', clienttranslate('${n} new advanced tiles are drawn'), [
+      'tiles' => $tiles->toArray(),
+      'n' => $tiles->count(),
+    ]);
   }
 
   public static function startNewRound($round)
@@ -239,7 +254,7 @@ class Notifications
     );
   }
 
-  public static function acquirePatent($company, $resources, $tile)
+  public static function acquirePatent($company, $tile)
   {
     self::notifyAll(
       'collectResources',

@@ -42,7 +42,6 @@ define([
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
-        'flipToken',
       ];
       this._notifications = [
         ['clearTurn', 1],
@@ -67,6 +66,7 @@ define([
         ['refillStacks', 1000],
         ['updateTurnOrder', 500],
         ['flipToken', 500],
+        ['refillTechTiles', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -1290,6 +1290,18 @@ define([
         `
       </div>`
       );
+    },
+
+    notif_refillTechTiles(n) {
+      debug('Notif: refilling advanced tiles stack', n);
+      n.args.tiles.forEach((tile) => {
+        this.addTechTile(tile);
+        // let o = $(`tech-tile-${tile.id}`);
+        // let container = this.getTechTileContainer(tile);
+        this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
+
+        // return tile.id;
+      });
     },
   });
 });

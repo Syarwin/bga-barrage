@@ -11,6 +11,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Scores;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
+use BRG\Managers\TechnologyTiles;
 use BRG\Actions\Gain;
 
 trait RoundEndTrait
@@ -185,7 +186,9 @@ trait RoundEndTrait
     $tokens = Meeples::resetEnergyTokens();
     Notifications::moveTokens($tokens);
 
-    // TODO: remove advanced tiles
+    if (!Globals::isBeginner()) {
+      TechnologyTiles::newRound();
+    }
 
     $this->gamestate->jumpToState(ST_BEFORE_START_OF_ROUND);
   }

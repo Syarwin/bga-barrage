@@ -2,7 +2,9 @@
 namespace BRG\Managers;
 use BRG\Core\Stats;
 use BRG\Helpers\UserException;
+use BRG\Core\Notifications;
 use BRG\Core\Globals;
+use BRG\Helpers\Collection;
 
 /* Class to manage all the meeples for Barrage */
 
@@ -77,7 +79,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       self::shuffle('deckL' . $i);
 
       // pick the advanced tiles
-      self::pickForLocation(1, 'deckL' . $i, 'patent_' . $i);
+      self::pickForLocation(1, 'deckL1', 'patent_' . $i);
     }
     return;
   }
@@ -102,6 +104,33 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     return self::getMany(self::create($meeples));
   }
 
+  public function newRound()
+  {
+    // discard all tiles
+    $tiles = self::getFilteredQuery(null, 'patent_%')->get();
+    $deleted = [];
+    $db = self::DB();
+    foreach ($tiles as $tId => $tile) {
+      $deleted[] = $tile->getId();
+      $db->delete($tile->getId());
+    }
+    if (count($deleted) > 0) {
+      Notifications::discardTiles($deleted);
+    }
+
+    // draw new ones
+    $created = new Collection();
+    $deck = 1;
+    for ($i = 1; $i <= 3; $i++) {
+      $created = $created->merge(self::pickForLocation(1, 'deckL' . $deck, 'patent_' . $i, null, false));
+      if (count($created) < $i) {
+        $deck++;
+        $created = $created->merge(self::pickForLocation(1, 'deckL' . $deck, 'patent_' . $i, null, false) ?? []);
+      }
+    }
+    Notifications::refillTechTiles($created);
+  }
+
   /**
    * Generic base query
    */
@@ -112,7 +141,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       $query = $query->where('company_id', $cId);
     }
     if ($location != null) {
-      $query = $query->where('tile_location', $location);
+      $query = $query->where('tile_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
     }
     return $query;
   }
