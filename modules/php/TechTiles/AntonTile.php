@@ -16,6 +16,9 @@ class AntonTile extends \BRG\TechTiles\BasicTile
   {
     if (Globals::getAntonPower() == '') {
       foreach ($this->getWheelTiles() as $tile) {
+        if ($tile->getType() == \ANTON_TILE) {
+          continue;
+        }
         if ($tile->canConstruct($structure)) {
           return true;
         }

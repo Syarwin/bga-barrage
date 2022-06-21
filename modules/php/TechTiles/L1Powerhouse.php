@@ -24,7 +24,7 @@ class L1Powerhouse extends \BRG\TechTiles\BasicTile
 
   public function getAnyTimeDesc()
   {
-    return clienttranslate('Construct a <POWERHOUSE> without <ENGINEER>');
+    return clienttranslate('Construct a powerhouse <POWERHOUSE> without engineer(s)<ENGINEER>');
   }
 
   public function getPowerFlow($slot)
