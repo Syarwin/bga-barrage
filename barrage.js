@@ -959,6 +959,8 @@ define([
       let selectedConduit = null;
       let selectedPowerhouse = null;
       let selectedBasin = null;
+      let optionalAction = args && args.optionalAction && !args.automaticAction;
+      debug('optional', optionalAction);
       let updateStatus = () => {
         dojo.query('#brg-map .selectable').removeClass('selectable selected');
         // Keep only available systems
@@ -983,6 +985,7 @@ define([
         });
 
         dojo.empty('customActions');
+
         if (selectedBasin != null || selectedPowerhouse != null || selectedConduit != null) {
           if (systems.length > 1) {
             this.addSecondaryActionButton('btnCancelProduce', _('Cancel'), () => {
@@ -1010,6 +1013,9 @@ define([
           selectedPowerhouse = system.powerhouseSpaceId;
           selectedConduit = system.conduitSpaceId;
           updateStatus();
+        }
+        if (optionalAction) {
+          this.addSecondaryActionButton('btnPassAction', _('Pass'), () => this.takeAction('actPassOptionalAction'));
         }
       };
 
