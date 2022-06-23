@@ -121,6 +121,8 @@ trait SetupTrait
     foreach ($companies as $cId => $company) {
       $turnOrder[$company->getNo() - 1] = $cId;
     }
+    $turnOrder = array_reverse($turnOrder);
+
     Companies::changeActive($turnOrder[0]);
     Globals::setTurnOrder($turnOrder);
   }
