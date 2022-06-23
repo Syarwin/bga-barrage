@@ -806,6 +806,14 @@ define([
       this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actTakeContract', [cIds]));
     },
 
+    // Take contract
+    onEnteringStateDiscardContract(args) {
+      let contracts = {};
+      args.contracts.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
+
+      this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actDiscardContract', [cIds]));
+    },
+
     // Construct
     onEnteringStateConstruct(args) {
       // Compute for each tile, the corresponding spaces, and vice-versa
