@@ -311,7 +311,7 @@ define([
     setupMap() {
       let map = this.gamedatas.map;
       dojo.place(
-        `<div id='brg-map-resizable' data-map='${map.id}'><div id='brg-map'></div></div>`,
+        `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'><div id='brg-map'></div></div>`,
         'map-energy-wrapper',
       );
       let oMap = $('brg-map');
