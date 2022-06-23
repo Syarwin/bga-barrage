@@ -43,7 +43,7 @@ class FulfillContract extends \BRG\Models\Action
     $energy = $this->getEnergy();
 
     return [
-      'n' => $energy,
+      'n' => $energy + $company->getContractReduction(),
       'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
     ];
   }

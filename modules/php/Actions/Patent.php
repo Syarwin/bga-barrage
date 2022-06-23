@@ -25,9 +25,11 @@ class Patent extends \BRG\Models\Action
     $company = Companies::getActive();
     $args = $this->getCtxArgs();
 
-    $tile = TechnologyTiles::get('patent_' . $args['position']);
+    $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $args['position'])
+      ->get()
+      ->first();
 
-    TechnologyTiles::DB()->update(['company_id' => $company->getId(), 'tile_location' => 'company']);
+    TechnologyTiles::DB()->update(['company_id' => $company->getId(), 'tile_location' => 'company'], $tile->getId());
     Notifications::acquirePatent($company, TechnologyTiles::get($tile->getId()));
     $this->resolveAction([]);
   }

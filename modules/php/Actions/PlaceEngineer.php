@@ -99,6 +99,7 @@ class PlaceEngineer extends \BRG\Models\Action
     $args = [
       'spaces' => $spaces->toAssoc(),
       'anytimeActions' => $anyTime,
+      'canSkip' => !$company->hasAvailableEngineer(),
     ];
 
     // TODO

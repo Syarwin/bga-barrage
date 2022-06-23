@@ -24,7 +24,7 @@ class L3Base extends \BRG\TechTiles\BasicTile
 
   public function getAnyTimeDesc()
   {
-    return clienttranslate('Construct a <BASE> without <ENGINEER> & <EXCAVATOR>');
+    return clienttranslate('Construct a base<BASE> without engineer(s)<ENGINEER> & excavator(s)<EXCAVATOR>');
   }
 
   public function getPowerFlow($slot)

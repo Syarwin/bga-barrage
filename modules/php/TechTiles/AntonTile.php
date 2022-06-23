@@ -16,6 +16,9 @@ class AntonTile extends \BRG\TechTiles\BasicTile
   {
     if (Globals::getAntonPower() == '') {
       foreach ($this->getWheelTiles() as $tile) {
+        if ($tile->getType() == \ANTON_TILE) {
+          continue;
+        }
         if ($tile->canConstruct($structure)) {
           return true;
         }
@@ -58,13 +61,16 @@ class AntonTile extends \BRG\TechTiles\BasicTile
       }
       return $flow;
     } else {
-      return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot) ?? [];
+      return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot) ?? null;
     }
   }
 
   public function isAnyTime()
   {
     foreach ($this->getWheelTiles() as $tile) {
+      if ($tile->getType() == \ANTON_TILE) {
+        continue;
+      }
       if ($tile->isAnyTime()) {
         return true;
       }

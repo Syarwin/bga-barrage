@@ -65,6 +65,13 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actSkip()
+  {
+    self::setAjaxMode();
+    $this->game->actSkip();
+    self::ajaxResponse();
+  }
+
   public function actChooseAction()
   {
     self::setAjaxMode();

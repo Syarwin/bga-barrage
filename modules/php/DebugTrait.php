@@ -45,8 +45,8 @@ trait DebugTrait
     // throw new \feException(print_r(Map::getConstructSlots()));
     // Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
     // Engine::proceed();
-    Companies::getActive()->incEnergy(20);
-    // $this->gamestate->jumpToState(ST_RETURNING_HOME);
+    // Companies::getActive()->incEnergy(20);
+    $this->gamestate->jumpToState(ST_RETURNING_HOME);
   }
 
   public function tv()
@@ -69,9 +69,10 @@ trait DebugTrait
   function infResources()
   {
     $player = Players::getCurrent();
+    $company = Companies::getActive();
     $meeples = [];
-    foreach ([WOOD, CLAY, REED, STONE, FOOD] as $res) {
-      $meeples = array_merge($meeples, $player->createResourceInReserve($res, 8));
+    foreach ([MIXER, EXCAVATOR, CREDIT] as $res) {
+      $meeples = array_merge($meeples, Meeples::createResourceInReserve($company->getId(), $res, 8));
     }
     Notifications::gainResources($player, $meeples);
     Engine::proceed();

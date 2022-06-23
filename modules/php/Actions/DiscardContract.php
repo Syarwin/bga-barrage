@@ -27,7 +27,7 @@ class DiscardContract extends \BRG\Models\Action
     $company = Companies::getActive();
     $args = $this->argsDiscardContract();
     // check max contract
-    if (count($contractIds) != $args['nb']) {
+    if (count($contractIds) != $args['n']) {
       throw new \BgaVisibleSystemException('Not enough contract selected. Should not happen');
     }
 

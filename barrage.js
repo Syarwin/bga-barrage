@@ -42,7 +42,6 @@ define([
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
-        'flipToken',
       ];
       this._notifications = [
         ['clearTurn', 1],
@@ -67,6 +66,7 @@ define([
         ['refillStacks', 1000],
         ['updateTurnOrder', 500],
         ['flipToken', 500],
+        ['refillTechTiles', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -227,7 +227,8 @@ define([
         args.args &&
         args.args.previousEngineChoices &&
         args.args.previousEngineChoices >= 1 &&
-        !args.args.automaticAction
+        !args.args.automaticAction &&
+        this.isCurrentPlayerActive()
       ) {
         this.addDangerActionButton(
           'btnRestartTurn',
@@ -744,6 +745,11 @@ define([
           }
         });
       });
+      if (args.canSkip) {
+        this.addDangerActionButton('btnSkip', _('Skip turn'), () => {
+          this.takeAction('actSkip');
+        });
+      }
     },
 
     onEnteringStatePlaceEngineerChooseNumber(args) {
@@ -804,6 +810,14 @@ define([
       args.contractIds.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
 
       this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actTakeContract', [cIds]));
+    },
+
+    // Take contract
+    onEnteringStateDiscardContract(args) {
+      let contracts = {};
+      args.contracts.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
+
+      this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actDiscardContract', [cIds]));
     },
 
     // Construct
@@ -951,6 +965,8 @@ define([
       let selectedConduit = null;
       let selectedPowerhouse = null;
       let selectedBasin = null;
+      let optionalAction = args && args.optionalAction && !args.automaticAction;
+      debug('optional', optionalAction);
       let updateStatus = () => {
         dojo.query('#brg-map .selectable').removeClass('selectable selected');
         // Keep only available systems
@@ -975,6 +991,7 @@ define([
         });
 
         dojo.empty('customActions');
+
         if (selectedBasin != null || selectedPowerhouse != null || selectedConduit != null) {
           if (systems.length > 1) {
             this.addSecondaryActionButton('btnCancelProduce', _('Cancel'), () => {
@@ -1002,6 +1019,9 @@ define([
           selectedPowerhouse = system.powerhouseSpaceId;
           selectedConduit = system.conduitSpaceId;
           updateStatus();
+        }
+        if (optionalAction) {
+          this.addSecondaryActionButton('btnPassAction', _('Pass'), () => this.takeAction('actPassOptionalAction'));
         }
       };
 
@@ -1290,6 +1310,18 @@ define([
         `
       </div>`
       );
+    },
+
+    notif_refillTechTiles(n) {
+      debug('Notif: refilling advanced tiles stack', n);
+      n.args.tiles.forEach((tile) => {
+        this.addTechTile(tile);
+        // let o = $(`tech-tile-${tile.id}`);
+        // let container = this.getTechTileContainer(tile);
+        this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
+
+        // return tile.id;
+      });
     },
   });
 });

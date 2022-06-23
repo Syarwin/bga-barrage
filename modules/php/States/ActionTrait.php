@@ -120,4 +120,20 @@ trait ActionTrait
     $action = $this->getCurrentAtomicAction();
     Actions::stAction($action, Engine::getNextUnresolved());
   }
+
+  function actSkip()
+  {
+    self::checkAction('actSkip');
+    $company = Companies::getActive();
+    if ($company->hasAvailableEngineer()) {
+      throw new \BgaUserException(clienttranslate('You cannot skip your turn, you have remaining engineers'));
+    }
+
+    $skipped = Globals::getSkippedCompanies();
+    $skipped[] = $company->getId();
+    Globals::setSkippedCompanies($skipped);
+    Notifications::message(clienttranslate('${company_name} skips his turn'), ['company' => $company]);
+    $this->nextPlayerCustomOrder('actionPhase');
+    return;
+  }
 }

@@ -20,7 +20,7 @@ class Italy extends \BRG\Models\Company
       ],
       CONDUIT => [
         2 => [ANY_MACHINE => 1],
-        4 => [VP => 2, CREDIT => 5],
+        4 => [VP => 2, CREDIT => 3],
         5 => [VP => 7],
       ],
       POWERHOUSE => [
