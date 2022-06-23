@@ -456,6 +456,8 @@ body {
     background-image: url("img/background_board_machinery.jpg"); }
   .action-board[data-id='contract'] {
     background-image: url("img/background_board_contract.jpg"); }
+  .action-board[data-id='patent'] {
+    background-image: url("img/background_board_patent.jpg"); }
   [data-action-background='1'] .action-board[data-id='turbine'] {
     background: #8a5789; }
   [data-action-background='1'] .action-board[data-id='water'] {

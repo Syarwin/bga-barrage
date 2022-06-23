@@ -86,6 +86,9 @@
   &[data-id='contract'] {
     background-image: url('img/background_board_contract.jpg');
   }
+  &[data-id='patent'] {
+    background-image: url('img/background_board_patent.jpg');
+  }
 
   [data-action-background='1'] & {
     &[data-id='turbine'] {
