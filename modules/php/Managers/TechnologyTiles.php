@@ -109,11 +109,11 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     // discard all tiles
     $tiles = self::getFilteredQuery(null, 'patent_%')->get();
     $deleted = [];
-    $db = self::DB();
     foreach ($tiles as $tId => $tile) {
-      $deleted[] = $tile->getId();
-      $db->delete($tile->getId());
+      $deleted[] = $tId;
+      self::DB()->delete($tId);
     }
+
     if (count($deleted) > 0) {
       Notifications::discardTiles($deleted);
     }
