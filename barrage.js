@@ -744,6 +744,11 @@ define([
           }
         });
       });
+      if (args.canSkip) {
+        this.addDangerActionButton('btnSkip', _('Skip turn'), () => {
+          this.takeAction('actSkip');
+        });
+      }
     },
 
     onEnteringStatePlaceEngineerChooseNumber(args) {
