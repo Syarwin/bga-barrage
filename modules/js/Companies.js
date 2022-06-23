@@ -189,8 +189,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `officer-logo-${company.officer.id}`,
       );
 
-
-      return `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
+      return (
+        `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
         <div class='company-board-wrapper'>
           <div class='company-owner-wrapper'>
             <div class='company-owner' style='color:#${company.color}'>
@@ -204,8 +204,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           <div class="company-board-resources">
           ` +
-            RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
-            `
+        RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
+        `
           </div>
 
           <div class='officer-symbol' data-officer='${company.officer.id}' id="officer-power-${company.officer.id}"></div>
@@ -274,7 +274,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             </div>
           </div>
         </div>
-      </div>`;
+      </div>`
+      );
     },
 
     getCompanyScoreToken(companyId) {
@@ -318,7 +319,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompanyCounters(company) {
       this._companyCounters[company.id] = {};
       ALL_RESOURCES.forEach((res) => {
-        this._companyCounters[company.id][res] = this.createCounter(`resource_${company.id}_${res}`, 0, `company_resource_${company.id}_${res}`);
+        this._companyCounters[company.id][res] = this.createCounter(
+          `resource_${company.id}_${res}`,
+          0,
+          `company_resource_${company.id}_${res}`,
+        );
       });
 
       this._scoreCounters[company.id] = this.createCounter(
@@ -410,11 +415,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.setupCompany(company);
       this.setupCompanyCounters(company);
       this.updateCompaniesCounters();
+      n.args.actionSpaces.forEach((row) => {
+        let cId = row[0].cId;
+        let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+        this.place('tplActionBoardRow', row, container);
+      });
     },
 
     notif_setupCompanies(n) {
       debug('Notif: initializing companies meeples', n);
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      n.args.tiles.forEach((tile) => this.addTechTile(tile));
       this.updateCompaniesCounters();
     },
 

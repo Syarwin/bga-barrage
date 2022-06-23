@@ -1,8 +1,10 @@
 <?php
 namespace BRG\Core;
 use BRG\Managers\Players;
+use BRG\Managers\TechnologyTiles;
 use BRG\Helpers\Utils;
 use BRG\Core\Globals;
+use BRG\ActionBoards\CompanyActionBoard;
 
 class Notifications
 {
@@ -77,6 +79,7 @@ class Notifications
       'company_name' => $company->getCname(),
       'company_id' => $company->getId(),
       'datas' => $company,
+      'actionSpaces' => CompanyActionBoard::getUiData($company->getId()),
     ]);
   }
 
