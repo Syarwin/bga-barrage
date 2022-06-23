@@ -192,17 +192,8 @@
         position: relative;
         z-index: 2;
         margin-left: -2px;
-
-        &:first-of-type {
-          margin-top: 0;
-        }
-      }
-
-      .meeple-score-30 {
-        margin-top: -154%;
-        position: relative;
-        z-index: 2;
-        margin-left: -2px;
+        transition: transform 0.5s;
+        transform: translateY(0);
 
         &:first-of-type {
           margin-top: 0;
@@ -219,6 +210,20 @@
         //          black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px,
         //          black 0.96017px -0.279416px 0px, white 0px 0px 10px;
       }
+    }
+  }
+
+  &:hover #energy-track .energy-track-slot .meeple-score {
+    transform: translateY(-18px);
+
+    &:nth-of-type(2) {
+      transform: translateY(-26px);
+    }
+    &:nth-of-type(3) {
+      transform: translateY(-34px);
+    }
+    &:nth-of-type(4) {
+      transform: translateY(-42px);
     }
   }
 
@@ -283,6 +288,10 @@
       .energy-track-slot {
         margin: 3px 0px;
 
+        .meeple-score {
+          transform: translateX(0);
+        }
+
         &[data-bonus]::after {
           left: -18px;
           top: 3px;
@@ -298,6 +307,21 @@
         }
       }
     }
+
+    &:hover #energy-track .energy-track-slot .meeple-score {
+      transform: translateX(18px);
+
+      &:nth-of-type(2) {
+        transform: translateX(26px);
+      }
+      &:nth-of-type(3) {
+        transform: translateX(34px);
+      }
+      &:nth-of-type(4) {
+        transform: translateX(42px);
+      }
+    }
+
   }
 }
 

@@ -37,7 +37,7 @@
     }
   }
 
-  [data-action-name='3'] & {
+  body[data-action-name='3'] & {
     margin-top: 0px;
     margin-bottom: -3px;
     border-radius: 0px;
@@ -85,6 +85,9 @@
   }
   &[data-id='contract'] {
     background-image: url('img/background_board_contract.jpg');
+  }
+  &[data-id='patent'] {
+    background-image: url('img/background_board_patent.jpg');
   }
 
   [data-action-background='1'] & {

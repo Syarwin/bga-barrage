@@ -184,7 +184,7 @@ trait RoundEndTrait
     // Reset energy on track
     Companies::resetEnergies();
     $tokens = Meeples::resetEnergyTokens();
-    Notifications::moveTokens($tokens);
+    Notifications::resetEnergies($tokens);
 
     if (!Globals::isBeginner()) {
       TechnologyTiles::newRound();

@@ -19,11 +19,14 @@
 */
 
 .barrage-frame {
-  border: 3px solid #c8ba6a;
+  border: 3px solid #e1dede;
   border-radius: 6px;
   box-shadow: 2px 2px 5px black;
-}
 
+  body[data-background='0'] & {
+    border: 3px solid #c8ba6a;
+  }
+}
 #barrage-center-container {
   display: flex;
   align-items: flex-start;

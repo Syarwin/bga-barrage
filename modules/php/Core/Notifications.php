@@ -275,9 +275,18 @@ class Notifications
     self::notifyAll('collectResources', '', ['resources' => $engineers]);
   }
 
-  public static function moveTokens($tokens)
+  public static function incEnergy($company, $token, $n, $energy)
   {
-    self::notifyAll('collectResources', '', ['resources' => $tokens->toArray()]);
+    self::notifyAll('incEnergy', '', [
+      'company' => $company,
+      'token' => $token,
+      'n' => $n,
+    ]);
+  }
+
+  public static function resetEnergies($tokens)
+  {
+    self::notifyAll('resetEnergies', '', ['tokens' => $tokens->toArray()]);
   }
 
   public static function flipToken($tokenId)

@@ -28,20 +28,25 @@
   overflow: hidden; // Used for contract slideout animation
 }
 
+.barrage-energy-counter {
+  color: #bb3f90;
+}
+
 .player_panel_content {
   --barrageContractScale: 0.52;
   --barrageTileScale: 0.23;
+  margin-top: 2px;
 
   .company-jump-to {
     display: block;
-    width: 52px;
-    height: 22px;
+    width: 50px;
+    height: 21px;
     background: url('img/ui/eye.png');
     background-size: 100%;
     background-repeat: no-repeat;
     position: absolute;
-    right: 41px;
-    top: 10px;
+    right: 36px;
+    top: 0px;
     opacity: 0.8;
     cursor: pointer;
 

@@ -120,9 +120,11 @@ body {
 }
 */
 .barrage-frame {
-  border: 3px solid #c8ba6a;
+  border: 3px solid #e1dede;
   border-radius: 6px;
   box-shadow: 2px 2px 5px black; }
+  body[data-background='0'] .barrage-frame {
+    border: 3px solid #c8ba6a; }
 
 #barrage-center-container {
   display: flex;
@@ -303,20 +305,23 @@ body {
         margin-top: -154%;
         position: relative;
         z-index: 2;
-        margin-left: -2px; }
+        margin-left: -2px;
+        transition: transform 0.5s;
+        transform: translateY(0); }
         #energy-track-board #energy-track .energy-track-slot .meeple-score:first-of-type {
-          margin-top: 0; }
-      #energy-track-board #energy-track .energy-track-slot .meeple-score-30 {
-        margin-top: -154%;
-        position: relative;
-        z-index: 2;
-        margin-left: -2px; }
-        #energy-track-board #energy-track .energy-track-slot .meeple-score-30:first-of-type {
           margin-top: 0; }
       #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
         margin-left: 11px; }
         #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
           margin-left: 0px; }
+  #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
+    transform: translateY(-18px); }
+    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
+      transform: translateY(-26px); }
+    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
+      transform: translateY(-34px); }
+    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
+      transform: translateY(-42px); }
   [data-energy-track='1'] #energy-track-board {
     margin-left: 15px;
     width: 130px;
@@ -361,6 +366,8 @@ body {
         left: 25px; }
       [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot {
         margin: 3px 0px; }
+        [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot .meeple-score {
+          transform: translateX(0); }
         [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
           left: -18px;
           top: 3px; }
@@ -369,6 +376,14 @@ body {
           margin-top: 11px; }
           [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
             margin-top: 0px; }
+    [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
+      transform: translateX(18px); }
+      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
+        transform: translateX(26px); }
+      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
+        transform: translateX(34px); }
+      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
+        transform: translateX(42px); }
 
 .objective-tile {
   position: relative;
@@ -423,7 +438,7 @@ body {
     [data-action-name='2'] .action-board:last-of-type {
       border-bottom-left-radius: 6px;
       border-bottom-right-radius: 6px; }
-  [data-action-name='3'] .action-board {
+  body[data-action-name='3'] .action-board {
     margin-top: 0px;
     margin-bottom: -3px;
     border-radius: 0px;
@@ -456,6 +471,8 @@ body {
     background-image: url("img/background_board_machinery.jpg"); }
   .action-board[data-id='contract'] {
     background-image: url("img/background_board_contract.jpg"); }
+  .action-board[data-id='patent'] {
+    background-image: url("img/background_board_patent.jpg"); }
   [data-action-background='1'] .action-board[data-id='turbine'] {
     background: #8a5789; }
   [data-action-background='1'] .action-board[data-id='water'] {
@@ -913,35 +930,35 @@ body {
     margin-bottom: -0.0733em;
     background-position: 70.7317% 30.5252%;
     background-size: 839.344%; }
-  .barrage-meeple.meeple-score-30[data-company='1'] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company='1'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 83.155% 30.5252%;
     background-size: 839.344%; }
-  .barrage-meeple.meeple-score-30[data-company='2'] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company='2'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 97.155% 30.5252%;
     background-size: 839.344%; }
-  .barrage-meeple.meeple-score-30[data-company='3'] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company='3'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 0% 42.525%;
     background-size: 839.344%; }
-  .barrage-meeple.meeple-score-30[data-company='4'] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company='4'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 13% 42.525%;
     background-size: 839.344%; }
-  .barrage-meeple.meeple-score-30[data-company='5'] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company='5'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -1149,19 +1166,23 @@ body {
 .player-board {
   overflow: hidden; }
 
+.barrage-energy-counter {
+  color: #bb3f90; }
+
 .player_panel_content {
   --barrageContractScale: 0.52;
-  --barrageTileScale: 0.23; }
+  --barrageTileScale: 0.23;
+  margin-top: 2px; }
   .player_panel_content .company-jump-to {
     display: block;
-    width: 52px;
-    height: 22px;
+    width: 50px;
+    height: 21px;
     background: url("img/ui/eye.png");
     background-size: 100%;
     background-repeat: no-repeat;
     position: absolute;
-    right: 41px;
-    top: 10px;
+    right: 36px;
+    top: 0px;
     opacity: 0.8;
     cursor: pointer; }
     .player_panel_content .company-jump-to:hover {
@@ -2436,281 +2457,276 @@ body {
   text-align: center;
   border: 2px solid #3f9bec; }
 
-#brg-map-resizable {
-  border-radius: 29px;
-  border: 3px solid #c8ba6a;
-  border-radius: 6px;
-  box-shadow: 2px 2px 5px black; }
-  [data-energy-track='0'] #brg-map-resizable {
-    margin-top: 10px; }
-  #brg-map-resizable #brg-map {
-    transform: scale(var(--barrageMapScale));
-    transform-origin: top left;
-    position: relative; }
-    #brg-map-resizable #brg-map::before {
-      content: '';
+[data-energy-track='0'] #brg-map-resizable {
+  margin-top: 10px; }
+#brg-map-resizable #brg-map {
+  transform: scale(var(--barrageMapScale));
+  transform-origin: top left;
+  position: relative; }
+  #brg-map-resizable #brg-map::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--barrageMapOverlay); }
+    [data-map='0'] #brg-map-resizable #brg-map::before {
+      display: none; }
+  #brg-map-resizable #brg-map .barrage-svg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none; }
+    [data-map='1'] #brg-map-resizable #brg-map .barrage-svg-overlay {
+      display: block; }
+  #brg-map-resizable #brg-map::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 100%;
+    z-index: 2;
+    pointer-events: none; }
+    [data-map='0'] #brg-map-resizable #brg-map::after {
+      display: none; }
+  #brg-map-resizable #brg-map .barrage-meeple {
+    display: inline-block; }
+  #brg-map-resizable #brg-map .headstream {
+    z-index: 4;
+    width: 203px;
+    height: 122px;
+    position: absolute;
+    top: 9px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; }
+    #brg-map-resizable #brg-map .headstream .meeple-droplet {
+      margin-right: -3%; }
+    #brg-map-resizable #brg-map .headstream .headstream-tile {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      z-index: 1;
-      pointer-events: none;
-      opacity: var(--barrageMapOverlay); }
-      [data-map='0'] #brg-map-resizable #brg-map::before {
-        display: none; }
-    #brg-map-resizable #brg-map .barrage-svg-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
+      z-index: -1;
       width: 100%;
       height: 100%;
-      z-index: 2;
-      pointer-events: none; }
-      [data-map='1'] #brg-map-resizable #brg-map .barrage-svg-overlay {
-        display: block; }
-    #brg-map-resizable #brg-map::after {
-      content: '';
+      background: url("img/headstreams.png");
+      background-size: 200% 400%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='1'] {
+        background-position-x: 0%;
+        background-position-y: 0%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='2'] {
+        background-position-x: 100%;
+        background-position-y: 0%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='3'] {
+        background-position-x: 0%;
+        background-position-y: 33.3333333333%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='4'] {
+        background-position-x: 100%;
+        background-position-y: 33.3333333333%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='5'] {
+        background-position-x: 0%;
+        background-position-y: 66.6666666667%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='6'] {
+        background-position-x: 100%;
+        background-position-y: 66.6666666667%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='7'] {
+        background-position-x: 0%;
+        background-position-y: 100%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='8'] {
+        background-position-x: 100%;
+        background-position-y: 100%; }
+      #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='9'] {
+        background-position-x: 0%;
+        background-position-y: 133.3333333333%; }
+    #brg-map-resizable #brg-map .headstream.selectable {
+      cursor: pointer; }
+    #brg-map-resizable #brg-map .headstream[data-n]::before {
+      content: attr(data-n);
       position: absolute;
       top: 0;
-      bottom: 0;
       left: 0;
-      right: 0;
-      background-size: 100%;
-      z-index: 2;
-      pointer-events: none; }
-      [data-map='0'] #brg-map-resizable #brg-map::after {
-        display: none; }
-    #brg-map-resizable #brg-map .barrage-meeple {
-      display: inline-block; }
-    #brg-map-resizable #brg-map .headstream {
-      z-index: 4;
-      width: 203px;
-      height: 122px;
-      position: absolute;
-      top: 9px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center; }
-      #brg-map-resizable #brg-map .headstream .meeple-droplet {
-        margin-right: -3%; }
-      #brg-map-resizable #brg-map .headstream .headstream-tile {
-        position: absolute;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background: url("img/headstreams.png");
-        background-size: 200% 400%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='1'] {
-          background-position-x: 0%;
-          background-position-y: 0%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='2'] {
-          background-position-x: 100%;
-          background-position-y: 0%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='3'] {
-          background-position-x: 0%;
-          background-position-y: 33.3333333333%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='4'] {
-          background-position-x: 100%;
-          background-position-y: 33.3333333333%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='5'] {
-          background-position-x: 0%;
-          background-position-y: 66.6666666667%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='6'] {
-          background-position-x: 100%;
-          background-position-y: 66.6666666667%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='7'] {
-          background-position-x: 0%;
-          background-position-y: 100%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='8'] {
-          background-position-x: 100%;
-          background-position-y: 100%; }
-        #brg-map-resizable #brg-map .headstream .headstream-tile[data-tile='9'] {
-          background-position-x: 0%;
-          background-position-y: 133.3333333333%; }
-      #brg-map-resizable #brg-map .headstream.selectable {
-        cursor: pointer; }
-      #brg-map-resizable #brg-map .headstream[data-n]::before {
-        content: attr(data-n);
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        background: red;
-        color: white;
-        width: 35px;
-        height: 35px;
-        text-align: center;
-        border-radius: 50%;
-        border: 2px solid white;
-        font-family: 'acumin-pro', serif;
-        font-weight: 800;
-        font-style: normal;
-        line-height: 31px; }
-      #brg-map-resizable #brg-map .headstream[data-n='0']::before {
-        display: none; }
-    #brg-map-resizable #brg-map .basin {
-      z-index: 4; }
-    #brg-map-resizable #brg-map .dam-slot, #brg-map-resizable #brg-map .conduit-slot, #brg-map-resizable #brg-map .powerhouse-slot {
-      z-index: 4;
-      background: #d5d1e8;
-      text-align: center; }
-      [data-map='0'] #brg-map-resizable #brg-map .dam-slot,
-      [data-map='0'] #brg-map-resizable #brg-map .conduit-slot,
-      [data-map='0'] #brg-map-resizable #brg-map .powerhouse-slot {
-        background: transparent; }
-      #brg-map-resizable #brg-map .dam-slot.selectable, #brg-map-resizable #brg-map .conduit-slot.selectable, #brg-map-resizable #brg-map .powerhouse-slot.selectable {
-        cursor: pointer;
-        background: #ff000057; }
-        #brg-map-resizable #brg-map .dam-slot.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
-          background: #ff000090; }
-      #brg-map-resizable #brg-map .dam-slot.selected, #brg-map-resizable #brg-map .conduit-slot.selected, #brg-map-resizable #brg-map .powerhouse-slot.selected {
-        background: #35b710aa;
-        border: 2px solid #227b09 !important;
-        margin-top: -1px;
-        margin-left: -1px; }
-        #brg-map-resizable #brg-map .dam-slot.selected.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selected.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selected.selectable:hover {
-          background: #238806aa; }
-    #brg-map-resizable #brg-map .conduit-slot {
-      width: 47px;
-      height: 47px;
-      position: absolute;
+      display: block;
+      background: red;
+      color: white;
+      width: 35px;
+      height: 35px;
+      text-align: center;
       border-radius: 50%;
-      border: 1px solid white;
-      z-index: 4;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center; }
-      [data-map='1'] #brg-map-resizable #brg-map .conduit-slot {
-        background-image: url("img/icons/conduit.png");
-        background-size: auto 70%;
-        background-position: center center;
-        background-repeat: no-repeat; }
-      [data-map='1'][data-conduit='1'] #brg-map-resizable #brg-map .conduit-slot::before {
-        content: attr(data-production);
-        display: block;
-        position: absolute;
-        width: 33px;
-        height: 66px;
-        background: url("img/icons/conduit_value.png");
-        background-size: 100% auto;
-        background-repeat: no-repeat;
-        font-family: 'acumin-pro', serif;
-        font-weight: 800;
-        font-style: normal;
-        color: #bb3f90;
-        font-size: 31px;
-        line-height: 34px;
-        top: -69px; }
-      #brg-map-resizable #brg-map .conduit-slot .meeple-droplet {
-        position: absolute;
-        top: 1%;
-        left: 5%; }
-        #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(2) {
-          left: 20%; }
-        #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(3) {
-          left: 45%; }
-        #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(4) {
-          left: 60%; }
-        #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(5) {
-          left: 75%; }
-    #brg-map-resizable #brg-map .powerhouse-slot {
-      width: 73px;
-      height: 32px;
+      border: 2px solid white;
+      font-family: 'acumin-pro', serif;
+      font-weight: 800;
+      font-style: normal;
+      line-height: 31px; }
+    #brg-map-resizable #brg-map .headstream[data-n='0']::before {
+      display: none; }
+  #brg-map-resizable #brg-map .basin {
+    z-index: 4; }
+  #brg-map-resizable #brg-map .dam-slot, #brg-map-resizable #brg-map .conduit-slot, #brg-map-resizable #brg-map .powerhouse-slot {
+    z-index: 4;
+    background: #d5d1e8;
+    text-align: center; }
+    [data-map='0'] #brg-map-resizable #brg-map .dam-slot,
+    [data-map='0'] #brg-map-resizable #brg-map .conduit-slot,
+    [data-map='0'] #brg-map-resizable #brg-map .powerhouse-slot {
+      background: transparent; }
+    #brg-map-resizable #brg-map .dam-slot.selectable, #brg-map-resizable #brg-map .conduit-slot.selectable, #brg-map-resizable #brg-map .powerhouse-slot.selectable {
+      cursor: pointer;
+      background: #ff000057; }
+      #brg-map-resizable #brg-map .dam-slot.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
+        background: #ff000090; }
+    #brg-map-resizable #brg-map .dam-slot.selected, #brg-map-resizable #brg-map .conduit-slot.selected, #brg-map-resizable #brg-map .powerhouse-slot.selected {
+      background: #35b710aa;
+      border: 2px solid #227b09 !important;
+      margin-top: -1px;
+      margin-left: -1px; }
+      #brg-map-resizable #brg-map .dam-slot.selected.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selected.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selected.selectable:hover {
+        background: #238806aa; }
+  #brg-map-resizable #brg-map .conduit-slot {
+    width: 47px;
+    height: 47px;
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid white;
+    z-index: 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; }
+    [data-map='1'] #brg-map-resizable #brg-map .conduit-slot {
+      background-image: url("img/icons/conduit.png");
+      background-size: auto 70%;
+      background-position: center center;
+      background-repeat: no-repeat; }
+    [data-map='1'][data-conduit='1'] #brg-map-resizable #brg-map .conduit-slot::before {
+      content: attr(data-production);
+      display: block;
       position: absolute;
-      border-radius: 8px;
-      border: 1px solid white;
-      display: flex;
-      align-items: end;
-      justify-content: center; }
-      #brg-map-resizable #brg-map .powerhouse-slot.paying {
-        border: 1px solid red; }
-      #brg-map-resizable #brg-map .powerhouse-slot.highlight {
-        background: red; }
-      [data-map='1'] #brg-map-resizable #brg-map .powerhouse-slot {
-        background-image: url("img/icons/powerhouse.png");
-        background-size: auto 70%;
-        background-position: center center;
-        background-repeat: no-repeat; }
-        [data-map='1'] #brg-map-resizable #brg-map .powerhouse-slot.paying {
-          background-image: url("img/icons/powerhouse_paying.png"); }
-      #brg-map-resizable #brg-map .powerhouse-slot.producing::after {
-        content: '';
-        position: absolute;
-        left: calc(50% - 20px);
-        top: 50%;
-        width: 40px;
-        height: 40px;
-        background-image: url("img/icons/production.png");
-        background-size: 80%;
-        background-position: 4px 2px;
-        background-color: white;
-        border: 1px solid black;
-        border-radius: 50%;
-        animation-name: rotate;
-        animation-duration: 1.5s;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        background-repeat: no-repeat; }
+      width: 33px;
+      height: 66px;
+      background: url("img/icons/conduit_value.png");
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      font-family: 'acumin-pro', serif;
+      font-weight: 800;
+      font-style: normal;
+      color: #bb3f90;
+      font-size: 31px;
+      line-height: 34px;
+      top: -69px; }
+    #brg-map-resizable #brg-map .conduit-slot .meeple-droplet {
+      position: absolute;
+      top: 1%;
+      left: 5%; }
+      #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(2) {
+        left: 20%; }
+      #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(3) {
+        left: 45%; }
+      #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(4) {
+        left: 60%; }
+      #brg-map-resizable #brg-map .conduit-slot .meeple-droplet:nth-of-type(5) {
+        left: 75%; }
+  #brg-map-resizable #brg-map .powerhouse-slot {
+    width: 73px;
+    height: 32px;
+    position: absolute;
+    border-radius: 8px;
+    border: 1px solid white;
+    display: flex;
+    align-items: end;
+    justify-content: center; }
+    #brg-map-resizable #brg-map .powerhouse-slot.paying {
+      border: 1px solid red; }
+    #brg-map-resizable #brg-map .powerhouse-slot.highlight {
+      background: red; }
+    [data-map='1'] #brg-map-resizable #brg-map .powerhouse-slot {
+      background-image: url("img/icons/powerhouse.png");
+      background-size: auto 70%;
+      background-position: center center;
+      background-repeat: no-repeat; }
+      [data-map='1'] #brg-map-resizable #brg-map .powerhouse-slot.paying {
+        background-image: url("img/icons/powerhouse_paying.png"); }
+    #brg-map-resizable #brg-map .powerhouse-slot.producing::after {
+      content: '';
+      position: absolute;
+      left: calc(50% - 20px);
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      background-image: url("img/icons/production.png");
+      background-size: 80%;
+      background-position: 4px 2px;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 50%;
+      animation-name: rotate;
+      animation-duration: 1.5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      background-repeat: no-repeat; }
 @keyframes rotate {
   from {
     transform: rotate(0deg); }
   to {
     transform: rotate(720deg); } }
-      #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet {
-        position: absolute;
-        top: 1%;
-        left: 20%; }
-        #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(2) {
-          left: 30%; }
-        #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(3) {
-          left: 40%; }
-        #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(4) {
-          left: 50%; }
-        #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(5) {
-          left: 60%; }
-    #brg-map-resizable #brg-map .dam-slot {
-      width: 73px;
-      height: 59px;
+    #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet {
       position: absolute;
-      border-radius: 8px;
-      border: 1px solid white; }
-      #brg-map-resizable #brg-map .dam-slot.paying {
-        border: 1px solid red; }
-      [data-map='1'] #brg-map-resizable #brg-map .dam-slot {
-        background-image: url("img/icons/base.png");
-        background-size: auto 50%;
-        background-position: center center;
-        background-repeat: no-repeat; }
-        [data-map='1'] #brg-map-resizable #brg-map .dam-slot.paying {
-          background-image: url("img/icons/base_paying.png"); }
-      #brg-map-resizable #brg-map .dam-slot .meeple-elevation {
-        margin-top: -104%; }
-        #brg-map-resizable #brg-map .dam-slot .meeple-elevation:nth-of-type(3) {
-          margin-top: -140%; }
-    #brg-map-resizable #brg-map .basin {
-      width: 150px;
-      height: 50px;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center; }
-    [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone {
-      position: absolute;
-      width: 172px;
-      height: 89px;
-      background: #919191;
-      border-radius: 7px;
-      border: 1px solid black;
-      z-index: 3; }
-    [data-map='1'] #brg-map-resizable #brg-map .basin-zone {
-      position: absolute;
-      width: 134px;
-      height: 118px;
-      border-radius: 13px;
-      border: 10px solid #444;
-      z-index: 3; }
+      top: 1%;
+      left: 20%; }
+      #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(2) {
+        left: 30%; }
+      #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(3) {
+        left: 40%; }
+      #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(4) {
+        left: 50%; }
+      #brg-map-resizable #brg-map .powerhouse-slot .meeple-droplet:nth-of-type(5) {
+        left: 60%; }
+  #brg-map-resizable #brg-map .dam-slot {
+    width: 73px;
+    height: 59px;
+    position: absolute;
+    border-radius: 8px;
+    border: 1px solid white; }
+    #brg-map-resizable #brg-map .dam-slot.paying {
+      border: 1px solid red; }
+    [data-map='1'] #brg-map-resizable #brg-map .dam-slot {
+      background-image: url("img/icons/base.png");
+      background-size: auto 50%;
+      background-position: center center;
+      background-repeat: no-repeat; }
+      [data-map='1'] #brg-map-resizable #brg-map .dam-slot.paying {
+        background-image: url("img/icons/base_paying.png"); }
+    #brg-map-resizable #brg-map .dam-slot .meeple-elevation {
+      margin-top: -104%; }
+      #brg-map-resizable #brg-map .dam-slot .meeple-elevation:nth-of-type(3) {
+        margin-top: -140%; }
+  #brg-map-resizable #brg-map .basin {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone {
+    position: absolute;
+    width: 172px;
+    height: 89px;
+    background: #919191;
+    border-radius: 7px;
+    border: 1px solid black;
+    z-index: 3; }
+  [data-map='1'] #brg-map-resizable #brg-map .basin-zone {
+    position: absolute;
+    width: 134px;
+    height: 118px;
+    border-radius: 13px;
+    border: 10px solid #444;
+    z-index: 3; }
 
 #brg-map-resizable {
   width: calc(var(--barrageMapScale) * 1000px);

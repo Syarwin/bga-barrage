@@ -30,11 +30,11 @@ class PatentActionBoard extends AbstractActionBoard
   {
     $rows = [];
 
-    $rows[] = ['p1', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 1 tile')]];
+    $rows[] = ['p1', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
     $rows[] = 'patent_1';
-    $rows[] = ['p2', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 2 tile')]];
+    $rows[] = ['p2', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
     $rows[] = 'patent_2';
-    $rows[] = ['p3', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire a level 3 tile')]];
+    $rows[] = ['p3', ['i' => '<COST:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
     $rows[] = 'patent_3';
 
     return $rows;

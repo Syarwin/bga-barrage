@@ -58,6 +58,8 @@ define([
         ['silentDestroy', 100],
         ['moveDroplets', null],
         ['produce', 1500],
+        ['incEnergy', 800],
+        ['resetEnergies', null],
         ['score', 500],
         ['rotateWheel', 1000],
         ['construct', null],
@@ -312,7 +314,7 @@ define([
     setupMap() {
       let map = this.gamedatas.map;
       dojo.place(
-        `<div id='brg-map-resizable' data-map='${map.id}'><div id='brg-map'></div></div>`,
+        `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'><div id='brg-map'></div></div>`,
         'map-energy-wrapper',
       );
       let oMap = $('brg-map');
@@ -485,7 +487,6 @@ define([
       let track = dojo.place('<div id="energy-track"></div>', 'energy-track-board');
       let bonuses = { 29: 8, 22: 7, 16: 6, 11: 5, 7: 4, 4: 3, 2: 2, 1: 1, 0: 3 };
       for (let i = 0; i < 32; i++) {
-        let j = i + 30;
         let bonus = bonuses[i] ? ` data-bonus='${bonuses[i]}'` : '';
         if (i == 0) {
           let slot = dojo.place(
@@ -494,9 +495,7 @@ define([
           );
         } else {
           let slot = dojo.place(
-            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}>
-          <div id='energy-track-${j}' data-i='${j}' ${bonus}/>
-          </div>`,
+            `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
             track,
           );
         }

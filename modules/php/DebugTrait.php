@@ -23,7 +23,8 @@ trait DebugTrait
 
   public function tp()
   {
-    $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
+    Companies::getActive()->incEnergy(20);
+    //    $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
   }
 
   public function vt()
