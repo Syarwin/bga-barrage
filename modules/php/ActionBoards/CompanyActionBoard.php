@@ -15,10 +15,13 @@ class CompanyActionBoard extends AbstractActionBoard
 {
   protected static $id = BOARD_COMPANY;
 
-  public function getUiStructure()
+  public function getUiStructure($filterCId = null)
   {
     $rows = [];
     foreach (Companies::getAll() as $cId => $company) {
+      if (!is_null($filterCId) && $cId != $filterCId) {
+        continue;
+      }
       for ($i = 1; $i <= 4; $i++) {
         $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
       }
@@ -29,6 +32,36 @@ class CompanyActionBoard extends AbstractActionBoard
     }
 
     return $rows;
+  }
+
+  public function getUiData($cId = null)
+  {
+    $spaces = [];
+    foreach (static::getAvailableSpaces() as $space) {
+      if (!is_null($cId) && $space['cId'] != $cId) {
+        continue;
+      }
+      unset($space['flow']);
+      $spaces[$space['uid']] = $space;
+    }
+
+    $structure = static::getUiStructure($cId);
+    foreach ($structure as &$row) {
+      if (is_array($row)) {
+        foreach ($row as $i => $elem) {
+          if (is_array($elem)) {
+            continue;
+          }
+
+          $key = static::$id . '-' . $elem;
+          if (\array_key_exists($key, $spaces)) {
+            $row[$i] = $spaces[$key];
+          }
+        }
+      }
+    }
+
+    return $structure;
   }
 
   public function getAvailableSpaces()

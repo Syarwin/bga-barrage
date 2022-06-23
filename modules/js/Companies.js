@@ -448,11 +448,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.setupCompany(company);
       this.setupCompanyCounters(company);
       this.updateCompaniesCounters();
+      n.args.actionSpaces.forEach((row) => {
+        let cId = row[0].cId;
+        let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+        this.place('tplActionBoardRow', row, container);
+      });
     },
 
     notif_setupCompanies(n) {
       debug('Notif: initializing companies meeples', n);
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      n.args.tiles.forEach((tile) => this.addTechTile(tile));
       this.updateCompaniesCounters();
     },
 
