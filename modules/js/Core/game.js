@@ -1075,7 +1075,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       let game = this;
       let o = {
         span: $(id),
-        linked: linked? $(linked) : null,
+        linked: linked ? $(linked) : null,
         targetValue: 0,
         currentValue: 0,
         speed: 100,
@@ -1086,7 +1086,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           this.currentValue = +n;
           this.targetValue = +n;
           this.span.innerHTML = +n;
-          if(this.linked) this.linked.innerHTML = +n;
+          if (this.linked) this.linked.innerHTML = +n;
         },
         toValue: function (n) {
           if (game.isFastMode()) {
@@ -1099,6 +1099,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             this.span.classList.add('counter_in_progress');
             setTimeout(() => this.makeCounterProgress(), this.speed);
           }
+        },
+        goTo: function (n, anim) {
+          if (anim) this.toValue(n);
+          else this.setValue(n);
         },
         incValue: function (n) {
           let m = +n;
@@ -1113,7 +1117,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           let step = Math.ceil(Math.abs(this.targetValue - this.currentValue) / 5);
           this.currentValue += (this.currentValue < this.targetValue ? 1 : -1) * step;
           this.span.innerHTML = this.currentValue;
-          if(this.linked) this.linked.innerHTML = this.currentValue;
+          if (this.linked) this.linked.innerHTML = this.currentValue;
           setTimeout(() => this.makeCounterProgress(), this.speed);
         },
       };

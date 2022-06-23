@@ -1,12 +1,9 @@
 Essentiel
 
 - display pour Mahiri slot
-- mieux gérer/réparer le score quand > 30.
-- faire l'image de fond pour l'action board des tuiles advanced
 - option pour flottant / modal les company board / XO
 - afficher les boards dans le "draft"
 - option pour flottant / modal pour l'energy track
-- ajouter un compteur d'energy à côté du compteur de score (peut être en option ?)
 - ajuster le layout sur écran plus petit
 - mettre à jour l'income (notif)
 - ajouter des tooltips sur les tech tiles
@@ -15,7 +12,6 @@ Essentiel
 
 Un peu Essentiel
 
-- effet animation quand scroll sur enery board pour "séparer" les tokens pour mieux les voir
 - engineer / powerhouse machin dans la description
 - ajouter un slider pour ajuster la taille des action boards ?
 - ajouter un bouton pour construct sans avoir à aller scroller sur son company board

@@ -74,9 +74,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     addMeeple(meeple, location = null) {
       if ($('meeple-' + meeple.id)) return;
-      if (meeple.type == 'score' && parseInt(meeple.location.substring(13, 99)) > 31) {
-        meeple.type = 'score-30';
-      }
       this.place(
         'tplMeeple',
         meeple,
@@ -87,7 +84,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplMeeple(meeple) {
       let className = '';
-      return `<div class="barrage-meeple meeple-${meeple.type} ${className}" id="meeple-${meeple.id}" data-id="${meeple.id}" data-company="${meeple.cId}" data-type="${meeple.type}"></div>`;
+
+      let flip = '';
+      if (meeple.type == 'score') {
+        let n = +meeple.location.substr(13);
+        if (n > 31) {
+          flip = ' data-flip="0" ';
+        }
+      }
+
+      return `<div class="barrage-meeple meeple-${meeple.type} ${className}" id="meeple-${meeple.id}" data-id="${meeple.id}" data-company="${meeple.cId}" data-type="${meeple.type}" ${flip}></div>`;
     },
 
     getMeepleContainer(meeple) {
@@ -104,8 +110,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`${meeple.type}-${meeple.state}-${meeple.cId}`);
       }
       // Energy marker
-      else if (meeple.type == 'score' || meeple.type == 'score-30') {
-        return $(meeple.location);
+      else if (meeple.type == 'score') {
+        let n = +meeple.location.substr(13);
+        if (n > 31) {
+          n -= 30;
+          if ($(`meeple-${meeple.id}`)) $(`meeple-${meeple.id}`).dataset.flip = '1';
+        }
+        return $(`energy-track-${n}`);
       }
       // Meeple on the wheel
       else if (meeple.location == 'wheel') {

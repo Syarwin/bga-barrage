@@ -73,6 +73,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         window.scrollTo(0, $(`company-board-${company.id}`).getBoundingClientRect()['top'] - 30);
       });
 
+      // Add energy counter
+      dojo.place(
+        ` <span id='energy-counter-${company.id}'></span> <i class="fa fa-bolt barrage-energy-counter"></i>`,
+        `icon_point_${company.pId}`,
+        'after',
+      );
+
       // Create company board
       this.place('tplCompanyBoard', company, 'company-boards-container');
       this.updateWheelAngle(company);
@@ -189,8 +196,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `officer-logo-${company.officer.id}`,
       );
 
-
-      return `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
+      return (
+        `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
         <div class='company-board-wrapper'>
           <div class='company-owner-wrapper'>
             <div class='company-owner' style='color:#${company.color}'>
@@ -204,8 +211,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           <div class="company-board-resources">
           ` +
-            RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
-            `
+        RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
+        `
           </div>
 
           <div class='officer-symbol' data-officer='${company.officer.id}' id="officer-power-${company.officer.id}"></div>
@@ -274,7 +281,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             </div>
           </div>
         </div>
-      </div>`;
+      </div>`
+      );
     },
 
     getCompanyScoreToken(companyId) {
@@ -311,6 +319,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompaniesCounters() {
       this._companyCounters = {};
       this._scoreCounters = {};
+      this._energyCounters = {};
       this.forEachCompany((company) => this.setupCompanyCounters(company));
       this.updateCompaniesCounters(false);
     },
@@ -318,8 +327,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     setupCompanyCounters(company) {
       this._companyCounters[company.id] = {};
       ALL_RESOURCES.forEach((res) => {
-        this._companyCounters[company.id][res] = this.createCounter(`resource_${company.id}_${res}`, 0, `company_resource_${company.id}_${res}`);
+        this._companyCounters[company.id][res] = this.createCounter(
+          `resource_${company.id}_${res}`,
+          0,
+          `company_resource_${company.id}_${res}`,
+        );
       });
+
+      this._energyCounters[company.id] = this.createCounter(`energy-counter-${company.id}`, company.energy);
 
       this._scoreCounters[company.id] = this.createCounter(
         company.isAI ? `company_score_${company.id}` : `player_score_${company.pId}`,
@@ -340,12 +355,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let meeples = reserve.querySelectorAll(res == 'fcontract' ? '.barrage-contract' : `.meeple-${res}`);
           let value = meeples.length;
 
-          this._companyCounters[company.id][res][anim ? 'toValue' : 'setValue'](value);
+          this._companyCounters[company.id][res].goTo(value, anim);
           dojo.attr(reserve.parentNode, 'data-n', value);
         });
 
-        this._scoreCounters[company.id][anim ? 'toValue' : 'setValue'](company.score);
+        this._scoreCounters[company.id].goTo(company.score, anim);
+        this._energyCounters[company.id].goTo(company.energy, anim);
       });
+    },
+
+    incEnergy(cId, n) {
+      let current = +this.gamedatas.companies[cId].energy;
+      current += n;
+      this.gamedatas.companies[cId].energy = current;
+      this._energyCounters[cId].toValue(current);
+    },
+
+    notif_incEnergy(n) {
+      debug('Notif: increasing energy', n);
+      let meeple = n.args.token;
+      this.slide(`meeple-${meeple.id}`, this.getMeepleContainer(meeple));
+      this.incEnergy(n.args.company_id, n.args.n);
+    },
+
+    notif_resetEnergies(n) {
+      debug('Notif: reset energies to 0', n);
+      this.forEachCompany((company) => {
+        this._energyCounters[company.id].toValue(0);
+      });
+      this.slideResources(n.args.tokens, {});
     },
 
     onEnteringStatePickStart(args) {
@@ -420,7 +458,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_produce(n) {
       debug('Notif: producing energy', n);
-      if (this.isFastMode()) return;
+      if (this.isFastMode()) {
+        this.incEnergy(n.args.company_id, n.args.energy);
+        return;
+      }
 
       let powerhouse = this.getConstructSlot(n.args.powerhouse);
       powerhouse.classList.add('producing');
@@ -434,7 +475,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           destroy: true,
           duration: 1350,
           phantom: false,
-        }).then(() => powerhouse.classList.remove('producing'));
+        }).then(() => {
+          this.incEnergy(n.args.company_id, n.args.energy);
+          powerhouse.classList.remove('producing');
+        });
       });
     },
 
