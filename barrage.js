@@ -227,7 +227,8 @@ define([
         args.args &&
         args.args.previousEngineChoices &&
         args.args.previousEngineChoices >= 1 &&
-        !args.args.automaticAction
+        !args.args.automaticAction &&
+        this.isCurrentPlayerActive()
       ) {
         this.addDangerActionButton(
           'btnRestartTurn',
