@@ -48,6 +48,7 @@ class Notifications
     // Keep only the thing that matters
     $fDatas = [
       'meeples' => $datas['meeples'],
+      'bases' => $datas['bases'],
       'players' => $datas['players'],
       'companies' => $datas['companies'],
       'techTiles' => $datas['techTiles'],
