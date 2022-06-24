@@ -135,7 +135,7 @@ class Map
   {
     $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
 
-    if (count($dams) == 3 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
+    if (count($dams) == 3 && $dams->first()['cId'] != 0 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
       return 4;
     } else {
       return count($dams);
