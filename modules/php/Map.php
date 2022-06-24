@@ -321,6 +321,7 @@ class Map
               $energy = max($energy, 4);
             }
             $energy += $bonus;
+            $energy += $company->getProductionBonus();
 
             if ($energy > 0) {
               $system['productions'][$i] = $energy;
