@@ -1,7 +1,8 @@
 {OVERALL_GAME_HEADER}
 <link rel="stylesheet" href="https://use.typekit.net/jim0ypy.css" />
 
-<div id="pickStart"></div>
+<div id="pickStart-contracts"></div>
+<div id="pickStart-companies"></div>
 <div id="barrage-container">
   <div id="barrage-center-container">
     <div id="action-boards-container"></div>

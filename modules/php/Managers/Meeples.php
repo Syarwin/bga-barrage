@@ -34,25 +34,14 @@ class Meeples extends \BRG\Helpers\Pieces
   {
     $meeples = [];
     foreach ($companies as $cId => $company) {
-      $meeples[] = ['type' => \ENGINEER, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 12];
-      $meeples[] = [
-        'type' => \CREDIT,
-        'company_id' => $cId,
-        'location' => 'reserve',
-        'nbr' => $company->getStartCredit(),
-      ];
-      $meeples[] = [
-        'type' => \EXCAVATOR,
-        'company_id' => $cId,
-        'location' => 'reserve',
-        'nbr' => $company->getStartExcavator(),
-      ];
-      $meeples[] = [
-        'type' => \MIXER,
-        'company_id' => $cId,
-        'location' => 'reserve',
-        'nbr' => $company->getStartMixer(),
-      ];
+      foreach ($company->getStartingResources() as $type => $nbr) {
+        $meeples[] = [
+          'type' => $type,
+          'company_id' => $cId,
+          'location' => 'reserve',
+          'nbr' => $nbr,
+        ];
+      }
 
       // Structures
       for ($i = 0; $i < 5; $i++) {

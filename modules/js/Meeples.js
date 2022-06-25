@@ -368,6 +368,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
+    notif_construct(n) {
+      debug('Notif: construct on the map', n);
+      this.slideResources([n.args.meeple], {});
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
+    },
+
     notif_silentDestroy(n) {
       debug('Notif: destroying something silently', n);
       if (n.args.hasOwnProperty('resources')) {
@@ -475,11 +482,117 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return this.inherited(arguments);
     },
 
-    notif_construct(n) {
-      debug('Notif: construct on the map', n);
-      this.slideResources([n.args.meeple], {});
-      this.gamedatas.bonuses = n.args.bonuses;
-      this.updateCompanyBonuses();
+    /////////////////////////////////////////////////////////////////////////////
+    //  _____ _                ____                          _
+    // |  ___| | _____      __/ ___|___  _ ____   _____ _ __| |_ ___  _ __
+    // | |_  | |/ _ \ \ /\ / / |   / _ \| '_ \ \ / / _ \ '__| __/ _ \| '__|
+    // |  _| | | (_) \ V  V /| |__| (_) | | | \ V /  __/ |  | || (_) | |
+    // |_|   |_|\___/ \_/\_/  \____\___/|_| |_|\_/ \___|_|   \__\___/|_|
+    //
+    /////////////////////////////////////////////////////////////////////////////
+
+    convertFlowToDescs(income) {
+      const mapping = {
+        credit: _('Gain ${n} Credits.'),
+        excavator: _('Gain ${n} Excavator(s).'),
+        mixer: _('Gain ${n} Mixer(s).'),
+        vp: _('Gain ${n} victory points.'),
+        energy: _(
+          'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts',
+        ),
+        any_machine: _('Gain ${n} Machineries of your choice.'),
+        conduit: _(
+          "Build a Conduit with a production value of ${n} (or less). You don't need to place Engineers, to insert the Technology tile or the Machineries.",
+        ),
+        powerhouse: _('Place one of your Powerhouse in a free building space on the Map.'),
+        elevation: _('Place one of your Elevation over one of your Dams.'),
+        base: _('Place one of your Bases in a free building space on the Map.'),
+        flow_droplet: _(
+          'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops flow immediately.',
+        ),
+        ROTATE_WHEEL: _('Rotate your Construction Wheel by ${n} segments.'),
+        PLACE_DROPLET: _(
+          'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops will flow during the Water Flow Phase.',
+        ),
+        production_bonus: _('Permanent bonus of +${n} on your productions.'),
+      };
+
+      let descs = [];
+      Object.keys(income).forEach((t) => {
+        let n = income[t];
+        let desc = '';
+        if (mapping[t]) {
+          if (Array.isArray(n)) {
+            desc = mapping[t];
+          } else {
+            desc = this.translate({
+              log: mapping[t],
+              args: { n },
+            });
+          }
+        } else if (t == 'special_power') {
+          const speMapping = {
+            special_power_usa: _(
+              'In any phase of the round, if a Water Drop naturally flows through one of your Powerhouses, move your Energy marker by 1 step.',
+            ),
+            special_power_italy: _(
+              'After you have performed a production action, move your Energy marker by 3 additional steps on the Energy track.',
+            ),
+            special_power_france: _(
+              'You can fulfill every Contract (even the National Contracts) producting 3 Energy Units less than the Energy Units required by the Contract.',
+            ),
+            special_power_germany: _(
+              'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
+            ),
+          };
+          desc = speMapping[n];
+        }
+
+        descs.push(desc);
+      });
+
+      return descs;
+    },
+
+    convertFlowToIcons(income) {
+      const mapping = {
+        credit: 'CREDIT',
+        excavator: 'EXCAVATOR_ICON',
+        mixer: 'MIXER_ICON',
+        vp: 'VP',
+        energy: 'ENERGY',
+        any_machine: 'ANY_MACHINE',
+        conduit: 'CONDUIT_X',
+        powerhouse: 'POWERHOUSE',
+        elevation: 'ELEVATION',
+        base: 'BASE',
+        flow_droplet: 'WATER_DOWN',
+        ROTATE_WHEEL: 'ROTATE',
+        PLACE_DROPLET: 'WATER',
+      };
+
+      let icons = [];
+      Object.keys(income).forEach((t) => {
+        let n = income[t];
+        let icon = '<CREDIT>';
+        if (mapping[t]) {
+          if (Array.isArray(n)) {
+            icon = `<${mapping[t]}_${n.join('_').toLowerCase()}>`;
+          } else {
+            icon = `<${mapping[t]}:${n}>`;
+          }
+        } else if (t == 'production_bonus') {
+          icon = `[+${n}]`;
+        } else if (t == 'special_power') {
+          icon = `<div class="icon-container icon-container-${n}">
+            <div class="barrage-icon icon-${n}"></div>
+          </div>`;
+        }
+
+        icons.push(this.formatString(icon));
+      });
+
+      return icons;
     },
   });
 });

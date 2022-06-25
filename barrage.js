@@ -1107,7 +1107,7 @@ define([
 
     getContractContainer(contract) {
       if (contract.location == 'pickStart') {
-        return 'pickStart';
+        return 'pickStart-contracts';
       } else if (contract.location.substr(0, 4) == 'hand') {
         let cId = contract.location.substr(5);
         return `company-contracts-${cId}`;
@@ -1123,7 +1123,7 @@ define([
     },
 
     tplContract(contract, tooltip = false) {
-      let icons = contract.icons.map((t) => this.formatString(t));
+      let icons = this.convertFlowToIcons(contract.reward);
       contract.parity = contract.parity === undefined ? contract.id % 2 : contract.parity;
       return (
         `<div id='contract-${contract.id}${tooltip ? '-tooltip' : ''}' class='barrage-contract ${
@@ -1142,12 +1142,13 @@ define([
     },
 
     tplContractTooltip(contract) {
+      let descs = this.convertFlowToDescs(contract.reward);
       return (
         this.tplContract(contract, true) +
         `
       <div class='contract-desc'>
         ` +
-        contract.descs.map((t) => this.translate(t)).join('<br />') +
+        descs.join('<br />') +
         `
       </div>`
       );

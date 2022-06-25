@@ -25,7 +25,7 @@ class Netherlands extends \BRG\Models\Company
       ],
       POWERHOUSE => [
         2 => [PRODUCTION_BONUS => 1],
-        3 => [], //SPECIAL_POWER => SPECIAL_POWER_USA],
+        3 => [SPECIAL_POWER => SPECIAL_POWER_NETHERLANDS],
         4 => [PRODUCTION_BONUS => 2],
       ],
     ];

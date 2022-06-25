@@ -182,9 +182,6 @@ class Map
         clienttranslate('nation\'s power')
       );
     }
-
-    // TODO : handle company that gain thing when water pass by powerhouse
-    // => postpone the notifications in this case somehow !
   }
 
   public function getFlowPath($droplet)

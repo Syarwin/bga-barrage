@@ -1,4 +1,4 @@
-#pickStart {
+#pickStart-contracts {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,16 +7,6 @@
 #barrage-container {
 }
 
-/*
-.barrage-frame {
-  border: 5px solid transparent;
-  border-image-slice: 89 89 89 89;
-  border-image-width: 30px 30px 30px 30px;
-  border-image-outset: 0px 0px 0px 0px;
-  border-image-repeat: stretch stretch;
-  border-image-source: url('img/frame.png');
-}
-*/
 
 .barrage-frame {
   border: 3px solid #e1dede;

@@ -280,6 +280,25 @@
     height: 0.75em;
     background-image: url('img/icons/base_plain.png');
   }
-}
 
-//action-space-cost
+  &.icon-special_power_italy {
+    min-width: 1em;
+    height: 1em;
+    background-image: url('img/icons/special_power_italy.png');
+  }
+  &.icon-special_power_usa {
+    min-width: 1.7em;
+    height: 1em;
+    background-image: url('img/icons/special_power_usa.png');
+  }
+  &.icon-special_power_germany {
+    min-width: 2em;
+    height: 0.65em;
+    background-image: url('img/icons/special_power_germany.png');
+  }
+  &.icon-special_power_france {
+    min-width: 1.1em;
+    height: 0.75em;
+    background-image: url('img/icons/special_power_france.png');
+  }
+}

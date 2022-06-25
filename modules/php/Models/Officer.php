@@ -25,6 +25,7 @@ class Officer implements \JsonSerializable
       'id' => $this->id,
       'name' => $this->name,
       'description' => $this->description,
+      'startingResources' => $this->getStartingResources(),
     ];
   }
 
@@ -68,18 +69,13 @@ class Officer implements \JsonSerializable
   }
 
   /************** SETUP **************/
-  public function getStartCredit()
+  public function getStartingResources()
   {
-    return -1;
-  }
-
-  public function getStartMixer()
-  {
-    return -1;
-  }
-
-  public function getStartExcavator()
-  {
-    return -1;
+    return [
+      ENGINEER => 12,
+      CREDIT => 6,
+      EXCAVATOR => 6,
+      MIXER => 4
+    ];
   }
 }

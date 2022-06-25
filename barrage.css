@@ -104,21 +104,11 @@ body {
 .log.cancel.roundedbox {
   background-color: #ef9a9a; }
 
-#pickStart {
+#pickStart-contracts {
   display: flex;
   justify-content: center;
   align-items: center; }
 
-/*
-.barrage-frame {
-  border: 5px solid transparent;
-  border-image-slice: 89 89 89 89;
-  border-image-width: 30px 30px 30px 30px;
-  border-image-outset: 0px 0px 0px 0px;
-  border-image-repeat: stretch stretch;
-  border-image-source: url('img/frame.png');
-}
-*/
 .barrage-frame {
   border: 3px solid #e1dede;
   border-radius: 6px;
@@ -593,7 +583,7 @@ body {
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b .barrage-meeple {
           margin-top: -10px; }
   .action-board[data-id='contract'] .action-board-inner {
-    --barrageContractScale: 0.75;
+    --barrageContractScale: 0.73;
     margin-bottom: 0; }
     .action-board[data-id='contract'] .action-board-inner #contract-stack-1 {
       display: flex;
@@ -1144,6 +1134,22 @@ body {
     min-width: 1.1em;
     height: 0.75em;
     background-image: url("img/icons/base_plain.png"); }
+  .barrage-icon.icon-special_power_italy {
+    min-width: 1em;
+    height: 1em;
+    background-image: url("img/icons/special_power_italy.png"); }
+  .barrage-icon.icon-special_power_usa {
+    min-width: 1.7em;
+    height: 1em;
+    background-image: url("img/icons/special_power_usa.png"); }
+  .barrage-icon.icon-special_power_germany {
+    min-width: 2em;
+    height: 0.65em;
+    background-image: url("img/icons/special_power_germany.png"); }
+  .barrage-icon.icon-special_power_france {
+    min-width: 1.1em;
+    height: 0.75em;
+    background-image: url("img/icons/special_power_france.png"); }
 
 #player_boards {
   display: flex;
@@ -1904,7 +1910,8 @@ body {
           margin: 17px 8px 0px 8px;
           align-items: end; }
           .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income {
-            top: 1px; }
+            top: 1px;
+            height: 36px; }
             .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income::before {
               display: none; }
           .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .barrage-meeple ~ .company-income {
@@ -3057,10 +3064,6 @@ body {
     #brg-map-resizable #brg-map .basin-zone[data-zone='10'] {
       left: 623px;
       top: 1125px; }
-
-#contracts-test {
-  display: flex;
-  flex-wrap: wrap; }
 
 :root {
   --barrageContractScale: 0.9; }

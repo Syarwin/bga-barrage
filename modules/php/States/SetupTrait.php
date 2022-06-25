@@ -154,10 +154,10 @@ trait SetupTrait
     $matchups = Globals::getStartingMatchups();
     foreach ($matchups as &$matchup) {
       $company = Companies::getInstance($matchup['cId']);
-      $matchup['cName'] = $company->getCname();
+      $matchup['company'] = $company;
 
       $officer = Officers::getInstance($matchup['xId']);
-      $matchup['xName'] = $officer->getName();
+      $matchup['officer'] = $officer;
     }
 
     // Fetching contracts
