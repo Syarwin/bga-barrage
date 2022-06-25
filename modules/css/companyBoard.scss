@@ -150,6 +150,77 @@
           background-position-y: (($i - ($i % 5)) / 5) * 100% / 2, center;
         }
       }
+
+      .action-board-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // background: url('img/ui/texture.jpg');
+        padding: 4px 2px 2px 4px;
+        border-radius: 8px;
+        box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
+
+        // [data-action-name='3'] & {
+        //   background: #292b23;
+        // }
+        // [data-action-name='3'][data-background='1'] & {
+        //   background: #393939;
+        // }
+      }
+
+      .action-space {
+        display: flex;
+        background: grey;
+        padding: 3px;
+        border-radius: 5px;
+        column-gap: 3px;
+        position: relative;
+        &.paying {
+          background: #d70f0f;
+        }
+
+        .action-space-cost {
+          position: absolute;
+          left: calc(100% - 4px);
+          display: none;
+        }
+
+        .action-space-slot {
+          background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+          width: 34px;
+          height: 29px;
+          padding-bottom: 1px;
+          border-radius: 5px;
+          background-size: auto 70%, 20px;
+          background-repeat: no-repeat, repeat;
+          background-position: center center;
+
+          font-size: 39px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+
+          &:not(:empty) {
+            background: #bbb9b9;
+          }
+        }
+
+        &.selectable {
+          cursor: pointer;
+          .action-space-slot {
+            background-image: url('img/ui/engineer_slot.png');
+            background-size: auto 70%;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+            background-color: #364422;
+          }
+
+          &:hover .action-space-slot {
+            background-color: #484848;
+          }
+        }
+      }
     }
 
     .structures-wrapper {

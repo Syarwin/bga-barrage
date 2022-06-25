@@ -27,8 +27,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
   return declare('barrage.meeples', null, {
     setupMeeples() {
+      // Bases first for display reason
+      let meepleIds = this.gamedatas.bases.map((meeple) => {
+        if (!$('meeple-' + meeple.id)) {
+          this.addMeeple(meeple);
+        }
+
+        let o = $('meeple-' + meeple.id);
+        let container = this.getMeepleContainer(meeple);
+        if (o.parentNode != $(container)) {
+          dojo.place(o, container);
+        }
+
+        return meeple.id;
+      });
+
       // This function is refreshUI compatible
-      let meepleIds = this.gamedatas.meeples.map((meeple) => {
+      meepleIds = this.gamedatas.meeples.map((meeple) => {
         if (!$('meeple-' + meeple.id)) {
           this.addMeeple(meeple);
         }

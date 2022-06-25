@@ -1819,6 +1819,51 @@ body {
       .company-board .company-board-wrapper .officer-symbol[data-officer='16'] {
         background-position-x: 0%, center;
         background-position-y: 150%, center; }
+      .company-board .company-board-wrapper .officer-symbol .action-board-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 2px 2px 4px;
+        border-radius: 8px;
+        box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
+      .company-board .company-board-wrapper .officer-symbol .action-space {
+        display: flex;
+        background: grey;
+        padding: 3px;
+        border-radius: 5px;
+        column-gap: 3px;
+        position: relative; }
+        .company-board .company-board-wrapper .officer-symbol .action-space.paying {
+          background: #d70f0f; }
+        .company-board .company-board-wrapper .officer-symbol .action-space .action-space-cost {
+          position: absolute;
+          left: calc(100% - 4px);
+          display: none; }
+        .company-board .company-board-wrapper .officer-symbol .action-space .action-space-slot {
+          background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
+          width: 34px;
+          height: 29px;
+          padding-bottom: 1px;
+          border-radius: 5px;
+          background-size: auto 70%, 20px;
+          background-repeat: no-repeat, repeat;
+          background-position: center center;
+          font-size: 39px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end; }
+          .company-board .company-board-wrapper .officer-symbol .action-space .action-space-slot:not(:empty) {
+            background: #bbb9b9; }
+        .company-board .company-board-wrapper .officer-symbol .action-space.selectable {
+          cursor: pointer; }
+          .company-board .company-board-wrapper .officer-symbol .action-space.selectable .action-space-slot {
+            background-image: url("img/ui/engineer_slot.png");
+            background-size: auto 70%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: #364422; }
+          .company-board .company-board-wrapper .officer-symbol .action-space.selectable:hover .action-space-slot {
+            background-color: #484848; }
     .company-board .company-board-wrapper .structures-wrapper {
       position: absolute;
       left: 170px;

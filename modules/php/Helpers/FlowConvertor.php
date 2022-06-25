@@ -16,10 +16,10 @@ abstract class FlowConvertor
       FLOW_DROPLET => [['action' => PLACE_DROPLET, 'args' => ['flows' => true]]],
       ANY_MACHINE => [['type' => NODE_XOR]],
       ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
-      CONDUIT => [['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT]]],
-      POWERHOUSE => [['action' => PLACE_STRUCTURE, 'args' => ['type' => POWERHOUSE]]],
-      ELEVATION => [['action' => PLACE_STRUCTURE, 'args' => ['type' => ELEVATION]]],
-      BASE => [['action' => PLACE_STRUCTURE, 'args' => ['type' => BASE]]],
+      CONDUIT => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => CONDUIT]]],
+      POWERHOUSE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => POWERHOUSE]]],
+      ELEVATION => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => ELEVATION]]],
+      BASE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => BASE]]],
     ];
 
     $flows = ['type' => NODE_SEQ, 'childs' => []];

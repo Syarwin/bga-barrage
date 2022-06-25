@@ -135,7 +135,7 @@ class Map
   {
     $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
 
-    if (count($dams) == 3 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
+    if (count($dams) == 3 && $dams->first()['cId'] != 0 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
       return 4;
     } else {
       return count($dams);
@@ -254,8 +254,13 @@ class Map
   // |_|   |_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|
   //
   /////////////////////////////////////////////////////////////
-  public function getProductionSystems($company, $bonus, $constraints = null, $objTileComputation = false)
-  {
+  public function getProductionSystems(
+    $company,
+    $bonus,
+    $constraints = null,
+    $objTileComputation = false,
+    $germanPower = false
+  ) {
     $credits = $company->countReserveResource(CREDIT);
     $systems = [];
     foreach (self::getZones() as $zoneId => $zone) {
@@ -318,6 +323,9 @@ class Map
               $energy = max($energy, 4);
             }
             $energy += $bonus;
+            if (!$germanPower) {
+              $energy += $company->getProductionBonus();
+            }
 
             if ($energy > 0) {
               $system['productions'][$i] = $energy;

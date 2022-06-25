@@ -117,15 +117,14 @@ trait BonusObjectiveTileTrait
     switch (Globals::getObjectiveTile()) {
       case OBJECTIVE_PAYING_SLOT:
         // Compute paying spaces
-        $slots = Map::getConstructSlots();
+        $slots = Map::getConstructSlots(true);
         $locations = [];
         foreach ($slots as $slot) {
           if (($slot['cost'] ?? 0) > 0) {
             $locations[] = $slot['id'];
           }
         }
-
-        return $company->countBuiltStructures([BASE, POWERHOUSE], $locations);
+        return $company->countBuiltStructures([POWERHOUSE, BASE], $locations);
 
       case OBJECTIVE_MOST_STRUCTURE:
         $max = 0;

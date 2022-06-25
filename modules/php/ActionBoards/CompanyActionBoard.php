@@ -26,8 +26,10 @@ class CompanyActionBoard extends AbstractActionBoard
         $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
       }
       if ($company->isXO(\XO_MAHIRI)) {
-        $rows[] = [$cId . '-6', ['i' => '<MAHIRI>', 't' => clienttranslate('Copy an executive officer power')]];
-        $rows[] = [$cId . '-7', ['i' => '<MAHIRI>', 't' => clienttranslate('Copy an executive officer power')]];
+        // $rows[] = [$cId . '-6', ['i' => '<MAHIRI>', 't' => clienttranslate('Copy an executive officer power')]];
+        // $rows[] = [$cId . '-7', ['i' => '<MAHIRI>', 't' => clienttranslate('Copy an executive officer power')]];
+        $rows[] = [$cId . '-6', ['type' => 'mahiri']];
+        $rows[] = [$cId . '-7', ['type' => 'mahiri']];
       }
     }
 

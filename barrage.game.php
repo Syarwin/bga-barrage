@@ -92,6 +92,10 @@ class barrage extends Table
       'companies' => Companies::getUiData($pId),
       'actionBoards' => ActionSpaces::getUiData(),
       'meeples' => Meeples::getUiData(),
+      'bases' => Meeples::getSelectQuery()
+        ->where('type', BASE)
+        ->get()
+        ->toArray(),
       'map' => Map::getUiData(),
       'bonusTiles' => Globals::getBonusTiles(),
       'objectiveTile' => Globals::getObjectiveTile(),
