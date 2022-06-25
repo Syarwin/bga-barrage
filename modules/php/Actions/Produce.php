@@ -20,7 +20,11 @@ class Produce extends \BRG\Models\Action
   public function isDoable($company, $ignoreResources = false)
   {
     $bonus = $this->getCtxArgs()['bonus'] ?? 0;
-    return !empty(Map::getProductionSystems($company, $bonus));
+    $germanPower = $args['germanPower'] ?? false;
+    if ($germanPower) {
+      $bonus = 0;
+    }
+    return !empty(Map::getProductionSystems($company, $bonus, $args['contraints'] ?? null, false, $germanPower));
   }
 
   public function argsProduce()
@@ -29,22 +33,23 @@ class Produce extends \BRG\Models\Action
     $bonus = $args['bonus'] ?? 0;
     $germanPower = $args['germanPower'] ?? false;
     $company = Companies::getActive();
-    $bonus += $company->getProductionBonus();
+    // $bonus += $company->getProductionBonus();
+    $displayedBonus = $bonus + $company->getProductionBonus();
 
     if ($germanPower) {
       $bonus = 0;
+      $displayedBonus = 0;
     }
-
     return [
       'i18n' => ['modifier'],
-      'systems' => Map::getProductionSystems($company, $bonus, $args['constraints'] ?? null),
+      'systems' => Map::getProductionSystems($company, $bonus, $args['constraints'] ?? null, false, $germanPower),
       'modifier' =>
-        $bonus == 0
+        $displayedBonus == 0
           ? ''
           : [
-            'log' => $bonus > 0 ? clienttranslate('(${n} bonus)') : clienttranslate('(${n} malus)'),
+            'log' => $displayedBonus > 0 ? clienttranslate('(${n} bonus)') : clienttranslate('(${n} malus)'),
             'args' => [
-              'n' => $bonus > 0 ? '+' . $bonus : $bonus,
+              'n' => $displayedBonus > 0 ? '+' . $displayedBonus : $displayedBonus,
             ],
           ],
     ];
