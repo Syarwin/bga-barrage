@@ -56,12 +56,12 @@ abstract class AbstractMap
     return $basins;
   }
 
-  public function getConstructSlots()
+  public function getConstructSlots($computeObjectives = false)
   {
     $slots = [];
     foreach ($this->getBasins() as $bId => $basin) {
       $basin['type'] = Meeples::getOnSpace($bId)->empty() ? BASE : ELEVATION;
-      if ($basin['type'] == ELEVATION) {
+      if ($basin['type'] == ELEVATION && !$computeObjectives) {
         $basin['cost'] = 0;
       }
       $slots[] = $basin;
