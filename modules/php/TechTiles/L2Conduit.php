@@ -11,11 +11,16 @@ use BRG\Helpers\Utils;
  * Level 2 conduit
  */
 
-class L2Conduit extends \BRG\TechTiles\BasicTile
+class L2Conduit extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = CONDUIT;
+  public function getDescs()
   {
-    return $structure == \CONDUIT;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile to build a Conduit which costs 6 or more Excavators (for its production is 3 or more), its cost becomes 5 Excavators. (If the cost is 5 or less, it remains the same.)'
+    );
+    return $descs;
   }
 
   public function getUnitsModifier($n)

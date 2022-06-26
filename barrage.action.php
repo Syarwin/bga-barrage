@@ -87,11 +87,11 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
-  public function actAnytimeAction()
+  public function actAlternativeAction()
   {
     self::setAjaxMode();
     $choiceId = self::getArg('id', AT_int, true);
-    $result = $this->game->actAnytimeAction($choiceId);
+    $result = $this->game->actAlternativeAction($choiceId);
     self::ajaxResponse();
   }
 

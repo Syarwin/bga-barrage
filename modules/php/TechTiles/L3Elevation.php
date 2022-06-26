@@ -11,11 +11,16 @@ use BRG\Map;
  * Level 3 elevation
  */
 
-class L3Elevation extends \BRG\TechTiles\BasicTile
+class L3Elevation extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = ELEVATION;
+  public function getDescs()
   {
-    return $structure == \ELEVATION;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, score 3 Victory Points for each of your Dams that have at least one Elevation on them (all your level 2 and level 3 Dams).'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

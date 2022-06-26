@@ -11,11 +11,16 @@ use BRG\Map;
  * Level 3 joker
  */
 
-class L3Joker extends \BRG\TechTiles\BasicTile
+class L3Joker extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = JOKER;
+  public function getDescs()
   {
-    return true;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, score 3 Victory Points for each Advanced Technology tile you acquired so far. Count all the Advanced Technology tiles in your personal supply and in your Construction Wheel.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

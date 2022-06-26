@@ -11,11 +11,16 @@ use BRG\Helpers\Utils;
  * Level 2 joker
  */
 
-class L2Joker extends \BRG\TechTiles\BasicTile
+class L2Joker extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = JOKER;
+  public function getDescs()
   {
-    return true;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile to build a structure, you can use Excavators instead of Concrete Mixers and vice-versa, in any combination.'
+    );
+    return $descs;
   }
 
   public function getCostModifier($costs, $slot, $machine, $n)

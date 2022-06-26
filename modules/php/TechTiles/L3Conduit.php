@@ -10,11 +10,19 @@ use BRG\Map;
  * Level 3 conduit
  */
 
-class L3Conduit extends \BRG\TechTiles\BasicTile
+class L3Conduit extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = CONDUIT;
+  public function getDescs()
   {
-    return $structure == \CONDUIT;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, produce a number of Energy Units equal to the value of the Conduit you have just built, multiplied by 2.'
+    );
+    $descs[] = clienttranslate(
+      'The energy produced is recorded on the Energy Track and can be used to fulfill a Contract.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

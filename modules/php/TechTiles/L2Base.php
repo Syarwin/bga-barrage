@@ -10,11 +10,19 @@ use BRG\Map;
  * Level 2 base
  */
 
-class L2Base extends \BRG\TechTiles\BasicTile
+class L2Base extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = BASE;
+  public function getDescs()
   {
-    return $structure == BASE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, produce a number of Energy Units equal to the number of Bases you have built. Count also the Base you have just built.'
+    );
+    $descs[] = clienttranslate(
+      'The energy produced is recorded on the Energy Track and can be used to fulfill a Contract.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

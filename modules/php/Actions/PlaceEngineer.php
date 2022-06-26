@@ -102,13 +102,24 @@ class PlaceEngineer extends \BRG\Models\Action
       })
       ->getIds();
 
-    // Add anytime actions
-    $anyTime = Game::get()->addArgsAnytimeAction();
+    // Add alternative actions
+    $alternativeActions = [];
+    foreach ($company->getEngineerFreeTiles() as $tile) {
+      $flow = $tile->getPowerFlow(null);
+      $flow['id'] = $tile->getId();
+      $tree = Engine::buildTree($flow);
+      if ($tree->isDoable($company, null, false)) {
+        $alternativeActions[] = [
+          'flow' => $flow,
+          'desc' => $tile->getAlternativeActionDesc(),
+        ];
+      }
+    }
 
     $args = [
       'spaces' => $choices->toAssoc(),
       'constructSpaces' => $constructSpaces,
-      'anytimeActions' => $anyTime,
+      'alternativeActions' => $alternativeActions,
       'canSkip' => !$company->hasAvailableEngineer(),
     ];
 

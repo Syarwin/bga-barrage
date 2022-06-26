@@ -478,28 +478,23 @@ class Company extends \BRG\Helpers\DB_Model
     return 0;
   }
 
-  /********** Check Anytime ****************/
-  public function getAnyTimeActions()
+  ////////////////////////////////////////////////////////
+  //   ___    _____               _____ _ _
+  //  / _ \  | ____|_ __   __ _  |_   _(_) | ___  ___
+  // | | | | |  _| | '_ \ / _` |   | | | | |/ _ \/ __|
+  // | |_| | | |___| | | | (_| |   | | | | |  __/\__ \
+  //  \___/  |_____|_| |_|\__, |   |_| |_|_|\___||___/
+  //                      |___/
+  ////////////////////////////////////////////////////////
+  public function getEngineerFreeTiles()
   {
-    $anytime = ['childs' => []];
-    foreach (self::getAvailableTechTiles() as $tile) {
-      if ($tile->isAnyTime()) {
-        // throw new \feException(print_r(\debug_print_backtrace()));
-        // throw new \feException(print_r($tile));
-        $anytime['childs'][] = array_merge(
-          [
-            'id' => $tile->getId(),
-            'desc' => $tile->getAnyTimeDesc(),
-          ],
-          $tile->getPowerFlow(null)
-        );
-      }
-    }
-    return $anytime;
+    return self::getAvailableTechTiles()->filter(function($tile){
+      return $tile->isAlternativeAction();
+    });
   }
 
-  public function hasAnyTimeActions()
+  public function hasEngineerFreeTiles()
   {
-    return count($this->getAnyTimeActions()['childs']) > 0;
+    return !$this->getEngineerFreeTiles()->empty();
   }
 }

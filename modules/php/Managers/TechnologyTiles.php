@@ -17,20 +17,20 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
 
   static $classes = [
     L1_BASE => 'L1Base',
-    \L1_ELEVATION => 'L1Elevation',
-    \L1_CONDUIT => 'L1Conduit',
-    \L1_POWERHOUSE => 'L1Powerhouse',
-    \L1_JOKER => 'L1Joker',
-    \L2_BASE => 'L2Base',
-    \L2_ELEVATION => 'L2Elevation',
-    \L2_CONDUIT => 'L2Conduit',
-    \L2_POWERHOUSE => 'L2Powerhouse',
-    \L2_JOKER => 'L2Joker',
-    \L3_BASE => 'L3Base',
-    \L3_ELEVATION => 'L3Elevation',
-    \L3_CONDUIT => 'L3Conduit',
-    \L3_POWERHOUSE => 'L3Powerhouse',
-    \L3_JOKER => 'L3Joker',
+    L1_ELEVATION => 'L1Elevation',
+    L1_CONDUIT => 'L1Conduit',
+    L1_POWERHOUSE => 'L1Powerhouse',
+    L1_JOKER => 'L1Joker',
+    L2_BASE => 'L2Base',
+    L2_ELEVATION => 'L2Elevation',
+    L2_CONDUIT => 'L2Conduit',
+    L2_POWERHOUSE => 'L2Powerhouse',
+    L2_JOKER => 'L2Joker',
+    L3_BASE => 'L3Base',
+    L3_ELEVATION => 'L3Elevation',
+    L3_CONDUIT => 'L3Conduit',
+    L3_POWERHOUSE => 'L3Powerhouse',
+    L3_JOKER => 'L3Joker',
   ];
 
   protected static function cast($row)
@@ -58,31 +58,36 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       ->toArray();
   }
 
-  /* Creation of advanced tech tiles */
-  public static function setupAdvancedTiles()
+  /**
+   * Generic base query
+   */
+  public function getFilteredQuery($cId, $location = null)
   {
-    $meeples = [];
-    foreach (L1_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL1'];
+    $query = self::getSelectQuery();
+    if ($cId != null) {
+      $query = $query->where('company_id', $cId);
     }
-    foreach (L2_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL2'];
+    if ($location != null) {
+      $query = $query->where('tile_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
     }
-    foreach (L3_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL3'];
-    }
-
-    self::create($meeples);
-
-    for ($i = 1; $i <= 3; $i++) {
-      // shuffle each deck
-      self::shuffle('deckL' . $i);
-
-      // pick the advanced tiles
-      self::pickForLocation(1, 'deckL1', 'patent_' . $i);
-    }
-    return;
+    return $query;
   }
+
+  public function getOnWheel($cId, $slot)
+  {
+    return self::getFilteredQuery($cId, 'wheel')
+      ->where('tile_state', $slot)
+      ->get();
+  }
+
+  ///////////////////////////////////
+  //  ____       _
+  // / ___|  ___| |_ _   _ _ __
+  // \___ \ / _ \ __| | | | '_ \
+  //  ___) |  __/ |_| |_| | |_) |
+  // |____/ \___|\__|\__,_| .__/
+  //                      |_|
+  ///////////////////////////////////
 
   public static function setupCompany($company)
   {
@@ -111,6 +116,41 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
 
     return $meeples;
   }
+
+  /* Creation of advanced tech tiles */
+  public static function setupAdvancedTiles()
+  {
+    $meeples = [];
+    foreach (L1_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL1'];
+    }
+    foreach (L2_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL2'];
+    }
+    foreach (L3_TILES as $type) {
+      $meeples[] = ['type' => $type, 'location' => 'deckL3'];
+    }
+
+    self::create($meeples);
+
+    for ($i = 1; $i <= 3; $i++) {
+      // shuffle each deck
+      self::shuffle('deckL' . $i);
+
+      // pick the advanced tiles
+      self::pickForLocation(1, 'deckL1', 'patent_' . $i);
+    }
+    return;
+  }
+
+  //////////////////////////////////////////////////////////////
+  //  _   _                 ____                       _
+  // | \ | | _____      __ |  _ \ ___  _   _ _ __   __| |
+  // |  \| |/ _ \ \ /\ / / | |_) / _ \| | | | '_ \ / _` |
+  // | |\  |  __/\ V  V /  |  _ < (_) | |_| | | | | (_| |
+  // |_| \_|\___| \_/\_/   |_| \_\___/ \__,_|_| |_|\__,_|
+  //
+  //////////////////////////////////////////////////////////////
   public function newRound()
   {
     // discard all tiles
@@ -136,27 +176,5 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       }
     }
     Notifications::refillTechTiles($created);
-  }
-
-  /**
-   * Generic base query
-   */
-  public function getFilteredQuery($cId, $location = null)
-  {
-    $query = self::getSelectQuery();
-    if ($cId != null) {
-      $query = $query->where('company_id', $cId);
-    }
-    if ($location != null) {
-      $query = $query->where('tile_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
-    }
-    return $query;
-  }
-
-  public function getOnWheel($cId, $slot)
-  {
-    return self::getFilteredQuery($cId, 'wheel')
-      ->where('tile_state', $slot)
-      ->get();
   }
 }

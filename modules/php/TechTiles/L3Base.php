@@ -10,21 +10,25 @@ use BRG\Map;
  * Level 3 base
  */
 
-class L3Base extends \BRG\TechTiles\BasicTile
+class L3Base extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = BASE;
+  public function getDescs()
   {
-    return $structure == BASE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, you do not have to place Engineers in a construction action space of your Company board. In addition, you do not have to place the requested Excavators in your Construction Wheel.'
+    );
+    $descs[] = clienttranslate(
+      '(Since you are not using Engineers to perform this action, this can be your last action of the Round even if you run out of Engineers.'
+    );
+    return $descs;
   }
 
-  public function isAnyTime()
+  protected $alternativeAction = true;
+  public function getAlternativeActionDesc()
   {
-    return true;
-  }
-
-  public function getAnyTimeDesc()
-  {
-    return clienttranslate('Construct a base<BASE> without engineer(s)<ENGINEER> & excavator(s)<EXCAVATOR>');
+    return clienttranslate('Construct a <BASE> without <ENGINEER> & <EXCAVATOR>');
   }
 
   public function getPowerFlow($slot)

@@ -1,25 +1,25 @@
 <?php
 namespace BRG\TechTiles;
 
-use BRG\Managers\Companies;
-use BRG\Managers\TechnologyTiles;
-use BRG\Managers\Meeples;
-use BRG\Map;
-
 /*
  * Level 1 elevation
  */
 
-class L1Elevation extends \BRG\TechTiles\BasicTile
+class L1Elevation extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = ELEVATION;
+  public function getDescs()
   {
-    return $structure == \ELEVATION;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, rotate your Construction Wheel by 1 segment for every Elevation that you have built. Count also the Elevation you have just built using this tile.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)
   {
-    $company = Companies::get($this->cId);
+    $company = $this->getCompany();
     $rotate = count($company->getBuiltStructures(ELEVATION));
 
     if ($rotate > 0) {

@@ -41,7 +41,7 @@ trait ActionTrait
   /**
    * Add anytime actions
    */
-  function addArgsAnytimeAction()
+  function addArgsAnytimeAction(&$args, $action)
   {
     // If the action is auto => don't display anytime buttons
     if ($args['automaticAction'] ?? false) {
@@ -49,35 +49,29 @@ trait ActionTrait
     }
     $company = Companies::getActive();
 
-    // Anytime cards
-    $listeningTiles = $company->getAnyTimeActions();
-
-    // Keep only doable actions
     $anytimeActions = [];
-    foreach ($listeningTiles['childs'] as $flow) {
-      $tree = Engine::buildTree($flow);
-      if ($tree->isDoable($company, null, false)) {
-        $anytimeActions[] = [
-          'flow' => $flow,
-          'desc' => $flow['desc'] ?? $tree->getDescription(true),
-        ];
-      }
-    }
-    return $anytimeActions;
+    $args['alternativeActions'] = array_merge($args['alternativeActions'] ?? [], $anytimeActions);
   }
 
-  function actAnytimeAction($choiceId)
+  function actAlternativeAction($choiceId)
   {
     $args = $this->gamestate->state()['args'];
-    if (!isset($args['anytimeActions'][$choiceId])) {
-      throw new \BgaVisibleSystemException('You can\'t take this anytime action');
+    if (!isset($args['alternativeActions'][$choiceId])) {
+      throw new \BgaVisibleSystemException('You can\'t take this alternative action');
     }
 
-    $flow = $args['anytimeActions'][$choiceId]['flow'];
+    $action = $args['alternativeActions'][$choiceId];
+    $flow = $action['flow'];
     Globals::incEngineChoices();
-    Engine::insertAsChild($flow, false);
-    // we resolve the action as it replaces the place engineer action
-    Engine::resolveAction(['anytimeAction' => $choiceId]);
+
+    // Insert the flow as child or at root depending on the 'resolve' flag
+    if($action['resolve'] ?? true){
+      Engine::insertAsChild($flow, false);
+      Engine::resolveAction(['alternativeAction' => $choiceId]);
+    } else {
+      Engine::insertAtRoot($flow, false);
+    }
+
     Engine::proceed();
   }
 
@@ -86,7 +80,6 @@ trait ActionTrait
    */
   function actTakeAtomicAction($args)
   {
-    // throw new \feException(print_r($args));
     $action = $this->getCurrentAtomicAction();
     Actions::takeAction($action, $args, Engine::getNextUnresolved());
   }
@@ -119,21 +112,5 @@ trait ActionTrait
   {
     $action = $this->getCurrentAtomicAction();
     Actions::stAction($action, Engine::getNextUnresolved());
-  }
-
-  function actSkip()
-  {
-    self::checkAction('actSkip');
-    $company = Companies::getActive();
-    if ($company->hasAvailableEngineer()) {
-      throw new \BgaUserException(clienttranslate('You cannot skip your turn, you have remaining engineers'));
-    }
-
-    $skipped = Globals::getSkippedCompanies();
-    $skipped[] = $company->getId();
-    Globals::setSkippedCompanies($skipped);
-    Notifications::message(clienttranslate('${company_name} skips his turn'), ['company' => $company]);
-    $this->nextPlayerCustomOrder('actionPhase');
-    return;
   }
 }

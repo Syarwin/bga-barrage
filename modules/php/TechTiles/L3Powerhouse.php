@@ -11,11 +11,16 @@ use BRG\Map;
  * Level 3 powerhouse
  */
 
-class L3Powerhouse extends \BRG\TechTiles\BasicTile
+class L3Powerhouse extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = POWERHOUSE;
+  public function getDescs()
   {
-    return $structure == \POWERHOUSE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, scre 3 Victory Points for each Powerhouse you have built. Count also the Powerhoure you have just built using this tile.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)
