@@ -44,14 +44,19 @@ trait DebugTrait
     //   // 'optional' => true,
     //   'args' => ['germanPower' => true],
     // ]);
-    // Engine::resolveAction([]);
-    // Engine::proceed();
+    Engine::insertAsChild([
+      'action' => \PRODUCE,
+      'optional' => true,
+      'args' => ['germanPower' => true],
+    ]);
+    Engine::resolveAction([]);
+    Engine::proceed();
     // $this->gamestate->jumpToState(ST_RETURNING_HOME);
     // throw new \feException(print_r(Map::getConstructSlots()));
     // Engine::setup(['action' => PLACE_STRUCTURE, 'args' => ['type' => CONDUIT, 'n' => 3]], ['order' => 'incomePhase']);
     // Engine::proceed();
     // Companies::getActive()->incEnergy(20);
-    $this->gamestate->jumpToState(ST_RETURNING_HOME);
+    // $this->gamestate->jumpToState(ST_RETURNING_HOME);
   }
 
   public function tv()

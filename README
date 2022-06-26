@@ -2,7 +2,6 @@ bug
 
 Essentiel
 
-- display pour Mahiri slot
 - option pour flottant / modal les company board / XO
 - afficher les boards dans le "draft"
 - option pour flottant / modal pour l'energy track
@@ -11,6 +10,7 @@ Essentiel
 - ajouter des tooltips sur les tech tiles
 - améliorer l'afficher des tech tiles advanced sur la summary wheel
 - enlever le slot du haut de la summary wheel
+- Mahiri a 2 joueurs: randomly select 2 others XO avilable for copy
 
 Un peu Essentiel
 
