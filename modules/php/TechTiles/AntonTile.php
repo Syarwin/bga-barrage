@@ -11,6 +11,15 @@ use BRG\Core\Globals;
 
 class AntonTile extends \BRG\TechTiles\BasicTile
 {
+  public function getDescs()
+  {
+    return [
+      clienttranslate(
+        'When you use this Technology tile you can copy another Technology tile of your choice on your Construction Wheel. This special tile copies both the main building effect and the special effect of the copied tile.'
+      ),
+    ];
+  }
+
   public function activate($tile)
   {
     Globals::setAntonPower($tile);
@@ -105,24 +114,18 @@ class AntonTile extends \BRG\TechTiles\BasicTile
   public function getUnitsModifier($n)
   {
     $tile = $this->getCopiedTile();
-    return is_null($tile)
-      ? parent::getUnitsModifier($n)
-      : $tile->getUnitsModifier($n);
+    return is_null($tile) ? parent::getUnitsModifier($n) : $tile->getUnitsModifier($n);
   }
 
   public function isAutomatic()
   {
     $tile = $this->getCopiedTile();
-    return is_null($tile)
-      ? parent::isAutomatic()
-      : $tile->isAutomatic();
+    return is_null($tile) ? parent::isAutomatic() : $tile->isAutomatic();
   }
 
   public function ignoreCostMalus()
   {
     $tile = $this->getCopiedTile();
-    return is_null($tile)
-      ? parent::ignoreCostMalus()
-      : $tile->ignoreCostMalus();
+    return is_null($tile) ? parent::ignoreCostMalus() : $tile->ignoreCostMalus();
   }
 }
