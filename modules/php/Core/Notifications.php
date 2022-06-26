@@ -73,7 +73,7 @@ class Notifications
     ]);
   }
 
-  public static function assignCompany($player, $company)
+  public static function assignCompany($player, $company, $meeples, $tiles)
   {
     self::notifyAll('assignCompany', clienttranslate('${player_name} picks ${company_name}'), [
       'player' => $player,
@@ -81,6 +81,8 @@ class Notifications
       'company_id' => $company->getId(),
       'datas' => $company,
       'actionSpaces' => CompanyActionBoard::getUiData($company->getId()),
+      'meeples' => $meeples->toArray(),
+      'tiles' => $tiles->toArray(),
     ]);
   }
 
@@ -398,6 +400,14 @@ class Notifications
       'target' => $target,
       'meeple' => $meeple,
       'bonuses' => Game::get()->computeBonuses(),
+    ]);
+  }
+
+  public static function newIncomeRevealed($company)
+  {
+    self::notifyAll('updateIncome', clienttranslate('${company_name} reveals a new income. A bonus will be earned.'), [
+      'company' => $company,
+      'incomes' => $company->getIncomes(),
     ]);
   }
 

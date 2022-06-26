@@ -21,6 +21,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     'setup' => 'int',
     'lWP' => 'bool',
     'map' => 'int',
+    'countCompanies' => 'int', // Useful when companies DB is not filled up yet
 
     // Storage
     'headstreams' => 'obj',
@@ -161,6 +162,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     self::setSetup($options[\BRG\OPTION_SETUP]);
     self::setLWP(($options[\BRG\OPTION_EXPANSION_LWP] ?? null) == \BRG\OPTION_EXPANSION_LWP_ON);
     self::setMap(MAP_BASE);
+    self::setCountCompanies(count($players)); // TODO : handle automas
 
     self::setRound(0);
   }

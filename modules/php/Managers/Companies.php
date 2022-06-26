@@ -48,11 +48,9 @@ class Companies extends \BRG\Helpers\DB_Manager
 
   public function assignCompany($player, $cId, $xId)
   {
-    $nAutomas = 0; // TODO
-
     self::DB()->insert([
       'id' => $cId,
-      'no' => $nAutomas + self::count(true) + 1,
+      'no' => self::count() - self::getAll()->count(),
       'player_id' => $player->getId(),
       'name' => $player->getName(),
       'xo' => $xId,
@@ -78,13 +76,9 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * Return the number of companies
    */
-  protected static $nCompanies = null;
-  public function count($forceRefresh = false)
+  public function count()
   {
-    if (is_null(self::$nCompanies) || $forceRefresh) {
-      self::$nCompanies = self::DB()->count();
-    }
-    return self::$nCompanies;
+    return Globals::getCountCompanies();
   }
 
   public function getAll()

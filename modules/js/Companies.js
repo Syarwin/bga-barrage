@@ -81,9 +81,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       );
 
       // Create company board
-      this.place('tplCompanyBoard', company, 'company-boards-container');
-      this.updateWheelAngle(company);
-      this.addBoardIncomes(company);
+      if ($(`company-board-${company.id}`)) {
+        // Already existing = dyring pickStart
+        $(`company-board-${company.id}`).querySelector('.company-owner').innerHTML = _(company.name);
+        this.slide(`company-board-${company.id}`, 'company-boards-container');
+        if (this.player_id == company.pId) {
+          $(`company-board-${company.id}`).classList.add('current');
+        }
+      } else {
+        this.place('tplCompanyBoard', company, 'company-boards-container');
+        this.updateWheelAngle(company);
+        this.addBoardIncomes(company);
+      }
     },
 
     tplPlayerPanel(company) {
@@ -165,7 +174,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       );
     },
 
-    tplResourceCounter(company, res, prefix = '') {
+    tplResourceCounter(company, res, prefix = '', val = '') {
       let iconName = res.toUpperCase();
       let dataAttr = ['engineer', 'base', 'elevation', 'conduit', 'powerhouse'].includes(res)
         ? ` data-company='${company.id}'`
@@ -173,7 +182,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       return `
         <div class='company-resource resource-${res}'>
-          <span id='${prefix}resource_${company.id}_${res}' class='${prefix}resource_${res}'></span>
+          <span id='${prefix}resource_${company.id}_${res}' class='${prefix}resource_${res}'>${val}</span>
           <div class="meeple-container">
             <div class="barrage-meeple meeple-${res}"${dataAttr}>
             </div>
@@ -200,7 +209,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
         <div class='company-board-wrapper'>
           <div class='company-owner-wrapper'>
-            <div class='company-owner' style='color:#${company.color}'>
+            <div class='company-owner' style='color:#${this.getCompanyColor(id)}'>
               ${_(company.name)}
             </div>
           </div>
@@ -211,7 +220,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
           <div class="company-board-resources">
           ` +
-        RESOURCES.map((res) => this.tplResourceCounter(company, res, 'company_')).join('') +
+        RESOURCES.map((res) =>
+          this.tplResourceCounter(company, res, 'company_', company.officer.startingResources[res]),
+        ).join('') +
         `
           </div>
 
@@ -301,6 +312,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return COMPANY_NAMES[companyId];
     },
 
+    getCompanyColor(companyId) {
+      const COMPANY_COLORS = {
+        1: 'be2748',
+        2: '1b1b1b',
+        3: '13757e',
+        4: 'ffffff',
+        5: 'ea4e1b',
+      };
+
+      return COMPANY_COLORS[companyId];
+    },
+
     coloredCompanyName(name) {
       const company = Object.values(this.gamedatas.companies).find((company) => company.name == name);
       if (company == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
@@ -383,76 +406,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.forEachCompany((company) => {
         this._energyCounters[company.id].toValue(0);
       });
+      n.args.tokens.forEach((token) => {
+        $t(`meeple-${token.id}`).dataset.flip = 0;
+      });
       this.slideResources(n.args.tokens, {});
-    },
-
-    onEnteringStatePickStart(args) {
-      let selectedMatchup = null;
-      let selectedContract = null;
-      let updateButton = () => {
-        dojo.destroy('btnConfirmChoice');
-        if (selectedMatchup != null && selectedContract != null) {
-          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
-            this.takeAction('actPickStart', { matchup: selectedMatchup, contract: selectedContract }),
-          );
-        }
-      };
-
-      Object.keys(args.matchups).forEach((i) => {
-        let matchup = args.matchups[i];
-        this.addPrimaryActionButton('btnMatchup' + i, _(matchup.cName) + ' & ' + _(matchup.xName), () => {
-          if (selectedMatchup != null) {
-            $(`btnMatchup${selectedMatchup}`).classList.remove('selected');
-          }
-
-          if (selectedMatchup == i) {
-            selectedMatchup = null;
-          } else {
-            selectedMatchup = i;
-            $(`btnMatchup${i}`).classList.add('selected');
-          }
-          updateButton();
-        });
-      });
-
-      Object.keys(args.contracts).forEach((contractId) => {
-        let contract = args.contracts[contractId];
-        this.addContract(contract);
-        this.onClick(`contract-${contract.id}`, () => {
-          if (selectedContract != null) {
-            $(`contract-${selectedContract}`).classList.remove('selected');
-          }
-
-          if (selectedContract == contract.id) {
-            selectedContract = null;
-          } else {
-            selectedContract = contract.id;
-            $(`contract-${contract.id}`).classList.add('selected');
-          }
-          updateButton();
-        });
-      });
-    },
-
-    notif_assignCompany(n) {
-      debug('Notif: assigning company to someone', n);
-      let company = n.args.datas;
-      company.color = COLOR_MAPPING[company.id];
-      let pId = n.args.player_id;
-      ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
-        $(id + this.gamedatas.players[pId].color).id = id + company.color;
-      });
-      $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
-      this.gamedatas.players[pId].color = company.color;
-      this.gamedatas.companies[n.args.company_id] = company;
-      this.setupCompany(company);
-      this.setupCompanyCounters(company);
-      this.updateCompaniesCounters();
-      n.args.actionSpaces.forEach((row) => {
-        let cId = row[0].cId;
-        let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
-        this.place('tplActionBoardRow', row, container);
-      });
     },
 
     notif_setupCompanies(n) {
@@ -502,6 +459,103 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         $(`company-position-${cId}`).innerHTML = nos[no];
       });
       this.updateCompaniesOrder();
+    },
+
+    ///////////////////////////////////////////////////
+    //  ____  _      _      ____  _             _
+    // |  _ \(_) ___| | __ / ___|| |_ __ _ _ __| |_
+    // | |_) | |/ __| |/ / \___ \| __/ _` | '__| __|
+    // |  __/| | (__|   <   ___) | || (_| | |  | |_
+    // |_|   |_|\___|_|\_\ |____/ \__\__,_|_|   \__|
+    //
+    ///////////////////////////////////////////////////
+    onEnteringStatePickStart(args) {
+      let selectedMatchup = null;
+      let selectedContract = null;
+      let updateButton = () => {
+        dojo.destroy('btnConfirmChoice');
+        if (selectedMatchup != null && selectedContract != null) {
+          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
+            this.takeAction('actPickStart', { matchup: selectedMatchup, contract: selectedContract }),
+          );
+        }
+      };
+
+      Object.keys(args.matchups).forEach((i) => {
+        let matchup = args.matchups[i];
+        let text = _(this.getCompanyName(matchup.company.id)) + ' & ' + _(matchup.officer.name);
+        // Create company board if needed
+        if (!$(`company-board-${matchup.company.id}`)) {
+          matchup.company.name = text;
+          matchup.company.officer = matchup.officer;
+          this.place('tplCompanyBoard', matchup.company, 'pickStart-companies');
+          this.addBoardIncomes(matchup.company);
+        }
+
+        // Add button if active
+        if (this.isCurrentPlayerActive()) {
+          this.addPrimaryActionButton('btnMatchup' + i, text, () => {
+            if (selectedMatchup != null) {
+              $(`btnMatchup${selectedMatchup}`).classList.remove('selected');
+            }
+
+            if (selectedMatchup == i) {
+              selectedMatchup = null;
+            } else {
+              selectedMatchup = i;
+              $(`btnMatchup${i}`).classList.add('selected');
+            }
+            updateButton();
+          });
+        }
+      });
+      this.attachRegisteredTooltips();
+
+      Object.keys(args.contracts).forEach((contractId) => {
+        let contract = args.contracts[contractId];
+        this.addContract(contract);
+
+        if (this.isCurrentPlayerActive()) {
+          this.onClick(`contract-${contract.id}`, () => {
+            if (selectedContract != null) {
+              $(`contract-${selectedContract}`).classList.remove('selected');
+            }
+
+            if (selectedContract == contract.id) {
+              selectedContract = null;
+            } else {
+              selectedContract = contract.id;
+              $(`contract-${contract.id}`).classList.add('selected');
+            }
+            updateButton();
+          });
+        }
+      });
+    },
+
+    notif_assignCompany(n) {
+      debug('Notif: assigning company to someone', n);
+      let company = n.args.datas;
+      company.color = COLOR_MAPPING[company.id];
+      let pId = n.args.player_id;
+      ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
+        $(id + this.gamedatas.players[pId].color).id = id + company.color;
+      });
+      $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
+      this.gamedatas.players[pId].color = company.color;
+      this.gamedatas.companies[n.args.company_id] = company;
+      this.setupCompany(company);
+      this.setupCompanyCounters(company);
+      this.updateCompaniesCounters();
+      n.args.actionSpaces.forEach((row) => {
+        let cId = row[0].cId;
+        let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+        this.place('tplActionBoardRow', row, container);
+      });
+
+      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      n.args.tiles.forEach((tile) => this.addTechTile(tile));
+      this.updateCompaniesCounters();
     },
 
     //////////////////////////////////////////
@@ -644,15 +698,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     updateCompanyIncomes() {
       this.forEachCompany((company) => {
         let incomes = this.gamedatas.companies[company.id].incomes;
-        let hasIncome = incomes.descs.length > 0;
+        let hasIncome = Object.keys(incomes).length > 0;
         let container = $(`company-income-${company.id}`);
         container.innerHTML = '';
 
         if (hasIncome) {
-          let icons = incomes.icons.map((t) => this.formatString(t)).join('');
+          let icons = this.convertFlowToIcons(incomes).join('');
           dojo.place(icons, container);
 
-          let desc = incomes.descs.map((t) => this.translate(t)).join('<br />');
+          let desc = this.convertFlowToDescs(incomes).join('<br />');
           this.addCustomTooltip(container, desc);
         }
       });
@@ -664,8 +718,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         Object.keys(incomes).forEach((n) => {
           let income = incomes[n];
           let rank = (structure == 'powerhouse' ? 4 : 5) - n;
-          let icons = income.i.map((t) => this.formatString(t));
-          let desc = income.d.map((t) => this.translate(t)).join('<br />');
+          let icons = this.convertFlowToIcons(income);
+          let desc = this.convertFlowToDescs(income);
 
           let uid = this.registerCustomTooltip(desc);
           dojo.place(
@@ -674,6 +728,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           );
         });
       });
+    },
+
+    notif_updateIncome(n) {
+      debug('Notif: updating income', n);
+      this.gamedatas.companies[n.args.company_id].incomes = n.args.incomes;
+      this.updateCompanyIncomes();
     },
   });
 });

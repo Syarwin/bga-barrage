@@ -29,8 +29,7 @@ class Contract extends \BRG\Helpers\DB_Model
   public function jsonSerialize()
   {
     $data = parent::jsonSerialize();
-    $data['icons'] = $this->computeIcons();
-    $data['descs'] = $this->computeDescs();
+    $data['reward'] = $this->reward;
     $data['cost'] = $this->cost;
     return $data;
   }
@@ -43,16 +42,6 @@ class Contract extends \BRG\Helpers\DB_Model
   public function fulfill($company)
   {
     $this->setLocation('fulfilled_' . $company->getId());
-  }
-
-  private function computeIcons()
-  {
-    return FlowConvertor::computeIcons($this->reward);
-  }
-
-  private function computeDescs()
-  {
-    return FlowConvertor::computeDescs($this->reward);
   }
 
   public function computeRewardFlow()

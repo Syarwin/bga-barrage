@@ -79,7 +79,7 @@ class Company extends \BRG\Helpers\DB_Model
       'energy' => $this->energy,
       'wheelAngle' => $this->slot,
       'boardIncomes' => $this->getBoardIncomesUI(),
-      'incomes' => $this->getIncomesUI(),
+      'incomes' => $this->getIncomes(),
     ];
 
     return $data;
@@ -117,6 +117,15 @@ class Company extends \BRG\Helpers\DB_Model
   // |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
   //
   /////////////////////////////////////////////////////
+  public function getStartingResources()
+  {
+    return $this->officer->getStartingResources() ?? [
+      ENGINEER => 12,
+      CREDIT => 6,
+      EXCAVATOR => 6,
+      MIXER => 4,
+    ];
+  }
 
   public function getAllReserveResources()
   {
@@ -423,27 +432,7 @@ class Company extends \BRG\Helpers\DB_Model
   ////////////////////////////////////////////////
   public function getBoardIncomesUI()
   {
-    $incomes = [];
-    foreach ($this->boardIncomes as $structureType => $slotIncomes) {
-      $incomes[$structureType] = [];
-      foreach ($slotIncomes as $n => $income) {
-        $incomes[$structureType][$n] = [
-          'i' => FlowConvertor::computeIcons($income),
-          'd' => FlowConvertor::computeDescs($income),
-        ];
-      }
-    }
-
-    return $incomes;
-  }
-
-  public function getIncomesUI()
-  {
-    $rewards = $this->getIncomes();
-    return [
-      'icons' => FlowConvertor::computeIcons($rewards),
-      'descs' => FlowConvertor::computeDescs($rewards),
-    ];
+    return $this->boardIncomes;
   }
 
   public function getIncomes()
@@ -512,33 +501,5 @@ class Company extends \BRG\Helpers\DB_Model
   public function hasAnyTimeActions()
   {
     return count($this->getAnyTimeActions()['childs']) > 0;
-  }
-
-  /******************** SETUP *********************/
-  public function getStartCredit()
-  {
-    $off = $this->officer->getStartCredit();
-    if ($off < 0) {
-      return 6;
-    }
-    return $off;
-  }
-
-  public function getStartMixer()
-  {
-    $off = $this->officer->getStartMixer();
-    if ($off < 0) {
-      return 4;
-    }
-    return $off;
-  }
-
-  public function getStartExcavator()
-  {
-    $off = $this->officer->getStartExcavator();
-    if ($off < 0) {
-      return 6;
-    }
-    return $off;
   }
 }

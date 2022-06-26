@@ -160,10 +160,10 @@
 
       &.selectable {
         cursor: pointer;
-        background: #ff000057;
+        background-color: #ff000057;
 
         &:hover {
-          background: #ff000090;
+          background-color: #ff000090;
         }
       }
 
@@ -173,7 +173,7 @@
         margin-top: -1px;
         margin-left: -1px;
         &.selectable:hover {
-          background: #238806aa;
+          background-color: #238806aa;
         }
       }
     }

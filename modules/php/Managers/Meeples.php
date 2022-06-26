@@ -2,6 +2,7 @@
 namespace BRG\Managers;
 use BRG\Core\Stats;
 use BRG\Helpers\UserException;
+use BRG\Helpers\Collection;
 
 /* Class to manage all the meeples for Barrage */
 
@@ -30,45 +31,41 @@ class Meeples extends \BRG\Helpers\Pieces
   }
 
   /* Creation of various meeples */
-  public static function setupCompanies($companies)
+  public static function setupCompany($company)
   {
-    $meeples = [];
-    foreach ($companies as $cId => $company) {
-      $meeples[] = ['type' => \ENGINEER, 'company_id' => $cId, 'location' => 'reserve', 'nbr' => 12];
+    $cId = $company->getId();
+    foreach ($company->getStartingResources() as $type => $nbr) {
       $meeples[] = [
-        'type' => \CREDIT,
+        'type' => $type,
         'company_id' => $cId,
         'location' => 'reserve',
-        'nbr' => $company->getStartCredit(),
+        'nbr' => $nbr,
       ];
-      $meeples[] = [
-        'type' => \EXCAVATOR,
-        'company_id' => $cId,
-        'location' => 'reserve',
-        'nbr' => $company->getStartExcavator(),
-      ];
-      $meeples[] = [
-        'type' => \MIXER,
-        'company_id' => $cId,
-        'location' => 'reserve',
-        'nbr' => $company->getStartMixer(),
-      ];
-
-      // Structures
-      for ($i = 0; $i < 5; $i++) {
-        $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        if ($i < 4) {
-          $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        }
-        // TODO : expansion : create buildings
-      }
-
-      $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
     }
 
+    // Structures
+    for ($i = 0; $i < 5; $i++) {
+      $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      if ($i < 4) {
+        $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      }
+      // TODO : expansion : create buildings
+    }
+
+    $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
     return self::getMany(self::create($meeples));
+  }
+
+  public static function setupCompanies($companies)
+  {
+    $meeples = new Collection();
+    foreach ($companies as $cId => $company) {
+      $meeples = $meeples->merge(self::setupCompany($company));
+    }
+
+    return $meeples;
   }
 
   /**

@@ -213,6 +213,10 @@ const PRODUCTION_BONUS = 'production_bonus';
 
 const SPECIAL_POWER = 'special_power';
 const SPECIAL_POWER_USA = 'special_power_usa';
+const SPECIAL_POWER_ITALY = 'special_power_italy';
+const SPECIAL_POWER_FRANCE = 'special_power_france';
+const SPECIAL_POWER_GERMANY = 'special_power_germany';
+const SPECIAL_POWER_NETHERLANDS = 'special_power_netherlands';
 
 /*
  * Boards

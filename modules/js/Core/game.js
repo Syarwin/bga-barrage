@@ -959,6 +959,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       Object.keys(this._registeredCustomTooltips).forEach((id) =>
         this.addCustomTooltip(id, this._registeredCustomTooltips[id]),
       );
+      this._registeredCustomTooltips = {};
     },
     addCustomTooltip(id, html, delay) {
       if (this.tooltips[id]) {
