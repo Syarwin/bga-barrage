@@ -62,9 +62,9 @@ trait SetupTrait
 
     // Introductory setup : assign companies
     if (Globals::isBeginner()) {
-      $i = 0;
+      $i = 1;
       foreach (Players::getAll() as $pId => $player) {
-        $matchup = INTRODUCTORY_MATCHUPS[$i++];
+        $matchup = INTRODUCTORY_MATCHUPS[Companies::count() - $i++];
         $company = Companies::assignCompany($player, $matchup[0], $matchup[1]);
         $contract = Contracts::get($matchup[2]);
         $contract->pick($company);

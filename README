@@ -6,7 +6,6 @@ Essentiel
 - option pour flottant / modal les company board / XO
 - option pour flottant / modal pour l'energy track
 - ajuster le layout sur écran plus petit
-- mettre à jour l'income (notif)
 - ajouter des tooltips sur les tech tiles
 - améliorer l'afficher des tech tiles advanced sur la summary wheel
 - enlever le slot du haut de la summary wheel
@@ -31,3 +30,4 @@ done
 - mieux gérer/réparer le score quand > 30.
 - faire l'image de fond pour l'action board des tuiles advanced
 - ajouter un compteur d'energy à côté du compteur de score (peut être en option ?)
+- mettre à jour l'income (notif)

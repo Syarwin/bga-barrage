@@ -2,6 +2,7 @@
 namespace BRG\Managers;
 use BRG\Core\Stats;
 use BRG\Helpers\UserException;
+use BRG\Helpers\Collection;
 
 /* Class to manage all the meeples for Barrage */
 
