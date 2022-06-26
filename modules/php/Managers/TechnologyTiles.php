@@ -84,26 +84,33 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     return;
   }
 
-  public static function setupCompanies($companies)
+  public static function setupCompany($company)
   {
+    $cId = $company->getId();
     $meeples = [];
-    foreach ($companies as $cId => $company) {
-      $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company'];
-      $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company'];
-      $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company'];
-      $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company'];
-      if (Globals::isBeginner()) {
-        $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
-      }
-
-      if ($company->isXO(\XO_ANTON)) {
-        $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];
-      }
+    $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company'];
+    $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company'];
+    $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company'];
+    $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company'];
+    if (Globals::isBeginner()) {
+      $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
     }
 
+    if ($company->isXO(\XO_ANTON)) {
+      $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];
+    }
     return self::getMany(self::create($meeples));
   }
 
+  public static function setupCompanies($companies)
+  {
+    $meeples = new Collection();
+    foreach ($companies as $cId => $company) {
+      $meeples = $meeples->merge(self::setupCompany($company));
+    }
+
+    return $meeples;
+  }
   public function newRound()
   {
     // discard all tiles

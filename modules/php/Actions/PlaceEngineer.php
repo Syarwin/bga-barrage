@@ -79,7 +79,8 @@ class PlaceEngineer extends \BRG\Models\Action
   function argsPlaceEngineer()
   {
     $company = Companies::getActive();
-    $spaces = self::getPlayableSpaces($company)->map(function ($space) use ($company) {
+    $spaces = self::getPlayableSpaces($company);
+    $choices = $spaces->map(function ($space) use ($company) {
       $n = $space['nEngineers'];
       $choices = [$n];
       if ($n == 0) {
@@ -94,10 +95,19 @@ class PlaceEngineer extends \BRG\Models\Action
       return $choices;
     });
 
+    // Compute construct spaces to add buttons
+    $constructSpaces = $spaces
+      ->filter(function ($space) {
+        return ($space['flow']['action'] ?? null) == \CONSTRUCT;
+      })
+      ->getIds();
+
+    // Add anytime actions
     $anyTime = Game::get()->addArgsAnytimeAction();
 
     $args = [
-      'spaces' => $spaces->toAssoc(),
+      'spaces' => $choices->toAssoc(),
+      'constructSpaces' => $constructSpaces,
       'anytimeActions' => $anyTime,
       'canSkip' => !$company->hasAvailableEngineer(),
     ];

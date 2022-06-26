@@ -552,6 +552,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
         this.place('tplActionBoardRow', row, container);
       });
+
+      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      n.args.tiles.forEach((tile) => this.addTechTile(tile));
+      this.updateCompaniesCounters();
     },
 
     //////////////////////////////////////////
@@ -694,15 +698,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     updateCompanyIncomes() {
       this.forEachCompany((company) => {
         let incomes = this.gamedatas.companies[company.id].incomes;
-        let hasIncome = incomes.descs.length > 0;
+        let hasIncome = Object.keys(incomes).length > 0;
         let container = $(`company-income-${company.id}`);
         container.innerHTML = '';
 
         if (hasIncome) {
-          let icons = incomes.icons.map((t) => this.formatString(t)).join('');
+          let icons = this.convertFlowToIcons(incomes).join('');
           dojo.place(icons, container);
 
-          let desc = incomes.descs.map((t) => this.translate(t)).join('<br />');
+          let desc = this.convertFlowToDescs(incomes).join('<br />');
           this.addCustomTooltip(container, desc);
         }
       });
@@ -724,6 +728,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           );
         });
       });
+    },
+
+    notif_updateIncome(n) {
+      debug('Notif: updating income', n);
+      this.gamedatas.companies[n.args.company_id].incomes = n.args.incomes;
+      this.updateCompanyIncomes();
     },
   });
 });

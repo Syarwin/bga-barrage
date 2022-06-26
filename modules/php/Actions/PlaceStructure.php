@@ -182,7 +182,7 @@ class PlaceStructure extends \BRG\Models\Action
       if ($type == POWERHOUSE) {
         Notifications::message('TODO');
       } else {
-        Notifications::message(clienttranslate('A new income has been revealed. A bonus will be earned.'));
+        Notifications::newIncomeRevealed($company);
         $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
         Engine::insertAsChild($flow);
       }

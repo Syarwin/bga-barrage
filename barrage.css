@@ -1161,6 +1161,9 @@ body {
       float: none; }
   #player_boards #player_board_config {
     order: 1; }
+  #player_boards .player-board {
+    overflow: hidden;
+    order: 6; }
 
 .player_panel_content {
   position: initial; }
@@ -1168,9 +1171,6 @@ body {
 .avatar.automa {
   background-image: url("img/companies.jpg");
   background-size: 600% 100%; }
-
-.player-board {
-  overflow: hidden; }
 
 .barrage-energy-counter {
   color: #bb3f90; }
@@ -2630,16 +2630,16 @@ body {
       background: transparent; }
     #brg-map-resizable #brg-map .dam-slot.selectable, #brg-map-resizable #brg-map .conduit-slot.selectable, #brg-map-resizable #brg-map .powerhouse-slot.selectable {
       cursor: pointer;
-      background: #ff000057; }
+      background-color: #ff000057; }
       #brg-map-resizable #brg-map .dam-slot.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
-        background: #ff000090; }
+        background-color: #ff000090; }
     #brg-map-resizable #brg-map .dam-slot.selected, #brg-map-resizable #brg-map .conduit-slot.selected, #brg-map-resizable #brg-map .powerhouse-slot.selected {
       background: #35b710aa;
       border: 2px solid #227b09 !important;
       margin-top: -1px;
       margin-left: -1px; }
       #brg-map-resizable #brg-map .dam-slot.selected.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selected.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selected.selectable:hover {
-        background: #238806aa; }
+        background-color: #238806aa; }
   #brg-map-resizable #brg-map .conduit-slot {
     width: 47px;
     height: 47px;

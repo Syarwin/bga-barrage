@@ -82,10 +82,7 @@ trait BonusObjectiveTileTrait
 
   public function computeRoundBonus($company, $round = null)
   {
-    $round = $round ?? Globals::getRound();
-    if ($round == 0) {
-      return [];
-    }
+    $round = max(1, $round ?? Globals::getRound());
     $energy = $company->getEnergy();
     $necessaryEnergy = $round * 6;
 

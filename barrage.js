@@ -63,6 +63,7 @@ define([
         ['score', 500],
         ['rotateWheel', 1000],
         ['construct', null],
+        ['updateIncome', 200],
         ['pickContracts', 1000],
         ['fulfillContract', 2000],
         ['refillStacks', 1000],
@@ -750,7 +751,13 @@ define([
 
     // Place engineer
     onEnteringStatePlaceEngineer(args) {
+      let construct = null;
       Object.keys(args.spaces).forEach((uid) => {
+        if (args.constructSpaces.includes(uid)) {
+          if (construct === null || args.spaces[construct][0] > args.spaces[uid][0]) {
+            construct = uid;
+          }
+        }
         this.onClick(uid, () => {
           let choices = args.spaces[uid];
           if (choices.length == 1) {
@@ -763,6 +770,19 @@ define([
           }
         });
       });
+
+      if (construct !== null) {
+        let n = args.spaces[construct][0];
+        this.addPrimaryActionButton(
+          'btnConstruct',
+          this.translate({
+            log: _('Construct with ${n} engineer(s)'),
+            args: { n },
+          }),
+          () => this.takeAtomicAction('actPlaceEngineer', [construct, n]),
+        );
+      }
+
       if (args.canSkip) {
         this.addDangerActionButton('btnSkip', _('Skip turn'), () => {
           this.takeAction('actSkip');
@@ -816,6 +836,8 @@ define([
 
     // Place structure
     onEnteringStatePlaceStructure(args) {
+      if (args.descSuffix == 'auto') return;
+
       args.spaces.forEach((uid) => {
         let elt = this.getConstructSlot(uid);
         this.onClick(elt, () => this.takeAtomicAction('actPlaceStructure', [uid]));

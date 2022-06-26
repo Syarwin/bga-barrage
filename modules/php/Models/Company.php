@@ -79,7 +79,7 @@ class Company extends \BRG\Helpers\DB_Model
       'energy' => $this->energy,
       'wheelAngle' => $this->slot,
       'boardIncomes' => $this->getBoardIncomesUI(),
-      'incomes' => $this->getIncomesUI(),
+      'incomes' => $this->getIncomes(),
     ];
 
     return $data;
@@ -433,15 +433,6 @@ class Company extends \BRG\Helpers\DB_Model
   public function getBoardIncomesUI()
   {
     return $this->boardIncomes;
-  }
-
-  public function getIncomesUI()
-  {
-    $rewards = $this->getIncomes();
-    return [
-      'icons' => FlowConvertor::computeIcons($rewards),
-      'descs' => FlowConvertor::computeDescs($rewards),
-    ];
   }
 
   public function getIncomes()

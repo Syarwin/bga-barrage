@@ -30,34 +30,41 @@ class Meeples extends \BRG\Helpers\Pieces
   }
 
   /* Creation of various meeples */
-  public static function setupCompanies($companies)
+  public static function setupCompany($company)
   {
-    $meeples = [];
-    foreach ($companies as $cId => $company) {
-      foreach ($company->getStartingResources() as $type => $nbr) {
-        $meeples[] = [
-          'type' => $type,
-          'company_id' => $cId,
-          'location' => 'reserve',
-          'nbr' => $nbr,
-        ];
-      }
-
-      // Structures
-      for ($i = 0; $i < 5; $i++) {
-        $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        if ($i < 4) {
-          $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
-        }
-        // TODO : expansion : create buildings
-      }
-
-      $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
+    $cId = $company->getId();
+    foreach ($company->getStartingResources() as $type => $nbr) {
+      $meeples[] = [
+        'type' => $type,
+        'company_id' => $cId,
+        'location' => 'reserve',
+        'nbr' => $nbr,
+      ];
     }
 
+    // Structures
+    for ($i = 0; $i < 5; $i++) {
+      $meeples[] = ['type' => BASE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      $meeples[] = ['type' => ELEVATION, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      $meeples[] = ['type' => CONDUIT, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      if ($i < 4) {
+        $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      }
+      // TODO : expansion : create buildings
+    }
+
+    $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];
     return self::getMany(self::create($meeples));
+  }
+
+  public static function setupCompanies($companies)
+  {
+    $meeples = new Collection();
+    foreach ($companies as $cId => $company) {
+      $meeples = $meeples->merge(self::setupCompany($company));
+    }
+
+    return $meeples;
   }
 
   /**

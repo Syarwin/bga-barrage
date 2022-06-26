@@ -107,13 +107,12 @@ trait SetupTrait
     }
   }
 
-  function setupCompanies($silent = false)
+  function setupCompanies($initMeeples = false)
   {
     $companies = Companies::getAll();
-    $meeples = Meeples::setupCompanies($companies);
-    $tiles = TechnologyTiles::setupCompanies($companies);
-    if (!$silent) {
-      Notifications::setupCompanies($meeples, $tiles);
+    if ($initMeeples) {
+      $meeples = Meeples::setupCompanies($companies);
+      $tiles = TechnologyTiles::setupCompanies($companies);
     }
 
     // Create turn order
@@ -121,15 +120,7 @@ trait SetupTrait
     foreach ($companies as $cId => $company) {
       $turnOrder[$company->getNo() - 1] = $cId;
     }
-    ksort($turnOrder);
-    $turnOrder = array_reverse($turnOrder);
-
-    foreach ($turnOrder as $order => $cId) {
-      Companies::get($cId)->setNo($order + 1);
-    }
-
     Notifications::updateTurnOrder($turnOrder);
-
     Companies::changeActive($turnOrder[0]);
     Globals::setTurnOrder($turnOrder);
   }
@@ -193,7 +184,11 @@ trait SetupTrait
     $player = Players::getCurrent();
     $company = Companies::assignCompany($player, $matchup['cId'], $matchup['xId']);
     $this->reloadPlayersBasicInfos();
-    Notifications::assignCompany($player, $company);
+
+    $meeples = Meeples::setupCompany($company);
+    $tiles = TechnologyTiles::setupCompany($company);
+
+    Notifications::assignCompany($player, $company, $meeples, $tiles);
 
     $contract->pick($company);
     Notifications::pickContracts($company, [$contract]);

@@ -4,7 +4,6 @@ Essentiel
 
 - display pour Mahiri slot
 - option pour flottant / modal les company board / XO
-- afficher les boards dans le "draft"
 - option pour flottant / modal pour l'energy track
 - ajuster le layout sur écran plus petit
 - mettre à jour l'income (notif)
@@ -28,3 +27,7 @@ done
 
 - ajouter les XO et les compteurs sur le company board
 - ajouter les icones des company et des XO avec tooltip (manquant pour company)
+- afficher les boards dans le "draft"
+- mieux gérer/réparer le score quand > 30.
+- faire l'image de fond pour l'action board des tuiles advanced
+- ajouter un compteur d'energy à côté du compteur de score (peut être en option ?)

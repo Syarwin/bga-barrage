@@ -13,6 +13,11 @@
   #player_board_config {
     order: 1;
   }
+
+  .player-board {
+    overflow: hidden; // Used for contract slideout animation
+    order: 6;
+  }
 }
 
 .player_panel_content {
@@ -22,10 +27,6 @@
 .avatar.automa {
   background-image: url('img/companies.jpg');
   background-size: 600% 100%;
-}
-
-.player-board {
-  overflow: hidden; // Used for contract slideout animation
 }
 
 .barrage-energy-counter {
