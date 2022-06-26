@@ -10,11 +10,16 @@ use BRG\Map;
  * Level 2 powerhouse
  */
 
-class L2Powerhouse extends \BRG\TechTiles\BasicTile
+class L2Powerhouse extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = POWERHOUSE;
+  public function getDescs()
   {
-    return $structure == \POWERHOUSE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, you can perform a production action with a bonus of +2. The production can be performed using any of your Powerhouse, it must be performed immediately and has no extra cost.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

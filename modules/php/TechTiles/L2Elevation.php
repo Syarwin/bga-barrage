@@ -10,11 +10,16 @@ use BRG\Map;
  * Level 2 elevation
  */
 
-class L2Elevation extends \BRG\TechTiles\BasicTile
+class L2Elevation extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = ELEVATION;
+  public function getDescs()
   {
-    return $structure == \ELEVATION;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, place Water Drops in the Dam where you have just built this Elevation in order to fill it to its maximum capacity. Take the Water Drops directly from the general supply.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

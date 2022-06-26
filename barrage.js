@@ -245,18 +245,18 @@ define([
       }
 
       if (this.isCurrentPlayerActive() && args.args) {
-        // Anytime buttons
-        if (args.args.anytimeActions) {
-          args.args.anytimeActions.forEach((action, i) => {
+        // Alternative actions buttons
+        if (args.args.alternativeActions) {
+          args.args.alternativeActions.forEach((action, i) => {
             let msg = action.desc;
             msg = msg.log ? this.format_string_recursive(msg.log, msg.args) : _(msg);
-            // msg = this.formatStringMeeples(msg);
+            msg = this.formatString(msg);
 
             this.addPrimaryActionButton(
-              'btnAnytimeAction' + i,
+              'btnAlternativeAction' + i,
               msg,
-              () => this.takeAction('actAnytimeAction', { id: i }, false),
-              'anytimeActions',
+              () => this.takeAction('actAlternativeAction', { id: i }, false),
+              action.resolve === false ? 'anytimeActions' : 'customActions',
             );
           });
         }
@@ -1313,7 +1313,7 @@ define([
         container = this.getTechTileContainer(tile);
       }
       this.place('tplTechTile', tile, container);
-      // TODO : this.addCustomTooltip(`contract-${contract.id}`, this.tplContractTooltip(contract));
+      this.addCustomTooltip(`tech-tile-${tile.id}`, this.tplTechTileTooltip(tile));
     },
 
     getTechTileContainer(tile) {
@@ -1341,13 +1341,13 @@ define([
       </div>`;
     },
 
-    tplTechTileTooltip(contract) {
+    tplTechTileTooltip(tile) {
       return (
-        this.tplContract(contract, true) +
+        this.tplTechTile(tile, true) +
         `
-      <div class='contract-desc'>
+      <div class='tile-desc'>
         ` +
-        contract.descs.map((t) => this.translate(t)).join('<br />') +
+        tile.descs.map((t) => this.translate(t)).join('<br />') +
         `
       </div>`
       );

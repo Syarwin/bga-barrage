@@ -415,13 +415,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       let jstpl_meeple = `
       <div class="meeple-container">
-        <div class="barrage-meeple meeple-\${type}">
+        <div class="barrage-meeple meeple-\${type}" data-company="\${company}">
         </div>
       </div>
       `;
+      let companyId = 0;
+      this.forEachCompany((company) => {
+        if (this.gamedatas.gamestate.active_player == company.pId) {
+          companyId = company.id;
+        }
+      });
       MEEPLES.forEach((name) => {
         let newName = name.toLowerCase() + (conflictingNames.includes(name) ? '_icon' : '');
-        str = str.replace(new RegExp('<' + name + '>', 'g'), this.format_string(jstpl_meeple, { type: newName }));
+        str = str.replace(
+          new RegExp('<' + name + '>', 'g'),
+          this.format_string(jstpl_meeple, { type: newName, company: companyId }),
+        );
       });
 
       let jstpl_icon = `

@@ -594,8 +594,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let tile = sector.querySelector('.wheel-tile-slot .barrage-tech-tile');
         if (tile) {
           let summaryTile = dojo.clone(tile);
-          summaryTile.setAttribute('id', tile.id + '_summary');
+          summaryTile.setAttribute('id', `${tile.id}_summary`);
           dojo.place(summaryTile, container);
+          this.addCustomTooltip(`${tile.id}_summary`, this.tooltips[tile.id].label);
         }
 
         let meeples = [...sector.querySelectorAll('.wheel-machineries-slots .barrage-meeple')];

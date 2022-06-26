@@ -1,25 +1,23 @@
 <?php
 namespace BRG\TechTiles;
 
-use BRG\Managers\Companies;
-use BRG\Managers\TechnologyTiles;
-use BRG\Managers\Meeples;
-use BRG\Map;
-
 /*
  * Level 1 joker
  */
 
-class L1Joker extends \BRG\TechTiles\BasicTile
+class L1Joker extends AdvancedTile
 {
-  public function __construct($row)
+  protected $ignoreCostMalus = true;
+  protected $structureType = JOKER;
+  public function getDescs()
   {
-    parent::__construct($row);
-    $this->ignoreCostMalus = true;
-  }
-
-  public function canConstruct($structure)
-  {
-    return true;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile to build a structure, you do not have to pay 3 credits if you place the structure in a building space with a red bordered icon.'
+    );
+    $descs[] = clienttranslate(
+      '(If you placed your Engineers in the red-bordered action space, you still have to pay those 3 Credits.)'
+    );
+    return $descs;
   }
 }

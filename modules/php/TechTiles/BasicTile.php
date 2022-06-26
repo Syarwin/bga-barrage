@@ -1,5 +1,7 @@
 <?php
 namespace BRG\TechTiles;
+use BRG\Managers\Companies;
+
 
 /*
  * Basic Tile: all utility functions concerning a tech tile
@@ -17,26 +19,49 @@ class BasicTile extends \BRG\Helpers\DB_Model
     'cId' => ['company_id', 'int'],
   ];
 
-  protected $staticAttributes = ['engineersNeeded', 'automatic', 'ignoreCostMalus'];
-  protected $engineersNeeded = true;
+  protected $staticAttributes = ['automatic', 'ignoreCostMalus', 'alternativeAction', 'alternativeActionDesc'];
   protected $automatic = true;
   protected $ignoreCostMalus = false;
+  protected $alternativeAction = false;
+  protected $alternativeActionDesc = '';
+
+  public function jsonSerialize()
+  {
+    $data = parent::jsonSerialize();
+    $data['descs'] = $this->getDescs();
+    return $data;
+  }
+
+  // For a basic tile, structure type = type
+  public function getStructureType()
+  {
+    return $this->type;
+  }
 
   public function canConstruct($structure)
   {
-    return $this->type == JOKER || $this->type == $structure;
+    return $this->getStructureType() == JOKER || $this->getStructureType() == $structure;
   }
 
-  /*************** ANYTIME management **************/
-  public function isAnyTime()
+  public function getDescs()
   {
-    return false;
+    $descs = [
+      BASE => clienttranslate('Construct a Base.'),
+      ELEVATION => clienttranslate('Construct an Elevation on one of your Dam'),
+      CONDUIT => clienttranslate('Construct a Conduit.'),
+      POWERHOUSE => clienttranslate('Construct a Powerhouse.'),
+      JOKER => clienttranslate('Construct any type of structure.'),
+    ];
+
+    return [$descs[$this->getStructureType()]];
   }
 
-  public function getAnyTimeDesc()
+  public function getCompany()
   {
-    return '';
+    return Companies::get($this->cId);
   }
+
+
 
   /**************** Tile Power **************/
   public function getPowerFlow($slot)
@@ -52,16 +77,6 @@ class BasicTile extends \BRG\Helpers\DB_Model
   public function getUnitsModifier($n)
   {
     return $n;
-  }
-
-  public function engineersNeeded()
-  {
-    return $this->engineersNeeded;
-  }
-
-  public function isAutomatic()
-  {
-    return $this->automatic;
   }
 
   public function ignoreCostMalus()

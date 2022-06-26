@@ -1,20 +1,20 @@
 <?php
 namespace BRG\TechTiles;
 
-use BRG\Managers\Companies;
-use BRG\Managers\TechnologyTiles;
-use BRG\Managers\Meeples;
-use BRG\Map;
-
 /*
  * Level 1 conduit
  */
 
-class L1Conduit extends \BRG\TechTiles\BasicTile
+class L1Conduit extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = CONDUIT;
+  public function getDescs()
   {
-    return $structure == \CONDUIT;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, gain a number of Credits equal to the production value of the Conduit you have just built, multiplied by 2.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)

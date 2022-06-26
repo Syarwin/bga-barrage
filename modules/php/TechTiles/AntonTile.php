@@ -11,120 +11,118 @@ use BRG\Core\Globals;
 
 class AntonTile extends \BRG\TechTiles\BasicTile
 {
-  // Can copy another tech tile placed on the wheel.
-  public function canConstruct($structure)
+  public function activate($tile)
   {
-    if (Globals::getAntonPower() == '') {
-      foreach ($this->getWheelTiles() as $tile) {
-        if ($tile->getType() == \ANTON_TILE) {
-          continue;
-        }
-        if ($tile->canConstruct($structure)) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return TechnologyTiles::get(Globals::getAntonPower())->canConstruct($structure);
-    }
+    Globals::setAntonPower($tile);
   }
 
   protected function getWheelTiles()
   {
-    return TechnologyTiles::getFilteredQuery(Companies::getActive()->getId(), 'wheel')->get();
+    return TechnologyTiles::getFilteredQuery(Companies::getActive()->getId(), 'wheel')
+      ->get()
+      ->filter(function ($tile) {
+        return !$tile->getType() == ANTON_TILE;
+      });
   }
 
-  public function getPowerFlow($slot)
+  protected function getCopiedTile()
   {
-    // anytime power triggered
-    if (Globals::getAntonPower() == '') {
-      $flow = ['type' => NODE_XOR, 'childs' => []];
-      foreach ($this->getWheelTiles() as $tile) {
-        if ($tile->isAnyTime()) {
-          $f = $tile->getPowerFlow($slot);
-          if (is_null($f)) {
-            continue;
-          }
-          $f['description'] = $tile->getAnyTimeDesc();
-          $f['args']['tileId'] = $this->id;
-          $flow['childs'][] = [
-            'type' => NODE_SEQ,
-            'childs' => [
-              [
-                'action' => \SPECIAL_EFFECT,
-                'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => [$tile->getId()]],
-              ],
-              $f,
-            ],
-          ];
-        }
-      }
-      return $flow;
-    } else {
-      return TechnologyTiles::get(Globals::getAntonPower())->getPowerFlow($slot) ?? null;
+    return Globals::getAntonPower() == '' ? null : TechnologyTiles::get(Globals::getAntonPower());
+  }
+
+  // Can copy another tech tile placed on the wheel.
+  public function canConstruct($structure)
+  {
+    $tile = $this->getCopiedTile();
+    if (!is_null($tile)) {
+      return $tile->canConstruct($structure);
     }
-  }
 
-  public function isAnyTime()
-  {
     foreach ($this->getWheelTiles() as $tile) {
-      if ($tile->getType() == \ANTON_TILE) {
-        continue;
-      }
-      if ($tile->isAnyTime()) {
+      if ($tile->canConstruct($structure)) {
         return true;
       }
     }
     return false;
   }
 
-  public function getAnyTimeDesc()
+  public function getPowerFlow($slot)
+  {
+    $tile = $this->getCopiedTile();
+    if (!is_null($tile)) {
+      return $tile->getPowerFlow($slot) ?? null;
+    }
+
+    // anytime power triggered
+    $flow = ['type' => NODE_XOR, 'childs' => []];
+    foreach ($this->getWheelTiles() as $tile) {
+      if ($tile->isAlternativeAction()) {
+        $f = $tile->getPowerFlow($slot);
+        if (is_null($f)) {
+          continue;
+        }
+        $f['description'] = $tile->getAlternativeActionDesc();
+        $f['args']['tileId'] = $this->id;
+        $flow['childs'][] = [
+          'type' => NODE_SEQ,
+          'childs' => [
+            [
+              'action' => \SPECIAL_EFFECT,
+              'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => [$tile->getId()]],
+            ],
+            $f,
+          ],
+        ];
+      }
+    }
+    return $flow;
+  }
+
+  public function isAlternativeAction()
+  {
+    foreach ($this->getWheelTiles() as $tile) {
+      if ($tile->isAlternativeAction()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public function getAlternativeActionDesc()
   {
     return clienttranslate('Use Anton\'s power');
   }
 
   public function getCostModifier($costs, $slot, $machine, $n)
   {
-    if (Globals::getAntonPower() == '') {
-      return parent::getCostModifier($costs, $slot, $machine, $n);
-    }
-    return TechnologyTiles::get(Globals::getAntonPower())->getCostModifier($costs, $slot, $machine, $n);
+    $tile = $this->getCopiedTile();
+    return is_null($tile)
+      ? parent::getCostModifier($costs, $slot, $machine, $n)
+      : $tile->getCostModifier($costs, $slot, $machine, $n);
   }
 
   public function getUnitsModifier($n)
   {
-    if (Globals::getAntonPower() == '') {
-      return parent::getUnitsModifier($n);
-    }
-    return TechnologyTiles::get(Globals::getAntonPower())->getUnitsModifier($n);
-  }
-
-  public function engineersNeeded()
-  {
-    if (Globals::getAntonPower() == '') {
-      return parent::engineersNeeded();
-    }
-    return TechnologyTiles::get(Globals::getAntonPower())->engineersNeeded();
+    $tile = $this->getCopiedTile();
+    return is_null($tile)
+      ? parent::getUnitsModifier($n)
+      : $tile->getUnitsModifier($n);
   }
 
   public function isAutomatic()
   {
-    if (Globals::getAntonPower() == '') {
-      return parent::isAutomatic();
-    }
-    return TechnologyTiles::get(Globals::getAntonPower())->isAutomatic();
+    $tile = $this->getCopiedTile();
+    return is_null($tile)
+      ? parent::isAutomatic()
+      : $tile->isAutomatic();
   }
 
   public function ignoreCostMalus()
   {
-    if (Globals::getAntonPower() == '') {
-      return parent::ignoreCostMalus();
-    }
-    return TechnologyTiles::get(Globals::getAntonPower())->ignoreCostMalus();
-  }
-
-  public function activate($tile)
-  {
-    Globals::setAntonPower($tile);
+    $tile = $this->getCopiedTile();
+    return is_null($tile)
+      ? parent::ignoreCostMalus()
+      : $tile->ignoreCostMalus();
   }
 }

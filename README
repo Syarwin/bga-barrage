@@ -6,21 +6,17 @@ Essentiel
 - option pour flottant / modal les company board / XO
 - option pour flottant / modal pour l'energy track
 - ajuster le layout sur écran plus petit
-- ajouter des tooltips sur les tech tiles
-- améliorer l'afficher des tech tiles advanced sur la summary wheel
-- enlever le slot du haut de la summary wheel
 
 Un peu Essentiel
 
-- engineer / powerhouse machin dans la description
 - ajouter un slider pour ajuster la taille des action boards ?
-- ajouter un bouton pour construct sans avoir à aller scroller sur son company board
 - ajouter un helper qui montre les conduits reliés à une powerhouse (comme pour les conduits mais dans l'autre sens)
 
 Non essentiel
 
 - améliorer les animations de droplets
 - bouger le calcul des icones / tooltips pour incomes et contract dans le front
+
 
 done
 
@@ -31,3 +27,8 @@ done
 - faire l'image de fond pour l'action board des tuiles advanced
 - ajouter un compteur d'energy à côté du compteur de score (peut être en option ?)
 - mettre à jour l'income (notif)
+- ajouter des tooltips sur les tech tiles
+- enlever le slot du haut de la summary wheel
+- améliorer l'afficher des tech tiles advanced sur la summary wheel
+- engineer / powerhouse machin dans la description
+- ajouter un bouton pour construct sans avoir à aller scroller sur son company board

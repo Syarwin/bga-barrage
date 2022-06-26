@@ -1,6 +1,9 @@
 .bgabutton .icon-container {
   font-size: 1.6em;
-  vertical-align: bottom;
+
+  &:not(.icon-container-powerhouse):not(.icon-container-base) {
+    vertical-align: bottom;
+  }
 }
 
 .action-board-icon,

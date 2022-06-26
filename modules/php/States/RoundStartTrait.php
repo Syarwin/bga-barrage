@@ -102,7 +102,7 @@ trait RoundStartTrait
     }
 
     // No engineer to allocate ?
-    if (!$company->hasAvailableEngineer() && !$company->hasAnyTimeActions()) {
+    if (!$company->hasAvailableEngineer() && !$company->hasEngineerFreeTiles()) {
       $skipped[] = $company->getId();
       Globals::setSkippedCompanies($skipped);
       $this->nextPlayerCustomOrder('actionPhase');
@@ -130,5 +130,21 @@ trait RoundStartTrait
     // Inserting leaf PLACE_ENGINEER
     Engine::setup($node, ['order' => 'actionPhase']);
     Engine::proceed();
+  }
+
+  function actSkip()
+  {
+    self::checkAction('actSkip');
+    $company = Companies::getActive();
+    if ($company->hasAvailableEngineer()) {
+      throw new \BgaUserException(clienttranslate('You cannot skip your turn, you have remaining engineers'));
+    }
+
+    $skipped = Globals::getSkippedCompanies();
+    $skipped[] = $company->getId();
+    Globals::setSkippedCompanies($skipped);
+    Notifications::message(clienttranslate('${company_name} skips his turn'), ['company' => $company]);
+    $this->nextPlayerCustomOrder('actionPhase');
+    return;
   }
 }

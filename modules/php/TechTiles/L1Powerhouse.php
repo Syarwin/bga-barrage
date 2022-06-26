@@ -1,30 +1,29 @@
 <?php
 namespace BRG\TechTiles;
 
-use BRG\Managers\Companies;
-use BRG\Managers\TechnologyTiles;
-use BRG\Managers\Meeples;
-use BRG\Map;
-
 /*
  * Level 1 powerhouse
  */
 
-class L1Powerhouse extends \BRG\TechTiles\BasicTile
+class L1Powerhouse extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = POWERHOUSE;
+  public function getDescs()
   {
-    return $structure == \POWERHOUSE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, you do not have to place Engineers in a construction action space of your Company board.'
+    );
+    $descs[] = clienttranslate(
+      '(Since you are not using Engineers to perform this action, this can be your last action of the Round even if you run out of Engineers.)'
+    );
+    return $descs;
   }
 
-  public function isAnyTime()
+  protected $alternativeAction = true;
+  public function getAlternativeActionDesc()
   {
-    return true;
-  }
-
-  public function getAnyTimeDesc()
-  {
-    return clienttranslate('Construct a powerhouse <POWERHOUSE> without engineer(s)<ENGINEER>');
+    return clienttranslate('Construct a <POWERHOUSE> without <ENGINEER>');
   }
 
   public function getPowerFlow($slot)

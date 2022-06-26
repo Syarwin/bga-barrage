@@ -1,25 +1,26 @@
 <?php
 namespace BRG\TechTiles;
-
-use BRG\Managers\Companies;
-use BRG\Managers\TechnologyTiles;
-use BRG\Managers\Meeples;
 use BRG\Map;
 
 /*
  * Level 1 base advanced tile
  */
 
-class L1Base extends \BRG\TechTiles\BasicTile
+class L1Base extends AdvancedTile
 {
-  public function canConstruct($structure)
+  protected $structureType = BASE;
+  public function getDescs()
   {
-    return $structure == BASE;
+    $descs = parent::getDescs();
+    $descs[] = clienttranslate(
+      'When you use this tile, place a Water Drop in all your empty Dams. Do not put Water Drops in Dams which already have at least one Water Drop. Do not put Water Drops in Neutral Dams.'
+    );
+    return $descs;
   }
 
   public function getPowerFlow($slot)
   {
-    $company = Companies::get($this->cId);
+    $company = $this->getCompany();
     $dropletsToAdd = [];
     foreach ($company->getBuiltStructures(BASE) as $id => $dam) {
       if (Map::countDropletsInBasin($dam['location']) == 0) {

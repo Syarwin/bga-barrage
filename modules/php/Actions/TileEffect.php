@@ -30,8 +30,8 @@ class TileEffect extends \BRG\Models\Action
       return;
     }
 
-    // we do not take power flow from anytime as they were triggered before
-    if (!$tile->isAnyTime()) {
+    // We do not take power flow from alternativeAction as they were triggered before
+    if (!$tile->isAlternativeAction()) {
       $flow = $tile->getPowerFlow($args['slot']);
       if (!is_null($flow)) {
         Engine::insertAsChild($flow);
