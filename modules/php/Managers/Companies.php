@@ -78,7 +78,9 @@ class Companies extends \BRG\Helpers\DB_Manager
    */
   public function count()
   {
-    return Globals::getCountCompanies();
+    // TODO : remove
+    $n = Globals::getCountCompanies();
+    return $n == 0 ? self::getAll()->count() : $n;
   }
 
   public function getAll()
