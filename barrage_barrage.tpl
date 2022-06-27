@@ -1,13 +1,18 @@
 {OVERALL_GAME_HEADER}
 <link rel="stylesheet" href="https://use.typekit.net/jim0ypy.css" />
 
+<div id="floating-energy-track-container">
+</div>
+
 <div id="pickStart-contracts"></div>
 <div id="pickStart-companies"></div>
 <div id="barrage-container">
   <div id="barrage-center-container">
     <div id="action-boards-container"></div>
     <div id="map-energy-wrapper">
-      <div id="energy-track-board" class='barrage-frame'></div>
+      <div id="energy-track-board-container" class='barrage-frame'>
+        <div id="energy-track-board"></div>
+      </div>
     </div>
   </div>
   <div id="company-boards-container"></div>

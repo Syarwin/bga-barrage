@@ -240,6 +240,8 @@ define([
       // Create the "go to top" button
       dojo.place("<div id='go-to-top'></div>", $('active_player_statusbar'), 'before');
       $('go-to-top').addEventListener('click', () => window.scrollTo(0, 0));
+      // Place energy track on top
+      dojo.place('floating-energy-track-container', 'game_play_area', 'before');
 
       this.inherited(arguments);
     },

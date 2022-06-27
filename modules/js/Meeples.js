@@ -281,7 +281,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_payResources(n) {
       debug('Notif: paying resoures', n);
       this.slideResources(n.args.resources, (meeple) => ({
-        target: 'page-title',
+        target: $('page-title'),
         destroy: true,
         phantom: false,
       }));
@@ -301,7 +301,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.slideResources(n.args.resources2, (meeple) =>
         meeple.delete
           ? {
-              target: 'page-title',
+              target: $('page-title'),
               destroy: true,
               phantom: false,
             }

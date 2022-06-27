@@ -20,6 +20,7 @@
 #barrage-center-container {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
 }
 
 #map-energy-wrapper {
@@ -29,7 +30,7 @@
 
   [data-energy-track='1'] & {
     flex-flow: row;
-    #energy-track-board {
+    #energy-track-board-container {
       order: 2;
     }
 

@@ -36,7 +36,8 @@ body[data-background='1'] {
   background-size: 24px; }
 
 #page-title {
-  background-color: #ebeaea; }
+  background-color: #ebeaea !important;
+  z-index: 2; }
 
 #topbar {
   background-color: #ebeaea; }
@@ -118,7 +119,8 @@ body {
 
 #barrage-center-container {
   display: flex;
-  align-items: flex-start; }
+  align-items: flex-start;
+  justify-content: center; }
 
 #map-energy-wrapper {
   display: flex;
@@ -126,254 +128,301 @@ body {
   margin-left: 20px; }
   [data-energy-track='1'] #map-energy-wrapper {
     flex-flow: row; }
-    [data-energy-track='1'] #map-energy-wrapper #energy-track-board {
+    [data-energy-track='1'] #map-energy-wrapper #energy-track-board-container {
       order: 2; }
     [data-energy-track='1'] #map-energy-wrapper #brg-map-resizable {
       order: 1; }
 
-#energy-track-board {
+#floating-energy-track-container {
+  display: none;
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+  height: 150px;
+  transition: height 0.7s;
+  overflow: hidden;
+  z-index: 1;
+  font-size: 30px; }
+  #floating-energy-track-container #energy-track-board-container {
+    margin: auto;
+    overflow: hidden;
+    margin-top: 0px;
+    height: 130px;
+    transition: margin 0.7s, height 0.7s; }
+    #floating-energy-track-container #energy-track-board-container #objective-tile {
+      opacity: 1;
+      transition: opacity 0.7s; }
+    #floating-energy-track-container #energy-track-board-container .energy-track-slot[data-bonus]::after {
+      opacity: 1;
+      transition: opacity 0.7s; }
+  #floating-energy-track-container:not(.open) {
+    height: 50px; }
+    #floating-energy-track-container:not(.open) #energy-track-board-container {
+      margin-top: -78px;
+      height: 112px; }
+      #floating-energy-track-container:not(.open) #energy-track-board-container #objective-tile {
+        opacity: 0; }
+      #floating-energy-track-container:not(.open) #energy-track-board-container .energy-track-slot[data-bonus]::after {
+        opacity: 0; }
+
+#game_play_area {
+  padding-top: 0px;
+  transition: padding-top 0.7s; }
+
+#floating-energy-track-container.open ~ #game_play_area {
+  padding-top: 140px; }
+
+#energy-track-board-container {
   width: 1090px;
   height: 130px;
   position: relative;
-  z-index: 2;
-  border-radius: 10px;
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr; }
-  #energy-track-board::before {
-    content: '';
-    display: block;
+  z-index: 2; }
+  #energy-track-board-container #energy-track-board {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 1090px;
     height: 130px;
-    border-radius: 11px;
-    background-image: url("img/ui/lightning.png"), url("img/background_board_energy.jpg");
-    background-size: 845px, 100%;
-    background-position: 128px 22px, center center;
-    background-repeat: no-repeat;
-    z-index: -1; }
-  [data-action-background='1'] #energy-track-board::before, [data-action-background='2'] #energy-track-board::before {
-    background-color: #b0b3ba;
-    background-image: url("img/ui/lightning.png");
-    background-size: 845px;
-    background-position: 128px 22px;
-    background-repeat: no-repeat; }
-  [data-action-background='2'] #energy-track-board::before {
-    background-color: #333232; }
-  [data-background='1'][data-action-background='2'] #energy-track-board::before {
-    background-color: #393939; }
-  #energy-track-board #energy-track-first-second-bonus {
-    position: absolute;
-    width: 80px;
-    height: 35px;
-    display: flex;
-    left: 7px;
-    top: 7px; }
-    #energy-track-board #energy-track-first-second-bonus div:not(.help-marker) {
-      width: 40px;
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr; }
+    #energy-track-board-container #energy-track-board::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1090px;
+      height: 130px;
+      border-radius: 11px;
+      background-image: url("img/ui/lightning.png"), url("img/background_board_energy.jpg");
+      background-size: 845px, 100%;
+      background-position: 128px 22px, center center;
+      background-repeat: no-repeat;
+      z-index: -1; }
+    [data-action-background='1'] #energy-track-board-container #energy-track-board::before, [data-action-background='2'] #energy-track-board-container #energy-track-board::before {
+      background-color: #b0b3ba;
+      background-image: url("img/ui/lightning.png");
+      background-size: 845px;
+      background-position: 128px 22px;
+      background-repeat: no-repeat; }
+    [data-action-background='2'] #energy-track-board-container #energy-track-board::before {
+      background-color: #333232; }
+    [data-background='1'][data-action-background='2'] #energy-track-board-container #energy-track-board::before {
+      background-color: #393939; }
+    #energy-track-board-container #energy-track-board #energy-track-first-second-bonus {
+      position: absolute;
+      width: 80px;
       height: 35px;
-      background-size: 100%;
-      background-image: url("img/ui/energy_bonus_1.png"); }
-      #energy-track-board #energy-track-first-second-bonus div:not(.help-marker):nth-of-type(2) {
-        background-image: url("img/ui/energy_bonus_2.png"); }
-  #energy-track-board .energy-track-portion {
-    border: 6px solid black;
-    display: flex;
-    justify-content: center;
-    padding-top: 5px; }
-    #energy-track-board .energy-track-portion:first-of-type {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px; }
-      #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
-        background-image: url("img/ui/no_bonus.png");
-        margin-left: 72px; }
-    #energy-track-board .energy-track-portion:nth-of-type(7) {
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-      padding-top: 4px; }
-  #energy-track-board .bonus-tile-slot {
-    width: 58px;
-    height: 58px;
-    background-image: url("img/ui/bonus_slot.png");
-    background-size: 100% 100%;
-    position: relative; }
-    #energy-track-board .bonus-tile-slot .bonus-tile {
+      display: flex;
+      left: 7px;
+      top: 7px; }
+      #energy-track-board-container #energy-track-board #energy-track-first-second-bonus div:not(.help-marker) {
+        width: 40px;
+        height: 35px;
+        background-size: 100%;
+        background-image: url("img/ui/energy_bonus_1.png"); }
+        #energy-track-board-container #energy-track-board #energy-track-first-second-bonus div:not(.help-marker):nth-of-type(2) {
+          background-image: url("img/ui/energy_bonus_2.png"); }
+    #energy-track-board-container #energy-track-board .energy-track-portion {
+      border: 6px solid black;
+      display: flex;
+      justify-content: center;
+      padding-top: 5px; }
+      #energy-track-board-container #energy-track-board .energy-track-portion:first-of-type {
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px; }
+        #energy-track-board-container #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
+          background-image: url("img/ui/no_bonus.png");
+          margin-left: 72px; }
+      #energy-track-board-container #energy-track-board .energy-track-portion:nth-of-type(7) {
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        padding-top: 4px; }
+    #energy-track-board-container #energy-track-board .bonus-tile-slot {
       width: 58px;
       height: 58px;
-      background-image: url("img/bonus_tiles.jpg");
-      background-size: 800% 100%;
-      border-radius: 6px;
-      box-shadow: 2px 2px 3px black; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='0'] {
-        background-position-x: 0%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='1'] {
-        background-position-x: 14.2857142857%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='2'] {
-        background-position-x: 28.5714285714%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='3'] {
-        background-position-x: 42.8571428571%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='4'] {
-        background-position-x: 57.1428571429%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='5'] {
-        background-position-x: 71.4285714286%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='6'] {
-        background-position-x: 85.7142857143%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='7'] {
-        background-position-x: 100%; }
-      #energy-track-board .bonus-tile-slot .bonus-tile[data-id='8'] {
-        background-position-x: 114.2857142857%; }
-  #energy-track-board #energy-track {
-    position: absolute;
-    bottom: 11px;
-    left: 10px;
-    right: 114px;
-    height: 35px;
-    display: flex;
-    background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
-    background-size: 1px 35px; }
-    #energy-track-board #energy-track::before {
-      content: '-3';
-      position: absolute;
-      display: block;
-      width: 18px;
-      height: 14px;
-      background-image: url("img/icons/vp.png");
-      background-size: 100% auto;
-      left: 1px;
-      top: -18px;
-      font-family: 'acumin-pro', serif;
-      font-weight: 700;
-      font-size: 12px;
-      text-align: center;
-      line-height: 13px;
-      font-style: normal;
-      color: white;
-      text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
-    #energy-track-board #energy-track .energy-track-slot {
-      width: 23px;
-      height: 23px;
-      margin: 0px 3px;
-      border-radius: 50%;
-      background: url("img/ui/energy_slot.png");
-      background-size: 100%;
-      box-shadow: 0px 0px 5px -1px white;
+      background-image: url("img/ui/bonus_slot.png");
+      background-size: 100% 100%;
       position: relative; }
-      #energy-track-board #energy-track .energy-track-slot::before {
-        content: attr(data-i);
-        position: absolute;
-        top: -1px;
-        left: 0;
-        right: 0;
-        z-index: 0;
-        font-family: 'acumin-pro', serif;
-        font-weight: 700;
-        font-size: 15px;
-        text-align: center;
-        line-height: 24px;
-        font-style: normal;
-        color: #bb3f90; }
-      #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
-        content: attr(data-bonus);
+      #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile {
+        width: 58px;
+        height: 58px;
+        background-image: url("img/bonus_tiles.jpg");
+        background-size: 800% 100%;
+        border-radius: 6px;
+        box-shadow: 2px 2px 3px black; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='0'] {
+          background-position-x: 0%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='1'] {
+          background-position-x: 14.2857142857%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='2'] {
+          background-position-x: 28.5714285714%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='3'] {
+          background-position-x: 42.8571428571%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='4'] {
+          background-position-x: 57.1428571429%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='5'] {
+          background-position-x: 71.4285714286%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='6'] {
+          background-position-x: 85.7142857143%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='7'] {
+          background-position-x: 100%; }
+        #energy-track-board-container #energy-track-board .bonus-tile-slot .bonus-tile[data-id='8'] {
+          background-position-x: 114.2857142857%; }
+    #energy-track-board-container #energy-track-board #energy-track {
+      position: absolute;
+      bottom: 11px;
+      left: 10px;
+      right: 114px;
+      height: 35px;
+      display: flex;
+      background: linear-gradient(#eeeeee82 6%, transparent 1%) 1px 11px;
+      background-size: 1px 35px; }
+      #energy-track-board-container #energy-track-board #energy-track::before {
+        content: '-3';
         position: absolute;
         display: block;
-        width: 16px;
-        height: 17px;
-        background-image: url("img/icons/credit.png");
-        background-size: 100%;
-        left: 3px;
-        top: 22px;
+        width: 18px;
+        height: 14px;
+        background-image: url("img/icons/vp.png");
+        background-size: 100% auto;
+        left: 1px;
+        top: -18px;
         font-family: 'acumin-pro', serif;
         font-weight: 700;
         font-size: 12px;
         text-align: center;
-        line-height: 17px;
+        line-height: 13px;
         font-style: normal;
         color: white;
         text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
-      #energy-track-board #energy-track .energy-track-slot .meeple-score {
-        margin-top: -154%;
-        position: relative;
-        z-index: 2;
-        margin-left: -2px;
-        transition: transform 0.5s;
-        transform: translateY(0); }
-        #energy-track-board #energy-track .energy-track-slot .meeple-score:first-of-type {
-          margin-top: 0; }
-      #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
-        margin-left: 11px; }
-        #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
-          margin-left: 0px; }
-  #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
-    transform: translateY(-18px); }
-    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
-      transform: translateY(-26px); }
-    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
-      transform: translateY(-34px); }
-    #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
-      transform: translateY(-42px); }
-  [data-energy-track='1'] #energy-track-board {
+      #energy-track-board-container #energy-track-board #energy-track .energy-track-slot {
+        width: 23px;
+        height: 23px;
+        margin: 0px 3px;
+        border-radius: 50%;
+        background: url("img/ui/energy_slot.png");
+        background-size: 100%;
+        box-shadow: 0px 0px 5px -1px white;
+        position: relative; }
+        #energy-track-board-container #energy-track-board #energy-track .energy-track-slot::before {
+          content: attr(data-i);
+          position: absolute;
+          top: -1px;
+          left: 0;
+          right: 0;
+          z-index: 0;
+          font-family: 'acumin-pro', serif;
+          font-weight: 700;
+          font-size: 15px;
+          text-align: center;
+          line-height: 24px;
+          font-style: normal;
+          color: #bb3f90; }
+        #energy-track-board-container #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
+          content: attr(data-bonus);
+          position: absolute;
+          display: block;
+          width: 16px;
+          height: 17px;
+          background-image: url("img/icons/credit.png");
+          background-size: 100%;
+          left: 3px;
+          top: 22px;
+          font-family: 'acumin-pro', serif;
+          font-weight: 700;
+          font-size: 12px;
+          text-align: center;
+          line-height: 17px;
+          font-style: normal;
+          color: white;
+          text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px; }
+        #energy-track-board-container #energy-track-board #energy-track .energy-track-slot .meeple-score {
+          margin-top: -154%;
+          position: relative;
+          z-index: 2;
+          margin-left: -2px;
+          transition: transform 0.5s;
+          transform: translateY(0); }
+          #energy-track-board-container #energy-track-board #energy-track .energy-track-slot .meeple-score:first-of-type {
+            margin-top: 0; }
+        #energy-track-board-container #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
+          margin-left: 11px; }
+          #energy-track-board-container #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
+            margin-left: 0px; }
+    #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
+      transform: translateY(-18px); }
+      #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
+        transform: translateY(-26px); }
+      #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
+        transform: translateY(-34px); }
+      #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
+        transform: translateY(-42px); }
+  [data-energy-track='1'] #energy-track-board-container {
     margin-left: 15px;
     width: 130px;
-    height: 1120px;
-    grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr;
-    grid-template-columns: 1fr; }
-    [data-energy-track='1'] #energy-track-board::before {
-      width: 1120px;
-      transform: translateX(130px) rotate(90deg);
-      transform-origin: top left; }
-    [data-energy-track='1'] #energy-track-board .energy-track-portion {
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0px 8px 0px; }
-      [data-energy-track='1'] #energy-track-board .energy-track-portion #energy-track-first-second-bonus {
-        display: block;
-        width: 40px;
-        height: 70px;
+    height: 1120px; }
+    [data-energy-track='1'] #energy-track-board-container #energy-track-board {
+      width: 130px;
+      height: 1120px;
+      grid-template-rows: 2fr 2fr 2fr 2fr 2fr 1fr 0.9fr;
+      grid-template-columns: 1fr; }
+      [data-energy-track='1'] #energy-track-board-container #energy-track-board::before {
+        width: 1120px;
+        transform: translateX(130px) rotate(90deg);
+        transform-origin: top left; }
+      [data-energy-track='1'] #energy-track-board-container #energy-track-board .energy-track-portion {
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0px 8px 0px; }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board .energy-track-portion #energy-track-first-second-bonus {
+          display: block;
+          width: 40px;
+          height: 70px;
+          top: 10px;
+          left: 85px; }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board .energy-track-portion:first-of-type {
+          border-top-right-radius: 4px;
+          border-bottom-left-radius: 0px; }
+          [data-energy-track='1'] #energy-track-board-container #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
+            margin-left: 37px;
+            margin-top: 65px; }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board .energy-track-portion:nth-of-type(7) {
+          border-top-right-radius: 0px;
+          border-bottom-left-radius: 4px; }
+      [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track {
+        position: absolute;
         top: 10px;
-        left: 85px; }
-      [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type {
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 0px; }
-        [data-energy-track='1'] #energy-track-board .energy-track-portion:first-of-type .bonus-tile-slot {
-          margin-left: 37px;
-          margin-top: 65px; }
-      [data-energy-track='1'] #energy-track-board .energy-track-portion:nth-of-type(7) {
-        border-top-right-radius: 0px;
-        border-bottom-left-radius: 10px; }
-    [data-energy-track='1'] #energy-track-board #energy-track {
-      position: absolute;
-      top: 10px;
-      left: 22px;
-      bottom: 143px;
-      width: 35px;
-      height: auto;
-      flex-flow: column;
-      background: linear-gradient(90deg, #eeeeee82 6%, transparent 1%) 10px 11px;
-      background-size: 35px 10px; }
-      [data-energy-track='1'] #energy-track-board #energy-track::before {
-        top: 4px;
-        left: 25px; }
-      [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot {
-        margin: 3px 0px; }
-        [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot .meeple-score {
-          transform: translateX(0); }
-        [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
-          left: -18px;
-          top: 3px; }
-        [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
-          margin-left: 0px;
-          margin-top: 11px; }
-          [data-energy-track='1'] #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
-            margin-top: 0px; }
-    [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
-      transform: translateX(18px); }
-      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
-        transform: translateX(26px); }
-      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
-        transform: translateX(34px); }
-      [data-energy-track='1'] #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
-        transform: translateX(42px); }
+        left: 22px;
+        bottom: 143px;
+        width: 35px;
+        height: auto;
+        flex-flow: column;
+        background: linear-gradient(90deg, #eeeeee82 6%, transparent 1%) 10px 11px;
+        background-size: 35px 10px; }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track::before {
+          top: 4px;
+          left: 25px; }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track .energy-track-slot {
+          margin: 3px 0px; }
+          [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track .energy-track-slot .meeple-score {
+            transform: translateX(0); }
+          [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track .energy-track-slot[data-bonus]::after {
+            left: -18px;
+            top: 3px; }
+          [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1) {
+            margin-left: 0px;
+            margin-top: 11px; }
+            [data-energy-track='1'] #energy-track-board-container #energy-track-board #energy-track .energy-track-slot:nth-of-type(6n + 1):first-of-type {
+              margin-top: 0px; }
+      [data-energy-track='1'] #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score {
+        transform: translateX(18px); }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(2) {
+          transform: translateX(26px); }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(3) {
+          transform: translateX(34px); }
+        [data-energy-track='1'] #energy-track-board-container #energy-track-board:hover #energy-track .energy-track-slot .meeple-score:nth-of-type(4) {
+          transform: translateX(42px); }
 
 .objective-tile {
   position: relative;
