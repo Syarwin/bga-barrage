@@ -1,457 +1,579 @@
 #company-boards-container {
   display: flex;
   flex-wrap: wrap;
+
+  .company-boards-container {
+    order: 2;
+    &.current {
+      order: 1;
+    }
+  }
+}
+
+:root {
+  --barrageCompanyBoardScale: 0.9;
 }
 
 .company-board {
-  display: flex;
+  width: calc(var(--barrageCompanyBoardScale) * 1150px);
+  height: calc(var(--barrageCompanyBoardScale) * 468px);
   margin: 20px 8px 8px;
+  flex-shrink: 0;
+
+  .company-board-resizable {
+    width: 1150px;
+    height: 468px;
+    display: flex;
+    transform: scale(var(--barrageCompanyBoardScale));
+    transform-origin: top left;
+
+    .company-board-wrapper {
+      width: 770px;
+      height: 468px;
+      background-image: url('img/company_boards.png');
+      background-size: 200% 300%;
+      position: relative;
+
+      @for $i from 0 through 5 {
+        &[data-company='#{$i + 1}'] {
+          background-position-x: ($i % 2) * 100%;
+          background-position-y: (($i - ($i % 2)) / 2) * 100% / 2;
+        }
+      }
+
+      .company-owner-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: -12px;
+        .company-owner {
+          background: #ebd5bd;
+          border-radius: 8px;
+          font-size: 18px;
+          padding: 4px 31px;
+          box-shadow: 0px 2px 3px black;
+          font-family: 'Betty Noir';
+          border: 1px solid black;
+        }
+      }
+
+      .action-board {
+        width: 625px;
+        margin-left: 118px;
+        margin-top: 7px;
+
+        .action-board-inner {
+          display: flex;
+          flex-wrap: wrap;
+          flex-flow: row;
+          justify-content: space-between;
+          margin: 0px;
+
+          .action-board-row {
+            background: url('img/ui/texture.jpg');
+          }
+
+          .action-board-icon {
+            width: 24px;
+            margin-left: 20px;
+          }
+        }
+      }
+
+      .company-board-resources {
+        position: absolute;
+        left: 35px;
+        bottom: 67px;
+        height: 168px;
+        width: 80px;
+        //      background-color: #ebd5bd;
+        background: url('img/ui/texture.jpg');
+        background-size: 30px;
+        border-radius: 6px;
+        box-shadow: 0 3px 8px black;
+        border: 3px solid gray;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 21px;
+        padding-bottom: 12px;
+
+        .company-resource {
+          & > span {
+            display: inline-block;
+            font-family: 'Oranienbaum';
+            font-weight: bold;
+            width: 30px;
+            text-align: right;
+            color: white;
+          }
+
+          .meeple-container {
+            width: 40px;
+            text-align: center;
+            vertical-align: bottom;
+
+            .barrage-meeple {
+              display: inline-block;
+            }
+          }
+
+          .reserve {
+            display: none;
+          }
+        }
+      }
+
+      .officer-logo {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: #dbdbdb;
+        background-image: url('img/executive_officers.png');
+        background-size: 500% 300%;
+        border: 3px solid gray;
+        border-radius: 50%;
+        bottom: 29px;
+        left: 32px;
+        box-shadow: 2px 2px 3px black;
+
+        .help-marker {
+          top: -8px;
+          left: -8px;
+        }
+
+        @for $i from 0 through 15 {
+          &[data-officer='#{$i + 1}'] {
+            background-position-x: ($i % 5) * 100% / 4;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+          }
+        }
+      }
+
+      .officer-symbol {
+        position: absolute;
+        width: 120px;
+        height: 42px;
+        background-image: url('img/executive_officers_powers.png'), url('img/ui/texture.jpg');
+        background-size: 500% 300%, 25px;
+        border: 3px solid gray;
+        box-shadow: 2px 2px 3px black;
+        bottom: 15px;
+        left: 77px;
+        border-radius: 6px;
+        .help-marker {
+          top: -8px;
+          left: auto;
+          right: -12px;
+        }
+
+        @for $i from 0 through 15 {
+          &[data-officer='#{$i + 1}'] {
+            background-position-x: ($i % 5) * 100% / 4, center;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 2, center;
+          }
+        }
+
+        .action-board-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          // background: url('img/ui/texture.jpg');
+          padding: 4px 2px 2px 4px;
+          border-radius: 8px;
+          box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
+
+          // [data-action-name='3'] & {
+          //   background: #292b23;
+          // }
+          // [data-action-name='3'][data-background='1'] & {
+          //   background: #393939;
+          // }
+        }
+
+        .action-space {
+          display: flex;
+          background: grey;
+          padding: 3px;
+          border-radius: 5px;
+          column-gap: 3px;
+          position: relative;
+          &.paying {
+            background: #d70f0f;
+          }
+
+          .action-space-cost {
+            position: absolute;
+            left: calc(100% - 4px);
+            display: none;
+          }
+
+          .action-space-slot {
+            background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+            width: 34px;
+            height: 29px;
+            padding-bottom: 1px;
+            border-radius: 5px;
+            background-size: auto 70%, 20px;
+            background-repeat: no-repeat, repeat;
+            background-position: center center;
+
+            font-size: 39px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+
+            &:not(:empty) {
+              background: #bbb9b9;
+            }
+          }
+
+          &.selectable {
+            cursor: pointer;
+            .action-space-slot {
+              background-image: url('img/ui/engineer_slot.png');
+              background-size: auto 70%;
+              background-repeat: no-repeat;
+              background-position: center center;
+
+              background-color: #364422;
+            }
+
+            &:hover .action-space-slot {
+              background-color: #484848;
+            }
+          }
+        }
+      }
+
+      .structures-wrapper {
+        position: absolute;
+        left: 170px;
+        height: 70px;
+        width: 555px;
+        //      background: rgba(255, 0, 0, 0.3);
+        display: flex;
+
+        .building-slot-header {
+          width: 99px;
+          height: 66px;
+          background: url('img/construction_costs.png');
+          background-size: 100% 400%;
+        }
+
+        .building-slot {
+          width: 69px;
+          height: 53px;
+          background: #35312c;
+          margin: 7px 7px 7px 7px;
+          display: flex;
+          justify-content: center;
+          position: relative;
+
+          .company-income {
+            position: absolute;
+            z-index: 1;
+            font-size: 25px;
+            width: 60px;
+            top: 8px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: transform 0.8s, top 0.8s;
+
+            &::before {
+              display: inline-block;
+              margin-top: -5px;
+              margin-right: -6px;
+              content: '!';
+              font-family: 'acumin-pro', serif;
+              font-weight: 700;
+              font-style: normal;
+              color: #ddd563;
+              font-size: 31px;
+              text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+                rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+                rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+                rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+              position: relative;
+              z-index: 2;
+            }
+
+            .barrage-icon.icon-vp {
+              font-size: 24px;
+            }
+          }
+
+          .barrage-meeple {
+            position: relative;
+            z-index: 2;
+
+            & ~ .company-income {
+              transform: scale(0.8);
+              top: -34px;
+            }
+          }
+        }
+
+        &.bases-wrapper {
+          top: 110px;
+        }
+
+        &.elevations-wrapper {
+          .building-slot-header {
+            background-position-y: 33.3333%;
+          }
+
+          top: 190px;
+          .building-slot {
+            height: 43px;
+            margin: 12px 7px 2px;
+
+            .company-income {
+              top: 1px;
+            }
+
+            .barrage-meeple ~ .company-income {
+              top: -31px;
+            }
+          }
+        }
+
+        &.conduits-wrapper {
+          top: 271px;
+          .building-slot-header {
+            background-position-y: 66.6666%;
+          }
+
+          .building-slot {
+            height: 43px;
+            width: 43px;
+            border-radius: 50%;
+            margin: 17px 20px 0px 20px;
+            align-items: end;
+
+            .company-income {
+              top: 2px;
+              font-size: 21px;
+              .barrage-icon.icon-vp {
+                font-size: 20px;
+              }
+            }
+
+            .barrage-meeple ~ .company-income {
+              top: -43px;
+            }
+          }
+        }
+
+        &.powerhouses-wrapper {
+          top: 350px;
+          .building-slot-header {
+            background-position-y: 100%;
+          }
+
+          .building-slot {
+            height: 37px;
+            margin: 17px 8px 0px 8px;
+            align-items: end;
+
+            .company-income {
+              top: 1px;
+              height: 36px;
+              &::before {
+                display: none;
+              }
+            }
+
+            .barrage-meeple ~ .company-income {
+              top: -40px;
+            }
+          }
+
+          .building-slot:nth-of-type(3) {
+            margin: 17px 21px 0px 34px;
+          }
+          .building-slot:nth-of-type(4) {
+            margin: 17px 34px 0px 21px;
+          }
+        }
+      }
+    }
+
+    .wheel-wrapper {
+      width: 454px;
+      height: 454px;
+      background-image: url('img/construction_wheel.jpg');
+      background-size: 100%;
+      margin-top: 7px;
+      margin-left: -80px;
+      z-index: 2;
+      clip-path: circle();
+
+      .wheel {
+        width: 360px;
+        height: 360px;
+        margin: 47px;
+        position: relative;
+        background-image: url('img/construction_wheel_inner.png');
+        background-size: 100%;
+        transform: rotate(0deg);
+        transition: transform 1s;
+        font-size: 20px;
+
+        .wheel-sector {
+          width: 173px;
+          height: 180px;
+          position: absolute;
+          top: 0px;
+          left: 94px;
+          transform-origin: bottom center;
+
+          @for $i from 2 to 7 {
+            &:nth-of-type(#{$i}) {
+              transform: rotate(($i - 1) * -60deg);
+            }
+          }
+
+          .wheel-tile-slot {
+            width: 173px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+          }
+
+          .wheel-machineries-slots {
+            display: grid;
+            grid-template-rows: repeat(4, 20px);
+            grid-template-columns: repeat(8, 11px);
+            row-gap: 1px;
+            width: 82px;
+            margin: auto;
+            position: relative;
+            z-index: 2;
+
+            .barrage-meeple {
+              grid-column-end: span 2;
+
+              &:nth-of-type(5) {
+                grid-column-start: 2;
+              }
+              &:nth-of-type(8) {
+                grid-column-start: 3;
+              }
+              &:nth-of-type(10) {
+                grid-column-start: 4;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.company-board-button {
+  width: 44px;
+  height: 44px;
+  background-image: url('img/companies.jpg');
+  background-size: 600% 100%;
+  border: 2px solid black;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: transparent;
   order: 2;
   &.current {
     order: 1;
   }
 
-  .company-board-wrapper {
-    width: 770px;
-    height: 468px;
-    background-image: url('img/company_boards.png');
-    background-size: 200% 300%;
-    position: relative;
-
-    .company-owner-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: -12px;
-      .company-owner {
-        background: #ebd5bd;
-        border-radius: 8px;
-        font-size: 18px;
-        padding: 4px 31px;
-        box-shadow: 0px 2px 3px black;
-        font-family: 'Betty Noir';
-        border: 1px solid black;
-      }
-    }
-
-    .action-board {
-      width: 625px;
-      margin-left: 118px;
-      margin-top: 7px;
-
-      .action-board-inner {
-        display: flex;
-        flex-wrap: wrap;
-        flex-flow: row;
-        justify-content: space-between;
-        margin: 0px;
-
-        .action-board-row {
-          background: url('img/ui/texture.jpg');
-        }
-
-        .action-board-icon {
-          width: 24px;
-          margin-left: 20px;
-        }
-      }
-    }
-
-    .company-board-resources {
-      position: absolute;
-      left: 35px;
-      bottom: 67px;
-      height: 168px;
-      width: 80px;
-      //      background-color: #ebd5bd;
-      background: url('img/ui/texture.jpg');
-      background-size: 30px;
-      border-radius: 6px;
-      box-shadow: 0 3px 8px black;
-      border: 3px solid gray;
-      display: flex;
-      flex-flow: column;
-      justify-content: space-around;
-      align-items: center;
-      font-size: 21px;
-      padding-bottom: 12px;
-
-      .company-resource {
-        & > span {
-          display: inline-block;
-          font-family: 'Oranienbaum';
-          font-weight: bold;
-          width: 30px;
-          text-align: right;
-          color: white;
-        }
-
-        .meeple-container {
-          width: 40px;
-          text-align: center;
-          vertical-align: bottom;
-
-          .barrage-meeple {
-            display: inline-block;
-          }
-        }
-
-        .reserve {
-          display: none;
-        }
-      }
-    }
-
-    .officer-logo {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background-color: #dbdbdb;
-      background-image: url('img/executive_officers.png');
-      background-size: 500% 300%;
-      border: 3px solid gray;
-      border-radius: 50%;
-      bottom: 29px;
-      left: 32px;
-      box-shadow: 2px 2px 3px black;
-
-      .help-marker {
-        top: -8px;
-        left: -8px;
-      }
-
-      @for $i from 0 through 15 {
-        &[data-officer='#{$i + 1}'] {
-          background-position-x: ($i % 5) * 100% / 4;
-          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
-        }
-      }
-    }
-
-    .officer-symbol {
-      position: absolute;
-      width: 120px;
-      height: 42px;
-      background-image: url('img/executive_officers_powers.png'), url('img/ui/texture.jpg');
-      background-size: 500% 300%, 25px;
-      border: 3px solid gray;
-      box-shadow: 2px 2px 3px black;
-      bottom: 15px;
-      left: 77px;
-      border-radius: 6px;
-      .help-marker {
-        top: -8px;
-        left: auto;
-        right: -12px;
-      }
-
-      @for $i from 0 through 15 {
-        &[data-officer='#{$i + 1}'] {
-          background-position-x: ($i % 5) * 100% / 4, center;
-          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2, center;
-        }
-      }
-
-      .action-board-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        // background: url('img/ui/texture.jpg');
-        padding: 4px 2px 2px 4px;
-        border-radius: 8px;
-        box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
-
-        // [data-action-name='3'] & {
-        //   background: #292b23;
-        // }
-        // [data-action-name='3'][data-background='1'] & {
-        //   background: #393939;
-        // }
-      }
-
-      .action-space {
-        display: flex;
-        background: grey;
-        padding: 3px;
-        border-radius: 5px;
-        column-gap: 3px;
-        position: relative;
-        &.paying {
-          background: #d70f0f;
-        }
-
-        .action-space-cost {
-          position: absolute;
-          left: calc(100% - 4px);
-          display: none;
-        }
-
-        .action-space-slot {
-          background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
-          width: 34px;
-          height: 29px;
-          padding-bottom: 1px;
-          border-radius: 5px;
-          background-size: auto 70%, 20px;
-          background-repeat: no-repeat, repeat;
-          background-position: center center;
-
-          font-size: 39px;
-          display: flex;
-          justify-content: center;
-          align-items: flex-end;
-
-          &:not(:empty) {
-            background: #bbb9b9;
-          }
-        }
-
-        &.selectable {
-          cursor: pointer;
-          .action-space-slot {
-            background-image: url('img/ui/engineer_slot.png');
-            background-size: auto 70%;
-            background-repeat: no-repeat;
-            background-position: center center;
-
-            background-color: #364422;
-          }
-
-          &:hover .action-space-slot {
-            background-color: #484848;
-          }
-        }
-      }
-    }
-
-    .structures-wrapper {
-      position: absolute;
-      left: 170px;
-      height: 70px;
-      width: 555px;
-      //      background: rgba(255, 0, 0, 0.3);
-      display: flex;
-
-      .building-slot-header {
-        width: 99px;
-        height: 66px;
-        background: url('img/construction_costs.png');
-        background-size: 100% 400%;
-      }
-
-      .building-slot {
-        width: 69px;
-        height: 53px;
-        background: #35312c;
-        margin: 7px 7px 7px 7px;
-        display: flex;
-        justify-content: center;
-        position: relative;
-
-        .company-income {
-          position: absolute;
-          z-index: 1;
-          font-size: 25px;
-          width: 60px;
-          top: 8px;
-          height: 40px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transform: scale(1);
-          transition: transform 0.8s, top 0.8s;
-
-          &::before {
-            display: inline-block;
-            margin-top: -5px;
-            margin-right: -6px;
-            content: '!';
-            font-family: 'acumin-pro', serif;
-            font-weight: 700;
-            font-style: normal;
-            color: #ddd563;
-            font-size: 31px;
-            text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
-              rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
-              rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
-              rgb(0, 0, 0) 0.96017px -0.279416px 0px;
-            position: relative;
-            z-index: 2;
-          }
-
-          .barrage-icon.icon-vp {
-            font-size: 24px;
-          }
-        }
-
-        .barrage-meeple {
-          position: relative;
-          z-index: 2;
-
-          & ~ .company-income {
-            transform: scale(0.8);
-            top: -34px;
-          }
-        }
-      }
-
-      &.bases-wrapper {
-        top: 110px;
-      }
-
-      &.elevations-wrapper {
-        .building-slot-header {
-          background-position-y: 33.3333%;
-        }
-
-        top: 190px;
-        .building-slot {
-          height: 43px;
-          margin: 12px 7px 2px;
-
-          .company-income {
-            top: 1px;
-          }
-
-          .barrage-meeple ~ .company-income {
-            top: -31px;
-          }
-        }
-      }
-
-      &.conduits-wrapper {
-        top: 271px;
-        .building-slot-header {
-          background-position-y: 66.6666%;
-        }
-
-        .building-slot {
-          height: 43px;
-          width: 43px;
-          border-radius: 50%;
-          margin: 17px 20px 0px 20px;
-          align-items: end;
-
-          .company-income {
-            top: 2px;
-            font-size: 21px;
-            .barrage-icon.icon-vp {
-              font-size: 20px;
-            }
-          }
-
-          .barrage-meeple ~ .company-income {
-            top: -43px;
-          }
-        }
-      }
-
-      &.powerhouses-wrapper {
-        top: 350px;
-        .building-slot-header {
-          background-position-y: 100%;
-        }
-
-        .building-slot {
-          height: 37px;
-          margin: 17px 8px 0px 8px;
-          align-items: end;
-
-          .company-income {
-            top: 1px;
-            height: 36px;
-            &::before {
-              display: none;
-            }
-          }
-
-          .barrage-meeple ~ .company-income {
-            top: -40px;
-          }
-        }
-
-        .building-slot:nth-of-type(3) {
-          margin: 17px 21px 0px 34px;
-        }
-        .building-slot:nth-of-type(4) {
-          margin: 17px 34px 0px 21px;
-        }
-      }
+  @for $i from 1 through 6 {
+    &[data-company='#{$i}'] {
+      background-position-x: $i * 100% / 5;
     }
   }
+}
 
-  @for $i from 0 through 5 {
-    &[data-company='#{$i + 1}'] .company-board-wrapper {
-      background-position-x: ($i % 2) * 100%;
-      background-position-y: (($i - ($i % 2)) / 2) * 100% / 2;
-    }
+#floating-company-boards-wrapper {
+  position: fixed;
+  bottom: calc(-1 * var(--barrageCompanyBoardScale) * 455px);
+  left: 0;
+  transition: bottom 0.8s;
+  z-index: 10;
+  &[data-n='0'] {
+    display: none;
+  }
+  &[data-open] {
+    bottom: 0px;
   }
 
-  .wheel-wrapper {
-    width: 454px;
-    height: 454px;
-    background-image: url('img/construction_wheel.jpg');
-    background-size: 100%;
-    margin-top: 7px;
-    margin-left: -80px;
+  width: calc(var(--barrageCompanyBoardScale) * 1150px);
+  height: calc(var(--barrageCompanyBoardScale) * 468px);
+  box-shadow: 0 0 10px 1px #ff0;
+  background-color: rgba(40, 39, 36, 0.78);
+  border-top: 1px solid #7c5d45;
+  border-right: 1px solid #7c5d45;
+  border-top-right-radius: 8px;
+
+  #floating-company-buttons {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    .mobile_version & {
+      justify-content: flex-start;
+    }
     z-index: 2;
-    clip-path: circle();
+    top: -38px;
+    transition: top 0.8s;
+    .company-board-button {
+      margin: 0px 5px;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform 0.4s;
+      &:hover {
+        transform: translateY(-10px);
+      }
+    }
+  }
+  &[data-open] #floating-company-buttons {
+    top: -30px;
+  }
 
-    .wheel {
-      width: 360px;
-      height: 360px;
-      margin: 47px;
-      position: relative;
-      background-image: url('img/construction_wheel_inner.png');
-      background-size: 100%;
-      transform: rotate(0deg);
-      transition: transform 1s;
-      font-size: 20px;
+  #floating-company-slider {
+    width: 100%;
+    height: 100%;
+    margin-top: calc(-1 * var(--barrageCompanyBoardScale) * 12px);
+    padding-top: calc(var(--barrageCompanyBoardScale) * 12px);
+    overflow: hidden;
 
-      .wheel-sector {
-        width: 173px;
-        height: 180px;
-        position: absolute;
-        top: 0px;
-        left: 94px;
-        transform-origin: bottom center;
-
-        @for $i from 2 to 7 {
-          &:nth-of-type(#{$i}) {
-            transform: rotate(($i - 1) * -60deg);
-          }
+    #floating-company-boards-container {
+      display: flex;
+      .company-board {
+        margin: 0;
+        display: none;
+      }
+    }
+  }
+  @for $i from 1 through 6 {
+    &[data-open='#{$i}'] {
+      #floating-company-buttons .company-board-button[data-company='#{$i}'] {
+        background: #e6e7e9;
+        transform: translateY(-10px);
+        color: black;
+        &:hover {
+          font-size: 32px;
         }
+      }
 
-        .wheel-tile-slot {
-          width: 173px;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-        }
-
-        .wheel-machineries-slots {
-          display: grid;
-          grid-template-rows: repeat(4, 20px);
-          grid-template-columns: repeat(8, 11px);
-          row-gap: 1px;
-          width: 82px;
-          margin: auto;
-          position: relative;
-          z-index: 2;
-
-          .barrage-meeple {
-            grid-column-end: span 2;
-
-            &:nth-of-type(5) {
-              grid-column-start: 2;
-            }
-            &:nth-of-type(8) {
-              grid-column-start: 3;
-            }
-            &:nth-of-type(10) {
-              grid-column-start: 4;
-            }
-          }
-        }
+      #floating-company-boards-container .company-board#company-board-#{$i} {
+        display: block;
       }
     }
   }

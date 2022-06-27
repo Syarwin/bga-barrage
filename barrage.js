@@ -79,15 +79,48 @@ define([
 
       this._settingsConfig = {
         confirmMode: { type: 'pref', prefId: 103 },
+        companyBoardScale: {
+          default: 90,
+          name: _('Company boards scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 2,
+            padding: 0,
+            range: {
+              min: [70],
+              max: [100],
+            },
+          },
+        },
+        ownCompanyBoardLocation: {
+          default: 0,
+          name: _('My Company Board'),
+          type: 'select',
+          values: {
+            0: _('In a floating collapsible container'),
+            1: _('In a modal'),
+            2: _('Below the map'),
+          },
+        },
+        otherCompanyBoardLocation: {
+          default: 2,
+          name: _('Other Company Boards'),
+          type: 'select',
+          values: {
+            0: _('In a floating collapsible container'),
+            1: _('In a modal'),
+            2: _('Below the map'),
+          },
+        },
         mapScale: {
           default: 60,
           name: _('Map scale'),
           type: 'slider',
           sliderConfig: {
             step: 5,
-            padding: 10,
+            padding: 0,
             range: {
-              min: [30],
+              min: [40],
               max: [100],
             },
           },
@@ -97,6 +130,19 @@ define([
           name: _('Enhanced map display'),
           attribute: 'map',
           type: 'switch',
+        },
+        mapOverlay: {
+          default: 50,
+          name: _('Map white overlay'),
+          type: 'slider',
+          sliderConfig: {
+            step: 5,
+            padding: 0,
+            range: {
+              min: [0],
+              max: [100],
+            },
+          },
         },
         conduits: {
           default: 1,
@@ -664,6 +710,17 @@ define([
       elt.style.setProperty('--barrageMapScale', scale / 100);
     },
 
+    onChangeMapOverlaySetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--barrageMapOverlay', scale / 100);
+    },
+
+    onChangeCompanyBoardScaleSetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--barrageCompanyBoardScale', scale / 100);
+      $('modal-company-boards-wrapper').style.setProperty('--barrageCompanyBoardScale', (1.2 * scale) / 100);
+    },
+
     //////////////////////////////////////////////////////////////
     //  _____             _              _____ _
     // | ____|_ __   __ _(_)_ __   ___  |  ___| | _____      __
@@ -730,7 +787,6 @@ define([
       this.setupContracts();
       this.refreshCompanies();
       this.updateWheelSummaries();
-      // this.updatePlayersScores();
     },
 
     ////////////////////////////////////////////////////////////////////////////////

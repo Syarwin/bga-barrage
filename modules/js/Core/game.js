@@ -556,7 +556,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       return `
       <div class='row-data row-data-large' data-id='${setting.id}'>
         <div class='row-label'>${setting.desc}</div>
-        <div class='row-value'>
+        <div class='row-value slider'>
           <div id="setting-${setting.id}"></div>
         </div>
       </div>
@@ -653,6 +653,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           from: null,
           clearPos: true,
           beforeBrother: null,
+          to: null,
 
           phantom: true,
         },
@@ -708,8 +709,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       return new Promise((resolve, reject) => {
         const animation =
           config.pos == null
-            ? this.slideToObject(mobile, targetId, config.duration, config.delay)
-            : this.slideToObjectPos(mobile, targetId, config.pos.x, config.pos.y, config.duration, config.delay);
+            ? this.slideToObject(mobile, config.to || targetId, config.duration, config.delay)
+            : this.slideToObjectPos(mobile, config.to || targetId, config.pos.x, config.pos.y, config.duration, config.delay);
 
         dojo.connect(animation, 'onEnd', () => {
           dojo.style(mobile, 'zIndex', null);
@@ -932,6 +933,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     onClick(node, callback, temporary = true) {
       let safeCallback = (evt) => {
+        evt.stopPropagation();
         if (this.isInterfaceLocked()) return false;
         if (this._helpMode) return false;
         callback(evt);

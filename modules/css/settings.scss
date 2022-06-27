@@ -78,6 +78,10 @@
 
 #popin_showSettings_underlay {
   background-color: black !important;
+  opacity: 0.6;
+}
+#popin_showSettings_wrapper {
+  position: fixed !important;
 }
 
 #popin_showSettings {
@@ -130,6 +134,7 @@
 #settings-controls-container {
   position: relative;
   text-align: center;
+  width: 550px;
 
   &.settingsControlsHidden {
     display: none;
@@ -143,7 +148,10 @@
     align-items: center;
     border-bottom: 1px solid gray;
 
-    [data-map="0"] &[data-id="conduits"] {
+    [data-map='0'] &[data-id='conduits'] {
+      display: none;
+    }
+    [data-map='0'] &[data-id='mapOverlay'] {
       display: none;
     }
 
@@ -160,6 +168,13 @@
     .row-value {
       width: 85%;
       margin: 0;
+
+      &.slider {
+        width: calc(85% - 40px);
+        padding-right: 20px;
+        padding-left: 20px;
+        box-sizing: content-box;
+      }
     }
 
     &.row-data-switch .row-value {

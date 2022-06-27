@@ -261,6 +261,7 @@
           background-position: center center;
           border: 4px solid gray;
           flex-wrap: wrap;
+          overflow-y: auto;
 
           &.selected {
             background-color: #1a6210;

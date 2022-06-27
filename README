@@ -2,7 +2,6 @@ bug
 
 Essentiel
 
-- option pour flottant / modal les company board / XO
 - option pour flottant / modal pour l'energy track
 - ajuster le layout sur écran plus petit
 - Mahiri a 2 joueurs: randomly select 2 others XO avilable for copy
@@ -32,3 +31,4 @@ done
 - améliorer l'afficher des tech tiles advanced sur la summary wheel
 - engineer / powerhouse machin dans la description
 - ajouter un bouton pour construct sans avoir à aller scroller sur son company board
+- option pour flottant / modal les company board / XO

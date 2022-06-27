@@ -24,6 +24,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'CONSTRUCT',
   ];
   const PERSONAL_RESOURCES = ['BASE', 'ELEVATION', 'CONDUIT', 'POWHERHOUSE'];
+  function isVisible(elem) {
+    return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
+  }
 
   return declare('barrage.meeples', null, {
     setupMeeples() {
@@ -200,6 +203,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         config.delay = 0;
         // Use meepleContainer if target not specified
         let target = config.target ? config.target : this.getMeepleContainer(resource);
+        if (!isVisible(target)) {
+          let cId = resource.cId;
+          config.to = $(`show-company-board-${cId}`);
+          if (!isVisible(config.to)) {
+            config.to = $(`company-jump-to-${cId}`);
+          }
+        }
 
         // Slide it
         let slideIt = () => {
@@ -211,6 +221,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
 
           // Slide it
+          if (!isVisible($('meeple-' + resource.id))) {
+            config.from = `resource_${resource.cId}_${resource.type}`;
+          }
           return this.slide('meeple-' + resource.id, target, config);
         };
 
@@ -297,7 +310,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       if (n.args.tile !== null) {
         let tile = n.args.tile;
-        this.slide(`tech-tile-${tile.id}`, this.getTechTileContainer(tile));
+        let config = {};
+        let target = this.getTechTileContainer(tile);
+        if (!isVisible(target)) {
+          let cId = tile.cId;
+          config.to = $(`show-company-board-${cId}`);
+          if (!isVisible(config.to)) {
+            config.to = $(`company-jump-to-${cId}`);
+          }
+        }
+
+
+        this.slide(`tech-tile-${tile.id}`, target, config);
       }
     },
 

@@ -577,7 +577,8 @@ body {
         background-repeat: no-repeat;
         background-position: center center;
         border: 4px solid gray;
-        flex-wrap: wrap; }
+        flex-wrap: wrap;
+        overflow-y: auto; }
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
           background-color: #1a6210; }
         .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b .barrage-meeple {
@@ -643,6 +644,96 @@ body {
       width: 78px;
       margin: 0px 8px;
       justify-content: end; }
+
+#popin_companyBoards_underlay {
+  background-color: black !important;
+  opacity: 0.6; }
+
+#popin_companyBoards_wrapper {
+  position: fixed !important; }
+
+#popin_companyBoards_close {
+  display: none; }
+
+#modal-company-boards-wrapper {
+  position: relative;
+  width: calc(var(--barrageCompanyBoardScale) * 1150px);
+  height: calc(var(--barrageCompanyBoardScale) * 468px); }
+  #modal-company-boards-wrapper #modal-company-buttons {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+    top: -38px; }
+    #modal-company-boards-wrapper #modal-company-buttons .company-board-button {
+      margin: 0px 5px;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform 0.4s; }
+      #modal-company-boards-wrapper #modal-company-buttons .company-board-button:hover {
+        transform: translateY(-10px); }
+  #modal-company-boards-wrapper #modal-company-slider {
+    width: 100%;
+    height: 100%;
+    margin-top: calc(-1 * var(--barrageCompanyBoardScale) * 12px);
+    padding-top: calc(var(--barrageCompanyBoardScale) * 12px);
+    overflow: hidden; }
+    #modal-company-boards-wrapper #modal-company-slider #modal-company-boards-container {
+      display: flex; }
+      #modal-company-boards-wrapper #modal-company-slider #modal-company-boards-container .company-board {
+        margin: 0;
+        font-size: 30px;
+        display: none; }
+  #modal-company-boards-wrapper[data-open='1'] #modal-company-buttons .company-board-button[data-company='1'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='1'] #modal-company-buttons .company-board-button[data-company='1']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='1'] #modal-company-boards-container .company-board#company-board-1 {
+    display: block; }
+  #modal-company-boards-wrapper[data-open='2'] #modal-company-buttons .company-board-button[data-company='2'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='2'] #modal-company-buttons .company-board-button[data-company='2']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='2'] #modal-company-boards-container .company-board#company-board-2 {
+    display: block; }
+  #modal-company-boards-wrapper[data-open='3'] #modal-company-buttons .company-board-button[data-company='3'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='3'] #modal-company-buttons .company-board-button[data-company='3']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='3'] #modal-company-boards-container .company-board#company-board-3 {
+    display: block; }
+  #modal-company-boards-wrapper[data-open='4'] #modal-company-buttons .company-board-button[data-company='4'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='4'] #modal-company-buttons .company-board-button[data-company='4']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='4'] #modal-company-boards-container .company-board#company-board-4 {
+    display: block; }
+  #modal-company-boards-wrapper[data-open='5'] #modal-company-buttons .company-board-button[data-company='5'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='5'] #modal-company-buttons .company-board-button[data-company='5']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='5'] #modal-company-boards-container .company-board#company-board-5 {
+    display: block; }
+  #modal-company-boards-wrapper[data-open='6'] #modal-company-buttons .company-board-button[data-company='6'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #modal-company-boards-wrapper[data-open='6'] #modal-company-buttons .company-board-button[data-company='6']:hover {
+      font-size: 32px; }
+  #modal-company-boards-wrapper[data-open='6'] #modal-company-boards-container .company-board#company-board-6 {
+    display: block; }
 
 #game_play_area {
   font-size: 30px; }
@@ -1628,426 +1719,564 @@ body {
 #company-boards-container {
   display: flex;
   flex-wrap: wrap; }
+  #company-boards-container .company-boards-container {
+    order: 2; }
+    #company-boards-container .company-boards-container.current {
+      order: 1; }
+
+:root {
+  --barrageCompanyBoardScale: 0.9; }
 
 .company-board {
-  display: flex;
+  width: calc(var(--barrageCompanyBoardScale) * 1150px);
+  height: calc(var(--barrageCompanyBoardScale) * 468px);
   margin: 20px 8px 8px;
-  order: 2; }
-  .company-board.current {
-    order: 1; }
-  .company-board .company-board-wrapper {
-    width: 770px;
+  flex-shrink: 0; }
+  .company-board .company-board-resizable {
+    width: 1150px;
     height: 468px;
-    background-image: url("img/company_boards.png");
-    background-size: 200% 300%;
-    position: relative; }
-    .company-board .company-board-wrapper .company-owner-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: -12px; }
-      .company-board .company-board-wrapper .company-owner-wrapper .company-owner {
-        background: #ebd5bd;
-        border-radius: 8px;
-        font-size: 18px;
-        padding: 4px 31px;
-        box-shadow: 0px 2px 3px black;
-        font-family: 'Betty Noir';
-        border: 1px solid black; }
-    .company-board .company-board-wrapper .action-board {
-      width: 625px;
-      margin-left: 118px;
-      margin-top: 7px; }
-      .company-board .company-board-wrapper .action-board .action-board-inner {
-        display: flex;
-        flex-wrap: wrap;
-        flex-flow: row;
-        justify-content: space-between;
-        margin: 0px; }
-        .company-board .company-board-wrapper .action-board .action-board-inner .action-board-row {
-          background: url("img/ui/texture.jpg"); }
-        .company-board .company-board-wrapper .action-board .action-board-inner .action-board-icon {
-          width: 24px;
-          margin-left: 20px; }
-    .company-board .company-board-wrapper .company-board-resources {
-      position: absolute;
-      left: 35px;
-      bottom: 67px;
-      height: 168px;
-      width: 80px;
-      background: url("img/ui/texture.jpg");
-      background-size: 30px;
-      border-radius: 6px;
-      box-shadow: 0 3px 8px black;
-      border: 3px solid gray;
-      display: flex;
-      flex-flow: column;
-      justify-content: space-around;
-      align-items: center;
-      font-size: 21px;
-      padding-bottom: 12px; }
-      .company-board .company-board-wrapper .company-board-resources .company-resource > span {
-        display: inline-block;
-        font-family: 'Oranienbaum';
-        font-weight: bold;
-        width: 30px;
-        text-align: right;
-        color: white; }
-      .company-board .company-board-wrapper .company-board-resources .company-resource .meeple-container {
-        width: 40px;
-        text-align: center;
-        vertical-align: bottom; }
-        .company-board .company-board-wrapper .company-board-resources .company-resource .meeple-container .barrage-meeple {
-          display: inline-block; }
-      .company-board .company-board-wrapper .company-board-resources .company-resource .reserve {
-        display: none; }
-    .company-board .company-board-wrapper .officer-logo {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background-color: #dbdbdb;
-      background-image: url("img/executive_officers.png");
-      background-size: 500% 300%;
-      border: 3px solid gray;
-      border-radius: 50%;
-      bottom: 29px;
-      left: 32px;
-      box-shadow: 2px 2px 3px black; }
-      .company-board .company-board-wrapper .officer-logo .help-marker {
-        top: -8px;
-        left: -8px; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='1'] {
+    display: flex;
+    transform: scale(var(--barrageCompanyBoardScale));
+    transform-origin: top left; }
+    .company-board .company-board-resizable .company-board-wrapper {
+      width: 770px;
+      height: 468px;
+      background-image: url("img/company_boards.png");
+      background-size: 200% 300%;
+      position: relative; }
+      .company-board .company-board-resizable .company-board-wrapper[data-company='1'] {
         background-position-x: 0%;
         background-position-y: 0%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='2'] {
-        background-position-x: 25%;
-        background-position-y: 0%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='3'] {
-        background-position-x: 50%;
-        background-position-y: 0%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='4'] {
-        background-position-x: 75%;
-        background-position-y: 0%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='5'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company='2'] {
         background-position-x: 100%;
         background-position-y: 0%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='6'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company='3'] {
         background-position-x: 0%;
         background-position-y: 50%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='7'] {
-        background-position-x: 25%;
-        background-position-y: 50%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='8'] {
-        background-position-x: 50%;
-        background-position-y: 50%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='9'] {
-        background-position-x: 75%;
-        background-position-y: 50%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='10'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company='4'] {
         background-position-x: 100%;
         background-position-y: 50%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='11'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company='5'] {
         background-position-x: 0%;
         background-position-y: 100%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='12'] {
-        background-position-x: 25%;
-        background-position-y: 100%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='13'] {
-        background-position-x: 50%;
-        background-position-y: 100%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='14'] {
-        background-position-x: 75%;
-        background-position-y: 100%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='15'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company='6'] {
         background-position-x: 100%;
         background-position-y: 100%; }
-      .company-board .company-board-wrapper .officer-logo[data-officer='16'] {
-        background-position-x: 0%;
-        background-position-y: 150%; }
-    .company-board .company-board-wrapper .officer-symbol {
-      position: absolute;
-      width: 120px;
-      height: 42px;
-      background-image: url("img/executive_officers_powers.png"), url("img/ui/texture.jpg");
-      background-size: 500% 300%, 25px;
-      border: 3px solid gray;
-      box-shadow: 2px 2px 3px black;
-      bottom: 15px;
-      left: 77px;
-      border-radius: 6px; }
-      .company-board .company-board-wrapper .officer-symbol .help-marker {
-        top: -8px;
-        left: auto;
-        right: -12px; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='1'] {
-        background-position-x: 0%, center;
-        background-position-y: 0%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='2'] {
-        background-position-x: 25%, center;
-        background-position-y: 0%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='3'] {
-        background-position-x: 50%, center;
-        background-position-y: 0%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='4'] {
-        background-position-x: 75%, center;
-        background-position-y: 0%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='5'] {
-        background-position-x: 100%, center;
-        background-position-y: 0%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='6'] {
-        background-position-x: 0%, center;
-        background-position-y: 50%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='7'] {
-        background-position-x: 25%, center;
-        background-position-y: 50%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='8'] {
-        background-position-x: 50%, center;
-        background-position-y: 50%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='9'] {
-        background-position-x: 75%, center;
-        background-position-y: 50%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='10'] {
-        background-position-x: 100%, center;
-        background-position-y: 50%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='11'] {
-        background-position-x: 0%, center;
-        background-position-y: 100%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='12'] {
-        background-position-x: 25%, center;
-        background-position-y: 100%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='13'] {
-        background-position-x: 50%, center;
-        background-position-y: 100%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='14'] {
-        background-position-x: 75%, center;
-        background-position-y: 100%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='15'] {
-        background-position-x: 100%, center;
-        background-position-y: 100%, center; }
-      .company-board .company-board-wrapper .officer-symbol[data-officer='16'] {
-        background-position-x: 0%, center;
-        background-position-y: 150%, center; }
-      .company-board .company-board-wrapper .officer-symbol .action-board-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 4px 2px 2px 4px;
-        border-radius: 8px;
-        box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
-      .company-board .company-board-wrapper .officer-symbol .action-space {
-        display: flex;
-        background: grey;
-        padding: 3px;
-        border-radius: 5px;
-        column-gap: 3px;
-        position: relative; }
-        .company-board .company-board-wrapper .officer-symbol .action-space.paying {
-          background: #d70f0f; }
-        .company-board .company-board-wrapper .officer-symbol .action-space .action-space-cost {
-          position: absolute;
-          left: calc(100% - 4px);
-          display: none; }
-        .company-board .company-board-wrapper .officer-symbol .action-space .action-space-slot {
-          background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
-          width: 34px;
-          height: 29px;
-          padding-bottom: 1px;
-          border-radius: 5px;
-          background-size: auto 70%, 20px;
-          background-repeat: no-repeat, repeat;
-          background-position: center center;
-          font-size: 39px;
-          display: flex;
-          justify-content: center;
-          align-items: flex-end; }
-          .company-board .company-board-wrapper .officer-symbol .action-space .action-space-slot:not(:empty) {
-            background: #bbb9b9; }
-        .company-board .company-board-wrapper .officer-symbol .action-space.selectable {
-          cursor: pointer; }
-          .company-board .company-board-wrapper .officer-symbol .action-space.selectable .action-space-slot {
-            background-image: url("img/ui/engineer_slot.png");
-            background-size: auto 70%;
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-color: #364422; }
-          .company-board .company-board-wrapper .officer-symbol .action-space.selectable:hover .action-space-slot {
-            background-color: #484848; }
-    .company-board .company-board-wrapper .structures-wrapper {
-      position: absolute;
-      left: 170px;
-      height: 70px;
-      width: 555px;
-      display: flex; }
-      .company-board .company-board-wrapper .structures-wrapper .building-slot-header {
-        width: 99px;
-        height: 66px;
-        background: url("img/construction_costs.png");
-        background-size: 100% 400%; }
-      .company-board .company-board-wrapper .structures-wrapper .building-slot {
-        width: 69px;
-        height: 53px;
-        background: #35312c;
-        margin: 7px 7px 7px 7px;
+      .company-board .company-board-resizable .company-board-wrapper .company-owner-wrapper {
         display: flex;
         justify-content: center;
-        position: relative; }
-        .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income {
-          position: absolute;
-          z-index: 1;
-          font-size: 25px;
-          width: 60px;
-          top: 8px;
-          height: 40px;
+        margin-top: -12px; }
+        .company-board .company-board-resizable .company-board-wrapper .company-owner-wrapper .company-owner {
+          background: #ebd5bd;
+          border-radius: 8px;
+          font-size: 18px;
+          padding: 4px 31px;
+          box-shadow: 0px 2px 3px black;
+          font-family: 'Betty Noir';
+          border: 1px solid black; }
+      .company-board .company-board-resizable .company-board-wrapper .action-board {
+        width: 625px;
+        margin-left: 118px;
+        margin-top: 7px; }
+        .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner {
+          display: flex;
+          flex-wrap: wrap;
+          flex-flow: row;
+          justify-content: space-between;
+          margin: 0px; }
+          .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row {
+            background: url("img/ui/texture.jpg"); }
+          .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-icon {
+            width: 24px;
+            margin-left: 20px; }
+      .company-board .company-board-resizable .company-board-wrapper .company-board-resources {
+        position: absolute;
+        left: 35px;
+        bottom: 67px;
+        height: 168px;
+        width: 80px;
+        background: url("img/ui/texture.jpg");
+        background-size: 30px;
+        border-radius: 6px;
+        box-shadow: 0 3px 8px black;
+        border: 3px solid gray;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 21px;
+        padding-bottom: 12px; }
+        .company-board .company-board-resizable .company-board-wrapper .company-board-resources .company-resource > span {
+          display: inline-block;
+          font-family: 'Oranienbaum';
+          font-weight: bold;
+          width: 30px;
+          text-align: right;
+          color: white; }
+        .company-board .company-board-resizable .company-board-wrapper .company-board-resources .company-resource .meeple-container {
+          width: 40px;
+          text-align: center;
+          vertical-align: bottom; }
+          .company-board .company-board-resizable .company-board-wrapper .company-board-resources .company-resource .meeple-container .barrage-meeple {
+            display: inline-block; }
+        .company-board .company-board-resizable .company-board-wrapper .company-board-resources .company-resource .reserve {
+          display: none; }
+      .company-board .company-board-resizable .company-board-wrapper .officer-logo {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: #dbdbdb;
+        background-image: url("img/executive_officers.png");
+        background-size: 500% 300%;
+        border: 3px solid gray;
+        border-radius: 50%;
+        bottom: 29px;
+        left: 32px;
+        box-shadow: 2px 2px 3px black; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo .help-marker {
+          top: -8px;
+          left: -8px; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='1'] {
+          background-position-x: 0%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='2'] {
+          background-position-x: 25%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='3'] {
+          background-position-x: 50%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='4'] {
+          background-position-x: 75%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='5'] {
+          background-position-x: 100%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='6'] {
+          background-position-x: 0%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='7'] {
+          background-position-x: 25%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='8'] {
+          background-position-x: 50%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='9'] {
+          background-position-x: 75%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='10'] {
+          background-position-x: 100%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='11'] {
+          background-position-x: 0%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='12'] {
+          background-position-x: 25%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='13'] {
+          background-position-x: 50%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='14'] {
+          background-position-x: 75%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='15'] {
+          background-position-x: 100%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='16'] {
+          background-position-x: 0%;
+          background-position-y: 150%; }
+      .company-board .company-board-resizable .company-board-wrapper .officer-symbol {
+        position: absolute;
+        width: 120px;
+        height: 42px;
+        background-image: url("img/executive_officers_powers.png"), url("img/ui/texture.jpg");
+        background-size: 500% 300%, 25px;
+        border: 3px solid gray;
+        box-shadow: 2px 2px 3px black;
+        bottom: 15px;
+        left: 77px;
+        border-radius: 6px; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol .help-marker {
+          top: -8px;
+          left: auto;
+          right: -12px; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='1'] {
+          background-position-x: 0%, center;
+          background-position-y: 0%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='2'] {
+          background-position-x: 25%, center;
+          background-position-y: 0%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='3'] {
+          background-position-x: 50%, center;
+          background-position-y: 0%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='4'] {
+          background-position-x: 75%, center;
+          background-position-y: 0%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='5'] {
+          background-position-x: 100%, center;
+          background-position-y: 0%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='6'] {
+          background-position-x: 0%, center;
+          background-position-y: 50%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='7'] {
+          background-position-x: 25%, center;
+          background-position-y: 50%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='8'] {
+          background-position-x: 50%, center;
+          background-position-y: 50%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='9'] {
+          background-position-x: 75%, center;
+          background-position-y: 50%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='10'] {
+          background-position-x: 100%, center;
+          background-position-y: 50%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='11'] {
+          background-position-x: 0%, center;
+          background-position-y: 100%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='12'] {
+          background-position-x: 25%, center;
+          background-position-y: 100%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='13'] {
+          background-position-x: 50%, center;
+          background-position-y: 100%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='14'] {
+          background-position-x: 75%, center;
+          background-position-y: 100%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='15'] {
+          background-position-x: 100%, center;
+          background-position-y: 100%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='16'] {
+          background-position-x: 0%, center;
+          background-position-y: 150%, center; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-board-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 4px 2px 2px 4px;
+          border-radius: 8px;
+          box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space {
+          display: flex;
+          background: grey;
+          padding: 3px;
+          border-radius: 5px;
+          column-gap: 3px;
+          position: relative; }
+          .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space.paying {
+            background: #d70f0f; }
+          .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
+            position: absolute;
+            left: calc(100% - 4px);
+            display: none; }
+          .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-slot {
+            background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
+            width: 34px;
+            height: 29px;
+            padding-bottom: 1px;
+            border-radius: 5px;
+            background-size: auto 70%, 20px;
+            background-repeat: no-repeat, repeat;
+            background-position: center center;
+            font-size: 39px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; }
+            .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-slot:not(:empty) {
+              background: #bbb9b9; }
+          .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space.selectable {
+            cursor: pointer; }
+            .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space.selectable .action-space-slot {
+              background-image: url("img/ui/engineer_slot.png");
+              background-size: auto 70%;
+              background-repeat: no-repeat;
+              background-position: center center;
+              background-color: #364422; }
+            .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space.selectable:hover .action-space-slot {
+              background-color: #484848; }
+      .company-board .company-board-resizable .company-board-wrapper .structures-wrapper {
+        position: absolute;
+        left: 170px;
+        height: 70px;
+        width: 555px;
+        display: flex; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot-header {
+          width: 99px;
+          height: 66px;
+          background: url("img/construction_costs.png");
+          background-size: 100% 400%; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot {
+          width: 69px;
+          height: 53px;
+          background: #35312c;
+          margin: 7px 7px 7px 7px;
           display: flex;
           justify-content: center;
-          align-items: center;
-          transform: scale(1);
-          transition: transform 0.8s, top 0.8s; }
-          .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income::before {
-            display: inline-block;
-            margin-top: -5px;
-            margin-right: -6px;
-            content: '!';
-            font-family: 'acumin-pro', serif;
-            font-weight: 700;
-            font-style: normal;
-            color: #ddd563;
-            font-size: 31px;
-            text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px;
+          position: relative; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot .company-income {
+            position: absolute;
+            z-index: 1;
+            font-size: 25px;
+            width: 60px;
+            top: 8px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: transform 0.8s, top 0.8s; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot .company-income::before {
+              display: inline-block;
+              margin-top: -5px;
+              margin-right: -6px;
+              content: '!';
+              font-family: 'acumin-pro', serif;
+              font-weight: 700;
+              font-style: normal;
+              color: #ddd563;
+              font-size: 31px;
+              text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px, black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px, black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px;
+              position: relative;
+              z-index: 2; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot .company-income .barrage-icon.icon-vp {
+              font-size: 24px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple {
             position: relative;
             z-index: 2; }
-          .company-board .company-board-wrapper .structures-wrapper .building-slot .company-income .barrage-icon.icon-vp {
-            font-size: 24px; }
-        .company-board .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple {
-          position: relative;
-          z-index: 2; }
-          .company-board .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple ~ .company-income {
-            transform: scale(0.8);
-            top: -34px; }
-      .company-board .company-board-wrapper .structures-wrapper.bases-wrapper {
-        top: 110px; }
-      .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper {
-        top: 190px; }
-        .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot-header {
-          background-position-y: 33.3333%; }
-        .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot {
-          height: 43px;
-          margin: 12px 7px 2px; }
-          .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .company-income {
-            top: 1px; }
-          .company-board .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .barrage-meeple ~ .company-income {
-            top: -31px; }
-      .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper {
-        top: 271px; }
-        .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot-header {
-          background-position-y: 66.6666%; }
-        .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot {
-          height: 43px;
-          width: 43px;
-          border-radius: 50%;
-          margin: 17px 20px 0px 20px;
-          align-items: end; }
-          .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income {
-            top: 2px;
-            font-size: 21px; }
-            .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income .barrage-icon.icon-vp {
-              font-size: 20px; }
-          .company-board .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .barrage-meeple ~ .company-income {
-            top: -43px; }
-      .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
-        top: 350px; }
-        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot-header {
-          background-position-y: 100%; }
-        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot {
-          height: 37px;
-          margin: 17px 8px 0px 8px;
-          align-items: end; }
-          .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income {
-            top: 1px;
-            height: 36px; }
-            .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income::before {
-              display: none; }
-          .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .barrage-meeple ~ .company-income {
-            top: -40px; }
-        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(3) {
-          margin: 17px 21px 0px 34px; }
-        .company-board .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(4) {
-          margin: 17px 34px 0px 21px; }
-  .company-board[data-company='1'] .company-board-wrapper {
-    background-position-x: 0%;
-    background-position-y: 0%; }
-  .company-board[data-company='2'] .company-board-wrapper {
-    background-position-x: 100%;
-    background-position-y: 0%; }
-  .company-board[data-company='3'] .company-board-wrapper {
-    background-position-x: 0%;
-    background-position-y: 50%; }
-  .company-board[data-company='4'] .company-board-wrapper {
-    background-position-x: 100%;
-    background-position-y: 50%; }
-  .company-board[data-company='5'] .company-board-wrapper {
-    background-position-x: 0%;
-    background-position-y: 100%; }
-  .company-board[data-company='6'] .company-board-wrapper {
-    background-position-x: 100%;
-    background-position-y: 100%; }
-  .company-board .wheel-wrapper {
-    width: 454px;
-    height: 454px;
-    background-image: url("img/construction_wheel.jpg");
-    background-size: 100%;
-    margin-top: 7px;
-    margin-left: -80px;
-    z-index: 2;
-    clip-path: circle(); }
-    .company-board .wheel-wrapper .wheel {
-      width: 360px;
-      height: 360px;
-      margin: 47px;
-      position: relative;
-      background-image: url("img/construction_wheel_inner.png");
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot .barrage-meeple ~ .company-income {
+              transform: scale(0.8);
+              top: -34px; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.bases-wrapper {
+          top: 110px; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper {
+          top: 190px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot-header {
+            background-position-y: 33.3333%; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot {
+            height: 43px;
+            margin: 12px 7px 2px; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .company-income {
+              top: 1px; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .barrage-meeple ~ .company-income {
+              top: -31px; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper {
+          top: 271px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot-header {
+            background-position-y: 66.6666%; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot {
+            height: 43px;
+            width: 43px;
+            border-radius: 50%;
+            margin: 17px 20px 0px 20px;
+            align-items: end; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income {
+              top: 2px;
+              font-size: 21px; }
+              .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .company-income .barrage-icon.icon-vp {
+                font-size: 20px; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .barrage-meeple ~ .company-income {
+              top: -43px; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
+          top: 350px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot-header {
+            background-position-y: 100%; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot {
+            height: 37px;
+            margin: 17px 8px 0px 8px;
+            align-items: end; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income {
+              top: 1px;
+              height: 36px; }
+              .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .company-income::before {
+                display: none; }
+            .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot .barrage-meeple ~ .company-income {
+              top: -40px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(3) {
+            margin: 17px 21px 0px 34px; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(4) {
+            margin: 17px 34px 0px 21px; }
+    .company-board .company-board-resizable .wheel-wrapper {
+      width: 454px;
+      height: 454px;
+      background-image: url("img/construction_wheel.jpg");
       background-size: 100%;
-      transform: rotate(0deg);
-      transition: transform 1s;
-      font-size: 20px; }
-      .company-board .wheel-wrapper .wheel .wheel-sector {
-        width: 173px;
-        height: 180px;
-        position: absolute;
-        top: 0px;
-        left: 94px;
-        transform-origin: bottom center; }
-        .company-board .wheel-wrapper .wheel .wheel-sector:nth-of-type(2) {
-          transform: rotate(-60deg); }
-        .company-board .wheel-wrapper .wheel .wheel-sector:nth-of-type(3) {
-          transform: rotate(-120deg); }
-        .company-board .wheel-wrapper .wheel .wheel-sector:nth-of-type(4) {
-          transform: rotate(-180deg); }
-        .company-board .wheel-wrapper .wheel .wheel-sector:nth-of-type(5) {
-          transform: rotate(-240deg); }
-        .company-board .wheel-wrapper .wheel .wheel-sector:nth-of-type(6) {
-          transform: rotate(-300deg); }
-        .company-board .wheel-wrapper .wheel .wheel-sector .wheel-tile-slot {
+      margin-top: 7px;
+      margin-left: -80px;
+      z-index: 2;
+      clip-path: circle(); }
+      .company-board .company-board-resizable .wheel-wrapper .wheel {
+        width: 360px;
+        height: 360px;
+        margin: 47px;
+        position: relative;
+        background-image: url("img/construction_wheel_inner.png");
+        background-size: 100%;
+        transform: rotate(0deg);
+        transition: transform 1s;
+        font-size: 20px; }
+        .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector {
           width: 173px;
-          height: 60px;
-          display: flex;
-          justify-content: center; }
-        .company-board .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots {
-          display: grid;
-          grid-template-rows: repeat(4, 20px);
-          grid-template-columns: repeat(8, 11px);
-          row-gap: 1px;
-          width: 82px;
-          margin: auto;
-          position: relative;
-          z-index: 2; }
-          .company-board .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple {
-            grid-column-end: span 2; }
-            .company-board .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(5) {
-              grid-column-start: 2; }
-            .company-board .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(8) {
-              grid-column-start: 3; }
-            .company-board .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(10) {
-              grid-column-start: 4; }
+          height: 180px;
+          position: absolute;
+          top: 0px;
+          left: 94px;
+          transform-origin: bottom center; }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(2) {
+            transform: rotate(-60deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(3) {
+            transform: rotate(-120deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(4) {
+            transform: rotate(-180deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(5) {
+            transform: rotate(-240deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(6) {
+            transform: rotate(-300deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-tile-slot {
+            width: 173px;
+            height: 60px;
+            display: flex;
+            justify-content: center; }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots {
+            display: grid;
+            grid-template-rows: repeat(4, 20px);
+            grid-template-columns: repeat(8, 11px);
+            row-gap: 1px;
+            width: 82px;
+            margin: auto;
+            position: relative;
+            z-index: 2; }
+            .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple {
+              grid-column-end: span 2; }
+              .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(5) {
+                grid-column-start: 2; }
+              .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(8) {
+                grid-column-start: 3; }
+              .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-machineries-slots .barrage-meeple:nth-of-type(10) {
+                grid-column-start: 4; }
+
+.company-board-button {
+  width: 44px;
+  height: 44px;
+  background-image: url("img/companies.jpg");
+  background-size: 600% 100%;
+  border: 2px solid black;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: transparent;
+  order: 2; }
+  .company-board-button.current {
+    order: 1; }
+  .company-board-button[data-company='1'] {
+    background-position-x: 20%; }
+  .company-board-button[data-company='2'] {
+    background-position-x: 40%; }
+  .company-board-button[data-company='3'] {
+    background-position-x: 60%; }
+  .company-board-button[data-company='4'] {
+    background-position-x: 80%; }
+  .company-board-button[data-company='5'] {
+    background-position-x: 100%; }
+  .company-board-button[data-company='6'] {
+    background-position-x: 120%; }
+
+#floating-company-boards-wrapper {
+  position: fixed;
+  bottom: calc(-1 * var(--barrageCompanyBoardScale) * 455px);
+  left: 0;
+  transition: bottom 0.8s;
+  z-index: 10;
+  width: calc(var(--barrageCompanyBoardScale) * 1150px);
+  height: calc(var(--barrageCompanyBoardScale) * 468px);
+  box-shadow: 0 0 10px 1px #ff0;
+  background-color: rgba(40, 39, 36, 0.78);
+  border-top: 1px solid #7c5d45;
+  border-right: 1px solid #7c5d45;
+  border-top-right-radius: 8px; }
+  #floating-company-boards-wrapper[data-n='0'] {
+    display: none; }
+  #floating-company-boards-wrapper[data-open] {
+    bottom: 0px; }
+  #floating-company-boards-wrapper #floating-company-buttons {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+    top: -38px;
+    transition: top 0.8s; }
+    .mobile_version #floating-company-boards-wrapper #floating-company-buttons {
+      justify-content: flex-start; }
+    #floating-company-boards-wrapper #floating-company-buttons .company-board-button {
+      margin: 0px 5px;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform 0.4s; }
+      #floating-company-boards-wrapper #floating-company-buttons .company-board-button:hover {
+        transform: translateY(-10px); }
+  #floating-company-boards-wrapper[data-open] #floating-company-buttons {
+    top: -30px; }
+  #floating-company-boards-wrapper #floating-company-slider {
+    width: 100%;
+    height: 100%;
+    margin-top: calc(-1 * var(--barrageCompanyBoardScale) * 12px);
+    padding-top: calc(var(--barrageCompanyBoardScale) * 12px);
+    overflow: hidden; }
+    #floating-company-boards-wrapper #floating-company-slider #floating-company-boards-container {
+      display: flex; }
+      #floating-company-boards-wrapper #floating-company-slider #floating-company-boards-container .company-board {
+        margin: 0;
+        display: none; }
+  #floating-company-boards-wrapper[data-open='1'] #floating-company-buttons .company-board-button[data-company='1'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='1'] #floating-company-buttons .company-board-button[data-company='1']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='1'] #floating-company-boards-container .company-board#company-board-1 {
+    display: block; }
+  #floating-company-boards-wrapper[data-open='2'] #floating-company-buttons .company-board-button[data-company='2'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='2'] #floating-company-buttons .company-board-button[data-company='2']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='2'] #floating-company-boards-container .company-board#company-board-2 {
+    display: block; }
+  #floating-company-boards-wrapper[data-open='3'] #floating-company-buttons .company-board-button[data-company='3'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='3'] #floating-company-buttons .company-board-button[data-company='3']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='3'] #floating-company-boards-container .company-board#company-board-3 {
+    display: block; }
+  #floating-company-boards-wrapper[data-open='4'] #floating-company-buttons .company-board-button[data-company='4'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='4'] #floating-company-buttons .company-board-button[data-company='4']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='4'] #floating-company-boards-container .company-board#company-board-4 {
+    display: block; }
+  #floating-company-boards-wrapper[data-open='5'] #floating-company-buttons .company-board-button[data-company='5'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='5'] #floating-company-buttons .company-board-button[data-company='5']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='5'] #floating-company-boards-container .company-board#company-board-5 {
+    display: block; }
+  #floating-company-boards-wrapper[data-open='6'] #floating-company-buttons .company-board-button[data-company='6'] {
+    background: #e6e7e9;
+    transform: translateY(-10px);
+    color: black; }
+    #floating-company-boards-wrapper[data-open='6'] #floating-company-buttons .company-board-button[data-company='6']:hover {
+      font-size: 32px; }
+  #floating-company-boards-wrapper[data-open='6'] #floating-company-boards-container .company-board#company-board-6 {
+    display: block; }
 
 #player_config {
   margin: 10px 0px; }
@@ -2105,7 +2334,11 @@ body {
     transform: rotate(180deg); }
 
 #popin_showSettings_underlay {
-  background-color: black !important; }
+  background-color: black !important;
+  opacity: 0.6; }
+
+#popin_showSettings_wrapper {
+  position: fixed !important; }
 
 #popin_showSettings {
   background-color: #ebd5bd;
@@ -2147,7 +2380,8 @@ body {
  */
 #settings-controls-container {
   position: relative;
-  text-align: center; }
+  text-align: center;
+  width: 550px; }
   #settings-controls-container.settingsControlsHidden {
     display: none; }
   #settings-controls-container .row-data {
@@ -2157,7 +2391,9 @@ body {
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid gray; }
-    [data-map="0"] #settings-controls-container .row-data[data-id="conduits"] {
+    [data-map='0'] #settings-controls-container .row-data[data-id='conduits'] {
+      display: none; }
+    [data-map='0'] #settings-controls-container .row-data[data-id='mapOverlay'] {
       display: none; }
     #settings-controls-container .row-data .row-label {
       width: 100%;
@@ -2170,6 +2406,11 @@ body {
     #settings-controls-container .row-data .row-value {
       width: 85%;
       margin: 0; }
+      #settings-controls-container .row-data .row-value.slider {
+        width: calc(85% - 40px);
+        padding-right: 20px;
+        padding-left: 20px;
+        box-sizing: content-box; }
     #settings-controls-container .row-data.row-data-switch .row-value {
       padding: 6px 0px; }
     #settings-controls-container .row-data label.switch {

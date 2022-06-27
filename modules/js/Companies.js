@@ -32,6 +32,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.updateCompaniesOrder();
       this.updateCompanyBonuses();
       this.updateCompanyIncomes();
+
+      this._companiesBoard = {};
+      this._companiesModal = new customgame.modal('companyBoards', {
+        class: 'barrage_popin',
+        closeIcon: 'fa-times',
+        closeAction: 'hide',
+        verticalAlign: 'flex-start',
+        onHide: () => (this._modalContainerOpen = null),
+        contentsTpl: `<div id="modal-company-boards-wrapper">
+          <div id="modal-company-buttons"></div>
+          <div id="modal-company-slider">
+            <div id="modal-company-boards-container"></div>
+          </div>
+        </div>`,
+      });
+      $('popin_companyBoards').addEventListener('click', () => this._companiesModal.hide());
     },
 
     refreshCompanies() {
@@ -40,23 +56,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
       this.updateCompanyBonuses();
       this.updateCompanyIncomes();
-    },
-
-    updateCompaniesOrder() {
-      // Compute number of companies and no offset to let player be on top
-      let no = 0;
-      let n = 0;
-      this.forEachCompany((company) => {
-        n++;
-        if (company.pId == this.player_id) {
-          no = company.no;
-        }
-      });
-
-      this.forEachCompany((company) => {
-        // TODO : handle automa
-        $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
-      });
     },
 
     setupCompany(company) {
@@ -69,9 +68,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // Add additional info to player boards
       this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
-      $(`company-jump-to-${company.id}`).addEventListener('click', () => {
-        window.scrollTo(0, $(`company-board-${company.id}`).getBoundingClientRect()['top'] - 30);
-      });
+      $(`overall_player_board_${company.pId}`).addEventListener('click', () => this.goToCompanyBoard(company));
 
       // Add energy counter
       dojo.place(
@@ -93,6 +90,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.updateWheelAngle(company);
         this.addBoardIncomes(company);
       }
+
+      this.updateCompaniesLayout();
     },
 
     tplPlayerPanel(company) {
@@ -206,89 +205,91 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       );
 
       return (
-        `<div class='company-board ${current}' data-company='${id}' id='company-board-${company.id}'>
-        <div class='company-board-wrapper'>
-          <div class='company-owner-wrapper'>
-            <div class='company-owner' style='color:#${this.getCompanyColor(id)}'>
-              ${_(company.name)}
+        `<div class='company-board ${current}' id='company-board-${company.id}'>
+        <div class='company-board-resizable'>
+          <div class='company-board-wrapper' data-company='${id}'>
+            <div class='company-owner-wrapper'>
+              <div class='company-owner' style='color:#${this.getCompanyColor(id)}'>
+                ${_(company.name)}
+              </div>
             </div>
-          </div>
 
-          <div class='action-board' data-id='company-${id}'>
-            <div class='action-board-inner'></div>
-          </div>
+            <div class='action-board' data-id='company-${id}'>
+              <div class='action-board-inner'></div>
+            </div>
 
-          <div class="company-board-resources">
-          ` +
+            <div class="company-board-resources">
+            ` +
         RESOURCES.map((res) =>
           this.tplResourceCounter(company, res, 'company_', company.officer.startingResources[res]),
         ).join('') +
         `
-          </div>
-
-          <div class='officer-symbol' data-officer='${company.officer.id}' id="officer-power-${company.officer.id}"></div>
-          <div class='officer-logo' data-officer='${company.officer.id}' id="officer-logo-${company.officer.id}"></div>
-
-          <div class='structures-wrapper bases-wrapper'>
-            <div class='building-slot-header'></div>
-            <div class='building-slot' id='base-4-${id}'></div>
-            <div class='building-slot' id='base-3-${id}'></div>
-            <div class='building-slot' id='base-2-${id}'></div>
-            <div class='building-slot' id='base-1-${id}'></div>
-            <div class='building-slot' id='base-0-${id}'></div>
-          </div>
-
-          <div class='structures-wrapper elevations-wrapper'>
-            <div class='building-slot-header'></div>
-            <div class='building-slot' id='elevation-4-${id}'></div>
-            <div class='building-slot' id='elevation-3-${id}'></div>
-            <div class='building-slot' id='elevation-2-${id}'></div>
-            <div class='building-slot' id='elevation-1-${id}'></div>
-            <div class='building-slot' id='elevation-0-${id}'></div>
-          </div>
-
-          <div class='structures-wrapper conduits-wrapper'>
-            <div class='building-slot-header'></div>
-            <div class='building-slot' id='conduit-4-${id}'></div>
-            <div class='building-slot' id='conduit-3-${id}'></div>
-            <div class='building-slot' id='conduit-2-${id}'></div>
-            <div class='building-slot' id='conduit-1-${id}'></div>
-            <div class='building-slot' id='conduit-0-${id}'></div>
-          </div>
-
-          <div class='structures-wrapper powerhouses-wrapper'>
-            <div class='building-slot-header'></div>
-            <div class='building-slot' id='powerhouse-3-${id}'></div>
-            <div class='building-slot' id='powerhouse-2-${id}'></div>
-            <div class='building-slot' id='powerhouse-1-${id}'></div>
-            <div class='building-slot' id='powerhouse-0-${id}'></div>
-          </div>
-        </div>
-        <div class='wheel-wrapper'>
-          <div class='wheel' id='wheel-${company.id}' data-angle='${company.wheelAngle}'>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
             </div>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
+
+            <div class='officer-symbol' data-officer='${company.officer.id}' id="officer-power-${company.officer.id}"></div>
+            <div class='officer-logo' data-officer='${company.officer.id}' id="officer-logo-${company.officer.id}"></div>
+
+            <div class='structures-wrapper bases-wrapper'>
+              <div class='building-slot-header'></div>
+              <div class='building-slot' id='base-4-${id}'></div>
+              <div class='building-slot' id='base-3-${id}'></div>
+              <div class='building-slot' id='base-2-${id}'></div>
+              <div class='building-slot' id='base-1-${id}'></div>
+              <div class='building-slot' id='base-0-${id}'></div>
             </div>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
+
+            <div class='structures-wrapper elevations-wrapper'>
+              <div class='building-slot-header'></div>
+              <div class='building-slot' id='elevation-4-${id}'></div>
+              <div class='building-slot' id='elevation-3-${id}'></div>
+              <div class='building-slot' id='elevation-2-${id}'></div>
+              <div class='building-slot' id='elevation-1-${id}'></div>
+              <div class='building-slot' id='elevation-0-${id}'></div>
             </div>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
+
+            <div class='structures-wrapper conduits-wrapper'>
+              <div class='building-slot-header'></div>
+              <div class='building-slot' id='conduit-4-${id}'></div>
+              <div class='building-slot' id='conduit-3-${id}'></div>
+              <div class='building-slot' id='conduit-2-${id}'></div>
+              <div class='building-slot' id='conduit-1-${id}'></div>
+              <div class='building-slot' id='conduit-0-${id}'></div>
             </div>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
+
+            <div class='structures-wrapper powerhouses-wrapper'>
+              <div class='building-slot-header'></div>
+              <div class='building-slot' id='powerhouse-3-${id}'></div>
+              <div class='building-slot' id='powerhouse-2-${id}'></div>
+              <div class='building-slot' id='powerhouse-1-${id}'></div>
+              <div class='building-slot' id='powerhouse-0-${id}'></div>
             </div>
-            <div class='wheel-sector'>
-              <div class='wheel-tile-slot'></div>
-              <div class='wheel-machineries-slots'></div>
+          </div>
+          <div class='wheel-wrapper'>
+            <div class='wheel' id='wheel-${company.id}' data-angle='${company.wheelAngle}'>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
+              <div class='wheel-sector'>
+                <div class='wheel-tile-slot'></div>
+                <div class='wheel-machineries-slots'></div>
+              </div>
             </div>
           </div>
         </div>
@@ -336,6 +337,173 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return `<!--PNS--><span class="playername" style="color:#${color};${color_bg}">${_(name)}</span><!--PNE-->`;
     },
 
+    notif_setupCompanies(n) {
+      debug('Notif: initializing companies meeples', n);
+      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
+      n.args.tiles.forEach((tile) => this.addTechTile(tile));
+      this.updateCompaniesCounters();
+    },
+
+    notif_produce(n) {
+      debug('Notif: producing energy', n);
+      if (this.isFastMode()) {
+        this.incEnergy(n.args.company_id, n.args.energy);
+        return;
+      }
+
+      let powerhouse = this.getConstructSlot(n.args.powerhouse);
+      powerhouse.classList.add('producing');
+      this.wait(100).then(() => {
+        // Create temporary icon and slide it
+        dojo.place(
+          `<div id='produce-energy-counter'>${this.formatString('<ENERGY:' + n.args.energy + '>')}</div>`,
+          powerhouse,
+        );
+        this.slide('produce-energy-counter', this.getCompanyScoreToken(n.args.company_id), {
+          destroy: true,
+          duration: 1350,
+          phantom: false,
+        }).then(() => {
+          this.incEnergy(n.args.company_id, n.args.energy);
+          powerhouse.classList.remove('producing');
+        });
+      });
+    },
+
+    /////////////////////////////////////////////
+    //  _                            _
+    // | |    __ _ _   _  ___  _   _| |_
+    // | |   / _` | | | |/ _ \| | | | __|
+    // | |__| (_| | |_| | (_) | |_| | |_
+    // |_____\__,_|\__, |\___/ \__,_|\__|
+    //             |___/
+    /////////////////////////////////////////////
+    updateCompaniesLayout() {
+      if (!this.settings || !this.settings.ownCompanyBoardLocation || !this.settings.otherCompanyBoardLocation) return;
+
+      // Remove buttons
+      const btnContainers = ['floating-company-buttons', 'modal-company-buttons'];
+      btnContainers.forEach((containerId) => ($(containerId).innerHTML = ''));
+
+      let counters = [0, 0, 0];
+      const containers = [
+        'floating-company-boards-container',
+        'modal-company-boards-container',
+        'company-boards-container',
+      ];
+      this.forEachCompany((company) => {
+        let pref = this.settings[
+          company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'
+        ];
+        dojo.place(`company-board-${company.id}`, containers[pref]);
+        let index = counters[pref];
+        counters[pref]++;
+
+        if (btnContainers[pref]) {
+          this.place('tplBtnCompanyBoard', company, btnContainers[pref]);
+          $(`show-company-board-${company.id}`).addEventListener('click', (evt) => this.goToCompanyBoard(company, evt));
+        }
+
+        this._companiesBoard[company.id] = { index, pref };
+      });
+
+      containers.forEach((containerId, i) => {
+        if (i < 2) $(containerId).parentNode.parentNode.dataset.n = counters[i];
+      });
+
+      this._floatingContainerOpen = null;
+      this._modalContainerOpen = null;
+    },
+
+    tplBtnCompanyBoard(company) {
+      let current = company.pId == this.player_id ? 'current' : '';
+      return `<div id='show-company-board-${company.id}' class='company-board-button ${current}' data-company='${company.id}' style="border-color:#${company.color}">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>`;
+    },
+
+    goToCompanyBoard(company, evt = null) {
+      if (evt) evt.stopPropagation();
+      let t = this._companiesBoard[company.id];
+      if (t.pref == 0) {
+        // Floating container
+        if (this._floatingContainerOpen == company.id) {
+          delete $('floating-company-boards-wrapper').dataset.open;
+          this._floatingContainerOpen = null;
+        } else {
+          $('floating-company-boards-wrapper').dataset.open = company.id;
+          this._floatingContainerOpen = company.id;
+        }
+      } else if (t.pref == 1) {
+        // Modal container
+        if (this._modalContainerOpen == company.id) {
+          delete $('modal-company-boards-wrapper').dataset.open;
+          this._modalContainerOpen = null;
+          this._companiesModal.hide();
+        } else {
+          $('modal-company-boards-wrapper').dataset.open = company.id;
+          if (this._modalContainerOpen == null) {
+            this._companiesModal.show();
+          }
+          this._modalContainerOpen = company.id;
+        }
+      } else if (t.pref == 2) {
+        // Below map
+        window.scrollTo(0, $(`company-board-${company.id}`).getBoundingClientRect()['top'] - 30);
+      }
+    },
+
+    onChangeOwnCompanyBoardLocationSetting(val) {
+      this.updateCompaniesLayout();
+    },
+
+    onChangeOtherCompanyBoardLocationSetting(val) {
+      this.updateCompaniesLayout();
+    },
+
+    /////////////////////////////////////////////////////////////
+    //  _____                    ___          _
+    // |_   _|   _ _ __ _ __    / _ \ _ __ __| | ___ _ __
+    //   | || | | | '__| '_ \  | | | | '__/ _` |/ _ \ '__|
+    //   | || |_| | |  | | | | | |_| | | | (_| |  __/ |
+    //   |_| \__,_|_|  |_| |_|  \___/|_|  \__,_|\___|_|
+    /////////////////////////////////////////////////////////////
+    updateCompaniesOrder() {
+      // Compute number of companies and no offset to let player be on top
+      let no = 0;
+      let n = 0;
+      this.forEachCompany((company) => {
+        n++;
+        if (company.pId == this.player_id) {
+          no = company.no;
+        }
+      });
+
+      this.forEachCompany((company) => {
+        // TODO : handle automa
+        $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
+      });
+    },
+
+    notif_updateTurnOrder(n) {
+      debug('Notif: updating turn order', n);
+      let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
+      n.args.order.forEach((cId, i) => {
+        let no = i + 1;
+        this.gamedatas.companies[cId].no = no;
+        $(`company-position-${cId}`).innerHTML = nos[no];
+      });
+      this.updateCompaniesOrder();
+    },
+
+    ////////////////////////////////////////////////////
+    //   ____                  _
+    //  / ___|___  _   _ _ __ | |_ ___ _ __ ___
+    // | |   / _ \| | | | '_ \| __/ _ \ '__/ __|
+    // | |__| (_) | |_| | | | | ||  __/ |  \__ \
+    //  \____\___/ \__,_|_| |_|\__\___|_|  |___/
+    //
+    ////////////////////////////////////////////////////
     /**
      * Create all the counters for company panels
      */
@@ -412,53 +580,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.slideResources(n.args.tokens, {});
     },
 
-    notif_setupCompanies(n) {
-      debug('Notif: initializing companies meeples', n);
-      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
-      n.args.tiles.forEach((tile) => this.addTechTile(tile));
-      this.updateCompaniesCounters();
-    },
-
-    notif_produce(n) {
-      debug('Notif: producing energy', n);
-      if (this.isFastMode()) {
-        this.incEnergy(n.args.company_id, n.args.energy);
-        return;
-      }
-
-      let powerhouse = this.getConstructSlot(n.args.powerhouse);
-      powerhouse.classList.add('producing');
-      this.wait(100).then(() => {
-        // Create temporary icon and slide it
-        dojo.place(
-          `<div id='produce-energy-counter'>${this.formatString('<ENERGY:' + n.args.energy + '>')}</div>`,
-          powerhouse,
-        );
-        this.slide('produce-energy-counter', this.getCompanyScoreToken(n.args.company_id), {
-          destroy: true,
-          duration: 1350,
-          phantom: false,
-        }).then(() => {
-          this.incEnergy(n.args.company_id, n.args.energy);
-          powerhouse.classList.remove('producing');
-        });
-      });
-    },
-
     notif_score(n) {
       debug('Notif: updating scores', n);
       this._scoreCounters[n.args.company_id].incValue(n.args.amount);
-    },
-
-    notif_updateTurnOrder(n) {
-      debug('Notif: updating turn order', n);
-      let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
-      n.args.order.forEach((cId, i) => {
-        let no = i + 1;
-        this.gamedatas.companies[cId].no = no;
-        $(`company-position-${cId}`).innerHTML = nos[no];
-      });
-      this.updateCompaniesOrder();
     },
 
     ///////////////////////////////////////////////////
