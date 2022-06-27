@@ -559,28 +559,17 @@ define([
     ////////////////////////////////////////////////////////////////////////
     setupActionBoards() {
       this.gamedatas.actionBoards.forEach((board) => {
-        if (board.id == 'company') {
+        if (board.id == 'officer' || board.id == 'company') {
           board.structure.forEach((row) => {
             let cId = row[0].cId;
-            let container = '';
+
             // Mahiri management to add the action space
-            if (row[1].hasOwnProperty('type') != -1 && row[1]['type'] == 'mahiri') {
-              if (
-                document.querySelector(`.company-board[data-company='${cId}'] .officer-symbol .action-board-row`) ===
-                null
-              ) {
-                container = document.querySelector(`.company-board[data-company='${cId}'] .officer-symbol`);
-                this.place('tplActionBoardRow', row, container);
-              } else {
-                container = document.querySelector(
-                  `.company-board[data-company='${cId}'] .officer-symbol .action-board-row`,
-                );
-                this.place('tplActionSpace', row[0], container);
-              }
-            } else {
-              container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
-              this.place('tplActionBoardRow', row, container);
+            let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+            if (board.id == 'officer') {
+              container = $(`company-board-${cId}`).querySelector('.officer-symbol');
             }
+
+            this.place('tplActionBoardRow', row, container);
           });
         } else {
           this.place('tplActionBoard', board, 'action-boards-container');

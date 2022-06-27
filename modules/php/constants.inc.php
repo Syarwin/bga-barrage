@@ -229,6 +229,7 @@ const BOARD_WORSKHOP = 'workshop';
 const BOARD_MACHINERY_SHOP = 'machinery';
 const BOARD_CONTRACT = 'contract';
 const BOARD_PATENT = 'patent';
+const BOARD_OFFICER = 'officer';
 
 /*
  * Atomic action

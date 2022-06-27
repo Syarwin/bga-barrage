@@ -17,6 +17,7 @@ class ActionSpaces
     'MachineryShopActionBoard',
     'ContractActionBoard',
     'PatentActionBoard',
+    'OfficerActionBoard',
   ];
 
   public function getBoard($id)

@@ -8,12 +8,12 @@ use BRG\Core\Engine;
 use BRG\Core\Globals;
 
 /*
- * Company action space board
+ * XO action space board
  */
 
-class CompanyActionBoard extends AbstractActionBoard
+class OfficerActionBoard extends AbstractActionBoard
 {
-  protected static $id = BOARD_COMPANY;
+  protected static $id = BOARD_OFFICER;
 
   public function getUiStructure($filterCId = null)
   {
@@ -22,19 +22,17 @@ class CompanyActionBoard extends AbstractActionBoard
       if (!is_null($filterCId) && $cId != $filterCId) {
         continue;
       }
-      for ($i = 1; $i <= 4; $i++) {
-        $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
-      }
+
       if ($company->isXO(\XO_MAHIRI)) {
         $rows[] = [
-          $cId . '-6',
+          'mahiri-1',
           [
             'i' => '<MAHIRI>',
             't' => clienttranslate(
               'You have a personal special ability that you can activate placing 1 Engineer on the action space of this tile. If you use it a second time during the same round, you must also pay 3 Credits. When you activate it, you can copy another Executive Officer\'s special ability.'
             ),
           ],
-          $cId . '-7',
+          'mahiri-2',
         ];
       }
     }
@@ -42,57 +40,15 @@ class CompanyActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getUiData($cId = null)
-  {
-    $spaces = [];
-    foreach (static::getAvailableSpaces() as $space) {
-      if (!is_null($cId) && $space['cId'] != $cId) {
-        continue;
-      }
-      unset($space['flow']);
-      $spaces[$space['uid']] = $space;
-    }
-
-    $structure = static::getUiStructure($cId);
-    foreach ($structure as &$row) {
-      if (is_array($row)) {
-        foreach ($row as $i => $elem) {
-          if (is_array($elem)) {
-            continue;
-          }
-
-          $key = static::$id . '-' . $elem;
-          if (\array_key_exists($key, $spaces)) {
-            $row[$i] = $spaces[$key];
-          }
-        }
-      }
-    }
-
-    return $structure;
-  }
-
   public function getAvailableSpaces()
   {
     $spaces = [];
     foreach (Companies::getAll() as $cId => $company) {
-      for ($i = 1; $i <= 4; $i++) {
-        $spaces[] = [
-          'board' => self::$id,
-          'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-' . $i,
-          'cost' => $i == 4 ? 3 : 0,
-          'nEngineers' => min(3, $i),
-          'flow' => [
-            'action' => CONSTRUCT,
-          ],
-        ];
-      }
       if ($company->isXO(\XO_MAHIRI)) {
         $spaces[] = [
           'board' => self::$id,
           'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-6',
+          'uid' => self::$id . '-mahiri-1',
           'cost' => 0,
           'nEngineers' => 1,
           'flow' => [
@@ -103,7 +59,7 @@ class CompanyActionBoard extends AbstractActionBoard
         $spaces[] = [
           'board' => self::$id,
           'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-7',
+          'uid' => self::$id . '-mahiri-2',
           'cost' => 3,
           'nEngineers' => 1,
           'flow' => [

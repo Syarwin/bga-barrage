@@ -575,7 +575,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this._energyCounters[company.id].toValue(0);
       });
       n.args.tokens.forEach((token) => {
-        $t(`meeple-${token.id}`).dataset.flip = 0;
+        $(`meeple-${token.id}`).dataset.flip = 0;
       });
       this.slideResources(n.args.tokens, {});
     },
