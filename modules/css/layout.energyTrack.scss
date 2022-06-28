@@ -1,21 +1,52 @@
 #floating-energy-track-container {
-  display: none;
   position: absolute;
   top: -6px;
   left: 0;
   right: 0;
-  height: 150px;
+  height: 170px;
   transition: height 0.7s;
   overflow: hidden;
   z-index: 1;
   font-size: 30px;
+  [data-energy-track='1'] & {
+    display: none;
+  }
+
+  #energy-track-btn {
+    position: absolute;
+    width: 27px;
+    height: 20px;
+    background: #e1dede;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 2px 2px 1px black;
+    right: 25px;
+    bottom: -23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    body[data-background='0'] & {
+      background: #c8ba6a;
+    }
+
+    svg {
+      transform: rotateX(0deg);
+      transition: transform 0.7s;
+    }
+  }
 
   #energy-track-board-container {
     margin: auto;
-    overflow: hidden;
-    margin-top: 0px;
+    margin-top: 8px;
     height: 130px;
     transition: margin 0.7s, height 0.7s;
+    #energy-track-board-clip {
+      overflow: hidden;
+      position: relative;
+      height: 130px;
+      transition: height 0.7s;
+    }
 
     #objective-tile {
       opacity: 1;
@@ -29,11 +60,20 @@
   }
 
   &:not(.open) {
-    height: 50px;
+    height: 65px;
+
+    #energy-track-btn {
+      svg {
+        transform: rotateX(180deg);
+      }
+    }
 
     #energy-track-board-container {
       margin-top: -78px;
       height: 112px;
+      #energy-track-board-clip {
+        height: 112px;
+      }
 
       #objective-tile {
         opacity: 0;
@@ -47,13 +87,20 @@
 }
 
 #game_play_area {
-  padding-top: 0px;
-  //  padding-top: 40px;
+  padding-top: 40px;
   transition: padding-top 0.7s;
+
+  [data-energy-track='1'] & {
+    padding-top: 0px;
+  }
 }
 
 #floating-energy-track-container.open ~ #game_play_area {
   padding-top: 140px;
+
+  [data-energy-track='1'] & {
+    padding-top: 0px;
+  }
 }
 
 #energy-track-board-container {
@@ -61,6 +108,9 @@
   height: 130px;
   position: relative;
   z-index: 2;
+
+  #energy-track-board-clip {
+  }
 
   #energy-track-board {
     position: absolute;
@@ -296,6 +346,10 @@
     margin-left: 15px;
     width: 130px;
     height: 1120px;
+
+    #energy-track-btn {
+      display: none;
+    }
 
     #energy-track-board {
       width: 130px;

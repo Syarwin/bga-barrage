@@ -99,7 +99,7 @@ define([
           values: {
             0: _('In a floating collapsible container'),
             1: _('In a modal'),
-            2: _('Below the map'),
+            2: _('Next/below the map'),
           },
         },
         otherCompanyBoardLocation: {
@@ -109,7 +109,7 @@ define([
           values: {
             0: _('In a floating collapsible container'),
             1: _('In a modal'),
-            2: _('Below the map'),
+            2: _('Next/below the map'),
           },
         },
         mapScale: {
@@ -364,7 +364,7 @@ define([
       let map = this.gamedatas.map;
       dojo.place(
         `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'><div id='brg-map'></div></div>`,
-        'map-energy-wrapper',
+        'map-wrapper',
       );
       let oMap = $('brg-map');
 
@@ -464,7 +464,18 @@ define([
     // |_____|_| |_|\___|_|  \__, |\__, |   |_||_|  \__,_|\___|_|\_\
     //                       |___/ |___/
     /////////////////////////////////////////////////////////////////////
+    onChangeEnergyTrackSetting(val) {
+      dojo.place(
+        'energy-track-board-container',
+        val == 1 ? 'map-energy-track-container' : 'floating-energy-track-container',
+      );
+    },
+
     setupEnergyTrack() {
+      $('energy-track-btn').addEventListener('click', () =>
+        $('floating-energy-track-container').classList.toggle('open'),
+      );
+
       let bonusTooltips = [
         _(
           'Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.',

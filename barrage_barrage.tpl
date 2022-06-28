@@ -1,7 +1,15 @@
 {OVERALL_GAME_HEADER}
 <link rel="stylesheet" href="https://use.typekit.net/jim0ypy.css" />
 
-<div id="floating-energy-track-container">
+<div id="floating-energy-track-container" class='open'>
+  <div id="energy-track-board-container" class='barrage-frame'>
+    <div id="energy-track-board-clip">
+      <div id="energy-track-board"></div>
+    </div>
+    <div id="energy-track-btn">
+      <svg width="70%" height="70%" viewBox="0 0 10.971 5.669" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path style="stroke:none;stroke-width:.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m118.572 145.834-3.974 5.027.37.642h3.157l1.755-3.04h.407l1.755 3.04h3.155l.371-.642-3.974-5.027z" transform="translate(-114.598 -145.834)"></path></svg>
+    </div>
+  </div>
 </div>
 
 <div id="pickStart-contracts"></div>
@@ -9,13 +17,10 @@
 <div id="barrage-container">
   <div id="barrage-center-container">
     <div id="action-boards-container"></div>
-    <div id="map-energy-wrapper">
-      <div id="energy-track-board-container" class='barrage-frame'>
-        <div id="energy-track-board"></div>
-      </div>
-    </div>
+    <div id="map-wrapper"></div>
+    <div id="map-energy-track-container"></div>
+    <div id="company-boards-container"></div>
   </div>
-  <div id="company-boards-container"></div>
 </div>
 
 <div id="floating-company-boards-wrapper">
