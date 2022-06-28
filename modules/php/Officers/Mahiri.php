@@ -26,10 +26,16 @@ class Mahiri extends \BRG\Models\Officer
       if ($company->isXO(\XO_MAHIRI)) {
         continue;
       }
-      // throw new \feException(print_r($company->getOfficer()->getId()));
       $copy[$company->getOfficer()->getId()] = [
         'id' => $company->getOfficer()->getId(),
         'officer' => $company->getOfficer(),
+      ];
+    }
+
+    foreach (Globals::getMahiriAddXO() as $xId) {
+      $copy[$xId] = [
+        'id' => $xId,
+        'officer' => Officers::getInstance($xId),
       ];
     }
     return ['description' => $this->getCopyPowerDescription(), 'method' => 'copyPower', 'power' => $copy];

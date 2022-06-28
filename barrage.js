@@ -342,6 +342,7 @@ define([
         this.addPrimaryActionButton('btnPower' + args.power[key].id, _('Use ') + args.power[key].officer.name, () => {
           this.takeAtomicAction('actCopyPower', [args.power[key].id]);
         });
+        this.addCustomTooltip('btnPower' + args.power[key].id, _(args.power[key].officer.description));
       });
     },
 
