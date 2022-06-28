@@ -3,7 +3,6 @@ bug
 Essentiel
 
 - ajuster le layout sur écran plus petit
-- Mahiri a 2 joueurs: randomly select 2 others XO avilable for copy
 
 Un peu Essentiel
 
@@ -12,7 +11,6 @@ Un peu Essentiel
 Non essentiel
 
 - améliorer les animations de droplets
-
 
 done
 
@@ -32,3 +30,4 @@ done
 - option pour flottant / modal pour l'energy track
 - bouger le calcul des icones / tooltips pour incomes et contract dans le front
 - ajouter un helper qui montre les conduits reliés à une powerhouse (comme pour les conduits mais dans l'autre sens)
+- Mahiri a 2 joueurs: randomly select 2 others XO avilable for copy
