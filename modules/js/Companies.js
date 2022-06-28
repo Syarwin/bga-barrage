@@ -88,10 +88,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         $('floating-company-boards-wrapper').dataset.n = 1;
         let container = this.getCompanyBoardContainer(company);
         let config = {};
-        if(container == 'floating-company-boards-container') config.to = $('floating-company-boards-wrapper');
-        this.slide(`company-board-${company.id}`, container, config).then(() =>
-          this.updateCompaniesLayout(),
-        );
+        if (container == 'floating-company-boards-container') config.to = $('floating-company-boards-wrapper');
+        this.slide(`company-board-${company.id}`, container, config).then(() => this.updateCompaniesLayout());
       } else {
         this.place('tplCompanyBoard', company, 'company-boards-container');
         this.updateWheelAngle(company);
@@ -399,7 +397,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let counters = [0, 0, 0];
       this.forEachCompany((company) => {
         dojo.place(`company-board-${company.id}`, this.getCompanyBoardContainer(company));
-        let pref = this.settings[company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'];
+        let pref = this.settings[
+          company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'
+        ];
         let index = counters[pref];
         counters[pref]++;
 
@@ -781,8 +781,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // Compute obj tile desc
       let desc = '';
       this.gamedatas.bonuses['objTile'].forEach((bonus) => {
+        if (bonus.share == 0) {
+          let names = bonus.cIds.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
+          desc += this.format_string_recursive(_("${names} won't score any VP"), { names });
+        }
         // No tie
-        if (bonus.cIds.length == 1) {
+        else if (bonus.cIds.length == 1) {
           let placeNames = {
             1: _('first place'),
             2: _('second place'),
