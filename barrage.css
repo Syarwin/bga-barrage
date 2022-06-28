@@ -110,6 +110,13 @@ body {
   justify-content: center;
   align-items: center; }
 
+#pickStart-companies {
+  --barrageCompanyBoardScale: 0.8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
+
 .barrage-frame {
   border: 3px solid #e1dede;
   border-radius: 6px;

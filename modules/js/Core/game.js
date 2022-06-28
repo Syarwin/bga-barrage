@@ -958,9 +958,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       return id;
     },
     attachRegisteredTooltips() {
-      Object.keys(this._registeredCustomTooltips).forEach((id) =>
-        this.addCustomTooltip(id, this._registeredCustomTooltips[id]),
-      );
+      Object.keys(this._registeredCustomTooltips).forEach((id) => {
+        if(!$(id)) {
+          console.error("Trying to attack tooltip on a null element", id);
+        } else {
+          this.addCustomTooltip(id, this._registeredCustomTooltips[id]);
+        }
+      });
       this._registeredCustomTooltips = {};
     },
     addCustomTooltip(id, html, delay) {

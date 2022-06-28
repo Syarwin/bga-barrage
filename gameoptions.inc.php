@@ -30,6 +30,7 @@ $game_options = [
         'name' => totranslate('Standard'),
         'nobeginner' => true,
       ],
+      /*
       OPTION_SETUP_FREE => [
         'name' => totranslate('Free setup'),
         'tmdisplay' => totranslate('Choose freely among the available companies and officers'),
@@ -42,9 +43,11 @@ $game_options = [
         ),
         'nobeginner' => true,
       ],
+*/
     ],
   ],
 
+  /*
   OPTION_EXPANSION_LWP => [
     'name' => totranslate('The Leeghwater Project expansion'),
     'values' => [
@@ -65,6 +68,7 @@ $game_options = [
       ],
     ],
   ],
+
 
   OPTION_AUTOMA => [
     'name' => totranslate('Automas'),
@@ -225,6 +229,7 @@ $game_options = [
       ],
     ],
   ],
+*/
 ];
 
 $game_preferences = [

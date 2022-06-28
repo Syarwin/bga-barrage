@@ -79,19 +79,24 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // Create company board
       if ($(`company-board-${company.id}`)) {
-        // Already existing = dyring pickStart
+        // Already existing = remove from pickStart
         $(`company-board-${company.id}`).querySelector('.company-owner').innerHTML = _(company.name);
-        this.slide(`company-board-${company.id}`, 'company-boards-container');
         if (this.player_id == company.pId) {
           $(`company-board-${company.id}`).classList.add('current');
         }
+
+        $('floating-company-boards-wrapper').dataset.n = 1;
+        let container = this.getCompanyBoardContainer(company);
+        let config = {};
+        if(container == 'floating-company-boards-container') config.to = $('floating-company-boards-wrapper');
+        this.slide(`company-board-${company.id}`, container, config).then(() =>
+          this.updateCompaniesLayout(),
+        );
       } else {
         this.place('tplCompanyBoard', company, 'company-boards-container');
         this.updateWheelAngle(company);
         this.addBoardIncomes(company);
       }
-
-      this.updateCompaniesLayout();
     },
 
     tplPlayerPanel(company) {
@@ -346,10 +351,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_produce(n) {
       debug('Notif: producing energy', n);
-      if (this.isFastMode()) {
-        this.incEnergy(n.args.company_id, n.args.energy);
-        return;
-      }
+      if (this.isFastMode()) return;
 
       let powerhouse = this.getConstructSlot(n.args.powerhouse);
       powerhouse.classList.add('producing');
@@ -364,7 +366,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           duration: 1350,
           phantom: false,
         }).then(() => {
-          this.incEnergy(n.args.company_id, n.args.energy);
           powerhouse.classList.remove('producing');
         });
       });
@@ -378,6 +379,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     // |_____\__,_|\__, |\___/ \__,_|\__|
     //             |___/
     /////////////////////////////////////////////
+    getCompanyBoardContainer(company) {
+      const containers = [
+        'floating-company-boards-container',
+        'modal-company-boards-container',
+        'company-boards-container',
+      ];
+      let pref = this.settings[company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'];
+      return containers[pref];
+    },
+
     updateCompaniesLayout() {
       if (!this.settings || !this.settings.ownCompanyBoardLocation || !this.settings.otherCompanyBoardLocation) return;
 
@@ -386,16 +397,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       btnContainers.forEach((containerId) => ($(containerId).innerHTML = ''));
 
       let counters = [0, 0, 0];
-      const containers = [
-        'floating-company-boards-container',
-        'modal-company-boards-container',
-        'company-boards-container',
-      ];
       this.forEachCompany((company) => {
-        let pref = this.settings[
-          company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'
-        ];
-        dojo.place(`company-board-${company.id}`, containers[pref]);
+        dojo.place(`company-board-${company.id}`, this.getCompanyBoardContainer(company));
+        let pref = this.settings[company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'];
         let index = counters[pref];
         counters[pref]++;
 
@@ -407,9 +411,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this._companiesBoard[company.id] = { index, pref };
       });
 
-      containers.forEach((containerId, i) => {
-        if (i < 2) $(containerId).parentNode.parentNode.dataset.n = counters[i];
-      });
+      // Update dataset to hide if 0
+      $('floating-company-boards-wrapper').dataset.n = counters[0];
 
       this._floatingContainerOpen = null;
       this._modalContainerOpen = null;
@@ -633,6 +636,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           });
         }
       });
+
       this.attachRegisteredTooltips();
 
       Object.keys(args.contracts).forEach((contractId) => {
@@ -660,6 +664,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_assignCompany(n) {
       debug('Notif: assigning company to someone', n);
       let company = n.args.datas;
+      let cId = n.args.company_id;
       company.color = COLOR_MAPPING[company.id];
       let pId = n.args.player_id;
       ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
@@ -667,13 +672,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
       $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
       this.gamedatas.players[pId].color = company.color;
-      this.gamedatas.companies[n.args.company_id] = company;
+      this.gamedatas.companies[cId] = company;
       this.setupCompany(company);
       this.setupCompanyCounters(company);
       this.updateCompaniesCounters();
+
+      let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
+      debug(container);
       n.args.actionSpaces.forEach((row) => {
-        let cId = row[0].cId;
-        let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
         this.place('tplActionBoardRow', row, container);
       });
 
