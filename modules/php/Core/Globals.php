@@ -34,6 +34,7 @@ class Globals extends \BRG\Helpers\DB_Manager
 
     'antonPower' => 'str',
     'mahiriPower' => 'int',
+    'mahiriAddXO' => 'obj',
   ];
 
   protected static $table = 'global_variables';
@@ -163,7 +164,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     self::setLWP(($options[\BRG\OPTION_EXPANSION_LWP] ?? null) == \BRG\OPTION_EXPANSION_LWP_ON);
     self::setMap(MAP_BASE);
     self::setCountCompanies(count($players)); // TODO : handle automas
-
+    self::setMahiriAddXO([]);
     self::setRound(0);
   }
 

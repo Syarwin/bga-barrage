@@ -30,7 +30,7 @@ class AntonTile extends \BRG\TechTiles\BasicTile
     return TechnologyTiles::getFilteredQuery(Companies::getActive()->getId(), 'wheel')
       ->get()
       ->filter(function ($tile) {
-        return !$tile->getType() == ANTON_TILE;
+        return $tile->getType() != ANTON_TILE;
       });
   }
 

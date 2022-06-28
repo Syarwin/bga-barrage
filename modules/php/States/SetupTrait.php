@@ -92,13 +92,21 @@ trait SetupTrait
 
         // 13] Draw random setup and go to draft
         $companies = Companies::randomStartingPick($n);
-        $officers = Officers::randomStartingPick($n);
+        if ($n == 2) {
+          // for Mahiri
+          $officers = Officers::randomStartingPick($n + 2);
+        } else {
+          $officers = Officers::randomStartingPick($n);
+        }
         $matchups = [];
         foreach ($companies as $i => $cId) {
           $matchups[$i] = [
             'cId' => $cId,
             'xId' => $officers[$i],
           ];
+        }
+        if ($n == 2) {
+          Globals::setMahiriAddXO([$officers[2], $officers[3]]);
         }
         Globals::setStartingMatchups($matchups);
         Contracts::randomStartingPick($n);
