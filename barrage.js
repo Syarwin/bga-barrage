@@ -73,7 +73,7 @@ define([
       ];
 
       // Fix mobile viewport (remove CSS zoom)
-      this.default_viewport = 'width=1328';
+      this.default_viewport = 'width=1100';
 
       this._antonTile = 0;
 
@@ -378,17 +378,26 @@ define([
         this.place('tplHeadstream', { hId, tileId: map.headstreams[hId] }, oMap),
       );
 
+      let clearHighlight = () => {
+        dojo.query('.highlight').removeClass('highlight');
+        [...$('base-map-svg').querySelectorAll('.highlight')].forEach((elt) => elt.classList.remove('highlight'));
+      };
+
       // Conduits
+      let mapPowerhouses = {};
       Object.keys(map.conduits).forEach((cId) => {
         let conduit = map.conduits[cId];
         conduit.cId = cId;
         let o = this.place('tplConduitSlot', conduit, oMap);
         o.addEventListener('mouseenter', () => {
-          dojo.query(`.powerhouse-slot[data-zone="${map.conduits[cId].end}"]`).addClass('highlight');
+          dojo.query(`.powerhouse-slot[data-zone="${conduit.end}"]`).addClass('highlight');
+          dojo.query(`.powerhouse-zone[data-zone="${conduit.end}"]`).addClass('highlight');
+          $('base-map-svg').querySelector(`#${cId}_P${conduit.end}`).classList.add('highlight');
         });
-        o.addEventListener('mouseleave', () => {
-          dojo.query('.powerhouse-slot.highlight').removeClass('highlight');
-        });
+        o.addEventListener('mouseleave', clearHighlight);
+
+        if (!mapPowerhouses[conduit.end]) mapPowerhouses[conduit.end] = [];
+        mapPowerhouses[conduit.end].push(cId);
       });
 
       let powerhouseZones = [];
@@ -408,7 +417,17 @@ define([
       // Zone overlays
       map.zoneIds.forEach((zoneId) => {
         if (powerhouseZones.includes(zoneId)) {
-          this.place('tplPowerhouseZone', { id: zoneId }, oMap);
+          let objs = [...$('brg-map').querySelectorAll(`.powerhouse-slot[data-zone="${zoneId}"]`)];
+          objs.push(this.place('tplPowerhouseZone', { id: zoneId }, oMap));
+          objs.forEach((o) => {
+            o.addEventListener('mouseenter', () => {
+              mapPowerhouses[zoneId].forEach((cId) => {
+                dojo.query(`.conduit-slot[data-id="${cId}"]`).addClass('highlight');
+                $('base-map-svg').querySelector(`#${cId}_P${zoneId}`).classList.add('highlight');
+              });
+            });
+            o.addEventListener('mouseleave', clearHighlight);
+          });
         }
 
         if (basinZones.includes(zoneId)) {

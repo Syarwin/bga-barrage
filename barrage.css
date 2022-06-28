@@ -155,7 +155,7 @@ body {
     border-bottom-right-radius: 6px;
     box-shadow: 2px 2px 1px black;
     right: 25px;
-    bottom: -23px;
+    bottom: -22px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2871,6 +2871,9 @@ body {
     pointer-events: none; }
     [data-map='1'] #brg-map-resizable #brg-map .barrage-svg-overlay {
       display: block; }
+    #brg-map-resizable #brg-map .barrage-svg-overlay path.highlight {
+      stroke: black;
+      stroke-width: 20px; }
   #brg-map-resizable #brg-map::after {
     content: '';
     position: absolute;
@@ -2983,6 +2986,11 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: center; }
+    #brg-map-resizable #brg-map .conduit-slot.highlight {
+      background-color: #a4e841;
+      border: 1px solid black; }
+      [data-map='0'] #brg-map-resizable #brg-map .conduit-slot.highlight {
+        background-color: #a4e841aa; }
     [data-map='1'] #brg-map-resizable #brg-map .conduit-slot {
       background-image: url("img/icons/conduit.png");
       background-size: auto 70%;
@@ -3025,10 +3033,13 @@ body {
     display: flex;
     align-items: end;
     justify-content: center; }
+    #brg-map-resizable #brg-map .powerhouse-slot.highlight {
+      background-color: #a4e841;
+      border: 1px solid black; }
+      [data-map='0'] #brg-map-resizable #brg-map .powerhouse-slot.highlight {
+        background-color: #a4e841aa; }
     #brg-map-resizable #brg-map .powerhouse-slot.paying {
       border: 1px solid red; }
-    #brg-map-resizable #brg-map .powerhouse-slot.highlight {
-      background: red; }
     [data-map='1'] #brg-map-resizable #brg-map .powerhouse-slot {
       background-image: url("img/icons/powerhouse.png");
       background-size: auto 70%;
@@ -3096,7 +3107,8 @@ body {
     position: absolute;
     display: flex;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    pointer-events: none; }
   [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone {
     position: absolute;
     width: 172px;
@@ -3105,6 +3117,8 @@ body {
     border-radius: 7px;
     border: 1px solid black;
     z-index: 3; }
+    [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone.highlight {
+      background: white; }
   [data-map='1'] #brg-map-resizable #brg-map .basin-zone {
     position: absolute;
     width: 134px;

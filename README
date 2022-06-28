@@ -8,7 +8,6 @@ Essentiel
 Un peu Essentiel
 
 - ajouter un slider pour ajuster la taille des action boards ?
-- ajouter un helper qui montre les conduits reliés à une powerhouse (comme pour les conduits mais dans l'autre sens)
 
 Non essentiel
 
@@ -32,3 +31,4 @@ done
 - option pour flottant / modal les company board / XO
 - option pour flottant / modal pour l'energy track
 - bouger le calcul des icones / tooltips pour incomes et contract dans le front
+- ajouter un helper qui montre les conduits reliés à une powerhouse (comme pour les conduits mais dans l'autre sens)

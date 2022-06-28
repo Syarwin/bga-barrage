@@ -65,6 +65,11 @@
       [data-map='1'] & {
         display: block;
       }
+
+      path.highlight {
+        stroke: black;
+        stroke-width: 20px;
+      }
     }
 
     &::after {
@@ -188,6 +193,13 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
+      &.highlight {
+        background-color: #a4e841;
+        border: 1px solid black;
+        [data-map='0'] & {
+          background-color: #a4e841aa;
+        }
+      }
 
       [data-map='1'] & {
         background-image: url('img/icons/conduit.png');
@@ -240,11 +252,15 @@
       position: absolute;
       border-radius: 8px;
       border: 1px solid white;
+      &.highlight {
+        background-color: #a4e841;
+        border: 1px solid black;
+        [data-map='0'] & {
+          background-color: #a4e841aa;
+        }
+      }
       &.paying {
         border: 1px solid red;
-      }
-      &.highlight {
-        background: red;
       }
 
       display: flex;
@@ -348,6 +364,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      pointer-events: none;
     }
 
     [data-map='1'] & {
@@ -359,6 +376,10 @@
         border-radius: 7px;
         border: 1px solid black;
         z-index: 3;
+
+        &.highlight {
+          background: white;
+        }
       }
 
       .basin-zone {
