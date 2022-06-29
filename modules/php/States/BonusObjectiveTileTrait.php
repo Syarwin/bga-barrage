@@ -184,7 +184,7 @@ trait BonusObjectiveTileTrait
       $vp = 0;
       $positions = [];
       foreach ($companies as $cId) {
-        if ($n < 3) {
+        if ($n <= 3) {
           $positions[] = $n;
           $vp += $scoreMap[$n];
           $n++;
