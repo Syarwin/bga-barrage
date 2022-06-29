@@ -320,7 +320,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
         }
 
-
         this.slide(`tech-tile-${tile.id}`, target, config);
       }
     },
@@ -555,6 +554,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         powerhouse: _('Place one of your Powerhouse in a free building space on the Map.'),
         elevation: _('Place one of your Elevation over one of your Dams.'),
         base: _('Place one of your Bases in a free building space on the Map.'),
+        base_plain: _('Place one of your Bases in a free building space on the Plains.'),
+        base_plain_hill: _('Place one of your Bases in a free building space on the Plains or on the Hills.'),
         flow_droplet: _(
           'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops flow immediately.',
         ),
@@ -571,7 +572,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let desc = '';
         if (mapping[t]) {
           if (Array.isArray(n)) {
-            desc = mapping[t];
+            let t2 = t + '_' + n.join('_').toLowerCase();
+            if (mapping[t2]) {
+              desc = mapping[t2];
+            } else {
+              desc = mapping[t];
+            }
           } else {
             desc = this.translate({
               log: mapping[t],
@@ -625,7 +631,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let icon = '<CREDIT>';
         if (mapping[t]) {
           if (Array.isArray(n)) {
-            icon = `<${mapping[t]}_${n.join('_').toLowerCase()}>`;
+            icon = `<${mapping[t]}_${n.join('_').toUpperCase()}>`;
           } else {
             icon = `<${mapping[t]}:${n}>`;
           }
