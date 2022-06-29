@@ -1301,6 +1301,7 @@ define([
         cost: '',
         icons: [],
         parity: 1 - (contract.id % 2),
+        reward: {},
       };
 
       this.gamedatas.bonuses = n.args.bonuses;
