@@ -32,23 +32,24 @@ class PlaceStructure extends \BRG\Models\Action
     }
   }
 
-  public function getAvailableSpaces($company, $ignoreResources = false)
+  public function getAvailableSpaces($company, $ignoreResources = false, $args = null)
   {
     $args = $this->getCtxArgs();
     $credit = $company->countReserveResource(CREDIT);
     $constraints = $args['constraints'] ?? null;
 
     $spaces = [];
+    // If we have received a space in parameter, if it's defined we keep it, else return empty
+    $possibleSpaces = Map::getConstructSlots();
+    if(!is_null($args['spaceId'])){
+      $possibleSpaces = [$args['spaceId'] => $possibleSpaces[$args['spaceId']]];
+    }
 
-    foreach (Map::getConstructSlots() as $space) {
+    foreach ($possibleSpaces as $space) {
       $ignoreMalus = false;
       if ($space['type'] != $args['type']) {
         continue;
       }
-
-      // if ($space['id'] != 'B1L' || $space['type'] != BASE) {
-      //   continue;
-      // }
 
       // if we have a constraint on AREA placement for base / elevation
       if (!is_null($constraints) && !in_array($space['area'], $constraints)) {
@@ -109,12 +110,6 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       $spaces[$space['id']] = $space;
-    }
-
-    // If we have received a space in parameter, if it's defined we keep it, else return empty
-    $spaceId = $args['spaceId'] ?? null;
-    if (!is_null($spaceId)) {
-      $spaces = isset($spaces[$spaceId]) ? [$spaceId => $spaces[$spaceId]] : [];
     }
 
     return $spaces;

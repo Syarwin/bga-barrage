@@ -11,6 +11,10 @@ abstract class AbstractMap
 
   public function getConduits()
   {
+    if (isset($this->_conduits)) {
+      return $this->_conduits;
+    }
+
     $conduits = [];
     foreach ($this->getZones() as $zone) {
       foreach ($zone['conduits'] ?? [] as $cId => $conduit) {
@@ -19,11 +23,16 @@ abstract class AbstractMap
       }
     }
 
+    $this->_conduits = $conduits;
     return $conduits;
   }
 
   public function getPowerhouses()
   {
+    if (isset($this->_powerhouses)) {
+      return $this->_powerhouses;
+    }
+
     $powerhouses = [];
     foreach ($this->getZones() as $zId => $zone) {
       foreach ($zone['powerhouses'] ?? [] as $i => $cost) {
@@ -36,11 +45,16 @@ abstract class AbstractMap
       }
     }
 
-    return \array_reverse($powerhouses);
+    $this->_powerhouses = \array_reverse($powerhouses);
+    return $this->_powerhouses;
   }
 
   public function getBasins()
   {
+    if (isset($this->_basins)) {
+      return $this->_basins;
+    }
+
     $basins = [];
     foreach ($this->getZones() as $zId => $zone) {
       foreach ($zone['basins'] ?? [] as $bId) {
@@ -53,30 +67,36 @@ abstract class AbstractMap
       }
     }
 
+    $this->_basins = $basins;
     return $basins;
   }
 
   public function getConstructSlots($computeObjectives = false)
   {
+    if (isset($this->_constructSlots)) {
+      return $this->getConstructSlots;
+    }
+
     $slots = [];
     foreach ($this->getBasins() as $bId => $basin) {
       $basin['type'] = Meeples::getOnSpace($bId)->empty() ? BASE : ELEVATION;
       if ($basin['type'] == ELEVATION && !$computeObjectives) {
         $basin['cost'] = 0;
       }
-      $slots[] = $basin;
+      $slots[$bId] = $basin;
     }
 
-    foreach ($this->getPowerhouses() as $powerhouse) {
+    foreach ($this->getPowerhouses() as $pId => $powerhouse) {
       $powerhouse['type'] = POWERHOUSE;
-      $slots[] = $powerhouse;
+      $slots[$pId] = $powerhouse;
     }
 
-    foreach ($this->getConduits() as $conduit) {
+    foreach ($this->getConduits() as $cId => $conduit) {
       $conduit['type'] = CONDUIT;
-      $slots[] = $conduit;
+      $slots[$cId] = $conduit;
     }
 
+    $this->getConstructSlots = $slots;
     return $slots;
   }
 

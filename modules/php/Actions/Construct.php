@@ -31,10 +31,6 @@ class Construct extends \BRG\Models\Action
           continue;
         }
 
-        // if ($slot['id'] != 'B3U' || $slot['type'] != BASE) {
-        //   continue;
-        // }
-
         // constraints from advanced tiles
         if (!is_null($constraintTile) && $tile->getId() != $constraintTile) {
           continue;
@@ -49,6 +45,9 @@ class Construct extends \BRG\Models\Action
 
         // 2] 3] Move tech tile
         $cost = $company->getConstructCost($slot, $tile);
+        if (!$company->canPayCost($cost)) {
+          continue;
+        }
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
         if (Globals::getMahiriPower() == \XO_ANTON) {

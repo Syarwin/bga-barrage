@@ -195,6 +195,16 @@ class Company extends \BRG\Helpers\DB_Model
       ->first();
   }
 
+  public function canPayCost($cost)
+  {
+    return $this->canPayFee(['fee' => $cost]);
+  }
+
+  public function canPayFee($costs)
+  {
+    return Pay::canPayFee($this, $costs);
+  }
+
   //////////////////////////////////////////////////////
   //  _____             _
   // | ____|_ __   __ _(_)_ __   ___  ___ _ __ ___
