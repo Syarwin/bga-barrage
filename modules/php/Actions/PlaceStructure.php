@@ -174,9 +174,7 @@ class PlaceStructure extends \BRG\Models\Action
     $nb = $company->countBuiltStructures($type);
     $bonus = $company->getBoardIncomes()[$type][$nb] ?? null;
     if ($bonus !== null) {
-      if ($type == POWERHOUSE) {
-        Notifications::message('TODO');
-      } else {
+      if ($type != POWERHOUSE) {
         Notifications::newIncomeRevealed($company);
         $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
         Engine::insertAsChild($flow);

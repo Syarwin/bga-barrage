@@ -34,6 +34,10 @@ class France extends \BRG\Models\Company
 
   public function getContractReduction()
   {
-    return 3;
+    if ($this->productionPowerEnabled()) {
+      return 3;
+    } else {
+      return 0;
+    }
   }
 }
