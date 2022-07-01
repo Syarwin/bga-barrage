@@ -173,6 +173,10 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       if (count($created) < $i) {
         $deck++;
         $created = $created->merge(self::pickForLocation(1, 'deckL' . $deck, 'patent_' . $i, null, false) ?? []);
+        if (count($created) < $i) {
+          $deck++;
+          $created = $created->merge(self::pickForLocation(1, 'deckL' . $deck, 'patent_' . $i, null, false) ?? []);
+        }
       }
     }
     Notifications::refillTechTiles($created);
