@@ -42,7 +42,7 @@ class ContractActionBoard extends AbstractActionBoard
     $rows[] = [
       't',
       [
-        'i' => '<CREDIT:1><ARROW><CONTRACT:2>',
+        'i' => '<PAY:1><ARROW><CONTRACT:2>',
         't' => clienttranslate('Pay 1 Credit and take TWO available Private Contract tiles'),
       ],
       'tbis',

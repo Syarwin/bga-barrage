@@ -78,6 +78,11 @@
       color: #d70f0f;
     }
   }
+  &.icon-cost {
+    span {
+      line-height: 1.37em;
+    }
+  }
   &.icon-credit,
   &.icon-pay {
     min-width: 0.6125em;

@@ -1211,6 +1211,8 @@ body {
       font-size: 0.5em;
       line-height: 1.3em;
       color: #d70f0f; }
+  .barrage-icon.icon-cost span {
+    line-height: 1.37em; }
   .barrage-icon.icon-credit, .barrage-icon.icon-pay {
     min-width: 0.6125em;
     height: 0.7em;
