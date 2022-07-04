@@ -45,9 +45,6 @@ class Construct extends \BRG\Models\Action
 
         // 2] 3] Move tech tile
         $cost = $company->getConstructCost($slot, $tile);
-        if (!$company->canPayCost($cost)) {
-          continue;
-        }
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
         if (Globals::getMahiriPower() == \XO_ANTON) {
