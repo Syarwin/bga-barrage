@@ -41,7 +41,7 @@ class PlaceStructure extends \BRG\Models\Action
     $spaces = [];
     // If we have received a space in parameter, if it's defined we keep it, else return empty
     $possibleSpaces = Map::getConstructSlots();
-    if(!is_null($args['spaceId'])){
+    if(!is_null($args['spaceId'] ?? null)){
       $possibleSpaces = [$args['spaceId'] => $possibleSpaces[$args['spaceId']]];
     }
 

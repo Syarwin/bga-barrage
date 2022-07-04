@@ -262,10 +262,11 @@ class barrage extends Table
    */
   public function zombieTurn($state, $activePlayer)
   {
-    $skipped = Globals::getSkippedPlayers();
-    if (!in_array((int) $activePlayer, $skipped)) {
-      $skipped[] = (int) $activePlayer;
-      Globals::setSkippedPlayers($skipped);
+    $skipped = Globals::getSkippedCompanies();
+    $cId = Globals::getActiveCompany();
+    if (!in_array((int) $cId, $skipped)) {
+      $skipped[] = (int) $cId;
+      Globals::setSkippedCompanies($skipped);
     }
 
     $stateName = $state['name'];
