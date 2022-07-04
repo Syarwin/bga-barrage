@@ -184,6 +184,16 @@ define([
             3: _('Hide and blend boards with background'),
           },
         },
+        actionBoardCostIcon: {
+          default: 0,
+          name: _('Costly Action Board Slots'),
+          attribute: 'cost-icon',
+          type: 'select',
+          values: {
+            0: _('Display credit cost'),
+            1: _('Hide'),
+          },
+        },
         energyTrack: {
           default: 0,
           name: _('Energy track position'),
@@ -636,6 +646,7 @@ define([
         return `<div id='${row}'>${content}</div>`;
       }
 
+      let costly = false;
       let slots = row.map((slot) => {
         if (slot['i'] != undefined) {
           let id = this.registerCustomTooltip(_(slot.t));
@@ -643,11 +654,12 @@ define([
         } else if (slot['type'] != undefined) {
           return '';
         } else {
+          if (slot.cost > 0) costly = true;
           return this.tplActionSpace(slot);
         }
       });
 
-      return `<div class='action-board-row'>
+      return `<div class='action-board-row ${costly ? 'costly' : ''}'>
         ${slots.join('')}
       </div>`;
     },

@@ -26,11 +26,14 @@
   border: 2px solid #3f9bec;
 }
 
-#brg-map-resizable {
-  [data-energy-track='0'] & {
-    margin-top: 10px;
+#map-wrapper {
+  margin-left: 15px;
+  [data-action-name='0'] & {
+    margin-top: 20px;
   }
+}
 
+#brg-map-resizable {
   #brg-map {
     transform: scale(var(--barrageMapScale));
     transform-origin: top left;

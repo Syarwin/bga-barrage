@@ -58,8 +58,8 @@
       }
 
       .action-board {
-        width: 625px;
-        margin-left: 118px;
+        width: 633px;
+        margin-left: 110px;
         margin-top: 7px;
 
         .action-board-inner {
@@ -71,6 +71,15 @@
 
           .action-board-row {
             background: url('img/ui/texture.jpg');
+            margin-right: 0px;
+
+            [data-cost-icon='0'] &.costly {
+              margin-left: 20px;
+
+              .action-space-cost {
+                left: -30px;
+              }
+            }
           }
 
           .action-board-icon {

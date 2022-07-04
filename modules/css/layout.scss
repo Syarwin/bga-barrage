@@ -15,7 +15,6 @@
 #barrage-container {
 }
 
-
 .barrage-frame {
   border: 3px solid #e1dede;
   border-radius: 6px;
@@ -30,6 +29,7 @@
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 5px;
 }
 
 #map-energy-wrapper {
