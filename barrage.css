@@ -2968,6 +2968,19 @@ body {
     pointer-events: none; }
     [data-map='0'] #brg-map-resizable #brg-map::after {
       display: none; }
+  #brg-map-resizable #brg-map #brg-zone-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 100%;
+    z-index: 1;
+    pointer-events: none; }
+    [data-separators='0'] #brg-map-resizable #brg-map #brg-zone-overlay {
+      display: none; }
+    #brg-map-resizable #brg-map #brg-zone-overlay div {
+      border-bottom: 3px dashed black; }
   #brg-map-resizable #brg-map .barrage-meeple {
     display: inline-block; }
   #brg-map-resizable #brg-map .headstream {
@@ -3254,6 +3267,10 @@ body {
       background-image: url("img/base_map.jpg"); }
     #brg-map-resizable #brg-map::after {
       background-image: url("img/base_map.svg"); }
+    #brg-map-resizable #brg-map #brg-zone-overlay div:nth-child(1) {
+      height: 470px; }
+    #brg-map-resizable #brg-map #brg-zone-overlay div:nth-child(2) {
+      height: 440px; }
     #brg-map-resizable #brg-map .headstream[data-id='HA'] {
       left: 53px; }
     #brg-map-resizable #brg-map .headstream[data-id='HB'] {

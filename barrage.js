@@ -144,6 +144,12 @@ define([
             },
           },
         },
+        zoneSeparators: {
+          default: 1,
+          name: _('Mountains/Hills/Plains separators'),
+          attribute: 'separators',
+          type: 'switch',
+        },
         conduits: {
           default: 1,
           name: _('Conduit values'),
@@ -391,7 +397,14 @@ define([
     setupMap() {
       let map = this.gamedatas.map;
       dojo.place(
-        `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'><div id='brg-map'></div></div>`,
+        `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'>
+          <div id='brg-map'>
+            <div id='brg-zone-overlay'>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        </div>`,
         'map-wrapper',
       );
       let oMap = $('brg-map');

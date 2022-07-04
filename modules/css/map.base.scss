@@ -14,6 +14,15 @@
       background-image: url('img/base_map.svg');
     }
 
+    #brg-zone-overlay {
+      div:nth-child(1) {
+        height: 470px;
+      }
+      div:nth-child(2) {
+        height: 440px;
+      }
+    }
+
     .headstream {
       &[data-id='HA'] {
         left: 53px;
