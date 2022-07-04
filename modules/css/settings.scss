@@ -1,11 +1,24 @@
 #player_config {
-  margin: 10px 0px;
-
   .player_config_row {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin: 10px 0px;
+  }
+
+  #round-counter-wrapper {
+    text-align: center;
+    margin: -5px -3px 0px;
+    background: #ffffffab;
+    padding: 8px 0px 4px;
+    border-bottom: 1px solid #8080808a;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Oranienbaum';
+    color: black;
+    display: block;
   }
 
   #help-mode-switch {

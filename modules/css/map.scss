@@ -15,6 +15,26 @@
   }
 }
 
+.dijitTooltipContainer {
+  .headstream-tile {
+    width: 203px;
+    height: 122px;
+    background: url('img/headstreams.png');
+    background-size: 200% 400%;
+
+    @for $i from 0 through 8 {
+      &[data-tile='#{$i + 1}'] {
+        background-position-x: ($i % 2) * 100%;
+        background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
+      }
+    }
+
+    .headstream-tile-droplets {
+      display: none;
+    }
+  }
+}
+
 #produce-energy-counter {
   background: white;
   border-radius: 6px;
@@ -120,6 +140,33 @@
           &[data-tile='#{$i + 1}'] {
             background-position-x: ($i % 2) * 100%;
             background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
+          }
+        }
+
+        .headstream-tile-droplets {
+          [data-headstream='0'] & {
+            display: none;
+          }
+          
+          margin: 8px;
+          height: 40px;
+          display: flex;
+          justify-content: space-around;
+          align-items: flex-end;
+          color: white;
+          border-radius: 13px;
+          background: url('img/ui/texture.jpg');
+          font-family: 'acumin-pro';
+          font-weight: 700;
+
+          @for $i from 1 through 4 {
+            #ebd-body[data-round='#{$i}'] & {
+              @for $j from 1 through $i {
+                span:nth-child(#{$j}) {
+                  color: #979393;
+                }
+              }
+            }
           }
         }
       }

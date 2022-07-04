@@ -30,7 +30,7 @@ class Map
   {
     return [
       'id' => self::getId(),
-      'headstreams' => Globals::getHeadstreams(),
+      'headstreams' => self::getHeadstreamTiles(),
       'bonusTiles' => Globals::getBonusTiles(),
       'conduits' => self::getConduits(),
       'powerhouses' => array_values(self::getPowerhouses()),
@@ -93,6 +93,19 @@ class Map
     HT_7 => [1, 0, 2, 2],
     HT_8 => [0, 1, 2, 1],
   ];
+
+  public static function getHeadstreamTiles()
+  {
+    $tiles = [];
+    foreach(Globals::getHeadstreams() as $hId => $tId){
+      $tiles[$hId] = [
+        'tileId' => $tId,
+        'droplets' => self::$headstreamTiles[$tId],
+      ];
+    }
+
+    return $tiles;
+  }
 
   public static function fillHeadstreams()
   {

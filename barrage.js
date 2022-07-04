@@ -150,6 +150,12 @@ define([
           attribute: 'conduit',
           type: 'switch',
         },
+        headstream: {
+          default: 1,
+          name: _('Minimalist headstream tiles'),
+          attribute: 'headstream',
+          type: 'switch',
+        },
         background: {
           default: 0,
           name: _('Background'),
@@ -254,6 +260,10 @@ define([
       dojo.place('floating-energy-track-container', 'game_play_area', 'before');
 
       this.inherited(arguments);
+
+      // Create round counter
+      this._roundCounter = this.createCounter('round-counter');
+      this.updateRoundCounter();
     },
 
     clearPossible() {
@@ -356,10 +366,17 @@ define([
       });
     },
 
+    updateRoundCounter(){
+      this._roundCounter.toValue(this.gamedatas.round);
+      $('ebd-body').dataset.round = this.gamedatas.round;
+    },
+
     notif_startNewRound(n) {
       debug('Notif: starting new round', n);
       this.gamedatas.bonuses = n.args.bonuses;
       this.updateCompanyBonuses();
+      this.gamedatas.round = n.args.round;
+      this.updateRoundCounter();
     },
 
     /////////////////////////////
@@ -385,9 +402,12 @@ define([
       dojo.place($(svgIds[map.id]), oMap);
 
       // Headstreams
-      Object.keys(map.headstreams).forEach((hId) =>
-        this.place('tplHeadstream', { hId, tileId: map.headstreams[hId] }, oMap),
-      );
+      Object.keys(map.headstreams).forEach((hId) => {
+        let data = map.headstreams[hId];
+        data.hId = hId;
+        this.place('tplHeadstream', data, oMap);
+        this.addCustomTooltip(`headstream-tile-${hId}`, this.tplHeadstream(data, true));
+      });
 
       let clearHighlight = () => {
         dojo.query('.highlight').removeClass('highlight');
@@ -453,9 +473,18 @@ define([
       return $('brg-map').querySelector(`:not(.basin)[data-id='${uid}']`);
     },
 
-    tplHeadstream(headstream) {
-      return `<div class='headstream' data-id='${headstream.hId}'>
-        <div class='headstream-tile' data-tile='${headstream.tileId}'></div>
+    tplHeadstream(headstream, tooltip = false) {
+      return `<div id="headstream-tile-${headstream.hId}${tooltip ? '-tooltip' : ''}" class='headstream' data-id='${
+        headstream.hId
+      }'>
+        <div class='headstream-tile' data-tile='${headstream.tileId}'>
+          <div class='headstream-tile-droplets'>
+            <span>${headstream.droplets[0]}</span>
+            <span>${headstream.droplets[1]}</span>
+            <span>${headstream.droplets[2]}</span>
+            <span>${headstream.droplets[3]}</span>
+          </div>
+        </div>
       </div>`;
     },
 
@@ -714,6 +743,10 @@ define([
       return `
 <div class='player-board' id="player_board_config">
   <div id="player_config" class="player_board_content">
+
+    <div class="player_config_row" id="round-counter-wrapper">
+      ${_('Round')} <span id='round-counter'></span> / 4
+    </div>
 
     <div class="player_config_row">
       <div id="help-mode-switch">
