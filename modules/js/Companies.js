@@ -354,14 +354,30 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         5: 'ea4e1b',
       };
 
-      return COMPANY_COLORS[companyId];
+      let c = COMPANY_COLORS[companyId];
+      if (companyId == 4 && this.settings && this.settings.altFr == 1) {
+        c = '922297';
+      }
+
+      return c;
+    },
+
+    onChangeAltFrSetting(val) {
+      if (this.gamedatas.companies[4]) {
+        let pId = this.gamedatas.companies[4].pId;
+        if (pId > 0) {
+          this.gamedatas.players[pId].color = val == 1 ? '922297' : 'ffffff';
+          this.gamedatas.players[pId].color_back = val == 1 ? null : 'bbbbbb';
+        }
+        this.updatePageTitle();
+      }
     },
 
     coloredCompanyName(name) {
       const company = Object.values(this.gamedatas.companies).find((company) => company.name == name);
       if (company == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
 
-      const color = company.color;
+      const color = this.getCompanyColor(company.id);
       let color_bg = ''; // TODO
       if (color == 'ffffff') {
         color_bg = 'background-color:#bbbbbb;';

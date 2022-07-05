@@ -42,6 +42,11 @@
         }
       }
 
+      [data-altfr='1'] &[data-company='4'] {
+        background-image: url('img/alt-fr/company_board.png');
+        background-size: 100% 100%;
+      }
+
       .company-owner-wrapper {
         display: flex;
         justify-content: center;
@@ -55,6 +60,10 @@
           font-family: 'Betty Noir';
           border: 1px solid black;
         }
+      }
+
+      [data-altfr='1'] &[data-company='4'] .company-owner-wrapper .company-owner {
+        color: #922297 !important;
       }
 
       .action-board {
@@ -549,6 +558,10 @@
       transition: transform 0.4s;
       &:hover {
         transform: translateY(-10px);
+      }
+
+      [data-altfr='1'] &[data-company='4'] {
+        border-color: #95149b !important;
       }
     }
   }

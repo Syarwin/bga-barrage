@@ -83,6 +83,7 @@ ${match[4]}
           'g',
         );
         let t = [...content.matchAll(re)];
+				if(t.length == 0) return;
         let w = parseInt(t[0][1]);
         let h = parseInt(t[0][2]);
 

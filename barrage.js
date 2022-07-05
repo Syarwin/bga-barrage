@@ -228,6 +228,12 @@ define([
             3: _('None'),
           },
         },
+        altFr: {
+          default: 0,
+          name: _('Use purple color for France instead of white'),
+          attribute: 'altFr',
+          type: 'switch',
+        },
       };
     },
 

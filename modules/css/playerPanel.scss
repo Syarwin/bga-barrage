@@ -17,6 +17,10 @@
   .player-board {
     overflow: hidden; // Used for contract slideout animation
     order: 6;
+
+    [data-altfr='1'] & #player_board_inner_ffffff .player-name a {
+      color: #922297 !important;
+    }
   }
 }
 
@@ -94,6 +98,10 @@
         &[data-company='#{$i}'] {
           background-position-x: $i * 100% / 5;
         }
+      }
+
+      [data-altfr='1'] & {
+        border-color: #95149b !important;
       }
     }
 

@@ -355,7 +355,7 @@
     background-size: 839.344%;
   }
 
-  &.meeple-score[data-flip="1"][data-company='1'] {
+  &.meeple-score[data-flip='1'][data-company='1'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -364,7 +364,7 @@
     background-size: 839.344%;
   }
 
-  &.meeple-score[data-flip="1"][data-company='2'] {
+  &.meeple-score[data-flip='1'][data-company='2'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -373,7 +373,7 @@
     background-size: 839.344%;
   }
 
-  &.meeple-score[data-flip="1"][data-company='3'] {
+  &.meeple-score[data-flip='1'][data-company='3'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -382,7 +382,7 @@
     background-size: 839.344%;
   }
 
-  &.meeple-score[data-flip="1"][data-company='4'] {
+  &.meeple-score[data-flip='1'][data-company='4'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -391,12 +391,54 @@
     background-size: 839.344%;
   }
 
-  &.meeple-score[data-flip="1"][data-company='5'] {
+  &.meeple-score[data-flip='1'][data-company='5'] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 26% 42.525%;
     background-size: 839.344%;
+  }
+}
+
+[data-altfr='1'] .barrage-meeple[data-company='4'] {
+  &.meeple-engineer,
+  &.meeple-base,
+  &.meeple-elevation,
+  &.meeple-conduit,
+  &.meeple-powerhouse,
+  &.meeple-score {
+    background-image: url('img/alt-fr/meeples.png');
+    background-repeat: no-repeat;
+  }
+
+  &.meeple-engineer {
+    background-position: 0% 0%;
+    background-size: 632.099%;
+  }
+
+  &.meeple-base {
+    background-position: 21.0938% 0%;
+    background-size: 400%;
+  }
+
+  &.meeple-elevation {
+    background-position: 65.974% 90.1235%;
+    background-size: 403.15%;
+  }
+
+  &.meeple-conduit {
+    background-position: 47.6082% 0%;
+    background-size: 701.37%;
+  }
+
+  &.meeple-powerhouse {
+    background-position: 32.1053% 93.5897%;
+    background-size: 387.879%;
+  }
+
+  &.meeple-score {
+    background-position: 72.3077% 0%;
+    background-size: 419.672%;
   }
 }
