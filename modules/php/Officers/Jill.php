@@ -15,6 +15,7 @@ class Jill extends \BRG\Models\Officer
     );
   }
 
+
   public function getCostModifier($slot, $machine, $n)
   {
     $costs = parent::getCostModifier($slot, $machine, $n);

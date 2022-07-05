@@ -23,22 +23,14 @@ class L2Conduit extends AdvancedTile
     return $descs;
   }
 
-  public function getUnitsModifier($n)
-  {
-    if ($n > 5) {
-      return 5;
-    } else {
-      return $n;
-    }
-  }
 
   public function getCostModifier($costs, $slot, $machine, $n)
   {
-    foreach ($costs['trades'] as &$trade) {
-      if (isset($trade[EXCAVATOR])) {
-        $trade[EXCAVATOR] = 1;
-      }
-    }
+    $costs['trades'][] = [
+      EXCAVATOR => 5,
+      'nb' => $n,
+    ];
+
     return $costs;
   }
 }

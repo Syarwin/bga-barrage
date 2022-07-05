@@ -378,7 +378,6 @@ class Company extends \BRG\Helpers\DB_Model
 
     $neededUnits = $tile->getUnitsModifier($neededUnits);
 
-    // throw new \feException(print_r($costs));
     return [
       'nb' => $neededUnits,
       'costs' => $costs,

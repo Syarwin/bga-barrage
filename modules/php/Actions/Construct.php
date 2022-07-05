@@ -114,6 +114,7 @@ class Construct extends \BRG\Models\Action
 
   public function actConstruct($spaceId, $tileId, $copiedTile = null)
   {
+
     // Sanity checks
     self::checkAction('actConstruct');
     $company = Companies::getActive();
@@ -125,7 +126,7 @@ class Construct extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
     }
     $pair = array_pop($pairs);
-    // throw new \feException(print_r($pair));
+
     $tile = TechnologyTiles::get($tileId);
     if ($tile->getType() == \ANTON_TILE && Globals::getAntonPower() == '') {
       // throw new \feException($copiedTile);
