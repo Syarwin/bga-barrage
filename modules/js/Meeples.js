@@ -134,6 +134,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           n -= 30;
           if ($(`meeple-${meeple.id}`)) $(`meeple-${meeple.id}`).dataset.flip = '1';
         }
+        if (n > 31) {
+          n = 31;
+        }
         return $(`energy-track-${n}`);
       }
       // Meeple on the wheel
