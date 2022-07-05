@@ -353,6 +353,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     notif_gainResources(n) {
       debug('Notif: gain resoures', n);
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
+
       this.slideResources(n.args.resources, {
         from: n.args.spaceId ? n.args.spaceId : 'page-title',
       });

@@ -319,6 +319,7 @@ class Notifications
       'resources' => $meeples,
       'spaceId' => $spaceId,
       'source' => $source,
+      'bonuses' => Game::get()->computeBonuses(),
     ]);
   }
 
@@ -363,6 +364,7 @@ class Notifications
         'powerhouse' => $powerhouseSpaceId,
         'energy' => $energy,
         'droplets' => $droplets,
+        'bonuses' => Game::get()->computeBonuses(),
       ]
     );
   }

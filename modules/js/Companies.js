@@ -378,6 +378,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_produce(n) {
       debug('Notif: producing energy', n);
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
+
       if (this.isFastMode()) return;
 
       let powerhouse = this.getConstructSlot(n.args.powerhouse);
