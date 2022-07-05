@@ -121,9 +121,12 @@ class Contracts extends \BRG\Helpers\Pieces
           ->where('type', $i)
           ->get()
           ->getIds();
-        $contractIds = Utils::rand($contractIds, 2 - $n);
-        self::move($contractIds, 'contract-stack-' . $i);
-        $moved = array_merge($moved, $contractIds);
+        $toPick = min(count($contractIds), 2 - $n);
+        if ($toPick > 0) {
+          $contractIds = Utils::rand($contractIds, $toPick);
+          self::move($contractIds, 'contract-stack-' . $i);
+          $moved = array_merge($moved, $contractIds);
+        }
       }
     }
 
