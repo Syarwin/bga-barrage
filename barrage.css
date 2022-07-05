@@ -1202,6 +1202,9 @@ body {
   .bgabutton .icon-container:not(.icon-container-powerhouse):not(.icon-container-base) {
     vertical-align: bottom; }
 
+.tooltip-special-power {
+  font-size: 40px; }
+
 .action-board-icon .text,
 .building-slot .text {
   font-size: 0.9em;
@@ -1463,6 +1466,9 @@ body {
       background-size: 600% 100%;
       border: 2px solid black;
       border-radius: 50%; }
+      .player_panel_content .company-info .company-logo .help-marker {
+        top: -8px;
+        left: -8px; }
       .player_panel_content .company-info .company-logo[data-company='1'] {
         background-position-x: 20%; }
       .player_panel_content .company-info .company-logo[data-company='2'] {

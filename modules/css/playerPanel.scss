@@ -85,6 +85,10 @@
       background-size: 600% 100%;
       border: 2px solid black;
       border-radius: 50%;
+      .help-marker {
+        top: -8px;
+        left: -8px;
+      }
 
       @for $i from 1 through 6 {
         &[data-company='#{$i}'] {

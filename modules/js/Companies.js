@@ -144,11 +144,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
         `officer-${company.id}`,
       );
+
+      const SPECIAL_POWERS = {
+        1: 'special_power_usa',
+        2: 'special_power_germany',
+        3: 'special_power_italy',
+        4: 'special_power_france',
+        5: 'special_power_netherlands',
+      };
+      this.registerCustomTooltip(
+        `<h3>${this.getCompanyName(company.id)}</h3>${this.convertFlowToDescs({
+          special_power: SPECIAL_POWERS[company.id],
+        })}`,
+        `company-logo-${company.id}`,
+      );
+
       return (
         `<div class='company-info'>
         <div class='company-jump-to' id='company-jump-to-${company.id}'></div>
         <div class='company-no' id='company-position-${company.id}'>${no}</div>
-        <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}"></div>
+        <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}" id='company-logo-${company.id}'"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
         <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
         <div class='company-obj-tile' id='company-obj-tile-${company.id}'></div>
