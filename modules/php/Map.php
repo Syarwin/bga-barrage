@@ -97,7 +97,7 @@ class Map
   public static function getHeadstreamTiles()
   {
     $tiles = [];
-    foreach(Globals::getHeadstreams() as $hId => $tId){
+    foreach (Globals::getHeadstreams() as $hId => $tId) {
       $tiles[$hId] = [
         'tileId' => $tId,
         'droplets' => self::$headstreamTiles[$tId],
@@ -306,8 +306,11 @@ class Map
       foreach ($zone['basins'] ?? [] as $basin) {
         $owners = $objTileComputation ? [$company] : [COMPANY_NEUTRAL, $company];
         $dam = Meeples::getOnSpace($basin, BASE, $owners)->first();
+        if (is_null($dam)) {
+          continue;
+        }
         $nDroplets = self::countDropletsInBasin($basin);
-        if (!$objTileComputation && (is_null($dam) || $nDroplets == 0)) {
+        if (!$objTileComputation && $nDroplets == 0) {
           continue;
         }
 
