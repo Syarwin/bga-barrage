@@ -845,6 +845,46 @@ body {
   #modal-company-boards-wrapper[data-open='6'] #modal-company-boards-container .company-board#company-board-6 {
     display: block; }
 
+.barrageContracts_popin {
+  background-color: #ebd5bd;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px black;
+  position: relative;
+  min-width: 500px; }
+  .barrageContracts_popin .barrageContracts_popin_closeicon {
+    background-color: #a47a77;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    font-size: 90%;
+    color: white !important;
+    border: 1px solid #dfbda8; }
+    .barrageContracts_popin .barrageContracts_popin_closeicon:hover {
+      text-decoration: none;
+      color: #ccc !important;
+      transform: scale(1.1); }
+    .barrageContracts_popin .barrageContracts_popin_closeicon i {
+      margin-top: -2px; }
+  .barrageContracts_popin h2 {
+    font-family: 'Oranienbaum';
+    text-align: center;
+    font-size: 23px;
+    margin: 0px;
+    background: #b79570;
+    border-radius: 8px 8px 0px 0px;
+    padding: 7px 0px;
+    border-bottom: 1px solid #734f2a; }
+  .barrageContracts_popin .reserve {
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap; }
+
 #game_play_area {
   font-size: 30px; }
 
@@ -1638,7 +1678,8 @@ body {
       border-top: 1px solid #d5bea6;
       display: flex;
       justify-content: center;
-      align-items: center; }
+      align-items: center;
+      cursor: pointer; }
       .player_panel_content .company-income-wrapper .company-fulfilled-contracts span {
         font-family: 'Oranienbaum';
         font-weight: bold; }
@@ -1695,7 +1736,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='0'] .summary-wheel-sector:nth-of-type(1) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='0'] .summary-wheel-sector:nth-of-type(2) {
           bottom: 0px;
           left: 3px; }
@@ -1717,7 +1759,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='1'] .summary-wheel-sector:nth-of-type(2) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='1'] .summary-wheel-sector:nth-of-type(3) {
           bottom: 0px;
           left: 3px; }
@@ -1739,7 +1782,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='2'] .summary-wheel-sector:nth-of-type(3) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='2'] .summary-wheel-sector:nth-of-type(4) {
           bottom: 0px;
           left: 3px; }
@@ -1761,7 +1805,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='3'] .summary-wheel-sector:nth-of-type(4) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='3'] .summary-wheel-sector:nth-of-type(5) {
           bottom: 0px;
           left: 3px; }
@@ -1783,7 +1828,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='4'] .summary-wheel-sector:nth-of-type(5) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='4'] .summary-wheel-sector:nth-of-type(6) {
           bottom: 0px;
           left: 3px; }
@@ -1805,7 +1851,8 @@ body {
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='5'] .summary-wheel-sector:nth-of-type(6) {
           bottom: 105px;
           left: 0px;
-          opacity: 0; }
+          opacity: 0;
+          pointer-events: none; }
     .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles {
       flex-grow: 1;
       display: flex;
@@ -3094,12 +3141,14 @@ body {
       background: transparent; }
     #brg-map-resizable #brg-map .dam-slot.selectable, #brg-map-resizable #brg-map .conduit-slot.selectable, #brg-map-resizable #brg-map .powerhouse-slot.selectable {
       cursor: pointer;
-      background-color: #ff000057; }
+      background-color: #ff000057;
+      box-shadow: 0px 0px 9px 6px #f00c; }
       #brg-map-resizable #brg-map .dam-slot.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
         background-color: #ff000090; }
     #brg-map-resizable #brg-map .dam-slot.selected, #brg-map-resizable #brg-map .conduit-slot.selected, #brg-map-resizable #brg-map .powerhouse-slot.selected {
       background: #35b710aa;
       border: 2px solid #227b09 !important;
+      box-shadow: 0px 0px 7px 5px #227b09;
       margin-top: -1px;
       margin-left: -1px; }
       #brg-map-resizable #brg-map .dam-slot.selected.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selected.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selected.selectable:hover {

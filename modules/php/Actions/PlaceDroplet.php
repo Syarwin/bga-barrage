@@ -21,6 +21,12 @@ class PlaceDroplet extends \BRG\Models\Action
     return true;
   }
 
+  public function isOptional()
+  {
+    return true;
+  }
+
+
   public function stPlaceDroplet()
   {
     $args = $this->getCtxArgs();

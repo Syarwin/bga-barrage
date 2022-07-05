@@ -27,6 +27,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     setupCompanies() {
+      this._companyContractsModals = {};
       this.forEachCompany((company) => this.setupCompany(company));
       this.setupCompaniesCounters();
       this.updateCompaniesOrder();
@@ -95,6 +96,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.updateWheelAngle(company);
         this.addBoardIncomes(company);
       }
+
+      this._companyContractsModals[company.id] = new customgame.modal('companyFulfilledContracts' + company.id, {
+        class: 'barrageContracts_popin',
+        closeIcon: 'fa-times',
+        closeAction: 'hide',
+        verticalAlign: 'flex-start',
+        title: this.format_string_recursive(_('Fulfilled contracts of ${company_name}'), {
+          company_name: _(company.name),
+        }),
+        contentsTpl: `<div id="modal-company-contracts-${company.id}"></div>`,
+      });
+      dojo.place(`reserve_${company.id}_fcontract`, `modal-company-contracts-${company.id}`);
+      this.onClick(`company-fulfilled-btn-${company.id}`, () => this._companyContractsModals[company.id].show(), false);
     },
 
     tplPlayerPanel(company) {
@@ -153,7 +167,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       </div>
       <div class='company-income-wrapper'>
           <div class='company-income' id='company-income-${company.id}'></div>
-          <div class='company-fulfilled-contracts'>
+          <div class='company-fulfilled-contracts' id='company-fulfilled-btn-${company.id}'>
             ${this.tplResourceCounter(company, 'fcontract')}
           </div>
       </div>

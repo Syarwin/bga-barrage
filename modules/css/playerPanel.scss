@@ -312,6 +312,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
 
       span {
         font-family: 'Oranienbaum';
@@ -411,6 +412,7 @@
                 @elseif $k == 5 {
                   left: 0px;
                   opacity: 0;
+                  pointer-events: none;
                 }
               }
             }

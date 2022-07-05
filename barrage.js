@@ -372,7 +372,7 @@ define([
       });
     },
 
-    updateRoundCounter(){
+    updateRoundCounter() {
       this._roundCounter.toValue(this.gamedatas.round);
       $('ebd-body').dataset.round = this.gamedatas.round;
     },
@@ -758,7 +758,7 @@ define([
   <div id="player_config" class="player_board_content">
 
     <div class="player_config_row" id="round-counter-wrapper">
-      ${_('Round')} <span id='round-counter'></span> / 4
+      ${_('Round')} <span id='round-counter'></span> / 5
     </div>
 
     <div class="player_config_row">
@@ -953,8 +953,21 @@ define([
             currentSelection = [];
             updateSelectable();
           });
+
           this.addPrimaryActionButton('btnConfirmDroplets', _('Confirm'), () => {
-            this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
+            if (currentSelection.length < args.n) {
+              this.confirmationDialog(
+                this.format_string_recursive(
+                  _('Are you sure you want to place only ${placed} droplet(s) instead of ${n}?'),
+                  { placed: currentSelection.length, n: args.n },
+                ),
+                () => {
+                  this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
+                },
+              );
+            } else {
+              this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
+            }
           });
         }
       };
@@ -1142,7 +1155,6 @@ define([
       let selectedPowerhouse = null;
       let selectedBasin = null;
       let optionalAction = args && args.optionalAction && !args.automaticAction;
-      debug('optional', optionalAction);
       let updateStatus = () => {
         dojo.query('#brg-map .selectable').removeClass('selectable selected');
         // Keep only available systems
@@ -1165,7 +1177,6 @@ define([
           conduit.classList.toggle('selectable', systems.length > 1);
           conduit.classList.toggle('selected', system.conduitSpaceId == selectedConduit);
         });
-
         dojo.empty('customActions');
 
         if (selectedBasin != null || selectedPowerhouse != null || selectedConduit != null) {
@@ -1202,24 +1213,40 @@ define([
       };
 
       // Add listeners
+      let listeningBasins = [],
+        listeningPowerhouses = [],
+        listeningConduits = [];
       systems.forEach((system) => {
-        let basin = this.getConstructSlot(system.basin);
-        this.onClick(basin, () => {
-          selectedBasin = selectedBasin == system.basin ? null : system.basin;
-          updateStatus();
-        });
+        if (!listeningBasins.includes(system.basin)) {
+          listeningBasins.push(system.basin);
+          let basin = this.getConstructSlot(system.basin);
+          this.onClick(basin, () => {
+            if (!basin.classList.contains('selectable')) return;
+            selectedBasin = selectedBasin == system.basin ? null : system.basin;
+            updateStatus();
+          });
+        }
 
-        let powerhouse = this.getConstructSlot(system.powerhouseSpaceId);
-        this.onClick(powerhouse, () => {
-          selectedPowerhouse = selectedPowerhouse == system.powerhouseSpaceId ? null : system.powerhouseSpaceId;
-          updateStatus();
-        });
+        if (!listeningPowerhouses.includes(system.powerhouseSpaceId)) {
+          listeningPowerhouses.push(system.powerhouseSpaceId);
+          let powerhouse = this.getConstructSlot(system.powerhouseSpaceId);
+          this.onClick(powerhouse, () => {
+            if (!powerhouse.classList.contains('selectable')) return;
+            selectedPowerhouse = selectedPowerhouse == system.powerhouseSpaceId ? null : system.powerhouseSpaceId;
+            updateStatus();
+          });
+        }
 
-        let conduit = this.getConstructSlot(system.conduitSpaceId);
-        this.onClick(conduit, () => {
-          selectedConduit = selectedConduit == system.conduitSpaceId ? null : system.conduitSpaceId;
-          updateStatus();
-        });
+        if (!listeningConduits.includes(system.conduitSpaceId)) {
+          listeningConduits.push(system.conduitSpaceId);
+
+          let conduit = this.getConstructSlot(system.conduitSpaceId);
+          this.onClick(conduit, () => {
+            if (!conduit.classList.contains('selectable')) return;
+            selectedConduit = selectedConduit == system.conduitSpaceId ? null : system.conduitSpaceId;
+            updateStatus();
+          });
+        }
       });
 
       // Autoselect if only one
