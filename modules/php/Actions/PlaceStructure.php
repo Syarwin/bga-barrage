@@ -41,13 +41,19 @@ class PlaceStructure extends \BRG\Models\Action
     $spaces = [];
     // If we have received a space in parameter, if it's defined we keep it, else return empty
     $possibleSpaces = Map::getConstructSlots();
-    if(!is_null($args['spaceId'] ?? null)){
+    if (!is_null($args['spaceId'] ?? null)) {
       $possibleSpaces = [$args['spaceId'] => $possibleSpaces[$args['spaceId']]];
     }
 
     foreach ($possibleSpaces as $space) {
       $ignoreMalus = false;
       if ($space['type'] != $args['type']) {
+        continue;
+      }
+
+      // Do we have any structure left of this type ?
+      $meeple = Meeples::getTopOfType($space['type'], $company->getId(), 'company');
+      if (is_null($meeple)) {
         continue;
       }
 
