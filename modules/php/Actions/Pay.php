@@ -96,7 +96,7 @@ class Pay extends \BRG\Models\Action
     // one combination => automatic allocation
     if (count($args['combinations']) == 1) {
       $cost = reset($args['combinations']);
-     $this->actPay($cost, true);
+      $this->actPay($cost, true);
     } elseif (empty($args['combinations'])) {
       throw new \BgaVisibleSystemException('No option to pay');
     }
@@ -272,7 +272,6 @@ class Pay extends \BRG\Models\Action
         }
       }
     }
-
 
     // Start with an empty list of possible combinations
     $combinations = [];
