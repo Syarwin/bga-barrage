@@ -557,7 +557,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         energy: _(
           'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts',
         ),
-        any_machine: _('Gain ${n} Machineries of your choice.'),
+        any_machine: _('Gain ${n} Machineryies of your choice.'),
         conduit: _(
           "Build a Conduit with a production value of ${n} (or less). You don't need to place Engineers, to insert the Technology tile or the Machineries.",
         ),
@@ -569,7 +569,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         flow_droplet: _(
           'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops flow immediately.',
         ),
-        ROTATE_WHEEL: _('Rotate your Construction Wheel by ${n} segments.'),
+        ROTATE_WHEEL: _('Rotate your Construction Wheel by ${n} segment(s).'),
         PLACE_DROPLET: _(
           'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops will flow during the Water Flow Phase.',
         ),
