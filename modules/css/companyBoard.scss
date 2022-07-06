@@ -224,7 +224,10 @@
           .action-space-cost {
             position: absolute;
             left: calc(100% - 4px);
-            display: none;
+
+            [data-cost-icon='1'] & {
+              display: none;
+            }
           }
 
           .action-space-slot {

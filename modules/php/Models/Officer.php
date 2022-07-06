@@ -54,6 +54,14 @@ class Officer implements \JsonSerializable
     return $this->contractReduction;
   }
 
+  public function addActionSpacesUi(&$rows)
+  {
+  }
+
+  public function addActionSpaces(&$spaces)
+  {
+  }
+
   public function getCostModifier($slot, $machine, $n)
   {
     // Conduit cost 2 of machine
@@ -75,7 +83,7 @@ class Officer implements \JsonSerializable
       ENGINEER => 12,
       CREDIT => 6,
       EXCAVATOR => 6,
-      MIXER => 4
+      MIXER => 4,
     ];
   }
 }

@@ -19,7 +19,7 @@ class BankActionBoard extends AbstractActionBoard
     return clienttranslate('Bank');
   }
 
-  public function getUiStructure()
+  protected function getUiStructure($cId = null)
   {
     $rows = [];
 

@@ -19,6 +19,46 @@ class Mahiri extends \BRG\Models\Officer
     );
   }
 
+  public function addActionSpacesUi(&$rows)
+  {
+    $rows[] = [
+      'mahiri-1',
+      [
+        'i' => '<MAHIRI>',
+        't' => clienttranslate(
+          'You have a personal special ability that you can activate placing 1 Engineer on the action space of this tile. If you use it a second time during the same round, you must also pay 3 Credits. When you activate it, you can copy another Executive Officer\'s special ability.'
+        ),
+      ],
+      'mahiri-2',
+    ];
+  }
+
+  public function addActionSpaces(&$spaces)
+  {
+    $spaces[] = [
+      'board' => BOARD_OFFICER,
+      'cId' => $this->company->getId(),
+      'uid' => BOARD_OFFICER . '-mahiri-1',
+      'cost' => 0,
+      'nEngineers' => 1,
+      'flow' => [
+        'action' => \SPECIAL_EFFECT,
+        'args' => ['xoId' => \XO_MAHIRI, 'method' => 'copyPower'],
+      ],
+    ];
+    $spaces[] = [
+      'board' => BOARD_OFFICER,
+      'cId' => $this->company->getId(),
+      'uid' => BOARD_OFFICER . '-mahiri-2',
+      'cost' => 3,
+      'nEngineers' => 1,
+      'flow' => [
+        'action' => \SPECIAL_EFFECT,
+        'args' => ['xoId' => \XO_MAHIRI, 'method' => 'copyPower'],
+      ],
+    ];
+  }
+
   public function argsCopyPower()
   {
     $copy = [];

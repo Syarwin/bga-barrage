@@ -19,7 +19,7 @@ class MachineryShopActionBoard extends AbstractActionBoard
     return clienttranslate('Machinery Shop');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 

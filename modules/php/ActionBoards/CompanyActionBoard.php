@@ -22,54 +22,13 @@ class CompanyActionBoard extends AbstractActionBoard
       if (!is_null($filterCId) && $cId != $filterCId) {
         continue;
       }
+
       for ($i = 1; $i <= 4; $i++) {
         $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
-      }
-      if ($company->isXO(\XO_MAHIRI)) {
-        $rows[] = [
-          $cId . '-6',
-          [
-            'i' => '<MAHIRI>',
-            't' => clienttranslate(
-              'You have a personal special ability that you can activate placing 1 Engineer on the action space of this tile. If you use it a second time during the same round, you must also pay 3 Credits. When you activate it, you can copy another Executive Officer\'s special ability.'
-            ),
-          ],
-          $cId . '-7',
-        ];
       }
     }
 
     return $rows;
-  }
-
-  public function getUiData($cId = null)
-  {
-    $spaces = [];
-    foreach (static::getAvailableSpaces() as $space) {
-      if (!is_null($cId) && $space['cId'] != $cId) {
-        continue;
-      }
-      unset($space['flow']);
-      $spaces[$space['uid']] = $space;
-    }
-
-    $structure = static::getUiStructure($cId);
-    foreach ($structure as &$row) {
-      if (is_array($row)) {
-        foreach ($row as $i => $elem) {
-          if (is_array($elem)) {
-            continue;
-          }
-
-          $key = static::$id . '-' . $elem;
-          if (\array_key_exists($key, $spaces)) {
-            $row[$i] = $spaces[$key];
-          }
-        }
-      }
-    }
-
-    return $structure;
   }
 
   public function getAvailableSpaces()
@@ -85,30 +44,6 @@ class CompanyActionBoard extends AbstractActionBoard
           'nEngineers' => min(3, $i),
           'flow' => [
             'action' => CONSTRUCT,
-          ],
-        ];
-      }
-      if ($company->isXO(\XO_MAHIRI)) {
-        $spaces[] = [
-          'board' => self::$id,
-          'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-6',
-          'cost' => 0,
-          'nEngineers' => 1,
-          'flow' => [
-            'action' => \SPECIAL_EFFECT,
-            'args' => ['xoId' => \XO_MAHIRI, 'method' => 'copyPower'],
-          ],
-        ];
-        $spaces[] = [
-          'board' => self::$id,
-          'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-7',
-          'cost' => 3,
-          'nEngineers' => 1,
-          'flow' => [
-            'action' => \SPECIAL_EFFECT,
-            'args' => ['xoId' => \XO_MAHIRI, 'method' => 'copyPower'],
           ],
         ];
       }

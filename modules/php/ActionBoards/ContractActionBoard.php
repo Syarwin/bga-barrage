@@ -19,7 +19,7 @@ class ContractActionBoard extends AbstractActionBoard
     return clienttranslate('Contract Office');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 

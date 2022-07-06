@@ -46,20 +46,23 @@ abstract class AbstractActionBoard
    * getUiData : remove useless data for frontend, as the flow
    *  and organize this depending on board structure
    */
-  //  abstract protected function getUiStructure();
-  protected function getUiStructure()
+  protected function getUiStructure($cId = null)
   {
     return [];
   }
-  public function getUiData()
+  
+  public function getUiData($cId = null)
   {
     $spaces = [];
     foreach (static::getAvailableSpaces() as $space) {
+      if (!is_null($cId) && $space['cId'] != $cId) {
+        continue;
+      }
       unset($space['flow']);
       $spaces[$space['uid']] = $space;
     }
 
-    $structure = static::getUiStructure();
+    $structure = static::getUiStructure($cId);
     foreach ($structure as &$row) {
       if (is_array($row)) {
         foreach ($row as $i => $elem) {
@@ -77,6 +80,7 @@ abstract class AbstractActionBoard
 
     return $structure;
   }
+
 
   /**
    * getPlayableSpaces : return the list of playable spaces for a given company

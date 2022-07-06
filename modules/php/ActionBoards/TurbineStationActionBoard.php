@@ -19,7 +19,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
     return clienttranslate('Turbine Station');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 

@@ -19,7 +19,7 @@ class WaterActionBoard extends AbstractActionBoard
     return clienttranslate('Water Management');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 

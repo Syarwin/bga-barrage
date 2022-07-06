@@ -26,7 +26,7 @@ class PatentActionBoard extends AbstractActionBoard
     return clienttranslate('Patent office');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 

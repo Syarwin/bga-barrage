@@ -2167,8 +2167,9 @@ body {
             background: #d70f0f; }
           .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
             position: absolute;
-            left: calc(100% - 4px);
-            display: none; }
+            left: calc(100% - 4px); }
+            [data-cost-icon='1'] .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
+              display: none; }
           .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-slot {
             background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
             width: 34px;

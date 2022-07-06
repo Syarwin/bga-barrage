@@ -20,7 +20,7 @@ class WorkshopActionBoard extends AbstractActionBoard
     return clienttranslate('Workshop');
   }
 
-  public function getUiStructure()
+  public function getUiStructure($cId = null)
   {
     $rows = [];
 
