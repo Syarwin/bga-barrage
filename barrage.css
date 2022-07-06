@@ -3181,7 +3181,7 @@ body {
       background: transparent; }
     #brg-map-resizable #brg-map .dam-slot.selectable, #brg-map-resizable #brg-map .conduit-slot.selectable, #brg-map-resizable #brg-map .powerhouse-slot.selectable {
       cursor: pointer;
-      background-color: #ff000057;
+      background-color: #ff000020;
       box-shadow: 0px 0px 9px 6px #f00c; }
       #brg-map-resizable #brg-map .dam-slot.selectable:hover, #brg-map-resizable #brg-map .conduit-slot.selectable:hover, #brg-map-resizable #brg-map .powerhouse-slot.selectable:hover {
         background-color: #ff000090; }

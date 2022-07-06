@@ -74,17 +74,15 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
-      if (
-        $space['type'] == \POWERHOUSE &&
-        count($company->getBuiltStructures(\POWERHOUSE, 'P' . $space['zone'] . '%')) > 0
-      ) {
+      // cannot place if the spot is taken
+      if (in_array($space['type'], [POWERHOUSE, CONDUIT]) && Meeples::getOnSpace($space['id'])->count() > 0) {
         continue;
       }
 
-      // cannot place if the spot is taken
+      // same player cannot have 2 powerhouse in the same zone
       if (
         $space['type'] == \POWERHOUSE &&
-        count(Meeples::getFilteredQuery(null, $space['id'], \POWERHOUSE)->get()) > 0
+        count($company->getBuiltStructures(\POWERHOUSE, 'P' . $space['zone'] . '%')) > 0
       ) {
         continue;
       }
