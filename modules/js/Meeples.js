@@ -311,7 +311,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               }
             : {},
         );
-      }
+      };
 
       if (n.args.tile !== null) {
         let tile = n.args.tile;
@@ -360,8 +360,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     notif_gainResources(n) {
       debug('Notif: gain resoures', n);
-      this.gamedatas.bonuses = n.args.bonuses;
-      this.updateCompanyBonuses();
+      if (n.args.bonuses) {
+        this.gamedatas.bonuses = n.args.bonuses;
+        this.updateCompanyBonuses();
+      }
 
       this.slideResources(n.args.resources, {
         from: n.args.spaceId ? n.args.spaceId : 'page-title',
@@ -609,7 +611,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
             ),
           };
-          let icon = this.convertFlowToIcons({special_power : n});
+          let icon = this.convertFlowToIcons({ special_power: n });
           desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}`;
         }
 
