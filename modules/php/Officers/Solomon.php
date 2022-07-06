@@ -17,8 +17,6 @@ class Solomon extends \BRG\Models\Officer
 
   public function applyConstructCostModifier(&$costs, $slot)
   {
-    if ($slot['type'] == CONDUIT) {
-      Utils::addCost($costs['costs'], [CREDIT => 3, 'nb' => 1], $this->name);
-    }
+    Utils::addCost($costs['costs'], [CREDIT => 3, 'nb' => 1], $this->name);
   }
 }
