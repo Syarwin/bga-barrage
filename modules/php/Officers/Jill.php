@@ -15,31 +15,11 @@ class Jill extends \BRG\Models\Officer
     );
   }
 
-
-  public function getCostModifier($slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    $costs = parent::getCostModifier($slot, $machine, $n);
-    if ($slot['type'] == CONDUIT) {
-      // As we cannot combo Mixer & Excavator, change of logic to buy 1 item at cost for the item
-      foreach ($costs['trades'] as &$c) {
-        foreach ($c as $machine => $nb) {
-          if ($machine == 'nb') {
-            continue;
-          }
-          $c[$machine] = $nb * $n;
-        }
-      }
-      Utils::addCost($costs, [MIXER => $n, 'nb' => 1], $this->name);
-    }
 
-    return $costs;
-  }
-
-  public function getUnitsModifier($slot, $machine, $n)
-  {
     if ($slot['type'] == CONDUIT) {
-      return 1;
+      Utils::addCost($costs['costs'], [MIXER => $slot['production'], 'nb' => WHOLE_COST], $this->name);
     }
-    return parent::getUnitsModifier($slot, $machine, $n);
   }
 }

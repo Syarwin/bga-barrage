@@ -54,6 +54,11 @@ class Pay extends \BRG\Models\Action
     return $this->ctx == null ? null : (is_array($this->ctx) ? $this->ctx : $this->ctx->getArgs());
   }
 
+  private function getIgnoredFields()
+  {
+    return ['sources', 'tags'];
+  }
+
   public function argsPay($company = null, $ignoreResources = false)
   {
     $company = $company ?? Companies::getActive();
@@ -91,7 +96,7 @@ class Pay extends \BRG\Models\Action
     // one combination => automatic allocation
     if (count($args['combinations']) == 1) {
       $cost = reset($args['combinations']);
-      $this->actPay($cost, true);
+     $this->actPay($cost, true);
     } elseif (empty($args['combinations'])) {
       throw new \BgaVisibleSystemException('No option to pay');
     }
@@ -107,12 +112,13 @@ class Pay extends \BRG\Models\Action
     }
 
     $company = Companies::getActive();
+    $ignore = self::getIgnoredFields();
 
     if (isset($this->getCtxArgs()['to'])) {
       // Payment to a player
       $moved = [];
       foreach ($cost as $resource => $amount) {
-        if ($resource == 'sources') {
+        if (in_array($resource, $ignore)) {
           continue;
         }
         $moved = array_merge($moved, $company->payResourceTo($this->getCtxArgs()['to'], $resource, $amount));
@@ -133,7 +139,7 @@ class Pay extends \BRG\Models\Action
       $deleted = [];
       $moved = [];
       foreach ($cost as $resource => $amount) {
-        if ($resource == 'sources') {
+        if (in_array($resource, $ignore)) {
           continue;
         }
         if (in_array($resource, MACHINERIES)) {
@@ -156,7 +162,7 @@ class Pay extends \BRG\Models\Action
       // Delete meeples and notify
       $deleted = [];
       foreach ($cost as $resource => $amount) {
-        if ($resource == 'sources') {
+        if (in_array($resource, $ignore)) {
           continue;
         }
         $deleted = array_merge($deleted, $company->useResource($resource, $amount));
@@ -187,6 +193,7 @@ class Pay extends \BRG\Models\Action
    *          'nb' => amount of units we obtain by paying this
    *          'sources' => array of card ids implied by that cost
    *          'resourceType1' => amount,
+   *          'tag' => string tag to identify that cost (useful for incompatibilities)
    *           ....
    *        ]
    *    ]
@@ -259,12 +266,13 @@ class Pay extends \BRG\Models\Action
       $choices = $bonus['choices'] ?? [$bonus]; // Handle bonuses with choices, eg "1 building resource of bonus"
       foreach ($choices as $choice) {
         foreach ($choice as $resource => $amount) {
-          if ($resource != 'optional' && $resource != 'sources' && $amount < 0) {
+          if ($resource != 'optional' && !in_array($resource, self::getIgnoredFields()) && $amount < 0) {
             $maxReserve[$resource] += -$amount;
           }
         }
       }
     }
+
 
     // Start with an empty list of possible combinations
     $combinations = [];
@@ -282,6 +290,16 @@ class Pay extends \BRG\Models\Action
       $n = 1; // The number of time we want to use the trade
       $max = $trade['max'] ?? 15; // Just to ensure we won't have an infinite loop
       unset($trade['max']);
+
+      // Handle WHOLE_COST trades
+      if (($trade['nb'] ?? null) == WHOLE_COST) {
+        if (is_null($target)) {
+          $trade['nb'] = 1;
+          $trade['max'] = 1;
+        } else {
+          $trade['nb'] = $target;
+        }
+      }
       $trade['nb'] = $trade['nb'] ?? 1;
 
       $previousCombinations = $combinations;
@@ -343,8 +361,9 @@ class Pay extends \BRG\Models\Action
   protected function addCostAux(&$combination, $unitCost, $times = 1)
   {
     $combination['sources'] = array_unique(array_merge($combination['sources'] ?? [], $unitCost['sources'] ?? []));
+    $combination['tags'] = array_unique(array_merge($combination['tags'] ?? [], $unitCost['tags'] ?? []));
     foreach ($unitCost as $resource => $cost) {
-      if ($resource == 'sources') {
+      if (in_array($resource, self::getIgnoredFields())) {
         continue;
       }
 
@@ -362,8 +381,7 @@ class Pay extends \BRG\Models\Action
   {
     foreach ($bonus as $resource => $amount) {
       if (
-        $resource != 'optional' &&
-        $resource != 'sources' &&
+        !in_array($resource, array_merge(self::getIgnoredFields(), ['optional'])) &&
         $amount < 0 &&
         ($combination[$resource] ?? 0) + $amount < 0
       ) {
@@ -389,11 +407,15 @@ class Pay extends \BRG\Models\Action
       $combinations = [];
     }
 
+    $ignore = self::getIgnoredFields();
+
     // First look for duplicates
     foreach ($combinations as $c) {
       $d = $combination;
-      unset($d['sources']);
-      unset($c['sources']);
+      foreach ($ignore as $i) {
+        unset($d[$i]);
+        unset($c[$i]);
+      }
       $t1 = array_diff_assoc($c, $d);
       $t2 = array_diff_assoc($d, $c);
       if (empty($t1) && empty($t2)) {
@@ -404,7 +426,7 @@ class Pay extends \BRG\Models\Action
     // Then check reserve
     if (!$ignoreResources) {
       foreach ($combination as $res => $n) {
-        if ($res == 'nb' || $res == 'sources') {
+        if ($res == 'nb' || in_array($res, $ignore)) {
           continue;
         }
 
@@ -453,8 +475,9 @@ class Pay extends \BRG\Models\Action
       return false;
     }
 
+    $ignore = self::getIgnoredFields();
     foreach ($c1 as $res => $n) {
-      if ($res == 'sources') {
+      if (in_array($res, $ignore)) {
         continue;
       }
       if (isset($c2[$res]) && $c2[$res] > $n) {
@@ -463,7 +486,7 @@ class Pay extends \BRG\Models\Action
     }
 
     foreach ($c2 as $res => $n) {
-      if ($res == 'sources') {
+      if (in_array($res, $ignore)) {
         continue;
       }
       if (!isset($c1[$res]) || $c1[$res] < $n) {

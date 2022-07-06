@@ -368,20 +368,38 @@ class Company extends \BRG\Helpers\DB_Model
         break;
 
       case CONDUIT:
-        $n = $slot['production'];
+        $n = 2 * $slot['production'];
         break;
     }
 
-    $costs = $this->officer->getCostModifier($slot, $machine, $n);
-    $costs = $tile->getCostModifier($costs, $slot, $machine, $n);
-    $neededUnits = $this->officer->getUnitsModifier($slot, $machine, $n);
-
-    $neededUnits = $tile->getUnitsModifier($neededUnits);
-
-    return [
-      'nb' => $neededUnits,
-      'costs' => $costs,
+    // That's the base cost
+    $costs = [
+      'nb' => $n,
+      'costs' => [
+        'trades' => [
+          [
+            $machine => 1,
+          ],
+        ],
+      ],
     ];
+
+    // Now apply modifiers coming from company, XO, or tile
+    $this->officer->applyConstructCostModifier($costs, $slot);
+    $this->applyConstructCostModifier($costs, $slot);
+    $tile->applyConstructCostModifier($costs, $slot);
+
+    // $costs = $this->officer->getCostModifier($slot, $machine, $n);
+    // $costs = $tile->getCostModifier($costs, $slot, $machine, $n);
+    // $neededUnits = $this->officer->getUnitsModifier($slot, $machine, $n);
+    //
+    // $neededUnits = $tile->getUnitsModifier($neededUnits);
+
+    return $costs;
+  }
+
+  public function applyConstructCostModifier(&$costs, $slot)
+  {
   }
 
   public function getStructures($spaceId, $type = null)
@@ -497,7 +515,7 @@ class Company extends \BRG\Helpers\DB_Model
   ////////////////////////////////////////////////////////
   public function getEngineerFreeTiles()
   {
-    return self::getAvailableTechTiles()->filter(function($tile){
+    return self::getAvailableTechTiles()->filter(function ($tile) {
       return $tile->isAlternativeAction();
     });
   }

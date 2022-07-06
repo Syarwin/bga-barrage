@@ -15,8 +15,18 @@ class Mahiri extends \BRG\Models\Officer
     $this->id = \XO_MAHIRI;
     $this->name = clienttranslate('Mahiri Sekibo');
     $this->description = clienttranslate(
-      'You have a personal special ability that you can activate placing 1 Engineer on the action space of this tile. If you use it a second time during the same round, you must also pay 3 Credits. When you activate it, you can copy another Executive Officer\'s special ability.'
+      'You have a personal special ability that you can activate placing 1 Engineer on the action space of this tile. If you use it a second time during the same round, you must also pay 3 Credits. When you activate it, you can copy another Executive Officer\'s special ability. Mahiri starts with 3 extra credits.'
     );
+  }
+
+  public function getStartingResources()
+  {
+    return [
+      ENGINEER => 12,
+      CREDIT => 9,
+      EXCAVATOR => 6,
+      MIXER => 4,
+    ];
   }
 
   public function addActionSpacesUi(&$rows)
@@ -114,29 +124,16 @@ class Mahiri extends \BRG\Models\Officer
     Engine::proceed();
   }
 
-  public function getCostModifier($slot, $machine, $n)
+  protected function getCopiedOfficer()
   {
-    if (Globals::getMahiriPower() != '') {
-      return Officers::getInstance(Globals::getMahiriPower())->getCostModifier($slot, $machine, $n);
-    }
-    return parent::getCostModifier($slot, $machine, $n);
+    return Globals::getMahiriPower() == '' ? null : Officers::getInstance(Globals::getMahiriPower());
   }
 
-  public function getUnitsModifier($slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    if (Globals::getMahiriPower() != '') {
-      return Officers::getInstance(Globals::getMahiriPower())->getUnitsModifier($slot, $machine, $n);
+    $officer = $this->getCopiedOfficer();
+    if (!is_null($officer)) {
+      $officer->applyConstructCostModifier($costs, $slot);
     }
-    return parent::getUnitsModifier($slot, $machine, $n);
-  }
-
-  public function getStartingResources()
-  {
-    return [
-      ENGINEER => 12,
-      CREDIT => 9,
-      EXCAVATOR => 6,
-      MIXER => 4,
-    ];
   }
 }

@@ -103,18 +103,16 @@ class AntonTile extends \BRG\TechTiles\BasicTile
     return clienttranslate('Use Anton\'s power');
   }
 
-  public function getCostModifier($costs, $slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
     $tile = $this->getCopiedTile();
-    return is_null($tile)
-      ? parent::getCostModifier($costs, $slot, $machine, $n)
-      : $tile->getCostModifier($costs, $slot, $machine, $n);
-  }
-
-  public function getUnitsModifier($n)
-  {
-    $tile = $this->getCopiedTile();
-    return is_null($tile) ? parent::getUnitsModifier($n) : $tile->getUnitsModifier($n);
+    if (!is_null($tile)) {
+      $tile->applyConstructCostModifier($costs, $slot);
+    } else {
+      foreach ($this->getWheelTiles() as $tile) {
+        $tile->applyConstructCostModifier($costs, $slot);
+      }
+    }
   }
 
   public function isAutomatic()

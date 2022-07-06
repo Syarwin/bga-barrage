@@ -1036,7 +1036,6 @@ define([
       // Store the selected tile and space
       let selectedTile = null;
       let selectedSpace = null;
-      let copiedTile = null;
       let updateStatus = () => {
         tileIds.forEach((tileId) => {
           let elt = $(`tech-tile-${tileId}`);
@@ -1057,46 +1056,25 @@ define([
           elt.classList.toggle('selected', spaceId == selectedSpace);
         });
 
-        args.antonPower.forEach((t) => {
-          let elt = $(`tech-tile-${t.id}`);
-          elt.classList.toggle('selectable', false);
-        });
-
         dojo.destroy('btnConfirmConstruct');
         dojo.destroy('btnCancelConstruct');
         if (selectedTile != null || selectedSpace != null) {
           this.addSecondaryActionButton('btnCancelConstruct', _('Cancel'), () => {
             selectedTile = null;
             selectedSpace = null;
-            copiedTile = null;
             updateStatus();
           });
         }
 
-        if (selectedTile == this._antonTile && selectedSpace != null && copiedTile == null) {
-          debug('Anton tile copied tile todo');
-          this.gamedatas.gamestate.descriptionmyturn = _('You must select a Technology tile to copy');
-          this.updatePageTitle();
-
-          args.antonPower.forEach((aTile) => {
-            let elt = $(`tech-tile-${aTile.id}`);
-            elt.classList.toggle('selectable', true);
-            this.onClick(elt, () => {
-              if (!elt.classList.contains('selectable')) return;
-
-              if (copiedTile == aTile.id) {
-                copiedTile = null;
-              } else {
-                copiedTile = aTile.id;
-              }
-              elt.classList.toggle('selected', aTile.id == copiedTile);
-
-              updateStatus();
-            });
+        if (selectedTile == this._antonTile && selectedSpace != null) {
+          this.clientState('constructAnton', _('You must select a Technology tile to copy'), {
+            selectedTile,
+            selectedSpace,
+            antonPower: args.antonPower,
           });
         } else if (selectedTile != null && selectedSpace != null) {
           this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
-            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, copiedTile]),
+            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, null]),
           );
         }
       };
@@ -1132,6 +1110,38 @@ define([
             }
           }
           updateStatus();
+        });
+      });
+    },
+
+    onEnteringStateConstructAnton(args) {
+      this.addCancelStateBtn();
+      $(`tech-tile-${args.selectedTile}`).classList.add('selected');
+      this.getConstructSlot(args.selectedSpace).classList.add('selected');
+
+      let copiedTile = null;
+      args.antonPower.forEach((tile) => {
+        let elt = $(`tech-tile-${tile.id}`);
+        elt.classList.add('selectable', false);
+
+        this.onClick(elt, () => {
+          if (copiedTile !== null) {
+            $(`tech-tile-${copiedTile}`).classList.remove('selected');
+          }
+
+          if (copiedTile == tile.id) {
+            copiedTile = null;
+          } else {
+            copiedTile = tile.id;
+            elt.classList.add('selected');
+          }
+
+          dojo.destroy('btnConfirmConstruct');
+          if (copiedTile != null) {
+            this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
+              this.takeAtomicAction('actConstruct', [args.selectedSpace, args.selectedTile, copiedTile]),
+            );
+          }
         });
       });
     },

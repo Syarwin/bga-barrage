@@ -774,6 +774,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let summaryTile = dojo.clone(tile);
           summaryTile.setAttribute('id', `${tile.id}_summary`);
           dojo.place(summaryTile, container);
+          console.log(tile, tile.id);
           this.addCustomTooltip(`${tile.id}_summary`, this.tooltips[tile.id].label);
         }
 

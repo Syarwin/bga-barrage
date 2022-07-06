@@ -3854,9 +3854,9 @@ body {
   .barrage-tech-tile.selectable .tech-tile-fixed-size {
     cursor: pointer;
     background-color: red; }
-  .barrage-tech-tile.selectable.selected .tech-tile-fixed-size {
-    background-color: #17c817; }
   .barrage-tech-tile.selectable:hover {
     transform: scale(1.1); }
+  .barrage-tech-tile.selected .tech-tile-fixed-size {
+    background-color: #17c817; }
 
 /*# sourceMappingURL=barrage.css.map */

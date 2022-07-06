@@ -113,12 +113,12 @@
       cursor: pointer;
       background-color: red;
     }
-    &.selected .tech-tile-fixed-size {
-      background-color: #17c817;
-    }
 
     &:hover {
       transform: scale(1.1);
     }
+  }
+  &.selected .tech-tile-fixed-size {
+    background-color: #17c817;
   }
 }

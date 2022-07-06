@@ -295,21 +295,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     notif_payResourcesToWheel(n) {
       debug('Notif: paying to wheel', n);
-      // Merge into one meeple list
-      // n.args.resources.forEach((meeple) => {
-      //   meeple.delete = true;
-      //   n.args.resources2.push(meeple);
-      // });
-      // Slide them all
-      this.slideResources(n.args.resources2, (meeple) =>
-        meeple.delete
-          ? {
-              target: $('page-title'),
-              destroy: true,
-              phantom: false,
-            }
-          : {},
-      );
+
+      let slideMeeples = () => {
+        this.slideResources(n.args.resources2, (meeple) =>
+          meeple.delete
+            ? {
+                target: $('page-title'),
+                destroy: true,
+                phantom: false,
+              }
+            : {},
+        );
+      };
 
       if (n.args.tile !== null) {
         let tile = n.args.tile;
@@ -323,7 +320,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
         }
 
-        this.slide(`tech-tile-${tile.id}`, target, config);
+        this.slide(`tech-tile-${tile.id}`, target, config).then(slideMeeples);
+      } else {
+        slideMeeples();
       }
     },
 
@@ -605,7 +604,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
             ),
           };
-          let icon = this.convertFlowToIcons({special_power : n});
+          let icon = this.convertFlowToIcons({ special_power: n });
           desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}`;
         }
 

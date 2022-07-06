@@ -39,8 +39,9 @@ class L3Base extends AdvancedTile
     ];
   }
 
-  public function getUnitsModifier($n)
+
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    return -99;
+    $costs['nb'] = -99;
   }
 }

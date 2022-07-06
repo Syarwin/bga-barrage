@@ -60,6 +60,7 @@ const PASS = 99;
 
 const INFTY = 9999;
 const NO_COST = ['trades' => [['max' => 1]]];
+const WHOLE_COST = 'whole_cost';
 
 /**
  * Map

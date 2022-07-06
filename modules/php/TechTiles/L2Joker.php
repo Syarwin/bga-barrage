@@ -23,16 +23,9 @@ class L2Joker extends AdvancedTile
     return $descs;
   }
 
-  public function getCostModifier($costs, $slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    if ($slot['type'] == CONDUIT) {
-      Utils::addCost($costs, [MIXER => 1, \EXCAVATOR => 1, 'nb' => 1]);
-      Utils::addCost($costs, [MIXER => 2, 'nb' => 1]);
-    } else {
-      Utils::addCost($costs, [MIXER => 1, 'nb' => 1]);
-      Utils::addCost($costs, [EXCAVATOR => 1, 'nb' => 1]);
-    }
-
-    return $costs;
+    Utils::addCost($costs['costs'], [MIXER => 1, 'nb' => 1]);
+    Utils::addCost($costs['costs'], [EXCAVATOR => 1, 'nb' => 1]);
   }
 }

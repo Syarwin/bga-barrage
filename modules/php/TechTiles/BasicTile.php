@@ -2,7 +2,6 @@
 namespace BRG\TechTiles;
 use BRG\Managers\Companies;
 
-
 /*
  * Basic Tile: all utility functions concerning a tech tile
  */
@@ -61,22 +60,14 @@ class BasicTile extends \BRG\Helpers\DB_Model
     return Companies::get($this->cId);
   }
 
-
-
   /**************** Tile Power **************/
   public function getPowerFlow($slot)
   {
     return null;
   }
 
-  public function getCostModifier($costs, $slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    return $costs;
-  }
-
-  public function getUnitsModifier($n)
-  {
-    return $n;
   }
 
   public function ignoreCostMalus()

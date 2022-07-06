@@ -24,13 +24,8 @@ class L2Conduit extends AdvancedTile
   }
 
 
-  public function getCostModifier($costs, $slot, $machine, $n)
+  public function applyConstructCostModifier(&$costs, $slot)
   {
-    $costs['trades'][] = [
-      EXCAVATOR => 5,
-      'nb' => $n,
-    ];
-
-    return $costs;
+    $costs['nb'] = min(5, $costs['nb']);
   }
 }
