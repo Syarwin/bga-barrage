@@ -422,17 +422,25 @@
         background-size: auto 50%;
         background-position: center center;
         background-repeat: no-repeat;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
 
         &.paying {
           background-image: url('img/icons/base_paying.png');
         }
       }
 
+      .meeple-base {
+        order: 1;
+      }
+
       .meeple-elevation {
+        order: 2;
         margin-top: -104%;
-        &:nth-of-type(3) {
-          margin-top: -140%;
-        }
+        // &:nth-of-type(3) {
+        //   margin-top: -140%;
+        // }
       }
     }
 

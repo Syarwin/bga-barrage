@@ -3316,13 +3316,16 @@ body {
       background-image: url("img/icons/base.png");
       background-size: auto 50%;
       background-position: center center;
-      background-repeat: no-repeat; }
+      background-repeat: no-repeat;
+      display: flex;
+      flex-flow: column; }
       [data-map='1'] #brg-map-resizable #brg-map .dam-slot.paying {
         background-image: url("img/icons/base_paying.png"); }
+    #brg-map-resizable #brg-map .dam-slot .meeple-base {
+      order: 1; }
     #brg-map-resizable #brg-map .dam-slot .meeple-elevation {
+      order: 2;
       margin-top: -104%; }
-      #brg-map-resizable #brg-map .dam-slot .meeple-elevation:nth-of-type(3) {
-        margin-top: -140%; }
   #brg-map-resizable #brg-map .basin {
     width: 150px;
     height: 50px;
