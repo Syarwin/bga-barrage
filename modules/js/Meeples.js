@@ -656,7 +656,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let animatedPath = this.dropletComputePath(droplet);
           let animation = this.dropletComputeAnimation(droplet, animatedPath);
           let duration = (animatedPath.totalLength / this.settings.waterAnimationSpeed) * 400;
-          return animation.start(duration);
+          return animation.start(duration, j * 20000 / this.settings.waterAnimationSpeed);
         }),
       ).then(() => {
         this.notifqueue.setSynchronousDuration(10);
@@ -811,24 +811,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let fadeOut = this.fadeOutAndDestroy.bind(this);
 
       return {
-        start(duration) {
+        start(duration, delay) {
           this.duration = duration;
-          this.tZero = Date.now();
           this.meeple = $(`meeple-${droplet.id}_animated`);
           this.resolve = null;
+          const pos = interpolatePosition(path, 0);
           dojo.style(this.meeple, {
             position: 'absolute',
             zIndex: 10,
           });
+          this.move(0);
 
-          requestAnimationFrame(() => this.run());
+          setTimeout(() => {
+            this.tZero = Date.now();
+            requestAnimationFrame(() => this.run());
+          }, delay);
           return new Promise((resolve, reject) => {
             this.resolve = resolve;
           });
         },
 
-        run() {
-          const u = Math.min((Date.now() - this.tZero) / this.duration, 1);
+        move(u){
           const pos = interpolatePosition(path, u);
           this.meeple.style.left = pos.x - this.meeple.offsetWidth / 2 + 'px';
           this.meeple.style.top = pos.y - this.meeple.offsetHeight / 2 + 'px';
@@ -839,6 +842,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           const angle = -Math.atan2(posNext.x - posPrev.x, posNext.y - posPrev.y);
           this.meeple.style.transform = `rotate(${(angle * 180) / Math.PI}deg)`;
           this.meeple.style.transformOrigin = 'center center';
+        },
+
+        run() {
+          const u = Math.min((Date.now() - this.tZero) / this.duration, 1);
+          this.move(u);
 
           if (u < 1) {
             // Keep requesting frames, till animation is ready

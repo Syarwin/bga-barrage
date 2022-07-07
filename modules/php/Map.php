@@ -168,6 +168,7 @@ class Map
   public function flowDroplets($droplets)
   {
     $bonusEnergy = 0;
+    $movedDroplets = new Collection([]);
     foreach ($droplets as &$droplet) {
       list($path, $energy) = self::getFlowPath($droplet);
       $droplet['path'] = $path;
@@ -183,9 +184,10 @@ class Map
       } else {
         Meeples::move($droplet['id'], $location);
       }
+      $movedDroplets[] = $droplet;
     }
 
-    Notifications::moveDroplets($droplets);
+    Notifications::moveDroplets($movedDroplets);
 
     // USA power
     if ($bonusEnergy > 0) {
