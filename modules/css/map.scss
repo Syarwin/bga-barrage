@@ -454,19 +454,24 @@
       pointer-events: none;
     }
 
+    .powerhouse-zone {
+      position: absolute;
+      width: 172px;
+      height: 89px;
+      background: #919191;
+      border-radius: 7px;
+      border: 1px solid black;
+      z-index: 3;
+      visibility: hidden;
+
+      &.highlight {
+        background: white;
+      }
+    }
+
     [data-map='1'] & {
       .powerhouse-zone {
-        position: absolute;
-        width: 172px;
-        height: 89px;
-        background: #919191;
-        border-radius: 7px;
-        border: 1px solid black;
-        z-index: 3;
-
-        &.highlight {
-          background: white;
-        }
+        visibility: visible;
       }
 
       .basin-zone {

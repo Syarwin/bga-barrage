@@ -3318,7 +3318,8 @@ body {
       background-position: center center;
       background-repeat: no-repeat;
       display: flex;
-      flex-flow: column; }
+      flex-flow: column;
+      align-items: center; }
       [data-map='1'] #brg-map-resizable #brg-map .dam-slot.paying {
         background-image: url("img/icons/base_paying.png"); }
     #brg-map-resizable #brg-map .dam-slot .meeple-base {
@@ -3334,16 +3335,19 @@ body {
     justify-content: center;
     align-items: center;
     pointer-events: none; }
-  [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone {
+  #brg-map-resizable #brg-map .powerhouse-zone {
     position: absolute;
     width: 172px;
     height: 89px;
     background: #919191;
     border-radius: 7px;
     border: 1px solid black;
-    z-index: 3; }
-    [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone.highlight {
+    z-index: 3;
+    visibility: hidden; }
+    #brg-map-resizable #brg-map .powerhouse-zone.highlight {
       background: white; }
+  [data-map='1'] #brg-map-resizable #brg-map .powerhouse-zone {
+    visibility: visible; }
   [data-map='1'] #brg-map-resizable #brg-map .basin-zone {
     position: absolute;
     width: 134px;
