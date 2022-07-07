@@ -2408,12 +2408,12 @@ body {
     display: flex;
     justify-content: center;
     z-index: 2;
-    top: -38px;
     transition: top 0.8s; }
     .mobile_version #floating-company-boards-wrapper #floating-company-buttons {
       justify-content: flex-start; }
     #floating-company-boards-wrapper #floating-company-buttons .company-board-button {
       margin: 0px 5px;
+      margin-top: -38px;
       cursor: pointer;
       transform: translateY(0);
       transition: transform 0.4s; }
@@ -2421,8 +2421,8 @@ body {
         transform: translateY(-10px); }
       [data-altfr='1'] #floating-company-boards-wrapper #floating-company-buttons .company-board-button[data-company='4'] {
         border-color: #95149b !important; }
-  #floating-company-boards-wrapper[data-open] #floating-company-buttons {
-    top: -30px; }
+  #floating-company-boards-wrapper[data-open] #floating-company-buttons .company-board-button {
+    margin-top: -30px; }
   #floating-company-boards-wrapper #floating-company-slider {
     width: 100%;
     height: 100%;

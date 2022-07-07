@@ -552,10 +552,10 @@
       justify-content: flex-start;
     }
     z-index: 2;
-    top: -38px;
     transition: top 0.8s;
     .company-board-button {
       margin: 0px 5px;
+      margin-top: -38px;
       cursor: pointer;
       transform: translateY(0);
       transition: transform 0.4s;
@@ -568,8 +568,8 @@
       }
     }
   }
-  &[data-open] #floating-company-buttons {
-    top: -30px;
+  &[data-open] #floating-company-buttons .company-board-button {
+    margin-top: -30px;
   }
 
   #floating-company-slider {
