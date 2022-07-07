@@ -36,6 +36,7 @@ class Map
       'powerhouses' => array_values(self::getPowerhouses()),
       'basins' => array_values(self::getBasins()),
       'zoneIds' => array_keys(self::getZones()),
+      'exits' => self::getExits(),
     ];
   }
 
@@ -177,7 +178,7 @@ class Map
       $bonusEnergy += $energy;
 
       // Check whether the last location is EXIT or not
-      if ($location == 'EXIT') {
+      if (in_array($location, Map::getExits())) {
         Meeples::DB()->delete($droplet['id']);
       } else {
         Meeples::move($droplet['id'], $location);
@@ -223,7 +224,7 @@ class Map
     $USABonusEnergy = 0;
 
     $location = $droplet['location'];
-    $path = [];
+    $path = [$location];
     $blocked = false;
     $rivers = self::getRivers();
 
@@ -251,7 +252,7 @@ class Map
       }
 
       // If location is EXIT or Droplet is blocked by dam, stop here
-      if ($basin == 'EXIT' || self::countDropletsInBasin($basin) < self::getBasinCapacity($basin)) {
+      if (in_array($basin, Map::getExits()) || self::countDropletsInBasin($basin) < self::getBasinCapacity($basin)) {
         $blocked = true;
       }
     } while (!$blocked);

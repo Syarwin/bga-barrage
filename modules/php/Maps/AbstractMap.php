@@ -8,6 +8,7 @@ abstract class AbstractMap
   abstract public function getHeadstreams();
   abstract public function getZones();
   abstract public function getRivers();
+  abstract public function getExits();
 
   public function getConduits()
   {

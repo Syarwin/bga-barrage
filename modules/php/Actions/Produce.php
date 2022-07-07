@@ -75,22 +75,14 @@ class Produce extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('Invalid number of droplets. Should not happen');
     }
 
-    // Move droplets to conduit
+    // Move droplets to conduit then powerhouse
     $tDroplets = new Collection([]); // Avoid issue with two notifs in a row modifying same object
     foreach ($droplets as $droplet) {
-      $droplet['location'] = $system['conduitSpaceId'];
-      $droplet['path'] = [$system['conduitSpaceId']];
+      $droplet['path'] = [$droplet['location'], $system['conduitSpaceId'], $system['powerhouseSpaceId']];
+      $droplet['location'] = $system['powerhouseSpaceId'];
       $tDroplets[] = $droplet;
     }
     Notifications::moveDroplets($tDroplets);
-    // Move droplets to powerhouses
-    $pDroplets = new Collection([]); // Avoid pointer issue
-    foreach ($droplets as &$drop) {
-      $drop['location'] = $system['powerhouseSpaceId'];
-      $drop['path'] = [$system['powerhouseSpaceId']];
-      $pDroplets[] = $drop;
-    }
-    Notifications::moveDroplets($pDroplets);
 
     // Produce energy
     $company = Companies::getActive();
@@ -98,6 +90,9 @@ class Produce extends \BRG\Models\Action
     $company->incEnergy($production, true);
 
     // Let water flows
+    foreach ($droplets as &$droplet) {
+      $droplet['location'] = $system['powerhouseSpaceId'];
+    }
     Map::flowDroplets($droplets);
 
     // Pay X credit to other player if needed

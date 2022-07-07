@@ -234,6 +234,19 @@ define([
           attribute: 'altFr',
           type: 'switch',
         },
+        waterAnimationSpeed: {
+          default: 100,
+          name: _('Water animation speed'),
+          type: 'slider',
+          sliderConfig: {
+            step: 10,
+            padding: 0,
+            range: {
+              min: [40],
+              max: [260],
+            },
+          },
+        },
       };
     },
 
@@ -405,6 +418,7 @@ define([
       dojo.place(
         `<div id='brg-map-resizable' class="barrage-frame" data-map='${map.id}'>
           <div id='brg-map'>
+            <div id="test-anim"></div>
             <div id='brg-zone-overlay'>
               <div></div>
               <div></div>
@@ -485,7 +499,10 @@ define([
         }
       });
 
-      this.place('tplExit', '', oMap);
+      // Exits
+      map.exits.forEach((exitId) => {
+        this.place('tplExit', { id: exitId }, oMap);
+      });
     },
 
     getConstructSlot(uid) {
@@ -516,8 +533,8 @@ define([
       return `<div class='powerhouse-slot ${cost}' data-zone="${powerhouse.zone}" data-id='${powerhouse.id}'></div>`;
     },
 
-    tplExit() {
-      return `<div class='hidden' id='exit'></div>`;
+    tplExit(exit) {
+      return `<div class='rivier-exit' id='${exit.id}'></div>`;
     },
 
     tplBasin(basin) {
@@ -873,6 +890,7 @@ define([
       this.setupContracts();
       this.refreshCompanies();
       this.updateWheelSummaries();
+      this.onChangeAltFrSetting(this.settings.altFr);
     },
 
     ////////////////////////////////////////////////////////////////////////////////

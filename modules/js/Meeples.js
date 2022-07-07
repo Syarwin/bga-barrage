@@ -182,8 +182,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     getDropletContainer(location) {
       if (['HA', 'HB', 'HC', 'HD'].includes(location)) {
         return $('brg-map').querySelector(`.headstream[data-id="${location}"]`);
-      } else if (location == 'EXIT') {
-        return $('exit');
+      } else if (location.substr(0, 4) == 'EXIT') {
+        return $(location);
       } else if (location.indexOf('B') == 0) {
         return $('brg-map').querySelector(`.basin[data-id="${location}"]`);
       } else {
@@ -383,39 +383,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           .removeClass('meeple-score-30')
           .addClass('meeple-score');
       }
-    },
-
-    notif_moveDroplets(n) {
-      debug('Notif: moving droplets', n);
-      let maxDuration = 0;
-      Promise.all(
-        n.args.droplets.map((droplet, j) => {
-          let oDroplet = $(`meeple-${droplet.id}`);
-          let lastLocation = droplet.path[droplet.path - 1];
-          if (this.isFastMode()) {
-            // Fast mode => no need for fancy animations
-            if (lastLocation == 'EXIT') oDroplet.remove();
-            else dojo.place(oDroplet, this.getDropletContainer(lastLocation));
-            this.notifqueue.setSynchronousDuration(0);
-            return;
-          }
-
-          let promises = Promise.resolve();
-          droplet.path.forEach((location, i) => {
-            promises = promises.then(
-              () => this.slide(oDroplet, this.getDropletContainer(location), { duration: 600 }), //, delay: i == 0 ? j * 60 : 0 }),
-            );
-          });
-
-          return promises.then(() => {
-            if (lastLocation == 'EXIT') {
-              oDroplet.remove();
-            }
-          });
-        }),
-      ).then(() => {
-        this.notifqueue.setSynchronousDuration(10);
-      });
     },
 
     notif_construct(n) {
@@ -660,6 +627,240 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       return icons;
+    },
+
+    ////////////////////////////////////////////////////////////////////
+    // __        __    _                 _          _
+    // \ \      / /_ _| |_ ___ _ __     / \   _ __ (_)_ __ ___
+    //  \ \ /\ / / _` | __/ _ \ '__|   / _ \ | '_ \| | '_ ` _ \
+    //   \ V  V / (_| | ||  __/ |     / ___ \| | | | | | | | | |
+    //    \_/\_/ \__,_|\__\___|_|    /_/   \_\_| |_|_|_| |_| |_|
+    //
+    ////////////////////////////////////////////////////////////////////
+
+    notif_moveDroplets(n) {
+      debug('Notif: moving droplets', n);
+      // Fast mode => no need for fancy animations
+      if (this.isFastMode()) {
+        n.args.droplets.map((droplet, j) => {
+          let oDroplet = $(`meeple-${droplet.id}`);
+          let lastLocation = droplet.path[droplet.path - 1];
+          if (lastLocation.substr(0, 4) == 'EXIT') oDroplet.remove();
+          else dojo.place(oDroplet, this.getDropletContainer(lastLocation));
+        });
+        return;
+      }
+
+      Promise.all(
+        n.args.droplets.map((droplet, j) => {
+          let animatedPath = this.dropletComputePath(droplet);
+          let animation = this.dropletComputeAnimation(droplet, animatedPath);
+          let duration = (animatedPath.totalLength / this.settings.waterAnimationSpeed) * 400;
+          return animation.start(duration);
+        }),
+      ).then(() => {
+        this.notifqueue.setSynchronousDuration(10);
+      });
+    },
+
+    // Compute a container for an animated droplet (only different for powerhouses)
+    dropletGetAnimationContainer(location) {
+      if (location.indexOf('P') == 0) {
+        // TODO : check without augmented map
+        let zone = location.split('_')[0].substr(1);
+        return $('brg-map').querySelector(`.powerhouse-zone[data-zone="${zone}"]`);
+      } else {
+        return this.getDropletContainer(location);
+      }
+    },
+
+    // Convert a position in the svg to a position in the dom
+    dropletGetSvgPathsScale() {
+      return 0.67434362;
+    },
+
+    // Given a sequence of location, compute the corresponding positions and transitions
+    dropletComputePath(droplet) {
+      const SCALE = this.dropletGetSvgPathsScale();
+      let oDroplet = $(`meeple-${droplet.id}`);
+      let positions = [];
+      let transitions = [];
+
+      // Starting point
+      let animatedMeeple = dojo.clone(oDroplet);
+      dojo.attr(animatedMeeple, 'id', oDroplet.id + '_animated');
+      dojo.place(animatedMeeple, 'brg-map');
+      oDroplet.classList.add('phantom');
+      positions.push({
+        x: oDroplet.offsetLeft + oDroplet.offsetWidth / 2 + oDroplet.parentNode.offsetLeft,
+        y: oDroplet.offsetTop + oDroplet.offsetHeight / 2 + oDroplet.parentNode.offsetTop,
+      });
+
+      // Intermediate positions
+      let extractLocation = (location) => location.split('_')[0];
+      droplet.path.forEach((location, i) => {
+        if (i == 0) return;
+
+        let oldLocation = extractLocation(droplet.path[i - 1]);
+        let newLocation = extractLocation(location);
+        let path = $('brg-map').querySelector('svg').querySelector(`#${oldLocation}_${newLocation}`);
+        if (path) {
+          transitions.push('slide');
+          const start = path.getPointAtLength(0);
+          positions.push({
+            x: start.x * SCALE,
+            y: start.y * SCALE,
+          });
+          transitions.push(path);
+          const end = path.getPointAtLength(path.getTotalLength());
+          positions.push({
+            x: end.x * SCALE,
+            y: end.y * SCALE,
+          });
+        }
+
+        transitions.push('slide');
+        if (i + 1 < droplet.path.length) {
+          let container = this.dropletGetAnimationContainer(location);
+          positions.push({
+            x: container.offsetLeft + container.offsetWidth / 2,
+            y: container.offsetTop + container.offsetHeight / 2,
+          });
+        }
+      });
+
+      // Last position
+      let location = droplet.path[droplet.path.length - 1];
+      let container = this.getDropletContainer(location);
+      let endMeeple = dojo.clone(oDroplet);
+      endMeeple.classList.add('phantom');
+      dojo.attr(endMeeple, 'id', oDroplet.id + '_afterSlide');
+      dojo.place(endMeeple, container);
+      positions.push({
+        x: endMeeple.offsetLeft + endMeeple.offsetWidth / 2 + container.offsetLeft,
+        y: endMeeple.offsetTop + endMeeple.offsetHeight / 2 + container.offsetTop,
+      });
+
+      // positions.forEach((pos, i) => {
+      //   dojo.place(`<div id='test-${i}' class="test"></div>`, 'brg-map');
+      //   $('test-' + i).style.left = pos.x + 'px';
+      //   $('test-' + i).style.top = pos.y + 'px';
+      // });
+
+      let path = { positions, transitions };
+      path.lengths = this.dropletComputePathLengths(path);
+      path.totalLength = path.lengths.reduce((c, t) => c + t, 0);
+      return path;
+    },
+
+    // Compute for each transition the corresponding path length
+    dropletComputePathLengths(path) {
+      return path.transitions.map((type, i) => {
+        if (type == 'slide') {
+          let dx = path.positions[i].x - path.positions[i + 1].x;
+          let dy = path.positions[i].y - path.positions[i + 1].y;
+          return Math.sqrt(dx * dx + dy * dy);
+        } else {
+          return this.dropletGetSvgPathsScale() * type.getTotalLength();
+        }
+      });
+    },
+
+    // Interpolate position given u \in [0,1]
+    dropletInterpolatePosition(path, u) {
+      // Handle start and end of animation
+      if (u <= 0) {
+        return path.positions[0];
+      } else if (u >= 1) {
+        return path.positions[path.positions.length - 1];
+      }
+
+      // Find the index for which we go beyond the point where we are supposed to be
+      let currentLength = 0;
+      let currentIndex = 0;
+      for (; currentIndex < path.transitions.length && currentLength < u * path.totalLength; currentIndex++) {
+        currentLength += path.lengths[currentIndex];
+      }
+
+      // Compute remaining length from previous positions
+      currentIndex--;
+      currentLength -= path.lengths[currentIndex];
+      let remainderLength = u * path.totalLength - currentLength;
+      let lambda = remainderLength / path.lengths[currentIndex]; // \in [0, 1]
+      if (path.transitions[currentIndex] == 'slide') {
+        const prev = path.positions[currentIndex],
+          next = path.positions[currentIndex + 1];
+        return {
+          x: prev.x + lambda * (next.x - prev.x),
+          y: prev.y + lambda * (next.y - prev.y),
+        };
+      } else {
+        const svgPath = path.transitions[currentIndex];
+        const pos = svgPath.getPointAtLength(lambda * svgPath.getTotalLength());
+        const SCALE = this.dropletGetSvgPathsScale();
+        return {
+          x: pos.x * SCALE,
+          y: pos.y * SCALE,
+        };
+      }
+    },
+
+    // Now we initialize the animation
+    dropletComputeAnimation(droplet, path) {
+      let interpolatePosition = this.dropletInterpolatePosition.bind(this);
+      let fadeOut = this.fadeOutAndDestroy.bind(this);
+
+      return {
+        start(duration) {
+          this.duration = duration;
+          this.tZero = Date.now();
+          this.meeple = $(`meeple-${droplet.id}_animated`);
+          this.resolve = null;
+          dojo.style(this.meeple, {
+            position: 'absolute',
+            zIndex: 10,
+          });
+
+          requestAnimationFrame(() => this.run());
+          return new Promise((resolve, reject) => {
+            this.resolve = resolve;
+          });
+        },
+
+        run() {
+          const u = Math.min((Date.now() - this.tZero) / this.duration, 1);
+          const pos = interpolatePosition(path, u);
+          this.meeple.style.left = pos.x - this.meeple.offsetWidth / 2 + 'px';
+          this.meeple.style.top = pos.y - this.meeple.offsetHeight / 2 + 'px';
+
+          // Compute rotation
+          const posPrev = interpolatePosition(path, u - 0.01);
+          const posNext = interpolatePosition(path, u + 0.01);
+          const angle = -Math.atan2(posNext.x - posPrev.x, posNext.y - posPrev.y);
+          this.meeple.style.transform = `rotate(${(angle * 180) / Math.PI}deg)`;
+          this.meeple.style.transformOrigin = 'center center';
+
+          if (u < 1) {
+            // Keep requesting frames, till animation is ready
+            requestAnimationFrame(() => this.run());
+          } else {
+            this.onFinish();
+          }
+        },
+
+        onFinish() {
+          this.meeple.remove();
+          dojo.place($(`meeple-${droplet.id}`), $(`meeple-${droplet.id}_afterSlide`), 'replace');
+          $(`meeple-${droplet.id}`).classList.remove('phantom');
+          // Destroy the droplet if on EXIT
+          if ($(`meeple-${droplet.id}`).parentNode.classList.contains('rivier-exit')) {
+            fadeOut($(`meeple-${droplet.id}`), 800);
+          }
+          if (this.resolve != null) {
+            this.resolve();
+          }
+        },
+      };
     },
   });
 });

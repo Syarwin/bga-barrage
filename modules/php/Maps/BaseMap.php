@@ -198,6 +198,11 @@ class BaseMap extends AbstractMap
     ];
   }
 
+  public function getExits()
+  {
+    return ['EXIT_L', 'EXIT_R'];
+  }
+
   public function getRivers()
   {
     // return [
@@ -215,9 +220,9 @@ class BaseMap extends AbstractMap
     //   ['B6L', 'P10', 'B10U'],
     //   ['B7L', 'P10', 'B10U'],
     //
-    //   ['B8L', 'P11', 'EXIT'],
-    //   ['B9L', 'P11', 'EXIT'],
-    //   ['B10L', 'P12', 'EXIT'],
+    //   ['B8L', 'P11', 'EXIT_L'],
+    //   ['B9L', 'P11', 'EXIT_L'],
+    //   ['B10L', 'P12', 'EXIT_R'],
     // ];
     return [
       'HA' => 'B1U',
@@ -253,8 +258,8 @@ class BaseMap extends AbstractMap
       'B9L' => 'P11_0',
       'B10L' => 'P12_0',
 
-      'P11' => 'EXIT',
-      'P12' => 'EXIT',
+      'P11' => 'EXIT_L',
+      'P12' => 'EXIT_R',
     ];
   }
 }

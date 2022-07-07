@@ -2553,9 +2553,6 @@ body {
   background-color: black !important;
   opacity: 0.6; }
 
-#popin_showSettings_wrapper {
-  position: fixed !important; }
-
 #popin_showSettings {
   background-color: #ebd5bd;
   border-radius: 8px;
@@ -2952,6 +2949,14 @@ body {
   width: calc(var(--barrageContractScale) * 150px);
   height: calc(var(--barrageContractScale) * 117px); }
 
+.test {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 5; }
+
 :root {
   --barrageMapScale: 0.6;
   --barrageMapOverlay: 0.5; }
@@ -3343,6 +3348,15 @@ body {
     border-radius: 13px;
     border: 10px solid #444;
     z-index: 3; }
+  #brg-map-resizable #brg-map .rivier-exit {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 3; }
 
 #brg-map-resizable {
   width: calc(var(--barrageMapScale) * 1000px);
@@ -3677,6 +3691,12 @@ body {
     #brg-map-resizable #brg-map .basin-zone[data-zone='10'] {
       left: 623px;
       top: 1125px; }
+    #brg-map-resizable #brg-map .rivier-exit#EXIT_L {
+      left: 241px;
+      top: 1437px; }
+    #brg-map-resizable #brg-map .rivier-exit#EXIT_R {
+      left: 676px;
+      top: 1437px; }
 
 :root {
   --barrageContractScale: 0.9; }
