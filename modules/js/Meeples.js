@@ -578,8 +578,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
             ),
           };
+          const warning =_('This unique ability becomes active only when you build your third Powerhouse');
           let icon = this.convertFlowToIcons({ special_power: n });
-          desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}`;
+          desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}<br /><b>${warning}</b>`;
         }
 
         descs.push(desc);
