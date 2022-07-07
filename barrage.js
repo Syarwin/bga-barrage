@@ -392,8 +392,9 @@ define([
     },
 
     updateRoundCounter() {
-      this._roundCounter.toValue(this.gamedatas.round);
-      $('ebd-body').dataset.round = this.gamedatas.round;
+      let val = Math.min(5, this.gamedatas.round);
+      this._roundCounter.toValue(val);
+      $('ebd-body').dataset.round = val;
     },
 
     notif_startNewRound(n) {
