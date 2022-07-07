@@ -284,6 +284,7 @@ class Notifications
       'company' => $company,
       'token' => $token,
       'n' => $n,
+      'bonuses' => Game::get()->computeBonuses(),
     ]);
   }
 

@@ -618,6 +618,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let meeple = n.args.token;
       this.slide(`meeple-${meeple.id}`, this.getMeepleContainer(meeple));
       this.incEnergy(n.args.company_id, n.args.n);
+
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
     },
 
     notif_resetEnergies(n) {
