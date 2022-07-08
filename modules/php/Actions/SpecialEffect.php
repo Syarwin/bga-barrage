@@ -10,7 +10,7 @@ class SpecialEffect extends \BRG\Models\Action
     return ST_SPECIAL_EFFECT;
   }
 
-  public function isDoable($company, $ignoreResources = false)
+  protected function getObj()
   {
     $args = $this->getCtxArgs();
     if (isset($args['tileId'])) {
@@ -18,22 +18,29 @@ class SpecialEffect extends \BRG\Models\Action
     } elseif (isset($args['xoId'])) {
       $card = Officers::getInstance($args['xoId']);
     } else {
-      return false;
+      return null;
     }
 
+    return $card;
+  }
+
+  public function isDoable($company, $ignoreResources = false)
+  {
+    $args = $this->getCtxArgs();
+    $card = $this->getObj();
+    if (is_null($card)) {
+      return false;
+    }
     $method = 'is' . \ucfirst($args['method']) . 'Doable';
     $arguments = $args['args'] ?? [];
-    return \method_exists($card, $method) ? $card->$method($player, $ignoreResources, ...$arguments) : true;
+    return \method_exists($card, $method) ? $card->$method($company, $ignoreResources, ...$arguments) : true;
   }
 
   public function getDescription($ignoreResources = false)
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       return '';
     }
     $method = 'get' . \ucfirst($args['method']) . 'Description';
@@ -44,11 +51,8 @@ class SpecialEffect extends \BRG\Models\Action
   public function isIndependent($player = null)
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       return false;
     }
     $method = 'isIndependent' . \ucfirst($args['method']);
@@ -58,11 +62,8 @@ class SpecialEffect extends \BRG\Models\Action
   public function isAutomatic($player = null)
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       return false;
     }
     $method = $args['method'];
@@ -72,11 +73,8 @@ class SpecialEffect extends \BRG\Models\Action
   public function stSpecialEffect()
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       $this->resolveAction();
     }
     $method = $args['method'];
@@ -90,11 +88,8 @@ class SpecialEffect extends \BRG\Models\Action
   public function argsSpecialEffect()
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       return [];
     }
     $method = 'args' . \ucfirst($args['method']);
@@ -105,11 +100,8 @@ class SpecialEffect extends \BRG\Models\Action
   public function actSpecialEffect(...$actArgs)
   {
     $args = $this->getCtxArgs();
-    if (isset($args['tileId'])) {
-      $card = TechnologyTiles::get($args['tileId']);
-    } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
-    } else {
+    $card = $this->getObj();
+    if (is_null($card)) {
       $this->resolveAction();
     }
     $method = 'act' . \ucfirst($args['method']);

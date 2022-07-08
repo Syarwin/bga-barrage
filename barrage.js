@@ -944,6 +944,12 @@ define([
         );
       }
 
+      if (args.mahiri !== null) {
+        this.addPrimaryActionButton('btnUseMahiri', this.translate(_('Use Mahiri to copy another officer')), () =>
+          this.takeAtomicAction('actPlaceEngineer', [args.mahiri, 1]),
+        );
+      }
+
       if (args.canSkip) {
         this.addDangerActionButton('btnSkip', _('Skip turn'), () => {
           this.takeAction('actSkip');
@@ -1090,31 +1096,46 @@ define([
             selectedTile,
             selectedSpace,
             antonPower: args.antonPower,
+            antonCopied: args.antonCopied,
           });
         } else if (selectedTile != null && selectedSpace != null) {
           this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
             this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, null]),
           );
+          this.changePageTitle('confirm');
+        } else if (selectedTile != null) {
+          this.changePageTitle('selectSpace');
+        } else if (selectedSpace != null) {
+          this.changePageTitle('selectTile');
+        } else {
+          this.changePageTitle();
         }
       };
 
       // Add listeners
+      let tileCallback = (tileId) => {
+        let elt = $(`tech-tile-${tileId}`);
+        if (!elt.classList.contains('selectable')) return;
+
+        if (selectedTile == tileId) {
+          selectedTile = null;
+        } else {
+          selectedTile = tileId;
+          if (byTile[tileId].length == 1) {
+            selectedSpace = byTile[tileId][0];
+          }
+        }
+        updateStatus();
+      };
+
       tileIds.forEach((tileId) => {
         let elt = $(`tech-tile-${tileId}`);
-        this.onClick(elt, () => {
-          if (!elt.classList.contains('selectable')) return;
-
-          if (selectedTile == tileId) {
-            selectedTile = null;
-          } else {
-            selectedTile = tileId;
-            if (byTile[tileId].length == 1) {
-              selectedSpace = byTile[tileId][0];
-            }
-          }
-          updateStatus();
-        });
+        this.onClick(elt, () => tileCallback(tileId));
       });
+      if (tileIds.length == 1) {
+        tileCallback(tileIds[0]);
+      }
+
       spaceIds.forEach((spaceId) => {
         let elt = this.getConstructSlot(spaceId);
         this.onClick(elt, () => {
@@ -1138,31 +1159,40 @@ define([
       $(`tech-tile-${args.selectedTile}`).classList.add('selected');
       this.getConstructSlot(args.selectedSpace).classList.add('selected');
 
-      let copiedTile = null;
-      args.antonPower.forEach((tile) => {
-        let elt = $(`tech-tile-${tile.id}`);
-        elt.classList.add('selectable', false);
+      if (args.antonCopied == '') {
+        let copiedTile = null;
+        args.antonPower.forEach((tile) => {
+          let elt = $(`tech-tile-${tile.id}`);
+          elt.classList.add('selectable', false);
 
-        this.onClick(elt, () => {
-          if (copiedTile !== null) {
-            $(`tech-tile-${copiedTile}`).classList.remove('selected');
-          }
+          this.onClick(elt, () => {
+            if (copiedTile !== null) {
+              $(`tech-tile-${copiedTile}`).classList.remove('selected');
+            }
 
-          if (copiedTile == tile.id) {
-            copiedTile = null;
-          } else {
-            copiedTile = tile.id;
-            elt.classList.add('selected');
-          }
+            if (copiedTile == tile.id) {
+              copiedTile = null;
+            } else {
+              copiedTile = tile.id;
+              elt.classList.add('selected');
+            }
 
-          dojo.destroy('btnConfirmConstruct');
-          if (copiedTile != null) {
-            this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
-              this.takeAtomicAction('actConstruct', [args.selectedSpace, args.selectedTile, copiedTile]),
-            );
-          }
+            dojo.destroy('btnConfirmConstruct');
+            if (copiedTile != null) {
+              this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
+                this.takeAtomicAction('actConstruct', [args.selectedSpace, args.selectedTile, copiedTile]),
+              );
+            }
+          });
         });
-      });
+      } else {
+        let copiedTile = args.antonCopied;
+        $(`tech-tile-${copiedTile}`).classList.add('selected');
+        this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
+          this.takeAtomicAction('actConstruct', [args.selectedSpace, args.selectedTile, copiedTile]),
+        );
+        this.changePageTitle('confirm');
+      }
     },
 
     // Produce

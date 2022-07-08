@@ -50,7 +50,7 @@ abstract class AbstractActionBoard
   {
     return [];
   }
-  
+
   public function getUiData($cId = null)
   {
     $spaces = [];
@@ -103,7 +103,7 @@ abstract class AbstractActionBoard
       $flow = $space['flow'];
       $space['flow'] = [
         'type' => NODE_SEQ,
-        'childs' => [self::payNode([CREDIT => $space['cost']]), $flow],
+        'childs' => [self::payNode([CREDIT => $space['cost']], clienttranslate('Action Space Cost')), $flow],
       ];
     }
 

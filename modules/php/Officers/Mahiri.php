@@ -91,6 +91,11 @@ class Mahiri extends \BRG\Models\Officer
     return ['description' => $this->getCopyPowerDescription(), 'method' => 'copyPower', 'power' => $copy];
   }
 
+  public function isCopyPowerDoable()
+  {
+    return is_null($this->getCopiedOfficer());
+  }
+
   public function getCopyPowerDescription()
   {
     return clienttranslate('Copy another executive officer power');
@@ -99,11 +104,6 @@ class Mahiri extends \BRG\Models\Officer
   public function actCopyPower($powerId)
   {
     $args = $this->argsCopyPower()['power'];
-    // $ids = array_map(function ($p) {
-    //   return $p['id'];
-    // }, $args);
-    // throw new \feException($powerId);
-    // if (!in_array($powerId, $ids)) {
     if (!isset($args[$powerId])) {
       throw new \feException('This XO is not available to be copied (Mahiri). Should not happen');
     }

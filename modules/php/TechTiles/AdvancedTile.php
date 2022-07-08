@@ -12,4 +12,14 @@ class AdvancedTile extends \BRG\TechTiles\BasicTile
   {
     return $this->structureType;
   }
+
+  public function addAlternativeActions(&$actions)
+  {
+    $flow = $this->getPowerFlow(null);
+    $flow['id'] = $this->getId();
+    $actions[] = [
+      'flow' => $flow,
+      'desc' => $this->getAlternativeActionDesc(),
+    ];
+  }
 }

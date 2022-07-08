@@ -80,7 +80,8 @@ class PlaceEngineer extends \BRG\Models\Action
   {
     $company = Companies::getActive();
     $spaces = self::getPlayableSpaces($company);
-    $choices = $spaces->map(function ($space) use ($company) {
+    $mahiri = null;
+    $choices = $spaces->map(function ($space) use ($company, &$mahiri) {
       $n = $space['nEngineers'];
       $choices = [$n];
       if ($n == 0) {
@@ -91,6 +92,9 @@ class PlaceEngineer extends \BRG\Models\Action
       // elseif ($n == 1 && $company->isXO(XO_TOMMASO)) {
       //   $choices[] = N_ARCHITECT;
       // }
+      if (is_null($mahiri) && stripos($space['uid'], 'mahiri') !== false) {
+        $mahiri = $space['uid'];
+      }
 
       return $choices;
     });
@@ -105,20 +109,17 @@ class PlaceEngineer extends \BRG\Models\Action
     // Add alternative actions
     $alternativeActions = [];
     foreach ($company->getEngineerFreeTiles() as $tile) {
-      $flow = $tile->getPowerFlow(null);
-      $flow['id'] = $tile->getId();
-      $tree = Engine::buildTree($flow);
-      if ($tree->isDoable($company, null, false)) {
-        $alternativeActions[] = [
-          'flow' => $flow,
-          'desc' => $tile->getAlternativeActionDesc(),
-        ];
-      }
+      $tile->addAlternativeActions($alternativeActions);
     }
+    Utils::filter($alternativeActions, function ($action) use ($company) {
+      $tree = Engine::buildTree($action['flow']);
+      return $tree->isDoable($company, null, false);
+    });
 
     $args = [
       'spaces' => $choices->toAssoc(),
       'constructSpaces' => $constructSpaces,
+      'mahiri' => $mahiri,
       'alternativeActions' => $alternativeActions,
       'canSkip' => !$company->hasAvailableEngineer(),
     ];

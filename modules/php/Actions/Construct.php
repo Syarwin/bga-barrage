@@ -109,12 +109,12 @@ class Construct extends \BRG\Models\Action
     return [
       'spaces' => $spaces,
       'antonPower' => $company->isAntonTileAvailable() ? $company->getWheelTiles()->toArray() : [],
+      'antonCopied' => Globals::getAntonPower(),
     ];
   }
 
   public function actConstruct($spaceId, $tileId, $copiedTile = null)
   {
-
     // Sanity checks
     self::checkAction('actConstruct');
     $company = Companies::getActive();

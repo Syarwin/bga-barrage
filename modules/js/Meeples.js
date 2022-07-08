@@ -224,7 +224,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
 
           // Slide it
-          if (!isVisible($('meeple-' + resource.id))) {
+          if (!config.from && !isVisible($('meeple-' + resource.id))) {
             config.from = `resource_${resource.cId}_${resource.type}`;
           }
           return this.slide('meeple-' + resource.id, target, config);
@@ -347,11 +347,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     notif_recoverResources(n) {
       debug('Notif: collecting resoures', n);
-      this.slideResources(n.args.resources, {}).then(() =>
+      let config = {};
+      let cId = n.args.company_id;
+      if (!isVisible($(`wheel-${cId}`))) {
+        config.from = $(`show-company-board-${cId}`);
+        if (!isVisible(config.from)) {
+          config.from = $(`company-jump-to-${cId}`);
+        }
+      }
+      this.slideResources(n.args.resources, config).then(() =>
         this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]),
       );
       if (n.args.tile) {
-        this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile));
+        this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile), config);
       }
     },
 
@@ -578,7 +586,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
             ),
           };
-          const warning =_('This unique ability becomes active only when you build your third Powerhouse');
+          const warning = _('This unique ability becomes active only when you build your third Powerhouse');
           let icon = this.convertFlowToIcons({ special_power: n });
           desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}<br /><b>${warning}</b>`;
         }
@@ -657,7 +665,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let animatedPath = this.dropletComputePath(droplet);
           let animation = this.dropletComputeAnimation(droplet, animatedPath);
           let duration = (animatedPath.totalLength / this.settings.waterAnimationSpeed) * 400;
-          return animation.start(duration, j * 20000 / this.settings.waterAnimationSpeed);
+          return animation.start(duration, (j * 20000) / this.settings.waterAnimationSpeed);
         }),
       ).then(() => {
         this.notifqueue.setSynchronousDuration(10);
@@ -832,7 +840,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           });
         },
 
-        move(u){
+        move(u) {
           const pos = interpolatePosition(path, u);
           this.meeple.style.left = pos.x - this.meeple.offsetWidth / 2 + 'px';
           this.meeple.style.top = pos.y - this.meeple.offsetHeight / 2 + 'px';

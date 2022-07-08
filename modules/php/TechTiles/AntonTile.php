@@ -55,36 +55,55 @@ class AntonTile extends \BRG\TechTiles\BasicTile
     return false;
   }
 
+  public function addAlternativeActions(&$actions)
+  {
+    foreach ($this->getWheelTiles() as $tile) {
+      if ($tile->isAlternativeAction()) {
+        $fakeActions = [];
+        $tile->addAlternativeActions($fakeActions);
+        foreach ($fakeActions as $action) {
+          $action['flow']['args']['tileId'] = $this->id;
+          $actions[] = [
+            'desc' => [
+              'log' => clienttranslate('Use Anton to ${action}'),
+              'args' => [
+                'i18n' => ['action'],
+                'action' => $action['desc'],
+              ],
+            ],
+            'flow' => [
+              'type' => NODE_SEQ,
+              'childs' => [
+                [
+                  'action' => \SPECIAL_EFFECT,
+                  'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => [$tile->getId()]],
+                ],
+                $action['flow'],
+              ],
+            ],
+          ];
+        }
+      }
+    }
+
+    // $f = $tile->getPowerFlow($slot);
+    // if (is_null($f)) {
+    //   continue;
+    // }
+    // $f['description'] = $tile->getAlternativeActionDesc();
+    // $f['args']['tileId'] = $this->id;
+    // $flow['childs'][] = [
+    //   'type' => NODE_SEQ,
+    //   'childs' => [
+    //     $f,
+    //   ],
+    // ];
+  }
+
   public function getPowerFlow($slot)
   {
     $tile = $this->getCopiedTile();
-    if (!is_null($tile)) {
-      return $tile->getPowerFlow($slot) ?? null;
-    }
-
-    // anytime power triggered
-    $flow = ['type' => NODE_XOR, 'childs' => []];
-    foreach ($this->getWheelTiles() as $tile) {
-      if ($tile->isAlternativeAction()) {
-        $f = $tile->getPowerFlow($slot);
-        if (is_null($f)) {
-          continue;
-        }
-        $f['description'] = $tile->getAlternativeActionDesc();
-        $f['args']['tileId'] = $this->id;
-        $flow['childs'][] = [
-          'type' => NODE_SEQ,
-          'childs' => [
-            [
-              'action' => \SPECIAL_EFFECT,
-              'args' => ['tileId' => $this->id, 'method' => 'activate', 'args' => [$tile->getId()]],
-            ],
-            $f,
-          ],
-        ];
-      }
-    }
-    return $flow;
+    return is_null($tile) ? null : $tile->getPowerFlow($slot);
   }
 
   public function isAlternativeAction()

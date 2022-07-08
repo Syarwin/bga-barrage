@@ -152,10 +152,14 @@ $machinestates = [
     'name' => 'construct',
     'description' => clienttranslate('${actplayer} must build a structure'),
     'descriptionmyturn' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
+    'descriptionmyturngeneric' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
     'descriptionskippable' => clienttranslate('${actplayer} may build a structure'),
     'descriptionmyturnskippable' => clienttranslate(
       '${you} may select a technology tile and a space to build a structure'
     ),
+    'descriptionmyturnselectTile' => clienttranslate('${you} must select a technology tile'),
+    'descriptionmyturnselectSpace' => clienttranslate('${you} must select a space on the map to build a structure'),
+    'descriptionmyturnconfirm' => clienttranslate('Please confirm your choice'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
