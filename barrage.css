@@ -1765,6 +1765,12 @@ body {
             clip-path: polygon(18% 15%, 82% 15%, 82% 78%, 18% 77%);
             margin-left: calc(-1 * var(--barrageTileScale) * 61px);
             margin-right: calc(-1 * var(--barrageTileScale) * 40px); }
+          .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner .summary-wheel-sector .icon-container .barrage-icon.icon-mixer_icon span {
+            font-size: 0.6em;
+            line-height: 1.2em; }
+          .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner .summary-wheel-sector .icon-container .barrage-icon.icon-excavator_icon span {
+            font-size: 0.6em;
+            line-height: 1.3em; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='0'] .summary-wheel-sector:nth-of-type(1) {
           bottom: 105px;
           left: 0px;

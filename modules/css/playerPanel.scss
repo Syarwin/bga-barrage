@@ -397,6 +397,18 @@
             margin-left: calc(-1 * var(--barrageTileScale) * 61px);
             margin-right: calc(-1 * var(--barrageTileScale) * 40px);
           }
+
+          .icon-container {
+            .barrage-icon.icon-mixer_icon span {
+              font-size: 0.6em;
+              line-height: 1.2em;
+            }
+
+            .barrage-icon.icon-excavator_icon span {
+              font-size: 0.6em;
+              line-height: 1.3em;
+            }
+          }
         }
 
         @for $i from 0 to 6 {
