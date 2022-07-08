@@ -92,12 +92,9 @@ trait SetupTrait
 
         // 13] Draw random setup and go to draft
         $companies = Companies::randomStartingPick($n);
-        if ($n == 2) {
-          // for Mahiri
-          $officers = Officers::randomStartingPick($n + 2);
-        } else {
-          $officers = Officers::randomStartingPick($n);
-        }
+        // Always drawing 4 officers (in case of Mahiri)
+        $officers = Officers::randomStartingPick(4);
+
         $matchups = [];
         foreach ($companies as $i => $cId) {
           $matchups[$i] = [
@@ -105,9 +102,13 @@ trait SetupTrait
             'xId' => $officers[$i],
           ];
         }
-        if ($n == 2) {
-          Globals::setMahiriAddXO([$officers[2], $officers[3]]);
+
+        $mahiri = [];
+        for ($i = count($companies) - 1; $i < 4; $i++) {
+          $mahiri[] = $officers[$i];
         }
+        Globals::setMahiriAddXO($mahiri);
+
         Globals::setStartingMatchups($matchups);
         Contracts::randomStartingPick($n);
         $this->gamestate->nextState('pick');
