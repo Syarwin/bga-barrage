@@ -36,6 +36,7 @@ class Engine
     self::save();
     Globals::setCallbackEngineResolved($callback);
     Globals::setEngineChoices(0);
+    Log::clearAll();
     Log::enable(); // Enable log
   }
 

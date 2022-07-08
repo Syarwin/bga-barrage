@@ -123,9 +123,6 @@ class PlaceEngineer extends \BRG\Models\Action
       'canSkip' => !$company->hasAvailableEngineer(),
     ];
 
-    // TODO
-    // $this->checkArgsModifiers($args, $player);
-
     return $args;
   }
 
@@ -147,21 +144,10 @@ class PlaceEngineer extends \BRG\Models\Action
     $company = Companies::getActive();
     $space = self::getPlayableSpaces($company)[$spaceId];
 
-    /*
-    $eventData = [
-      'actionCardId' => $card->getId(),
-      'actionCardType' => $card->getActionCardType(),
-    ];
-*/
-
     // Place engineer
     $board = ActionSpaces::getBoard($space['board']);
     $engineers = $company->placeEngineer($spaceId, $nEngineers);
     Notifications::placeEngineers($company, $engineers, $board);
-    // TODO or not : Stats::incPlacedFarmers($player);
-
-    // TODO : Are there cards triggered by the placement ?
-    // $this->checkListeners('PlaceFarmer', $player, $eventData);
 
     // Activate action card
     $flow = $space['flow'];
@@ -169,12 +155,8 @@ class PlaceEngineer extends \BRG\Models\Action
       // Handle the bank
       $flow['args'] = [CREDIT => $nEngineers];
     }
-    // TODO : tag flow tree ?
-    // TODO : $this->checkModifiers('computePlaceFarmerFlow', $flow, 'flow', $player, $eventData);
 
     Engine::insertAsChild($flow);
-
-    // TODO $this->checkAfterListeners($player, $eventData, false);
     $this->resolveAction(['spaceId' => $spaceId, 'n' => $nEngineers]);
   }
 }
