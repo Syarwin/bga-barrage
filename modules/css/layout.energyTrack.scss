@@ -1,9 +1,16 @@
+:root {
+  --barrageEnergyTrackScale: 1;
+}
+
 #floating-energy-track-container {
   position: absolute;
-  top: -6px;
+  top: calc(-1 * var(--barrageEnergyTrackScale) * 6px);
   left: 0;
   right: 0;
   height: 170px;
+  transform: scale(var(--barrageEnergyTrackScale));
+  transform-origin: center top;
+
   transition: height 0.7s;
   overflow: hidden;
   z-index: 1;
@@ -96,7 +103,7 @@
 }
 
 #floating-energy-track-container.open ~ #game_play_area {
-  padding-top: 140px;
+  padding-top: calc(var(--barrageEnergyTrackScale) * 140px);
 
   [data-energy-track='1'] & {
     padding-top: 0px;
@@ -340,12 +347,20 @@
       }
     }
   }
+}
 
-  // VERTICAL
-  [data-energy-track='1'] & {
-    margin-left: 15px;
+// VERTICAL
+[data-energy-track='1'] #map-energy-track-container {
+  margin-left: 15px;
+  width: calc(var(--barrageEnergyTrackScale) * 136px);
+  height: calc(var(--barrageEnergyTrackScale) * 1126px);
+
+  #energy-track-board-container {
     width: 130px;
     height: 1120px;
+
+    transform: scale(var(--barrageEnergyTrackScale));
+    transform-origin: top left;
 
     #energy-track-btn {
       display: none;

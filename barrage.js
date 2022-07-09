@@ -77,21 +77,77 @@ define([
 
       this._antonTile = 0;
 
+      this._settingsSections = {
+        layout: _('Layout'),
+        actionBoard: _('Action Boards'),
+        map: _('Map'),
+        other: _('Other'),
+      };
+
       this._settingsConfig = {
-        confirmMode: { type: 'pref', prefId: 103 },
-        companyBoardScale: {
-          default: 90,
-          name: _('Company boards scale'),
-          type: 'slider',
-          sliderConfig: {
-            step: 2,
-            padding: 0,
-            range: {
-              min: [70],
-              max: [100],
-            },
+        actionBoardBackground: {
+          default: 0,
+          name: _('Action Board Background'),
+          attribute: 'action-background',
+          type: 'select',
+          values: {
+            0: _('Image'),
+            1: _('Plain with distinct color'),
+            2: _('Plain with same color'),
           },
+          section: 'actionBoard',
         },
+        actionBoardName: {
+          default: 0,
+          name: _('Action Board Names'),
+          attribute: 'action-name',
+          type: 'select',
+          values: {
+            0: _('Display'),
+            1: _('Hide'),
+            2: _('Hide and collapse borders'),
+            3: _('Hide and blend boards with background'),
+          },
+          section: 'actionBoard',
+        },
+        actionBoardCostIcon: {
+          default: 0,
+          name: _('Costly Action Board Slots'),
+          attribute: 'cost-icon',
+          type: 'select',
+          values: {
+            0: _('Display credit cost'),
+            1: _('Hide'),
+          },
+          section: 'actionBoard',
+        },
+
+        energyTrack: {
+          default: 0,
+          name: _('Energy track position'),
+          attribute: 'energy-track',
+          type: 'select',
+          values: {
+            0: _('Above the map'),
+            1: _('Right of the map'),
+          },
+          section: 'layout',
+        },
+        fitAll: {
+          default: 0,
+          name: _('Scale down to fit everything on width screen'),
+          type: 'switch',
+          attribute: 'fitAll',
+          section: 'layout',
+        },
+        companyBoardTwoColumns: {
+          default: 0,
+          name: _('Put company boards on two columns (if more than 2)'),
+          type: 'switch',
+          section: 'layout',
+          attribute: 'companyTwoColumns',
+        },
+
         ownCompanyBoardLocation: {
           default: 0,
           name: _('My Company Board'),
@@ -101,6 +157,7 @@ define([
             1: _('In a modal'),
             2: _('Next/below the map'),
           },
+          section: 'layout',
         },
         otherCompanyBoardLocation: {
           default: 2,
@@ -111,6 +168,35 @@ define([
             1: _('In a modal'),
             2: _('Next/below the map'),
           },
+          section: 'layout',
+        },
+        actionBoardScale: {
+          default: 100,
+          name: _('Action Boards scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 5,
+            padding: 0,
+            range: {
+              min: [40],
+              max: [150],
+            },
+          },
+          section: 'layout',
+        },
+        companyBoardScale: {
+          default: 90,
+          name: _('Company boards scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 2,
+            padding: 0,
+            range: {
+              min: [30],
+              max: [100],
+            },
+          },
+          section: 'layout',
         },
         mapScale: {
           default: 60,
@@ -124,12 +210,57 @@ define([
               max: [100],
             },
           },
+          section: 'layout',
         },
+        energyTrackScale: {
+          default: 100,
+          name: _('Energy Track scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 5,
+            padding: 0,
+            range: {
+              min: [40],
+              max: [150],
+            },
+          },
+          section: 'layout',
+        },
+        fitAllScale: {
+          default: [18, 56],
+          name: _('Scales'),
+          type: 'multislider',
+          sliderConfig: {
+            step: 2,
+            padding: 0,
+            range: {
+              min: [10],
+              max: [90],
+            },
+          },
+          section: 'layout',
+        },
+        fitAllScaleEnergy: {
+          default: [19, 52, 58],
+          name: _('Scales'),
+          type: 'multislider',
+          sliderConfig: {
+            step: 1,
+            padding: 0,
+            range: {
+              min: [10],
+              max: [90],
+            },
+          },
+          section: 'layout',
+        },
+
         map: {
           default: 1,
           name: _('Enhanced map display'),
           attribute: 'map',
           type: 'switch',
+          section: 'map',
         },
         mapOverlay: {
           default: 50,
@@ -143,25 +274,31 @@ define([
               max: [100],
             },
           },
+          section: 'map',
         },
         zoneSeparators: {
           default: 1,
           name: _('Mountains/Hills/Plains separators'),
           attribute: 'separators',
           type: 'switch',
+          section: 'map',
         },
         conduits: {
           default: 1,
           name: _('Conduit values'),
           attribute: 'conduit',
           type: 'switch',
+          section: 'map',
         },
         headstream: {
           default: 1,
           name: _('Minimalist headstream tiles'),
           attribute: 'headstream',
           type: 'switch',
+          section: 'map',
         },
+
+        confirmMode: { type: 'pref', prefId: 103, section: 'other' },
         background: {
           default: 0,
           name: _('Background'),
@@ -172,49 +309,7 @@ define([
             1: _('Light Barrage texture'),
             2: _('Default BGA'),
           },
-        },
-        actionBoardBackground: {
-          default: 0,
-          name: _('Action Board Background'),
-          attribute: 'action-background',
-          type: 'select',
-          values: {
-            0: _('Image'),
-            1: _('Plain with distinct color'),
-            2: _('Plain with same color'),
-          },
-        },
-        actionBoardName: {
-          default: 0,
-          name: _('Action Board Names'),
-          attribute: 'action-name',
-          type: 'select',
-          values: {
-            0: _('Display'),
-            1: _('Hide'),
-            2: _('Hide and collapse borders'),
-            3: _('Hide and blend boards with background'),
-          },
-        },
-        actionBoardCostIcon: {
-          default: 0,
-          name: _('Costly Action Board Slots'),
-          attribute: 'cost-icon',
-          type: 'select',
-          values: {
-            0: _('Display credit cost'),
-            1: _('Hide'),
-          },
-        },
-        energyTrack: {
-          default: 0,
-          name: _('Energy track position'),
-          attribute: 'energy-track',
-          type: 'select',
-          values: {
-            0: _('Above the map'),
-            1: _('Right of the map'),
-          },
+          section: 'other',
         },
         wheelSummaries: {
           default: 0,
@@ -227,12 +322,14 @@ define([
             2: _('Only mine'),
             3: _('None'),
           },
+          section: 'other',
         },
         altFr: {
           default: 0,
           name: _('Use purple color for France instead of white'),
           attribute: 'altFr',
           type: 'switch',
+          section: 'other',
         },
         waterAnimationSpeed: {
           default: 100,
@@ -246,6 +343,7 @@ define([
               max: [260],
             },
           },
+          section: 'other',
         },
       };
     },
@@ -565,6 +663,7 @@ define([
         'energy-track-board-container',
         val == 1 ? 'map-energy-track-container' : 'floating-energy-track-container',
       );
+      this.updateLayout();
     },
 
     setupEnergyTrack() {
@@ -772,7 +871,10 @@ define([
         title: _('Settings'),
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        contentsTpl: `<div id="settings-controls-container"></div>`,
+        contentsTpl: `<div id='barrage-settings'>
+          <div id='barrage-settings-header'></div>
+          <div id="settings-controls-container"></div>
+        </div>`,
       });
     },
 
@@ -823,6 +925,79 @@ define([
       let elt = document.documentElement;
       elt.style.setProperty('--barrageCompanyBoardScale', scale / 100);
       $('modal-company-boards-wrapper').style.setProperty('--barrageCompanyBoardScale', (1.2 * scale) / 100);
+    },
+
+    onChangeEnergyTrackScaleSetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--barrageEnergyTrackScale', scale / 100);
+    },
+
+    onChangeActionBoardScaleSetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--barrageActionBoardScale', scale / 100);
+      $('action-boards-resizable').style.width = ($('action-boards-container').offsetWidth * scale) / 100 + 'px';
+      $('action-boards-resizable').style.height = ($('action-boards-container').offsetHeight * scale) / 100 + 'px';
+    },
+
+    onChangeFitAllSetting(val) {
+      this.updateLayout();
+    },
+    onChangeCompanyBoardTwoColumnsSetting(val) {
+      this.updateLayout();
+    },
+    onChangeFitAllScaleSetting(val) {
+      this.updateLayout();
+    },
+    onChangeFitAllScaleEnergySetting(val) {
+      this.updateLayout();
+    },
+
+    updateLayout() {
+      this.updateCompaniesLayout();
+      if (this.settings.fitAll == 1) {
+        if (!this.settings.fitAllScale || !this.settings.fitAllScaleEnergy) return;
+        let WIDTH = $('barrage-container').getBoundingClientRect()['width'] - 25;
+
+        const handles = this.settings.energyTrack == 0 ? this.settings.fitAllScale : this.settings.fitAllScaleEnergy;
+        let proportions = [handles[0], handles[1] - handles[0], 100 - handles[1]];
+        if (handles.length > 2) {
+          proportions = [handles[0], handles[1] - handles[0], 100 - handles[2], handles[2] - handles[1]];
+          WIDTH -= 15;
+        }
+
+        if (this.settings.companyBoardTwoColumns == 1 && this.gamedatas.nCompanies > 2) {
+          let total = 100 + proportions[2];
+          proportions = proportions.map((p) => (p * 100) / total);
+        }
+
+        const actionBoardScale = (proportions[0] * WIDTH) / $('action-boards-container').offsetWidth;
+        this.onChangeActionBoardScaleSetting(actionBoardScale);
+
+        const mapScale = (proportions[1] * WIDTH) / $('brg-map').offsetWidth;
+        this.onChangeMapScaleSetting(mapScale);
+
+        const COMPANY_BOARD_WIDTH = 1150;
+        const companyBoardScale = (proportions[2] * WIDTH) / COMPANY_BOARD_WIDTH;
+        this.onChangeCompanyBoardScaleSetting(companyBoardScale);
+        if (this.settings.companyBoardTwoColumns == 1 && this.gamedatas.nCompanies > 2) {
+          $('company-boards-container').style.width = 2 * proportions[2] * WIDTH / 100 + 'px';
+        } else {
+          $('company-boards-container').style.width = 'auto';
+        }
+
+        if (proportions.length > 3) {
+          const ENERGY_TRACK_WDITH = 136;
+          const energyTrackScale = (proportions[3] * WIDTH) / ENERGY_TRACK_WDITH;
+          this.onChangeEnergyTrackScaleSetting(energyTrackScale);
+        } else {
+          this.onChangeEnergyTrackScaleSetting(this.settings.energyTrackScale);
+        }
+      } else {
+        this.onChangeActionBoardScaleSetting(this.settings.actionBoardScale);
+        this.onChangeMapScaleSetting(this.settings.mapScale);
+        this.onChangeCompanyBoardScaleSetting(this.settings.companyBoardScale);
+        this.onChangeEnergyTrackScaleSetting(this.settings.energyTrackScale);
+      }
     },
 
     //////////////////////////////////////////////////////////////

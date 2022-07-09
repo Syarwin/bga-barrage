@@ -485,15 +485,41 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this.addTooltip('show-settings', '', _('Display some settings about the game.'));
       let container = $('settings-controls-container');
 
+      if (this._settingsSections) {
+        dojo.place(`<div id='settings-controls-header'></div><div id='settings-controls-wrapper'></div>`, container);
+        Object.keys(this._settingsSections).forEach((sectionName, i) => {
+          dojo.place(
+            `<div id='settings-section-${sectionName}' class='settings-section'></div>`,
+            'settings-controls-wrapper',
+          );
+          let div = dojo.place(`<div>${this._settingsSections[sectionName]}</div>`, 'settings-controls-header');
+          let openSection = () => {
+            dojo.query('#settings-controls-header div').removeClass('open');
+            div.classList.add('open');
+            dojo.query('#settings-controls-wrapper div.settings-section').removeClass('open');
+            $(`settings-section-${sectionName}`).classList.add('open');
+          };
+          div.addEventListener('click', openSection);
+          if (i == 0) {
+            openSection();
+          }
+        });
+      }
+
       this.settings = {};
       Object.keys(this._settingsConfig).forEach((settingName) => {
         let config = this._settingsConfig[settingName];
+        let localContainer = container;
+        if (config.section) {
+          localContainer = $(`settings-section-${config.section}`);
+        }
+
         if (config.type == 'pref') {
           if (config.local == true && this.isReadOnly()) {
             return;
           }
           // Pref type => just move the user pref around
-          dojo.place($('preference_control_' + config.prefId).parentNode.parentNode, container);
+          dojo.place($('preference_control_' + config.prefId).parentNode.parentNode, localContainer);
           return;
         }
 
@@ -503,17 +529,23 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
         // Slider type => create DOM and initialize noUiSlider
         if (config.type == 'slider') {
-          this.place('tplSettingSlider', { desc: config.name, id: settingName }, container);
+          this.place('tplSettingSlider', { desc: config.name, id: settingName }, localContainer);
           config.sliderConfig.start = [value];
           noUiSlider.create($('setting-' + settingName), config.sliderConfig);
           $('setting-' + settingName).noUiSlider.on('slide', (arg) =>
             this.changeSetting(settingName, parseInt(arg[0])),
           );
+        } else if (config.type == 'multislider') {
+          this.place('tplSettingSlider', { desc: config.name, id: settingName }, localContainer);
+          config.sliderConfig.start = value;
+          noUiSlider.create($('setting-' + settingName), config.sliderConfig);
+          $('setting-' + settingName).noUiSlider.on('slide', (arg) => this.changeSetting(settingName, arg));
         }
+
         // Select type => create a select
         else if (config.type == 'select') {
           config.id = settingName;
-          this.place('tplSettingSelect', config, container);
+          this.place('tplSettingSelect', config, localContainer);
           $('setting-' + settingName).addEventListener('change', () => {
             let newValue = $('setting-' + settingName).value;
             this.changeSetting(settingName, newValue);
@@ -525,7 +557,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         // Switch type => create a select
         else if (config.type == 'switch') {
           config.id = settingName;
-          this.place('tplSettingSwitch', config, container);
+          this.place('tplSettingSwitch', config, localContainer);
           $('setting-' + settingName).addEventListener('change', () => {
             let newValue = $('setting-' + settingName).checked ? 1 : 0;
             this.changeSetting(settingName, newValue);
@@ -590,7 +622,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         .join('');
 
       return `
-        <div class="preference_choice">
+        <div class="preference_choice" data-id='${setting.id}'>
           <div class="row-data row-data-large">
             <div class="row-label">${_(setting.name)}</div>
             <div class="row-value">
@@ -710,7 +742,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         const animation =
           config.pos == null
             ? this.slideToObject(mobile, config.to || targetId, config.duration, config.delay)
-            : this.slideToObjectPos(mobile, config.to || targetId, config.pos.x, config.pos.y, config.duration, config.delay);
+            : this.slideToObjectPos(
+                mobile,
+                config.to || targetId,
+                config.pos.x,
+                config.pos.y,
+                config.duration,
+                config.delay,
+              );
 
         dojo.connect(animation, 'onEnd', () => {
           dojo.style(mobile, 'zIndex', null);
@@ -959,8 +998,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
     attachRegisteredTooltips() {
       Object.keys(this._registeredCustomTooltips).forEach((id) => {
-        if(!$(id)) {
-          console.error("Trying to attack tooltip on a null element", id);
+        if (!$(id)) {
+          console.error('Trying to attack tooltip on a null element', id);
         } else {
           this.addCustomTooltip(id, this._registeredCustomTooltips[id]);
         }

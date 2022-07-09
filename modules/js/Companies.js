@@ -432,6 +432,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         'company-boards-container',
       ];
       let pref = this.settings[company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'];
+      if (this.settings.fitAll == 1) {
+        pref = 2;
+      }
       return containers[pref];
     },
 
@@ -448,6 +451,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let pref = this.settings[
           company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'
         ];
+        if (this.settings.fitAll == 1) {
+          pref = 2;
+        }
         let index = counters[pref];
         counters[pref]++;
 
@@ -461,6 +467,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // Update dataset to hide if 0
       $('floating-company-boards-wrapper').dataset.n = counters[0];
+      $('company-boards-container').dataset.n = counters[2];
 
       this._floatingContainerOpen = null;
       this._modalContainerOpen = null;

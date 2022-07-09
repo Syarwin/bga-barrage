@@ -149,8 +149,65 @@
   text-align: center;
   width: 550px;
 
-  &.settingsControlsHidden {
+  #settings-controls-header {
+    display: flex;
+    align-items: stretch;
+
+    div {
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+      padding: 5px 8px;
+      background: #cca172;
+      flex-grow: 1;
+      cursor: pointer;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &.open {
+        background: none;
+        border-bottom: none;
+      }
+    }
+  }
+
+  #settings-controls-wrapper {
+    .settings-section {
+      display: none;
+
+      &.open {
+        display: block;
+      }
+    }
+  }
+
+  [data-fitall='1'] & {
+    [data-id='ownCompanyBoardLocation'],
+    [data-id='otherCompanyBoardLocation'],
+    [data-id='actionBoardScale'],
+    [data-id='companyBoardScale'],
+    [data-id='mapScale'] {
+      display: none;
+    }
+  }
+
+  [data-fitall='1'][data-energy-track='1'] & {
+    [data-id='fitAllScale'],
+    [data-id='energyTrackScale'] {
+      display: none;
+    }
+  }
+  [data-fitall='1'][data-energy-track='0'] & [data-id='fitAllScaleEnergy'] {
     display: none;
+  }
+
+  [data-fitall='0'] & {
+    [data-id='companyBoardTwoColumns'],
+    [data-id='fitAllScale'],
+    [data-id='fitAllScaleEnergy'] {
+      display: none;
+    }
   }
 
   .row-data {

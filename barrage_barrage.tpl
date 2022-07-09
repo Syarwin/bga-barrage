@@ -16,7 +16,9 @@
 <div id="pickStart-companies"></div>
 <div id="barrage-container">
   <div id="barrage-center-container">
-    <div id="action-boards-container"></div>
+    <div id="action-boards-resizable">
+      <div id="action-boards-container"></div>
+    </div>
     <div id="map-wrapper"></div>
     <div id="map-energy-track-container"></div>
     <div id="company-boards-container"></div>

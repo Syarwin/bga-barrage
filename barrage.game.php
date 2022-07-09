@@ -90,6 +90,7 @@ class barrage extends Table
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'companies' => Companies::getUiData($pId),
+      'nCompanies' => Companies::count(),
       'actionBoards' => ActionSpaces::getUiData(),
       'meeples' => Meeples::getUiData(),
       'bases' => Meeples::getSelectQuery()

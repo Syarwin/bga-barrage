@@ -1,6 +1,8 @@
 #player_boards {
   display: flex;
   flex-flow: column;
+  z-index: 2;
+  position: relative;
   .mobile_version & {
     flex-flow: row;
     flex-wrap: wrap;

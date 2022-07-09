@@ -1,3 +1,7 @@
+:root {
+  --barrageActionBoardScale: 1;
+}
+
 #action-boards-container {
   display: flex;
   flex-flow: row;
@@ -5,6 +9,8 @@
   align-items: flex-start;
   align-content: baseline;
   width: 380px;
+  transform: scale(var(--barrageActionBoardScale));
+  transform-origin: top left;
 
   [data-action-name='2'] & {
     border-radius: 6px;
