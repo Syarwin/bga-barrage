@@ -20,23 +20,26 @@ class Construct extends \BRG\Models\Action
 
   public function getConstructablePairs($company)
   {
-    $pairs = [];
-    $tiles = $company->getAvailableTechTiles();
     $args = $this->getCtxArgs();
+    // constraints from advanced tiles
     $constraintType = $args['type'] ?? null;
     $constraintTile = $args['tileId'] ?? null;
+    $tiles = $company->getAvailableTechTiles($constraintType, true);
+    $antonTile = TechnologyTiles::getAnton();
+    if (!is_null($constraintTile)) {
+      $tiles = $tiles->filter(function ($tile) use ($constraintTile) {
+        return $tile->getId() == $constraintTile;
+      });
+    }
+
+    $pairs = [];
     foreach (Map::getConstructSlots() as $slot) {
+      if (!is_null($constraintType) && $constraintType != $slot['type']) {
+        continue;
+      }
+
       foreach ($tiles as $tile) {
         if (!$tile->canConstruct($slot['type'])) {
-          continue;
-        }
-
-        // constraints from advanced tiles
-        if (!is_null($constraintTile) && $tile->getId() != $constraintTile) {
-          continue;
-        }
-
-        if (!is_null($constraintType) && $constraintType != $slot['type']) {
           continue;
         }
 
@@ -47,8 +50,11 @@ class Construct extends \BRG\Models\Action
         $cost = $company->getConstructCost($slot, $tile);
         $cost['target'] = 'wheel';
         $cost['tileId'] = $tile->getId();
-        if (Globals::getMahiriPower() == \XO_ANTON) {
+        if ($tile->getLocation() == 'wheel') {
           unset($cost['tileId']);
+          if (!is_null($antonTile) && $antonTile->getCId() == $company->getId()) {
+            $cost['tileId'] = $antonTile->getId();
+          }
         }
         $cost['source'] = clienttranslate('construction');
         $childs[] = [
@@ -105,12 +111,18 @@ class Construct extends \BRG\Models\Action
     foreach ($pairs as &$pair) {
       $spaces[$pair['spaceId']][] = $pair['tileId'];
     }
+    $data = ['spaces' => $spaces];
 
-    return [
-      'spaces' => $spaces,
-      'antonPower' => $company->isAntonTileAvailable() ? $company->getWheelTiles()->toArray() : [],
-      'antonCopied' => Globals::getAntonPower(),
-    ];
+    // Handle Anton
+    $tile = TechnologyTiles::getAnton();
+    if (!is_null($tile)) {
+      $copied = Globals::getAntonPower();
+      $data['antonId'] = $tile->getId();
+      $data['antonPower'] = $company->isAntonTileAvailable() ? $company->getWheelTiles()->getIds() : [];
+      $data['antonCopied'] = $copied == '' ? null : $copied;
+    }
+
+    return $data;
   }
 
   public function actConstruct($spaceId, $tileId, $copiedTile = null)
@@ -126,30 +138,27 @@ class Construct extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('Invalid combination on construct. Should not happen');
     }
     $pair = array_pop($pairs);
-
     $tile = TechnologyTiles::get($tileId);
+
+    // Handle Anton
     if ($tile->getType() == \ANTON_TILE && Globals::getAntonPower() == '') {
-      // throw new \feException($copiedTile);
-      if (
-        !in_array(
-          $copiedTile,
-          TechnologyTiles::getFilteredQuery($company->getId(), 'wheel')
-            ->get()
-            ->getIds()
-        )
-      ) {
-        throw new \feException("You cannot copy this tile. it's not placed (anton power). Should not happen");
+      // prettier-ignore
+      if (!$company->getWheelTiles()->getIds()->includes($copiedTile)) {
+        throw new \feException("You cannot copy this tile. it's not placed (Anton power). Should not happen");
       }
       if (!TechnologyTiles::get($copiedTile)->canConstruct($pair['type'])) {
         throw new \BgaVisibleSystemException(
           clienttranslate('You cannot construct with this tile. Please select a valid one')
         );
       }
-      Globals::setAntonPower($copiedTile);
-    }
 
-    // Insert the flow as a child and proceed
-    Engine::insertAsChild($pair['flow']);
+      Globals::setAntonPower($copiedTile);
+      // Insert the flow as a child and proceed
+      Engine::insertAsChild($pair['flow']);
+    } else {
+      // Insert the flow as a child and proceed
+      Engine::insertAsChild($pair['flow']);
+    }
     $this->resolveAction(['space' => $spaceId, 'tile' => $tileId]);
   }
 }

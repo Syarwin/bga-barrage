@@ -61,6 +61,11 @@ class Collection extends \ArrayObject
     return new Collection(array_slice($this->toAssoc(), 0, $n, true));
   }
 
+  public function includes($t)
+  {
+    return in_array($t, $this->getArrayCopy());
+  }
+
   public function ui()
   {
     return $this->map(function ($elem) {

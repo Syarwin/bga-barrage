@@ -45,14 +45,9 @@ class AntonTile extends \BRG\TechTiles\BasicTile
     $tile = $this->getCopiedTile();
     if (!is_null($tile)) {
       return $tile->canConstruct($structure);
+    } else {
+      return false;
     }
-
-    foreach ($this->getWheelTiles() as $tile) {
-      if ($tile->canConstruct($structure)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public function addAlternativeActions(&$actions)
@@ -62,7 +57,6 @@ class AntonTile extends \BRG\TechTiles\BasicTile
         $fakeActions = [];
         $tile->addAlternativeActions($fakeActions);
         foreach ($fakeActions as $action) {
-          $action['flow']['args']['tileId'] = $this->id;
           $actions[] = [
             'desc' => [
               'log' => clienttranslate('Use Anton to ${action}'),
@@ -85,19 +79,6 @@ class AntonTile extends \BRG\TechTiles\BasicTile
         }
       }
     }
-
-    // $f = $tile->getPowerFlow($slot);
-    // if (is_null($f)) {
-    //   continue;
-    // }
-    // $f['description'] = $tile->getAlternativeActionDesc();
-    // $f['args']['tileId'] = $this->id;
-    // $flow['childs'][] = [
-    //   'type' => NODE_SEQ,
-    //   'childs' => [
-    //     $f,
-    //   ],
-    // ];
   }
 
   public function getPowerFlow($slot)
@@ -127,10 +108,6 @@ class AntonTile extends \BRG\TechTiles\BasicTile
     $tile = $this->getCopiedTile();
     if (!is_null($tile)) {
       $tile->applyConstructCostModifier($costs, $slot);
-    } else {
-      foreach ($this->getWheelTiles() as $tile) {
-        $tile->applyConstructCostModifier($costs, $slot);
-      }
     }
   }
 

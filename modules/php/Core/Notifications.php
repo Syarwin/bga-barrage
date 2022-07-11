@@ -414,6 +414,25 @@ class Notifications
     ]);
   }
 
+  public static function mahiriCopy($company, $officer)
+  {
+    self::notifyAll(
+      'mahiriCopy',
+      clienttranslate('${company_name} copys power of ${officer_name} with Mahiri\'s power'),
+      [
+        'i18n' => ['officer_name'],
+        'company' => $company,
+        'officer_name' => $officer->getName(),
+        'officer_id' => $officer->getId(),
+      ]
+    );
+  }
+
+  public static function clearMahiri()
+  {
+    self::notifyAll('clearMahiri', '', []);
+  }
+
   /*********************
    **** UPDATE ARGS ****
    *********************/

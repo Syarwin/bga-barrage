@@ -102,7 +102,7 @@
         }
       }
 
-      [data-altfr='1'] & {
+      [data-altfr='1'] &[data-company='4'] {
         border-color: #95149b !important;
       }
     }
@@ -123,6 +123,28 @@
 
       @for $i from 0 through 15 {
         &[data-officer='#{$i + 1}'] {
+          background-position-x: ($i % 5) * 100% / 4;
+          background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+        }
+      }
+
+      &[data-copied]::before {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background-color: #fdfdff;
+        background-image: url('img/executive_officers.png');
+        background-size: 500% 300%;
+        border: 1px solid black;
+        border-radius: 50%;
+        display: block;
+        bottom: -5px;
+        right: -8px;
+      }
+
+      @for $i from 0 through 15 {
+        &[data-copied='#{$i + 1}']::before {
           background-position-x: ($i % 5) * 100% / 4;
           background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
         }
@@ -410,6 +432,14 @@
               font-size: 0.6em;
               line-height: 1.3em;
             }
+          }
+
+          &.selectable {
+            cursor: pointer;
+            background-color: #d75d57;
+          }
+          &.selected {
+            background-color: #17c817;
           }
         }
 

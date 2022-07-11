@@ -653,7 +653,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (this.isFastMode()) {
         n.args.droplets.map((droplet, j) => {
           let oDroplet = $(`meeple-${droplet.id}`);
-          let lastLocation = droplet.path[droplet.path - 1];
+          let lastLocation = droplet.path[droplet.path.length - 1];
           if (lastLocation.substr(0, 4) == 'EXIT') oDroplet.remove();
           else dojo.place(oDroplet, this.getDropletContainer(lastLocation));
         });

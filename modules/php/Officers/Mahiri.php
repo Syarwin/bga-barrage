@@ -19,6 +19,24 @@ class Mahiri extends \BRG\Models\Officer
     );
   }
 
+  protected function getCopiedOfficer()
+  {
+    return Globals::getMahiriPower() == '' ? null : Officers::getInstance(Globals::getMahiriPower());
+  }
+
+  public function jsonSerialize()
+  {
+    $data = parent::jsonSerialize();
+    $officer = $this->getCopiedOfficer();
+    if (!is_null($officer)) {
+      $data['copied'] = [
+        'id' => $officer->getId(),
+        'name' => $officer->getName(),
+      ];
+    }
+    return $data;
+  }
+
   public function getStartingResources()
   {
     return [
@@ -109,11 +127,7 @@ class Mahiri extends \BRG\Models\Officer
     }
 
     Globals::setMahiriPower($powerId);
-    Notifications::message(clienttranslate('${company_name} copys power of ${XO} with Mahiri\'s power'), [
-      'company' => Companies::getActive(),
-      'XO' => $args[$powerId]['officer']->getName(),
-      'i18n' => ['XO'],
-    ]);
+    Notifications::mahiriCopy(Companies::getActive(), $args[$powerId]['officer']);
 
     Engine::insertAsChild([
       'action' => PLACE_ENGINEER,
@@ -122,11 +136,6 @@ class Mahiri extends \BRG\Models\Officer
 
     Engine::resolveAction([$powerId]);
     Engine::proceed();
-  }
-
-  protected function getCopiedOfficer()
-  {
-    return Globals::getMahiriPower() == '' ? null : Officers::getInstance(Globals::getMahiriPower());
   }
 
   public function applyConstructCostModifier(&$costs, $slot)

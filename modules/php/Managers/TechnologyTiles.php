@@ -80,6 +80,13 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       ->get();
   }
 
+  public function getAnton()
+  {
+    return self::getSelectQuery()
+      ->where('type', \ANTON_TILE)
+      ->getSingle();
+  }
+
   ///////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __

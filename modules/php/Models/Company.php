@@ -284,7 +284,7 @@ class Company extends \BRG\Helpers\DB_Model
       TechnologyTiles::move($tId, 'company');
     }
 
-    if (count($mIds) + count($tId) > 1) {
+    if (count($mIds) + count($tId) > 0) {
       Notifications::recoverResources(
         $this,
         Meeples::getMany($mIds) ?? [],
@@ -302,21 +302,20 @@ class Company extends \BRG\Helpers\DB_Model
   //
   ////////////////////////////////////////////////////
 
-  public function getAvailableTechTiles($structure = null)
+  public function getAvailableTechTiles($structure = null, $includeAnton = false)
   {
     $tiles = TechnologyTiles::getFilteredQuery($this->id, 'company')->get();
+    $types = $tiles->map(function ($tile) {
+      return $tile->getType();
+    });
+    if ($includeAnton && ($types->includes(ANTON_TILE) || Globals::getMahiriPower() == \XO_ANTON)) {
+      $tiles = $tiles->merge(TechnologyTiles::getFilteredQuery($this->id, 'wheel')->get());
+    }
+
     if (!is_null($structure)) {
       $tiles = $tiles->filter(function ($tile) use ($structure) {
         return $tile->canConstruct($structure);
       });
-    }
-
-    // Mahiri power
-    if (Globals::getMahiriPower() == \XO_ANTON) {
-      $tiles[\ANTON_TILE] = TechnologyTiles::getSelectQuery()
-        ->where('type', \ANTON_TILE)
-        ->get()
-        ->first();
     }
 
     return $tiles;

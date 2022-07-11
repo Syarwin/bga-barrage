@@ -1523,7 +1523,7 @@ body {
         background-position-x: 100%; }
       .player_panel_content .company-info .company-logo[data-company='6'] {
         background-position-x: 120%; }
-      [data-altfr='1'] .player_panel_content .company-info .company-logo {
+      [data-altfr='1'] .player_panel_content .company-info .company-logo[data-company='4'] {
         border-color: #95149b !important; }
     .player_panel_content .company-info .officer-logo {
       position: relative;
@@ -1583,6 +1583,67 @@ body {
         background-position-x: 100%;
         background-position-y: 100%; }
       .player_panel_content .company-info .officer-logo[data-officer='16'] {
+        background-position-x: 0%;
+        background-position-y: 150%; }
+      .player_panel_content .company-info .officer-logo[data-copied]::before {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background-color: #fdfdff;
+        background-image: url("img/executive_officers.png");
+        background-size: 500% 300%;
+        border: 1px solid black;
+        border-radius: 50%;
+        display: block;
+        bottom: -5px;
+        right: -8px; }
+      .player_panel_content .company-info .officer-logo[data-copied='1']::before {
+        background-position-x: 0%;
+        background-position-y: 0%; }
+      .player_panel_content .company-info .officer-logo[data-copied='2']::before {
+        background-position-x: 25%;
+        background-position-y: 0%; }
+      .player_panel_content .company-info .officer-logo[data-copied='3']::before {
+        background-position-x: 50%;
+        background-position-y: 0%; }
+      .player_panel_content .company-info .officer-logo[data-copied='4']::before {
+        background-position-x: 75%;
+        background-position-y: 0%; }
+      .player_panel_content .company-info .officer-logo[data-copied='5']::before {
+        background-position-x: 100%;
+        background-position-y: 0%; }
+      .player_panel_content .company-info .officer-logo[data-copied='6']::before {
+        background-position-x: 0%;
+        background-position-y: 50%; }
+      .player_panel_content .company-info .officer-logo[data-copied='7']::before {
+        background-position-x: 25%;
+        background-position-y: 50%; }
+      .player_panel_content .company-info .officer-logo[data-copied='8']::before {
+        background-position-x: 50%;
+        background-position-y: 50%; }
+      .player_panel_content .company-info .officer-logo[data-copied='9']::before {
+        background-position-x: 75%;
+        background-position-y: 50%; }
+      .player_panel_content .company-info .officer-logo[data-copied='10']::before {
+        background-position-x: 100%;
+        background-position-y: 50%; }
+      .player_panel_content .company-info .officer-logo[data-copied='11']::before {
+        background-position-x: 0%;
+        background-position-y: 100%; }
+      .player_panel_content .company-info .officer-logo[data-copied='12']::before {
+        background-position-x: 25%;
+        background-position-y: 100%; }
+      .player_panel_content .company-info .officer-logo[data-copied='13']::before {
+        background-position-x: 50%;
+        background-position-y: 100%; }
+      .player_panel_content .company-info .officer-logo[data-copied='14']::before {
+        background-position-x: 75%;
+        background-position-y: 100%; }
+      .player_panel_content .company-info .officer-logo[data-copied='15']::before {
+        background-position-x: 100%;
+        background-position-y: 100%; }
+      .player_panel_content .company-info .officer-logo[data-copied='16']::before {
         background-position-x: 0%;
         background-position-y: 150%; }
     .player_panel_content .company-info .company-round-bonus {
@@ -1789,6 +1850,11 @@ body {
           .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner .summary-wheel-sector .icon-container .barrage-icon.icon-excavator_icon span {
             font-size: 0.6em;
             line-height: 1.3em; }
+          .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner .summary-wheel-sector.selectable {
+            cursor: pointer;
+            background-color: #d75d57; }
+          .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner .summary-wheel-sector.selected {
+            background-color: #17c817; }
         .player_panel_content .company-panel-wheel-container .company-summary-wheel .summary-wheel-inner[data-angle='0'] .summary-wheel-sector:nth-of-type(1) {
           bottom: 105px;
           left: 0px;
@@ -2111,6 +2177,67 @@ body {
           background-position-x: 100%;
           background-position-y: 100%; }
         .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='16'] {
+          background-position-x: 0%;
+          background-position-y: 150%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied]::before {
+          content: '';
+          position: absolute;
+          width: 45px;
+          height: 45px;
+          background-color: #fdfdff;
+          background-image: url("img/executive_officers.png");
+          background-size: 500% 300%;
+          border: 3px solid gray;
+          border-radius: 50%;
+          display: block;
+          bottom: 27px;
+          left: 79px; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='1']::before {
+          background-position-x: 0%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='2']::before {
+          background-position-x: 25%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='3']::before {
+          background-position-x: 50%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='4']::before {
+          background-position-x: 75%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='5']::before {
+          background-position-x: 100%;
+          background-position-y: 0%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='6']::before {
+          background-position-x: 0%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='7']::before {
+          background-position-x: 25%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='8']::before {
+          background-position-x: 50%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='9']::before {
+          background-position-x: 75%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='10']::before {
+          background-position-x: 100%;
+          background-position-y: 50%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='11']::before {
+          background-position-x: 0%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='12']::before {
+          background-position-x: 25%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='13']::before {
+          background-position-x: 50%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='14']::before {
+          background-position-x: 75%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='15']::before {
+          background-position-x: 100%;
+          background-position-y: 100%; }
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='16']::before {
           background-position-x: 0%;
           background-position-y: 150%; }
       .company-board .company-board-resizable .company-board-wrapper .officer-symbol {

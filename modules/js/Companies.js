@@ -109,6 +109,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
       dojo.place(`reserve_${company.id}_fcontract`, `modal-company-contracts-${company.id}`);
       this.onClick(`company-fulfilled-btn-${company.id}`, () => this._companyContractsModals[company.id].show(), false);
+
+      // Handle Mahiri
+      if (company.officer && company.officer.copied) {
+        this.updateMahiriCopy(company.officer.copied.id);
+      }
     },
 
     tplPlayerPanel(company) {
@@ -142,7 +147,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // TODO : handle no officer (for automas) + display description and icons
       this.registerCustomTooltip(
         `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
-        `officer-${company.id}`,
+        `officer-${company.officer.id}`,
       );
 
       const SPECIAL_POWERS = {
@@ -164,7 +169,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         <div class='company-jump-to' id='company-jump-to-${company.id}'></div>
         <div class='company-no' id='company-position-${company.id}'>${no}</div>
         <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}" id='company-logo-${company.id}'"></div>
-        <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.id}'"></div>
+        <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.officer.id}'></div>
         <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
         <div class='company-obj-tile' id='company-obj-tile-${company.id}'></div>
       </div>
@@ -415,6 +420,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           powerhouse.classList.remove('producing');
         });
       });
+    },
+
+    updateMahiriCopy(id = null) {
+      const MAHIRI_ID = 12;
+      if (id == null) {
+        delete $(`officer-${MAHIRI_ID}`).dataset.copied;
+        delete $(`officer-logo-${MAHIRI_ID}`).dataset.copied;
+      } else {
+        $(`officer-${MAHIRI_ID}`).dataset.copied = id;
+        $(`officer-logo-${MAHIRI_ID}`).dataset.copied = id;
+      }
+    },
+
+    notif_mahiriCopy(n) {
+      debug('Notif: mahiri copy', n);
+      this.updateMahiriCopy(n.args.officer_id);
+    },
+
+    notif_clearMahiri(n) {
+      this.updateMahiriCopy();
     },
 
     /////////////////////////////////////////////

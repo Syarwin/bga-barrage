@@ -175,6 +175,28 @@
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
           }
         }
+
+        &[data-copied]::before {
+          content: '';
+          position: absolute;
+          width: 45px;
+          height: 45px;
+          background-color: #fdfdff;
+          background-image: url('img/executive_officers.png');
+          background-size: 500% 300%;
+          border: 3px solid gray;
+          border-radius: 50%;
+          display: block;
+          bottom: 27px;
+          left: 79px;
+        }
+
+        @for $i from 0 through 15 {
+          &[data-copied='#{$i + 1}']::before {
+            background-position-x: ($i % 5) * 100% / 4;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+          }
+        }
       }
 
       .officer-symbol {
