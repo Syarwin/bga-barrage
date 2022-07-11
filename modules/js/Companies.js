@@ -50,13 +50,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
       $('popin_companyBoards').addEventListener('click', () => this._companiesModal.hide());
 
-      this.gamedatas.mahiriOfficers.forEach((officer, i) => {
-        dojo.place(
-          `<div class='officer-logo' data-officer='${officer.id}' id='mahiri-officer-${i}'></div>`,
-          'mahiri-add-XO',
-        );
-        this.addCustomTooltip(`mahiri-officer-${i}`, `<h3>${_(officer.name)}</h3><p>${_(officer.description)}</p>`);
-      });
+      if (this.gamedatas.mahiriOfficers) {
+        this.gamedatas.mahiriOfficers.forEach((officer, i) => {
+          dojo.place(
+            `<div class='officer-logo' data-officer='${officer.id}' id='mahiri-officer-${i}'></div>`,
+            'mahiri-add-XO',
+          );
+          this.addCustomTooltip(`mahiri-officer-${i}`, `<h3>${_(officer.name)}</h3><p>${_(officer.description)}</p>`);
+        });
+      }
     },
 
     refreshCompanies() {
