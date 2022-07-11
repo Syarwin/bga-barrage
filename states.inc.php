@@ -42,7 +42,7 @@ $machinestates = [
     'description' => '',
     'type' => 'game',
     'action' => 'stPickStartNext',
-    'transitions' => ['pick' => ST_PICK_START, 'done' => ST_BEFORE_START_OF_ROUND],
+    'transitions' => ['nextPick' => ST_PICK_START_NEXT, 'pick' => ST_PICK_START, 'done' => ST_BEFORE_START_OF_ROUND],
   ],
 
   ST_PICK_START => [
@@ -152,7 +152,9 @@ $machinestates = [
     'name' => 'construct',
     'description' => clienttranslate('${actplayer} must build a structure'),
     'descriptionmyturn' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
-    'descriptionmyturngeneric' => clienttranslate('${you} must select a technology tile and a space to build a structure'),
+    'descriptionmyturngeneric' => clienttranslate(
+      '${you} must select a technology tile and a space to build a structure'
+    ),
     'descriptionskippable' => clienttranslate('${actplayer} may build a structure'),
     'descriptionmyturnskippable' => clienttranslate(
       '${you} may select a technology tile and a space to build a structure'

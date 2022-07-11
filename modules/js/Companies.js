@@ -49,6 +49,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         </div>`,
       });
       $('popin_companyBoards').addEventListener('click', () => this._companiesModal.hide());
+
+      this.gamedatas.mahiriOfficers.forEach((officer, i) => {
+        dojo.place(
+          `<div class='officer-logo' data-officer='${officer.id}' id='mahiri-officer-${i}'></div>`,
+          'mahiri-add-XO',
+        );
+        this.addCustomTooltip(`mahiri-officer-${i}`, `<h3>${_(officer.name)}</h3><p>${_(officer.description)}</p>`);
+      });
     },
 
     refreshCompanies() {
@@ -757,12 +765,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.gamedatas.players[pId].color = company.color;
       this.gamedatas.companies[cId] = company;
       this.setupCompany(company);
+      this.onChangeAltFrSetting(this.settings.altFr);
       this.setupCompanyCounters(company);
       this.updateCompaniesCounters();
 
       let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
-      debug(container);
       n.args.actionSpaces.forEach((row) => {
+        this.place('tplActionBoardRow', row, container);
+      });
+
+      container = $(`company-board-${cId}`).querySelector('.officer-symbol');
+      n.args.actionSpacesXO.forEach((row) => {
         this.place('tplActionBoardRow', row, container);
       });
 

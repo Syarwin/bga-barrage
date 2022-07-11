@@ -1448,6 +1448,68 @@ body {
       float: none; }
   #player_boards #player_board_config {
     order: 1; }
+    #player_boards #player_board_config #mahiri-add-XO {
+      margin: 0px; }
+      #player_boards #player_board_config #mahiri-add-XO .officer-logo {
+        position: relative;
+        width: 37px;
+        height: 37px;
+        background-color: #e6e7e9;
+        background-image: url("img/executive_officers.png");
+        background-size: 500% 300%;
+        border: 2px solid black;
+        border-radius: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo .help-marker {
+          top: -8px;
+          left: -8px; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='1'] {
+          background-position-x: 0%;
+          background-position-y: 0%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='2'] {
+          background-position-x: 25%;
+          background-position-y: 0%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='3'] {
+          background-position-x: 50%;
+          background-position-y: 0%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='4'] {
+          background-position-x: 75%;
+          background-position-y: 0%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='5'] {
+          background-position-x: 100%;
+          background-position-y: 0%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='6'] {
+          background-position-x: 0%;
+          background-position-y: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='7'] {
+          background-position-x: 25%;
+          background-position-y: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='8'] {
+          background-position-x: 50%;
+          background-position-y: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='9'] {
+          background-position-x: 75%;
+          background-position-y: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='10'] {
+          background-position-x: 100%;
+          background-position-y: 50%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='11'] {
+          background-position-x: 0%;
+          background-position-y: 100%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='12'] {
+          background-position-x: 25%;
+          background-position-y: 100%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='13'] {
+          background-position-x: 50%;
+          background-position-y: 100%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='14'] {
+          background-position-x: 75%;
+          background-position-y: 100%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='15'] {
+          background-position-x: 100%;
+          background-position-y: 100%; }
+        #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='16'] {
+          background-position-x: 0%;
+          background-position-y: 150%; }
   #player_boards .player-board {
     overflow: hidden;
     order: 6; }

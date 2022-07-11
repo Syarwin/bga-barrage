@@ -85,7 +85,7 @@ class barrage extends Table
   public function getAllDatas()
   {
     $pId = self::getCurrentPId();
-    return [
+    $data = [
       'canceledNotifIds' => Log::getCanceledNotifIds(),
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
@@ -105,6 +105,16 @@ class barrage extends Table
       'round' => Globals::getRound(),
       'bonuses' => $this->computeBonuses(),
     ];
+
+    $XOIds = array_slice(Globals::getMahiriAddXO(), Companies::count() - 1);
+    if (!empty($XOIds)) {
+      $data['mahiriOfficers'] = [];
+      foreach ($XOIds as $xId) {
+        $data['mahiriOfficers'][] = Officers::getInstance($xId);
+      }
+    }
+
+    return $data;
   }
 
   /*

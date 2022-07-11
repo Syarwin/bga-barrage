@@ -14,6 +14,32 @@
 
   #player_board_config {
     order: 1;
+
+    #mahiri-add-XO {
+      margin: 0px;
+
+      .officer-logo {
+        position: relative;
+        width: 37px;
+        height: 37px;
+        background-color: #e6e7e9;
+        background-image: url('img/executive_officers.png');
+        background-size: 500% 300%;
+        border: 2px solid black;
+        border-radius: 50%;
+        .help-marker {
+          top: -8px;
+          left: -8px;
+        }
+
+        @for $i from 0 through 15 {
+          &[data-officer='#{$i + 1}'] {
+            background-position-x: ($i % 5) * 100% / 4;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
+          }
+        }
+      }
+    }
   }
 
   .player-board {

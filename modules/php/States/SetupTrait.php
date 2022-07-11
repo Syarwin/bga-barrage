@@ -103,11 +103,8 @@ trait SetupTrait
           ];
         }
 
-        $mahiri = [];
-        for ($i = count($companies) - 1; $i < 4; $i++) {
-          $mahiri[] = $officers[$i];
-        }
-        Globals::setMahiriAddXO($mahiri);
+        $isMahiri = in_array(XO_MAHIRI, array_slice($officers, 0, count($n)));
+        Globals::setMahiriAddXO($isMahiri ? array_diff($officers, [\XO_MAHIRI]) : []);
 
         Globals::setStartingMatchups($matchups);
         Contracts::randomStartingPick($n);
@@ -151,7 +148,14 @@ trait SetupTrait
       $this->setupCompanies();
       $this->gamestate->nextState('done');
     } else {
-      $this->gamestate->nextState('pick');
+      $args = $this->argsPickStart();
+      // Only one left ? => Autopick
+      if (count($args['matchups']) == 1) {
+        $this->actPickStart(array_keys($args['matchups'])[0], $args['contracts']->first()->getId(), true);
+      }
+      else {
+        $this->gamestate->nextState('pick');
+      }
     }
   }
 
@@ -180,7 +184,7 @@ trait SetupTrait
     if (!$auto) {
       self::checkAction('actPickStart');
     }
-    $args = $this->getArgs();
+    $args = $this->argsPickStart();
     $matchup = $args['matchups'][$matchupId] ?? null;
     if (is_null($matchup)) {
       throw new \BgaVisibleSystemException('Invalid matchup id');
@@ -190,7 +194,7 @@ trait SetupTrait
       throw new \BgaVisibleSystemException('Invalid contract id');
     }
 
-    $player = Players::getCurrent();
+    $player = Players::getActive();
     $company = Companies::assignCompany($player, $matchup['cId'], $matchup['xId']);
     $this->reloadPlayersBasicInfos();
 

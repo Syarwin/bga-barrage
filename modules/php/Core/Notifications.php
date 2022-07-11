@@ -5,6 +5,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Helpers\Utils;
 use BRG\Core\Globals;
 use BRG\ActionBoards\CompanyActionBoard;
+use BRG\ActionBoards\OfficerActionBoard;
 
 class Notifications
 {
@@ -81,6 +82,7 @@ class Notifications
       'company_id' => $company->getId(),
       'datas' => $company,
       'actionSpaces' => CompanyActionBoard::getUiData($company->getId()),
+      'actionSpacesXO' => OfficerActionBoard::getUiData($company->getId()),
       'meeples' => $meeples->toArray(),
       'tiles' => $tiles->toArray(),
     ]);
