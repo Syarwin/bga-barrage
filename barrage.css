@@ -150,9 +150,7 @@ body {
   top: calc(-1 * var(--barrageEnergyTrackScale) * 6px);
   left: 0;
   right: 0;
-  height: 170px;
-  transform: scale(var(--barrageEnergyTrackScale));
-  transform-origin: center top;
+  height: calc(var(--barrageEnergyTrackScale) * 170px);
   transition: height 0.7s;
   overflow: hidden;
   z-index: 1;
@@ -178,8 +176,13 @@ body {
     #floating-energy-track-container #energy-track-btn svg {
       transform: rotateX(0deg);
       transition: transform 0.7s; }
+  #floating-energy-track-container #floating-energy-track-resizable {
+    transform: scale(var(--barrageEnergyTrackScale));
+    transform-origin: left top;
+    height: calc(var(--barrageEnergyTrackScale) * 130px);
+    width: calc(var(--barrageEnergyTrackScale) * 1090px);
+    margin: auto; }
   #floating-energy-track-container #energy-track-board-container {
-    margin: auto;
     margin-top: 8px;
     height: 130px;
     transition: margin 0.7s, height 0.7s; }
@@ -195,11 +198,11 @@ body {
       opacity: 1;
       transition: opacity 0.7s; }
   #floating-energy-track-container:not(.open) {
-    height: 65px; }
+    height: calc(var(--barrageEnergyTrackScale) * 65px); }
     #floating-energy-track-container:not(.open) #energy-track-btn svg {
       transform: rotateX(180deg); }
     #floating-energy-track-container:not(.open) #energy-track-board-container {
-      margin-top: -78px;
+      margin-top: calc(-1 * var(--barrageEnergyTrackScale) * 78px);
       height: 112px; }
       #floating-energy-track-container:not(.open) #energy-track-board-container #energy-track-board-clip {
         height: 112px; }
@@ -209,7 +212,7 @@ body {
         opacity: 0; }
 
 #game_play_area {
-  padding-top: 40px;
+  padding-top: calc(var(--barrageEnergyTrackScale) * 40px);
   transition: padding-top 0.7s; }
   [data-energy-track='1'] #game_play_area {
     padding-top: 0px; }

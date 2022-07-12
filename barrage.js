@@ -663,7 +663,7 @@ define([
     onChangeEnergyTrackSetting(val) {
       dojo.place(
         'energy-track-board-container',
-        val == 1 ? 'map-energy-track-container' : 'floating-energy-track-container',
+        val == 1 ? 'map-energy-track-container' : 'floating-energy-track-resizable',
       );
       this.updateLayout();
     },
@@ -932,8 +932,18 @@ define([
     },
 
     onChangeEnergyTrackScaleSetting(scale) {
+      if (this.settings && this.settings.energyTrack == 0) {
+        let WIDTH = $('barrage-container').getBoundingClientRect()['width'] - 10;
+        scale = Math.min(scale, (100 * WIDTH) / $('energy-track-board-container').offsetWidth);
+      }
       let elt = document.documentElement;
       elt.style.setProperty('--barrageEnergyTrackScale', scale / 100);
+    },
+
+    onScreenWidthChange() {
+      if (this.settings && this.settings.energyTrack == 0) {
+        this.onChangeEnergyTrackSetting(this.settings.energyTrackScale);
+      }
     },
 
     onChangeActionBoardScaleSetting(scale) {
@@ -1332,7 +1342,7 @@ define([
       });
       if (tileIds.length == 1) {
         tileCallback(tileIds[0]);
-      } else if(args.antonCopied) {
+      } else if (args.antonCopied) {
         tileCallback(args.antonCopied);
       }
 

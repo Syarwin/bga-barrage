@@ -7,9 +7,7 @@
   top: calc(-1 * var(--barrageEnergyTrackScale) * 6px);
   left: 0;
   right: 0;
-  height: 170px;
-  transform: scale(var(--barrageEnergyTrackScale));
-  transform-origin: center top;
+  height: calc(var(--barrageEnergyTrackScale) * 170px);
 
   transition: height 0.7s;
   overflow: hidden;
@@ -43,8 +41,15 @@
     }
   }
 
-  #energy-track-board-container {
+  #floating-energy-track-resizable {
+    transform: scale(var(--barrageEnergyTrackScale));
+    transform-origin: left top;
+    height: calc(var(--barrageEnergyTrackScale) * 130px);
+    width: calc(var(--barrageEnergyTrackScale) * 1090px);
     margin: auto;
+  }
+
+  #energy-track-board-container {
     margin-top: 8px;
     height: 130px;
     transition: margin 0.7s, height 0.7s;
@@ -67,7 +72,7 @@
   }
 
   &:not(.open) {
-    height: 65px;
+    height: calc(var(--barrageEnergyTrackScale) * 65px);
 
     #energy-track-btn {
       svg {
@@ -76,7 +81,7 @@
     }
 
     #energy-track-board-container {
-      margin-top: -78px;
+      margin-top: calc(-1 * var(--barrageEnergyTrackScale) * 78px);
       height: 112px;
       #energy-track-board-clip {
         height: 112px;
@@ -94,7 +99,7 @@
 }
 
 #game_play_area {
-  padding-top: 40px;
+  padding-top: calc(var(--barrageEnergyTrackScale) * 40px);
   transition: padding-top 0.7s;
 
   [data-energy-track='1'] & {
