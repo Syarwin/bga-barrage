@@ -575,6 +575,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.forEachCompany((company) => {
         // TODO : handle automa
         $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
+        $(`company-board-${company.id}`).style.order = 2 + ((company.no - no + n) % n);
       });
     },
 
