@@ -23,8 +23,8 @@ trait DebugTrait
 
   public function tp()
   {
-    Companies::getActive()->incEnergy(20);
-    //    $this->gamestate->jumpToState(\ST_BEFORE_START_OF_ROUND);
+    $droplets = Meeples::getFilteredQuery(null, null, DROPLET)->get();
+    Map::flowDroplets($droplets);
   }
 
   public function vt()

@@ -1586,7 +1586,7 @@ body {
         [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='5'] {
           background-position-y: 100%; }
       [data-orderToken='1'][data-altfr='1'] .player_panel_content .company-info .company-no[data-company='4'] {
-        color: #922297 !important;
+        color: #8a0391 !important;
         background-image: url("img/alt-fr/order.png");
         background-size: 100% 100%; }
     .player_panel_content .company-info .company-logo {

@@ -46,7 +46,13 @@ class PlaceDroplet extends \BRG\Models\Action
   {
     $ctxArgs = Engine::getNextUnresolved()->getArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
-    return ['headstreams' => Map::getHeadstreams(), 'flow' => $toFlow, 'n' => $ctxArgs['n'] ?? 0];
+    return [
+      'i18n' => ['speed'],
+      'speed' => $toFlow? clienttranslate('immediate flow') : clienttranslate('later flow'),
+      'headstreams' => Map::getHeadstreams(),
+      'flow' => $toFlow,
+      'n' => $ctxArgs['n'] ?? 0
+    ];
   }
 
   public function actPlaceDroplet($headstreams)

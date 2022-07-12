@@ -33,25 +33,42 @@ class Produce extends \BRG\Models\Action
     $bonus = $args['bonus'] ?? 0;
     $germanPower = $args['germanPower'] ?? false;
     $company = Companies::getActive();
-    // $bonus += $company->getProductionBonus();
-    $displayedBonus = $bonus + $company->getProductionBonus();
+    $companyBonus = $company->getProductionBonus();
+    $displayedBonus = $bonus + $companyBonus;
 
     if ($germanPower) {
       $bonus = 0;
       $displayedBonus = 0;
     }
     return [
-      'i18n' => ['modifier'],
+      'descSuffix' => $germanPower ? 'germany' : '',
       'systems' => Map::getProductionSystems($company, $bonus, $args['constraints'] ?? null, false, $germanPower),
-      'modifier' =>
-        $displayedBonus == 0
-          ? ''
-          : [
-            'log' => $displayedBonus > 0 ? clienttranslate('(${n} bonus)') : clienttranslate('(${n} malus)'),
-            'args' => [
-              'n' => $displayedBonus > 0 ? '+' . $displayedBonus : $displayedBonus,
+      'i18n' => ['modifier'],
+      'modifier' => $germanPower
+        ? ''
+        : [
+          'log' =>
+            $companyBonus == 0
+              ? clienttranslate('(${n} from action board)')
+              : clienttranslate('(${n} from action board + ${m} bonus from company board = ${p})'),
+          'args' => [
+            'i18n' => ['n', 'p'],
+            'n' => [
+              'log' => $bonus > 0 ? clienttranslate('${n} bonus') : clienttranslate('${n} malus'),
+              'args' => ['n' => $bonus],
+            ],
+            'm' => $companyBonus,
+            'p' => [
+              'log' =>
+                $displayedBonus > 0
+                  ? clienttranslate('${n} bonus')
+                  : ($displayedBonus == 0
+                    ? clienttranslate('no bonus/malus')
+                    : '${n} malus'),
+              'args' => ['n' => $displayedBonus],
             ],
           ],
+        ],
     ];
   }
 
