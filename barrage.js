@@ -83,6 +83,7 @@ define([
         layout: _('Layout'),
         actionBoard: _('Action Boards'),
         map: _('Map'),
+        company: _('Company'),
         other: _('Other'),
       };
 
@@ -300,19 +301,7 @@ define([
           section: 'map',
         },
 
-        confirmMode: { type: 'pref', prefId: 103, section: 'other' },
-        background: {
-          default: 0,
-          name: _('Background'),
-          attribute: 'background',
-          type: 'select',
-          values: {
-            0: _('Dark Barrage texture'),
-            1: _('Light Barrage texture'),
-            2: _('Default BGA'),
-          },
-          section: 'other',
-        },
+
         wheelSummaries: {
           default: 0,
           name: _('Wheel summaries in player panels'),
@@ -324,13 +313,34 @@ define([
             2: _('Only mine'),
             3: _('None'),
           },
-          section: 'other',
+          section: 'company',
+        },
+        orderToken: {
+          default: 1,
+          name: _('Colored order token'),
+          attribute: 'orderToken',
+          type: 'switch',
+          section: 'company',
         },
         altFr: {
           default: 0,
           name: _('Use purple color for France instead of white'),
           attribute: 'altFr',
           type: 'switch',
+          section: 'company',
+        },
+
+        confirmMode: { type: 'pref', prefId: 103, section: 'other' },
+        background: {
+          default: 0,
+          name: _('Background'),
+          attribute: 'background',
+          type: 'select',
+          values: {
+            0: _('Dark Barrage texture'),
+            1: _('Light Barrage texture'),
+            2: _('Default BGA'),
+          },
           section: 'other',
         },
         waterAnimationSpeed: {

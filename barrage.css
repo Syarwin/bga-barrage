@@ -1564,7 +1564,31 @@ body {
       color: white;
       font-weight: bold;
       font-size: 19px;
-      font-family: serif; }
+      font-family: serif;
+      position: relative; }
+      .player_panel_content .company-info .company-no .help-marker {
+        top: -8px;
+        left: -3px;
+        color: black; }
+      [data-orderToken='1'] .player_panel_content .company-info .company-no {
+        background-image: url("img/order.png");
+        background-size: 100% 500%;
+        height: 44px;
+        font-size: 14px; }
+        [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='1'] {
+          background-position-y: 0%; }
+        [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='2'] {
+          background-position-y: 25%; }
+        [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='3'] {
+          background-position-y: 50%; }
+        [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='4'] {
+          background-position-y: 75%; }
+        [data-orderToken='1'] .player_panel_content .company-info .company-no[data-company='5'] {
+          background-position-y: 100%; }
+      [data-orderToken='1'][data-altfr='1'] .player_panel_content .company-info .company-no[data-company='4'] {
+        color: #922297 !important;
+        background-image: url("img/alt-fr/order.png");
+        background-size: 100% 100%; }
     .player_panel_content .company-info .company-logo {
       position: relative;
       width: 37px;

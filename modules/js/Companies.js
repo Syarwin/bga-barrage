@@ -177,8 +177,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return (
         `<div class='company-info'>
         <div class='company-jump-to' id='company-jump-to-${company.id}'></div>
-        <div class='company-no' id='company-position-${company.id}'>${no}</div>
-        <div class='company-logo' data-company='${company.id}' style="border-color:#${company.color}" id='company-logo-${company.id}'"></div>
+        <div class='company-no' data-company='${company.id}' id='company-position-${
+          company.id
+        }' style='color:#${this.getCompanyColor(company.id)}'>${no}</div>
+        <div class='company-logo' data-company='${company.id}' style="border-color:#${
+          company.color
+        }" id='company-logo-${company.id}'"></div>
         <div class='officer-logo' data-officer='${company.officer.id}' id='officer-${company.officer.id}'></div>
         <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
         <div class='company-obj-tile' id='company-obj-tile-${company.id}'></div>
@@ -565,23 +569,29 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // Compute number of companies and no offset to let player be on top
       let no = 0;
       let n = 0;
+      let names = [];
       this.forEachCompany((company) => {
         n++;
         if (company.pId == this.player_id) {
           no = company.no;
         }
+        names[company.no - 1] = company.no + ' : ' + _(company.name);
       });
+
+      let desc = _('Current turn order :') + '<br />' + names.join('<br />');
 
       this.forEachCompany((company) => {
         // TODO : handle automa
         $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
         $(`company-board-${company.id}`).style.order = 2 + ((company.no - no + n) % n);
+        this.addCustomTooltip(`company-position-${company.id}`, desc);
       });
     },
 
     notif_updateTurnOrder(n) {
       debug('Notif: updating turn order', n);
       let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
+
       n.args.order.forEach((cId, i) => {
         let no = i + 1;
         this.gamedatas.companies[cId].no = no;

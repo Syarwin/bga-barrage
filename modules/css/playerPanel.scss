@@ -107,6 +107,30 @@
       font-weight: bold;
       font-size: 19px;
       font-family: serif;
+      position: relative;
+      .help-marker {
+        top: -8px;
+        left: -3px;
+        color: black;
+      }
+
+      [data-orderToken='1'] & {
+        background-image: url('img/order.png');
+        background-size: 100% 500%;
+        height: 44px;
+        font-size: 14px;
+
+        @for $i from 1 through 5 {
+          &[data-company='#{$i}'] {
+            background-position-y: ($i - 1) * 100% / 4;
+          }
+        }
+      }
+      [data-orderToken='1'][data-altfr='1'] &[data-company='4'] {
+        color: #8a0391 !important;
+        background-image: url('img/alt-fr/order.png');
+        background-size: 100% 100%;
+      }
     }
 
     .company-logo {
