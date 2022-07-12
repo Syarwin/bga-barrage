@@ -3584,17 +3584,17 @@ body {
     height: 59px;
     position: absolute;
     border-radius: 8px;
-    border: 1px solid white; }
+    border: 1px solid white;
+    display: flex;
+    flex-flow: column;
+    align-items: center; }
     #brg-map-resizable #brg-map .dam-slot.paying {
       border: 1px solid red; }
     [data-map='1'] #brg-map-resizable #brg-map .dam-slot {
       background-image: url("img/icons/base.png");
       background-size: auto 50%;
       background-position: center center;
-      background-repeat: no-repeat;
-      display: flex;
-      flex-flow: column;
-      align-items: center; }
+      background-repeat: no-repeat; }
       [data-map='1'] #brg-map-resizable #brg-map .dam-slot.paying {
         background-image: url("img/icons/base_paying.png"); }
     #brg-map-resizable #brg-map .dam-slot .meeple-base {

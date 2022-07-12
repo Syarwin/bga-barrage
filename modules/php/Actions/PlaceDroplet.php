@@ -48,7 +48,7 @@ class PlaceDroplet extends \BRG\Models\Action
     $toFlow = $ctxArgs['flows'] ?? false;
     return [
       'i18n' => ['speed'],
-      'speed' => $toFlow? clienttranslate('immediate flow') : clienttranslate('later flow'),
+      'speed' => $toFlow? clienttranslate('immediate flow') : clienttranslate('delayed flow'),
       'headstreams' => Map::getHeadstreams(),
       'flow' => $toFlow,
       'n' => $ctxArgs['n'] ?? 0
