@@ -137,7 +137,7 @@ class Produce extends \BRG\Models\Action
     ]);
 
     // Germany power
-    if (true) { //$company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+    if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
       Engine::insertAsChild([
         'action' => \PRODUCE,
         'optional' => true,
