@@ -289,7 +289,7 @@ class barrage extends Table
       }
       // Clear all node of player
       elseif (Engine::getNextUnresolved() != null) {
-        Engine::clearZombieNodes($activePlayer);
+        Engine::clearZombieNodes($cId);
         Engine::proceed();
       } else {
         $this->gamestate->nextState('zombiePass');
