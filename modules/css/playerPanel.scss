@@ -114,6 +114,9 @@
         color: black;
       }
 
+      [data-orderToken='0'] & {
+        color: white !important;
+      }
       [data-orderToken='1'] & {
         background-image: url('img/order.png');
         background-size: 100% 500%;

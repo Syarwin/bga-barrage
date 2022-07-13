@@ -157,7 +157,7 @@ define([
         },
 
         ownCompanyBoardLocation: {
-          default: 0,
+          default: 2,
           name: _('My Company Board'),
           type: 'select',
           values: {
@@ -375,6 +375,7 @@ define([
     setup(gamedatas) {
       debug('SETUP', gamedatas);
       this.setupInfoPanel();
+      this.setupTour();
       dojo.destroy('debug_output');
 
       this.setupEnergyTrack();
@@ -904,6 +905,8 @@ define([
     </div>
 
     <div class="player_config_row">
+      <div id="tesla-help"></div>
+
       <div id="help-mode-switch">
         <input type="checkbox" class="checkbox" id="help-mode-chk" />
         <label class="label" for="help-mode-chk">
@@ -1781,6 +1784,283 @@ define([
 
         // return tile.id;
       });
+    },
+
+    ////////////////////////////
+    //  _____
+    // |_   _|__  _   _ _ __
+    //   | |/ _ \| | | | '__|
+    //   | | (_) | |_| | |
+    //   |_|\___/ \__,_|_|
+    //
+    ////////////////////////////
+    onLoadingComplete() {
+      if (localStorage.getItem('barrageTour') != 1) {
+        if (!this.isReadOnly()) this.showTour();
+      } else {
+        dojo.style('tour-slide-footer', 'display', 'none');
+        $('neverShowMe').checked = true;
+      }
+
+      this.inherited(arguments);
+    },
+
+    setupTour() {
+      this._tourModal = new customgame.modal('showTour', {
+        class: 'barrageTour_popin',
+        closeIcon: 'fa-times',
+        openAnimation: true,
+        openAnimationTarget: 'tesla-help',
+        title: _('Barrage Tour'),
+        contents: this.tplTourContent(),
+        closeAction: 'hide',
+        verticalAlign: 'flex-start',
+      });
+
+      dojo.connect($('tesla-help'), 'onclick', () => this.showTour());
+      this.addTooltip('tesla-help', '', _('Show help tour.'));
+
+      dojo.query('#tour-slider-container .tour-link').forEach((elt) => {
+        let href = elt.getAttribute('href');
+        dojo.connect(elt, 'click', () => this.setTourSlide(href));
+      });
+
+      dojo.connect($('neverShowMe'), 'change', function () {
+        localStorage.setItem('barrageTour', this.checked ? 1 : 0);
+      });
+    },
+
+    showTour() {
+      this._tourModal.show();
+      this.setTourSlide('intro');
+    },
+
+    setTourSlide(link) {
+      dojo.query('#tour-slider-container .slide').addClass('inactive');
+      dojo.removeClass('tour-slide-' + link, 'inactive');
+    },
+
+    tplTourContent() {
+      let nextBtn = (link, text = null) =>
+        `<div class='tour-btn'><button href="${link}" class="action-button bgabutton bgabutton_blue tour-link">${
+          text == null ? _('Next') : text
+        }</button></div>`;
+
+      let introBubble = _(
+        "Welcome to Barrage on BGA. I'm here to give you a tour of the interface, to make sure you'll enjoy your games to the fullest.",
+      );
+      let introSectionUI = _('Global interface overview');
+      let introSectionScoring = _('Scoring');
+      let introSectionCards = _('Cards FAQ');
+      let introSectionBugs = _('Report a bug');
+
+      let panelInfoBubble = _("Let's start with this panel next to your name: a very handy toolbox.");
+      let panelInfoItems = [
+        _('round counter: useful to know how much turn left before the end of the game'),
+        _('my face: open this tour if you need it later'),
+        _(
+          "the switch will allow to toggle the safe/help mode: when this mode is enabled, clicking won't trigger any action and instead will open tooltips on any element with a question mark on it, making it sure you won't misclick",
+        ),
+        _(
+          "settings: this implementation comes with a lot of ways to customize your experience to your needs. Take some time to play with them until you're comfortable",
+        ),
+      ];
+
+      let settingsBubble = _(
+        'Here are various layouts that you can achieve using these settings. The settings are linked to your device so that you can customize as you like no matter where you play from.',
+      );
+
+      let playerPanelBubble = _('These player panels contain a lot of useful information!');
+      let playerPanelItems = [
+        _(
+          'Next to the your name: click on that icon to focus on the corresponding company board. Your current score and energy produced are also displayed under your name.',
+        ),
+        _(
+          'First line: turn order, nation, executive officer, victory points you will get for the upcoming end of round bonus tile, number of "thing" taken into accout for the objective tile. Each one of these has a tooltip with complementary informations.',
+        ),
+        _('Second line: show how many resources you have in your reserve.'),
+        _('Third line: show how many structure are on your company board.'),
+        _(
+          'Fourth line is split in two: your current company income is displayed on the left, and the number of fulfilled contracts is displayed on the right. You can click here to take a look at your fulfilled contracts.',
+        ),
+        _('Fifth line: contracts in your hand.'),
+        _(
+          'Last line: technology tiles in your hand, and a summary of your wheel (can be enabled/disabled in the settings).',
+        ),
+      ];
+      let playerPanelRemark = _(
+        'You can actually click anywhere on the player panel to make the interface focus on the corresponding company board, not just on the icon.',
+      );
+
+      let companyBoardBubble = _(
+        'Depending on your settings, company boards locations on your screen may vary, but they will always look like that and contains several crucial informations such as the possible incomes.',
+      );
+      let companyBoardItems = [
+        _(
+          'On the bottom left, you have another reminder of your executive officer and his power, as well as your current resources in reserve.',
+        ),
+        _('On the top, you have your private engineer action space for the Construct action.'),
+        _(
+          'In the center part, you have several important informations: the unbuild structures, the cost to construct them, and the income you will get once they are built.',
+        ),
+        _('On the right, your construction wheel that will rotate in clockwise direction.'),
+      ];
+      let companyBoardRemark = _(
+        "Don't forget that your nation's power will only take effect once you built your third powerhouse!",
+      );
+
+      let reorganizeBubble = _(
+        'Whenever you obtain animals, you must immediately accomodate them in your farm, otherwise they will be discarded (or cooked if you have the proper improvement.)',
+      );
+      let reorganizeItems = [
+        _(
+          'Most of the time, the game will automatically accommodate your animals in the best spot ever. However, you may also arrange them manually by either changing the "automatic" setting or by clicking this button:',
+        ),
+        _(
+          'Click on the small arrows that pop up in your pastures, stables, and rooms to choose how your animals should be arranged.',
+        ),
+        _(
+          'These controls will clear all, decrease, increase, or maximize a specific animal type in each of your pastures/stables/rooms.',
+        ),
+      ];
+
+      let endOfTourBubble = _('You should now know everything you need to enjoy this beautiful game on BGA! Have fun playing and please click on me if you need my tour again.')
+
+      let bugBubble = _('No code is error-free. Before reporting a bug, please follow the following steps.');
+      let bugItems = [
+        _(
+          'If the issue is related to a nation/officer, please indicate it clearly in the title',
+        ),
+        _(
+          'If your language is not English, please check the English description of the power of the nation/officer/advanced technology tile. If there is an incorrect translation to your language, please do not report a bug and use the translation module (Community > Translation) to fix it directly.',
+        ),
+        _(
+          'When you encounter a bug, please refresh your page to see if the bug goes away. Knowing whether or not a bug is persisting through refresh or not will help us find and fix it, so please include that in the bug report!',
+        ),
+      ];
+      let bugReport = _('Report a new bug');
+
+      let neverShowMe = _('Never show me this tour again');
+
+      var bugUrl = this.metasiteurl + '/bug?id=0&table=' + this.table_id;
+      let addBubble = (text) =>
+        `<div class="bubble"><div class='bubble-inner'><div class='bubble-content'>${text}</div></div></div>`;
+
+      return `
+      <div id="tour-slider-container">
+        <div id="tour-slide-intro" class="slide">
+            ${addBubble(introBubble)}
+            <button href="panelInfo" class="action-button bgabutton bgabutton_blue tour-link">${introSectionUI}</button>
+            <button href="bugs" class="action-button bgabutton bgabutton_red tour-link">${introSectionBugs}</button>
+          </ul>
+        </div>
+
+        <div id="tour-slide-panelInfo" class="slide">
+          ${addBubble(panelInfoBubble)}
+          <div class="split-hor">
+            <div>
+              <div id="img-panelInfo" class="tour-img"></div>
+            </div>
+            <div>
+              <ul>
+                <li>${panelInfoItems[0]}</li>
+                <li>${panelInfoItems[1]}</li>
+                <li>${panelInfoItems[2]}</li>
+                <li>${panelInfoItems[3]}</li>
+              </ul>
+            </div>
+          </div>
+          ${nextBtn('settings')}
+        </div>
+
+        <div id="tour-slide-settings" class="slide">
+          ${addBubble(settingsBubble)}
+          ${nextBtn('playerPanel')}
+          <div class="tour-img" id="img-screenshot-1"></div>
+          <div class="tour-img" id="img-screenshot-2"></div>
+          <div class="split-hor">
+            <div>
+              <div class="tour-img" id="img-screenshot-3"></div>
+            </div>
+            <div>
+              <div class="tour-img" id="img-screenshot-4"></div>
+            </div>
+          </div>
+        </div>
+
+
+        <div id="tour-slide-playerPanel" class="slide">
+          ${addBubble(playerPanelBubble)}
+          <div class="split-hor">
+            <div>
+              <div class="tour-img" id="img-player-panel"></div>
+            </div>
+            <div>
+              <ul>
+                <li>${playerPanelItems[0]}</li>
+                <li>${playerPanelItems[1]}</li>
+                <li>${playerPanelItems[2]}</li>
+                <li>${playerPanelItems[3]}</li>
+                <li>${playerPanelItems[4]}</li>
+                <li>${playerPanelItems[5]}</li>
+                <li>${playerPanelItems[6]}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tour-remark">${playerPanelRemark}</div>
+
+          ${nextBtn('companyBoard')}
+        </div>
+
+
+        <div id="tour-slide-companyBoard" class="slide">
+          ${addBubble(companyBoardBubble)}
+
+          <div class="tour-img" id="img-company-board"></div>
+
+          <ul>
+            <li>${companyBoardItems[0]}</li>
+            <li>${companyBoardItems[1]}</li>
+            <li>${companyBoardItems[2]}</li>
+            <li>${companyBoardItems[3]}</li>
+          </ul>
+
+
+          <div class="tour-remark">
+            ${companyBoardRemark}
+          </div>
+
+          ${nextBtn('endOfTour')}
+        </div>
+
+
+        <div id="tour-slide-endOfTour" class="slide">
+          ${addBubble(endOfTourBubble)}
+
+          ${nextBtn('intro', _('Back'))}
+        </div>
+
+
+        <div id="tour-slide-bugs" class="slide">
+          ${addBubble(bugBubble)}
+
+          <ul>
+            <li>${bugItems[0]}</li>
+            <li>${bugItems[1]}</li>
+            <li>${bugItems[2]}</li>
+          </ul>
+
+          <a href="${bugUrl}" class="action-button bgabutton bgabutton_red">${bugReport}</a>
+
+          ${nextBtn('intro', _('Back'))}
+        </div>
+
+      </div>
+      <div id="tour-slide-footer">
+        <input type="checkbox" id="neverShowMe" />
+        ${neverShowMe}
+      </div>
+    `;
     },
   });
 });

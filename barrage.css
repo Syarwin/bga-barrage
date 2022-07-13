@@ -864,13 +864,17 @@ body {
   #modal-company-boards-wrapper[data-open='6'] #modal-company-boards-container .company-board#company-board-6 {
     display: block; }
 
-.barrageContracts_popin {
+.barrageContracts_popin,
+.barrageTour_popin {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative;
   min-width: 500px; }
-  .barrageContracts_popin .barrageContracts_popin_closeicon {
+  .barrageContracts_popin .barrageContracts_popin_closeicon,
+  .barrageContracts_popin .barrageTour_popin_closeicon,
+  .barrageTour_popin .barrageContracts_popin_closeicon,
+  .barrageTour_popin .barrageTour_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -884,13 +888,20 @@ body {
     font-size: 90%;
     color: white !important;
     border: 1px solid #dfbda8; }
-    .barrageContracts_popin .barrageContracts_popin_closeicon:hover {
+    .barrageContracts_popin .barrageContracts_popin_closeicon:hover,
+    .barrageContracts_popin .barrageTour_popin_closeicon:hover,
+    .barrageTour_popin .barrageContracts_popin_closeicon:hover,
+    .barrageTour_popin .barrageTour_popin_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
-    .barrageContracts_popin .barrageContracts_popin_closeicon i {
+    .barrageContracts_popin .barrageContracts_popin_closeicon i,
+    .barrageContracts_popin .barrageTour_popin_closeicon i,
+    .barrageTour_popin .barrageContracts_popin_closeicon i,
+    .barrageTour_popin .barrageTour_popin_closeicon i {
       margin-top: -2px; }
-  .barrageContracts_popin h2 {
+  .barrageContracts_popin h2,
+  .barrageTour_popin h2 {
     font-family: 'Oranienbaum';
     text-align: center;
     font-size: 23px;
@@ -899,10 +910,138 @@ body {
     border-radius: 8px 8px 0px 0px;
     padding: 7px 0px;
     border-bottom: 1px solid #734f2a; }
-  .barrageContracts_popin .reserve {
+  .barrageContracts_popin .reserve,
+  .barrageTour_popin .reserve {
     padding: 8px;
     display: flex;
     flex-wrap: wrap; }
+
+#popin_showTour {
+  width: auto; }
+  #popin_showTour #tour-slider-container {
+    margin-bottom: 15px; }
+    #popin_showTour #tour-slider-container .slide {
+      width: 500px;
+      padding: 10px 15px;
+      box-sizing: border-box; }
+      #popin_showTour #tour-slider-container .slide .bubble {
+        position: relative;
+        margin: 5px 20px 30px 0px;
+        background: white;
+        border: 3px solid #b6479a;
+        border-radius: 13px;
+        padding: 2px; }
+        #popin_showTour #tour-slider-container .slide .bubble .bubble-inner {
+          border: 1px solid #b6479a;
+          border-radius: 10px;
+          padding: 2px; }
+          #popin_showTour #tour-slider-container .slide .bubble .bubble-inner .bubble-content {
+            border: 1px solid #b6479a;
+            border-radius: 10px;
+            padding: 4px 8px; }
+        #popin_showTour #tour-slider-container .slide .bubble::before {
+          content: '';
+          position: absolute;
+          width: 50px;
+          height: 54px;
+          bottom: -29px;
+          right: -25px;
+          background-image: url("img/help/tesla.png");
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center center; }
+      #popin_showTour #tour-slider-container .slide.inactive {
+        display: none; }
+      #popin_showTour #tour-slider-container .slide div.split-hor {
+        display: flex; }
+        #popin_showTour #tour-slider-container .slide div.split-hor.centered {
+          align-items: center; }
+      #popin_showTour #tour-slider-container .slide ul {
+        padding-left: 25px; }
+        #popin_showTour #tour-slider-container .slide ul li {
+          list-style-type: disc;
+          margin-bottom: 4px; }
+      #popin_showTour #tour-slider-container .slide .tour-btn {
+        text-align: right; }
+        #popin_showTour #tour-slider-container .slide .tour-btn button {
+          width: auto;
+          margin-bottom: 0px; }
+      #popin_showTour #tour-slider-container .slide .tour-remark {
+        font-style: italic;
+        background: rgba(255, 255, 255, 0.4);
+        padding: 4px 7px;
+        border-radius: 5px;
+        border: 1px solid gray;
+        font-size: 15px; }
+      #popin_showTour #tour-slider-container .slide .tour-img {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 5px 10px; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-panelInfo {
+          width: 241px;
+          height: 104px;
+          background-image: url("img/help/panel-info.png"); }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-screenshot-1 {
+          width: 600px;
+          height: 271px;
+          background-image: url("img/help/screenshot-1.jpg");
+          border: 1px solid black;
+          border-radius: 8px;
+          margin: 10px auto 10px; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-screenshot-2 {
+          width: 600px;
+          height: 271px;
+          background-image: url("img/help/screenshot-2.jpg");
+          border: 1px solid black;
+          border-radius: 8px;
+          margin: 5px auto; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-screenshot-3 {
+          width: 500px;
+          height: 247px;
+          background-image: url("img/help/screenshot-3.jpg");
+          border: 1px solid black;
+          border-radius: 8px; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-screenshot-4 {
+          width: 185px;
+          height: 247px;
+          background-image: url("img/help/screenshot-4.jpg");
+          border: 1px solid black;
+          border-radius: 8px; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-player-panel {
+          width: 300px;
+          height: 350px;
+          background-image: url("img/help/player-panel.png");
+          margin: 0px auto 10px; }
+        #popin_showTour #tour-slider-container .slide .tour-img#img-company-board {
+          width: 600px;
+          height: 262px;
+          background-image: url("img/help/company-board.jpg");
+          border: 1px solid black;
+          border-radius: 8px;
+          margin: 5px auto 15px; }
+      #popin_showTour #tour-slider-container .slide#tour-slide-intro button {
+        width: auto;
+        display: block; }
+      #popin_showTour #tour-slider-container .slide#tour-slide-panelInfo {
+        width: 700px; }
+      #popin_showTour #tour-slider-container .slide#tour-slide-settings {
+        width: 760px; }
+        #popin_showTour #tour-slider-container .slide#tour-slide-settings .tour-btn {
+          text-align: center;
+          margin-top: -30px; }
+      #popin_showTour #tour-slider-container .slide#tour-slide-playerPanel {
+        width: 700px; }
+      #popin_showTour #tour-slider-container .slide#tour-slide-companyBoard {
+        width: 700px; }
+  #popin_showTour #tour-slide-footer {
+    min-height: 30px;
+    background-color: #e6e6e6d1;
+    border-top: 1px solid #6a4b2f;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    text-align: right;
+    padding: 7px 15px 0px; }
 
 #game_play_area {
   font-size: 30px; }
@@ -1570,6 +1709,8 @@ body {
         top: -8px;
         left: -3px;
         color: black; }
+      [data-orderToken='0'] .player_panel_content .company-info .company-no {
+        color: white !important; }
       [data-orderToken='1'] .player_panel_content .company-info .company-no {
         background-image: url("img/order.png");
         background-size: 100% 500%;
@@ -2747,6 +2888,14 @@ body {
   font-family: 'Oranienbaum';
   color: black;
   display: block; }
+#player_config #tesla-help {
+  width: 40px;
+  height: 40px;
+  background: url("img/help/tesla.png");
+  background-size: 100%;
+  cursor: pointer; }
+  #player_config #tesla-help:hover {
+    transform: scale(1.1); }
 #player_config #help-mode-switch .checkbox {
   display: none; }
 #player_config #help-mode-switch .label {
