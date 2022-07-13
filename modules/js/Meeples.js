@@ -541,7 +541,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         energy: _(
           'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts',
         ),
-        any_machine: _('Gain ${n} Machineryies of your choice.'),
+        any_machine: _('Gain ${n} Machinery(ies) of your choice.'),
         conduit: _(
           "Build a Conduit with a production value of ${n} (or less). You don't need to place Engineers, to insert the Technology tile or the Machineries.",
         ),
