@@ -206,7 +206,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         config.delay = 0;
         // Use meepleContainer if target not specified
         let target = config.target ? config.target : this.getMeepleContainer(resource);
-        if (!isVisible(target)) {
+        if (!this.isFastMode() && !isVisible(target)) {
           let cId = resource.cId;
           config.to = $(`show-company-board-${cId}`);
           if (!isVisible(config.to)) {
@@ -224,7 +224,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           }
 
           // Slide it
-          if (!config.from && !isVisible($('meeple-' + resource.id))) {
+          if (!this.isFastMode() && !config.from && !isVisible($('meeple-' + resource.id))) {
             config.from = `resource_${resource.cId}_${resource.type}`;
           }
           return this.slide('meeple-' + resource.id, target, config);
@@ -317,7 +317,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let tile = n.args.tile;
         let config = {};
         let target = this.getTechTileContainer(tile);
-        if (!isVisible(target)) {
+        if (!this.isFastMode() && !isVisible(target)) {
           let cId = tile.cId;
           config.to = $(`show-company-board-${cId}`);
           if (!isVisible(config.to)) {
@@ -349,15 +349,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: collecting resoures', n);
       let config = {};
       let cId = n.args.company_id;
-      if (!isVisible($(`wheel-${cId}`))) {
+      if (!this.isFastMode() && !isVisible($(`wheel-${cId}`))) {
         config.from = $(`show-company-board-${cId}`);
         if (!isVisible(config.from)) {
           config.from = $(`company-jump-to-${cId}`);
         }
       }
-      this.slideResources(n.args.resources, config).then(() =>
-        this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]),
-      );
+      let updateWheelSummary = () => {
+        this.updateWheelSummary(this.gamedatas.companies[n.args.company_id]);
+      };
+      if (this.isFastMode()) {
+        this.slideResources(n.args.resources, config);
+        updateWheelSummary();
+      } else {
+        this.slideResources(n.args.resources, config).then(updateWheelSummary);
+      }
+
       if (n.args.tile) {
         this.slide(`tech-tile-${n.args.tile.id}`, this.getTechTileContainer(n.args.tile), config);
       }

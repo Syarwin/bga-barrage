@@ -1617,8 +1617,8 @@ define([
       n.args.contracts.forEach((contract) => {
         let type = contract.type;
         this.addContract(contract, `contract-counter-${type}`);
-        this._contractStackCounters[type].incValue(-1);
         this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+        this._contractStackCounters[type].incValue(-1);
       });
     },
 
@@ -1639,7 +1639,7 @@ define([
       this.updateCompanyBonuses();
 
       if (this.isFastMode()) {
-        dojo.place(`contract-${id}`, this.getContractContainer(contract));
+        dojo.place(`contract-${contract.id}`, this.getContractContainer(contract));
         return;
       }
 

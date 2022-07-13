@@ -680,6 +680,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: reset energies to 0', n);
       this.forEachCompany((company) => {
         this._energyCounters[company.id].toValue(0);
+        this.gamedatas.companies[company.id].energy = 0;
       });
       n.args.tokens.forEach((token) => {
         $(`meeple-${token.id}`).dataset.flip = 0;
@@ -781,6 +782,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.onChangeAltFrSetting(this.settings.altFr);
       this.setupCompanyCounters(company);
       this.updateCompaniesCounters();
+      this.attachRegisteredTooltips();
 
       let container = document.querySelector(`.action-board[data-id='company-${cId}'] .action-board-inner`);
       n.args.actionSpaces.forEach((row) => {

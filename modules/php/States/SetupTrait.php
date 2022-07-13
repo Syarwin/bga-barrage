@@ -88,7 +88,7 @@ trait SetupTrait
         die('TODO: free setup mode');
         return;
       } else {
-        $n = Players::count();
+        $n = Companies::count();
 
         // 13] Draw random setup and go to draft
         $companies = Companies::randomStartingPick($n);
@@ -103,7 +103,7 @@ trait SetupTrait
           ];
         }
 
-        $isMahiri = in_array(XO_MAHIRI, array_slice($officers, 0, count($n)));
+        $isMahiri = in_array(XO_MAHIRI, array_slice($officers, 0, $n));
         Globals::setMahiriAddXO($isMahiri ? array_diff($officers, [\XO_MAHIRI]) : []);
 
         Globals::setStartingMatchups($matchups);
