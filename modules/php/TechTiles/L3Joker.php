@@ -29,8 +29,7 @@ class L3Joker extends AdvancedTile
     $bonus = $company->countAdvancedTiles() * 3;
 
     if ($bonus > 0) {
-      $company->incScore($bonus);
-      Notifications::score($company, $bonus, clienttranslate('(Level 3 Joker advanced tile reward)'));
+      $company->incScore($bonus, clienttranslate('(Level 3 Joker advanced tile reward)'));
     }
     return null;
   }

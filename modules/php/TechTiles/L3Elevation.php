@@ -45,8 +45,7 @@ class L3Elevation extends AdvancedTile
     });
 
     if (count($byBasin) > 0) {
-      $company->incScore(3 * count($byBasin));
-      Notifications::score($company, 3 * count($byBasin), clienttranslate('(Level 3 Elevation advanced tile reward)'));
+      $company->incScore(3 * count($byBasin), clienttranslate('(Level 3 Elevation advanced tile reward)'));
     }
     return null;
   }

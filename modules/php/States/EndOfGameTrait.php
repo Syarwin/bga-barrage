@@ -8,7 +8,6 @@ use BRG\Core\Stats;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
-use BRG\Managers\Scores;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
 
@@ -36,14 +35,13 @@ trait EndOfGameTrait
       // No tie
       if (count($bonus['cIds']) == 1) {
         $company = $companies[$bonus['cIds'][0]];
-        $company->incScore($vp);
         $sources = [
           1 => clienttranslate('(objective tile first place)'),
           2 => clienttranslate('(objective tile second place)'),
           3 => clienttranslate('(objective tile third place)'),
         ];
         $pos = $bonus['pos'][0];
-        Notifications::score($company, $vp, $sources[$pos]);
+        $company->incScore($vp, $sources[$pos]);
       }
       // Tie
       else {
@@ -56,8 +54,7 @@ trait EndOfGameTrait
 
         foreach ($bonus['cIds'] as $cId) {
           $company = $companies[$cId];
-          $company->incScore($vp);
-          Notifications::score($company, $vp, $sources[$pos]);
+          $company->incScore($vp, $sources[$pos]);
         }
       }
     }
@@ -73,8 +70,7 @@ trait EndOfGameTrait
       $count = $company->countReserveResource([CREDIT, EXCAVATOR, MIXER, EXCAMIXER]);
       $vp = intdiv($count, 5);
       if ($vp > 0) {
-        $company->incScore($vp);
-        Notifications::score($company, $vp, clienttranslate('(bundle(s) of 5 resources left)'));
+        $company->incScore($vp, clienttranslate('(bundle(s) of 5 resources left)'));
       }
     }
 
@@ -93,8 +89,7 @@ trait EndOfGameTrait
       }
 
       if ($vp > 0) {
-        $company->incScore($vp);
-        Notifications::score($company, $vp, clienttranslate('(droplet(s) retained by dams)'));
+        $company->incScore($vp, clienttranslate('(droplet(s) retained by dams)'));
       }
     }
 

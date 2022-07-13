@@ -1125,16 +1125,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         targetValue: 0,
         currentValue: 0,
         speed: 100,
-        getValue: function () {
+        getValue() {
           return this.targetValue;
         },
-        setValue: function (n) {
+        setValue(n) {
           this.currentValue = +n;
           this.targetValue = +n;
           this.span.innerHTML = +n;
           if (this.linked) this.linked.innerHTML = +n;
         },
-        toValue: function (n) {
+        toValue(n) {
           if (game.isFastMode()) {
             this.setValue(n);
             return;
@@ -1146,15 +1146,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             setTimeout(() => this.makeCounterProgress(), this.speed);
           }
         },
-        goTo: function (n, anim) {
+        goTo(n, anim) {
           if (anim) this.toValue(n);
           else this.setValue(n);
         },
-        incValue: function (n) {
+        incValue(n) {
           let m = +n;
+          debug(this.targetValue, n, this.targetValue + m);
           this.toValue(this.targetValue + m);
         },
-        makeCounterProgress: function () {
+        makeCounterProgress() {
           if (this.currentValue == this.targetValue) {
             setTimeout(() => this.span.classList.remove('counter_in_progress'), this.speed);
             return;

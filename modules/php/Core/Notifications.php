@@ -372,7 +372,7 @@ class Notifications
     );
   }
 
-  public function score($company, $amount, $source = null, $silent = false)
+  public function score($company, $amount, $total, $source = null, $silent = false)
   {
     if ($source != null) {
       $msg = clienttranslate('${company_name} scores ${amount} VP(s) ${source}');
@@ -386,6 +386,7 @@ class Notifications
       'company' => $company,
       'amount' => $amount,
       'source' => $source,
+      'total' => $total,
     ]);
   }
 

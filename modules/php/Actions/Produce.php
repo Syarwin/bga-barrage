@@ -126,8 +126,7 @@ class Produce extends \BRG\Models\Action
         ],
       ]);
       // gain x VP
-      $opponent->incScore($nDroplets);
-      Notifications::score($opponent, $nDroplets, clienttranslate('for use of conduit'));
+      $opponent->incScore($nDroplets, clienttranslate('for use of conduit'));
     }
 
     // Contract fullfilment?
@@ -138,7 +137,7 @@ class Produce extends \BRG\Models\Action
     ]);
 
     // Germany power
-    if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+    if (true) { //$company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
       Engine::insertAsChild([
         'action' => \PRODUCE,
         'optional' => true,

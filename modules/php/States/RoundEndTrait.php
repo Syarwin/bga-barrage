@@ -8,7 +8,6 @@ use BRG\Core\Stats;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
-use BRG\Managers\Scores;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
@@ -53,15 +52,13 @@ trait RoundEndTrait
       if (count($firstCompanies) > 1) {
         $vp = ceil(8 / count($firstCompanies));
         foreach ($firstCompanies as $company) {
-          $company->incScore($vp);
-          Notifications::score($company, $vp, clienttranslate('(tied 1st place)'));
+          $company->incScore($vp, clienttranslate('(tied 1st place)'));
         }
       }
       // Otherwise, 6 VP for first player
       else {
         $company = $firstCompanies[0];
-        $company->incScore(6);
-        Notifications::score($company, 6, clienttranslate('(1st place on energy track)'));
+        $company->incScore(6, clienttranslate('(1st place on energy track)'));
 
         // Give reward for 2nd place
         $secondEnergy = $energies[1];
@@ -70,9 +67,7 @@ trait RoundEndTrait
           $secondTied = count($secondCompanies) > 1;
           foreach ($secondCompanies as $company) {
             $vp = $secondTied ? 1 : 2;
-            $company->incScore($vp);
-            Notifications::score(
-              $company,
+            $company->incScore(
               $vp,
               $secondTied ? clienttranslate('(tied 2nd place)') : clienttranslate('(2nd place on energy track)')
             );
@@ -107,8 +102,7 @@ trait RoundEndTrait
         Gain::gainResources($company, [CREDIT => $bonus], $tokenId, clienttranslate('energy track award'));
         // Lose 3VP if 0 energy produced
         if ($energy == 0) {
-          $company->incScore(-3);
-          Notifications::score($company, -3, clienttranslate('(no energy produced this round)'));
+          $company->incScore(-3, clienttranslate('(no energy produced this round)'));
         }
       }
     }
@@ -132,8 +126,7 @@ trait RoundEndTrait
             ['company' => $company]
           );
         } elseif ($vp > 0) {
-          $company->incScore($vp);
-          Notifications::score($company, $vp, clienttranslate('(bonus tile reward)'));
+          $company->incScore($vp, clienttranslate('(bonus tile reward)'));
         }
       }
     }

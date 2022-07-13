@@ -29,8 +29,7 @@ class L3Powerhouse extends AdvancedTile
     $bonus = $company->countBuiltStructures(POWERHOUSE) * 3;
 
     if ($bonus > 0) {
-      $company->incScore($bonus);
-      Notifications::score($company, $bonus, clienttranslate('(Level 3 Powerhouse advanced tile reward)'));
+      $company->incScore($bonus, clienttranslate('(Level 3 Powerhouse advanced tile reward)'));
     }
     return null;
   }

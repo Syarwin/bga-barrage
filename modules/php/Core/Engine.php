@@ -3,7 +3,6 @@ namespace BRG\Core;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Actions;
-use BRG\Managers\Scores;
 use BRG\Helpers\Log;
 use BRG\Helpers\QueryBuilder;
 
@@ -228,7 +227,6 @@ class Engine
       }
     }
     self::save();
-    Scores::update();
   }
 
   /**

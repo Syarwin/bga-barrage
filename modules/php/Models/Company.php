@@ -168,12 +168,13 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::payResourceTo($this->id, $resource, $amount, $pId);
   }
 
-  public function incScore($n)
+  public function incScore($n, $source = null, $silent = false)
   {
     parent::incScore($n);
     if (!$this->isAI()) {
       Players::get($this->pId)->incScore($n);
     }
+    Notifications::score($this, $n, $this->getScore(), $source, $silent);
   }
 
   public function incEnergy($n, $notif = true)

@@ -51,11 +51,10 @@ class Gain extends \BRG\Models\Action
         continue;
       }
       if ($resource == VP) {
-        $company->incScore($amount);
         for ($i = 0; $i < $amount; $i++) {
           $meeples[] = ['type' => $resource, 'ignore' => true];
         }
-        Notifications::score($company, $amount, null, true);
+        $company->incScore($amount, null, true);
       } elseif ($resource == ENERGY) {
         $company->incEnergy($amount, true);
         for ($i = 0; $i < $amount; $i++) {
