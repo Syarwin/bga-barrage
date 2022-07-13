@@ -10,6 +10,12 @@
       flex-wrap: wrap;
     }
   }
+  [data-companyTwoColumns='2'] & {
+    &[data-n='4'] {
+      flex-flow: row;
+      flex-wrap: wrap;
+    }
+  }
 
   .company-board {
     order: 2;

@@ -2093,6 +2093,9 @@ body {
   [data-companyTwoColumns='1'] #company-boards-container[data-n='3'], [data-companyTwoColumns='1'] #company-boards-container[data-n='4'] {
     flex-flow: row;
     flex-wrap: wrap; }
+  [data-companyTwoColumns='2'] #company-boards-container[data-n='4'] {
+    flex-flow: row;
+    flex-wrap: wrap; }
   #company-boards-container .company-board {
     order: 2; }
     #company-boards-container .company-board.current {

@@ -145,10 +145,15 @@ define([
         },
         companyBoardTwoColumns: {
           default: 0,
-          name: _('Put company boards on two columns (if more than 2)'),
-          type: 'switch',
+          name: _('Company boards layout'),
           section: 'layout',
           attribute: 'companyTwoColumns',
+          type: 'select',
+          values: {
+            0: _('Always in one column'),
+            1: _('Two columns if > 2'),
+            2: _('Two columns only if > 3'),
+          },
         },
 
         ownCompanyBoardLocation: {
@@ -300,7 +305,6 @@ define([
           type: 'switch',
           section: 'map',
         },
-
 
         wheelSummaries: {
           default: 0,
@@ -989,7 +993,11 @@ define([
           WIDTH -= 15;
         }
 
-        if (this.settings.companyBoardTwoColumns == 1 && this.gamedatas.nCompanies > 2) {
+        const TWO_COLUMNS =
+          (this.settings.companyBoardTwoColumns == 1 && this.gamedatas.nCompanies > 2) ||
+          (this.settings.companyBoardTwoColumns == 2 && this.gamedatas.nCompanies > 3);
+
+        if (TWO_COLUMNS) {
           let total = 100 + proportions[2];
           proportions = proportions.map((p) => (p * 100) / total);
         }
@@ -1003,7 +1011,7 @@ define([
         const COMPANY_BOARD_WIDTH = 1150;
         const companyBoardScale = (proportions[2] * WIDTH) / COMPANY_BOARD_WIDTH;
         this.onChangeCompanyBoardScaleSetting(companyBoardScale);
-        if (this.settings.companyBoardTwoColumns == 1 && this.gamedatas.nCompanies > 2) {
+        if (TWO_COLUMNS) {
           $('company-boards-container').style.width = (2 * proportions[2] * WIDTH) / 100 + 'px';
         } else {
           $('company-boards-container').style.width = 'auto';
