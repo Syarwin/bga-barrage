@@ -1856,7 +1856,7 @@ define([
 
       let panelInfoBubble = _("Let's start with this panel next to your name: a very handy toolbox.");
       let panelInfoItems = [
-        _('round counter: useful to know how much turn left before the end of the game'),
+        _('round counter: useful to know how many turns left before the end of the game'),
         _('my face: open this tour if you need it later'),
         _(
           "the switch will allow to toggle the safe/help mode: when this mode is enabled, clicking won't trigger any action and instead will open tooltips on any element with a question mark on it, making it sure you won't misclick",
@@ -1873,13 +1873,13 @@ define([
       let playerPanelBubble = _('These player panels contain a lot of useful information!');
       let playerPanelItems = [
         _(
-          'Next to the your name: click on that icon to focus on the corresponding company board. Your current score and energy produced are also displayed under your name.',
+          'Next to your name: click on that icon to focus on the corresponding company board. Your current score and energy produced are also displayed under your name.',
         ),
         _(
-          'First line: turn order, nation, executive officer, victory points you will get for the upcoming end of round bonus tile, number of "thing" taken into accout for the objective tile. Each one of these has a tooltip with complementary informations.',
+          'First line: turn order, nation, executive officer, victory points you will get for the upcoming end of round bonus tile, number of "things" taken into accout for the objective tile. Each one of these has a tooltip with complementary information.',
         ),
         _('Second line: show how many resources you have in your reserve.'),
-        _('Third line: show how many structure are on your company board.'),
+        _('Third line: show how many structures are on your company board.'),
         _(
           'Fourth line is split in two: your current company income is displayed on the left, and the number of fulfilled contracts is displayed on the right. You can click here to take a look at your fulfilled contracts.',
         ),
@@ -1893,36 +1893,21 @@ define([
       );
 
       let companyBoardBubble = _(
-        'Depending on your settings, company boards locations on your screen may vary, but they will always look like that and contains several crucial informations such as the possible incomes.',
+        'Depending on your settings, company board locations on your screen may vary, but they will always look like that and contains several crucial information such as the possible incomes.',
       );
       let companyBoardItems = [
         _(
           'On the bottom left, you have another reminder of your executive officer and his power, as well as your current resources in reserve.',
         ),
-        _('On the top, you have your private engineer action space for the Construct action.'),
+        _('On the top, you have your private engineer action spaces for the Construct action.'),
         _(
-          'In the center part, you have several important informations: the unbuild structures, the cost to construct them, and the income you will get once they are built.',
+          'In the center part, you have additional important information: the unbuild structures, the cost to construct them, and the income you will get once they are built.',
         ),
         _('On the right, your construction wheel that will rotate in clockwise direction.'),
       ];
       let companyBoardRemark = _(
         "Don't forget that your nation's power will only take effect once you built your third powerhouse!",
       );
-
-      let reorganizeBubble = _(
-        'Whenever you obtain animals, you must immediately accomodate them in your farm, otherwise they will be discarded (or cooked if you have the proper improvement.)',
-      );
-      let reorganizeItems = [
-        _(
-          'Most of the time, the game will automatically accommodate your animals in the best spot ever. However, you may also arrange them manually by either changing the "automatic" setting or by clicking this button:',
-        ),
-        _(
-          'Click on the small arrows that pop up in your pastures, stables, and rooms to choose how your animals should be arranged.',
-        ),
-        _(
-          'These controls will clear all, decrease, increase, or maximize a specific animal type in each of your pastures/stables/rooms.',
-        ),
-      ];
 
       let endOfTourBubble = _('You should now know everything you need to enjoy this beautiful game on BGA! Have fun playing and please click on me if you need my tour again.')
 

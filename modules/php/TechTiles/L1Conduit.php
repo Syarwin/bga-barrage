@@ -22,7 +22,7 @@ class L1Conduit extends AdvancedTile
     return [
       'action' => GAIN,
       'args' => [CREDIT => $slot['production'] * 2],
-      'source' => clienttranslate('Advanced tile\'s effect)'),
+      'source' => clienttranslate('(Advanced tile\'s effect)'),
     ];
   }
 }
