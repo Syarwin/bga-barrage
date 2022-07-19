@@ -3580,6 +3580,16 @@ body {
           color: #979393; }
         #ebd-body[data-round='4'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(4) {
           color: #979393; }
+        #ebd-body[data-round='5'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(1) {
+          color: #979393; }
+        #ebd-body[data-round='5'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(2) {
+          color: #979393; }
+        #ebd-body[data-round='5'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(3) {
+          color: #979393; }
+        #ebd-body[data-round='5'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(4) {
+          color: #979393; }
+        #ebd-body[data-round='5'] #brg-map-resizable #brg-map .headstream .headstream-tile .headstream-tile-droplets span:nth-child(5) {
+          color: #979393; }
     #brg-map-resizable #brg-map .headstream.selectable {
       cursor: pointer; }
     #brg-map-resizable #brg-map .headstream[data-n]::before {

@@ -159,6 +159,10 @@ class PlaceStructure extends \BRG\Models\Action
     $mId = Meeples::getTopOfType($type, $company->getId(), 'company')['id'];
     Meeples::insertOnTop($mId, $spaceId);
     Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
+    // Increase stat
+    $statName = 'inc' . ucfirst($type);
+    Stats::$statName($company, 1);
+
 
     if (
       ($space['cost'] ?? 0) > 0 &&

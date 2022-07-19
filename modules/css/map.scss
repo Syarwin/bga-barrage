@@ -186,7 +186,7 @@
           font-family: 'acumin-pro';
           font-weight: 700;
 
-          @for $i from 1 through 4 {
+          @for $i from 1 through 5 {
             #ebd-body[data-round='#{$i}'] & {
               @for $j from 1 through $i {
                 span:nth-child(#{$j}) {

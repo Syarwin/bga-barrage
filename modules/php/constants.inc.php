@@ -147,8 +147,8 @@ const XO_JILL = 11;
 const XO_MAHIRI = 12;
 const XO_LESLIE = 13;
 const XO_WU = 14;
-const XO_OCTAVIUS = 14;
-const XO_AMIR = 15;
+const XO_OCTAVIUS = 15;
+const XO_AMIR = 16;
 
 /*
  * Introductory Matchup
@@ -254,6 +254,36 @@ const PATENT = 'PATENT';
 const BONUS_VP = 'bonusVP';
 
 const wheelSlots = [0, 1, 2, 3, 4, 5];
-/******************
- ****** STATS ******
- ******************/
+
+ /******************
+  ****** STATS ******
+  ******************/
+const STAT_ROUND_1_OBJ = 200;
+const STAT_ROUND_2_OBJ = 201;
+const STAT_ROUND_3_OBJ = 202;
+const STAT_ROUND_4_OBJ = 203;
+const STAT_ROUND_5_OBJ = 204;
+const STAT_FINAL_OBJ = 205;
+
+const STAT_POSITION = 10;
+const STAT_NATION = 11;
+const STAT_XO = 12;
+const STAT_ENERGY = 13;
+const STAT_BUILT_BASES = 14;
+const STAT_BUILT_ELEVATION = 15;
+const STAT_BUILT_CONDUIT = 16;
+const STAT_BUILT_POWERHOUSE = 17;
+const STAT_FULFILLED_CONTRACTS = 18;
+const STAT_ADVANCED_TILES = 19;
+const STAT_ENERGY_ROUND_1 = 20;
+const STAT_VP_ROUND_1 = 21;
+const STAT_ENERGY_ROUND_2 = 22;
+const STAT_VP_ROUND_2 = 23;
+const STAT_ENERGY_ROUND_3 = 24;
+const STAT_VP_ROUND_3 = 25;
+const STAT_ENERGY_ROUND_4 = 26;
+const STAT_VP_ROUND_4 = 27;
+const STAT_ENERGY_ROUND_5 = 28;
+const STAT_VP_ROUND_5 = 29;
+const STAT_FINAL_OBJ_COUNT = 30;
+const STAT_FINAL_OBJ_VP = 31;

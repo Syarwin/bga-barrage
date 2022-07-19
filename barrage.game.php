@@ -35,6 +35,7 @@ require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 use BRG\Core\Globals;
 use BRG\Core\Engine;
 use BRG\Core\Preferences;
+use BRG\Core\Stats;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Officers;
@@ -67,6 +68,7 @@ class barrage extends Table
 
     Engine::boot();
     Map::init();
+    Stats::checkExistence();
   }
 
   public static function get()

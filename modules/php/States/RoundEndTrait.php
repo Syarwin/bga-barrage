@@ -114,6 +114,7 @@ trait RoundEndTrait
     // | |_) | (_) | | | | |_| \__ \   | | | | |  __/
     // |____/ \___/|_| |_|\__,_|___/   |_| |_|_|\___|
     //////////////////////////////////////////////////////
+    $statName = 'setRound' . Globals::getRound() . 'VP';
     foreach ($cEnergies as $energy => $companies) {
       foreach ($companies as $company) {
         $bonus = $this->computeRoundBonus($company);
@@ -128,6 +129,8 @@ trait RoundEndTrait
         } elseif ($vp > 0) {
           $company->incScore($vp, clienttranslate('(bonus tile reward)'));
         }
+
+        Stats::$statName($company, $vp ?? 0);
       }
     }
 

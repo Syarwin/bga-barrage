@@ -31,6 +31,7 @@ class Patent extends \BRG\Models\Action
 
     TechnologyTiles::DB()->update(['company_id' => $company->getId(), 'tile_location' => 'company'], $tile->getId());
     Notifications::acquirePatent($company, TechnologyTiles::get($tile->getId()));
+    Stats::incAdvTile($company, 1);
     $this->resolveAction([]);
   }
 }

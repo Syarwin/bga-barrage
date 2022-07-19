@@ -68,9 +68,6 @@ class Stats extends \BRG\Helpers\DB_Manager
           if ($stat['id'] == STAT_POSITION) {
             $value = $i + 1;
           }
-          if ($stat['id'] == STAT_FIRST_PLAYER && $i == 0) {
-            $value = 1;
-          }
 
           $values[] = [
             'stats_type' => $stat['id'],
@@ -95,7 +92,7 @@ class Stats extends \BRG\Helpers\DB_Manager
     if (is_null($pId)) {
       $query = $query->whereNull('stats_player_id');
     } else {
-      $query = $query->where('stats_player_id', is_int($pId) ? $pId : $pId->getId());
+      $query = $query->where('stats_player_id', is_int($pId) ? $pId : $pId->getPId());
     }
     return $query;
   }

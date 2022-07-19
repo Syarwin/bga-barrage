@@ -12,6 +12,7 @@ use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Core\Preferences;
+use BRG\Core\Stats;
 use BRG\Actions\Pay;
 use BRG\Actions\Reorganize;
 use BRG\Helpers\Utils;
@@ -177,6 +178,14 @@ class Company extends \BRG\Helpers\DB_Model
     Notifications::score($this, $n, $this->getScore(), $source, $silent);
   }
 
+  public function setScoreAux($n)
+  {
+    if (!$this->isAI()) {
+      Players::get($this->pId)->setScoreAux($n);
+    }
+  }
+
+
   public function incEnergy($n, $notif = true)
   {
     parent::incEnergy($n);
@@ -185,6 +194,9 @@ class Company extends \BRG\Helpers\DB_Model
     if ($notif) {
       Notifications::incEnergy($this, $this->getEnergyToken(), $n, $this->energy);
     }
+    Stats::incEnergy($this->pId, $n);
+    $statName = 'incRound' . (Globals::getRound()) . 'Energy';
+    Stats::$statName($this->pId, $n);
 
     return $scoreToken['id'];
   }

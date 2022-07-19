@@ -28,6 +28,13 @@ trait EndOfGameTrait
     $bonuses = $this->computeObjectiveTileBonuses();
     foreach ($bonuses as $bonus) {
       $vp = $bonus['share'];
+      foreach ($bonus['cIds'] as $cId) {
+        $company = $companies[$cId];
+        Stats::setObjCount($company, $this->computeObjectiveQuantity($company));
+        Stats::setObjVp($company, $vp);
+        $company->setScoreAux($company->getEnergy());
+      }
+
       if ($vp == 0) {
         continue;
       }

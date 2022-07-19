@@ -60,6 +60,8 @@ class Companies extends \BRG\Helpers\DB_Manager
 
     // Change the player color
     $player->setColor(static::$colorMapping[$cId]);
+    Stats::setNation($player->getId(), $cId);
+    Stats::setOfficer($player->getId(), $xId);
     return self::get($cId);
   }
 

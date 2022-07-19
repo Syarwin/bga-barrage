@@ -475,6 +475,10 @@ define([
       if (this[methodName] !== undefined) this[methodName](args.args);
     },
 
+    onEnteringStateGameEnd(args){
+      dojo.style('floating-energy-track-container', 'margin-top', '60px');
+    },
+
     onEnteringStateSpecialEffect(args) {
       if (args.description) {
         this.gamedatas.gamestate.descriptionmyturn = args.description;

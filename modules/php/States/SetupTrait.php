@@ -3,6 +3,7 @@ namespace BRG\States;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Core\Preferences;
+use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 use BRG\Managers\Companies;
 use BRG\Managers\Players;
@@ -23,6 +24,7 @@ trait SetupTrait
     Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
     Map::init();
+    Stats::checkExistence();
 
     if (Globals::getSetup() == \BRG\OPTION_SETUP_SEED) {
       die('TODO : seed mode');
@@ -49,10 +51,15 @@ trait SetupTrait
     }
     $tiles = Utils::rand($bonusTiles, 5);
     Globals::setBonusTiles($tiles);
+    foreach($tiles as $i => $tile){
+      $statName = 'setRound'. ($i + 1) . 'Obj';
+      Stats::$statName($tile);
+    }
 
     // 8] Draw 1 hidden objective tile
     $objTile = Utils::rand(OBJECTIVE_TILES)[0];
     Globals::setObjectiveTile($objTile);
+    Stats::setFinalObj($objTile);
 
     // 9] 10] Draw contracts
     Contracts::setupNewGame();

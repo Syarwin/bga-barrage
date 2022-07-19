@@ -324,8 +324,8 @@ class Map
       }
 
       // Take all the pair to have corresponding systems for that zone
-      foreach ($conduits as $conduit) {
-        foreach ($dams as $dam) {
+      foreach ($dams as $dam) {
+        foreach ($conduits as $conduit) {
           // Filter number of usable droplets for paying conduits
           $maxDroplets = $dam['droplets'];
           if ($conduit['conduitOwnerId'] != $company->getId()) {
@@ -354,6 +354,9 @@ class Map
           // Add it to the list if at least one possible > 0 production
           if (!empty($system['productions']) || $objTileComputation) {
             $systems[] = $system;
+            if ($objTileComputation) {
+              break; // Only count 1 max connecte conduit per base for $objTileComputation
+            }
           }
         }
       }
