@@ -16,6 +16,9 @@ trait EndOfGameTrait
   function stEndScoring()
   {
     $companies = Companies::getAll();
+    foreach ($companies as $company) {
+      $company->setScoreAux($company->getEnergy());
+    }
 
     //////////////////////////////////////////////////////
     //   ___  _     _           _   _
@@ -32,7 +35,6 @@ trait EndOfGameTrait
         $company = $companies[$cId];
         Stats::setObjCount($company, $this->computeObjectiveQuantity($company));
         Stats::setObjVp($company, $vp);
-        $company->setScoreAux($company->getEnergy());
       }
 
       if ($vp == 0) {
