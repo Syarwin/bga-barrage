@@ -102,7 +102,7 @@ class PlaceEngineer extends \BRG\Models\Action
     // Compute construct spaces to add buttons
     $constructSpaces = $spaces
       ->filter(function ($space) {
-        return ($space['flow']['action'] ?? null) == \CONSTRUCT;
+        return $space['construct'] ?? false;
       })
       ->getIds();
 

@@ -18,7 +18,13 @@ class Construct extends \BRG\Models\Action
     return \ST_CONSTRUCT;
   }
 
-  public function getConstructablePairs($company)
+  public function isDoable($company, $ignoreResources = false)
+  {
+    $pairs = $this->getConstructablePairs($company, $ignoreResources);
+    return !empty($pairs);
+  }
+
+  public function getConstructablePairs($company, $ignoreResources = false)
   {
     $args = $this->getCtxArgs();
     // constraints from advanced tiles
@@ -57,10 +63,12 @@ class Construct extends \BRG\Models\Action
           }
         }
         $cost['source'] = clienttranslate('construction');
-        $childs[] = [
-          'action' => PAY,
-          'args' => $cost,
-        ];
+        if (!$ignoreResources) {
+          $childs[] = [
+            'action' => PAY,
+            'args' => $cost,
+          ];
+        }
         // 4] Rotate the wheel
         $childs[] = [
           'action' => ROTATE_WHEEL,

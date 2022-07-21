@@ -42,6 +42,7 @@ class CompanyActionBoard extends AbstractActionBoard
           'uid' => self::$id . '-' . $cId . '-' . $i,
           'cost' => $i == 4 ? 3 : 0,
           'nEngineers' => min(3, $i),
+          'construct' => true,
           'flow' => [
             'action' => CONSTRUCT,
           ],
