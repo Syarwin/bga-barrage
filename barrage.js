@@ -391,7 +391,7 @@ define([
       dojo.place(
         "<div id='anytimeActions' style='display:inline-block;float:right'></div>",
         $('generalactions'),
-        'after',
+        'after'
       );
       // Create the "go to top" button
       dojo.place("<div id='go-to-top'></div>", $('active_player_statusbar'), 'before');
@@ -448,7 +448,7 @@ define([
             this.stopActionTimer();
             this.takeAction('actRestart');
           },
-          'restartAction',
+          'restartAction'
         );
       }
 
@@ -464,7 +464,7 @@ define([
               'btnAlternativeAction' + i,
               msg,
               () => this.takeAction('actAlternativeAction', { id: i }, false),
-              action.resolve === false ? 'anytimeActions' : 'customActions',
+              action.resolve === false ? 'anytimeActions' : 'customActions'
             );
           });
         }
@@ -475,7 +475,7 @@ define([
       if (this[methodName] !== undefined) this[methodName](args.args);
     },
 
-    onEnteringStateGameEnd(args){
+    onEnteringStateGameEnd(args) {
       dojo.style('floating-energy-track-container', 'margin-top', '60px');
     },
 
@@ -545,7 +545,7 @@ define([
             </div>
           </div>
         </div>`,
-        'map-wrapper',
+        'map-wrapper'
       );
       let oMap = $('brg-map');
 
@@ -682,26 +682,26 @@ define([
     onChangeEnergyTrackSetting(val) {
       dojo.place(
         'energy-track-board-container',
-        val == 1 ? 'map-energy-track-container' : 'floating-energy-track-resizable',
+        val == 1 ? 'map-energy-track-container' : 'floating-energy-track-resizable'
       );
       this.updateLayout();
     },
 
     setupEnergyTrack() {
       $('energy-track-btn').addEventListener('click', () =>
-        $('floating-energy-track-container').classList.toggle('open'),
+        $('floating-energy-track-container').classList.toggle('open')
       );
 
       let bonusTooltips = [
         _(
-          'Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.',
+          'Score 2 Victory Points for each Contract you have fulfilled. Count all the Contract tiles (of any type) you have face down in your personal supply.'
         ),
         _('Score 4 Victory Points for each Base you have built.'),
         _('Score 4 Victory Points for each Elevation you have built.'),
         _('Score 4 Victory Points for each Conduit you have built.'),
         _('Score 5 Victory Points for each Powerhouse you have built.'),
         _(
-          'Score 4 Victory Points for each Advanced Technology tile you have acquired. Count all the Advanced Technology tile in your personal supply and in your Construction Wheel. Basic Technology tiles do not count.',
+          'Score 4 Victory Points for each Advanced Technology tile you have acquired. Count all the Advanced Technology tile in your personal supply and in your Construction Wheel. Basic Technology tiles do not count.'
         ),
         _('Score 5 Victory Points for each External Work you have fulfilled.'),
         _('Score 4 Victory Points for each Building you have built.'),
@@ -710,23 +710,23 @@ define([
       let objectiveTooltips = [
         _('Count all the Bases and all the Powherouses you have built in building spaces with a red bordered icons.'),
         _(
-          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the most structure pieces.',
+          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the most structure pieces.'
         ),
         _(
-          'Count all your Bases connected by a Conduit of your color to a Powerhouse of your color. If there are two Bases connected to the same Powerhouse they both count.',
+          'Count all your Bases connected by a Conduit of your color to a Powerhouse of your color. If there are two Bases connected to the same Powerhouse they both count.'
         ),
         _(
-          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the least structure pieces.',
+          'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the least structure pieces.'
         ),
         _(
-          'Count all the basins where you have built at least one structure piece of any type. The maxium is 12 (one structure in all the twelve basins).',
+          'Count all the basins where you have built at least one structure piece of any type. The maxium is 12 (one structure in all the twelve basins).'
         ),
         _(
-          'Count all the basins where you have built at least three structure piece of any type. The maxium is 5 (three structures in five basins).',
+          'Count all the basins where you have built at least three structure piece of any type. The maxium is 5 (three structures in five basins).'
         ),
       ];
       let objectiveTooltipsGeneric = _(
-        "Determine the players' classification according to that condition. The first player scores 15 Victory Points, the second player scores 10 VPs and the third player scores 5VPs. In case of a tie, evenly divide the VPs of the respective tiers among the players who tied (round up if necessary)",
+        "Determine the players' classification according to that condition. The first player scores 15 Victory Points, the second player scores 10 VPs and the third player scores 5VPs. In case of a tie, evenly divide the VPs of the respective tiers among the players who tied (round up if necessary)"
       );
 
       // Place bonus tiles
@@ -737,7 +737,7 @@ define([
           let bonus = dojo.place('<div id="energy-track-first-second-bonus"><div></div><div></div></div>', portion);
           this.addCustomTooltip(
             bonus,
-            _('The first player on the Energy Track scores 6 Victory Points; the second scores 2 Victory Points.'),
+            _('The first player on the Energy Track scores 6 Victory Points; the second scores 2 Victory Points.')
           );
         }
 
@@ -767,12 +767,12 @@ define([
         if (i == 0) {
           let slot = dojo.place(
             `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
-            track,
+            track
           );
         } else {
           let slot = dojo.place(
             `<div id='energy-track-${i}' class='energy-track-slot' data-i='${i}' ${bonus}></div>`,
-            track,
+            track
           );
         }
       }
@@ -1059,7 +1059,7 @@ define([
         this.addSecondaryActionButton(
           'btnChoice' + choice.id,
           desc,
-          disabled ? () => {} : () => this.takeAction('actChooseAction', { id: choice.id }),
+          disabled ? () => {} : () => this.takeAction('actChooseAction', { id: choice.id })
         );
         if (disabled) {
           dojo.addClass('btnChoice' + choice.id, 'disabled');
@@ -1154,13 +1154,13 @@ define([
             log: _('Construct with ${n} engineer(s)'),
             args: { n },
           }),
-          () => this.takeAtomicAction('actPlaceEngineer', [construct, n]),
+          () => this.takeAtomicAction('actPlaceEngineer', [construct, n])
         );
       }
 
       if (args.mahiri !== null) {
         this.addPrimaryActionButton('btnUseMahiri', this.translate(_('Use Mahiri to copy another officer')), () =>
-          this.takeAtomicAction('actPlaceEngineer', [args.mahiri, 1]),
+          this.takeAtomicAction('actPlaceEngineer', [args.mahiri, 1])
         );
       }
 
@@ -1176,7 +1176,7 @@ define([
       $(args.uid).classList.add('selected');
       args.choices.forEach((choice) => {
         this.addPrimaryActionButton('btnChoice' + choice, choice, () =>
-          this.takeAtomicAction('actPlaceEngineer', [args.uid, choice]),
+          this.takeAtomicAction('actPlaceEngineer', [args.uid, choice])
         );
       });
     },
@@ -1204,11 +1204,11 @@ define([
               this.confirmationDialog(
                 this.format_string_recursive(
                   _('Are you sure you want to place only ${placed} droplet(s) instead of ${n}?'),
-                  { placed: currentSelection.length, n: args.n },
+                  { placed: currentSelection.length, n: args.n }
                 ),
                 () => {
                   this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
-                },
+                }
               );
             } else {
               this.takeAtomicAction('actPlaceDroplet', [currentSelection]);
@@ -1298,7 +1298,7 @@ define([
           elt.classList.toggle(
             'selectable',
             (spaceId == selectedSpace || selectedSpace == null) &&
-              (selectedTile == null || byTile[selectedTile].includes(spaceId)),
+              (selectedTile == null || byTile[selectedTile].includes(spaceId))
           );
           elt.classList.toggle('selected', spaceId == selectedSpace);
         });
@@ -1326,7 +1326,7 @@ define([
 
         if (selectedTile != null && selectedSpace != null) {
           this.addPrimaryActionButton('btnConfirmConstruct', _('Confirm'), () =>
-            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, null]),
+            this.takeAtomicAction('actConstruct', [selectedSpace, selectedTile, null])
           );
           this.changePageTitle('confirm');
         } else if (selectedTile != null) {
@@ -1423,7 +1423,7 @@ define([
           (system, i) =>
             (selectedConduit == null || byConduit[selectedConduit].includes(i)) &&
             (selectedPowerhouse == null || byPowerhouse[selectedPowerhouse].includes(i)) &&
-            (selectedBasin == null || byBasin[selectedBasin].includes(i)),
+            (selectedBasin == null || byBasin[selectedBasin].includes(i))
         );
         possibleSystems.forEach((system) => {
           let basin = this.getConstructSlot(system.basin);
@@ -1455,10 +1455,10 @@ define([
           Object.keys(system.productions).forEach((nDroplets) => {
             let production = system.productions[nDroplets];
             let msg = this.formatString(
-              dojo.string.substitute(_('Produce <ENERGY:${n}> with ${m} <WATER>'), { n: production, m: nDroplets }),
+              dojo.string.substitute(_('Produce <ENERGY:${n}> with ${m} <WATER>'), { n: production, m: nDroplets })
             );
             this.addPrimaryActionButton('btnConfirmProduce' + nDroplets, msg, () =>
-              this.takeAtomicAction('actProduce', [system.id, nDroplets]),
+              this.takeAtomicAction('actProduce', [system.id, nDroplets])
             );
           });
         } else if (possibleSystems.length == 1) {
@@ -1548,7 +1548,7 @@ define([
         for (let i = 2; i <= 4; i++) {
           this._contractStackCounters[i] = this.createCounter(
             `contract-counter-${i}`,
-            this.gamedatas.contracts.stacks[i],
+            this.gamedatas.contracts.stacks[i]
           );
         }
       } else {
@@ -1851,7 +1851,7 @@ define([
         }</button></div>`;
 
       let introBubble = _(
-        "Welcome to Barrage on BGA. I'm here to give you a tour of the interface, to make sure you'll enjoy your games to the fullest.",
+        "Welcome to Barrage on BGA. I'm here to give you a tour of the interface, to make sure you'll enjoy your games to the fullest."
       );
       let introSectionUI = _('Global interface overview');
       let introSectionScoring = _('Scoring');
@@ -1863,68 +1863,68 @@ define([
         _('round counter: useful to know how many turns left before the end of the game'),
         _('my face: open this tour if you need it later'),
         _(
-          "the switch will allow to toggle the safe/help mode: when this mode is enabled, clicking won't trigger any action and instead will open tooltips on any element with a question mark on it, making it sure you won't misclick",
+          "the switch will allow to toggle the safe/help mode: when this mode is enabled, clicking won't trigger any action and instead will open tooltips on any element with a question mark on it, making it sure you won't misclick"
         ),
         _(
-          "settings: this implementation comes with a lot of ways to customize your experience to your needs. Take some time to play with them until you're comfortable",
+          "settings: this implementation comes with a lot of ways to customize your experience to your needs. Take some time to play with them until you're comfortable"
         ),
       ];
 
       let settingsBubble = _(
-        'Here are various layouts that you can achieve using these settings. The settings are linked to your device so that you can customize as you like no matter where you play from.',
+        'Here are various layouts that you can achieve using these settings. The settings are linked to your device so that you can customize as you like no matter where you play from.'
       );
 
       let playerPanelBubble = _('These player panels contain a lot of useful information!');
       let playerPanelItems = [
         _(
-          'Next to your name: click on that icon to focus on the corresponding company board. Your current score and energy produced are also displayed under your name.',
+          'Next to your name: click on that icon to focus on the corresponding company board. Your current score and energy produced are also displayed under your name.'
         ),
         _(
-          'First line: turn order, nation, executive officer, victory points you will get for the upcoming end of round bonus tile, number of "things" taken into accout for the objective tile. Each one of these has a tooltip with complementary information.',
+          'First line: turn order, nation, executive officer, victory points you will get for the upcoming end of round bonus tile, number of "things" taken into accout for the objective tile. Each one of these has a tooltip with complementary information.'
         ),
         _('Second line: show how many resources you have in your reserve.'),
         _('Third line: show how many structures are on your company board.'),
         _(
-          'Fourth line is split in two: your current company income is displayed on the left, and the number of fulfilled contracts is displayed on the right. You can click here to take a look at your fulfilled contracts.',
+          'Fourth line is split in two: your current company income is displayed on the left, and the number of fulfilled contracts is displayed on the right. You can click here to take a look at your fulfilled contracts.'
         ),
         _('Fifth line: contracts in your hand.'),
         _(
-          'Last line: technology tiles in your hand, and a summary of your wheel (can be enabled/disabled in the settings).',
+          'Last line: technology tiles in your hand, and a summary of your wheel (can be enabled/disabled in the settings).'
         ),
       ];
       let playerPanelRemark = _(
-        'You can actually click anywhere on the player panel to make the interface focus on the corresponding company board, not just on the icon.',
+        'You can actually click anywhere on the player panel to make the interface focus on the corresponding company board, not just on the icon.'
       );
 
       let companyBoardBubble = _(
-        'Depending on your settings, company board locations on your screen may vary, but they will always look like that and contains several crucial information such as the possible incomes.',
+        'Depending on your settings, company board locations on your screen may vary, but they will always look like that and contains several crucial information such as the possible incomes.'
       );
       let companyBoardItems = [
         _(
-          'On the bottom left, you have another reminder of your executive officer and his power, as well as your current resources in reserve.',
+          'On the bottom left, you have another reminder of your executive officer and his power, as well as your current resources in reserve.'
         ),
         _('On the top, you have your private engineer action spaces for the Construct action.'),
         _(
-          'In the center part, you have additional important information: the unbuild structures, the cost to construct them, and the income you will get once they are built.',
+          'In the center part, you have additional important information: the unbuild structures, the cost to construct them, and the income you will get once they are built.'
         ),
         _('On the right, your construction wheel that will rotate in clockwise direction.'),
       ];
       let companyBoardRemark = _(
-        "Don't forget that your nation's power will only take effect once you built your third powerhouse!",
+        "Don't forget that your nation's power will only take effect once you built your third powerhouse!"
       );
 
-      let endOfTourBubble = _('You should now know everything you need to enjoy this beautiful game on BGA! Have fun playing and please click on me if you need my tour again.')
+      let endOfTourBubble = _(
+        'You should now know everything you need to enjoy this beautiful game on BGA! Have fun playing and please click on me if you need my tour again.'
+      );
 
       let bugBubble = _('No code is error-free. Before reporting a bug, please follow the following steps.');
       let bugItems = [
+        _('If the issue is related to a nation/officer, please indicate it clearly in the title'),
         _(
-          'If the issue is related to a nation/officer, please indicate it clearly in the title',
+          'If your language is not English, please check the English description of the power of the nation/officer/advanced technology tile. If there is an incorrect translation to your language, please do not report a bug and use the translation module (Community > Translation) to fix it directly.'
         ),
         _(
-          'If your language is not English, please check the English description of the power of the nation/officer/advanced technology tile. If there is an incorrect translation to your language, please do not report a bug and use the translation module (Community > Translation) to fix it directly.',
-        ),
-        _(
-          'When you encounter a bug, please refresh your page to see if the bug goes away. Knowing whether or not a bug is persisting through refresh or not will help us find and fix it, so please include that in the bug report!',
+          'When you encounter a bug, please refresh your page to see if the bug goes away. Knowing whether or not a bug is persisting through refresh or not will help us find and fix it, so please include that in the bug report!'
         ),
       ];
       let bugReport = _('Report a new bug');

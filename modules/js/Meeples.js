@@ -96,7 +96,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         'tplMeeple',
         meeple,
         location == null ? this.getMeepleContainer(meeple) : location,
-        meeple.location == 'company' ? 'first' : null,
+        meeple.location == 'company' ? 'first' : null
       );
     },
 
@@ -309,7 +309,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 destroy: true,
                 phantom: false,
               }
-            : {},
+            : {}
         );
       };
 
@@ -446,7 +446,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let newName = name.toLowerCase() + (conflictingNames.includes(name) ? '_icon' : '');
         str = str.replace(
           new RegExp('<' + name + '>', 'g'),
-          this.format_string(jstpl_meeple, { type: newName, company: companyId }),
+          this.format_string(jstpl_meeple, { type: newName, company: companyId })
         );
       });
 
@@ -459,11 +459,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let newName = name.toLowerCase() + (conflictingNames.includes(name) ? '_icon' : '');
         str = str.replace(
           new RegExp('<' + name + ':([^>]+)>', 'g'),
-          this.format_string(jstpl_icon, { type: newName, text: '<span>$1</span>' }),
+          this.format_string(jstpl_icon, { type: newName, text: '<span>$1</span>' })
         );
         str = str.replace(
           new RegExp('<' + name + '>', 'g'),
-          this.format_string(jstpl_icon, { type: newName, text: '' }),
+          this.format_string(jstpl_icon, { type: newName, text: '' })
         );
       });
 
@@ -539,23 +539,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         mixer: _('Gain ${n} Mixer(s).'),
         vp: _('Gain ${n} victory points.'),
         energy: _(
-          'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts',
+          'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts'
         ),
         any_machine: _('Gain ${n} Machinery(ies) of your choice.'),
         conduit: _(
-          "Build a Conduit with a production value of ${n} (or less). You don't need to place Engineers, to insert the Technology tile or the Machineries.",
+          "Build a Conduit with a production value of ${n} (or less). You don't need to place Engineers, to insert the Technology tile or the Machineries."
         ),
         powerhouse: _('Place one of your Powerhouse in a free building space on the Map.'),
         elevation: _('Place one of your Elevation over one of your Dams.'),
         base: _('Place one of your Bases in a free building space on the Map.'),
         base_plain: _('Place one of your Bases in a free building space on the Plains.'),
         base_plain_hill: _('Place one of your Bases in a free building space on the Plains or on the Hills.'),
-        flow_droplet: _(
-          'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops flow immediately.',
-        ),
+        // prettier-ignore
+        flow_droplet: _('Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops flow immediately.'),
         ROTATE_WHEEL: _('Rotate your Construction Wheel by ${n} segment(s).'),
         PLACE_DROPLET: _(
-          'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops will flow during the Water Flow Phase.',
+          'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops will flow during the Water Flow Phase.'
         ),
         production_bonus: _('Permanent bonus of +${n} on your productions.'),
       };
@@ -579,23 +578,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             });
           }
         } else if (t == 'special_power') {
-          const speMapping = {
+          let speMapping = {
             special_power_usa: _(
-              'In any phase of the round, if a Water Drop naturally flows through one of your Powerhouses, move your Energy marker by 1 step.',
+              'In any phase of the round, if a Water Drop naturally flows through one of your Powerhouses, move your Energy marker by 1 step.'
             ),
             special_power_italy: _(
-              'After you have performed a production action, move your Energy marker by 3 additional steps on the Energy track.',
+              'After you have performed a production action, move your Energy marker by 3 additional steps on the Energy track.'
             ),
             special_power_france: _(
-              'You can fulfill every Contract (even the National Contracts) producting 3 Energy Units less than the Energy Units required by the Contract.',
+              'You can fulfill every Contract (even the National Contracts) producting 3 Energy Units less than the Energy Units required by the Contract.'
             ),
             special_power_germany: _(
-              'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.',
+              'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.'
             ),
           };
           const warning = _('This unique ability becomes active only when you build your third Powerhouse');
           let icon = this.convertFlowToIcons({ special_power: n });
-          desc = `<div class='tooltip-special-power'>${icon}</div>${speMapping[n]}<br /><b>${warning}</b>`;
+          desc = `<div class='tooltip-special-power'>${icon}</div>${_(speMapping[n])}<br /><b>${warning}</b>`;
         }
 
         descs.push(desc);
@@ -673,7 +672,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let animation = this.dropletComputeAnimation(droplet, animatedPath);
           let duration = (animatedPath.totalLength / this.settings.waterAnimationSpeed) * 400;
           return animation.start(duration, (j * 20000) / this.settings.waterAnimationSpeed);
-        }),
+        })
       ).then(() => {
         this.notifqueue.setSynchronousDuration(10);
       });

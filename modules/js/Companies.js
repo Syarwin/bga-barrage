@@ -54,7 +54,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.gamedatas.mahiriOfficers.forEach((officer, i) => {
           dojo.place(
             `<div class='officer-logo' data-officer='${officer.id}' id='mahiri-officer-${i}'></div>`,
-            'mahiri-add-XO',
+            'mahiri-add-XO'
           );
           this.addCustomTooltip(`mahiri-officer-${i}`, `<h3>${_(officer.name)}</h3><p>${_(officer.description)}</p>`);
         });
@@ -85,7 +85,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       dojo.place(
         ` <span id='energy-counter-${company.id}'></span> <i class="fa fa-bolt barrage-energy-counter"></i>`,
         `icon_point_${company.pId}`,
-        'after',
+        'after'
       );
 
       // Create company board
@@ -157,7 +157,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // TODO : handle no officer (for automas) + display description and icons
       this.registerCustomTooltip(
         `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
-        `officer-${company.officer.id}`,
+        `officer-${company.officer.id}`
       );
 
       const SPECIAL_POWERS = {
@@ -171,7 +171,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         `<h3>${this.getCompanyName(company.id)}</h3>${this.convertFlowToDescs({
           special_power: SPECIAL_POWERS[company.id],
         })}`,
-        `company-logo-${company.id}`,
+        `company-logo-${company.id}`
       );
 
       return (
@@ -248,11 +248,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       this.registerCustomTooltip(
         `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
-        `officer-power-${company.officer.id}`,
+        `officer-power-${company.officer.id}`
       );
       this.registerCustomTooltip(
         `<h3>${_(company.officer.name)}</h3><p>${_(company.officer.description)}</p>`,
-        `officer-logo-${company.officer.id}`,
+        `officer-logo-${company.officer.id}`
       );
 
       return (
@@ -272,7 +272,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             <div class="company-board-resources">
             ` +
         RESOURCES.map((res) =>
-          this.tplResourceCounter(company, res, 'company_', company.officer.startingResources[res]),
+          this.tplResourceCounter(company, res, 'company_', company.officer.startingResources[res])
         ).join('') +
         `
             </div>
@@ -424,7 +424,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         // Create temporary icon and slide it
         dojo.place(
           `<div id='produce-energy-counter'>${this.formatString('<ENERGY:' + n.args.energy + '>')}</div>`,
-          powerhouse,
+          powerhouse
         );
         this.slide('produce-energy-counter', this.getCompanyScoreToken(n.args.company_id), {
           destroy: true,
@@ -625,7 +625,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this._companyCounters[company.id][res] = this.createCounter(
           `resource_${company.id}_${res}`,
           0,
-          `company_resource_${company.id}_${res}`,
+          `company_resource_${company.id}_${res}`
         );
       });
 
@@ -633,7 +633,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       this._scoreCounters[company.id] = this.createCounter(
         company.isAI ? `company_score_${company.id}` : `player_score_${company.pId}`,
-        company.score,
+        company.score
       );
     },
 
@@ -718,7 +718,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         dojo.destroy('btnConfirmChoice');
         if (selectedMatchup != null && selectedContract != null) {
           this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
-            this.takeAction('actPickStart', { matchup: selectedMatchup, contract: selectedContract }),
+            this.takeAction('actPickStart', { matchup: selectedMatchup, contract: selectedContract })
           );
         }
       };
@@ -980,7 +980,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let uid = this.registerCustomTooltip(desc);
           dojo.place(
             `<div class='company-income' id='${uid}'>${icons.join('')}</div>`,
-            `${structure}-${rank}-${company.id}`,
+            `${structure}-${rank}-${company.id}`
           );
         });
       });
