@@ -18,11 +18,12 @@ class FulfillContract extends \BRG\Models\Action
 
   protected function getFulfillableContracts($company, $energy)
   {
+    $noReduction = $this->getCtxArgs()['noReduction'] ?? false;
     return $company
       ->getAvailableContracts()
       ->merge(Contracts::getNationalContracts())
-      ->filter(function ($contract) use ($company, $energy) {
-        return $contract->getCost() - $company->getContractReduction() <= $energy;
+      ->filter(function ($contract) use ($company, $energy, $noReduction) {
+        return $contract->getCost() <= $energy + ($noReduction ? 0 : $company->getContractReduction());
       });
   }
 
@@ -41,9 +42,10 @@ class FulfillContract extends \BRG\Models\Action
   {
     $company = Companies::getActive();
     $energy = $this->getEnergy();
+    $noReduction = $this->getCtxArgs()['noReduction'] ?? false;
 
     return [
-      'n' => $energy + $company->getContractReduction(),
+      'n' => $energy + ($noReduction ? 0 : $company->getContractReduction()),
       'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
     ];
   }

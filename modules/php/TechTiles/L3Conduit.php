@@ -34,7 +34,7 @@ class L3Conduit extends AdvancedTile
         [
           'action' => \FULFILL_CONTRACT,
           'optional' => true,
-          'args' => [ENERGY => 2 * $slot['production']],
+          'args' => [ENERGY => 2 * $slot['production'], 'noReduction' => true],
         ],
       ],
     ];
