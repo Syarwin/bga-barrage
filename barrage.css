@@ -2227,6 +2227,10 @@ body {
     [data-wheel-summary='1'] .player-board.current-player-board .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='2'] .player-board:not(.current-player-board) .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n), [data-wheel-summary='3'] .player_panel_content .company-panel-wheel-container .company-panel-tech-tiles .barrage-tech-tile:nth-child(2n) {
       margin: 0px; }
 
+#btnConfirmChoice {
+  margin-left: 30px;
+  background: #d7ab29; }
+
 #company-boards-container {
   display: flex;
   flex-flow: column;

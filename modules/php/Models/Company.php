@@ -527,7 +527,7 @@ class Company extends \BRG\Helpers\DB_Model
   ////////////////////////////////////////////////////////
   public function getEngineerFreeTiles()
   {
-    return self::getAvailableTechTiles()->filter(function ($tile) {
+    return self::getAvailableTechTiles(null, true)->filter(function ($tile) {
       return $tile->isAlternativeAction();
     });
   }
