@@ -44,6 +44,11 @@ class Contract extends \BRG\Helpers\DB_Model
     $this->setLocation('fulfilled_' . $company->getId());
   }
 
+  public function getVp()
+  {
+    return FlowConvertor::getVp($this->reward);
+  }
+
   public function computeRewardFlow()
   {
     return FlowConvertor::computeRewardFlow($this->reward);

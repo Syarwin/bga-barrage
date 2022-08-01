@@ -186,6 +186,9 @@ class PlaceStructure extends \BRG\Models\Action
         Notifications::newIncomeRevealed($company);
         $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
         Engine::insertAsChild($flow);
+
+        $vp = FlowConvertor::getVp($bonus);
+        Stats::incVpStructures($company, $vp);
       }
     }
 

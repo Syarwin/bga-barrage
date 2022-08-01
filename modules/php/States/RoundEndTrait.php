@@ -53,6 +53,7 @@ trait RoundEndTrait
         $vp = ceil(8 / count($firstCompanies));
         foreach ($firstCompanies as $company) {
           $company->incScore($vp, clienttranslate('(tied 1st place)'));
+          Stats::incVpEnergyTrack($company, $vp);
         }
       }
       // Otherwise, 6 VP for first player
@@ -71,6 +72,7 @@ trait RoundEndTrait
               $vp,
               $secondTied ? clienttranslate('(tied 2nd place)') : clienttranslate('(2nd place on energy track)')
             );
+            Stats::incVpEnergyTrack($company, $vp);
           }
         }
       }
@@ -103,6 +105,7 @@ trait RoundEndTrait
         // Lose 3VP if 0 energy produced
         if ($energy == 0) {
           $company->incScore(-3, clienttranslate('(no energy produced this round)'));
+          Stats::incVpEnergyTrack($company, -3);
         }
       }
     }
@@ -131,6 +134,7 @@ trait RoundEndTrait
         }
 
         Stats::$statName($company, $vp ?? 0);
+        Stats::incVpEnergyTrack($company, $vp);
       }
     }
 

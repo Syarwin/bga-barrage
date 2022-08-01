@@ -4,6 +4,17 @@ namespace BRG\Helpers;
 // Allow to use a short flow description syntax
 abstract class FlowConvertor
 {
+  public static function getVp($rewards)
+  {
+    $vp = 0;
+    foreach ($rewards as $t => $n) {
+      if ($t == VP) {
+        $vp += $n;
+      }
+    }
+    return $vp;
+  }
+
   public static function computeRewardFlow($rewards, $source = null)
   {
     $mapping = [

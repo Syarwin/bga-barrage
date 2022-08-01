@@ -659,6 +659,8 @@ body {
           background: #bbb9b9; }
       .action-board .action-board-inner .action-space.selectable {
         cursor: pointer; }
+        .action-board .action-board-inner .action-space.selectable:not(.paying) {
+          background: #5ca45c; }
         .action-board .action-board-inner .action-space.selectable .action-space-slot {
           background-image: url("img/ui/engineer_slot.png");
           background-size: auto 70%;

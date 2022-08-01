@@ -65,6 +65,11 @@ class Companies extends \BRG\Helpers\DB_Manager
     return self::get($cId);
   }
 
+  public function getCorrespondingIds($pIds)
+  {
+    return self::DB()->whereIn('player_id', $pIds)->get()->getIds();
+  }
+
   /*
    * getUiData : get all ui data of all players
    */
@@ -164,22 +169,5 @@ class Companies extends \BRG\Helpers\DB_Manager
     $pId = is_int($player) ? $player : $player->getId();
     $table = Game::get()->getNextPlayerTable();
     return $table[$pId];
-  }
-
-  public function countUnallocatedFarmers()
-  {
-    // Get zombie players ids
-    $zombies = self::getAll()
-      ->filter(function ($player) {
-        return $player->isZombie();
-      })
-      ->getIds();
-
-    // Filter out farmers of zombies
-    return Farmers::getAllAvailable()
-      ->filter(function ($meeple) use ($zombies) {
-        return !in_array($meeple['pId'], $zombies);
-      })
-      ->count();
   }
 }

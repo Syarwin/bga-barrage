@@ -68,6 +68,9 @@ class Stats extends \BRG\Helpers\DB_Manager
           if ($stat['id'] == STAT_POSITION) {
             $value = $i + 1;
           }
+          if ($stat['id'] == STAT_VP_START) {
+            $value = 10;
+          }
 
           $values[] = [
             'stats_type' => $stat['id'],

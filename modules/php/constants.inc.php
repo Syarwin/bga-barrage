@@ -255,9 +255,9 @@ const BONUS_VP = 'bonusVP';
 
 const wheelSlots = [0, 1, 2, 3, 4, 5];
 
- /******************
-  ****** STATS ******
-  ******************/
+/******************
+ ****** STATS ******
+ ******************/
 const STAT_ROUND_1_OBJ = 200;
 const STAT_ROUND_2_OBJ = 201;
 const STAT_ROUND_3_OBJ = 202;
@@ -287,3 +287,13 @@ const STAT_ENERGY_ROUND_5 = 28;
 const STAT_VP_ROUND_5 = 29;
 const STAT_FINAL_OBJ_COUNT = 30;
 const STAT_FINAL_OBJ_VP = 31;
+
+const STAT_VP_START = 40;
+const STAT_VP_ENERGY_TRACK = 41;
+const STAT_VP_STRUCTURES = 42;
+const STAT_VP_CONTRACTS = 43;
+const STAT_VP_CONDUIT = 44;
+const STAT_VP_OBJ_TILE = 45;
+const STAT_VP_WATER = 46;
+const STAT_VP_RESOURCES = 47;
+const STAT_VP_TOTAL = 48;

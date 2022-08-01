@@ -127,6 +127,7 @@ class Produce extends \BRG\Models\Action
       ]);
       // gain x VP
       $opponent->incScore($nDroplets, clienttranslate('for use of conduit'));
+      Stats::incVpConduit($opponent, $nDroplets);
     }
 
     // Contract fullfilment?

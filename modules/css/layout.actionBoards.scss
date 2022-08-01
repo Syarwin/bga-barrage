@@ -221,6 +221,10 @@
 
       &.selectable {
         cursor: pointer;
+        &:not(.paying) {
+          background: #5ca45c;
+        }
+
         .action-space-slot {
           background-image: url('img/ui/engineer_slot.png');
           background-size: auto 70%;

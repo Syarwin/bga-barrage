@@ -10,21 +10,18 @@ use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
+use BRG\Helpers\FlowConvertor;
 
 trait RoundStartTrait
 {
-  // TODO : these two can be merged unless a XO power happends in between ?
   function stBeforeStartOfRound()
   {
-    //TODO
-    $skipped = [];
-    /*
-    $skipped = Players::getAll()
+    $skippedPlayers = Players::getAll()
       ->filter(function ($player) {
         return $player->isZombie();
       })
       ->getIds();
-      */
+    $skipped = Companies::getCorrespondingIds($skippedPlayers);
     Globals::setSkippedCompanies($skipped);
 
     $this->gamestate->nextState('');
@@ -46,6 +43,8 @@ trait RoundStartTrait
   {
     $company = Companies::getActive();
     $flow = $company->getIncomesFlow();
+    $vp = FlowConvertor::getVp($company->getIncomes());
+    Stats::incVpStructures($company, $vp);
     if (empty($flow)) {
       $this->nextPlayerCustomOrder('incomePhase');
     } else {

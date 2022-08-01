@@ -66,6 +66,8 @@ class FulfillContract extends \BRG\Models\Action
     $contract->fulfill($company);
     Notifications::fulfillContract($company, $contract);
     Stats::incContract($company, 1);
+    $vp = $contract->getVp();
+    Stats::incVpContracts($company, $vp);
 
     // Insert its flow as a child
     $flow = $contract->computeRewardFlow();

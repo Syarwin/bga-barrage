@@ -142,6 +142,52 @@ $stats_type = [
   ],
 
   'player' => [
+    'vpStart' => [
+      'id' => STAT_VP_START,
+      'name' => totranslate('Starting point'),
+      'type' => 'int',
+    ],
+    'vpEnergyTrack' => [
+      'id' => STAT_VP_ENERGY_TRACK,
+      'name' => totranslate('VP from energy track'),
+      'type' => 'int',
+    ],
+    'vpStructures' => [
+      'id' => STAT_VP_STRUCTURES,
+      'name' => totranslate('VP from structures bonuses'),
+      'type' => 'int',
+    ],
+    'vpContracts' => [
+      'id' => STAT_VP_CONTRACTS,
+      'name' => totranslate('VP from contracts'),
+      'type' => 'int',
+    ],
+    'vpConduit' => [
+      'id' => STAT_VP_CONDUIT,
+      'name' => totranslate('VP from conduit use'),
+      'type' => 'int',
+    ],
+    'vpObjTile' => [
+      'id' => STAT_VP_OBJ_TILE,
+      'name' => totranslate('VP from game objective'),
+      'type' => 'int',
+    ],
+    'vpWaterDrop' => [
+      'id' => STAT_VP_WATER,
+      'name' => totranslate('VP from water drops'),
+      'type' => 'int',
+    ],
+    'vpResources' => [
+      'id' => STAT_VP_RESOURCES,
+      'name' => totranslate('VP from remaining resources'),
+      'type' => 'int',
+    ],
+    'vpTotal' => [
+      'id' => STAT_VP_TOTAL,
+      'name' => totranslate('VP Total'),
+      'type' => 'int',
+    ],
+
     'position' => [
       'id' => STAT_POSITION,
       'name' => totranslate('Starting position in first round'),

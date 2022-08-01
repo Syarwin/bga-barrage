@@ -51,17 +51,6 @@ class Actions
   {
     $res = self::get($actionId, $ctx)->isDoable($company, $ignoreResources);
     return $res;
-
-    // TODO
-    // Cards that bypass isDoable (eg Paper Maker)
-    // $args = [
-    //   'action' => $actionId,
-    //   'ignoreResources' => $ignoreResources,
-    //   'isDoable' => $res,
-    //   'ctx' => $ctx,
-    // ];
-    // PlayerCards::applyEffects($company, 'isDoable', $args);
-    // return $args['isDoable'];
   }
 
   public static function getState($actionId, $ctx)

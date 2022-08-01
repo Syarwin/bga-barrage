@@ -35,6 +35,7 @@ trait EndOfGameTrait
         $company = $companies[$cId];
         Stats::setObjCount($company, $this->computeObjectiveQuantity($company));
         Stats::setObjVp($company, $vp);
+        Stats::setVpObjTile($company, $vp);
       }
 
       if ($vp == 0) {
@@ -81,6 +82,7 @@ trait EndOfGameTrait
       if ($vp > 0) {
         $company->incScore($vp, clienttranslate('(bundle(s) of 5 resources left)'));
       }
+      Stats::setVpResources($company, $vp);
     }
 
     ///////////////////////////////////////////
@@ -100,6 +102,12 @@ trait EndOfGameTrait
       if ($vp > 0) {
         $company->incScore($vp, clienttranslate('(droplet(s) retained by dams)'));
       }
+      Stats::setVpWaterDrop($company, $vp);
+    }
+
+    // Total
+    foreach ($companies as $cId => $company) {
+      Stats::setVpTotal($company, $company->getScore());
     }
 
     $this->gamestate->nextState();
