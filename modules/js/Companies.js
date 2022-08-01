@@ -81,6 +81,17 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.place('tplCompanyInfo', company, `player_panel_content_${company.color}`);
       $(`overall_player_board_${company.pId}`).addEventListener('click', () => this.goToCompanyBoard(company));
 
+      // Place order token on order board
+      let nos = ['', 'I', 'II', 'III', 'IV', 'V'];
+      let no = nos[company.no];
+      dojo.place(
+        `<div class='company-no' data-company='${company.id}' id='company-position-token-${
+          company.id
+        }' style='color:#${this.getCompanyColor(company.id)}'>${no}</div>`,
+        'order-board'
+      );
+      $(`company-position-token-${company.id}`).style.order = company.no;
+
       // Add energy counter
       dojo.place(
         ` <span id='energy-counter-${company.id}'></span> <i class="fa fa-bolt barrage-energy-counter"></i>`,
@@ -584,6 +595,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         // TODO : handle automa
         $(`overall_player_board_${company.pId}`).style.order = 2 + ((company.no - no + n) % n);
         $(`company-board-${company.id}`).style.order = 2 + ((company.no - no + n) % n);
+        $(`company-position-token-${company.id}`).style.order = company.no;
         this.addCustomTooltip(`company-position-${company.id}`, desc);
       });
     },
@@ -596,6 +608,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let no = i + 1;
         this.gamedatas.companies[cId].no = no;
         $(`company-position-${cId}`).innerHTML = nos[no];
+        $(`company-position-token-${cId}`).innerHTML = nos[no];
       });
       this.updateCompaniesOrder();
     },

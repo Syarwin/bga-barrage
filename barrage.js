@@ -137,6 +137,13 @@ define([
           },
           section: 'layout',
         },
+        orderBoard: {
+          default: 0,
+          name: _('Turn order board'),
+          attribute: 'order-board',
+          type: 'switch',
+          section: 'layout',
+        },
         fitAll: {
           default: 0,
           name: _('Scale down to fit everything on width screen'),
@@ -752,6 +759,7 @@ define([
         "Determine the players' classification according to that condition. The first player scores 15 Victory Points, the second player scores 10 VPs and the third player scores 5VPs. In case of a tie, evenly divide the VPs of the respective tiers among the players who tied (round up if necessary)"
       );
 
+      dojo.place('<div class="energy-track-portion"><div id="order-board"></div></div', 'energy-track-board');
       // Place bonus tiles
       for (let i = 0; i < 6; i++) {
         let portion = dojo.place('<div class="energy-track-portion"></div', 'energy-track-board');
@@ -1008,6 +1016,9 @@ define([
       this.updateLayout();
     },
     onChangeFitAllScaleEnergySetting(val) {
+      this.updateLayout();
+    },
+    onChangeOrderBoardSetting(val) {
       this.updateLayout();
     },
 
