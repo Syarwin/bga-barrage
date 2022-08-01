@@ -696,6 +696,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: updating scores', n);
       this._scoreCounters[n.args.company_id].toValue(n.args.total);
       let company = this.gamedatas.companies[n.args.company_id];
+      company.score = n.args.total;
       if (!company.isAI) {
         this.scoreCtrl[company.pId].current_value = n.args.total;
         this.scoreCtrl[company.pId].target_value = n.args.total;
