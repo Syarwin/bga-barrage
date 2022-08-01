@@ -134,7 +134,7 @@ trait RoundEndTrait
         }
 
         Stats::$statName($company, $vp ?? 0);
-        Stats::incVpEnergyTrack($company, $vp);
+        Stats::incVpRoundBonuses($company, $vp);
       }
     }
 

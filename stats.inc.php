@@ -149,7 +149,12 @@ $stats_type = [
     ],
     'vpEnergyTrack' => [
       'id' => STAT_VP_ENERGY_TRACK,
-      'name' => totranslate('VP from energy track'),
+      'name' => totranslate('VP from energy track (1st/2nd positions)'),
+      'type' => 'int',
+    ],
+    'vpRoundBonuses' => [
+      'id' => STAT_VP_ENERGY_TRACK_BONUS,
+      'name' => totranslate('VP from energy track (round bonuses)'),
       'type' => 'int',
     ],
     'vpStructures' => [
