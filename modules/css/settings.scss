@@ -21,6 +21,23 @@
     display: block;
   }
 
+  #round-phase {
+    text-align: center;
+    margin: 0px -3px 0px;
+    background: #ffffff63;
+    padding: 8px 0px 4px;
+    border-bottom: 1px solid #8080808c;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: 'Oranienbaum';
+    color: black;
+    display: block;
+
+    &:empty {
+      display: none;
+    }
+  }
+
   #tesla-help {
     width: 40px;
     height: 40px;

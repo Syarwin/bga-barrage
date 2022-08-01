@@ -24,6 +24,7 @@ trait RoundEndTrait
     //   \ V  V / (_| | ||  __/ |    |  _| | | (_) \ V  V /
     //    \_/\_/ \__,_|\__\___|_|    |_|   |_|\___/ \_/\_/
     /////////////////////////////////////////////////////////////
+    $this->changePhase('waterFlow');
     $droplets = Meeples::getFilteredQuery(null, null, DROPLET)->get();
     Map::flowDroplets($droplets);
 
@@ -35,6 +36,7 @@ trait RoundEndTrait
     // |_|___/\__/_/  |_____|_| |_|\__,_| /_/   \_\_/\_/ \__,_|_|  \__,_|
     //
     ///////////////////////////////////////////////////////////////////////////
+    $this->changePhase('roundScoring');
     // Compute energy of each company
     $cEnergies = [];
     foreach (Companies::getTurnOrder() as $cId) {

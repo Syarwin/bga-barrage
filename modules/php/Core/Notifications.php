@@ -36,6 +36,13 @@ class Notifications
     self::notify($pId, 'message', $txt, $args);
   }
 
+  public static function changePhase($phase)
+  {
+    self::notifyAll('changePhase', '', [
+      'phase' => $phase,
+    ]);
+  }
+
   public static function clearTurn($player, $notifIds)
   {
     self::notifyAll('clearTurn', clienttranslate('${player_name} restart their turn'), [

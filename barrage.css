@@ -982,7 +982,7 @@ body {
         margin: 5px 10px; }
         #popin_showTour #tour-slider-container .slide .tour-img#img-panelInfo {
           width: 241px;
-          height: 104px;
+          height: 180px;
           background-image: url("img/help/panel-info.png"); }
         #popin_showTour #tour-slider-container .slide .tour-img#img-screenshot-1 {
           width: 600px;
@@ -2894,6 +2894,19 @@ body {
   font-family: 'Oranienbaum';
   color: black;
   display: block; }
+#player_config #round-phase {
+  text-align: center;
+  margin: 0px -3px 0px;
+  background: #ffffff63;
+  padding: 8px 0px 4px;
+  border-bottom: 1px solid #8080808c;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Oranienbaum';
+  color: black;
+  display: block; }
+  #player_config #round-phase:empty {
+    display: none; }
 #player_config #tesla-help {
   width: 40px;
   height: 40px;

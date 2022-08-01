@@ -15,6 +15,7 @@ trait EndOfGameTrait
 {
   function stEndScoring()
   {
+    $this->changePhase('endScoring');
     $companies = Companies::getAll();
     foreach ($companies as $company) {
       $company->setScoreAux($company->getEnergy());
@@ -110,6 +111,7 @@ trait EndOfGameTrait
       Stats::setVpTotal($company, $company->getScore());
     }
 
+    $this->changePhase('endGame');
     $this->gamestate->nextState();
   }
 }

@@ -44,6 +44,7 @@ define([
         'confirmPartialTurn',
       ];
       this._notifications = [
+        ['changePhase', 1],
         ['clearTurn', 1],
         ['startNewRound', 1],
         ['refreshUI', 1],
@@ -404,6 +405,7 @@ define([
       // Create round counter
       this._roundCounter = this.createCounter('round-counter');
       this.updateRoundCounter();
+      this.updatePhase();
     },
 
     clearPossible() {
@@ -522,6 +524,27 @@ define([
       this.updateCompanyBonuses();
       this.gamedatas.round = n.args.round;
       this.updateRoundCounter();
+    },
+
+    updatePhase() {
+      let phase = this.gamedatas.phase;
+      let mapping = {
+        pickStart: _('Advanced player setup'),
+        income: _('Income phase'),
+        headstream: _('Filling headstreams'),
+        '': '',
+        waterFlow: _('Water flow'),
+        roundScoring: _('Round scoring'),
+        endScoring: _('Final scoring'),
+        endGame: _('End of the game'),
+      };
+      $('round-phase').innerHTML = mapping[phase];
+    },
+
+    notif_changePhase(n) {
+      debug('Notif: changing phase', n);
+      this.gamedatas.phase = n.args.phase;
+      this.updatePhase();
     },
 
     /////////////////////////////
@@ -907,6 +930,7 @@ define([
     <div class="player_config_row" id="round-counter-wrapper">
       ${_('Round')} <span id='round-counter'></span> / 5
     </div>
+    <div class="player_config_row" id="round-phase"></div>
 
     <div class="player_config_row">
       <div id="tesla-help"></div>
@@ -1861,12 +1885,16 @@ define([
       let panelInfoBubble = _("Let's start with this panel next to your name: a very handy toolbox.");
       let panelInfoItems = [
         _('round counter: useful to know how many turns left before the end of the game'),
+        _('current phase: useful to know in which phase of the round/game you are currently playing'),
         _('my face: open this tour if you need it later'),
         _(
           "the switch will allow to toggle the safe/help mode: when this mode is enabled, clicking won't trigger any action and instead will open tooltips on any element with a question mark on it, making it sure you won't misclick"
         ),
         _(
           "settings: this implementation comes with a lot of ways to customize your experience to your needs. Take some time to play with them until you're comfortable"
+        ),
+        _(
+          'the last line will only be present in 2 and 3 players game with Mahiri special officer in play, and will contain additional officer(s) that Mahiri can copy (in order to always have 3 other officers that she can copy)'
         ),
       ];
 
@@ -1956,6 +1984,8 @@ define([
                 <li>${panelInfoItems[1]}</li>
                 <li>${panelInfoItems[2]}</li>
                 <li>${panelInfoItems[3]}</li>
+                <li>${panelInfoItems[4]}</li>
+                <li>${panelInfoItems[5]}</li>
               </ul>
             </div>
           </div>

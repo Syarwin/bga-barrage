@@ -36,6 +36,7 @@ use BRG\Core\Globals;
 use BRG\Core\Engine;
 use BRG\Core\Preferences;
 use BRG\Core\Stats;
+use BRG\Core\Notifications;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Officers;
@@ -105,6 +106,7 @@ class barrage extends Table
       'contracts' => Contracts::getUiData(),
       'techTiles' => TechnologyTiles::getUiData(),
       'round' => Globals::getRound(),
+      'phase' => Globals::getPhase(),
       'bonuses' => $this->computeBonuses(),
     ];
 
@@ -135,6 +137,15 @@ class barrage extends Table
   function getArgs()
   {
     return $this->gamestate->state()['args'];
+  }
+
+  function changePhase($str = '')
+  {
+    $currentPhase = Globals::getPhase();
+    if ($currentPhase != $str) {
+      Globals::setPhase($str);
+      Notifications::changePhase($str);
+    }
   }
 
   /////////////////////////////////////////////////////////////

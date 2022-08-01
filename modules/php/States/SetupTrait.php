@@ -115,6 +115,7 @@ trait SetupTrait
 
         Globals::setStartingMatchups($matchups);
         Contracts::randomStartingPick($n);
+        $this->changePhase('pickStart');
         $this->gamestate->nextState('pick');
       }
     }

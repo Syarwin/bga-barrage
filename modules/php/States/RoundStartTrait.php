@@ -33,6 +33,7 @@ trait RoundStartTrait
     Notifications::startNewRound($round);
 
     // 1. a) Income
+    $this->changePhase('income');
     $this->initCustomTurnOrder('incomePhase', 'stIncomePhase', 'stEndOfStartOfRound');
   }
 
@@ -61,6 +62,7 @@ trait RoundStartTrait
     $round = Globals::getRound();
     // 1. b) Headstreams
     if ($round < 5) {
+      $this->changePhase('headstream');
       $droplets = Map::fillHeadstreams();
       Notifications::fillHeadstreams($droplets);
     }
@@ -74,6 +76,7 @@ trait RoundStartTrait
    */
   function stActionPhase()
   {
+    $this->changePhase('');
     // Check whether contracts need to be filled up again or not
     if (Contracts::needRefill()) {
       $contracts = Contracts::refillStacks();

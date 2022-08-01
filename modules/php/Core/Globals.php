@@ -29,6 +29,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     'objectiveTile' => 'int',
     'startingMatchups' => 'obj', // Used for the setup "draft" phase
     'round' => 'int',
+    'phase' => 'str',
 
     'skippedCompanies' => 'obj',
 
