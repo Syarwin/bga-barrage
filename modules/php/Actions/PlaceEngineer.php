@@ -8,9 +8,9 @@ use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Stats;
+use BRG\Core\Game;
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
-use BRG\Core\Game;
 
 class PlaceEngineer extends \BRG\Models\Action
 {
@@ -27,7 +27,7 @@ class PlaceEngineer extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return $company->hasAvailableEngineer();
+    return $company->hasAvailableEngineer() || $company->hasEngineerFreeTiles();
   }
 
   protected function getPlayableSpaces($company)
@@ -43,6 +43,9 @@ class PlaceEngineer extends \BRG\Models\Action
       // Do we have enough engineer in reserve ?
       if ($space['nEngineers'] > $availableEngineers && $space['nEngineers'] != INFTY) {
         continue;
+      }
+      if ($space['nEngineers'] == 0 && $availableEngineers == 0) {
+        continue; // Special case of the bank
       }
 
       $flow = $space['flow'];
@@ -86,7 +89,8 @@ class PlaceEngineer extends \BRG\Models\Action
       $choices = [$n];
       if ($n == 0) {
         // BANK
-        $choices = range(1, $company->countAvailableEngineers());
+        $m = $company->countAvailableEngineers();
+        $choices = $m == 0 ? [] : range(1, $m);
       }
       // TODO: XO_TOMMASO
       // elseif ($n == 1 && $company->isXO(XO_TOMMASO)) {
@@ -125,6 +129,14 @@ class PlaceEngineer extends \BRG\Models\Action
     ];
 
     return $args;
+  }
+
+  function stPlaceEngineer()
+  {
+    $args = $this->argsPlaceEngineer();
+    if (empty($args['spaces']) && empty($args['alternativeActions'])) {
+      Game::get()->actSkip(true);
+    }
   }
 
   /**

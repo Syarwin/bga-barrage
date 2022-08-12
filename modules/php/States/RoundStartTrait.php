@@ -136,9 +136,11 @@ trait RoundStartTrait
     Engine::proceed();
   }
 
-  function actSkip()
+  function actSkip($auto = false)
   {
-    self::checkAction('actSkip');
+    if (!$auto) {
+      self::checkAction('actSkip');
+    }
     $company = Companies::getActive();
     if ($company->hasAvailableEngineer()) {
       throw new \BgaUserException(clienttranslate('You cannot skip your turn, you have remaining engineers'));

@@ -138,6 +138,7 @@ $machinestates = [
     'descriptionmyturnskippable' => clienttranslate('${you} may place a engineer'),
     'args' => 'argsAtomicAction',
     'type' => 'activeplayer',
+    'action' => 'stAtomicAction',
     'possibleactions' => ['actPlaceEngineer', 'actPassOptionalAction', 'actRestart', 'actSkip'],
     'transitions' => [],
   ],
@@ -202,8 +203,12 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must choose where to produce energy ${modifier}'),
     'descriptionskippable' => clienttranslate('${actplayer} may produce energy ${modifier}'),
     'descriptionmyturnskippable' => clienttranslate('${you} may produce energy ${modifier}'),
-    'descriptiongermanyskippable' => clienttranslate('(Germany) ${actplayer} may produce energy with a distinct powerhouse (no bonus/malus)'),
-    'descriptionmyturngermanyskippable' => clienttranslate('(Germany) ${you} may produce energy with a distinct powerhouse (no bonus/malus)'),
+    'descriptiongermanyskippable' => clienttranslate(
+      '(Germany) ${actplayer} may produce energy with a distinct powerhouse (no bonus/malus)'
+    ),
+    'descriptionmyturngermanyskippable' => clienttranslate(
+      '(Germany) ${you} may produce energy with a distinct powerhouse (no bonus/malus)'
+    ),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
