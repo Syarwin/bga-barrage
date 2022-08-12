@@ -338,7 +338,7 @@ class Map
 
           for ($i = 1; $i <= $maxDroplets; $i++) {
             $energy = $system['conduitProduction'] * $i;
-            if ($company->isXO(\XO_VIKTOR)) {
+            if ($company->isXO(\XO_VIKTOR) && !$germanPower) {
               $energy = max($energy, 4);
             }
             $energy += $bonus;
