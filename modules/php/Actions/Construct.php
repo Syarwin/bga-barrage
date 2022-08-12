@@ -20,11 +20,10 @@ class Construct extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    $pairs = $this->getConstructablePairs($company, $ignoreResources);
-    return !empty($pairs);
+    return $this->getConstructablePairs($company, $ignoreResources, true);
   }
 
-  public function getConstructablePairs($company, $ignoreResources = false)
+  public function getConstructablePairs($company, $ignoreResources = false, $checkingIsDoable = false)
   {
     $args = $this->getCtxArgs();
     // constraints from advanced tiles
@@ -98,6 +97,10 @@ class Construct extends \BRG\Models\Action
 
         $flowTree = Engine::buildTree($flow);
         if ($flowTree->isDoable($company)) {
+          if ($checkingIsDoable) {
+            return true;
+          }
+
           $pairs[] = [
             'spaceId' => $slot['id'],
             'tileId' => $tile->getId(),
@@ -106,6 +109,10 @@ class Construct extends \BRG\Models\Action
           ];
         }
       }
+    }
+
+    if ($checkingIsDoable) {
+      return false;
     }
     return $pairs;
   }
