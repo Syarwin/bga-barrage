@@ -441,4 +441,11 @@
     background-position: 72.3077% 0%;
     background-size: 419.672%;
   }
+  &.meeple-score[data-flip='1'] {
+    background-position: 0% 100%;
+    background-size: 419.672%;
+  }
+
+  // LWP
+  //  .building_4 {width: 90px; height: 92px; background-position: 95.7346% 0.00000%; background-size: 568.889%; }
 }
