@@ -94,19 +94,6 @@ abstract class AbstractActionBoard
       return !isset($space['cId']) || $space['cId'] == $company->getId();
     });
 
-    // Handle cost
-    foreach ($spaces as &$space) {
-      if (($space['cost'] ?? 0) == 0) {
-        continue;
-      }
-
-      $flow = $space['flow'];
-      $space['flow'] = [
-        'type' => NODE_SEQ,
-        'childs' => [self::payNode([CREDIT => $space['cost']], clienttranslate('Action Space Cost')), $flow],
-      ];
-    }
-
     return $spaces;
   }
 

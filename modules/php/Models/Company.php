@@ -128,6 +128,11 @@ class Company extends \BRG\Helpers\DB_Model
     ];
   }
 
+  protected $tmpReducedCredit = 0;
+  public function setTmpReducedCredit($n)
+  {
+    $this->tmpReducedCredit = $n;
+  }
   public function getAllReserveResources()
   {
     $reserve = [];
@@ -141,6 +146,10 @@ class Company extends \BRG\Helpers\DB_Model
       }
     }
 
+    if ($this->tmpReducedCredit > 0) {
+      $reserve[CREDIT] -= $this->tmpReducedCredit;
+    }
+
     return $reserve;
   }
 
@@ -151,7 +160,11 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function countReserveResource($type)
   {
-    return $this->getReserveResource($type)->count();
+    $n = $this->getReserveResource($type)->count();
+    if ($this->tmpReducedCredit > 0 && $type == CREDIT) {
+      $n -= $this->tmpReducedCredit;
+    }
+    return $n;
   }
 
   public function createResourceInReserve($type, $nbr = 1)
@@ -185,7 +198,6 @@ class Company extends \BRG\Helpers\DB_Model
     }
   }
 
-
   public function incEnergy($n, $notif = true)
   {
     parent::incEnergy($n);
@@ -195,7 +207,7 @@ class Company extends \BRG\Helpers\DB_Model
       Notifications::incEnergy($this, $this->getEnergyToken(), $n, $this->energy);
     }
     Stats::incEnergy($this->pId, $n);
-    $statName = 'incRound' . (Globals::getRound()) . 'Energy';
+    $statName = 'incRound' . Globals::getRound() . 'Energy';
     Stats::$statName($this->pId, $n);
 
     return $scoreToken['id'];

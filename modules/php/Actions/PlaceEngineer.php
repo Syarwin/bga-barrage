@@ -32,6 +32,7 @@ class PlaceEngineer extends \BRG\Models\Action
 
   protected function getPlayableSpaces($company)
   {
+    $credit = $company->countReserveResource(CREDIT);
     $availableEngineers = $company->countAvailableEngineers();
     $spaces = new Collection([]);
     foreach (ActionSpaces::getPlayableSpaces($company) as $space) {
@@ -51,11 +52,18 @@ class PlaceEngineer extends \BRG\Models\Action
       $flow = $space['flow'];
 
       // Check that the action is doable
+      $cost = $space['cost'] ?? 0;
+      if ($cost > $credit) {
+        continue;
+      }
+
       $space['flow'] = self::tagTree($flow, $company->getId(), $space['uid']);
       $flowTree = Engine::buildTree($space['flow']);
+      $company->setTmpReducedCredit($cost);
       if ($flowTree->isDoable($company)) {
         $spaces[$space['uid']] = $space;
       }
+      $company->setTmpReducedCredit(0);
     }
 
     return $spaces;
@@ -167,6 +175,24 @@ class PlaceEngineer extends \BRG\Models\Action
     if ($space['uid'] == 'bank-b') {
       // Handle the bank
       $flow['args'] = [CREDIT => $nEngineers];
+    }
+
+    // Handle cost
+    if (($space['cost'] ?? 0) > 0) {
+      $flow = [
+        'type' => NODE_SEQ,
+        'childs' => [
+          [
+            'action' => PAY,
+            'args' => [
+              'nb' => 1,
+              'costs' => Utils::formatCost([CREDIT => $space['cost']]),
+              'source' => clienttranslate('Action Space Cost'),
+            ],
+          ],
+          $flow,
+        ],
+      ];
     }
 
     Engine::insertAsChild($flow);
