@@ -1459,6 +1459,9 @@ body {
 [data-altfr='1'] .barrage-meeple[data-company='4'].meeple-score {
   background-position: 72.3077% 0%;
   background-size: 419.672%; }
+[data-altfr='1'] .barrage-meeple[data-company='4'].meeple-score[data-flip='1'] {
+  background-position: 0% 100%;
+  background-size: 419.672%; }
 
 .bgabutton .icon-container {
   font-size: 1.6em; }

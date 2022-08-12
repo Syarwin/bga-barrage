@@ -23,7 +23,7 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function isOptional()
   {
-    return true;
+    return false;
   }
 
 
