@@ -85,6 +85,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         n += leaving ? -1 : 1;
         this._companyCounters[t[1]][t[2]].toValue(n);
         parent.parentNode.setAttribute('data-n', n);
+      } else if (parent.classList.contains('building-slot')) {
+        this._companyCounters[meeple.dataset.company][meeple.dataset.type].incValue(leaving ? -1 : 1);
       }
 
       let type = meeple.getAttribute('data-type');
