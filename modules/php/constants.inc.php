@@ -37,6 +37,8 @@ const ST_PLACE_STRUCTURE = 31;
 const ST_TILE_EFFECT = 32;
 const ST_PATENT = 33;
 
+const ST_AUTOMA_TURN = 40;
+
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
 
@@ -119,6 +121,11 @@ const OBJECTIVE_TILES = [
  */
 //const STARTING_CONTRACTS = [1, 2, 3, 4, 5];
 const STARTING_CONTRACTS = [1, 2, 3, 4];
+
+const CONTRACT_GREEN = 2;
+const CONTRACT_YELLOW = 3;
+const CONTRACT_RED = 4;
+
 
 /*
  * Companies
@@ -249,6 +256,14 @@ const DISCARD_CONTRACTS = 'DISCARD_CONTRACTS';
 const PLACE_STRUCTURE = 'PLACE_STRUCTURE';
 const TILE_EFFECT = 'TILE_EFFECT';
 const PATENT = 'PATENT';
+
+const EXTERNAL_WORK = 'EXTERNAL_WORK';
+
+// AUTOMA ACTION
+const GAIN_MACHINE = 'GAIN_MACHINE';
+const GAIN_VP = 'GAIN_VP';
+
+
 
 /** ExtraDatas**/
 const BONUS_VP = 'bonusVP';

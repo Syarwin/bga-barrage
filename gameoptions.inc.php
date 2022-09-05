@@ -68,6 +68,7 @@ $game_options = [
       ],
     ],
   ],
+  */
 
 
   OPTION_AUTOMA => [
@@ -132,7 +133,7 @@ $game_options = [
       ],
     ],
   ],
-
+  /*
   OPTION_LVL_AUTOMA_1 => [
     'name' => totranslate('Difficulty level of the first automa'),
     'values' => [

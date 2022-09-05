@@ -114,8 +114,7 @@ trait RoundStartTrait
     }
 
     if ($company->isAI()) {
-      // TODO : handle AI
-      die('AI not implemented yet !');
+      $this->gamestate->jumpToState(ST_AUTOMA_TURN);
       return;
     }
 

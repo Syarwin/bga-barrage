@@ -93,7 +93,7 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function getLvlAI()
   {
-    return $this->isAI() ? ($this->pId + 15) % 3 : null;
+    return $this->isAI() ? ($this->pId + 20) % 5 : null;
   }
 
   public function isXO($xId)
@@ -120,12 +120,18 @@ class Company extends \BRG\Helpers\DB_Model
   /////////////////////////////////////////////////////
   public function getStartingResources()
   {
-    return $this->officer->getStartingResources() ?? [
+    $data = $this->officer->getStartingResources() ?? [
       ENGINEER => 12,
       CREDIT => 6,
       EXCAVATOR => 6,
       MIXER => 4,
     ];
+
+    if($this->isAI()){
+      unset($data[CREDIT]);
+    }
+
+    return $data;
   }
 
   protected $tmpReducedCredit = 0;

@@ -57,7 +57,7 @@ class Contracts extends \BRG\Helpers\Pieces
     self::create($contracts);
 
     // Draw national contracts
-    $n = Players::count() - 1;
+    $n = Companies::count() - 1;
     $nationals = self::getSelectQuery()
       ->where('type', 1)
       ->get()

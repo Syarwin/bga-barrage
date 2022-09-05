@@ -91,6 +91,13 @@ $machinestates = [
     'transitions' => [],
   ],
 
+  ST_AUTOMA_TURN => [
+    'name' => 'automaTurn',
+    'description' => 'AUTOMA TURN',
+    'type' => 'active', // TODO
+    'transitions' => [],    
+  ],
+
   ST_RESOLVE_STACK => [
     'name' => 'resolveStack',
     'type' => 'game',

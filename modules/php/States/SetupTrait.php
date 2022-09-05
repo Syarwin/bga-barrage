@@ -11,6 +11,7 @@ use BRG\Managers\Officers;
 use BRG\Managers\Meeples;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\AutomaCards;
 use BRG\Map;
 
 trait SetupTrait
@@ -23,6 +24,7 @@ trait SetupTrait
     Globals::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $options);
+    AutomaCards::setupNewGame($options);
     Map::init();
     Stats::checkExistence();
 
@@ -77,6 +79,16 @@ trait SetupTrait
         $contract->pick($company);
       }
       $this->reloadPlayersBasicInfos();
+
+      // Handle automa
+      $nAutoma = 0;
+      for( ; $i <= Companies::count(); $i++){
+        $matchup = INTRODUCTORY_MATCHUPS[Companies::count() - $i++];
+        $fakePId = ($nAutoma + 1) * (-5) + 0; // TODO : handle automa lvl here
+        $company = Companies::assignCompanyAutoma($fakePId, $matchup[0], $matchup[1]);
+        // NO CONTRACT FOR AUTOMA
+      }
+
       $this->setupCompanies(true);
     }
 

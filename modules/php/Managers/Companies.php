@@ -65,9 +65,25 @@ class Companies extends \BRG\Helpers\DB_Manager
     return self::get($cId);
   }
 
+  public function assignCompanyAutoma($fakePId, $cId, $xId)
+  {
+    self::DB()->insert([
+      'id' => $cId,
+      'no' => self::count() - self::getAll()->count(),
+      'player_id' => $fakePId,
+      'name' => clienttranslate('Automa'),
+      'xo' => $xId,
+      'score' => 16,
+      'score_aux' => 0,
+    ]);
+  }
+
   public function getCorrespondingIds($pIds)
   {
-    return self::DB()->whereIn('player_id', $pIds)->get()->getIds();
+    return self::DB()
+      ->whereIn('player_id', $pIds)
+      ->get()
+      ->getIds();
   }
 
   /*

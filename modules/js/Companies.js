@@ -139,7 +139,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplPlayerPanel(company) {
       // prettier-ignore
-      return `<div id="overall_player_board_${company.pId}" class="player-board" style="border-color: ${company.color};">
+      return `<div id="overall_player_board_${company.pId}" class="player-board automa-player" style="border-color: ${company.color};">
           <div class="player_board_inner">
             <div class="emblemwrap is_premium" id="avatarwrap_2322021">
                 <div class="avatar emblem automa" id="avatar_${company.id}"></div>

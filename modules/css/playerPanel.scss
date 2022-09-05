@@ -49,6 +49,10 @@
     [data-altfr='1'] & #player_board_inner_ffffff .player-name a {
       color: #922297 !important;
     }
+
+    &.automa-player .company-resource.resource-credit {
+      visibility: hidden;
+    }
   }
 }
 
