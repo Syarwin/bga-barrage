@@ -60,7 +60,7 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
   {
     if (preg_match('/^([gs]et|inc|is)([A-Z])(.*)$/', $method, $match)) {
       // Sanity check : does the name correspond to a declared variable ?
-      $name = strtolower($match[2]) . $match[3];
+      $name = mb_strtolower($match[2]) . $match[3];
       if (!\array_key_exists($name, $this->attributes)) {
         // Static attribute getters
         if (in_array($name, $this->staticAttributes) && in_array($match[1], ['get', 'is'])) {

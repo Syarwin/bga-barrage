@@ -443,6 +443,14 @@ class Notifications
     self::notifyAll('clearMahiri', '', []);
   }
 
+  public static function flipAutomaCard($cardBack, $cardFront)
+  {
+    self::notifyAll('flipAutomaCard', $cardBack . ' ' . $cardFront, [
+      'cardBack' => $cardBack,
+      'cardFront' => $cardFront,
+    ]);
+  }
+
   /*********************
    **** UPDATE ARGS ****
    *********************/

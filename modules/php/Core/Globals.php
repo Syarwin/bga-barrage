@@ -36,6 +36,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     'antonPower' => 'str',
     'mahiriPower' => 'int',
     'mahiriAddXO' => 'obj',
+    'aI' => 'bool',
   ];
 
   protected static $table = 'global_variables';
@@ -108,7 +109,7 @@ class Globals extends \BRG\Helpers\DB_Manager
 
     if (preg_match('/^([gs]et|inc|is)([A-Z])(.*)$/', $method, $match)) {
       // Sanity check : does the name correspond to a declared variable ?
-      $name = strtolower($match[2]) . $match[3];
+      $name = mb_strtolower($match[2]) . $match[3];
       if (!\array_key_exists($name, self::$variables)) {
         throw new \InvalidArgumentException("Property {$name} doesn't exist");
       }
@@ -167,6 +168,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     self::setCountCompanies(count($players) + $options[\BRG\OPTION_AUTOMA]);
     self::setMahiriAddXO([]);
     self::setRound(0);
+    self::setAI($options[\BRG\OPTION_AUTOMA] > 0);
   }
 
   public static function isBeginner()

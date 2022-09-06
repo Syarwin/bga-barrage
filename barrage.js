@@ -407,6 +407,11 @@ define([
       // Place energy track on top
       dojo.place('floating-energy-track-container', 'game_play_area', 'before');
 
+      // Automa
+      if (gamedatas.automa != null) {
+        this.setupAutomaCards();
+      }
+
       this.inherited(arguments);
 
       // Create round counter
@@ -931,6 +936,10 @@ define([
     },
 
     tplConfigPlayerBoard() {
+      let automa = '';
+      if (this.gamedatas.automa != null) {
+        automa = `<div class="player_config_row" id='automa-cards-container'></div>`;
+      }
       return `
 <div class='player-board' id="player_board_config">
   <div id="player_config" class="player_board_content">
@@ -963,6 +972,7 @@ define([
     </div>
 
     <div class="player_config_row" id='mahiri-add-XO'></div>
+    ${automa}
   </div>
 </div>
 `;
@@ -1072,6 +1082,19 @@ define([
         this.onChangeCompanyBoardScaleSetting(this.settings.companyBoardScale);
         this.onChangeEnergyTrackScaleSetting(this.settings.energyTrackScale);
       }
+    },
+
+    setupAutomaCards() {
+      this.place('tplAutomaCard', this.gamedatas.automa.front, 'automa-cards-container');
+      this.place('tplAutomaCard', this.gamedatas.automa.back, 'automa-cards-container');
+    },
+
+    tplAutomaCard(card) {
+      let flipped = card.location == 'flipped'? 'flipped' : '';
+      return `<div class='automa-card ${flipped}' id="automa-card-${card.id}" data-id="${card.id}">
+        <div class="card-back"></div>
+      	<div class="card-front"></div>
+      </div>`;
     },
 
     //////////////////////////////////////////////////////////////

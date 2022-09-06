@@ -1738,6 +1738,18 @@ body {
         #player_boards #player_board_config #mahiri-add-XO .officer-logo[data-officer='16'] {
           background-position-x: 0%;
           background-position-y: 150%; }
+    #player_boards #player_board_config #automa-cards-container {
+      width: 235px;
+      height: 67px;
+      margin: auto auto 5px;
+      display: flex;
+      position: relative;
+      --barrageCardScale: 0.5; }
+      #player_boards #player_board_config #automa-cards-container .automa-card {
+        position: absolute;
+        top: 0px;
+        left: 8px;
+        transform-origin: 104% 50%; }
   #player_boards .player-board {
     overflow: hidden;
     order: 6; }
@@ -4427,5 +4439,99 @@ body {
     transform: scale(1.1); }
   .barrage-tech-tile.selected .tech-tile-fixed-size {
     background-color: #17c817; }
+
+:root {
+  --barrageCardScale: 1; }
+
+.automa-card {
+  position: relative;
+  width: calc(var(--barrageCardScale) * 209px);
+  height: calc(var(--barrageCardScale) * 139px);
+  transition: transform 0.5s ease-in-out;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d; }
+  .automa-card.flipped {
+    transform: rotateY(180deg); }
+  .automa-card .card-back,
+  .automa-card .card-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: calc(var(--barrageCardScale) * 10px); }
+  .automa-card .card-back {
+    background-image: url("img/automa/cards_back.jpg");
+    background-size: 500% 400%;
+    transform: rotateY(180deg);
+    z-index: 2; }
+  .automa-card .card-front {
+    background-image: url("img/automa/cards_front.jpg");
+    background-size: 500% 400%; }
+  .automa-card[data-id='1'] .card-back, .automa-card[data-id='1'] .card-front {
+    background-position-x: 0%;
+    background-position-y: 0%; }
+  .automa-card[data-id='2'] .card-back, .automa-card[data-id='2'] .card-front {
+    background-position-x: 25%;
+    background-position-y: 0%; }
+  .automa-card[data-id='3'] .card-back, .automa-card[data-id='3'] .card-front {
+    background-position-x: 50%;
+    background-position-y: 0%; }
+  .automa-card[data-id='4'] .card-back, .automa-card[data-id='4'] .card-front {
+    background-position-x: 75%;
+    background-position-y: 0%; }
+  .automa-card[data-id='5'] .card-back, .automa-card[data-id='5'] .card-front {
+    background-position-x: 100%;
+    background-position-y: 0%; }
+  .automa-card[data-id='6'] .card-back, .automa-card[data-id='6'] .card-front {
+    background-position-x: 0%;
+    background-position-y: 33.3333333333%; }
+  .automa-card[data-id='7'] .card-back, .automa-card[data-id='7'] .card-front {
+    background-position-x: 25%;
+    background-position-y: 33.3333333333%; }
+  .automa-card[data-id='8'] .card-back, .automa-card[data-id='8'] .card-front {
+    background-position-x: 50%;
+    background-position-y: 33.3333333333%; }
+  .automa-card[data-id='9'] .card-back, .automa-card[data-id='9'] .card-front {
+    background-position-x: 75%;
+    background-position-y: 33.3333333333%; }
+  .automa-card[data-id='10'] .card-back, .automa-card[data-id='10'] .card-front {
+    background-position-x: 100%;
+    background-position-y: 33.3333333333%; }
+  .automa-card[data-id='11'] .card-back, .automa-card[data-id='11'] .card-front {
+    background-position-x: 0%;
+    background-position-y: 66.6666666667%; }
+  .automa-card[data-id='12'] .card-back, .automa-card[data-id='12'] .card-front {
+    background-position-x: 25%;
+    background-position-y: 66.6666666667%; }
+  .automa-card[data-id='13'] .card-back, .automa-card[data-id='13'] .card-front {
+    background-position-x: 50%;
+    background-position-y: 66.6666666667%; }
+  .automa-card[data-id='14'] .card-back, .automa-card[data-id='14'] .card-front {
+    background-position-x: 75%;
+    background-position-y: 66.6666666667%; }
+  .automa-card[data-id='15'] .card-back, .automa-card[data-id='15'] .card-front {
+    background-position-x: 100%;
+    background-position-y: 66.6666666667%; }
+  .automa-card[data-id='16'] .card-back, .automa-card[data-id='16'] .card-front {
+    background-position-x: 0%;
+    background-position-y: 100%; }
+  .automa-card[data-id='17'] .card-back, .automa-card[data-id='17'] .card-front {
+    background-position-x: 25%;
+    background-position-y: 100%; }
+  .automa-card[data-id='18'] .card-back, .automa-card[data-id='18'] .card-front {
+    background-position-x: 50%;
+    background-position-y: 100%; }
+  .automa-card[data-id='19'] .card-back, .automa-card[data-id='19'] .card-front {
+    background-position-x: 75%;
+    background-position-y: 100%; }
+  .automa-card[data-id='20'] .card-back, .automa-card[data-id='20'] .card-front {
+    background-position-x: 100%;
+    background-position-y: 100%; }
+  .automa-card[data-id='21'] .card-back, .automa-card[data-id='21'] .card-front {
+    background-position-x: 0%;
+    background-position-y: 133.3333333333%; }
 
 /*# sourceMappingURL=barrage.css.map */

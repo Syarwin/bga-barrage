@@ -37,7 +37,8 @@ const ST_PLACE_STRUCTURE = 31;
 const ST_TILE_EFFECT = 32;
 const ST_PATENT = 33;
 
-const ST_AUTOMA_TURN = 40;
+const ST_PRE_AUTOMA_TURN = 40;
+const ST_AUTOMA_TURN = 41;
 
 const ST_CONFIRM_TURN = 90;
 const ST_CONFIRM_PARTIAL_TURN = 91;
@@ -263,6 +264,27 @@ const EXTERNAL_WORK = 'EXTERNAL_WORK';
 const GAIN_MACHINE = 'GAIN_MACHINE';
 const GAIN_VP = 'GAIN_VP';
 
+// AUTOMA CRITERION
+const AI_CRITERION_BASE_CONDUIT = 'criterionBaseConduit';
+const AI_CRITERION_BASE_POWERHOUSE = 'criterionBasePowerhouse';
+const AI_CRITERION_BASE_HOLD_WATER = 'criterionBaseHoldWater';
+const AI_CRITERION_BASE_PAYING_SLOT = 'criterionBasePayingSlot';
+const AI_CRITERION_BASE_POWERHOUSE_WATER = 'criterionBasePowerhouseWater';
+const AI_CRITERION_BASE_BASSIN = 'criterionBaseBassin';
+
+const AI_CRITERION_CONDUIT_HIGHEST = 'criterionConduitHighest';
+const AI_CRITERION_CONDUIT_SECOND_HIGHEST = 'criterionConduitSecondHighest';
+const AI_CRITERION_CONDUIT_BARRAGE = 'criterionConduitBarrage';
+const AI_CRITERION_CONDUIT_POWERHOUSE = 'criterionConduitPowerhouse';
+const AI_CRITERION_CONDUIT_BARRAGE_REVERSE = 'criterionConduitBarrageReverse';
+const AI_CRITERION_CONDUIT_POWERHOUSE_REVERSE = 'criterionConduitPowerhouseReverse';
+
+const AI_CRITERION_POWERHOUSE_CONDUIT = 'criterionPowerhouseConduit';
+const AI_CRITERION_POWERHOUSE_BARRAGE = 'criterionPowerhouseBarrage';
+const AI_CRITERION_POWERHOUSE_PLAIN = 'criterionPowerhousePlain';
+const AI_CRITERION_POWERHOUSE_HILL = 'criterionPowerhouseHill';
+const AI_CRITERION_POWERHOUSE_BARRAGE_WATER = 'criterionPowerhouseBarrageWater';
+const AI_CRITERION_POWERHOUSE_BARRAGE_REVERSE = 'criterionPowerhouseBarrageReverse';
 
 
 /** ExtraDatas**/

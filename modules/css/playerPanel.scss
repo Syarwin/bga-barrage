@@ -40,6 +40,22 @@
         }
       }
     }
+
+    #automa-cards-container {
+      width: 235px;
+      height: 67px;
+      margin: auto auto 5px;
+      display: flex;
+      position: relative;
+      --barrageCardScale: 0.5;
+
+      .automa-card {
+        position: absolute;
+        top: 0px;
+        left: 8px;
+        transform-origin: 104% 50%;
+      }
+    }
   }
 
   .player-board {

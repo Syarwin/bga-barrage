@@ -44,6 +44,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
+use BRG\Managers\AutomaCards;
 use BRG\Helpers\Log;
 use BRG\Map;
 
@@ -57,6 +58,7 @@ class barrage extends Table
   use BRG\States\EngineTrait;
   use BRG\States\EndOfGameTrait;
   use BRG\States\BonusObjectiveTileTrait;
+  use BRG\States\AutomaTurnTrait;
 
   public static $instance = null;
   function __construct()
@@ -108,6 +110,7 @@ class barrage extends Table
       'round' => Globals::getRound(),
       'phase' => Globals::getPhase(),
       'bonuses' => $this->computeBonuses(),
+      'automa' => AutomaCards::getUiData(),
     ];
 
     $XOIds = array_slice(Globals::getMahiriAddXO(), Companies::count() - 1);

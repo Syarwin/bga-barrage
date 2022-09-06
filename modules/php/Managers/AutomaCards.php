@@ -1,5 +1,7 @@
 <?php
 namespace BRG\Managers;
+use BRG\Core\Globals;
+use BRG\Core\Notifications;
 
 /* Class to manage all the automa cards for Barrage */
 
@@ -9,6 +11,7 @@ class AutomaCards extends \BRG\Helpers\Pieces
   protected static $prefix = 'card_';
   protected static $autoIncrement = false;
   protected static $autoremovePrefix = false;
+  protected static $autoreshuffleCustom = ['deck' => 'discard'];
 
   protected static function cast($row)
   {
@@ -23,7 +26,12 @@ class AutomaCards extends \BRG\Helpers\Pieces
 
   public static function getUiData()
   {
-    return []; // TODO
+    return Globals::isAI()
+      ? [
+        'front' => self::getTopOf('deck'),
+        'back' => self::getTopOf('flipped'),
+      ]
+      : null;
   }
 
   public static function setupNewGame($options)
@@ -41,5 +49,17 @@ class AutomaCards extends \BRG\Helpers\Pieces
     }
 
     self::create($cards);
+    self::shuffle('deck');
+  }
+
+  public function flip()
+  {
+    self::moveAllInLocation('flipped', 'discard');
+    $cardBack = self::pickOneForLocation('deck', 'flipped')->getId();
+    if (self::countInLocation('deck') == 0) {
+      self::reformDeckFromDiscard('deck');
+    }
+    $cardFront = self::getTopOf('deck')->getId();
+    Notifications::flipAutomaCard($cardBack, $cardFront);
   }
 }

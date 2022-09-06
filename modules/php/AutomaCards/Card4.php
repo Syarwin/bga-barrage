@@ -1,7 +1,7 @@
 <?php
 namespace BRG\AutomaCards;
 
-class Card1 extends \BRG\Models\AutomaCard
+class Card4 extends \BRG\Models\AutomaCard
 {
   public function getFlow()
   {

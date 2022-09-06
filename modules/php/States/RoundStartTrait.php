@@ -114,7 +114,7 @@ trait RoundStartTrait
     }
 
     if ($company->isAI()) {
-      $this->gamestate->jumpToState(ST_AUTOMA_TURN);
+      $this->gamestate->jumpToState(\ST_PRE_AUTOMA_TURN);
       return;
     }
 
