@@ -73,11 +73,13 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     return $query;
   }
 
-  public function getOnWheel($cId, $slot)
+  public function getOnWheel($cId, $slot = null)
   {
-    return self::getFilteredQuery($cId, 'wheel')
-      ->where('tile_state', $slot)
-      ->get();
+    $query = self::getFilteredQuery($cId, 'wheel', null);
+    if (!is_null($slot)) {
+      $query = $query->where('tile_state', $slot);
+    }
+    return $query->get();
   }
 
   public function getAnton()
