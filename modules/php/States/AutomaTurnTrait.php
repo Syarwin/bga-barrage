@@ -120,8 +120,7 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
     elseif ($type == \PLACE_DROPLET) {
-      return !Meeples::getOnWheel($company->getId())->empty() ||
-        !TechnologyTiles::getOnWheel($company->getId())->empty();
+      return false;
     }
     ///////////////////////////////////////////
     // Construct : only if it has available machinery and tech tile
@@ -136,7 +135,8 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // Rotate wheel : wheel must be non-empty
     elseif ($type == \ROTATE_WHEEL) {
-      return false;
+      return !Meeples::getOnWheel($company->getId())->empty() ||
+        !TechnologyTiles::getOnWheel($company->getId())->empty();
     }
     //////////////////////////////////////////
     // Gain machine : automa will not take this action in last round of the game
