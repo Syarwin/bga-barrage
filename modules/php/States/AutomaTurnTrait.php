@@ -233,7 +233,9 @@ trait AutomaTurnTrait
     if (count($spaceIds) > 1) {
       var_dump($spaceIds);
       $criteria = $this->getAutomaCriteria()[$structure];
-      var_dump($criteria);
+
+      $spaceIds = $this->applyCriterion($company, $criteria[0], $spaceIds);
+      var_dump($spaceIds);
       die('todo : tiebreaker for construct');
     }
 
@@ -262,6 +264,45 @@ trait AutomaTurnTrait
     }
     return false;
   }
+
+  public function applyCriterion($company, $criterion, $spaceIds)
+  {
+    switch ($criterion) {
+      case AI_CRITERION_BASE_CONDUIT:
+        $maxProd = 0;
+        $maxBasins = [];
+        $isOwn = false;
+        foreach (Map::getZones() as $zoneId => $zone) {
+          $possibleBasins = \array_intersect($zone['basins'] ?? [], $spaceIds);
+          if (empty($possibleBasins)) {
+            continue;
+          }
+
+          foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+            // Is this conduit built by someone ?
+            $meeple = Meeples::getOnSpace($sId, CONDUIT)->first();
+            if (is_null($meeple)) {
+              continue;
+            }
+
+            $owned = $meeple['cId'] == $company->getId();
+            if ($conduit['production'] > $maxProd || ($conduit['production'] == $maxProd && $owned && !$isOwn)) {
+              $maxProd = $conduit['production'];
+              $maxBasins = $possibleBasins;
+              $isOwn = $owned;
+            } elseif ($conduit['production'] == $maxProd && $isOwn == $owned) {
+              $maxBasins = array_merge($maxBasins, $possibleBasins);
+            }
+          }
+        }
+        if (!empty($maxBasins)) {
+          return $maxBasins;
+        }
+        break;
+    }
+
+    return $spaceIds;
+  }
 }
 
 function startsWith($haystack, $needle)
@@ -269,48 +310,3 @@ function startsWith($haystack, $needle)
   $length = strlen($needle);
   return substr($haystack, 0, $length) === $needle;
 }
-/*
-[
-  'nEngineers' => 2,
-  'type' => \PRODUCE,
-  'contract' => \CONTRACT_GREEN,
-  'bonus' => -2,
-],
-[
-  'nEngineers' => 1,
-  'type' => \PLACE_DROPLET,
-  'n' => 2,
-  'flow' => false,
-],
-[
-  'nEngineers' => 2,
-  'type' => \CONSTRUCT,
-  'structure' => BASE,
-],
-[
-  'nEngineers' => 2,
-  'type' => \CONSTRUCT,
-  'structure' => ELEVATION,
-],
-[
-  'nEngineers' => 2,
-  'type' => EXTERNAL_WORK,
-  'order' => [1, 2, 3],
-],
-[
-  'nEngineers' => 1,
-  'type' => \ROTATE_WHEEL,
-  'n' => 1,
-],
-[
-  'nEngineers' => 1,
-  'type' => GAIN_MACHINE,
-  'vp' => -3,
-  'condition' => 'not_last_round',
-],
-[
-  'nEngineers' => 1,
-  'type' => GAIN_VP,
-  'vp' => 1,
-],
-*/
