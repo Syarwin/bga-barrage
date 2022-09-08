@@ -493,6 +493,10 @@ define([
       dojo.style('floating-energy-track-container', 'margin-top', '60px');
     },
 
+    onEnteringStateAutomaTurn(args){
+      this.addPrimaryActionButton('btnRunAutoma', _('Run'), () => this.takeAction('actRunAutoma', {}, false));
+    },
+
     onEnteringStateSpecialEffect(args) {
       if (args.description) {
         this.gamedatas.gamestate.descriptionmyturn = args.description;

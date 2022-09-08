@@ -364,4 +364,57 @@ class Map
 
     return $systems;
   }
+
+  // AUTOMA
+  // Get space ids of slots allowing to get a complete production system
+  public function getAlmostCompleteProductionSystems($company, $structure)
+  {
+    $systems = [];
+    foreach (self::getZones() as $zoneId => $zone) {
+      // Compute the possible conduits
+      $conduits = [];
+      foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+        // Is this conduit built by someone ?
+        $meeple = Meeples::getOnSpace($sId, CONDUIT)->first();
+        if (is_null($meeple) && $structure != CONDUIT) {
+          continue;
+        }
+
+        // Is it linked to a powerhouse built by the company ?
+        $endingSpace = 'P' . $conduit['end'] . '%'; // Any powerhouse in the ending zone
+        $powerhouse = Meeples::getOnSpace($endingSpace, POWERHOUSE, $company)->first();
+        if (is_null($powerhouse) && $structure != POWERHOUSE) {
+          continue;
+        }
+
+        $conduits[$sId] = [
+          'conduitSpaceId' => $sId,
+          'powerhouseSpaceId' => $powerhouse['location'],
+        ];
+      }
+
+      // Compute the possible dams
+      $dams = [];
+      foreach ($zone['basins'] ?? [] as $basin) {
+        $dam = Meeples::getOnSpace($basin, BASE, [COMPANY_NEUTRAL, $company])->first();
+        if (is_null($dam) && $structure != BASE) {
+          continue;
+        }
+
+        $dams[] = [
+          'basin' => $basin,
+        ];
+      }
+
+      // Take all the pair to have corresponding systems for that zone
+      foreach ($dams as $dam) {
+        foreach ($conduits as $conduit) {
+          $system = array_merge($dam, $conduit);
+          $systems[] = $system;
+        }
+      }
+    }
+
+    return $systems;
+  }
 }

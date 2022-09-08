@@ -113,6 +113,13 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actRunAutoma()
+  {
+    self::setAjaxMode();
+    $this->game->actRunAutoma();
+    self::ajaxResponse();
+  }
+
   //////////////////
   ///// UTILS  /////
   //////////////////

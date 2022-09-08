@@ -103,6 +103,7 @@ $machinestates = [
     'name' => 'automaTurn',
     'description' => 'AUTOMA TURN',
     'type' => 'active', // TODO
+    'possibleactions' => ['actRunAutoma'],
     'transitions' => [],
   ],
 

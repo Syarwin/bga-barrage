@@ -10,6 +10,8 @@ use BRG\Managers\Actions;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\TechnologyTiles;
 use BRG\Models\PlayerBoard;
+use BRG\Helpers\Utils;
+use BRG\Actions\Construct;
 use BRG\Map;
 
 trait AutomaTurnTrait
@@ -21,17 +23,28 @@ trait AutomaTurnTrait
     $this->gamestate->nextState();
   }
 
+  function actRunAutoma()
+  {
+    $this->computeAutomaTurn();
+  }
+
+  function getAutomaFlow()
+  {
+    return AutomaCards::getUiData()['front']->getFlow();
+  }
+
+  function getAutomaCriteria()
+  {
+    return AutomaCards::getUiData()['back']->getCriteria();
+  }
+
   function computeAutomaTurn()
   {
     $company = Companies::getActive();
-    $cards = AutomaCards::getUiData();
-    $criteria = $cards['back'];
-
-    $card = $cards['front'];
     $nEngineers = $company->countAvailableEngineers();
 
     $actions = [];
-    foreach ($card->getFlow() as $action) {
+    foreach ($this->getAutomaFlow() as $action) {
       if ($action['nEngineers'] > $nEngineers) {
         continue;
       }
@@ -62,60 +75,7 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track
     if ($type == PRODUCE) {
-      // Can we produce energy ?
-      $systems = Map::getProductionSystems($company, $action['bonus'] ?? 0, null, false, false);
-      if (empty($systems)) {
-        return false;
-      }
-      // Compute the max amount of energy producable
-      $maxProd = 0;
-      $maxSystem = null;
-      foreach ($system as $system) {
-        $prod = $system['productions'][$system['nDroplets']];
-        if ($prod > $maxProd) {
-          $maxProd = $prod;
-          $maxSystem = $system;
-        }
-      }
-
-      // Check energy track requirement
-      $energy = $company->getEnergy();
-      $round = Globals::getRound();
-      $necessaryEnergy = $round * 6;
-      if ($energy >= $necessaryEnergy) {
-        // No need to produce unless we are not first
-        $maxEnergy = 0;
-        foreach (Companies::getAll() as $cId => $comp) {
-          if ($cId != $company->getId()) {
-            $maxEnergy = max($maxEnergy, $comp->getEnergy());
-          }
-        }
-        if ($maxEnergy < $energy) {
-          return false;
-        }
-      }
-
-      // Can we fulfill at least one contract with that much energy?
-      $contractFound = false;
-      $maxContract = null;
-      foreach (Contracts::getAvailableToTake() as $contract) {
-        if ($contract->getCost() <= $maxProd) {
-          if ($contract->getType() == $action['contract']) {
-            $contractFound = true;
-          }
-          if ($maxContract == null || $maxContract->getCost() <= $contract->getCost()) {
-            $maxContract = $contract;
-          }
-        }
-      }
-      if (!$contractFound) {
-        return false;
-      }
-
-      return [
-        'system' => $system,
-        'contract' => $maxContract, // TODO : getId ??
-      ];
+      return $this->canAutomaTakeProduceAction($company, $action);
     }
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
@@ -125,7 +85,7 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Construct : only if it has available machinery and tech tile
     elseif ($type == CONSTRUCT) {
-      return false;
+      return $this->canAutomaTakeConstructAction($company, $action);
     }
     //////////////////////////////////////////
     // External Work : LWP
@@ -164,8 +124,151 @@ trait AutomaTurnTrait
       return false;
     }
   }
+
+  /////////////////////////////////////////////
+  //  ____                _
+  // |  _ \ _ __ ___   __| |_   _  ___ ___
+  // | |_) | '__/ _ \ / _` | | | |/ __/ _ \
+  // |  __/| | | (_) | (_| | |_| | (_|  __/
+  // |_|   |_|  \___/ \__,_|\__,_|\___\___|
+  //
+  /////////////////////////////////////////////
+
+  public function canAutomaTakeProduceAction($company, $action)
+  {
+    // Can we produce energy ?
+    $systems = Map::getProductionSystems($company, $action['bonus'] ?? 0, null, false, false);
+    if (empty($systems)) {
+      return false;
+    }
+    // Compute the max amount of energy producable
+    $maxProd = 0;
+    $maxSystem = null;
+    foreach ($system as $system) {
+      $prod = $system['productions'][$system['nDroplets']];
+      if ($prod > $maxProd) {
+        $maxProd = $prod;
+        $maxSystem = $system;
+      }
+    }
+
+    // Check energy track requirement
+    $energy = $company->getEnergy();
+    $round = Globals::getRound();
+    $necessaryEnergy = $round * 6;
+    if ($energy >= $necessaryEnergy) {
+      // No need to produce unless we are not first
+      $maxEnergy = 0;
+      foreach (Companies::getAll() as $cId => $comp) {
+        if ($cId != $company->getId()) {
+          $maxEnergy = max($maxEnergy, $comp->getEnergy());
+        }
+      }
+      if ($maxEnergy < $energy) {
+        return false;
+      }
+    }
+
+    // Can we fulfill at least one contract with that much energy?
+    $contractFound = false;
+    $maxContract = null;
+    foreach (Contracts::getAvailableToTake() as $contract) {
+      if ($contract->getCost() <= $maxProd) {
+        if ($contract->getType() == $action['contract']) {
+          $contractFound = true;
+        }
+        if ($maxContract == null || $maxContract->getCost() <= $contract->getCost()) {
+          $maxContract = $contract;
+        }
+      }
+    }
+    if (!$contractFound) {
+      return false;
+    }
+
+    return [
+      'system' => $system,
+      'contract' => $maxContract, // TODO : getId ??
+    ];
+  }
+
+  /////////////////////////////////////////////////////
+  //   ____                _                   _
+  //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_
+  // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|
+  // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_
+  //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+  /////////////////////////////////////////////////////
+  public function canAutomaTakeConstructAction($company, $action)
+  {
+    $structure = $action['structure'];
+    // Find all the possible constructable spots
+    $pairs = Construct::getConstructablePairs($company, false, false, [
+      'type' => $structure,
+      'constraints' => $action['constraints'] ?? null,
+    ]);
+    if (empty($pairs)) {
+      return false;
+    }
+
+    // Now let's find the space from these pairs
+    $spaceIds = array_unique(
+      array_map(function ($pair) {
+        return $pair['spaceId'];
+      }, $pairs)
+    );
+
+    // Can we complete a production system ?
+    if (count($spaceIds) > 1 && $structure != \ELEVATION) {
+      $almostComplete = Map::getAlmostCompleteProductionSystems($company, $structure);
+      $spaces = $spaceIds;
+      Utils::filter($spaces, function ($spaceId) use ($structure, $almostComplete) {
+        return $this->canCompleteSystem($structure, $spaceId, $almostComplete);
+      });
+      if (!empty($spaces)) {
+        $spaceIds = $spaces;
+      }
+    }
+
+    if (count($spaceIds) > 1) {
+      var_dump($spaceIds);
+      $criteria = $this->getAutomaCriteria()[$structure];
+      var_dump($criteria);
+      die('todo : tiebreaker for construct');
+    }
+
+    // Use criteria to reduce the possible choice
+    while (count($spaceIds) > 1) {
+    }
+
+    // TODO
+    if (count($pairs) > 1) {
+      die('todo : tiebreaker for construct');
+    }
+
+    return false;
+  }
+
+  public function canCompleteSystem($structure, $spaceId, $almostCompleteSystems)
+  {
+    foreach ($almostCompleteSystems as $system) {
+      if ($structure == BASE && $spaceId == $system['basin']) {
+        return true;
+      } elseif ($structure == CONDUIT && $spaceId == $system['conduitSpaceId']) {
+        return true;
+      } elseif ($structure == POWERHOUSE && startsWith($spaceId, $system['powerhouseSpaceId'])) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
+function startsWith($haystack, $needle)
+{
+  $length = strlen($needle);
+  return substr($haystack, 0, $length) === $needle;
+}
 /*
 [
   'nEngineers' => 2,

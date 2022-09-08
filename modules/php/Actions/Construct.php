@@ -23,12 +23,13 @@ class Construct extends \BRG\Models\Action
     return $this->getConstructablePairs($company, $ignoreResources, true);
   }
 
-  public function getConstructablePairs($company, $ignoreResources = false, $checkingIsDoable = false)
+  public function getConstructablePairs($company, $ignoreResources = false, $checkingIsDoable = false, $args = null)
   {
-    $args = $this->getCtxArgs();
+    $args = $args ?? $this->getCtxArgs();
     // constraints from advanced tiles
     $constraintType = $args['type'] ?? null;
     $constraintTile = $args['tileId'] ?? null;
+    $constraintsArea = $args['constraints'] ?? null; // FOR AUTOMA
     $tiles = $company->getAvailableTechTiles($constraintType, true);
     $antonTile = TechnologyTiles::getAnton();
     if (!is_null($constraintTile)) {
@@ -40,6 +41,11 @@ class Construct extends \BRG\Models\Action
     $pairs = [];
     foreach (Map::getConstructSlots() as $slot) {
       if (!is_null($constraintType) && $constraintType != $slot['type']) {
+        continue;
+      }
+
+      // AUTOMA if we have a constraint on AREA placement for base / elevation
+      if (!is_null($constraintsArea) && !in_array($space['area'], $constraintsArea)) {
         continue;
       }
 

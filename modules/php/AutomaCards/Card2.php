@@ -53,4 +53,33 @@ class Card2 extends \BRG\Models\AutomaCard
       ],
     ];
   }
+
+  public function getCriteria()
+  {
+    return [
+      BASE => [
+        \AI_CRITERION_BASE_CONDUIT,
+        \AI_CRITERION_BASE_POWERHOUSE,
+        \AI_CRITERION_BASE_POWERHOUSE_WATER,
+        1
+      ],
+      CONDUIT => [
+        AI_CRITERION_CONDUIT_HIGHEST,
+        AI_CRITERION_CONDUIT_BARRAGE,
+        AI_CRITERION_CONDUIT_POWERHOUSE,
+        '1A',
+      ],
+      POWERHOUSE => [
+        AI_CRITERION_POWERHOUSE_BARRAGE_WATER,
+        AI_CRITERION_POWERHOUSE_CONDUIT,
+        AI_CRITERION_POWERHOUSE_BARRAGE,
+        5,
+      ],
+      PLACE_DROPLET => [
+        'A',
+        'B',
+        'C'
+      ]
+    ];
+  }
 }

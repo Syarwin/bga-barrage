@@ -127,7 +127,7 @@ class Company extends \BRG\Helpers\DB_Model
       MIXER => 4,
     ];
 
-    if($this->isAI()){
+    if ($this->isAI()) {
       unset($data[CREDIT]);
     }
 
@@ -155,6 +155,9 @@ class Company extends \BRG\Helpers\DB_Model
     if ($this->tmpReducedCredit > 0) {
       $reserve[CREDIT] -= $this->tmpReducedCredit;
     }
+    if ($this->isAI()) {
+      $reserve[CREDIT] = INFTY;
+    }
 
     return $reserve;
   }
@@ -169,6 +172,10 @@ class Company extends \BRG\Helpers\DB_Model
     $n = $this->getReserveResource($type)->count();
     if ($this->tmpReducedCredit > 0 && $type == CREDIT) {
       $n -= $this->tmpReducedCredit;
+    }
+
+    if ($type == CREDIT && $this->isAI()) {
+      $n = INFTY;
     }
     return $n;
   }
