@@ -73,11 +73,10 @@ class PlaceDroplet extends \BRG\Models\Action
     $created = Meeples::create($meeples);
     $droplets = Meeples::getMany($created);
 
-    Notifications::addDroplets($company, $droplets->toArray(), Engine::getNextUnresolved()->getSpaceId());
+    Notifications::addDroplets($company, $droplets->toArray(), Engine::getNextUnresolved()->getSpaceId(), $args['flow'], $headstreams);
     Map::addDroplets($droplets);
 
     if ($args['flow']) {
-      Notifications::message(clienttranslate('Droplets are flowing'));
       Map::flowDroplets($droplets);
     }
     $this->resolveAction(['created' => $created]);

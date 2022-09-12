@@ -333,12 +333,17 @@ class Notifications
     ]);
   }
 
-  public static function addDroplets($company, $meeples, $spaceId)
+  public static function addDroplets($company, $meeples, $spaceId, $flowing, $headstreams)
   {
-    self::notifyAll('gainResources', clienttranslate('${company_name} place droplet(s) in headstream'), [
+    $msg = $flowing
+      ? clienttranslate('${company_name} places ${n} flowing droplet(s) in headstream(s) ${headstreams}')
+      : clienttranslate('${company_name} places ${n} droplet(s) in headstream(s) ${headstreams}');
+    self::notifyAll('gainResources', $msg, [
       'company' => $company,
       'resources' => $meeples,
       'spaceId' => $spaceId,
+      'headstreams' => join(', ', $headstreams),
+      'n' => count($meeples),
     ]);
   }
 
@@ -346,10 +351,11 @@ class Notifications
   {
     self::notifyAll(
       'gainResources',
-      clienttranslate('${company_name} place droplet(s) in dams (technology tile effect)'),
+      clienttranslate('${company_name} places ${n} droplet(s) in dams (technology tile effect)'),
       [
         'company' => $company,
         'resources' => $meeples,
+        'n' => count($meeples),
       ]
     );
   }
@@ -364,15 +370,20 @@ class Notifications
     self::notifyAll('updateTurnOrder', '', ['order' => $order]);
   }
 
-  public static function produce($company, $powerhouseSpaceId, $energy, $droplets, $germanPower)
+  public static function produce($company, $basinSpaceId, $powerhouseSpaceId, $energy, $droplets, $germanPower)
   {
     $msg = $germanPower
-      ? clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s) (nation\'s power)')
-      : clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s)');
+      ? clienttranslate(
+        '${company_name} produces ${energy} energy units at plant ${powerhouse} with ${droplets} droplet(s) from basin ${basin} (nation\'s power)'
+      )
+      : clienttranslate(
+        '${company_name} produces ${energy} energy units at plant ${powerhouse} with ${droplets} droplet(s) from basin ${basin}'
+      );
 
     self::notifyAll('produce', $msg, [
       'company' => $company,
       'powerhouse' => $powerhouseSpaceId,
+      'basin' => $basinSpaceId,
       'energy' => $energy,
       'droplets' => $droplets,
       'bonuses' => Game::get()->computeBonuses(),
