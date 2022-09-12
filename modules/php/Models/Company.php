@@ -340,6 +340,16 @@ class Company extends \BRG\Helpers\DB_Model
   //
   ////////////////////////////////////////////////////
 
+  public function getAvailableStructureTypes()
+  {
+    $types = [];
+    foreach (Meeples::getAvailableStructures($this->id) as $meeple) {
+      $types[] = $meeple['type'];
+    }
+
+    return array_unique($types);
+  }
+
   public function getAvailableTechTiles($structure = null, $includeAnton = false)
   {
     $tiles = TechnologyTiles::getFilteredQuery($this->id, 'company')->get();

@@ -5,6 +5,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\Actions;
 use BRG\Helpers\Log;
 use BRG\Helpers\QueryBuilder;
+use BRG\Map;
 
 /*
  * Engine: a class that allows to handle complex flow
@@ -332,6 +333,7 @@ TODO
 
     // Force to clear cached informations
     Globals::fetch();
+    Map::refresh();
     self::boot();
     self::proceed();
   }

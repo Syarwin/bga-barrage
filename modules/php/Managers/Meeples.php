@@ -118,6 +118,15 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::getFilteredQuery($cId, 'reserve', $type)->get();
   }
 
+  public function getOnMap()
+  {
+    $query = self::getSelectQuery();
+    return $query
+      ->whereNotIn('meeple_location', ['company', 'reserve', 'wheel'])
+      ->whereNotIn('type', [\ENGINEER, \ARCHITECT])
+      ->get();
+  }
+
   /**
    * Get meeples on wheel
    */
@@ -245,11 +254,18 @@ class Meeples extends \BRG\Helpers\Pieces
     self::checkLocation($location);
     self::checkPosInt($n);
     return self::getSelectWhere(null, $location)
-      ->where([['type', $type]])
-      ->where([['company_id', $company]])
+      ->where('type', $type)
+      ->where('company_id', $company)
       ->orderBy(static::$prefix . 'state', 'DESC')
       ->limit($n)
       ->get($returnValueIfOnlyOneRow);
+  }
+
+  public function getAvailableStructures($company)
+  {
+    return self::getSelectWhere(null, 'company')
+      ->where('company_id', $company)
+      ->get();
   }
 
   public function getEnergyTokens()

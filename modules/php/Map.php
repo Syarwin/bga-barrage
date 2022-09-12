@@ -11,6 +11,7 @@ use BRG\Helpers\Collection;
 class Map
 {
   protected static $map = null;
+  protected static $infos = null;
   public static function init()
   {
     $mapId = Globals::getMap();
@@ -24,6 +25,22 @@ class Map
 
     $className = 'BRG\Maps\\' . $classes[$mapId];
     static::$map = new $className();
+
+    self::$infos = [];
+    foreach (self::getBasins() as $bId => $info) {
+      self::$infos[$bId] = $info;
+    }
+    foreach (self::getConduits() as $cId => $info) {
+      self::$infos[$cId] = $info;
+    }
+    foreach (self::getPowerhouses() as $pId => $info) {
+      self::$infos[$pId] = $info;
+    }
+    foreach (self::getHeadstreamTiles() as $hId => $info) {
+      self::$infos[$hId] = $info;
+    }
+
+    self::refresh();
   }
 
   public static function getUiData()
@@ -120,40 +137,183 @@ class Map
       }
     }
     if (count($droplets) > 0) {
-      return Meeples::getMany(Meeples::create($droplets));
+      $meeples = Meeples::getMany(Meeples::create($droplets));
+      foreach ($meeples as $meeple) {
+        self::$infos[$meeple['location']]['droplets'][] = $meeple;
+      }
     } else {
       return new Collection();
     }
   }
 
-  /////////////////////////////////////////////
-  //  __  __                 _
-  // |  \/  | ___  ___ _ __ | | ___  ___
-  // | |\/| |/ _ \/ _ \ '_ \| |/ _ \/ __|
-  // | |  | |  __/  __/ |_) | |  __/\__ \
-  // |_|  |_|\___|\___| .__/|_|\___||___/
-  //                  |_|
-  /////////////////////////////////////////////
+  ///////////////////////////////////
+  //   ____           _
+  //  / ___|__ _  ___| |__   ___
+  // | |   / _` |/ __| '_ \ / _ \
+  // | |__| (_| | (__| | | |  __/
+  //  \____\__,_|\___|_| |_|\___|
+  //
+  ///////////////////////////////////
 
+  // Compute all meeples on the map and cache them
+  public static function refresh()
+  {
+    foreach (self::$infos as $spaceId => &$info) {
+      unset($info['structures']);
+      unset($info['droplets']);
+    }
+
+    foreach (Meeples::getOnMap() as $meeple) {
+      if (isset(self::$infos[$meeple['location']])) {
+        if (in_array($meeple['type'], \STRUCTURES)) {
+          self::$infos[$meeple['location']]['structures'][] = $meeple;
+        } elseif ($meeple['type'] == DROPLET) {
+          self::$infos[$meeple['location']]['droplets'][] = $meeple;
+        }
+      }
+    }
+
+    self::updateBasinsCapacities();
+  }
+
+  // Cache basin capacity
+  public static function updateBasinsCapacities()
+  {
+    $cIds = Companies::getAll()
+      ->filter(function ($company) {
+        return $company->isXO(\XO_GRAZIANO);
+      })
+      ->getIds();
+
+    foreach (self::getBasins() as $bId => $info) {
+      $dams = self::$infos[$bId]['structures'] ?? [];
+      $capacity = count($dams);
+      if ($capacity == 3 && in_array($dams[0]['cId'], $cIds)) {
+        $capacity = 4;
+      }
+
+      self::$infos[$bId]['capacity'] = $capacity;
+    }
+  }
+
+  //     _       _     _
+  //    / \   __| | __| | ___ _ __ ___
+  //   / _ \ / _` |/ _` |/ _ \ '__/ __|
+  //  / ___ \ (_| | (_| |  __/ |  \__ \
+  // /_/   \_\__,_|\__,_|\___|_|  |___/
+  //
+
+  public static function placeStructure($meeple, $spaceId)
+  {
+    self::$infos[$spaceId]['structures'][] = $meeple;
+    self::updateBasinsCapacities();
+  }
+
+  public static function addDroplets($droplets)
+  {
+    foreach ($droplets as $droplet) {
+      self::$infos[$droplet['location']]['droplets'][] = $droplet;
+    }
+  }
+
+  //   ____      _   _
+  //  / ___| ___| |_| |_ ___ _ __ ___
+  // | |  _ / _ \ __| __/ _ \ '__/ __|
+  // | |_| |  __/ |_| ||  __/ |  \__ \
+  //  \____|\___|\__|\__\___|_|  |___/
+
+  //////////////////////////////////////
+  // Droplet Utils
+  //////////////////////////////////////
   public function getDropletsInBasin($basin)
   {
-    return Meeples::getFilteredQuery(null, $basin, [DROPLET])->get();
+    return self::$infos[$basin]['droplets'] ?? [];
+  }
+
+  public function removeDropletsInBasin($basin, $nDroplets)
+  {
+    $droplets = [];
+    $remaining = [];
+    foreach (self::getDropletsInBasin($basin) as $droplet) {
+      if (count($droplets) == $nDroplets) {
+        $remaining[] = $droplet;
+      } else {
+        $droplets[] = $droplet;
+      }
+    }
+    self::$infos[$basin]['droplets'] = $remaining;
+    return $droplets;
   }
 
   public function countDropletsInBasin($basin)
   {
-    return self::getDropletsInBasin($basin)->count();
+    return count(self::getDropletsInBasin($basin));
   }
 
   public function getBasinCapacity($basin)
   {
-    $dams = Meeples::getFilteredQuery(null, $basin, [BASE, \ELEVATION])->get();
+    return self::$infos[$basin]['capacity'] ?? 0;
+  }
 
-    if (count($dams) == 3 && $dams->first()['cId'] != 0 && Companies::get($dams->first()['cId'])->isXO(\XO_GRAZIANO)) {
-      return 4;
-    } else {
-      return count($dams);
+  //////////////////////////////////////
+  // Structure Utils
+  //////////////////////////////////////
+  public function getBuiltStructures($spaceId, $company = null)
+  {
+    $spaceIds = \is_array($spaceId) ? $spaceId : [$spaceId];
+    $companies = is_null($company) ? [] : (is_array($company) ? $company : [$company]);
+    $cIds = array_map(function ($c) {
+      return is_int($c) ? $c : $c->getId();
+    }, $companies);
+
+    $structures = [];
+    foreach ($spaceIds as $sId) {
+      foreach (self::$infos[$sId]['structures'] ?? [] as $structure) {
+        if (is_null($company) || in_array($structure['cId'], $cIds)) {
+          $structures[] = $structure;
+        }
+      }
     }
+
+    return $structures;
+  }
+
+  public function getBuiltStructure($spaceId, $company = null)
+  {
+    $structures = self::getBuiltStructures($spaceId, $company);
+    return empty($structures) ? null : $structures[0];
+  }
+
+  public function getBuiltDamsInZone($zoneId, $company = null)
+  {
+    $basins = self::getZones()[$zoneId]['basins'];
+    return self::getBuiltStructures($basins, $company);
+  }
+
+  //////////////////////////////////////
+  // Powerhouses Utils
+  //////////////////////////////////////
+  public function getLinkedPowerhousesSpaces($conduitId)
+  {
+    return self::$infos[$conduitId]['powerhouses'];
+  }
+
+  public function getLinkedPowerhouses($conduitId, $company = null)
+  {
+    $spaceIds = self::getLinkedPowerhousesSpaces($conduitId);
+    return self::getBuiltStructures($spaceIds, $company);
+  }
+
+  public function getLinkedPowerhouse($conduitId, $company = null)
+  {
+    $powerhouses = self::getLinkedPowerhouses($conduitId, $company);
+    return empty($powerhouses) ? null : $powerhouses[0];
+  }
+
+  public function getBuiltPowerhousesInZone($zoneId, $company = null)
+  {
+    $spaceIds = self::getPowerhousesInZone($zoneId);
+    return self::getBuiltStructures($spaceIds, $company);
   }
 
   ////////////////////////////////////////////////////////////
@@ -164,13 +324,39 @@ class Map
   //    \_/\_/ \__,_|\__\___|_|    |_|   |_|\___/ \_/\_/
   //
   ////////////////////////////////////////////////////////////
+  public function getUSAPowerhouses()
+  {
+    // If production power of USA is enabled
+    $usa = Companies::get(COMPANY_USA);
+    if ($usa != null && $usa->productionPowerEnabled()) {
+      $USAPowerHouses = $usa
+        ->getBuiltStructures(\POWERHOUSE)
+        ->map(function ($m) {
+          return explode('_', $m['location'])[0];
+        })
+        ->toArray();
+    } else {
+      $USAPowerHouses = [];
+    }
+
+    return $USAPowerHouses;
+  }
 
   public function flowDroplets($droplets)
   {
+    $USAPowerHouses = self::getUSAPowerhouses();
     $bonusEnergy = 0;
     $movedDroplets = new Collection([]);
     foreach ($droplets as &$droplet) {
-      list($path, $energy) = self::getFlowPath($droplet);
+      // Remove drop from initial location
+      $location = $droplet['location'];
+      self::$infos[$location]['droplets'] = array_values(
+        array_filter(self::$infos[$location]['droplets'] ?? [], function ($meeple) use ($droplet) {
+          return $meeple['id'] != $droplet['id'];
+        })
+      );
+
+      list($path, $energy) = self::getFlowPath($droplet, $USAPowerHouses);
       $droplet['path'] = $path;
       if (count($path) == 0) {
         continue;
@@ -183,6 +369,7 @@ class Map
         Meeples::DB()->delete($droplet['id']);
       } else {
         Meeples::move($droplet['id'], $location);
+        self::$infos[$location]['droplets'][] = $droplet;
       }
       $movedDroplets[] = $droplet;
     }
@@ -200,38 +387,25 @@ class Map
     }
   }
 
-  public function getFlowPath($droplet)
+  public function getFlowPath($droplet, $USAPowerHouses = [])
   {
-    // Sanity check
-    if (!is_array($droplet)) {
-      $droplet = Meeples::get($droplet);
-      if ($droplet == null) {
-        throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
-      }
-    }
-
-    // If production power of USA is enabled
-    if (Companies::get(COMPANY_USA) != null && Companies::get(COMPANY_USA)->productionPowerEnabled()) {
-      $USAPowerHouses = Meeples::getFilteredQuery(COMPANY_USA, null, \POWERHOUSE)
-        ->whereNotIn('meeple_location', ['company'])
-        ->get()
-        ->map(function ($m) {
-          return explode('_', $m['location'])[0];
-        })
-        ->toArray();
-    } else {
-      $USAPowerHouses = [];
-    }
+    // // Sanity check
+    // if (!is_array($droplet)) {
+    //   $droplet = Meeples::get($droplet);
+    //   if ($droplet == null) {
+    //     throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
+    //   }
+    // }
 
     $USABonusEnergy = 0;
-
     $location = $droplet['location'];
     $path = [$location];
     $blocked = false;
     $rivers = self::getRivers();
 
     // if the droplet starts at a dam, we leave it (could have been added by XO power)
-    if (Meeples::getFilteredQuery(null, $location, BASE)->count() > 0) {
+    $structure = self::getBuiltStructure($location);
+    if (!is_null($structure) && in_array($structure['type'], [BASE, ELEVATION])) {
       return [[], 0];
     }
 
@@ -284,14 +458,13 @@ class Map
       $conduits = [];
       foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
         // Is this conduit built by someone ?
-        $meeple = Meeples::getOnSpace($sId, CONDUIT, $objTileComputation ? $company : null)->first();
+        $meeple = self::getBuiltStructure($sId, $objTileComputation ? $company : null);
         if (is_null($meeple)) {
           continue;
         }
 
         // Is it linked to a powerhouse built by the company ?
-        $endingSpace = 'P' . $conduit['end'] . '%'; // Any powerhouse in the ending zone
-        $powerhouse = Meeples::getOnSpace($endingSpace, POWERHOUSE, $company)->first();
+        $powerhouse = self::getLinkedPowerhouse($sId, $company);
         if (is_null($powerhouse) || $powerhouse['location'] == $constraints) {
           continue;
         }
@@ -303,12 +476,15 @@ class Map
           'conduitProduction' => $conduit['production'],
         ];
       }
+      if (empty($conduits)) {
+        continue;
+      }
 
       // Compute the possible dams
       $dams = [];
       foreach ($zone['basins'] ?? [] as $basin) {
         $owners = $objTileComputation ? [$company] : [COMPANY_NEUTRAL, $company];
-        $dam = Meeples::getOnSpace($basin, BASE, $owners)->first();
+        $dam = self::getBuiltStructure($basin, $owners);
         if (is_null($dam)) {
           continue;
         }
@@ -375,14 +551,13 @@ class Map
       $conduits = [];
       foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
         // Is this conduit built by someone ?
-        $meeple = Meeples::getOnSpace($sId, CONDUIT)->first();
+        $meeple = self::getBuiltStructure($sId);
         if (is_null($meeple) && $structure != CONDUIT) {
           continue;
         }
 
         // Is it linked to a powerhouse built by the company ?
-        $endingSpace = 'P' . $conduit['end'] . '%'; // Any powerhouse in the ending zone
-        $powerhouse = Meeples::getOnSpace($endingSpace, POWERHOUSE, $company)->first();
+        $powerhouse = self::getLinkedPowerhouse($sId, $company);
         if (is_null($powerhouse) && $structure != POWERHOUSE) {
           continue;
         }
@@ -396,7 +571,7 @@ class Map
       // Compute the possible dams
       $dams = [];
       foreach ($zone['basins'] ?? [] as $basin) {
-        $dam = Meeples::getOnSpace($basin, BASE, [COMPANY_NEUTRAL, $company])->first();
+        $dam = self::getBuiltStructure($basin, [\COMPANY_NEUTRAL, $company]);
         if (is_null($dam) && $structure != BASE) {
           continue;
         }

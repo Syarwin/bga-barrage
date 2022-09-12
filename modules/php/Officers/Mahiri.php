@@ -6,6 +6,7 @@ use BRG\Core\Engine;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Managers\Officers;
+use BRG\Map;
 
 class Mahiri extends \BRG\Models\Officer
 {
@@ -128,6 +129,9 @@ class Mahiri extends \BRG\Models\Officer
 
     Globals::setMahiriPower($powerId);
     Notifications::mahiriCopy(Companies::getActive(), $args[$powerId]['officer']);
+    if($powerId == \XO_GRAZIANO){
+      Map::updateBasinsCapacities();
+    }
 
     Engine::insertAsChild([
       'action' => PLACE_ENGINEER,

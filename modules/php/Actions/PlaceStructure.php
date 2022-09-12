@@ -41,6 +41,7 @@ class PlaceStructure extends \BRG\Models\Action
     $spaces = [];
     // If we have received a space in parameter, if it's defined we keep it, else return empty
     $possibleSpaces = Map::getConstructSlots();
+    $types = $company->getAvailableStructureTypes();
     if (!is_null($args['spaceId'] ?? null)) {
       $possibleSpaces = [$args['spaceId'] => $possibleSpaces[$args['spaceId']]];
     }
@@ -52,8 +53,7 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       // Do we have any structure left of this type ?
-      $meeple = Meeples::getTopOfType($space['type'], $company->getId(), 'company');
-      if (is_null($meeple)) {
+      if (!in_array($space['type'], $types)) {
         continue;
       }
 
@@ -69,31 +69,23 @@ class PlaceStructure extends \BRG\Models\Action
 
       // Check that the elevation is on a base owned by the company
       // and that elevation + base is not more than 3
-      $nStructures = $company->getStructures($space['id'])->count();
+      $nStructures = count(Map::getBuiltStructures($space['id'], $company));
       if ($space['type'] == ELEVATION && ($nStructures == 0 || $nStructures == 3)) {
         continue;
       }
 
       // cannot place if the spot is taken
-      if (in_array($space['type'], [POWERHOUSE, CONDUIT]) && Meeples::getOnSpace($space['id'])->count() > 0) {
+      if (in_array($space['type'], [POWERHOUSE, CONDUIT]) && Map::getBuiltStructure($space['id']) != null) {
         continue;
       }
 
       // same player cannot have 2 powerhouse in the same zone
-      if (
-        $space['type'] == \POWERHOUSE &&
-        count($company->getBuiltStructures(\POWERHOUSE, 'P' . $space['zone'] . '%')) > 0
-      ) {
+      if ($space['type'] == \POWERHOUSE && count(Map::getBuiltPowerhousesInZone($space['zone'], $company)) > 0) {
         continue;
       }
 
       // same player cannot have 2 bases on the same basin
-      if (
-        $space['type'] == BASE &&
-        count(
-          $company->getBuiltStructures(\BASE, [substr($space['id'], 0, -1) . 'L', substr($space['id'], 0, -1) . 'U'])
-        ) > 0
-      ) {
+      if ($space['type'] == BASE && count(Map::getBuiltDamsInZone($space['zone'], $company)) > 0) {
         continue;
       }
 
@@ -156,13 +148,15 @@ class PlaceStructure extends \BRG\Models\Action
 
     // Take top meeple and slide it
     $type = $this->getCtxArgs()['type'];
-    $mId = Meeples::getTopOfType($type, $company->getId(), 'company')['id'];
+    $meeple = Meeples::getTopOfType($type, $company->getId(), 'company');
+    $mId = $meeple['id'];
     Meeples::insertOnTop($mId, $spaceId);
     Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
+    Map::placeStructure($meeple, $spaceId);
+    
     // Increase stat
     $statName = 'inc' . ucfirst($type);
     Stats::$statName($company, 1);
-
 
     if (
       ($space['cost'] ?? 0) > 0 &&

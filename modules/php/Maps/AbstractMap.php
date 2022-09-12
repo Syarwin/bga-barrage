@@ -17,8 +17,14 @@ abstract class AbstractMap
     }
 
     $conduits = [];
-    foreach ($this->getZones() as $zone) {
+    $zones = $this->getZones();
+    foreach ($zones as $zId => $zone) {
       foreach ($zone['conduits'] ?? [] as $cId => $conduit) {
+        // Compute connected powerhouses
+        foreach ($zones[$conduit['end']]['powerhouses'] ?? [] as $i => $cost) {
+          $conduit['powerhouses'][] = 'P' . $conduit['end'] . '_' . $i;
+        }
+
         $conduit['id'] = $cId;
         $conduits[$cId] = $conduit;
       }
@@ -45,9 +51,24 @@ abstract class AbstractMap
         ];
       }
     }
+    foreach (self::getConduits() as $cId => $info) {
+      foreach ($info['powerhouses'] as $pId) {
+        $powerhouses[$pId]['conduits'][] = $cId;
+      }
+    }
 
     $this->_powerhouses = \array_reverse($powerhouses);
     return $this->_powerhouses;
+  }
+
+  public function getPowerhousesInZone($zoneId)
+  {
+    $powerhouses = [];
+    foreach ($this->getZones()[$zoneId]['powerhouses'] ?? [] as $i => $cost) {
+      $uId = 'P' . $zoneId . '_' . $i;
+      $powerhouses[] = $uId;
+    }
+    return $powerhouses;
   }
 
   public function getBasins()

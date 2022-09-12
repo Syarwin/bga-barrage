@@ -87,9 +87,13 @@ trait RoundStartTrait
 
     $company = Companies::getActive();
     Globals::setAntonPower('');
-    if (Globals::getMahiriPower() != '') {
+    $powerId = Globals::getMahiriPower();
+    if ($powerId != '') {
       Globals::setMahiriPower('');
       Notifications::clearMahiri();
+      if ($powerId == \XO_GRAZIANO) {
+        Map::updateBasinsCapacities();
+      }
     }
 
     // Already out of round ? => Go to the next company if one is left

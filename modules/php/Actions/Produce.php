@@ -87,8 +87,8 @@ class Produce extends \BRG\Models\Action
     if (is_null($production)) {
       throw new \BgaVisibleSystemException('Invalid production. Should not happen');
     }
-    $droplets = Map::getDropletsInBasin($system['basin'])->limit($nDroplets);
-    if ($droplets->count() < $nDroplets) {
+    $droplets = Map::removeDropletsInBasin($system['basin'], $nDroplets);
+    if (count($droplets) < $nDroplets) {
       throw new \BgaVisibleSystemException('Invalid number of droplets. Should not happen');
     }
 
