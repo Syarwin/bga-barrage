@@ -103,7 +103,8 @@ class Produce extends \BRG\Models\Action
 
     // Produce energy
     $company = Companies::getActive();
-    Notifications::produce($company, $system['powerhouseSpaceId'], $production, $nDroplets);
+    $germanPower = $args['germanPower'] ?? false;
+    Notifications::produce($company, $system['powerhouseSpaceId'], $production, $nDroplets, $germanPower);
     $company->incEnergy($production, true);
 
     // Let water flows

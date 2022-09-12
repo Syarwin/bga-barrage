@@ -364,19 +364,19 @@ class Notifications
     self::notifyAll('updateTurnOrder', '', ['order' => $order]);
   }
 
-  public static function produce($company, $powerhouseSpaceId, $energy, $droplets)
+  public static function produce($company, $powerhouseSpaceId, $energy, $droplets, $germanPower)
   {
-    self::notifyAll(
-      'produce',
-      clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s)'),
-      [
-        'company' => $company,
-        'powerhouse' => $powerhouseSpaceId,
-        'energy' => $energy,
-        'droplets' => $droplets,
-        'bonuses' => Game::get()->computeBonuses(),
-      ]
-    );
+    $msg = $germanPower
+      ? clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s) (nation\'s power)')
+      : clienttranslate('${company_name} produces ${energy} energy units with ${droplets} droplet(s)');
+
+    self::notifyAll('produce', $msg, [
+      'company' => $company,
+      'powerhouse' => $powerhouseSpaceId,
+      'energy' => $energy,
+      'droplets' => $droplets,
+      'bonuses' => Game::get()->computeBonuses(),
+    ]);
   }
 
   public function score($company, $amount, $total, $source = null, $silent = false)
