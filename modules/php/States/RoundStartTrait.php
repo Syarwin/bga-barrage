@@ -32,9 +32,10 @@ trait RoundStartTrait
     $round = Globals::incRound();
     Notifications::startNewRound($round);
 
-    // 1. a) Income
+    // 1. a) Income in reverse order
     $this->changePhase('income');
-    $this->initCustomTurnOrder('incomePhase', 'stIncomePhase', 'stEndOfStartOfRound');
+    $order = array_reverse(Companies::getTurnOrder());
+    $this->initCustomTurnOrder('incomePhase', 'stIncomePhase', 'stEndOfStartOfRound', false, true, [], $order);
   }
 
   /**

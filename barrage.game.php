@@ -172,7 +172,7 @@ class barrage extends Table
   ////////////   Custom Turn Order   ////////////
   ///////////////////////////////////////////////
   ///////////////////////////////////////////////
-  public function initCustomTurnOrder($key, $callback, $endCallback, $loop = false, $autoNext = true, $args = [])
+  public function initCustomTurnOrder($key, $callback, $endCallback, $loop = false, $autoNext = true, $args = [], $order = null)
   {
     $turnOrders = Globals::getCustomTurnOrders();
     $turnOrders[$key] = [
