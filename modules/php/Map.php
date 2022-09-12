@@ -141,6 +141,7 @@ class Map
       foreach ($meeples as $meeple) {
         self::$infos[$meeple['location']]['droplets'][] = $meeple;
       }
+      return $meeples;
     } else {
       return new Collection();
     }
@@ -348,6 +349,11 @@ class Map
     $bonusEnergy = 0;
     $movedDroplets = new Collection([]);
     foreach ($droplets as &$droplet) {
+      list($path, $energy) = self::getFlowPath($droplet, $USAPowerHouses);
+      $droplet['path'] = $path;
+      if (count($path) == 0) {
+        continue;
+      }
       // Remove drop from initial location
       $location = $droplet['location'];
       self::$infos[$location]['droplets'] = array_values(
@@ -356,11 +362,7 @@ class Map
         })
       );
 
-      list($path, $energy) = self::getFlowPath($droplet, $USAPowerHouses);
-      $droplet['path'] = $path;
-      if (count($path) == 0) {
-        continue;
-      }
+      // Add it to final location
       $location = $path[count($path) - 1];
       $bonusEnergy += $energy;
 
