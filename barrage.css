@@ -2101,6 +2101,8 @@ body {
       display: flex;
       justify-content: center;
       align-items: center; }
+      [data-round="5"] .player_panel_content .company-income-wrapper .company-income {
+        display: none; }
       .player_panel_content .company-income-wrapper .company-income::before {
         display: inline-block;
         margin-top: -5px;

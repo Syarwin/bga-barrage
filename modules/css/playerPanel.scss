@@ -390,6 +390,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      [data-round="5"] & {
+        display: none;
+      }
 
       &::before {
         display: inline-block;
