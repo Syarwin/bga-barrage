@@ -94,9 +94,9 @@ class Log extends \APP_DbObject
     $query->delete()->run();
 
     // Cancel the game notifications
+    $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     if (!empty($moveIds)) {
       // Update field
-      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
       $query
         ->update(['cancel' => 1])
         ->whereIn('gamelog_move_id', $moveIds)
@@ -109,6 +109,15 @@ class Log extends \APP_DbObject
     // Notify
     $datas = Game::get()->getAllDatas();
     Notifications::refreshUI($datas);
+
+    if (!empty($moveIds)) {
+      // Delete notifications
+      $query
+        ->delete()
+        ->where('cancel', 1)
+        ->run();
+    }
+
     return $moveIds;
   }
 
