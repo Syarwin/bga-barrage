@@ -265,7 +265,7 @@ const GAIN_MACHINE = 'GAIN_MACHINE';
 const GAIN_VP = 'GAIN_VP';
 
 // AUTOMA CRITERION
-const AI_CRITERION_BASE_CONDUIT = 'criterionBaseConduit';
+const AI_CRITERION_BASE_MAX_CONDUIT = 'criterionBaseConduit';
 const AI_CRITERION_BASE_POWERHOUSE = 'criterionBasePowerhouse';
 const AI_CRITERION_BASE_HOLD_WATER = 'criterionBaseHoldWater';
 const AI_CRITERION_BASE_PAYING_SLOT = 'criterionBasePayingSlot';

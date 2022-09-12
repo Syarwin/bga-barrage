@@ -58,7 +58,7 @@ class Card2 extends \BRG\Models\AutomaCard
   {
     return [
       BASE => [
-        \AI_CRITERION_BASE_CONDUIT,
+        \AI_CRITERION_BASE_MAX_CONDUIT,
         \AI_CRITERION_BASE_POWERHOUSE,
         \AI_CRITERION_BASE_POWERHOUSE_WATER,
         1

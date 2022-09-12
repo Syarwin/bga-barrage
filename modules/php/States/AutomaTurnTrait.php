@@ -218,6 +218,24 @@ trait AutomaTurnTrait
       }, $pairs)
     );
 
+    $space = $this->getAutomaStructureEmplacement($structure, $spaceIds);
+
+    die('TODO : tech tile');
+
+    return $space;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //  ____  _                  ____  _                   _
+  // |  _ \| | __ _  ___ ___  / ___|| |_ _ __ _   _  ___| |_ _   _ _ __ ___
+  // | |_) | |/ _` |/ __/ _ \ \___ \| __| '__| | | |/ __| __| | | | '__/ _ \
+  // |  __/| | (_| | (_|  __/  ___) | |_| |  | |_| | (__| |_| |_| | | |  __/
+  // |_|   |_|\__,_|\___\___| |____/ \__|_|   \__,_|\___|\__|\__,_|_|  \___|
+  //
+  ////////////////////////////////////////////////////////////////////////////////
+
+  public function getAutomaStructureEmplacement($structure, $spacesIds)
+  {
     // Can we complete a production system ?
     if (count($spaceIds) > 1 && $structure != \ELEVATION) {
       $almostComplete = Map::getAlmostCompleteProductionSystems($company, $structure);
@@ -234,7 +252,7 @@ trait AutomaTurnTrait
       var_dump($spaceIds);
       $criteria = $this->getAutomaCriteria()[$structure];
 
-      $spaceIds = $this->applyCriterion($company, $criteria[0], $spaceIds);
+      $spaceIds = $this->applyAutomaCriterion($company, $criteria[0], $spaceIds);
       var_dump($spaceIds);
       die('todo : tiebreaker for construct');
     }
@@ -247,10 +265,9 @@ trait AutomaTurnTrait
     if (count($pairs) > 1) {
       die('todo : tiebreaker for construct');
     }
-
-    return false;
   }
 
+  // Given the list of almost complete systems, check whether a specific space can complete one of these system
   public function canCompleteSystem($structure, $spaceId, $almostCompleteSystems)
   {
     foreach ($almostCompleteSystems as $system) {
@@ -265,10 +282,13 @@ trait AutomaTurnTrait
     return false;
   }
 
-  public function applyCriterion($company, $criterion, $spaceIds)
+  // Apply a given criterion to a pool of space
+  public function applyAutomaCriterion($company, $criterion, $spaceIds)
   {
     switch ($criterion) {
-      case AI_CRITERION_BASE_CONDUIT:
+      //////////////////////////////////////////
+      // Keep only the basin linked to the most powerful conduit possible
+      case AI_CRITERION_BASE_MAX_CONDUIT:
         $maxProd = 0;
         $maxBasins = [];
         $isOwn = false;
@@ -299,6 +319,17 @@ trait AutomaTurnTrait
           return $maxBasins;
         }
         break;
+
+      //////////////////////////////////////////
+      // Keep only the paying slot
+      case AI_CRITERION_BASE_PAYING_SLOT:
+        $spaces = $spaceIds;
+        Utils::filter($spaces, function ($spaceId) {
+          return endsWith($spaceId, 'U'); // Upper basin are the costly ones
+        });
+        if (!empty($spaces)) {
+          return $spaces;
+        }
     }
 
     return $spaceIds;
@@ -309,4 +340,10 @@ function startsWith($haystack, $needle)
 {
   $length = strlen($needle);
   return substr($haystack, 0, $length) === $needle;
+}
+
+function endsWith($haystack, $needle)
+{
+  $length = strlen($needle);
+  return $length > 0 ? substr($haystack, -$length) === $needle : true;
 }
