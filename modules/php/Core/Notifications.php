@@ -294,6 +294,7 @@ class Notifications
       'token' => $token,
       'n' => $n,
       'bonuses' => Game::get()->computeBonuses(),
+      'trackReward' => $company->getEnergyTrackReward(),
     ]);
   }
 
@@ -387,6 +388,7 @@ class Notifications
       'energy' => $energy,
       'droplets' => $droplets,
       'bonuses' => Game::get()->computeBonuses(),
+      'trackReward' => $company->getEnergyTrackReward(),
     ]);
   }
 

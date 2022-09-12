@@ -2098,7 +2098,6 @@ body {
       font-size: 20px;
       flex-grow: 1;
       border-bottom: 1px solid #d5bea6;
-      border-right: 1px solid #d5bea6;
       display: flex;
       justify-content: center;
       align-items: center; }
@@ -2117,6 +2116,20 @@ body {
         z-index: 2; }
       .player_panel_content .company-income-wrapper .company-income:empty::before {
         display: none; }
+    .player_panel_content .company-income-wrapper .company-track-reward {
+      border: 1px solid #d5bea6;
+      min-width: 20px;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .player_panel_content .company-income-wrapper .company-track-reward .icon-credit {
+        font-size: 1.1em; }
+        .player_panel_content .company-income-wrapper .company-track-reward .icon-credit span {
+          font-size: 0.45em;
+          line-height: 1.35em; }
+      .player_panel_content .company-income-wrapper .company-track-reward .icon-vp {
+        font-size: 0.8em; }
     .player_panel_content .company-income-wrapper .company-fulfilled-contracts {
       flex-grow: 1;
       border-top: 1px solid #d5bea6;

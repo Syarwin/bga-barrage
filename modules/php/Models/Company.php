@@ -81,6 +81,7 @@ class Company extends \BRG\Helpers\DB_Model
       'wheelAngle' => $this->slot,
       'boardIncomes' => $this->getBoardIncomesUI(),
       'incomes' => $this->getIncomes(),
+      'energyTrackReward' => $this->getEnergyTrackReward(),
     ];
 
     return $data;
@@ -552,6 +553,24 @@ class Company extends \BRG\Helpers\DB_Model
     return 0;
   }
 
+  public function getEnergyTrackReward()
+  {
+    if ($this->energy == 0) {
+      return [CREDIT => 3, VP => -3];
+    }
+
+    $creditMap = [29 => 8, 22 => 7, 16 => 6, 11 => 5, 7 => 4, 4 => 3, 2 => 2, 1 => 1, 0 => 3];
+    // Compute bonus
+    $bonus = null;
+    foreach ($creditMap as $v => $c) {
+      if ($this->energy >= $v) {
+        $bonus = $c;
+        break;
+      }
+    }
+
+    return [CREDIT => $bonus];
+  }
   ////////////////////////////////////////////////////////
   //   ___    _____               _____ _ _
   //  / _ \  | ____|_ __   __ _  |_   _(_) | ___  ___

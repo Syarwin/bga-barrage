@@ -387,7 +387,6 @@
       font-size: 20px;
       flex-grow: 1;
       border-bottom: 1px solid #d5bea6;
-      border-right: 1px solid #d5bea6;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -412,6 +411,26 @@
 
       &:empty::before {
         display: none;
+      }
+    }
+
+    .company-track-reward {
+      border: 1px solid #d5bea6;
+      min-width: 20px;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .icon-credit {
+        font-size: 1.1em;
+        span {
+          font-size: 0.45em;
+          line-height: 1.35em;
+        }
+      }
+      .icon-vp {
+        font-size: 0.8em;
       }
     }
 

@@ -212,6 +212,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       </div>
       <div class='company-income-wrapper'>
           <div class='company-income' id='company-income-${company.id}'></div>
+          <div class='company-track-reward' id='company-track-reward-${company.id}'></div>
           <div class='company-fulfilled-contracts' id='company-fulfilled-btn-${company.id}'>
             ${this.tplResourceCounter(company, 'fcontract')}
           </div>
@@ -426,6 +427,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: producing energy', n);
       this.gamedatas.bonuses = n.args.bonuses;
       this.updateCompanyBonuses();
+      this.gamedatas.companies[n.args.company_id].energyTrackReward = n.args.trackReward;
+      this.updateCompanyIncomes();
 
       if (this.isFastMode()) return;
 
@@ -691,6 +694,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       this.gamedatas.bonuses = n.args.bonuses;
       this.updateCompanyBonuses();
+
+      this.gamedatas.companies[n.args.company_id].energyTrackReward = n.args.trackReward;
+      this.updateCompanyIncomes();
     },
 
     notif_resetEnergies(n) {
@@ -698,11 +704,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.forEachCompany((company) => {
         this._energyCounters[company.id].toValue(0);
         this.gamedatas.companies[company.id].energy = 0;
+        this.gamedatas.companies[company.id].energyTrackReward = { credit: 3, vp: -3 };
       });
       n.args.tokens.forEach((token) => {
         $(`meeple-${token.id}`).dataset.flip = 0;
       });
       this.slideResources(n.args.tokens, {});
+      this.updateCompanyIncomes();
     },
 
     notif_score(n) {
@@ -979,6 +987,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           let desc = this.convertFlowToDescs(incomes).join('<br />');
           this.addCustomTooltip(container, desc);
         }
+
+        // Energy track reward
+        let reward = this.gamedatas.companies[company.id].energyTrackReward;
+        container = $(`company-track-reward-${company.id}`);
+        container.innerHTML = '';
+        icons = this.convertFlowToIcons(reward).join('');
+        dojo.place(icons, container);
+
+        desc = this.convertFlowToDescs(reward).join('<br />');
+        this.addCustomTooltip(container, desc);
       });
     },
 
