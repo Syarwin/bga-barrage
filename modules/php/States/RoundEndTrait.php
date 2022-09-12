@@ -62,6 +62,7 @@ trait RoundEndTrait
       else {
         $company = $firstCompanies[0];
         $company->incScore(6, clienttranslate('(1st place on energy track)'));
+        Stats::incVpEnergyTrack($company, 6);
 
         // Give reward for 2nd place
         $secondEnergy = $energies[1];

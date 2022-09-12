@@ -195,7 +195,7 @@ $stats_type = [
 
     'position' => [
       'id' => STAT_POSITION,
-      'name' => totranslate('Starting position in first round'),
+      'name' => totranslate('Starting position during draft round'),
       'type' => 'int',
     ],
     'nation' => [
