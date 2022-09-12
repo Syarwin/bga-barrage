@@ -172,8 +172,15 @@ class barrage extends Table
   ////////////   Custom Turn Order   ////////////
   ///////////////////////////////////////////////
   ///////////////////////////////////////////////
-  public function initCustomTurnOrder($key, $callback, $endCallback, $loop = false, $autoNext = true, $args = [], $order = null)
-  {
+  public function initCustomTurnOrder(
+    $key,
+    $callback,
+    $endCallback,
+    $loop = false,
+    $autoNext = true,
+    $args = [],
+    $order = null
+  ) {
     $turnOrders = Globals::getCustomTurnOrders();
     $turnOrders[$key] = [
       'order' => $order ?? Companies::getTurnOrder(),
@@ -331,15 +338,10 @@ class barrage extends Table
    */
   public function upgradeTableDb($from_version)
   {
-
-    // TODO
-    // CREATE TABLE IF NOT EXISTS `works` (
-    //   `work_id` int(10) unsigned NOT NULL,
-    //   `work_location` varchar(32) NOT NULL,
-    //   `work_state` int(10),
-    //   PRIMARY KEY (`work_id`)
-    // ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    //
-
+    if ($from_version <= 2208122344) {
+      $sql =
+        'CREATE TABLE IF NOT EXISTS `works` (`work_id` int(10) unsigned NOT NULL, `work_location` varchar(32) NOT NULL, `work_state` int(10), PRIMARY KEY (`work_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+      self::applyDbUpgradeToAllDB($sql);
+    }
   }
 }

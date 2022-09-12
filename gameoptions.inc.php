@@ -71,68 +71,68 @@ $game_options = [
   */
 
 
-  OPTION_AUTOMA => [
-    'name' => totranslate('Automas'),
-    'values' => [
-      0 => [
-        'name' => clienttranslate('0'),
-        'description' => clienttranslate('Only human players'),
-      ],
-      1 => [
-        'name' => clienttranslate('1 automa'),
-        'tmdisplay' => clienttranslate('[1 automa]'),
-      ],
-      2 => [
-        'name' => clienttranslate('2 automas'),
-        'tmdisplay' => clienttranslate('[2 automas]'),
-      ],
-      3 => [
-        'name' => clienttranslate('3 automas'),
-        'tmdisplay' => clienttranslate('[3 automas]'),
-      ],
-      4 => [
-        'name' => clienttranslate('4 automas'),
-        'tmdisplay' => clienttranslate('[4 automas]'),
-      ],
-    ],
-    'startcondition' => [
-      0 => [
-        [
-          'type' => 'minplayers',
-          'value' => 2,
-          'message' => clienttranslate('You can\'t play solo without an automa'),
-        ],
-      ],
-      1 => [
-        [
-          'type' => 'maxplayers',
-          'value' => 4,
-          'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
-        ],
-      ],
-      2 => [
-        [
-          'type' => 'maxplayers',
-          'value' => 3,
-          'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
-        ],
-      ],
-      3 => [
-        [
-          'type' => 'maxplayers',
-          'value' => 2,
-          'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
-        ],
-      ],
-      1 => [
-        [
-          'type' => 'maxplayers',
-          'value' => 4,
-          'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
-        ],
-      ],
-    ],
-  ],
+  // OPTION_AUTOMA => [
+  //   'name' => totranslate('Automas'),
+  //   'values' => [
+  //     0 => [
+  //       'name' => clienttranslate('0'),
+  //       'description' => clienttranslate('Only human players'),
+  //     ],
+  //     1 => [
+  //       'name' => clienttranslate('1 automa'),
+  //       'tmdisplay' => clienttranslate('[1 automa]'),
+  //     ],
+  //     2 => [
+  //       'name' => clienttranslate('2 automas'),
+  //       'tmdisplay' => clienttranslate('[2 automas]'),
+  //     ],
+  //     3 => [
+  //       'name' => clienttranslate('3 automas'),
+  //       'tmdisplay' => clienttranslate('[3 automas]'),
+  //     ],
+  //     4 => [
+  //       'name' => clienttranslate('4 automas'),
+  //       'tmdisplay' => clienttranslate('[4 automas]'),
+  //     ],
+  //   ],
+  //   'startcondition' => [
+  //     0 => [
+  //       [
+  //         'type' => 'minplayers',
+  //         'value' => 2,
+  //         'message' => clienttranslate('You can\'t play solo without an automa'),
+  //       ],
+  //     ],
+  //     1 => [
+  //       [
+  //         'type' => 'maxplayers',
+  //         'value' => 4,
+  //         'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
+  //       ],
+  //     ],
+  //     2 => [
+  //       [
+  //         'type' => 'maxplayers',
+  //         'value' => 3,
+  //         'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
+  //       ],
+  //     ],
+  //     3 => [
+  //       [
+  //         'type' => 'maxplayers',
+  //         'value' => 2,
+  //         'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
+  //       ],
+  //     ],
+  //     1 => [
+  //       [
+  //         'type' => 'maxplayers',
+  //         'value' => 4,
+  //         'message' => clienttranslate('Number of automas + players can\'t exceed 5'),
+  //       ],
+  //     ],
+  //   ],
+  // ],
   /*
   OPTION_LVL_AUTOMA_1 => [
     'name' => totranslate('Difficulty level of the first automa'),

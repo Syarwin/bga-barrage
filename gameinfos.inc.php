@@ -9,7 +9,7 @@ $gameinfos = [
   'publisher_website' => 'https://craniointernational.com/',
   'publisher_bgg_id' => 10768,
   'bgg_id' => 251247,
-  'players' => [1, 2, 3, 4],
+  'players' => [2, 3, 4],
 
   'suggest_player_number' => 4,
   'not_recommend_player_number' => 1,
