@@ -297,6 +297,11 @@
           flex-wrap: wrap;
           overflow-y: auto;
 
+          &.selectable {
+            border-color: #5ca45c;
+            background-color: #195e13;
+          }
+
           &.selected {
             background-color: #1a6210;
           }

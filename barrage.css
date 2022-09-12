@@ -787,6 +787,9 @@ body {
           border: 4px solid gray;
           flex-wrap: wrap;
           overflow-y: auto; }
+          .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selectable {
+            border-color: #5ca45c;
+            background-color: #195e13; }
           .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b.selected {
             background-color: #1a6210; }
           .action-board[data-id='bank'] .action-board-inner .action-board-row #bank-b .barrage-meeple {
