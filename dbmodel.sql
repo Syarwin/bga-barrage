@@ -50,6 +50,13 @@ CREATE TABLE IF NOT EXISTS `contracts` (
   PRIMARY KEY (`contract_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `works` (
+  `work_id` int(10) unsigned NOT NULL,
+  `work_location` varchar(32) NOT NULL,
+  `work_state` int(10),
+  PRIMARY KEY (`work_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE IF NOT EXISTS `cards` (
   `card_id` int(10) unsigned NOT NULL,

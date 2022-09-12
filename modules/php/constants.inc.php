@@ -219,6 +219,7 @@ const L3_TILES = [L3_BASE, L3_ELEVATION, L3_CONDUIT, L3_POWERHOUSE, L3_JOKER];
 const ANY_MACHINE = 'any_machine';
 const FLOW_DROPLET = 'flow_droplet';
 const PRODUCTION_BONUS = 'production_bonus';
+const ADVANCED_TECH_TILE = 'advanced_tech_tile';
 
 const SPECIAL_POWER = 'special_power';
 const SPECIAL_POWER_USA = 'special_power_usa';

@@ -248,34 +248,4 @@ class Contracts extends \BRG\Helpers\Pieces
       'reward' => $reward,
     ];
   }
-
-  private function gainNode($gain)
-  {
-    return [
-      'action' => GAIN,
-      'args' => $gain,
-    ];
-  }
-
-  private function gainMachines($n)
-  {
-    return [
-      'type' => NODE_XOR,
-      'childs' => [
-        [
-          'action' => GAIN,
-          'args' => [
-            MIXER => $n,
-          ],
-        ],
-
-        [
-          'action' => GAIN,
-          'args' => [
-            EXCAVATOR => $n,
-          ],
-        ],
-      ],
-    ];
-  }
 }
