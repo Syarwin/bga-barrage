@@ -10,6 +10,12 @@ abstract class AbstractMap
   abstract public function getRivers();
   abstract public function getExits();
 
+  public function getZoneId($spaceId)
+  {
+    $prefix = explode('_', $spaceId)[0];
+    return (int) substr($prefix, 1);
+  }
+
   public function getConduits()
   {
     if (isset($this->_conduits)) {

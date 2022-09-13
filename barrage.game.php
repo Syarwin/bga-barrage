@@ -59,6 +59,7 @@ class barrage extends Table
   use BRG\States\EndOfGameTrait;
   use BRG\States\BonusObjectiveTileTrait;
   use BRG\States\AutomaTurnTrait;
+  use BRG\States\AutomaPlaceStructureTrait;
 
   public static $instance = null;
   function __construct()
