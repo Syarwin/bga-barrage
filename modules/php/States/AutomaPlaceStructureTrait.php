@@ -113,6 +113,35 @@ trait AutomaPlaceStructureTrait
         break;
 
       //////////////////////////////////////////
+      // Keep only one linked to an automa powerhouse
+      case AI_CRITERION_BASE_POWERHOUSE:
+        $basins = [];
+        foreach (Map::getZones() as $zoneId => $zone) {
+          $possibleBasins = \array_intersect($zone['basins'] ?? [], $spaceIds);
+          if (empty($possibleBasins)) {
+            continue;
+          }
+
+          foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+            $powerhouse = Map::getLinkedPowerhouse($sId, $company);
+            if (!is_null($powerhouse)) {
+              $basins = array_merge($basins, $possibleBasins);
+            }
+          }
+        }
+
+        if (!empty($basins)) {
+          return $basins;
+        }
+
+        break;
+
+      //////////////////////////////////////////
+      // Keep the dam that would get the most droplets
+      case AI_CRITERION_BASE_HOLD_WATER:
+        break;
+
+      //////////////////////////////////////////
       // Keep only the paying slot
       case AI_CRITERION_BASE_PAYING_SLOT:
         $spaces = $spaceIds;
@@ -122,6 +151,16 @@ trait AutomaPlaceStructureTrait
         if (!empty($spaces)) {
           return $spaces;
         }
+        break;
+
+      //////////////////////////////////////////
+      // Keep the locations "below" a powerhouse
+      case AI_CRITERION_BASE_POWERHOUSE_WATER:
+        break;
+
+      //////////////////////////////////////////
+      // Keep the locations "above" a basin with an automa dam
+      case AI_CRITERION_BASE_BASIN:
         break;
 
       //////////////////////////////////////////////
@@ -243,6 +282,11 @@ trait AutomaPlaceStructureTrait
         break;
 
       //////////////////////////////////////
+      // Keep only powerhouses linked to an owned dam
+      case \AI_CRITERION_POWERHOUSE_BARRAGE:
+        break;
+
+      //////////////////////////////////////
       // Keep only powerhouses in the hills
       case AI_CRITERION_POWERHOUSE_HILL:
         $locations = self::getLocationsInArea(HILL);
@@ -263,6 +307,12 @@ trait AutomaPlaceStructureTrait
         if (!empty($possiblePowerhouses)) {
           return $possiblePowerhouses;
         }
+        break;
+
+      //////////////////////////////////////
+      // Keep only powerhouses that will feed automa's dams/not opponent's dams
+      case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER:
+      case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER_REVERSE:
         break;
     }
 

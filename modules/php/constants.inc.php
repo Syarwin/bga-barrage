@@ -271,7 +271,7 @@ const AI_CRITERION_BASE_POWERHOUSE = 'criterionBasePowerhouse';
 const AI_CRITERION_BASE_HOLD_WATER = 'criterionBaseHoldWater';
 const AI_CRITERION_BASE_PAYING_SLOT = 'criterionBasePayingSlot';
 const AI_CRITERION_BASE_POWERHOUSE_WATER = 'criterionBasePowerhouseWater';
-const AI_CRITERION_BASE_BASSIN = 'criterionBaseBassin';
+const AI_CRITERION_BASE_BASIN = 'criterionBaseBasin';
 
 const AI_CRITERION_CONDUIT_HIGHEST = 'criterionConduitHighest';
 const AI_CRITERION_CONDUIT_SECOND_HIGHEST = 'criterionConduitSecondHighest';
@@ -287,7 +287,7 @@ const AI_CRITERION_POWERHOUSE_HILL_5 = 'criterionPowerhouseHill5';
 const AI_CRITERION_POWERHOUSE_HILL_6 = 'criterionPowerhouseHill6';
 const AI_CRITERION_POWERHOUSE_HILL_7 = 'criterionPowerhouseHill7';
 const AI_CRITERION_POWERHOUSE_BARRAGE_WATER = 'criterionPowerhouseBarrageWater';
-const AI_CRITERION_POWERHOUSE_BARRAGE_REVERSE = 'criterionPowerhouseBarrageReverse';
+const AI_CRITERION_POWERHOUSE_BARRAGE_WATER_REVERSE = 'criterionPowerhouseBarrageWaterReverse';
 
 const AI_REVERSE_CRITERIA = [
   AI_CRITERION_CONDUIT_BARRAGE_REVERSE,
