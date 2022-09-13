@@ -325,15 +325,60 @@ trait AutomaTurnTrait
       case AI_CRITERION_BASE_PAYING_SLOT:
         $spaces = $spaceIds;
         Utils::filter($spaces, function ($spaceId) {
-          return endsWith($spaceId, 'U'); // Upper basin are the costly ones
+          return endsWith($spaceId, 'U'); // Upper basins are the costly ones
         });
         if (!empty($spaces)) {
           return $spaces;
         }
+        break;
+
+      //////////////////////////////////////////
+      // Keep only the highest capacity conduits
+      case \AI_CRITERION_CONDUIT_HIGHEST:
+        $conduits = Map::getConduits();
+        $conduitProductions = aggregate(
+          $spaceIds,
+          function ($sId) use ($conduits) {
+            return $conduits[$sId]['productions'];
+          },
+          $spaceIds
+        );
+        $maxProduction = max(array_keys($conduitProductions));
+        return $conduitProductions[$maxProduction];
+        break;
+
+      //////////////////////////////////////////
+      // Keep only the second highest capacity conduits
+      case \AI_CRITERION_CONDUIT_SECOND_HIGHEST:
+        $conduits = Map::getConduits();
+        $conduitProductions = aggregate(
+          $spaceIds,
+          function ($sId) use ($conduits) {
+            return $conduits[$sId]['productions'];
+          },
+          $spaceIds
+        );
+        $productions = array_keys($conduitProductions);
+        if (count($productions) > 1) {
+          rsort($productions);
+          $secondHighest = $productions[1];
+          return $conduitProductions[$secondHighest];
+        }
+        break;
     }
 
     return $spaceIds;
   }
+}
+
+function aggregate($arr, $func)
+{
+  $result = [];
+  foreach ($arr as $val) {
+    $v = $func($val);
+    $result[$v][] = $val;
+  }
+  return $result;
 }
 
 function startsWith($haystack, $needle)
