@@ -16,7 +16,7 @@ use BRG\Map;
 
 trait AutomaPlaceStructureTrait
 {
-  public function getAutomaStructureEmplacement($structure, $spacesIds)
+  public function getAutomaStructureEmplacement($company, $structure, $spaceIds)
   {
     // Can we complete a production system ?
     if (count($spaceIds) > 1 && $structure != \ELEVATION) {
@@ -30,17 +30,16 @@ trait AutomaPlaceStructureTrait
       }
     }
 
-    if (count($spaceIds) > 1) {
-      var_dump($spaceIds);
-      $criteria = $this->getAutomaCriteria()[$structure];
-
-      $spaceIds = $this->applyAutomaCriterion($company, $criteria[0], $spaceIds);
-      var_dump($spaceIds);
-      die('todo : tiebreaker for construct');
+    // Use criteria to reduce the possible choice
+    $i = 0;
+    $criteria = $this->getAutomaCriteria()[$structure];
+    while (count($spaceIds) > 1 && $i < 3) {
+      $spaceIds = $this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds);
     }
 
-    // Use criteria to reduce the possible choice
-    while (count($spaceIds) > 1) {
+    // Use final tie-breaker
+    if (count($spaceIds) > 1) {
+      die('todo : tiebreaker for construct');
     }
 
     // TODO
@@ -139,6 +138,30 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////////
       // Keep the dam that would get the most droplets
       case AI_CRITERION_BASE_HOLD_WATER:
+        list($w, $passingDroplets) = self::emulateFlowDroplets();
+        $basins = aggregate($spaceIds, function ($sId) use ($passingDroplets) {
+          return count($passingDroplets[$sId]);
+        });
+        $maxDroplets = max(array_keys($basins));
+        $potentialLocations = $basins[$maxDroplets];
+        if (count($potentialLocations) == 1) {
+          return $potentialLocations;
+        }
+
+        // Apply HS criterion for tie breaking
+        foreach ($this->getAutomaCriteria()[PLACE_DROPLET] as $hs) {
+          $headstream = 'HS' . $hs;
+          $basins = aggregate($potentialLocations, function ($sId) use ($passingDroplets, $headstream) {
+            return count(array_keys($passingDroplets[$sId], $headstream));
+          });
+          $maxDroplets = max(array_keys($basins));
+          $potentialLocation = $basins[$maxDroplets];
+          if (count($potentialLocations) == 1) {
+            return $potentialLocations;
+          }
+        }
+
+        return $potentialLocations;
         break;
 
       //////////////////////////////////////////
@@ -156,6 +179,16 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////////
       // Keep the locations "below" a powerhouse
       case AI_CRITERION_BASE_POWERHOUSE_WATER:
+        $locations = [];
+        foreach (Map::getZones() as $zoneId => $zone) {
+          foreach (Map::getBuiltPowerhousesInZone($zoneId) as $powerhouse) {
+            $locations = array_merge($locations, self::getFedLocations($powerhouse['location']));
+          }
+        }
+        $locations = \array_intersect($spaceIds, $locations);
+        if (!empty($locations)) {
+          return $locations;
+        }
         break;
 
       //////////////////////////////////////////

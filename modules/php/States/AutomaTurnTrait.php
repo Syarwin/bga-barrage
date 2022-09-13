@@ -218,7 +218,7 @@ trait AutomaTurnTrait
       }, $pairs)
     );
 
-    $space = $this->getAutomaStructureEmplacement($structure, $spaceIds);
+    $space = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
 
     die('TODO : tech tile');
 

@@ -428,16 +428,8 @@ class Map
     }
   }
 
-  public function getFlowPath($droplet, $USAPowerHouses = [])
+  public function getFlowPath($droplet, $USAPowerHouses = [], $dropletsInBasinMapping = null)
   {
-    // // Sanity check
-    // if (!is_array($droplet)) {
-    //   $droplet = Meeples::get($droplet);
-    //   if ($droplet == null) {
-    //     throw new \BgaVisibleSystemException("Droplet doesn't exist. shouldn't happen");
-    //   }
-    // }
-
     $USABonusEnergy = 0;
     $location = $droplet['location'];
     $path = [$location];
@@ -469,12 +461,75 @@ class Map
       }
 
       // If location is EXIT or Droplet is blocked by dam, stop here
-      if (in_array($basin, Map::getExits()) || self::countDropletsInBasin($basin) < self::getBasinCapacity($basin)) {
+      $nDroplets = is_null($dropletsInBasinMapping) // Useful for emulating water flowing
+        ? self::countDropletsInBasin($basin)
+        : $dropletsInBasinMapping[$basin] ?? 0;
+
+      if (in_array($basin, Map::getExits()) || $nDroplets < self::getBasinCapacity($basin)) {
         $blocked = true;
       }
     } while (!$blocked);
 
     return [$path, $USABonusEnergy];
+  }
+
+  // Return all the locations that would get fed by a water droplet flowing from $location
+  public function getFedLocations($location)
+  {
+    $droplet = [
+      'location' => $location,
+    ];
+    list($path, $e) = self::getFlowPath($droplet);
+    return $path;
+  }
+
+  // Emulate water flowing
+  public function emulateFlowDroplets($additionalDroplets = [])
+  {
+    // Store current status of droplets
+    $droplets = [];
+    $currentStatus = [];
+    foreach (self::$infos as $spaceId => $info) {
+      if (isset($info['droplets'])) {
+        $currentStatus[$spaceId] = count($info['droplets']);
+        foreach ($info['droplets'] as $d) {
+          $droplets[] = $d;
+        }
+      }
+    }
+
+    // Add virutal droplets
+    foreach($additionalDroplets as $location){
+      $currentStatus[$location] = ($currentStatus[$location] ?? 0) + 1;
+      $droplets[] = [
+        'location' => $location
+      ];
+    }
+
+    // Now move all the droplets
+    $passingDroplets = [];
+    foreach ($droplets as $droplet) {
+      list($path, $energy) = self::getFlowPath($droplet);
+      if (count($path) == 0) {
+        continue;
+      }
+      // Remove drop from initial location
+      $location = $droplet['location'];
+      $currentStatus[$location]--;
+
+      // Log the droplet flowing along location
+      foreach($path as $l){
+        $passingDroplets[$l][] = $location;
+      }
+
+      // Add it to final location if not EXIT
+      $location = $path[count($path) - 1];
+      if (!in_array($location, Map::getExits())) {
+        $currentStatus[$location]++;
+      }
+    }
+
+    return [$currentStatus, $passingDroplets];
   }
 
   /////////////////////////////////////////////////////////////
