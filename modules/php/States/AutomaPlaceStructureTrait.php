@@ -96,12 +96,13 @@ trait AutomaPlaceStructureTrait
               continue;
             }
 
+            $production = $conduit['production'];
             $owned = $meeple['cId'] == $company->getId();
-            if ($conduit['production'] > $maxProd || ($conduit['production'] == $maxProd && $owned && !$isOwn)) {
-              $maxProd = $conduit['production'];
+            if ($production > $maxProd || ($production == $maxProd && $owned && !$isOwn)) {
+              $maxProd = $production;
               $maxBasins = $possibleBasins;
               $isOwn = $owned;
-            } elseif ($conduit['production'] == $maxProd && $isOwn == $owned) {
+            } elseif ($production == $maxProd && $isOwn == $owned) {
               $maxBasins = array_merge($maxBasins, $possibleBasins);
             }
           }
@@ -215,6 +216,31 @@ trait AutomaPlaceStructureTrait
       // |_|    \___/  \_/\_/  |_____|_| \_\_| |_|\___/ \___/|____/|_____|
       //
       ///////////////////////////////////////////////////////////////////////
+
+      //////////////////////////////////////////
+      // Keep only the powerhouses linked to the most powerful (built) conduit possible
+      case AI_CRITERION_POWERHOUSE_CONDUIT:
+        $maxProd = 0;
+        $maxPowerhouses = [];
+        $isOwn = false;
+        foreach ($spaceIds as $sId) {
+          $conduitSpaces = self::getPowerhouses()[$sId]['conduits'];
+          foreach (self::getBuiltStructures($conduitSpaces) as $meeple) {
+            $production = self::getConduits()[$meeple['location']]['production'];
+            $owned = $meeple['cId'] == $company->getId();
+            if ($production > $maxProd || ($production == $maxProd && $owned && !$isOwn)) {
+              $maxProd = $production;
+              $maxPowerhouses = [$sId];
+              $isOwn = $owned;
+            } elseif ($production == $maxProd && $isOwn == $owned) {
+              $maxPowerhouses[] = $sId;
+            }
+          }
+        }
+        if (!empty($maxPowerhouses)) {
+          return array_unique($maxPowerhouses);
+        }
+        break;
 
       //////////////////////////////////////
       // Keep only powerhouses in the hills
