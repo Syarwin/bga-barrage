@@ -159,14 +159,12 @@ class PlaceStructure extends \BRG\Models\Action
     $statName = 'inc' . ucfirst($type);
     Stats::$statName($company, 1);
 
-    if (
-      ($space['cost'] ?? 0) > 0 &&
-      (!isset($args['tileId']) || !TechnologyTiles::get($args['tileId'])->ignoreCostMalus())
-    ) {
+    $cost = $type == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
+    if ($cost > 0 && (!isset($args['tileId']) || !TechnologyTiles::get($args['tileId'])->ignoreCostMalus())) {
       Engine::insertAsChild([
         'action' => PAY,
         'args' => [
-          'nb' => $space['cost'],
+          'nb' => $cost,
           'costs' => Utils::formatCost([CREDIT => 1]),
           'source' => clienttranslate('building space'),
         ],
