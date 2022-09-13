@@ -283,7 +283,9 @@ const AI_CRITERION_CONDUIT_POWERHOUSE_REVERSE = 'criterionConduitPowerhouseRever
 const AI_CRITERION_POWERHOUSE_CONDUIT = 'criterionPowerhouseConduit';
 const AI_CRITERION_POWERHOUSE_BARRAGE = 'criterionPowerhouseBarrage';
 const AI_CRITERION_POWERHOUSE_PLAIN = 'criterionPowerhousePlain';
-const AI_CRITERION_POWERHOUSE_HILL = 'criterionPowerhouseHill';
+const AI_CRITERION_POWERHOUSE_HILL_5 = 'criterionPowerhouseHill5';
+const AI_CRITERION_POWERHOUSE_HILL_6 = 'criterionPowerhouseHill6';
+const AI_CRITERION_POWERHOUSE_HILL_7 = 'criterionPowerhouseHill7';
 const AI_CRITERION_POWERHOUSE_BARRAGE_WATER = 'criterionPowerhouseBarrageWater';
 const AI_CRITERION_POWERHOUSE_BARRAGE_REVERSE = 'criterionPowerhouseBarrageReverse';
 

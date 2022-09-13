@@ -114,7 +114,7 @@ trait BonusObjectiveTileTrait
     switch (Globals::getObjectiveTile()) {
       case OBJECTIVE_PAYING_SLOT:
         // Compute paying spaces
-        $slots = Map::getConstructSlots(true);
+        $slots = Map::getConstructSlots();
         $locations = [];
         foreach ($slots as $slot) {
           if (($slot['cost'] ?? 0) > 0) {

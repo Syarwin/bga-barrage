@@ -208,6 +208,10 @@ class Map
   {
     self::$infos[$spaceId]['structures'][] = $meeple;
     self::updateBasinsCapacities();
+
+    if ($meeple['type'] == BASE && !is_null(self::$constructSlots)) {
+      self::$constructSlots[$spaceId]['type'] = ELEVATION;
+    }
   }
 
   public static function addDroplets($droplets)
@@ -315,6 +319,41 @@ class Map
   {
     $spaceIds = self::getPowerhousesInZone($zoneId);
     return self::getBuiltStructures($spaceIds, $company);
+  }
+
+  ///////////////////////////////////////////////////////
+  //   ____                _                   _
+  //  / ___|___  _ __  ___| |_ _ __ _   _  ___| |_
+  // | |   / _ \| '_ \/ __| __| '__| | | |/ __| __|
+  // | |__| (_) | | | \__ \ |_| |  | |_| | (__| |_
+  //  \____\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+  //
+  ///////////////////////////////////////////////////////
+  protected static $constructSlots = null;
+  public function getConstructSlots()
+  {
+    if (!is_null(self::$constructSlots)) {
+      return self::$constructSlots;
+    }
+
+    $slots = [];
+    foreach (self::getBasins() as $bId => $basin) {
+      $basin['type'] = is_null(self::getBuiltStructure($bId)) ? BASE : ELEVATION;
+      $slots[$bId] = $basin;
+    }
+
+    foreach (self::getPowerhouses() as $pId => $powerhouse) {
+      $powerhouse['type'] = POWERHOUSE;
+      $slots[$pId] = $powerhouse;
+    }
+
+    foreach (self::getConduits() as $cId => $conduit) {
+      $conduit['type'] = CONDUIT;
+      $slots[$cId] = $conduit;
+    }
+
+    self::$constructSlots = $slots;
+    return $slots;
   }
 
   ////////////////////////////////////////////////////////////

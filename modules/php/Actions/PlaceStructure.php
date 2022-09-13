@@ -101,7 +101,8 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       // Check that the player can afford the cost
-      if (!$ignoreResources && !$ignoreMalus && ($space['cost'] ?? 0) > $credit) {
+      $cost = $args['type'] == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
+      if (!$ignoreResources && !$ignoreMalus && $cost > $credit) {
         continue;
       }
 
@@ -153,7 +154,7 @@ class PlaceStructure extends \BRG\Models\Action
     Meeples::insertOnTop($mId, $spaceId);
     Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
     Map::placeStructure($meeple, $spaceId);
-    
+
     // Increase stat
     $statName = 'inc' . ucfirst($type);
     Stats::$statName($company, 1);

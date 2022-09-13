@@ -99,35 +99,6 @@ abstract class AbstractMap
     return $basins;
   }
 
-  public function getConstructSlots($computeObjectives = false)
-  {
-    if (isset($this->_constructSlots)) {
-      return $this->getConstructSlots;
-    }
-
-    $slots = [];
-    foreach ($this->getBasins() as $bId => $basin) {
-      $basin['type'] = Meeples::getOnSpace($bId)->empty() ? BASE : ELEVATION;
-      if ($basin['type'] == ELEVATION && !$computeObjectives) {
-        $basin['cost'] = 0;
-      }
-      $slots[$bId] = $basin;
-    }
-
-    foreach ($this->getPowerhouses() as $pId => $powerhouse) {
-      $powerhouse['type'] = POWERHOUSE;
-      $slots[$pId] = $powerhouse;
-    }
-
-    foreach ($this->getConduits() as $cId => $conduit) {
-      $conduit['type'] = CONDUIT;
-      $slots[$cId] = $conduit;
-    }
-
-    $this->getConstructSlots = $slots;
-    return $slots;
-  }
-
   public function getBasinsByArea()
   {
     $basins = [

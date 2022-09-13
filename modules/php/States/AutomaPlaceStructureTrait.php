@@ -215,6 +215,29 @@ trait AutomaPlaceStructureTrait
       // |_|    \___/  \_/\_/  |_____|_| \_\_| |_|\___/ \___/|____/|_____|
       //
       ///////////////////////////////////////////////////////////////////////
+
+      //////////////////////////////////////
+      // Keep only powerhouses in the hills
+      case AI_CRITERION_POWERHOUSE_HILL:
+        $locations = self::getLocationsInArea(HILL);
+        $possiblePowerhouses = \array_intersect($locations, $spaceIds);
+        if (!empty($possiblePowerhouses)) {
+          return $possiblePowerhouses;
+        }
+        break;
+
+      ///////////////////////////////////////
+      // Keep only powerhouses in that section
+      case AI_CRITERION_POWERHOUSE_HILL_5:
+      case AI_CRITERION_POWERHOUSE_HILL_6:
+      case AI_CRITERION_POWERHOUSE_HILL_7:
+        $zoneId = (int) substr($criterion, -1); // Get the last digit of the criterion to get the zoneId
+        $locations = self::getLocationsInZone($zoneId);
+        $possiblePowerhouses = \array_intersect($locations, $spaceIds);
+        if (!empty($possiblePowerhouses)) {
+          return $possiblePowerhouses;
+        }
+        break;
     }
 
     return $spaceIds;
