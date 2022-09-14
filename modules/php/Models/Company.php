@@ -268,11 +268,11 @@ class Company extends \BRG\Helpers\DB_Model
     return $this->countAvailableEngineers() > 0;
   }
 
-  public function placeEngineer($spaceId, $nEngineers)
+  public function placeEngineer($spaceId, $nEngineers, $offset = 0)
   {
     $engineerIds = array_slice($this->getAvailableEngineers()->getIds(), 0, $nEngineers);
     foreach ($engineerIds as $i => $id) {
-      Meeples::move($id, $spaceId, $i);
+      Meeples::move($id, $spaceId, $i + $offset);
     }
     return Meeples::getMany($engineerIds);
   }

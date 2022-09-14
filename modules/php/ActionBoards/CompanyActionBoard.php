@@ -23,8 +23,12 @@ class CompanyActionBoard extends AbstractActionBoard
         continue;
       }
 
-      for ($i = 1; $i <= 4; $i++) {
-        $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
+      if ($company->isAI()) {
+        $rows[] = [$cId, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
+      } else {
+        for ($i = 1; $i <= 4; $i++) {
+          $rows[] = [$cId . '-' . $i, ['i' => '<CONSTRUCT>', 't' => clienttranslate('Construct a structure')]];
+        }
       }
     }
 
@@ -35,18 +39,31 @@ class CompanyActionBoard extends AbstractActionBoard
   {
     $spaces = [];
     foreach (Companies::getAll() as $cId => $company) {
-      for ($i = 1; $i <= 4; $i++) {
+      if ($company->isAI()) {
         $spaces[] = [
           'board' => self::$id,
           'cId' => $cId,
-          'uid' => self::$id . '-' . $cId . '-' . $i,
-          'cost' => $i == 4 ? 3 : 0,
-          'nEngineers' => min(3, $i),
-          'construct' => true,
+          'uid' => self::$id . '-' . $cId,
+          'cost' => 0,
+          'nEngineers' => 12,
           'flow' => [
             'action' => CONSTRUCT,
           ],
         ];
+      } else {
+        for ($i = 1; $i <= 4; $i++) {
+          $spaces[] = [
+            'board' => self::$id,
+            'cId' => $cId,
+            'uid' => self::$id . '-' . $cId . '-' . $i,
+            'cost' => $i == 4 ? 3 : 0,
+            'nEngineers' => min(3, $i),
+            'construct' => true,
+            'flow' => [
+              'action' => CONSTRUCT,
+            ],
+          ];
+        }
       }
     }
 
@@ -55,6 +72,6 @@ class CompanyActionBoard extends AbstractActionBoard
 
   public function getSpacesOrderForAutoma()
   {
-    return null;
+    return [];
   }
 }

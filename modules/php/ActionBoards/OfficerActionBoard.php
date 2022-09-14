@@ -41,6 +41,6 @@ class OfficerActionBoard extends AbstractActionBoard
 
   public function getSpacesOrderForAutoma()
   {
-    return null;
+    return [];
   }
 }
