@@ -1013,7 +1013,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
     addCustomTooltip(id, html, delay) {
       if (this.tooltips[id]) {
-        this.tooltips[id].destroy();
+        this.tooltips[id].label = html;
+        return;
       }
 
       html = '<div class="midSizeDialog">' + html + '</div>';

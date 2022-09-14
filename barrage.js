@@ -1138,8 +1138,8 @@ define([
 
     notif_flipAutomaCard(n) {
       debug('Notif: flipping a new automa card', n);
-      let flipped = $('automa-cards-container').querySelector('.flipped');
-      let toFlip = $('automa-cards-container').querySelector(':not(.flipped)');
+      let flipped = $('automa-cards-container').querySelector('.automa-card.flipped');
+      let toFlip = $('automa-cards-container').querySelector('.automa-card:not(.flipped)');
       flipped.id += 'toDestroy';
       this.place('tplAutomaCard', { location: '', id: n.args.cardFront }, 'automa-cards-container');
       dojo.place(toFlip, 'automa-cards-container');
