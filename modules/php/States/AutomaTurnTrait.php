@@ -25,7 +25,10 @@ trait AutomaTurnTrait
 
   function actRunAutoma()
   {
-    $this->computeAutomaTurn();
+    $actions = $this->computeAutomaTurn();
+    foreach($actions as $action){
+      $this->automaTakeAction($action['action'], $action['result']);
+    }
   }
 
   function getAutomaFlow()
