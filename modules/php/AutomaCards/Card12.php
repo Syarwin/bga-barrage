@@ -1,35 +1,41 @@
 <?php
 namespace BRG\AutomaCards;
 
-class Card4 extends \BRG\Models\AutomaCard
+class Card12 extends \BRG\Models\AutomaCard
 {
   public function getFlow()
   {
     return [
       [
-        'nEngineers' => 1,
+        'nEngineers' => 2,
         'type' => \PRODUCE,
-        'contract' => \CONTRACT_GREEN,
-        'bonus' => -1,
+        'contract' => \CONTRACT_RED,
+      ],
+      [
+        'nEngineers' => 1,
+        'type' => \TAKE_CONTRACT,
+        'contract' => \CONTRACT_RED,
+        'energy' => 2,
       ],
       [
         'nEngineers' => 2,
         'type' => \CONSTRUCT,
-        'structure' => BASE,
-        'constraints' => [\MOUNTAIN],
+        'structure' => \CONDUIT,
+        'constraints' => [4],
       ],
       [
-        'nEngineers' => 1,
-        'type' => GAIN_MACHINE,
-        'vp' => -2,
+        'nEngineers' => 2,
+        'type' => \GAIN_MACHINE,
+        'vp' => -4,
+        'condition' => 'not_last_round',
         'machines' => [\EXCAVATOR],
+        'n' => 2,
       ],
       [
         'nEngineers' => 2,
         'type' => EXTERNAL_WORK,
-        'order' => [1, 2, 3],
+        'order' => [3, 2, 1],
       ],
-
       [
         'nEngineers' => 1,
         'type' => \ROTATE_WHEEL,

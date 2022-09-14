@@ -127,7 +127,6 @@ const CONTRACT_GREEN = 2;
 const CONTRACT_YELLOW = 3;
 const CONTRACT_RED = 4;
 
-
 /*
  * Companies
  */
@@ -190,6 +189,7 @@ const BASE = 'base';
 const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
 const POWERHOUSE = 'powerhouse';
+const BUILDING = 'building';
 const JOKER = 'joker';
 const ANTON_TILE = 'anton';
 const L1_BASE = 'L1_BASE';
@@ -208,6 +208,7 @@ const L3_CONDUIT = 'L3_CONDUIT';
 const L3_POWERHOUSE = 'L3_POWERHOUSE';
 const L3_JOKER = 'L3_JOKER';
 
+// TODO: update with LWP to add building
 const STRUCTURES = [BASE, ELEVATION, CONDUIT, POWERHOUSE];
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];

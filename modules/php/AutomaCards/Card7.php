@@ -9,24 +9,29 @@ class Card7 extends \BRG\Models\AutomaCard
       [
         'nEngineers' => 2,
         'type' => \PRODUCE,
-        'contract' => \CONTRACT_GREEN,
-        'bonus' => -2,
+        'contract' => \CONTRACT_YELLOW,
       ],
       [
         'nEngineers' => 1,
-        'type' => \PLACE_DROPLET,
-        'n' => 2,
-        'flow' => false,
+        'type' => \TAKE_CONTRACT,
+        'contract' => \CONTRACT_YELLOW,
+        'energy' => 2,
       ],
       [
         'nEngineers' => 2,
         'type' => \CONSTRUCT,
-        'structure' => BASE,
+        'structure' => \ELEVATION,
       ],
       [
         'nEngineers' => 2,
         'type' => \CONSTRUCT,
-        'structure' => ELEVATION,
+        'structure' => \POWERHOUSE,
+      ],
+      [
+        'nEngineers' => 1,
+        'type' => \PATENT,
+        'structure' => \ELEVATION,
+        'vp' => -2,
       ],
       [
         'nEngineers' => 2,
@@ -40,12 +45,6 @@ class Card7 extends \BRG\Models\AutomaCard
       ],
       [
         'nEngineers' => 1,
-        'type' => GAIN_MACHINE,
-        'vp' => -3,
-        'condition' => 'not_last_round',
-      ],
-      [
-        'nEngineers' => 1,
         'type' => GAIN_VP,
         'vp' => 1,
       ],
@@ -55,29 +54,15 @@ class Card7 extends \BRG\Models\AutomaCard
   public function getCriteria()
   {
     return [
-      BASE => [
-        \AI_CRITERION_BASE_MAX_CONDUIT,
-        \AI_CRITERION_BASE_POWERHOUSE,
-        \AI_CRITERION_BASE_POWERHOUSE_WATER,
-        1
-      ],
-      CONDUIT => [
-        AI_CRITERION_CONDUIT_HIGHEST,
-        AI_CRITERION_CONDUIT_BARRAGE,
-        AI_CRITERION_CONDUIT_POWERHOUSE,
-        '1A',
-      ],
+      BASE => [\AI_CRITERION_BASE_MAX_CONDUIT, \AI_CRITERION_BASE_POWERHOUSE, \AI_CRITERION_BASE_POWERHOUSE_WATER, 1],
+      CONDUIT => [AI_CRITERION_CONDUIT_HIGHEST, AI_CRITERION_CONDUIT_BARRAGE, AI_CRITERION_CONDUIT_POWERHOUSE, '1A'],
       POWERHOUSE => [
         AI_CRITERION_POWERHOUSE_BARRAGE_WATER,
         AI_CRITERION_POWERHOUSE_CONDUIT,
         AI_CRITERION_POWERHOUSE_BARRAGE,
         5,
       ],
-      PLACE_DROPLET => [
-        'A',
-        'B',
-        'C'
-      ]
+      PLACE_DROPLET => ['A', 'B', 'C'],
     ];
   }
 }
