@@ -10,13 +10,17 @@ class Card6 extends \BRG\Models\AutomaCard
         'nEngineers' => 2,
         'type' => \PRODUCE,
         'contract' => \CONTRACT_GREEN,
-        'bonus' => -2,
       ],
       [
         'nEngineers' => 1,
         'type' => \PLACE_DROPLET,
-        'n' => 2,
-        'flow' => false,
+        'n' => 1,
+        'flow' => true,
+      ],
+      [
+        'nEngineers' => 2,
+        'type' => \CONSTRUCT,
+        'structure' => \ELEVATION,
       ],
       [
         'nEngineers' => 2,
@@ -25,13 +29,8 @@ class Card6 extends \BRG\Models\AutomaCard
       ],
       [
         'nEngineers' => 2,
-        'type' => \CONSTRUCT,
-        'structure' => ELEVATION,
-      ],
-      [
-        'nEngineers' => 2,
         'type' => EXTERNAL_WORK,
-        'order' => [1, 2, 3],
+        'order' => [3, 2, 1],
       ],
       [
         'nEngineers' => 1,
@@ -55,29 +54,15 @@ class Card6 extends \BRG\Models\AutomaCard
   public function getCriteria()
   {
     return [
-      BASE => [
-        \AI_CRITERION_BASE_MAX_CONDUIT,
-        \AI_CRITERION_BASE_POWERHOUSE,
-        \AI_CRITERION_BASE_POWERHOUSE_WATER,
-        1
-      ],
-      CONDUIT => [
-        AI_CRITERION_CONDUIT_HIGHEST,
-        AI_CRITERION_CONDUIT_BARRAGE,
-        AI_CRITERION_CONDUIT_POWERHOUSE,
-        '1A',
-      ],
+      BASE => [\AI_CRITERION_BASE_MAX_CONDUIT, \AI_CRITERION_BASE_POWERHOUSE, \AI_CRITERION_BASE_POWERHOUSE_WATER, 1],
+      CONDUIT => [AI_CRITERION_CONDUIT_HIGHEST, AI_CRITERION_CONDUIT_BARRAGE, AI_CRITERION_CONDUIT_POWERHOUSE, '1A'],
       POWERHOUSE => [
         AI_CRITERION_POWERHOUSE_BARRAGE_WATER,
         AI_CRITERION_POWERHOUSE_CONDUIT,
         AI_CRITERION_POWERHOUSE_BARRAGE,
         5,
       ],
-      PLACE_DROPLET => [
-        'A',
-        'B',
-        'C'
-      ]
+      PLACE_DROPLET => ['A', 'B', 'C'],
     ];
   }
 }
