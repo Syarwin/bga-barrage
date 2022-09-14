@@ -8,6 +8,7 @@ namespace BRG\TechTiles;
 class L1Conduit extends AdvancedTile
 {
   protected $structureType = CONDUIT;
+  protected $lvl = 1;
   public function getDescs()
   {
     $descs = parent::getDescs();

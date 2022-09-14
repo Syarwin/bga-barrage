@@ -14,6 +14,7 @@ use BRG\Map;
 class L3Elevation extends AdvancedTile
 {
   protected $structureType = ELEVATION;
+  protected $lvl = 3;
   public function getDescs()
   {
     $descs = parent::getDescs();

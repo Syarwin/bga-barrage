@@ -39,11 +39,7 @@ trait AutomaPlaceStructureTrait
 
     // Use final tie-breaker
     if (count($spaceIds) > 1) {
-      die('todo : tiebreaker for construct');
-    }
-
-    // TODO
-    if (count($pairs) > 1) {
+      return $spaceIds[0]; // TODO
       die('todo : tiebreaker for construct');
     }
   }

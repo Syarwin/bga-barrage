@@ -8,6 +8,7 @@ namespace BRG\TechTiles;
 class L1Powerhouse extends AdvancedTile
 {
   protected $structureType = POWERHOUSE;
+  protected $lvl = 1;
   public function getDescs()
   {
     $descs = parent::getDescs();

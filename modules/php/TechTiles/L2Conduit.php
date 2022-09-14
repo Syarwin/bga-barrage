@@ -14,6 +14,7 @@ use BRG\Helpers\Utils;
 class L2Conduit extends AdvancedTile
 {
   protected $structureType = CONDUIT;
+  protected $lvl = 2;
   public function getDescs()
   {
     $descs = parent::getDescs();

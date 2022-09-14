@@ -13,6 +13,7 @@ use BRG\Map;
 class L3Conduit extends AdvancedTile
 {
   protected $structureType = CONDUIT;
+  protected $lvl = 3;
   public function getDescs()
   {
     $descs = parent::getDescs();

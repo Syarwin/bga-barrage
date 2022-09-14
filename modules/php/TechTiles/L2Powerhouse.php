@@ -13,6 +13,7 @@ use BRG\Map;
 class L2Powerhouse extends AdvancedTile
 {
   protected $structureType = POWERHOUSE;
+  protected $lvl = 2;
   public function getDescs()
   {
     $descs = parent::getDescs();

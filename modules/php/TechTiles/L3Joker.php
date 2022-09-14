@@ -14,6 +14,7 @@ use BRG\Map;
 class L3Joker extends AdvancedTile
 {
   protected $structureType = JOKER;
+  protected $lvl = 3;
   public function getDescs()
   {
     $descs = parent::getDescs();

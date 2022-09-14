@@ -110,6 +110,8 @@ class Construct extends \BRG\Models\Action
           $pairs[] = [
             'spaceId' => $slot['id'],
             'tileId' => $tile->getId(),
+            'tileStructureType' => $tile->getStructureType(),
+            'tileLvl' => $tile->getLvl(),
             'type' => $slot['type'],
             'flow' => $flow,
           ];

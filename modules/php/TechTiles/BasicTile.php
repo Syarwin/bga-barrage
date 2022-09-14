@@ -18,11 +18,12 @@ class BasicTile extends \BRG\Helpers\DB_Model
     'cId' => ['company_id', 'int'],
   ];
 
-  protected $staticAttributes = ['automatic', 'ignoreCostMalus', 'alternativeAction', 'alternativeActionDesc'];
+  protected $staticAttributes = ['automatic', 'ignoreCostMalus', 'alternativeAction', 'alternativeActionDesc', 'lvl'];
   protected $automatic = true;
   protected $ignoreCostMalus = false;
   protected $alternativeAction = false;
   protected $alternativeActionDesc = '';
+  protected $lvl = 0;
 
   public function jsonSerialize()
   {

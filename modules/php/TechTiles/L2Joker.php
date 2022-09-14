@@ -14,6 +14,7 @@ use BRG\Helpers\Utils;
 class L2Joker extends AdvancedTile
 {
   protected $structureType = JOKER;
+  protected $lvl = 2;
   public function getDescs()
   {
     $descs = parent::getDescs();

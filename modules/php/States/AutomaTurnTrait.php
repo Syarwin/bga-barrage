@@ -38,6 +38,9 @@ trait AutomaTurnTrait
     return AutomaCards::getUiData()['back']->getCriteria();
   }
 
+  /**
+   * computeAutomaTurn(): given the automa cards, compute the list of actions the automa will take
+   */
   function computeAutomaTurn()
   {
     $company = Companies::getActive();
@@ -67,23 +70,28 @@ trait AutomaTurnTrait
     var_dump($actions);
   }
 
+  /**
+   * canAutomaTakeAction($action) : given an action with args, return
+   *   - either false if the automa cannot take the action
+   *   - or relevant informations to know what this action will result in
+   */
   function canAutomaTakeAction($action)
   {
     $company = Companies::getActive();
     $type = $action['type'];
 
     ///////////////////////////////////////////
-    // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track
+    // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
     if ($type == PRODUCE) {
       return $this->canAutomaTakeProduceAction($company, $action);
     }
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
     elseif ($type == \PLACE_DROPLET) {
-      return false;
+      return false; // TODO
     }
     ///////////////////////////////////////////
-    // Construct : only if it has available machinery and tech tile
+    // Construct : only if it has available machinery and tech tile (see below)
     elseif ($type == CONSTRUCT) {
       return $this->canAutomaTakeConstructAction($company, $action);
     }
@@ -121,7 +129,74 @@ trait AutomaTurnTrait
     ////////////////////////////////////////
     // Patent for advanced tech tile : possible if a tile of this type is available
     elseif ($type == PATENT) {
+      return false; // TODO
+    }
+  }
+
+  /**
+   * automaTakeAction($action, $result)
+   */
+  function automaTakeAction($action, $result)
+  {
+    $company = Companies::getActive();
+    $type = $action['type'];
+
+    // Place engineers
+    $nEngineers = $action['nEngineers'] ?? 0; // 0 is useful for contract rewards
+    if($nEngineers > 0){
+      die("TODO : place engineer for Automa");
+    }
+
+    ///////////////////////////////////////////
+    // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
+    if ($type == PRODUCE) {
+      return $this->canAutomaTakeProduceAction($company, $action);
+    }
+    ///////////////////////////////////////////
+    // Place Droplet : only if it can reach automa's barrage
+    elseif ($type == \PLACE_DROPLET) {
+      return false; // TODO
+    }
+    ///////////////////////////////////////////
+    // Construct : only if it has available machinery and tech tile (see below)
+    elseif ($type == CONSTRUCT) {
+      return $this->canAutomaTakeConstructAction($company, $action);
+    }
+    //////////////////////////////////////////
+    // External Work : LWP
+    elseif ($type == \EXTERNAL_WORK) {
       return false;
+    }
+    //////////////////////////////////////////
+    // Rotate wheel : wheel must be non-empty
+    elseif ($type == \ROTATE_WHEEL) {
+      return !Meeples::getOnWheel($company->getId())->empty() ||
+        !TechnologyTiles::getOnWheel($company->getId())->empty();
+    }
+    //////////////////////////////////////////
+    // Gain machine : automa will not take this action in last round of the game
+    elseif ($type == \GAIN_MACHINE) {
+      $condition = $action['condition'] ?? null;
+      if ($condition == 'not_last_round' && Globals::getRound() == 5) {
+        return false;
+      }
+
+      return true;
+    }
+    ////////////////////////////////////////
+    // Gain VP : always possible as last resort
+    elseif ($type == \GAIN_VP) {
+      return true;
+    }
+    ////////////////////////////////////////
+    // Discard contracts : always possible
+    elseif ($type == \TAKE_CONTRACT) {
+      return true;
+    }
+    ////////////////////////////////////////
+    // Patent for advanced tech tile : possible if a tile of this type is available
+    elseif ($type == PATENT) {
+      return false; // TODO
     }
   }
 
@@ -151,6 +226,7 @@ trait AutomaTurnTrait
         $maxSystem = $system;
       }
     }
+    // TODO : tie breaker
 
     // Check energy track requirement
     $energy = $company->getEnergy();
@@ -217,11 +293,21 @@ trait AutomaTurnTrait
         return $pair['spaceId'];
       }, $pairs)
     );
+    $spaceId = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
 
-    $space = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
+    // Now find the good tile for that spot
+    $maxLvl = 0;
+    $tileId = null;
+    foreach ($pairs as $pair) {
+      if ($pair['spaceId'] != $spaceId || $pair['tileLvl'] < $maxLvl) {
+        continue;
+      }
+      if ($pair['tileLvl'] > $maxLvl || $pair['tileStructureType'] == $structure) {
+        $maxLvl = $pair['tileLvl'];
+        $tileId = $pair['tileId'];
+      }
+    }
 
-    die('TODO : tech tile');
-
-    return $space;
+    return [$spaceId, $tileId];
   }
 }

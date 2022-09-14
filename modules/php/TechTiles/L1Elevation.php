@@ -8,6 +8,7 @@ namespace BRG\TechTiles;
 class L1Elevation extends AdvancedTile
 {
   protected $structureType = ELEVATION;
+  protected $lvl = 1;
   public function getDescs()
   {
     $descs = parent::getDescs();

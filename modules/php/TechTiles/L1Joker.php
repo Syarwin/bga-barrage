@@ -9,6 +9,7 @@ class L1Joker extends AdvancedTile
 {
   protected $ignoreCostMalus = true;
   protected $structureType = JOKER;
+  protected $lvl = 1;
   public function getDescs()
   {
     $descs = parent::getDescs();

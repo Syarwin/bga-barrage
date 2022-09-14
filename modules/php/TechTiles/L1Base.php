@@ -9,6 +9,7 @@ use BRG\Map;
 class L1Base extends AdvancedTile
 {
   protected $structureType = BASE;
+  protected $lvl = 1;
   public function getDescs()
   {
     $descs = parent::getDescs();
