@@ -2,11 +2,13 @@
 namespace BRG\States;
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
+use BRG\Core\Engine;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Managers\Fences;
 use BRG\Managers\Actions;
+use BRG\Managers\ActionSpaces;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\TechnologyTiles;
 use BRG\Models\PlayerBoard;
@@ -26,9 +28,11 @@ trait AutomaTurnTrait
   function actRunAutoma()
   {
     $actions = $this->computeAutomaTurn();
-    foreach($actions as $action){
+    foreach ($actions as $action) {
       $this->automaTakeAction($action['action'], $action['result']);
     }
+
+    $this->nextPlayerCustomOrder('actionPhase');
   }
 
   function getAutomaFlow()
@@ -171,57 +175,77 @@ trait AutomaTurnTrait
     // Place engineers
     $nEngineers = $action['nEngineers'] ?? 0; // 0 is useful for contract rewards
     if ($nEngineers > 0) {
-      die('TODO : place engineer for Automa');
+      $actionSpaceId = $result['actionSpaceId'] ?? null;
+      $boards = [
+        PRODUCE => BOARD_TURBINE,
+        PLACE_DROPLET => BOARD_WATER,
+        CONSTRUCT => BOARD_COMPANY,
+        EXTERNAL_WORK => 'TODO',
+        ROTATE_WHEEL => BOARD_WORSKHOP,
+        GAIN_MACHINE => BOARD_MACHINERY_SHOP,
+        GAIN_VP => BOARD_BANK,
+        TAKE_CONTRACT => BOARD_CONTRACT,
+        PATENT => \BOARD_PATENT,
+      ];
+      $board = ActionSpaces::getBoard($boards[$type]);
+
+      if (is_null($actionSpaceId)) {
+        $spaces = $board::getOrderedPlayableSpaces($company);
+        foreach ($spaces as $space) {
+          if (Meeples::getOnSpace($space['uid'])->empty()) {
+            $actionSpaceId = $space['uid'];
+            break;
+          }
+        }
+        // No free space => just put it on the first space of that board
+        if (is_null($actionSpaceId)) {
+          $actionSpaceId = $spaces[0]['uid'];
+        }
+      }
+
+      // Get max state
+      $state = Meeples::getExtremePosition(true, $actionSpaceId);
+      // Put engineer on top of that
+      $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state + 1);
+      Notifications::placeEngineers($company, $engineers, $board);
     }
 
     ///////////////////////////////////////////
-    // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
+    // Produce
     if ($type == PRODUCE) {
     }
     ///////////////////////////////////////////
-    // Place Droplet : only if it can reach automa's barrage
+    // Place Droplet
     elseif ($type == \PLACE_DROPLET) {
     }
     ///////////////////////////////////////////
-    // Construct : only if it has available machinery and tech tile (see below)
+    // Construct
     elseif ($type == CONSTRUCT) {
-      return $this->canAutomaTakeConstructAction($company, $action);
+      Engine::runAutoma($result['flow']);
     }
     //////////////////////////////////////////
     // External Work : LWP
     elseif ($type == \EXTERNAL_WORK) {
-      return false;
     }
     //////////////////////////////////////////
-    // Rotate wheel : wheel must be non-empty
+    // Rotate wheel
     elseif ($type == \ROTATE_WHEEL) {
-      return !Meeples::getOnWheel($company->getId())->empty() ||
-        !TechnologyTiles::getOnWheel($company->getId())->empty();
     }
     //////////////////////////////////////////
-    // Gain machine : automa will not take this action in last round of the game
+    // Gain machine
     elseif ($type == \GAIN_MACHINE) {
-      $condition = $action['condition'] ?? null;
-      if ($condition == 'not_last_round' && Globals::getRound() == 5) {
-        return false;
-      }
-
-      return true;
     }
     ////////////////////////////////////////
-    // Gain VP : always possible as last resort
+    // Gain VP
     elseif ($type == \GAIN_VP) {
-      return true;
     }
     ////////////////////////////////////////
-    // Discard contracts : always possible
+    // Discard contracts
     elseif ($type == \TAKE_CONTRACT) {
-      return true;
     }
     ////////////////////////////////////////
-    // Patent for advanced tech tile : possible if a tile of this type is available
+    // Patent for advanced tech tile
     elseif ($type == PATENT) {
-      return false; // TODO
     }
   }
 
@@ -322,17 +346,17 @@ trait AutomaTurnTrait
 
     // Now find the good tile for that spot
     $maxLvl = 0;
-    $tileId = null;
+    $maxPair = null;
     foreach ($pairs as $pair) {
       if ($pair['spaceId'] != $spaceId || $pair['tileLvl'] < $maxLvl) {
         continue;
       }
       if ($pair['tileLvl'] > $maxLvl || $pair['tileStructureType'] == $structure) {
         $maxLvl = $pair['tileLvl'];
-        $tileId = $pair['tileId'];
+        $maxPair = $pair;
       }
     }
 
-    return ['spaceId' => $spaceId, 'tileId' => $tileId];
+    return $maxPair;
   }
 }

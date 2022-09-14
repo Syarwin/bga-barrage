@@ -2,6 +2,15 @@
   --barrageCardScale: 1;
 }
 
+.dijitTooltipContainer {
+  --barrageCardScale: 1.7;
+}
+
+.automa-card-tooltip {
+  text-align: center;
+  font-size: 30px;
+}
+
 $numberOfCards: 20;
 .automa-card {
   position: relative;

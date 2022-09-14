@@ -23,8 +23,8 @@ trait DebugTrait
 
   public function tp()
   {
-    $droplets = Meeples::getFilteredQuery(null, null, DROPLET)->get();
-    Map::flowDroplets($droplets);
+    $company = Companies::getActive();
+    var_dump($company->getLvlAI());
   }
 
   public function vt()

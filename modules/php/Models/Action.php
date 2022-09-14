@@ -64,6 +64,10 @@ class Action
   public function resolveAction($args = [])
   {
     $company = Companies::getActive();
+    if ($company->isAI()) {
+      return; // Not using standard Engine for Automa
+    }
+
     $args['automatic'] = $this->isAutomatic($company);
     Engine::resolveAction($args);
     Engine::proceed();
@@ -71,6 +75,11 @@ class Action
 
   public static function checkAction($action, $byPassActiveCheck = false)
   {
+    $company = Companies::getActive();
+    if ($company->isAI()) {
+      return true;
+    }
+
     if ($byPassActiveCheck) {
       Game::get()->gamestate->checkPossibleAction($action);
     } else {
@@ -94,54 +103,4 @@ class Action
     }
     return $classname;
   }
-
-
-/*
-TODO : modifiers and listeners
-
-  protected function checkListeners($method, $company, $args = [])
-  {
-    $event = array_merge(
-      [
-        'cId' => $company->getId(),
-        'type' => 'action',
-        'action' => $this->getClassName(),
-        'method' => $method,
-      ],
-      $args
-    );
-
-    $reaction = PlayerCards::getReaction($event);
-    if (!is_null($reaction)) {
-      Engine::insertAsChild($reaction);
-    }
-  }
-
-  public function checkAfterListeners($company, $args = [], $duringActionListener = true)
-  {
-    if ($duringActionListener) {
-      $this->checkListeners($this->getClassName(), $company, $args);
-    }
-    $this->checkListeners('ImmediatelyAfter' . $this->getClassName(), $company, $args);
-    $this->checkListeners('After' . $this->getClassName(), $company, $args);
-  }
-
-  public function checkModifiers($method, &$data, $name, $company, $args = [])
-  {
-    $args[$name] = $data;
-    $args['actionCardId'] = $this->ctx != null ? $this->ctx->getCardId() : null;
-    PlayerCards::applyEffects($company, $method, $args);
-    $data = $args[$name];
-  }
-
-  public function checkCostModifiers(&$costs, $company, $args = [])
-  {
-    $this->checkModifiers('computeCosts' . $this->getClassName(), $costs, 'costs', $company, $args);
-  }
-
-  public function checkArgsModifiers(&$actionArgs, $company, $args = [])
-  {
-    $this->checkModifiers('computeArgs' . $this->getClassName(), $actionArgs, 'actionArgs', $company, $args);
-  }
-*/
 }

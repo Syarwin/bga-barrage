@@ -99,6 +99,10 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function isXO($xId)
   {
+    if ($this->isAI() && $this->getLvlAI() < 3) {
+      return false;
+    }
+
     // superseed XO if mahiri is copying power
     if ($this->officerId == \XO_MAHIRI && Globals::getMahiriPower() != '') {
       return $xId == Globals::getMahiriPower();
@@ -268,11 +272,11 @@ class Company extends \BRG\Helpers\DB_Model
     return $this->countAvailableEngineers() > 0;
   }
 
-  public function placeEngineer($spaceId, $nEngineers)
+  public function placeEngineer($spaceId, $nEngineers, $offset = 0)
   {
     $engineerIds = array_slice($this->getAvailableEngineers()->getIds(), 0, $nEngineers);
     foreach ($engineerIds as $i => $id) {
-      Meeples::move($id, $spaceId, $i);
+      Meeples::move($id, $spaceId, $i + $offset);
     }
     return Meeples::getMany($engineerIds);
   }
@@ -432,16 +436,14 @@ class Company extends \BRG\Helpers\DB_Model
       ],
     ];
 
+    if ($this->isAI() && $this->getLvlAI() < 2) {
+      return $costs;
+    }
+
     // Now apply modifiers coming from company, XO, or tile
     $this->officer->applyConstructCostModifier($costs, $slot);
     $this->applyConstructCostModifier($costs, $slot);
     $tile->applyConstructCostModifier($costs, $slot);
-
-    // $costs = $this->officer->getCostModifier($slot, $machine, $n);
-    // $costs = $tile->getCostModifier($costs, $slot, $machine, $n);
-    // $neededUnits = $this->officer->getUnitsModifier($slot, $machine, $n);
-    //
-    // $neededUnits = $tile->getUnitsModifier($neededUnits);
 
     return $costs;
   }
@@ -539,11 +541,16 @@ class Company extends \BRG\Helpers\DB_Model
   {
     return Meeples::getFilteredQuery($this->id, ['company'], \POWERHOUSE)
       ->get()
-      ->count() < 2;
+      ->count() < 2 &&
+      (!$this->isAI() || $this->getLvlAI() >= 2);
   }
 
   public function getProductionBonus()
   {
+    if ($this->isAI() & ($this->getLvlAI() == 0)) {
+      return 0;
+    }
+
     $built = $this->countBuiltStructures(\POWERHOUSE);
     if ($built == 4) {
       return 3;

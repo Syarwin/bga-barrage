@@ -44,7 +44,6 @@ abstract class AbstractActionBoard
   // Get the order for this list of action spaces
   abstract public function getSpacesOrderForAutoma();
 
-
   /**
    * getUiData : remove useless data for frontend, as the flow
    *  and organize this depending on board structure
@@ -84,7 +83,6 @@ abstract class AbstractActionBoard
     return $structure;
   }
 
-
   /**
    * getPlayableSpaces : return the list of playable spaces for a given company
    */
@@ -97,6 +95,21 @@ abstract class AbstractActionBoard
       return !isset($space['cId']) || $space['cId'] == $company->getId();
     });
 
+    return $spaces;
+  }
+
+  /**
+   * getOrderedPlayableSpaces: for Automa, return the list of playable spaces in the top-bottom/left-right order of the board
+   */
+  public function getOrderedPlayableSpaces($company)
+  {
+    $spaces = static::getPlayableSpaces($company);
+    $order = array_map(function ($space) {
+      return self::$id . '-' . $space;
+    }, static::getSpacesOrderForAutoma());
+    usort($spaces, function ($a, $b) use ($order) {
+      \array_search($a, $order) < \array_search($b, $order) ? -1 : 1;
+    });
     return $spaces;
   }
 

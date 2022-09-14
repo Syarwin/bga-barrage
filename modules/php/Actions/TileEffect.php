@@ -16,6 +16,11 @@ class TileEffect extends \BRG\Models\Action
     return \ST_TILE_EFFECT;
   }
 
+  public function isAutomatic($company = null)
+  {
+    return true;
+  }
+
   public function argsTileEffect()
   {
     return [];

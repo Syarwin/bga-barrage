@@ -24,6 +24,12 @@ class PlaceStructure extends \BRG\Models\Action
     return !empty($spaces);
   }
 
+  public function isAutomatic($company = null)
+  {
+    $args = $this->argsPlaceStructure();
+    return count($args['spaces']) == 1;
+  }
+
   public function stPlaceStructure()
   {
     $args = $this->argsPlaceStructure();

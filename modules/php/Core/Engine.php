@@ -298,32 +298,6 @@ class Engine
     }
   }
 
-  /*
-TODO
-  public function confirmPartialTurn()
-  {
-    $node = self::$tree->getNextUnresolved();
-
-    // Are we done ?
-    if ($node == null) {
-      throw new \feException("You can't partial confirm an ended turn");
-    }
-
-    $oldPId = Game::get()->getActivePlayerId();
-    $pId = $node->getPId();
-
-    if ($oldPId == $pId) {
-      throw new \feException("You can't partial confirm for the same player");
-    }
-
-    // Clear log
-    Log::clearAll();
-    Log::disable();
-
-    Engine::proceed(true);
-  }
-*/
-
   /**
    * Restart the whole flow
    */
@@ -358,5 +332,37 @@ TODO
   {
     $actions = self::getResolvedActions($types);
     return empty($actions) ? null : $actions[count($actions) - 1];
+  }
+
+  /**
+   * Run the engine on a tree
+   * @param array $t
+   */
+  public function runAutoma($t, $callback = null)
+  {
+    $tree = self::buildTree($t);
+    $node = $tree->getNextUnresolved();
+    while (!is_null($node)) {
+      $state = $node->getState();
+      $actionId = Actions::getActionOfState($state, false);
+      if (!$node->isAutomatic()) {
+        die('Error: node should be automatic for Automa : ' . $actionId);
+      }
+      Actions::stAction($actionId, $node);
+      $node->resolveAction([]);
+      $node = $tree->getNextUnresolved();
+    }
+
+    // Callback when the tree is fully resolved
+    if (is_null($callback)) {
+      return;
+    } elseif (isset($callback['state'])) {
+      Game::get()->gamestate->jumpToState($callback['state']);
+    } elseif (isset($callback['order'])) {
+      Game::get()->nextPlayerCustomOrder($callback['order']);
+    } elseif (isset($callback['method'])) {
+      $name = $callback['method'];
+      Game::get()->$name();
+    }
   }
 }

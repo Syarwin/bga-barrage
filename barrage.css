@@ -4461,6 +4461,13 @@ body {
 :root {
   --barrageCardScale: 1; }
 
+.dijitTooltipContainer {
+  --barrageCardScale: 1.7; }
+
+.automa-card-tooltip {
+  text-align: center;
+  font-size: 30px; }
+
 .automa-card {
   position: relative;
   width: calc(var(--barrageCardScale) * 209px);

@@ -28,7 +28,7 @@ class RotateWheel extends \BRG\Models\Action
   public function stRotateWheel()
   {
     $company = Companies::getActive();
-    $ctxArgs = Engine::getNextUnresolved()->getArgs();
+    $ctxArgs = $this->getCtxArgs();
 
     for ($i = 0; $i < $ctxArgs['n']; $i++) {
       $company->rotateWheel();
