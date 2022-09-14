@@ -73,6 +73,7 @@ define([
         ['refillTechTiles', 1000],
         ['mahiriCopy', 100],
         ['clearMahiri', 10],
+        ['flipAutomaCard', 800],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -1124,6 +1125,7 @@ define([
     setupAutomaCards() {
       this.place('tplAutomaCard', this.gamedatas.automa.front, 'automa-cards-container');
       this.place('tplAutomaCard', this.gamedatas.automa.back, 'automa-cards-container');
+      this.updateAutomaCardTooltip(this.gamedatas.automa.front.id, this.gamedatas.automa.back.id);
     },
 
     tplAutomaCard(card) {
@@ -1132,6 +1134,35 @@ define([
         <div class="card-back"></div>
       	<div class="card-front"></div>
       </div>`;
+    },
+
+    notif_flipAutomaCard(n) {
+      debug('Notif: flipping a new automa card', n);
+      let flipped = $('automa-cards-container').querySelector('.flipped');
+      let toFlip = $('automa-cards-container').querySelector(':not(.flipped)');
+      flipped.id += 'toDestroy';
+      this.place('tplAutomaCard', { location: '', id: n.args.cardFront }, 'automa-cards-container');
+      dojo.place(toFlip, 'automa-cards-container');
+      toFlip.offsetHeight;
+      toFlip.classList.add('flipped');
+      if (this.isFastMode()) {
+        flipped.remove();
+      } else {
+        setTimeout(() => flipped.remove(), 600);
+      }
+      this.updateAutomaCardTooltip(n.args.cardFront, n.args.cardBack);
+    },
+
+    updateAutomaCardTooltip(front, back) {
+      this.addCustomTooltip(
+        'automa-cards-container',
+        `<div class='automa-card-tooltip'>
+          ${front}
+          ${this.tplAutomaCard({ id: front })}
+          ${back}
+          ${this.tplAutomaCard({ id: back, location: 'flipped' })}
+        </div>`
+      );
     },
 
     //////////////////////////////////////////////////////////////
