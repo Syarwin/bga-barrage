@@ -32,7 +32,7 @@ trait AutomaPlaceStructureTrait
 
     // Use criteria to reduce the possible choice
     $i = 0;
-    $criteria = $this->getAutomaCriteria()[$structure];
+    $criteria = $this->getAutomaCriteria()[$structure != ELEVATION? $structure : BASE];
     while (count($spaceIds) > 1 && $i < 3) {
       $spaceIds = $this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds);
     }

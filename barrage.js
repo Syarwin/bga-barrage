@@ -508,14 +508,18 @@ define([
             powerhouse: _('a Powerhouse'),
           };
 
-          let slot = this.getConstructSlot(result.spaceId);
-          slot.classList.add('selected');
-          $(`tech-tile-${result.tileId}`).classList.add('selected');
+          let spaceId = 'ERROR';
+          if (result != null) {
+            spaceId = result.spaceId;
+            let slot = this.getConstructSlot(spaceId);
+            slot.classList.add('selected');
+            $(`tech-tile-${result.tileId}`).classList.add('selected');
+          }
 
           return this.fsr(_('construct ${structure} in ${spaceId}'), {
             i18n: ['structure'],
             structure: typeDescs[action.structure],
-            spaceId: result.spaceId,
+            spaceId: spaceId,
           });
         } else {
           return type;

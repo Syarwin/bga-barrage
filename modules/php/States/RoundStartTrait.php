@@ -44,14 +44,23 @@ trait RoundStartTrait
   function stIncomePhase()
   {
     $company = Companies::getActive();
+    if ($company->isAI() && $this->getLvlAI() == 0) {
+      $this->nextPlayerCustomOrder('incomePhase');
+      return;
+    }
+
     $flow = $company->getIncomesFlow();
     $vp = FlowConvertor::getVp($company->getIncomes());
     Stats::incVpStructures($company, $vp);
     if (empty($flow)) {
       $this->nextPlayerCustomOrder('incomePhase');
     } else {
-      Engine::setup($flow, ['order' => 'incomePhase']);
-      Engine::proceed();
+      if ($company->isAI()) {
+        Engine::runAutoma($flow, ['order' => 'incomePhase']);
+      } else {
+        Engine::setup($flow, ['order' => 'incomePhase']);
+        Engine::proceed();
+      }
     }
   }
 

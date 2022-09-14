@@ -31,6 +31,8 @@ trait AutomaTurnTrait
     foreach ($actions as $action) {
       $this->automaTakeAction($action['action'], $action['result']);
     }
+
+    $this->nextPlayerCustomOrder('actionPhase');
   }
 
   function getAutomaFlow()

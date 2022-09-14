@@ -338,7 +338,7 @@ class Engine
    * Run the engine on a tree
    * @param array $t
    */
-  public function runAutoma($t)
+  public function runAutoma($t, $callback = null)
   {
     $tree = self::buildTree($t);
     $node = $tree->getNextUnresolved();
@@ -351,6 +351,18 @@ class Engine
       Actions::stAction($actionId, $node);
       $node->resolveAction([]);
       $node = $tree->getNextUnresolved();
+    }
+
+    // Callback when the tree is fully resolved
+    if (is_null($callback)) {
+      return;
+    } elseif (isset($callback['state'])) {
+      Game::get()->gamestate->jumpToState($callback['state']);
+    } elseif (isset($callback['order'])) {
+      Game::get()->nextPlayerCustomOrder($callback['order']);
+    } elseif (isset($callback['method'])) {
+      $name = $callback['method'];
+      Game::get()->$name();
     }
   }
 }

@@ -90,10 +90,12 @@ class Construct extends \BRG\Models\Action
         ];
 
         // 6] Manage bonus linked to the tile
-        $childs[] = [
-          'action' => \TILE_EFFECT,
-          'args' => ['tileId' => $tile->getId(), 'slot' => $slot],
-        ];
+        if (!$company->isAI() || $company->getLvlAI() >= 2) {
+          $childs[] = [
+            'action' => \TILE_EFFECT,
+            'args' => ['tileId' => $tile->getId(), 'slot' => $slot],
+          ];
+        }
 
         // Construct the flow
         $flow = [
