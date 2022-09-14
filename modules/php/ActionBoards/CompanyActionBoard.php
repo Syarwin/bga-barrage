@@ -52,4 +52,9 @@ class CompanyActionBoard extends AbstractActionBoard
 
     return $spaces;
   }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return null;
+  }
 }

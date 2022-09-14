@@ -101,8 +101,9 @@ $machinestates = [
 
   ST_AUTOMA_TURN => [
     'name' => 'automaTurn',
-    'description' => 'AUTOMA TURN',
+    'description' => '',
     'type' => 'active', // TODO
+    'args' => 'argsAutomaTurn',
     'possibleactions' => ['actRunAutoma'],
     'transitions' => [],
   ],

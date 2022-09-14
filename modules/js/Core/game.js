@@ -4,7 +4,7 @@ var debug = isDebug ? console.info.bind(window.console) : function () {};
 define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouislider.min.js', 'ebg/core/gamegui'], (
   dojo,
   declare,
-  noUiSlider,
+  noUiSlider
 ) => {
   return declare('customgame.game', ebg.core.gamegui, {
     /*
@@ -120,7 +120,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           (data) => resolve(data),
           (isError, message, code) => {
             if (isError) reject(message, code);
-          },
+          }
         );
       });
     },
@@ -206,7 +206,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           if (timing === undefined) {
             if (notif[1] === undefined) {
               console.error(
-                "A notification don't have default timing and didn't send a timing as return value : " + notif[0],
+                "A notification don't have default timing and didn't send a timing as return value : " + notif[0]
               );
               return;
             }
@@ -373,7 +373,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       var optionSel = 'option[value="' + newValue + '"]';
       dojo
         .query(
-          '#preference_control_' + number + ' > ' + optionSel + ', #preference_fontrol_' + number + ' > ' + optionSel,
+          '#preference_control_' + number + ' > ' + optionSel + ', #preference_fontrol_' + number + ' > ' + optionSel
         )
         .attr('selected', true);
       var select = $('preference_control_' + number);
@@ -459,8 +459,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         .map(
           (val) =>
             `<option value='${val}' ${pref.value == val ? 'selected="selected"' : ''}>${_(
-              pref.values[val].name,
-            )}</option>`,
+              pref.values[val].name
+            )}</option>`
         )
         .join('');
 
@@ -495,7 +495,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         Object.keys(this._settingsSections).forEach((sectionName, i) => {
           dojo.place(
             `<div id='settings-section-${sectionName}' class='settings-section'></div>`,
-            'settings-controls-wrapper',
+            'settings-controls-wrapper'
           );
           let div = dojo.place(`<div>${this._settingsSections[sectionName]}</div>`, 'settings-controls-header');
           let openSection = () => {
@@ -538,7 +538,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           config.sliderConfig.start = [value];
           noUiSlider.create($('setting-' + settingName), config.sliderConfig);
           $('setting-' + settingName).noUiSlider.on('slide', (arg) =>
-            this.changeSetting(settingName, parseInt(arg[0])),
+            this.changeSetting(settingName, parseInt(arg[0]))
           );
         } else if (config.type == 'multislider') {
           this.place('tplSettingSlider', { desc: config.name, id: settingName }, localContainer);
@@ -621,8 +621,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         .map(
           (val) =>
             `<option value='${val}' ${this.settings[setting.id] == val ? 'selected="selected"' : ''}>${_(
-              setting.values[val],
-            )}</option>`,
+              setting.values[val]
+            )}</option>`
         )
         .join('');
 
@@ -694,7 +694,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
           phantom: true,
         },
-        options,
+        options
       );
       config.phantomStart = config.phantomStart || config.phantom;
       config.phantomEnd = config.phantomEnd || config.phantom;
@@ -753,7 +753,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
                 config.pos.x,
                 config.pos.y,
                 config.duration,
-                config.delay,
+                config.delay
               );
 
         dojo.connect(animation, 'onEnd', () => {
@@ -839,7 +839,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             </div>
           </div>`,
           target,
-          'after',
+          'after'
         );
         dojo.place(target, container.querySelector('.flip-back'));
         dojo.place(newNode, container.querySelector('.flip-front'));
@@ -1032,7 +1032,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           <svg><use href="#help-marker-svg" /></svg>
         </div>
       `,
-        id,
+        id
       );
 
       dojo.connect($(id), 'click', (evt) => {
@@ -1218,6 +1218,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       } else {
         return _(t);
       }
+    },
+
+    fsr(log, args) {
+      return this.format_string_recursive(log, args);
     },
 
     onSelectN(elements, n, callback) {

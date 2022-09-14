@@ -38,6 +38,30 @@ trait AutomaTurnTrait
     return AutomaCards::getUiData()['back']->getCriteria();
   }
 
+  function argsAutomaTurn()
+  {
+    return [
+      'actions' => self::computeAutomaTurn(),
+    ];
+
+    // $actions = self::computeAutomaTurn();
+    // $log = [];
+    // $args = [];
+    // foreach ($actions as $i => $act) {
+    //   $name = 'action' . $i;
+    //   $log[] = '${' . $name . '}';
+    //   $args[$name] = self::getAutomaActionDesc($act['action'], $act['result']);
+    // }
+    //
+    // return [
+    //   'i18n' => ['actions'],
+    //   'actions' => [
+    //     'log' => join(',', $log),
+    //     'args' => $args,
+    //   ],
+    // ];
+  }
+
   /**
    * computeAutomaTurn(): given the automa cards, compute the list of actions the automa will take
    */
@@ -67,7 +91,7 @@ trait AutomaTurnTrait
       }
     }
 
-    var_dump($actions);
+    return $actions;
   }
 
   /**
@@ -143,19 +167,17 @@ trait AutomaTurnTrait
 
     // Place engineers
     $nEngineers = $action['nEngineers'] ?? 0; // 0 is useful for contract rewards
-    if($nEngineers > 0){
-      die("TODO : place engineer for Automa");
+    if ($nEngineers > 0) {
+      die('TODO : place engineer for Automa');
     }
 
     ///////////////////////////////////////////
     // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
     if ($type == PRODUCE) {
-      return $this->canAutomaTakeProduceAction($company, $action);
     }
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
     elseif ($type == \PLACE_DROPLET) {
-      return false; // TODO
     }
     ///////////////////////////////////////////
     // Construct : only if it has available machinery and tech tile (see below)
@@ -308,6 +330,6 @@ trait AutomaTurnTrait
       }
     }
 
-    return [$spaceId, $tileId];
+    return ['spaceId' => $spaceId, 'tileId' => $tileId];
   }
 }

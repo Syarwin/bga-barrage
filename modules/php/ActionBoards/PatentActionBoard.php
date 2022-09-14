@@ -30,11 +30,20 @@ class PatentActionBoard extends AbstractActionBoard
   {
     $rows = [];
 
-    $rows[] = ['p1', ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
+    $rows[] = [
+      'p1',
+      ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')],
+    ];
     $rows[] = 'patent_1';
-    $rows[] = ['p2', ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
+    $rows[] = [
+      'p2',
+      ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')],
+    ];
     $rows[] = 'patent_2';
-    $rows[] = ['p3', ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')]];
+    $rows[] = [
+      'p3',
+      ['i' => '<PAY:5><ARROW>', 't' => clienttranslate('Pay 5 Credits to acquire an advanced Technology Tile')],
+    ];
     $rows[] = 'patent_3';
 
     return $rows;
@@ -98,5 +107,10 @@ class PatentActionBoard extends AbstractActionBoard
       ],
     ];
     return $spaces;
+  }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return null;
   }
 }

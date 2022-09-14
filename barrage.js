@@ -493,8 +493,37 @@ define([
       dojo.style('floating-energy-track-container', 'margin-top', '60px');
     },
 
-    onEnteringStateAutomaTurn(args){
+    onEnteringStateAutomaTurn(args) {
       this.addPrimaryActionButton('btnRunAutoma', _('Run'), () => this.takeAction('actRunAutoma', {}, false));
+      let descs = args.actions.map((act) => {
+        let action = act.action,
+          result = act.result;
+        let type = action.type;
+
+        if (type == 'CONSTRUCT') {
+          let typeDescs = {
+            base: _('a Base'),
+            elevation: _('an Elevation'),
+            conduit: _('a Conduit'),
+            powerhouse: _('a Powerhouse'),
+          };
+
+          let slot = this.getConstructSlot(result.spaceId);
+          slot.classList.add('selected');
+          $(`tech-tile-${result.tileId}`).classList.add('selected');
+
+          return this.fsr(_('construct ${structure} in ${spaceId}'), {
+            i18n: ['structure'],
+            structure: typeDescs[action.structure],
+            spaceId: result.spaceId,
+          });
+        } else {
+          return type;
+        }
+      });
+
+      this.gamedatas.gamestate.description = _("Automa's turn: ") + descs.join(',');
+      this.updatePageTitle();
     },
 
     onEnteringStateSpecialEffect(args) {
@@ -1094,7 +1123,7 @@ define([
     },
 
     tplAutomaCard(card) {
-      let flipped = card.location == 'flipped'? 'flipped' : '';
+      let flipped = card.location == 'flipped' ? 'flipped' : '';
       return `<div class='automa-card ${flipped}' id="automa-card-${card.id}" data-id="${card.id}">
         <div class="card-back"></div>
       	<div class="card-front"></div>
