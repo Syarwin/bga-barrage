@@ -42,6 +42,13 @@ trait AutomaPlaceStructureTrait
       return $spaceIds[0]; // TODO
       die('todo : tiebreaker for construct');
     }
+
+    // Really final tie-breaker for paying/non-paying slot for Dam
+    if(count($spaceIds) > 1 && $structure == BASE){
+      die("todo : keep the non-paying one");
+    }
+
+    return $spaceIds[0];
   }
 
   // Given the list of almost complete systems, check whether a specific space can complete one of these system

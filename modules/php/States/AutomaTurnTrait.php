@@ -206,7 +206,7 @@ trait AutomaTurnTrait
       // Get max state
       $state = Meeples::getExtremePosition(true, $actionSpaceId);
       // Put engineer on top of that
-      $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state);
+      $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state + 1);
       Notifications::placeEngineers($company, $engineers, $board);
     }
 
