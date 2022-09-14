@@ -70,4 +70,9 @@ class WaterActionBoard extends AbstractActionBoard
 
     return $spaces;
   }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['p2', 'd1', 'p2c', 'd1c'];
+  }
 }

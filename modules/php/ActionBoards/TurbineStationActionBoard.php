@@ -127,4 +127,9 @@ class TurbineStationActionBoard extends AbstractActionBoard
 
     return $spaces;
   }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['b2', 'b1', '0', 'm1', 'm2', 'b2c', 'b1c', '0c', 'm1c', 'm2bis'];
+  }
 }

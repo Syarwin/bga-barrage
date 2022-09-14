@@ -32,14 +32,20 @@ class MachineryShopActionBoard extends AbstractActionBoard
     if (Companies::count() >= 4) {
       $rows[] = [
         'a',
-        ['i' => '<PAY:4><ARROW><ANY_MACHINE>', 't' => clienttranslate('Pay four credits for one excavator or one mixer')],
+        [
+          'i' => '<PAY:4><ARROW><ANY_MACHINE>',
+          't' => clienttranslate('Pay four credits for one excavator or one mixer'),
+        ],
         'abis',
       ];
     }
 
     $rows[] = [
       'b',
-      ['i' => '<PAY:5><ARROW><EXCAVATOR_ICON:1><MIXER_ICON:1>', 't' => clienttranslate('Pay five credits for one excavator and one mixer')],
+      [
+        'i' => '<PAY:5><ARROW><EXCAVATOR_ICON:1><MIXER_ICON:1>',
+        't' => clienttranslate('Pay five credits for one excavator and one mixer'),
+      ],
       'bc',
     ];
 
@@ -100,5 +106,10 @@ class MachineryShopActionBoard extends AbstractActionBoard
     }
 
     return $spaces;
+  }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['e', 'a', 'b', 'ec', 'abis', 'bc'];
   }
 }

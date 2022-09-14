@@ -119,4 +119,9 @@ class ContractActionBoard extends AbstractActionBoard
 
     return $spaces;
   }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['o', 'ob', 't', 'oc', 'obc', 'tbis'];
+  }
 }

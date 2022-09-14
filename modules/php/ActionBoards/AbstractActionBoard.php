@@ -41,6 +41,9 @@ abstract class AbstractActionBoard
    *  => depends only on player count
    */
   abstract public function getAvailableSpaces();
+  // Get the order for this list of action spaces
+  abstract public function getSpacesOrderForAutoma();
+
 
   /**
    * getUiData : remove useless data for frontend, as the flow

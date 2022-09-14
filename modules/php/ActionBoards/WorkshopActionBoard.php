@@ -77,8 +77,8 @@ class WorkshopActionBoard extends AbstractActionBoard
               'args' => [
                 'n' => 2,
               ],
-            ]
-          ]
+            ],
+          ],
         ],
       ];
     }
@@ -99,8 +99,8 @@ class WorkshopActionBoard extends AbstractActionBoard
             'args' => [
               'n' => 3,
             ],
-          ]
-        ]
+          ],
+        ],
       ],
     ];
 
@@ -137,5 +137,10 @@ class WorkshopActionBoard extends AbstractActionBoard
     ];
 
     return $spaces;
+  }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['r1', 'r2', 'r3', 'r1bis', 'r2c', 'r3c'];
   }
 }

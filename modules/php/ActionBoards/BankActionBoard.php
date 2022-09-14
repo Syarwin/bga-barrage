@@ -45,4 +45,9 @@ class BankActionBoard extends AbstractActionBoard
 
     return $spaces;
   }
+
+  public function getSpacesOrderForAutoma()
+  {
+    return ['b'];
+  }
 }
