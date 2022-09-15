@@ -16,6 +16,7 @@ use BRG\Models\PlayerBoard;
 use BRG\Helpers\Utils;
 use BRG\Actions\Construct;
 use BRG\Actions\Gain;
+use BRG\Actions\PlaceDroplet;
 use BRG\Map;
 
 trait AutomaTurnTrait
@@ -126,7 +127,54 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
     elseif ($type == \PLACE_DROPLET) {
-      return false; // TODO
+      $flowing = $action['flow'] ?? false;
+      // Get the basins space ids with automa's barrage
+      $basins = array_keys(Map::getBasins());
+      Utils::filter($basins, function ($basinId) use ($company) {
+        return !is_null(Map::getBuiltStructure($basinId, $company));
+      });
+      // Function to count total number of droplets given a droplet status
+      function totalDroplets($basins, $status)
+      {
+        $n = 0;
+        foreach ($basins as $bId) {
+          $n += $status[$bId] ?? 0;
+        }
+        return $n;
+      }
+
+      // Current status
+      list($currentStatus, $p) = Map::emulateFlowDroplets([], $flowing);
+      $nTotal = totalDroplets($basins, $currentStatus);
+      $placedDroplets = [];
+      $remaining = 0;
+      $order = $this->getAutomaCriteria()[PLACE_DROPLET];
+      for ($i = 1; $i <= $action['n']; $i++) {
+        $added = false;
+        foreach ($order as $hs) {
+          $headstream = 'H' . $hs;
+          $droplets = $placedDroplets;
+          for ($j = 0; $j < 1 + $remaining; $j++) {
+            $droplets[] = $headstream;
+          }
+
+          list($status, $p) = Map::emulateFlowDroplets($droplets, $flowing);
+          $n = totalDroplets($basins, $status);
+          if ($n > $nTotal) {
+            $added = true;
+            $nTotal = $n;
+            $placedDroplets = $droplets;
+            $remaining = 0;
+            break;
+          }
+        }
+
+        if (!$added) {
+          $remaining++;
+        }
+      }
+
+      return empty($placedDroplets) ? false : ['locations' => $placedDroplets];
     }
     ///////////////////////////////////////////
     // Construct : only if it has available machinery and tech tile (see below)
@@ -262,6 +310,7 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Place Droplet
     elseif ($type == \PLACE_DROPLET) {
+      PlaceDroplet::placeDroplets($company, $result['locations'], $actionSpaceId ?? null, $action['flow']);
     }
     ///////////////////////////////////////////
     // Construct

@@ -153,7 +153,7 @@ trait AutomaPlaceStructureTrait
 
         // Apply HS criterion for tie breaking
         foreach ($this->getAutomaCriteria()[PLACE_DROPLET] as $hs) {
-          $headstream = 'HS' . $hs;
+          $headstream = 'H' . $hs;
           $basins = aggregate($potentialLocations, function ($sId) use ($passingDroplets, $headstream) {
             return count(array_keys($passingDroplets[$sId], $headstream));
           });

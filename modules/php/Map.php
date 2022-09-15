@@ -484,7 +484,7 @@ class Map
   }
 
   // Emulate water flowing
-  public function emulateFlowDroplets($additionalDroplets = [])
+  public function emulateFlowDroplets($additionalDroplets = [], $onlyAdditionalDroplets = false)
   {
     // Store current status of droplets
     $droplets = [];
@@ -492,17 +492,19 @@ class Map
     foreach (self::$infos as $spaceId => $info) {
       if (isset($info['droplets'])) {
         $currentStatus[$spaceId] = count($info['droplets']);
-        foreach ($info['droplets'] as $d) {
-          $droplets[] = $d;
+        if (!$onlyAdditionalDroplets) {
+          foreach ($info['droplets'] as $d) {
+            $droplets[] = $d;
+          }
         }
       }
     }
 
     // Add virutal droplets
-    foreach($additionalDroplets as $location){
+    foreach ($additionalDroplets as $location) {
       $currentStatus[$location] = ($currentStatus[$location] ?? 0) + 1;
       $droplets[] = [
-        'location' => $location
+        'location' => $location,
       ];
     }
 
@@ -518,14 +520,14 @@ class Map
       $currentStatus[$location]--;
 
       // Log the droplet flowing along location
-      foreach($path as $l){
+      foreach ($path as $l) {
         $passingDroplets[$l][] = $location;
       }
 
       // Add it to final location if not EXIT
       $location = $path[count($path) - 1];
       if (!in_array($location, Map::getExits())) {
-        $currentStatus[$location]++;
+        $currentStatus[$location] = ($currentStatus[$location] ?? 0) + 1;
       }
     }
 

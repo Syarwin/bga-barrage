@@ -26,7 +26,6 @@ class PlaceDroplet extends \BRG\Models\Action
     return false;
   }
 
-
   public function stPlaceDroplet()
   {
     $args = $this->getCtxArgs();
@@ -49,10 +48,10 @@ class PlaceDroplet extends \BRG\Models\Action
     $toFlow = $ctxArgs['flows'] ?? false;
     return [
       'i18n' => ['speed'],
-      'speed' => $toFlow? clienttranslate('immediate flow') : clienttranslate('delayed flow'),
+      'speed' => $toFlow ? clienttranslate('immediate flow') : clienttranslate('delayed flow'),
       'headstreams' => Map::getHeadstreams(),
       'flow' => $toFlow,
-      'n' => $ctxArgs['n'] ?? 0
+      'n' => $ctxArgs['n'] ?? 0,
     ];
   }
 
@@ -66,6 +65,13 @@ class PlaceDroplet extends \BRG\Models\Action
       throw new \BgaVisibleSystemException('You must add at least one droplet. Should not happen');
     }
 
+    $spaceId = Engine::getNextUnresolved()->getSpaceId();
+    $created = $this->placeDroplets($company, $headstreams, $spaceId, $args['flow']);
+    $this->resolveAction(['created' => $created]);
+  }
+
+  public function placeDroplets($company, $headstreams, $spaceId, $flowing)
+  {
     $meeples = [];
     foreach ($headstreams as $h) {
       $meeples[] = ['type' => DROPLET, 'location' => $h];
@@ -73,12 +79,12 @@ class PlaceDroplet extends \BRG\Models\Action
     $created = Meeples::create($meeples);
     $droplets = Meeples::getMany($created);
 
-    Notifications::addDroplets($company, $droplets->toArray(), Engine::getNextUnresolved()->getSpaceId(), $args['flow'], $headstreams);
+    Notifications::addDroplets($company, $droplets->toArray(), $spaceId, $flowing, $headstreams);
     Map::addDroplets($droplets);
 
-    if ($args['flow']) {
+    if ($flowing) {
       Map::flowDroplets($droplets);
     }
-    $this->resolveAction(['created' => $created]);
+    return $created;
   }
 }

@@ -62,7 +62,7 @@ class Card6 extends \BRG\Models\AutomaCard
         AI_CRITERION_POWERHOUSE_BARRAGE,
         5,
       ],
-      PLACE_DROPLET => ['A', 'B', 'C'],
+      PLACE_DROPLET => ['A', 'B', 'C', 'D'],
     ];
   }
 }

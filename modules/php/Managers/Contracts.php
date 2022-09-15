@@ -24,7 +24,7 @@ class Contracts extends \BRG\Helpers\Pieces
     // Visible contracts
     $data = [
       'board' => self::getSelectQuery()
-        ->where('contract_location', '<>', 'box')
+        ->whereNotIn('contract_location', ['box', 'constract-discard-2', 'constract-discard-3', 'constract-discard-4'])
         ->get()
         ->toArray(),
       'stacks' => [],

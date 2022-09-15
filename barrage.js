@@ -542,6 +542,15 @@ define([
         } else if (type == 'PATENT') {
           $(`tech-tile-${result.tileId}`).classList.add('selected');
           return _('take an advanced tile');
+        } else if (type == 'PLACE_DROPLET') {
+          result.locations.forEach((h) => {
+            $(`headstream-tile-${h}`).dataset.n = parseInt($(`headstream-tile-${h}`).dataset.n || 0) + 1;
+          });
+
+          return this.fsr(_('place ${n} droplet(s) in headstream(s) ${hs}'), {
+            n: result.locations.length,
+            hs: result.locations.join(', '),
+          });
         } else {
           return type;
         }

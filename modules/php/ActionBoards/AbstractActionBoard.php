@@ -105,10 +105,11 @@ abstract class AbstractActionBoard
   {
     $spaces = static::getPlayableSpaces($company);
     $order = array_map(function ($space) {
-      return self::$id . '-' . $space;
+      return static::$id . '-' . $space;
     }, static::getSpacesOrderForAutoma());
+
     usort($spaces, function ($a, $b) use ($order) {
-      \array_search($a, $order) < \array_search($b, $order) ? -1 : 1;
+      return \array_search($a['uid'], $order) < \array_search($b['uid'], $order) ? -1 : 1;
     });
     return $spaces;
   }
