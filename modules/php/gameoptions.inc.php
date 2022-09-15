@@ -33,6 +33,7 @@ const OPTION_LVL_AUTOMA_4 = 118;
 const AUTOMA_EASY = 0;
 const AUTOMA_MEDIUM = 1;
 const AUTOMA_HARD = 2;
+const AUTOMA_EXTRA_HARD = 3;
 
 const COMPANY_USA = 1;
 const COMPANY_GERMANY = 2;

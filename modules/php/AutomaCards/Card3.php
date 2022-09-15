@@ -25,7 +25,7 @@ class Card3 extends \BRG\Models\AutomaCard
       ],
       [
         'nEngineers' => 1,
-        'type' => \CONSTRUCT,
+        'type' => PATENT,
         'structure' => \BASE,
         'vp' => -2,
       ],
@@ -50,15 +50,15 @@ class Card3 extends \BRG\Models\AutomaCard
   public function getCriteria()
   {
     return [
-      BASE => [\AI_CRITERION_BASE_MAX_CONDUIT, \AI_CRITERION_BASE_POWERHOUSE, \AI_CRITERION_BASE_POWERHOUSE_WATER, 1],
-      CONDUIT => [AI_CRITERION_CONDUIT_HIGHEST, AI_CRITERION_CONDUIT_BARRAGE, AI_CRITERION_CONDUIT_POWERHOUSE, '1A'],
+      BASE => [\AI_CRITERION_BASE_MAX_CONDUIT, \AI_CRITERION_BASE_POWERHOUSE, \AI_CRITERION_BASE_BASIN, 3],
+      CONDUIT => [AI_CRITERION_CONDUIT_HIGHEST, AI_CRITERION_CONDUIT_POWERHOUSE, AI_CRITERION_CONDUIT_BARRAGE, '2L'],
       POWERHOUSE => [
-        AI_CRITERION_POWERHOUSE_BARRAGE_WATER,
+        AI_CRITERION_POWERHOUSE_BARRAGE_WATER_REVERSE,
         AI_CRITERION_POWERHOUSE_CONDUIT,
         AI_CRITERION_POWERHOUSE_BARRAGE,
-        5,
+        7,
       ],
-      PLACE_DROPLET => ['A', 'B', 'C', 'D'],
+      PLACE_DROPLET => ['C', 'D', 'A', 'B'],
     ];
   }
 }

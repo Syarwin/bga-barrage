@@ -352,6 +352,12 @@ trait AutomaTurnTrait
         'args' => ['position' => $result['position']],
       ]);
     }
+
+    // Gain energy
+    $energy = $action['energy'] ?? 0;
+    if ($energy > 0) {
+      $company->incEnergy($energy);
+    }
   }
 
   /////////////////////////////////////////////

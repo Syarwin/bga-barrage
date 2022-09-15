@@ -537,8 +537,11 @@ define([
             3: _('remove yellow contracts'),
             4: _('remove red contracts'),
           };
-
-          return msgs[action.contract];
+          let descs = [msgs[action.contract]];
+          if (action.energy) {
+            descs.push(this.fsr(_('gain ${n} energy'), { n: action.energy }));
+          }
+          return descs.join(', ');
         } else if (type == 'PATENT') {
           $(`tech-tile-${result.tileId}`).classList.add('selected');
           return _('take an advanced tile');

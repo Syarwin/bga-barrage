@@ -14,6 +14,27 @@ use BRG\Helpers\Utils;
 use BRG\Actions\Construct;
 use BRG\Map;
 
+function getCodeOfSpace($space, $startAt = 0)
+{
+  $result = 0;
+  $t = $space[0];
+  if ($t == 'B') {
+    $result = (int) \substr($space, 1);
+  } elseif ($t == 'P') {
+    $p = explode('_', $space);
+    $result = (int) substr($p[0], 1);
+  } elseif ($t == 'C') {
+    $i = (int) substr($space, 1, -1);
+    $side = substr($space, -1);
+    $result = 2 * $i + ($side == 'L' ? 0 : 1);
+  }
+
+  if ($result < $startAt) {
+    $result += 30;
+  }
+  return $result;
+}
+
 trait AutomaPlaceStructureTrait
 {
   public function getAutomaStructureEmplacement($company, $structure, $spaceIds)
@@ -32,22 +53,40 @@ trait AutomaPlaceStructureTrait
 
     // Use criteria to reduce the possible choice
     $i = 0;
-    $criteria = $this->getAutomaCriteria()[$structure != ELEVATION? $structure : BASE];
+    $criteria = $this->getAutomaCriteria()[$structure != ELEVATION ? $structure : BASE];
     while (count($spaceIds) > 1 && $i < 3) {
       $spaceIds = $this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds);
     }
 
     // Use final tie-breaker
     if (count($spaceIds) > 1) {
-      return $spaceIds[0]; // TODO
-      die('todo : tiebreaker for construct');
+      $prefixes = [
+        BASE => 'B',
+        ELEVATION => 'B',
+        POWERHOUSE => 'P',
+        CONDUIT => 'C',
+      ];
+      $code = getCodeOfSpace($prefixes[$structure] . $criteria[3]);
+      usort($spaceIds, function ($a, $b) use ($code) {
+        return getCodeOfSpace($a, $code) - getCodeOfSpace($b, $code);
+      });
+
+      $target = getCodeOfSpace($spaceIds[0]);
+      Utils::filter($spaceIds, function ($space) use ($target) {
+        return getCodeOfSpace($space) == $target;
+      });
     }
 
     // Really final tie-breaker for paying/non-paying slot for Dam
-    if(count($spaceIds) > 1 && $structure == BASE){
-      die("todo : keep the non-paying one");
+    if (count($spaceIds) > 1 && $structure == BASE) {
+      Utils::filter($spaceIds, function ($space) {
+        return substr($space, -1) == 'L';
+      });
     }
 
+    if (count($spaceIds) > 1) {
+      die('Impossible!');
+    }
     return $spaceIds[0];
   }
 
