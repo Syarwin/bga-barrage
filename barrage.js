@@ -526,6 +526,10 @@ define([
           return this.fsr(_('gain ${resources}'), {
             resources: this.formatResourceArray(result),
           });
+        } else if (type == 'ROTATE_WHEEL') {
+          return this.fsr(_('rotate construction wheel by ${n} segment(s)'), {
+            n: action.n,
+          });
         } else {
           return type;
         }

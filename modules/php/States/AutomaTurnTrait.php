@@ -252,6 +252,9 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // Rotate wheel
     elseif ($type == \ROTATE_WHEEL) {
+      for ($i = 0; $i < $action['n']; $i++) {
+        $company->rotateWheel();
+      }
     }
     //////////////////////////////////////////
     // Gain machine
