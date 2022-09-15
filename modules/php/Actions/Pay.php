@@ -165,6 +165,15 @@ class Pay extends \BRG\Models\Action
         if (in_array($resource, $ignore)) {
           continue;
         }
+
+        if ($resource == CREDIT && $company->isAI()) {
+          for ($i = 0; $i < $amount; $i++) {
+            $deleted[] = ['type' => VP, 'ignore' => true];
+          }
+          $company->incScore(-$amount, null, true);
+          continue;
+        }
+
         $deleted = array_merge($deleted, $company->useResource($resource, $amount));
       }
       if (!empty($deleted)) {

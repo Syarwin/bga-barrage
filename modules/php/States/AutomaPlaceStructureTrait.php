@@ -185,12 +185,12 @@ trait AutomaPlaceStructureTrait
         $locations = [];
         foreach (Map::getZones() as $zoneId => $zone) {
           foreach (Map::getBuiltPowerhousesInZone($zoneId) as $powerhouse) {
-            $locations = array_merge($locations, self::getFedLocations($powerhouse['location']));
+            $locations = array_merge($locations, Map::getFedLocations($powerhouse['location']));
           }
         }
         $locations = \array_intersect($spaceIds, $locations);
         if (!empty($locations)) {
-          return $locations;
+          return array_values($locations);
         }
         break;
 
@@ -328,7 +328,7 @@ trait AutomaPlaceStructureTrait
         $locations = self::getLocationsInArea(HILL);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
-          return $possiblePowerhouses;
+          return array_values($possiblePowerhouses);
         }
         break;
 
@@ -341,7 +341,7 @@ trait AutomaPlaceStructureTrait
         $locations = self::getLocationsInZone($zoneId);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
-          return $possiblePowerhouses;
+          return array_values($possiblePowerhouses);
         }
         break;
 

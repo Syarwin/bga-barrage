@@ -74,6 +74,7 @@ define([
         ['mahiriCopy', 100],
         ['clearMahiri', 10],
         ['flipAutomaCard', 800],
+        ['emptyContractStack', 800],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -530,12 +531,20 @@ define([
           return this.fsr(_('rotate construction wheel by ${n} segment(s)'), {
             n: action.n,
           });
+        } else if (type == 'TAKE_CONTRACT') {
+          let msgs = {
+            2: _('remove green contracts'),
+            3: _('remove yellow contracts'),
+            4: _('remove red contracts'),
+          };
+
+          return msgs[action.contract];
         } else {
           return type;
         }
       });
 
-      this.gamedatas.gamestate.description = _("Automa's turn: ") + descs.join(',');
+      this.gamedatas.gamestate.description = _("Automa's turn: ") + descs.join(', ');
       this.updatePageTitle();
     },
 
@@ -1305,6 +1314,35 @@ define([
       }
     },
 
+    onEnteringStatePayResources(args) {
+      if (args.combinations.length == 1) {
+        return;
+      }
+
+      args.combinations.forEach((cost, i) => {
+        // Compute desc
+        let log = '',
+          arg = {};
+        if (cost.card == undefined) {
+          if (cost.sources && cost.sources.length) {
+            log = _('Pay ${resource} (${cards})');
+            arg.resource = this.formatResourceArray(cost);
+            arg.cards = cost.sources.map((cardId) => _(args.cardNames[cardId])).join(', ');
+          } else {
+            log = _('Pay ${resource}');
+            arg.resource = this.formatResourceArray(cost);
+          }
+        } else {
+          log = _('Return ${card}');
+          arg.card = _(args.cardNames[cost.card]);
+        }
+        let desc = this.format_string_recursive(log, arg);
+
+        // Add button
+        this.addSecondaryActionButton('btnChoicePay' + i, desc, () => this.takeAtomicAction('actPay', [cost]));
+      });
+    },
+
     onEnteringStatePlaceEngineerChooseNumber(args) {
       this.addCancelStateBtn();
       $(args.uid).classList.add('selected');
@@ -1812,32 +1850,12 @@ define([
       });
     },
 
-    onEnteringStatePayResources(args) {
-      if (args.combinations.length == 1) {
-        return;
-      }
-
-      args.combinations.forEach((cost, i) => {
-        // Compute desc
-        let log = '',
-          arg = {};
-        if (cost.card == undefined) {
-          if (cost.sources && cost.sources.length) {
-            log = _('Pay ${resource} (${cards})');
-            arg.resource = this.formatResourceArray(cost);
-            arg.cards = cost.sources.map((cardId) => _(args.cardNames[cardId])).join(', ');
-          } else {
-            log = _('Pay ${resource}');
-            arg.resource = this.formatResourceArray(cost);
-          }
-        } else {
-          log = _('Return ${card}');
-          arg.card = _(args.cardNames[cost.card]);
-        }
-        let desc = this.format_string_recursive(log, arg);
-
-        // Add button
-        this.addSecondaryActionButton('btnChoicePay' + i, desc, () => this.takeAtomicAction('actPay', [cost]));
+    notif_emptyContractStack(n) {
+      debug('Notif: removing contracts', n);
+      n.args.contractIds.forEach((contractId) => {
+        this.slide(`contract-${contractId}`, `contract-counter-${n.args.stack}`, {
+          destroy: true,
+        });
       });
     },
 

@@ -464,6 +464,23 @@ class Notifications
     ]);
   }
 
+  public static function emptyContractStack($company, $stack, $ids)
+  {
+    $stacks = [
+      2 => clienttranslate('green contracts'),
+      3 => clienttranslate('yellow contracts'),
+      4 => clienttranslate('red contracts'),
+    ];
+
+    self::notifyAll('emptyContractStack', clienttranslate('${company_name} removes ${contracts}'), [
+      'i18n' => ['contracts'],
+      'company' => $company,
+      'contracts' => $stacks[$stack],
+      'contractIds' => $ids,
+      'stack' => $stack,
+    ]);
+  }
+
   /*********************
    **** UPDATE ARGS ****
    *********************/

@@ -37,6 +37,7 @@ class Card3 extends \BRG\Models\AutomaCard
       [
         'nEngineers' => 1,
         'type' => ROTATE_WHEEL,
+        'n' => 1,
       ],
       [
         'nEngineers' => 1,

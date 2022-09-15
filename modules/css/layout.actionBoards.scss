@@ -325,10 +325,12 @@
 
     #private-contracts {
       display: flex;
+      width: 100%;
 
       .contract-stack {
         position: relative;
         padding-bottom: 22px;
+        flex-basis: 33%;
 
         .contract-counter {
           position: absolute;

@@ -801,10 +801,12 @@ body {
       display: flex;
       flex-wrap: wrap; }
     .action-board[data-id='contract'] .action-board-inner #private-contracts {
-      display: flex; }
+      display: flex;
+      width: 100%; }
       .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack {
         position: relative;
-        padding-bottom: 22px; }
+        padding-bottom: 22px;
+        flex-basis: 33%; }
         .action-board[data-id='contract'] .action-board-inner #private-contracts .contract-stack .contract-counter {
           position: absolute;
           width: 56%;

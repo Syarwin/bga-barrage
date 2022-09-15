@@ -167,21 +167,27 @@ class PlaceStructure extends \BRG\Models\Action
 
     $cost = $type == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
     if ($cost > 0 && (!isset($args['tileId']) || !TechnologyTiles::get($args['tileId'])->ignoreCostMalus())) {
-      Engine::insertAsChild([
+      $flow = [
         'action' => PAY,
         'args' => [
           'nb' => $cost,
           'costs' => Utils::formatCost([CREDIT => 1]),
           'source' => clienttranslate('building space'),
         ],
-      ]);
+      ];
+
+      if($company->isAI()){
+        Engine::runAutoma($flow);
+      } else {
+        Engine::insertAsChild($flow);
+      }
     }
 
-    // insert bonus revenue if there is any
-    $nb = $company->countBuiltStructures($type);
-    $bonus = $company->getBoardIncomes()[$type][$nb] ?? null;
-    if ($bonus !== null) {
-      if ($type != POWERHOUSE) {
+    if (!$company->isAI() || $company->getLvlAI() > 0) {
+      // insert bonus revenue if there is any
+      $nb = $company->countBuiltStructures($type);
+      $bonus = $company->getBoardIncomes()[$type][$nb] ?? null;
+      if ($bonus !== null && $type != POWERHOUSE) {
         Notifications::newIncomeRevealed($company);
         $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
         Engine::insertAsChild($flow);

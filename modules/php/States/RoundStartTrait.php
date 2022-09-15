@@ -44,7 +44,7 @@ trait RoundStartTrait
   function stIncomePhase()
   {
     $company = Companies::getActive();
-    if ($company->isAI() && $this->getLvlAI() == 0) {
+    if ($company->isAI() && $company->getLvlAI() == 0) {
       $this->nextPlayerCustomOrder('incomePhase');
       return;
     }

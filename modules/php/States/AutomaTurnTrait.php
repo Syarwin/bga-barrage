@@ -11,6 +11,7 @@ use BRG\Managers\Actions;
 use BRG\Managers\ActionSpaces;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\Contracts;
 use BRG\Models\PlayerBoard;
 use BRG\Helpers\Utils;
 use BRG\Actions\Construct;
@@ -264,10 +265,13 @@ trait AutomaTurnTrait
     ////////////////////////////////////////
     // Gain VP
     elseif ($type == \GAIN_VP) {
+      $company->incScore($action['vp']);
     }
     ////////////////////////////////////////
     // Discard contracts
     elseif ($type == \TAKE_CONTRACT) {
+      $ids = Contracts::emptyStack($action['contract']);
+      Notifications::emptyContractStack($company, $action['contract'], $ids);
     }
     ////////////////////////////////////////
     // Patent for advanced tech tile
@@ -371,7 +375,7 @@ trait AutomaTurnTrait
     $spaceId = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
 
     // Now find the good tile for that spot
-    $maxLvl = 0;
+    $maxLvl = -1;
     $maxPair = null;
     foreach ($pairs as $pair) {
       if ($pair['spaceId'] != $spaceId || $pair['tileLvl'] < $maxLvl) {

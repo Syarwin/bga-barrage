@@ -121,6 +121,14 @@ class Contracts extends \BRG\Helpers\Pieces
           ->where('type', $i)
           ->get()
           ->getIds();
+        if (count($contractIds) == 0) {
+          $contractIds = self::getSelectQuery()
+            ->where('contract_location', 'constract-discard-' . $i)
+            ->where('type', $i)
+            ->get()
+            ->getIds();
+        }
+
         $toPick = min(count($contractIds), 2 - $n);
         if ($toPick > 0) {
           $contractIds = Utils::rand($contractIds, $toPick);
@@ -131,6 +139,13 @@ class Contracts extends \BRG\Helpers\Pieces
     }
 
     return self::getMany($moved);
+  }
+
+  public function emptyStack($stack)
+  {
+    $ids = self::getAvailableToTake($stack)->getIds();
+    self::move($ids, 'contract-discard-' . $stack);
+    return $ids;
   }
 
   public function getContracts()
