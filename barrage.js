@@ -539,6 +539,9 @@ define([
           };
 
           return msgs[action.contract];
+        } else if (type == 'PATENT') {
+          $(`tech-tile-${result.tileId}`).classList.add('selected');
+          return _('take an advanced tile');
         } else {
           return type;
         }

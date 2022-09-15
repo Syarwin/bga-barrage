@@ -20,6 +20,11 @@ class Patent extends \BRG\Models\Action
     return true;
   }
 
+  public function isAutomatic($company = null)
+  {
+    return true;
+  }
+
   public function stPatent()
   {
     $company = Companies::getActive();

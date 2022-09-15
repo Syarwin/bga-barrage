@@ -177,7 +177,29 @@ trait AutomaTurnTrait
     ////////////////////////////////////////
     // Patent for advanced tech tile : possible if a tile of this type is available
     elseif ($type == PATENT) {
-      return false; // TODO
+      if (Globals::isBeginner()) {
+        return false;
+      }
+
+      $maxLvl = -1;
+      $maxTile = null;
+      $maxPosition = null;
+      for ($position = 1; $position <= 3; $position++) {
+        $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $position)->get();
+        if (!is_null($tile) && $tile->canConstruct($action['structure']) && $tile->getLvl() > $maxLvl) {
+          $maxLvl = $tile->getLvl();
+          $maxTile = $tile->getId();
+          $maxPosition = $position;
+        }
+      }
+
+      return is_null($maxTile)
+        ? false
+        : [
+          'actionSpaceId' => 'patent-p' . $maxPosition,
+          'position' => $maxPosition,
+          'tileId' => $maxTile,
+        ];
     }
   }
 
@@ -276,6 +298,10 @@ trait AutomaTurnTrait
     ////////////////////////////////////////
     // Patent for advanced tech tile
     elseif ($type == PATENT) {
+      Engine::runAutoma([
+        'action' => PATENT,
+        'args' => ['position' => $result['position']],
+      ]);
     }
   }
 
