@@ -14,6 +14,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Models\PlayerBoard;
 use BRG\Helpers\Utils;
 use BRG\Actions\Construct;
+use BRG\Actions\Gain;
 use BRG\Map;
 
 trait AutomaTurnTrait
@@ -111,6 +112,11 @@ trait AutomaTurnTrait
     $company = Companies::getActive();
     $type = $action['type'];
 
+    $condition = $action['condition'] ?? null;
+    if ($condition == NOT_LAST_ROUND && Globals::getRound() == 5) {
+      return false;
+    }
+
     ///////////////////////////////////////////
     // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
     if ($type == PRODUCE) {
@@ -140,12 +146,22 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // Gain machine : automa will not take this action in last round of the game
     elseif ($type == \GAIN_MACHINE) {
-      $condition = $action['condition'] ?? null;
-      if ($condition == 'not_last_round' && Globals::getRound() == 5) {
-        return false;
+      // Specific machines => no choices
+      $machines = $action['machines'] ?? [\ANY_MACHINE => 1];
+      if (!isset($machines[ANY_MACHINE])) {
+        return $machines; // No choice ? we are done
       }
-
-      return true;
+      $res = [
+        EXCAVATOR => $company->countReserveResource(EXCAVATOR) + ($machines[EXCAVATOR] ?? 0),
+        MIXER => $company->countReserveResource(MIXER) + ($machines[MIXER] ?? 0),
+      ];
+      for ($i = 1; $i <= $machines[ANY_MACHINE]; $i++) {
+        $type = $res[EXCAVATOR] <= $res[MIXER] ? EXCAVATOR : MIXER;
+        $res[$type]++;
+        $machines[$type] = ($machines[$type] ?? 0) + 1;
+      }
+      unset($machines[ANY_MACHINE]);
+      return $machines;
     }
     ////////////////////////////////////////
     // Gain VP : always possible as last resort
@@ -206,8 +222,14 @@ trait AutomaTurnTrait
       // Get max state
       $state = Meeples::getExtremePosition(true, $actionSpaceId);
       // Put engineer on top of that
-      $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state + 1);
+      $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state + ($state > 0 ? 1 : 0));
       Notifications::placeEngineers($company, $engineers, $board);
+    }
+
+    // Take negative vp for the action
+    $vp = $action['vp'] ?? 0;
+    if ($vp < 0) {
+      $company->incScore($vp, clienttranslate('for taking this action'));
     }
 
     ///////////////////////////////////////////
@@ -234,6 +256,7 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // Gain machine
     elseif ($type == \GAIN_MACHINE) {
+      Gain::gainResources($company, $result);
     }
     ////////////////////////////////////////
     // Gain VP

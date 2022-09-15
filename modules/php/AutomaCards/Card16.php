@@ -26,8 +26,8 @@ class Card16 extends \BRG\Models\AutomaCard
         'nEngineers' => 1,
         'type' => \GAIN_MACHINE,
         'vp' => -3,
-        'condition' => 'not_last_round',
-        'machines' => [\MIXER],
+        'condition' => NOT_LAST_ROUND,
+        'machines' => [\MIXER => 1],
       ],
       [
         'nEngineers' => 2,

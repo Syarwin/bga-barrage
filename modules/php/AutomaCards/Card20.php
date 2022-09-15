@@ -29,7 +29,7 @@ class Card20 extends \BRG\Models\AutomaCard
         'vp' => -5,
         'n' => 2,
         'machines' => ['each'], // TODO see how we handle this
-        'condition' => 'not_last_round',
+        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 2,
@@ -40,9 +40,8 @@ class Card20 extends \BRG\Models\AutomaCard
         'nEngineers' => 2,
         'type' => \GAIN_MACHINE,
         'vp' => -5,
-        'n' => 2,
-        'machines' => ['each'], // TODO see how we handle this
-        'condition' => 'not_last_round',
+        'machines' => [\EXCAVATOR => 1, MIXER => 1],
+        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 1,

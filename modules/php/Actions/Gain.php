@@ -13,14 +13,23 @@ class Gain extends \BRG\Models\Action
     return ST_GAIN;
   }
 
-  public function isIndependent($player = null)
+  public function getDescription($ignoreResources = false)
   {
-    $args = $this->getCtxArgs();
+    return [
+      'log' => clienttranslate('Gain ${resources_desc}'),
+      'args' => [
+        'resources_desc' => Utils::resourcesToStr($this->ctx->getArgs()),
+      ],
+    ];
+  }
 
-    if ($this->ctx->forceConfirmation()) {
-      return false;
-    }
+  public function isIndependent($company = null)
+  {
+    return true;
+  }
 
+  public function isAutomatic($company = null)
+  {
     return true;
   }
 
@@ -70,20 +79,5 @@ class Gain extends \BRG\Models\Action
     }
     // Notify
     Notifications::gainResources($company, $meeples, $spaceId, $source);
-  }
-
-  public function getDescription($ignoreResources = false)
-  {
-    return [
-      'log' => clienttranslate('Gain ${resources_desc}'),
-      'args' => [
-        'resources_desc' => Utils::resourcesToStr($this->ctx->getArgs()),
-      ],
-    ];
-  }
-
-  public function isAutomatic($player = null)
-  {
-    return true;
   }
 }

@@ -22,7 +22,8 @@ class Card4 extends \BRG\Models\AutomaCard
         'nEngineers' => 1,
         'type' => GAIN_MACHINE,
         'vp' => -2,
-        'machines' => [\EXCAVATOR],
+        'machines' => [\EXCAVATOR => 1],
+        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 2,

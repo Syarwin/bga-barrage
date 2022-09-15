@@ -266,6 +266,8 @@ const EXTERNAL_WORK = 'EXTERNAL_WORK';
 const GAIN_MACHINE = 'GAIN_MACHINE';
 const GAIN_VP = 'GAIN_VP';
 
+const NOT_LAST_ROUND = 'not_last_round';
+
 // AUTOMA CRITERION
 const AI_CRITERION_BASE_MAX_CONDUIT = 'criterionBaseConduit';
 const AI_CRITERION_BASE_POWERHOUSE = 'criterionBasePowerhouse';

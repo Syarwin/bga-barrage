@@ -522,6 +522,10 @@ define([
             structure: typeDescs[action.structure],
             spaceId: spaceId,
           });
+        } else if (type == 'GAIN_MACHINE') {
+          return this.fsr(_('gain ${resources}'), {
+            resources: this.formatResourceArray(result),
+          });
         } else {
           return type;
         }

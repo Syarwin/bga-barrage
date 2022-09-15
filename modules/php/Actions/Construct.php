@@ -45,7 +45,7 @@ class Construct extends \BRG\Models\Action
       }
 
       // AUTOMA if we have a constraint on AREA placement for base / elevation
-      if (!is_null($constraintsArea) && !in_array($space['area'], $constraintsArea)) {
+      if (!is_null($constraintsArea) && !in_array($slot['area'], $constraintsArea)) {
         continue;
       }
 

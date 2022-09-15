@@ -30,9 +30,9 @@ class Card8 extends \BRG\Models\AutomaCard
       [
         'nEngineers' => 1,
         'type' => \GAIN_MACHINE,
-        'machines' => [MIXER],
+        'machines' => [MIXER => 1],
         'vp' => -3,
-        'condition' => 'not_last_round',
+        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 2,

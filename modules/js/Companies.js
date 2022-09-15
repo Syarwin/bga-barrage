@@ -672,7 +672,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         this._scoreCounters[company.id].goTo(company.score, anim);
         this._energyCounters[company.id].goTo(company.energy, anim);
-        if (!company.isAI && this.scoreCtrl && this.scoreCtrl[company.pId]) {
+        if (!company.ai && this.scoreCtrl && this.scoreCtrl[company.pId]) {
           this.scoreCtrl[company.pId][anim ? 'toValue' : 'setValue'](company.score);
           this.gamedatas.players[company.pId].score = company.score;
         }
@@ -718,7 +718,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this._scoreCounters[n.args.company_id].toValue(n.args.total);
       let company = this.gamedatas.companies[n.args.company_id];
       company.score = n.args.total;
-      if (!company.isAI) {
+      if (!company.ai) {
         this.scoreCtrl[company.pId].current_value = n.args.total;
         this.scoreCtrl[company.pId].target_value = n.args.total;
         this.gamedatas.players[company.pId].score = n.args.total;

@@ -43,7 +43,7 @@ class Card5 extends \BRG\Models\AutomaCard
         'nEngineers' => 1,
         'type' => GAIN_MACHINE,
         'vp' => -3,
-        'condition' => 'not_last_round',
+        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 1,
