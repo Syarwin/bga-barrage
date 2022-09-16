@@ -7,6 +7,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Stats;
+use BRG\Core\Game;
 use BRG\Helpers\Utils;
 use BRG\Helpers\FlowConvertor;
 use BRG\Map;
@@ -40,7 +41,7 @@ class PlaceStructure extends \BRG\Models\Action
 
   public function getAvailableSpaces($company, $ignoreResources = false, $args = null)
   {
-    $args = $this->getCtxArgs();
+    $args = $args ?? $this->getCtxArgs();
     $credit = $company->countReserveResource(CREDIT);
     $constraints = $args['constraints'] ?? null;
 
@@ -153,8 +154,17 @@ class PlaceStructure extends \BRG\Models\Action
       throw new \BgaUserException('You can\'t build here');
     }
 
-    // Take top meeple and slide it
     $type = $this->getCtxArgs()['type'];
+    $this->placeStructure($spaceId, $type);
+    $this->resolveAction([$spaceId]);
+  }
+
+  public function placeStructure($spaceId, $type)
+  {
+    $company = Companies::getActive();
+    $isAI = $company->isAI();
+
+    // Take top meeple and slide it
     $meeple = Meeples::getTopOfType($type, $company->getId(), 'company');
     $mId = $meeple['id'];
     Meeples::insertOnTop($mId, $spaceId);
@@ -176,11 +186,7 @@ class PlaceStructure extends \BRG\Models\Action
         ],
       ];
 
-      if($company->isAI()){
-        Engine::runAutoma($flow);
-      } else {
-        Engine::insertAsChild($flow);
-      }
+      Engine::insertAsChild($flow, $isAI);
     }
 
     if (!$company->isAI() || $company->getLvlAI() > 0) {
@@ -189,14 +195,17 @@ class PlaceStructure extends \BRG\Models\Action
       $bonus = $company->getBoardIncomes()[$type][$nb] ?? null;
       if ($bonus !== null && $type != POWERHOUSE) {
         Notifications::newIncomeRevealed($company);
-        $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'));
-        Engine::insertAsChild($flow);
-
+        $flow = FlowConvertor::computeRewardFlow($bonus, clienttranslate('board revenue'), $isAI);
         $vp = FlowConvertor::getVp($bonus);
         Stats::incVpStructures($company, $vp);
+
+        if ($isAI) {
+          $actions = Game::get()->convertFlowToAutomaActions($flow);
+          Game::get()->automaTakeActions($actions);
+        } else {
+          Engine::insertAsChild($flow, $isAI);
+        }
       }
     }
-
-    $this->resolveAction([$spaceId]);
   }
 }

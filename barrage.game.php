@@ -85,6 +85,16 @@ class barrage extends Table
     return 'barrage';
   }
 
+  public function getGameOptionValue($optionId)
+  {
+    $query = new BRG\Helpers\QueryBuilder('global', null, 'global_id');
+    $val = $query
+      ->where('global_id', $optionId)
+      ->get()
+      ->first();
+    return is_null($val) ? null : $val['global_value'];
+  }
+
   /*
    * getAllDatas:
    */

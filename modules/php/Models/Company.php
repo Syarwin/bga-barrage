@@ -533,7 +533,7 @@ class Company extends \BRG\Helpers\DB_Model
   public function getIncomesFlow()
   {
     $incomes = $this->getIncomes();
-    $flow = FlowConvertor::computeRewardFlow($incomes, clienttranslate('income'));
+    $flow = FlowConvertor::computeRewardFlow($incomes, clienttranslate('income'), $this->isAI());
     return empty($flow['childs']) ? [] : $flow;
   }
 

@@ -92,6 +92,7 @@ trait AutomaPlaceStructureTrait
     }
 
     if (count($spaceIds) > 1) {
+      var_dump($spaceIds);
       die('Impossible!');
     }
     return $spaceIds[0];
@@ -187,7 +188,7 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////////
       // Keep the dam that would get the most droplets
       case AI_CRITERION_BASE_HOLD_WATER:
-        list($w, $passingDroplets) = self::emulateFlowDroplets();
+        list($w, $passingDroplets) = Map::emulateFlowDroplets();
         $basins = aggregate($spaceIds, function ($sId) use ($passingDroplets) {
           return count($passingDroplets[$sId]);
         });
@@ -288,7 +289,7 @@ trait AutomaPlaceStructureTrait
         $conduitProductions = aggregate(
           $spaceIds,
           function ($sId) use ($conduits) {
-            return $conduits[$sId]['productions'];
+            return $conduits[$sId]['production'];
           },
           $spaceIds
         );
@@ -303,7 +304,7 @@ trait AutomaPlaceStructureTrait
         $conduitProductions = aggregate(
           $spaceIds,
           function ($sId) use ($conduits) {
-            return $conduits[$sId]['productions'];
+            return $conduits[$sId]['production'];
           },
           $spaceIds
         );
@@ -322,7 +323,7 @@ trait AutomaPlaceStructureTrait
       // Keep only conduit connected to a built barrage/powerhouse
       case \AI_CRITERION_CONDUIT_BARRAGE:
       case \AI_CRITERION_CONDUIT_BARRAGE_REVERSE:
-        $type = BARRAGE;
+        $type = BASE;
       case \AI_CRITERION_CONDUIT_POWERHOUSE:
       case \AI_CRITERION_CONDUIT_POWERHOUSE_REVERSE:
         $conduits = [
@@ -331,8 +332,8 @@ trait AutomaPlaceStructureTrait
           'opponent' => [],
         ];
         foreach ($spaceIds as $sId) {
-          $zId = self::getZoneId($sId);
-          $structures = ($type ?? null) == BARRAGE ? self::getBuiltDamsInZone($zId) : self::getLinkedPowerhouses($sId);
+          $zId = Map::getZoneId($sId);
+          $structures = ($type ?? null) == BASE ? Map::getBuiltDamsInZone($zId) : Map::getLinkedPowerhouses($sId);
           foreach ($structures as $structure) {
             if ($structure['cId'] == $company->getId()) {
               $key = 'owned';
@@ -351,7 +352,7 @@ trait AutomaPlaceStructureTrait
         }
         foreach ($order as $key) {
           if (!empty($conduits[$key])) {
-            return $conduits[$key];
+            return array_values(array_unique($conduits[$key]));
           }
         }
         break;
@@ -372,9 +373,9 @@ trait AutomaPlaceStructureTrait
         $maxPowerhouses = [];
         $isOwn = false;
         foreach ($spaceIds as $sId) {
-          $conduitSpaces = self::getPowerhouses()[$sId]['conduits'];
-          foreach (self::getBuiltStructures($conduitSpaces) as $meeple) {
-            $production = self::getConduits()[$meeple['location']]['production'];
+          $conduitSpaces = Map::getPowerhouses()[$sId]['conduits'];
+          foreach (Map::getBuiltStructures($conduitSpaces) as $meeple) {
+            $production = Map::getConduits()[$meeple['location']]['production'];
             $owned = $meeple['cId'] == $company->getId();
             if ($production > $maxProd || ($production == $maxProd && $owned && !$isOwn)) {
               $maxProd = $production;
@@ -415,9 +416,9 @@ trait AutomaPlaceStructureTrait
         break;
 
       //////////////////////////////////////
-      // Keep only powerhouses in the hills
-      case AI_CRITERION_POWERHOUSE_HILL:
-        $locations = self::getLocationsInArea(HILL);
+      // Keep only powerhouses in the plain
+      case \AI_CRITERION_POWERHOUSE_PLAIN:
+        $locations = self::getLocationsInArea(PLAIN);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
           return array_values($possiblePowerhouses);

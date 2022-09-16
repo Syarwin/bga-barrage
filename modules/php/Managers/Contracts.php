@@ -24,7 +24,7 @@ class Contracts extends \BRG\Helpers\Pieces
     // Visible contracts
     $data = [
       'board' => self::getSelectQuery()
-        ->whereNotIn('contract_location', ['box', 'constract-discard-2', 'constract-discard-3', 'constract-discard-4'])
+        ->whereNotIn('contract_location', ['box', 'contract-discard-2', 'contract-discard-3', 'contract-discard-4'])
         ->get()
         ->toArray(),
       'stacks' => [],
@@ -78,6 +78,13 @@ class Contracts extends \BRG\Helpers\Pieces
   {
     $contractIds = Utils::rand(STARTING_CONTRACTS, $nPlayers);
     self::move($contractIds, 'pickStart');
+  }
+
+  public function clearMatchups()
+  {
+    $ids = self::getInLocation('pickStart')->getIds();
+    self::move($ids, 'box');
+    return $ids;
   }
 
   public function getNationalContracts()

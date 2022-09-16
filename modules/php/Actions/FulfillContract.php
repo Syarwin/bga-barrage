@@ -2,11 +2,12 @@
 namespace BRG\Actions;
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
-use BRG\Core\Engine;
 use BRG\Managers\Contracts;
 use BRG\Managers\Companies;
 use BRG\Core\Notifications;
 use BRG\Core\Stats;
+use BRG\Core\Engine;
+use BRG\Core\Game;
 use BRG\Helpers\Utils;
 
 class FulfillContract extends \BRG\Models\Action
@@ -62,6 +63,15 @@ class FulfillContract extends \BRG\Models\Action
       throw new \feException('You cannot fulfill this contract. Should not happen');
     }
 
+    $this->fulfillContract($contract);
+    $this->resolveAction(['resolvedContract' => $contractId]);
+  }
+
+  public function fulfillContract($contract)
+  {
+    $company = Companies::getActive();
+    $isAI = $company->isAI();
+
     // Make it fulfilled
     $contract->fulfill($company);
     Notifications::fulfillContract($company, $contract);
@@ -69,10 +79,14 @@ class FulfillContract extends \BRG\Models\Action
     $vp = $contract->getVp();
     Stats::incVpContracts($company, $vp);
 
-    // Insert its flow as a child
-    $flow = $contract->computeRewardFlow();
-    Engine::insertAsChild($flow);
-
-    $this->resolveAction(['resolvedContract' => $contractId]);
+    // Insert its flow as a child (or run it right now if it's an Automa)
+    if ($isAI) {
+      $flow = $contract->computeRewardFlow($isAI);
+      $actions = Game::get()->convertFlowToAutomaActions($flow);
+      Game::get()->automaTakeActions($actions);
+    } else {
+      $flow = $contract->computeRewardFlow();
+      Engine::insertAsChild($flow);
+    }
   }
 }

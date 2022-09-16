@@ -41,7 +41,7 @@ class AutomaCards extends \BRG\Helpers\Pieces
     }
 
     $cards = [];
-    for ($i = 1; $i < 7; $i++) {
+    for ($i = 1; $i <= 20; $i++) {
       $cards[] = [
         'id' => $i,
         'location' => 'deck',
@@ -50,6 +50,7 @@ class AutomaCards extends \BRG\Helpers\Pieces
 
     self::create($cards);
     self::shuffle('deck');
+    self::flip();
   }
 
   public function flip()

@@ -95,11 +95,31 @@ class Notifications
     ]);
   }
 
+  public static function assignCompanyAutoma($company, $meeples, $tiles)
+  {
+    self::notifyAll('assignCompany', clienttranslate('Automa is playing ${company_name}'), [
+      'company_name' => $company->getCname(),
+      'company_id' => $company->getId(),
+      'datas' => $company,
+      'actionSpaces' => CompanyActionBoard::getUiData($company->getId()),
+      'actionSpacesXO' => OfficerActionBoard::getUiData($company->getId()),
+      'meeples' => $meeples->toArray(),
+      'tiles' => $tiles->toArray(),
+    ]);
+  }
+
   public static function setupCompanies($meeples, $tiles)
   {
     self::notifyAll('setupCompanies', '', [
       'meeples' => $meeples->toArray(),
       'tiles' => $tiles->toArray(),
+    ]);
+  }
+
+  public static function clearMatchups($contractIds)
+  {
+    self::notifyAll('clearMatchups', '', [
+      'contractIds' => $contractIds,
     ]);
   }
 
@@ -458,7 +478,7 @@ class Notifications
 
   public static function flipAutomaCard($cardBack, $cardFront)
   {
-    self::notifyAll('flipAutomaCard', $cardBack . ' ' . $cardFront, [
+    self::notifyAll('flipAutomaCard', '', [
       'cardBack' => $cardBack,
       'cardFront' => $cardFront,
     ]);

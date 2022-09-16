@@ -511,7 +511,7 @@ class Map
     // Now move all the droplets
     $passingDroplets = [];
     foreach ($droplets as $droplet) {
-      list($path, $energy) = self::getFlowPath($droplet);
+      list($path, $energy) = self::getFlowPath($droplet, [], $currentStatus);
       if (count($path) == 0) {
         continue;
       }

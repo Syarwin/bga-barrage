@@ -76,6 +76,7 @@ class Companies extends \BRG\Helpers\DB_Manager
       'score' => 16,
       'score_aux' => 0,
     ]);
+    return self::get($cId);
   }
 
   public function getCorrespondingIds($pIds)

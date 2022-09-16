@@ -83,10 +83,17 @@ class Produce extends \BRG\Models\Action
     if (is_null($system)) {
       throw new \BgaVisibleSystemException('Combinaison not possible. Should not happen');
     }
+    $this->produce($system, $nDroplets);
+    $this->resolveAction(['droplets' => $nDroplets]);
+  }
+
+  public function produce($system, $nDroplets)
+  {
     $production = $system['productions'][$nDroplets] ?? null;
     if (is_null($production)) {
       throw new \BgaVisibleSystemException('Invalid production. Should not happen');
     }
+
     $droplets = Map::removeDropletsInBasin($system['basin'], $nDroplets);
     if (count($droplets) < $nDroplets) {
       throw new \BgaVisibleSystemException('Invalid number of droplets. Should not happen');
@@ -103,6 +110,7 @@ class Produce extends \BRG\Models\Action
 
     // Produce energy
     $company = Companies::getActive();
+    $isAI = $company->isAI();
     $germanPower = $args['germanPower'] ?? false;
     Notifications::produce(
       $company,
@@ -123,41 +131,44 @@ class Produce extends \BRG\Models\Action
     // Pay X credit to other player if needed
     if ($system['conduitOwnerId'] != $company->getId()) {
       $opponent = Companies::get($system['conduitOwnerId']);
-      Engine::insertAsChild([
-        'action' => PAY,
-        'cId' => $company->getId(),
-        'args' => [
-          'nb' => 1,
-          'costs' => Utils::formatCost([CREDIT => $nDroplets]),
-          'source' => clienttranslate('use of conduit'),
-          'to' => $opponent->getId(),
+      Engine::insertAsChild(
+        [
+          'action' => PAY,
+          'cId' => $company->getId(),
+          'args' => [
+            'nb' => 1,
+            'costs' => Utils::formatCost([CREDIT => $nDroplets]),
+            'source' => clienttranslate('use of conduit'),
+            'to' => $opponent->getId(),
+          ],
         ],
-      ]);
+        $isAI
+      );
       // gain x VP
       $opponent->incScore($nDroplets, clienttranslate('for use of conduit'));
       Stats::incVpConduit($opponent, $nDroplets);
     }
 
     // Contract fullfilment?
-    Engine::insertAsChild([
-      'action' => \FULFILL_CONTRACT,
-      'optional' => true,
-      'args' => [ENERGY => $production],
-    ]);
-
-    // Germany power
-    if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+    if (!$isAI) {
       Engine::insertAsChild([
-        'action' => \PRODUCE,
+        'action' => \FULFILL_CONTRACT,
         'optional' => true,
-        'args' => ['germanPower' => true, 'constraints' => $system['powerhouseSpaceId']],
+        'args' => [ENERGY => $production],
       ]);
-    }
-    // Italy power
-    elseif ($company->getId() == \COMPANY_ITALY && $company->productionPowerEnabled()) {
-      Gain::gainResources($company, [ENERGY => 3], null, clienttranslate('nation\'s power'));
-    }
 
-    $this->resolveAction(['droplets' => $droplets]);
+      // Germany power
+      if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+        Engine::insertAsChild([
+          'action' => \PRODUCE,
+          'optional' => true,
+          'args' => ['germanPower' => true, 'constraints' => $system['powerhouseSpaceId']],
+        ]);
+      }
+      // Italy power
+      elseif ($company->getId() == \COMPANY_ITALY && $company->productionPowerEnabled()) {
+        Gain::gainResources($company, [ENERGY => 3], null, clienttranslate('nation\'s power'));
+      }
+    }
   }
 }

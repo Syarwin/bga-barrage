@@ -53,8 +53,8 @@ trait SetupTrait
     }
     $tiles = Utils::rand($bonusTiles, 5);
     Globals::setBonusTiles($tiles);
-    foreach($tiles as $i => $tile){
-      $statName = 'setRound'. ($i + 1) . 'Obj';
+    foreach ($tiles as $i => $tile) {
+      $statName = 'setRound' . ($i + 1) . 'Obj';
       Stats::$statName($tile);
     }
 
@@ -82,11 +82,12 @@ trait SetupTrait
 
       // Handle automa
       $nAutoma = 0;
-      for( ; $i <= Companies::count(); $i++){
+      for (; $i <= Companies::count(); $i++) {
         $matchup = INTRODUCTORY_MATCHUPS[Companies::count() - $i++];
-        $fakePId = ($nAutoma + 1) * (-5) + $options[\BRG\OPTION_LVL_AUTOMA_1 + $nAutoma];
+        $fakePId = ($nAutoma + 1) * -5 + $options[\BRG\OPTION_LVL_AUTOMA_1 + $nAutoma];
         $company = Companies::assignCompanyAutoma($fakePId, $matchup[0], $matchup[1]);
         // NO CONTRACT FOR AUTOMA
+        $nAutoma++;
       }
 
       $this->setupCompanies(true);
@@ -163,17 +164,38 @@ trait SetupTrait
   function stPickStartNext()
   {
     $pId = $this->activeNextPlayer();
+    $args = $this->argsPickStart();
     if (empty(Globals::getStartingMatchups())) {
-      // TODO : assign random companies to automas
+      $this->setupCompanies();
+      $this->gamestate->nextState('done');
+    } elseif (!empty(Companies::getCorrespondingIds([$pId]))) {
+      // Handle automa
+      $nAutoma = 0;
+      $matchups = array_values($args['matchups']);
+      for ($i = Players::count(); $i < Companies::count(); $i++) {
+        $matchup = $matchups[$nAutoma];
+        $lvl = $this->getGameOptionValue(\BRG\OPTION_LVL_AUTOMA_1 + $nAutoma);
+        $fakePId = ($nAutoma + 1) * -5 + $lvl;
+        $company = Companies::assignCompanyAutoma($fakePId, $matchup['cId'], $matchup['xId']);
+        // NO CONTRACT FOR AUTOMA
+        $meeples = Meeples::setupCompany($company);
+        $tiles = TechnologyTiles::setupCompany($company);
+        Notifications::assignCompanyAutoma($company, $meeples, $tiles);
+        $nAutoma++;
+      }
+
+      // Remove remaining contracts
+      $contractIds = Contracts::clearMatchups();
+      Notifications::clearMatchups($contractIds);
+
+      // Start the game
       $this->setupCompanies();
       $this->gamestate->nextState('done');
     } else {
-      $args = $this->argsPickStart();
       // Only one left ? => Autopick
       if (count($args['matchups']) == 1) {
         $this->actPickStart(array_keys($args['matchups'])[0], $args['contracts']->first()->getId(), true);
-      }
-      else {
+      } else {
         $this->gamestate->nextState('pick');
       }
     }

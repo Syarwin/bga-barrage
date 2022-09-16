@@ -15,8 +15,12 @@ abstract class FlowConvertor
     return $vp;
   }
 
-  public static function computeRewardFlow($rewards, $source = null)
+  public static function computeRewardFlow($rewards, $source = null, $isAI = false)
   {
+    if ($isAI) {
+      return self::computeRewardFlowAutoma($rewards, $source);
+    }
+
     $mapping = [
       CREDIT => [['action' => GAIN, 'args' => [CREDIT]]],
       EXCAVATOR => [['action' => GAIN, 'args' => [EXCAVATOR]]],
@@ -79,5 +83,53 @@ abstract class FlowConvertor
     }
 
     return $flows;
+  }
+
+  public static function computeRewardFlowAutoma($rewards, $source = null)
+  {
+    $actions = [];
+    foreach ($rewards as $t => $n) {
+      if (in_array($t, [CREDIT, VP])) {
+        $actions[] = [
+          'type' => GAIN_VP,
+          'vp' => $n,
+        ];
+      } elseif (in_array($t, [PLACE_DROPLET, FLOW_DROPLET])) {
+        $actions[] = [
+          'type' => PLACE_DROPLET,
+          'n' => 1,
+          'flow' => $t == FLOW_DROPLET,
+        ];
+      } elseif (in_array($t, [EXCAVATOR, MIXER, ANY_MACHINE])) {
+        $actions[] = [
+          'type' => GAIN_MACHINE,
+          'machines' => [$t => $n],
+        ];
+      } elseif ($t == ROTATE_WHEEL) {
+        $actions[] = [
+          'type' => \ROTATE_WHEEL,
+          'n' => $n,
+        ];
+      } elseif ($t == ENERGY) {
+        $actions[] = [
+          'type' => ENERGY,
+          'energy' => $n,
+        ];
+      } elseif (in_array($t, [BASE, ELEVATION, CONDUIT, POWERHOUSE])) {
+        $action = [
+          'type' => \PLACE_STRUCTURE,
+          'structure' => $t,
+        ];
+        if (is_array($n)) {
+          $action['constraints'] = $n;
+        } else {
+          $action['n'] = $n; // Useful for conduit
+        }
+
+        $actions[] = $action;
+      }
+    }
+
+    return $actions;
   }
 }

@@ -59,9 +59,9 @@ class Gain extends \BRG\Models\Action
       if (in_array($resource, ['spaceId', 'cId'])) {
         continue;
       }
-      if ($resource == VP) {
+      if ($resource == VP || ($resource == CREDIT && $company->isAI())) {
         for ($i = 0; $i < $amount; $i++) {
-          $meeples[] = ['type' => $resource, 'ignore' => true];
+          $meeples[] = ['type' => VP, 'ignore' => true];
         }
         $company->incScore($amount, null, true);
       } elseif ($resource == ENERGY) {

@@ -254,8 +254,13 @@ class Engine
     }
   }
 
-  public function insertAsChild($t)
+  public function insertAsChild($t, $isAI = false)
   {
+    if ($isAI) {
+      self::runAutoma($t);
+      return;
+    }
+
     self::ensureSeqRootNode();
     $node = self::$tree->getNextUnresolved();
 

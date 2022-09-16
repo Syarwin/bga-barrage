@@ -146,7 +146,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
                 <div class="emblemia"></div>
             </div>
             <div class="player-name" id="player_name_${company.pId}">
-            	<span style="${company.color}">${_(company.name)}</span>
+            	<span style="color:#${company.color}">${_(company.name)}</span>
             </div>
             <div id="player_board_${company.pId}" class="player_board_content">
               <div class="player_score">
@@ -802,12 +802,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let company = n.args.datas;
       let cId = n.args.company_id;
       company.color = COLOR_MAPPING[company.id];
-      let pId = n.args.player_id;
-      ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
-        $(id + this.gamedatas.players[pId].color).id = id + company.color;
-      });
-      $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
-      this.gamedatas.players[pId].color = company.color;
+      if (company.ai) {
+        this.place('tplPlayerPanel', company, 'player_boards');
+      } else {
+        let pId = n.args.player_id;
+        ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
+          $(id + this.gamedatas.players[pId].color).id = id + company.color;
+        });
+        $(`player_name_${pId}`).querySelector('a').style.color = '#' + company.color;
+        this.gamedatas.players[pId].color = company.color;
+      }
       this.gamedatas.companies[cId] = company;
       this.setupCompany(company);
       this.onChangeAltFrSetting(this.settings.altFr);
@@ -828,6 +832,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
       n.args.tiles.forEach((tile) => this.addTechTile(tile));
       this.updateCompaniesCounters();
+    },
+
+    notif_clearMatchups(n) {
+      $('pickStart-contracts').innerHTML = '';
     },
 
     //////////////////////////////////////////

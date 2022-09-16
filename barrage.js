@@ -64,7 +64,7 @@ define([
         ['score', 500],
         ['rotateWheel', 1000],
         ['construct', null],
-        ['updateIncome', 200],
+        ['updateIncome', 800],
         ['pickContracts', 1000],
         ['fulfillContract', 2000],
         ['refillStacks', 1000],
@@ -75,6 +75,7 @@ define([
         ['clearMahiri', 10],
         ['flipAutomaCard', 800],
         ['emptyContractStack', 800],
+        ['clearMatchups', 20],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -554,12 +555,29 @@ define([
             n: result.locations.length,
             hs: result.locations.join('/'),
           });
+        } else if (type == 'PRODUCE') {
+          $(`contract-${result.contract.id}`).classList.add('selected');
+          this.getConstructSlot(result.system.basin).classList.add('selected');
+          this.getConstructSlot(result.system.conduitSpaceId).classList.add('selected');
+          this.getConstructSlot(result.system.powerhouseSpaceId).classList.add('selected');
+
+          return this.fsr(
+            _('produce ${energy} energy units at plant ${powerhouse} with ${droplets} droplet(s) from basin ${basin}'),
+            {
+              energy: result.system.productions[result.system.droplets],
+              droplets: result.system.droplets,
+              basin: result.system.basin,
+              powerhouse: result.system.powerhouseSpaceId,
+            }
+          );
         } else {
           return type;
         }
       });
 
-      this.gamedatas.gamestate.description = _("Automa's turn: ") + descs.join(', ');
+      this.gamedatas.gamestate.description =
+        this.fsr(_("${company_name}'s turn: "), { company_name: this.gamedatas.companies[args.cId].name }) +
+        descs.join(', ');
       this.updatePageTitle();
     },
 

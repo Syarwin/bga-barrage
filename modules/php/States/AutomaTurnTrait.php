@@ -17,6 +17,9 @@ use BRG\Helpers\Utils;
 use BRG\Actions\Construct;
 use BRG\Actions\Gain;
 use BRG\Actions\PlaceDroplet;
+use BRG\Actions\Produce;
+use BRG\Actions\FulfillContract;
+use BRG\Actions\PlaceStructure;
 use BRG\Map;
 
 trait AutomaTurnTrait
@@ -24,18 +27,21 @@ trait AutomaTurnTrait
   function stPreAutomaTurn()
   {
     AutomaCards::flip();
-
     $this->gamestate->nextState();
   }
 
   function actRunAutoma()
   {
-    $actions = $this->computeAutomaTurn();
-    foreach ($actions as $action) {
-      $this->automaTakeAction($action['action'], $action['result']);
-    }
-
+    $this->automaTakeActions($this->computeAutomaTurn());
     $this->nextPlayerCustomOrder('actionPhase');
+  }
+
+  function argsAutomaTurn()
+  {
+    return [
+      'actions' => self::computeAutomaTurn(),
+      'cId' => Companies::getActiveId(),
+    ];
   }
 
   function getAutomaFlow()
@@ -48,41 +54,26 @@ trait AutomaTurnTrait
     return AutomaCards::getUiData()['back']->getCriteria();
   }
 
-  function argsAutomaTurn()
-  {
-    return [
-      'actions' => self::computeAutomaTurn(),
-    ];
-
-    // $actions = self::computeAutomaTurn();
-    // $log = [];
-    // $args = [];
-    // foreach ($actions as $i => $act) {
-    //   $name = 'action' . $i;
-    //   $log[] = '${' . $name . '}';
-    //   $args[$name] = self::getAutomaActionDesc($act['action'], $act['result']);
-    // }
-    //
-    // return [
-    //   'i18n' => ['actions'],
-    //   'actions' => [
-    //     'log' => join(',', $log),
-    //     'args' => $args,
-    //   ],
-    // ];
-  }
-
   /**
    * computeAutomaTurn(): given the automa cards, compute the list of actions the automa will take
    */
   function computeAutomaTurn()
   {
     $company = Companies::getActive();
-    $nEngineers = $company->countAvailableEngineers();
+    return $this->convertFlowToAutomaActions($this->getAutomaFlow());
+  }
 
+  /**
+   * Given a flow following automa card syntax, compute the possible corresponding actions along with results
+   */
+  function convertFlowToAutomaActions($flow)
+  {
+    $company = Companies::getActive();
+    $nEngineers = $company->countAvailableEngineers();
     $actions = [];
-    foreach ($this->getAutomaFlow() as $action) {
-      if ($action['nEngineers'] > $nEngineers) {
+    foreach ($flow as $action) {
+      $requiredEngineers = $action['nEngineers'] ?? 0;
+      if ($requiredEngineers > $nEngineers) {
         continue;
       }
 
@@ -92,10 +83,13 @@ trait AutomaTurnTrait
           'action' => $action,
           'result' => $res,
         ];
-        $nEngineers -= $action['nEngineers'];
+        $nEngineers -= $requiredEngineers;
 
-        // For these actions, the automa turn ends right away
-        if (in_array($action['type'], [PRODUCE, CONSTRUCT, ROTATE_WHEEL, GAIN_MACHINE, PATENT])) {
+        // For these actions, the automa turn ends right away (except if it's a contract reward)
+        if (
+          in_array($action['type'], [PRODUCE, CONSTRUCT, ROTATE_WHEEL, GAIN_MACHINE, PATENT]) &&
+          $requiredEngineers > 0
+        ) {
           break;
         }
       }
@@ -120,66 +114,30 @@ trait AutomaTurnTrait
     }
 
     ///////////////////////////////////////////
+    // ENERGY: foo action to let automa gain energy
+    if ($type == ENERGY) {
+      return true;
+    }
+    ///////////////////////////////////////////
     // Produce : must be able to produce + fulfill a contract + has a reason to gain energy on the track (see below)
-    if ($type == PRODUCE) {
+    elseif ($type == PRODUCE) {
       return $this->canAutomaTakeProduceAction($company, $action);
     }
     ///////////////////////////////////////////
     // Place Droplet : only if it can reach automa's barrage
     elseif ($type == \PLACE_DROPLET) {
-      $flowing = $action['flow'] ?? false;
-      // Get the basins space ids with automa's barrage
-      $basins = array_keys(Map::getBasins());
-      Utils::filter($basins, function ($basinId) use ($company) {
-        return !is_null(Map::getBuiltStructure($basinId, $company));
-      });
-      // Function to count total number of droplets given a droplet status
-      function totalDroplets($basins, $status)
-      {
-        $n = 0;
-        foreach ($basins as $bId) {
-          $n += $status[$bId] ?? 0;
-        }
-        return $n;
-      }
-
-      // Current status
-      list($currentStatus, $p) = Map::emulateFlowDroplets([], $flowing);
-      $nTotal = totalDroplets($basins, $currentStatus);
-      $placedDroplets = [];
-      $remaining = 0;
-      $order = $this->getAutomaCriteria()[PLACE_DROPLET];
-      for ($i = 1; $i <= $action['n']; $i++) {
-        $added = false;
-        foreach ($order as $hs) {
-          $headstream = 'H' . $hs;
-          $droplets = $placedDroplets;
-          for ($j = 0; $j < 1 + $remaining; $j++) {
-            $droplets[] = $headstream;
-          }
-
-          list($status, $p) = Map::emulateFlowDroplets($droplets, $flowing);
-          $n = totalDroplets($basins, $status);
-          if ($n > $nTotal) {
-            $added = true;
-            $nTotal = $n;
-            $placedDroplets = $droplets;
-            $remaining = 0;
-            break;
-          }
-        }
-
-        if (!$added) {
-          $remaining++;
-        }
-      }
-
+      $placedDroplets = $this->canAutomaTakePlaceDropletAction($company, $action);
       return empty($placedDroplets) ? false : ['locations' => $placedDroplets];
     }
     ///////////////////////////////////////////
     // Construct : only if it has available machinery and tech tile (see below)
     elseif ($type == CONSTRUCT) {
       return $this->canAutomaTakeConstructAction($company, $action);
+    }
+    ///////////////////////////////////////////
+    // Place Structure : only if an available spot exist
+    elseif ($type == \PLACE_STRUCTURE) {
+      return $this->canAutomaTakePlaceStructureAction($company, $action);
     }
     //////////////////////////////////////////
     // External Work : LWP
@@ -254,6 +212,13 @@ trait AutomaTurnTrait
   /**
    * automaTakeAction($action, $result)
    */
+  function automaTakeActions($actions)
+  {
+    foreach ($actions as $action) {
+      $this->automaTakeAction($action['action'], $action['result']);
+    }
+  }
+
   function automaTakeAction($action, $result)
   {
     $company = Companies::getActive();
@@ -306,6 +271,10 @@ trait AutomaTurnTrait
     ///////////////////////////////////////////
     // Produce
     if ($type == PRODUCE) {
+      $system = $result['system'];
+      Produce::produce($system, $system['droplets']);
+      $contract = $result['contract'];
+      FulfillContract::fulfillContract($contract);
     }
     ///////////////////////////////////////////
     // Place Droplet
@@ -316,6 +285,11 @@ trait AutomaTurnTrait
     // Construct
     elseif ($type == CONSTRUCT) {
       Engine::runAutoma($result['flow']);
+    }
+    ///////////////////////////////////////////
+    // Place Structure
+    elseif ($type == PLACE_STRUCTURE) {
+      PlaceStructure::placeStructure($result['spaceId'], $action['structure']);
     }
     //////////////////////////////////////////
     // External Work : LWP
@@ -379,8 +353,8 @@ trait AutomaTurnTrait
     // Compute the max amount of energy producable
     $maxProd = 0;
     $maxSystem = null;
-    foreach ($system as $system) {
-      $prod = $system['productions'][$system['nDroplets']];
+    foreach ($systems as $system) {
+      $prod = $system['productions'][$system['droplets']];
       if ($prod > $maxProd) {
         $maxProd = $prod;
         $maxSystem = $system;
@@ -442,6 +416,7 @@ trait AutomaTurnTrait
     $pairs = Construct::getConstructablePairs($company, false, false, [
       'type' => $structure,
       'constraints' => $action['constraints'] ?? null,
+      'n' => $action['n'] ?? null,
     ]);
     if (empty($pairs)) {
       return false;
@@ -469,5 +444,85 @@ trait AutomaTurnTrait
     }
 
     return $maxPair;
+  }
+
+  public function canAutomaTakePlaceStructureAction($company, $action)
+  {
+    $structure = $action['structure'];
+    // Find all the possible constructable spots
+    $spaces = PlaceStructure::getAvailableSpaces($company, false, [
+      'type' => $structure,
+      'constraints' => $action['constraints'] ?? null,
+      'n' => $action['n'] ?? null,
+    ]);
+    if (empty($spaces)) {
+      return false;
+    }
+
+    // Now let's find the space from these pairs
+    $spaceIds = array_keys($spaces);
+    $spaceId = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
+
+    return ['spaceId' => $spaceId];
+  }
+
+  //////////////////////////////////////////////////////////////////
+  //  ____  _                  ____                  _      _
+  // |  _ \| | __ _  ___ ___  |  _ \ _ __ ___  _ __ | | ___| |_
+  // | |_) | |/ _` |/ __/ _ \ | | | | '__/ _ \| '_ \| |/ _ \ __|
+  // |  __/| | (_| | (_|  __/ | |_| | | | (_) | |_) | |  __/ |_
+  // |_|   |_|\__,_|\___\___| |____/|_|  \___/| .__/|_|\___|\__|
+  //                                          |_|
+  //////////////////////////////////////////////////////////////////
+
+  public function canAutomaTakePlaceDropletAction($company, $action)
+  {
+    $flowing = $action['flow'] ?? false;
+    // Get the basins space ids with automa's barrage
+    $basins = array_keys(Map::getBasins());
+    Utils::filter($basins, function ($basinId) use ($company) {
+      return !is_null(Map::getBuiltStructure($basinId, $company));
+    });
+    // Function to count total number of droplets given a droplet status
+    function totalDroplets($arrBasins, $status)
+    {
+      $n = 0;
+      foreach ($arrBasins as $bId) {
+        $n += $status[$bId] ?? 0;
+      }
+      return $n;
+    }
+
+    // Current status
+    list($currentStatus, $p) = Map::emulateFlowDroplets([], $flowing);
+    $nTotal = totalDroplets($basins, $currentStatus);
+    $placedDroplets = [];
+    $remaining = 0;
+    $order = $this->getAutomaCriteria()[PLACE_DROPLET];
+    for ($i = 1; $i <= $action['n']; $i++) {
+      $added = false;
+      foreach ($order as $hs) {
+        $headstream = 'H' . $hs;
+        $droplets = $placedDroplets;
+        for ($j = 0; $j < 1 + $remaining; $j++) {
+          $droplets[] = $headstream;
+        }
+
+        list($status, $p) = Map::emulateFlowDroplets($droplets, $flowing);
+        $n = totalDroplets($basins, $status);
+        if ($n > $nTotal) {
+          $added = true;
+          $nTotal = $n;
+          $placedDroplets = $droplets;
+          $remaining = 0;
+          break;
+        }
+      }
+
+      if (!$added) {
+        $remaining++;
+      }
+    }
+    return $placedDroplets;
   }
 }
