@@ -62,7 +62,7 @@ trait AutomaPlaceStructureTrait
     $i = 0;
     $criteria = $this->getAutomaCriteria()[$structure != ELEVATION ? $structure : BASE];
     while (count($spaceIds) > 1 && $i < 3) {
-      $spaceIds = $this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds);
+      $spaceIds = array_values($this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds));
     }
 
     // Use final tie-breaker
@@ -94,6 +94,11 @@ trait AutomaPlaceStructureTrait
     if (count($spaceIds) > 1) {
       var_dump($spaceIds);
       die('Automa error : several spaces possible for placing structure.');
+    }
+
+    if(!isset($spaceIds[0])){
+      var_dump($spaceIds);
+      die('Automa error : issue with space for placing structure');      
     }
     return $spaceIds[0];
   }
@@ -387,7 +392,7 @@ trait AutomaPlaceStructureTrait
           }
         }
         if (!empty($maxPowerhouses)) {
-          return array_unique($maxPowerhouses);
+          return array_values(array_unique($maxPowerhouses));
         }
         break;
 
