@@ -70,7 +70,6 @@ $game_options = [
   ],
   */
 
-
   OPTION_AUTOMA => [
     'name' => totranslate('Automas'),
     'values' => [
@@ -81,19 +80,20 @@ $game_options = [
       1 => [
         'name' => clienttranslate('1 automa'),
         'tmdisplay' => clienttranslate('[1 automa]'),
+        'alpha' => true,
       ],
-      2 => [
-        'name' => clienttranslate('2 automas'),
-        'tmdisplay' => clienttranslate('[2 automas]'),
-      ],
-      3 => [
-        'name' => clienttranslate('3 automas'),
-        'tmdisplay' => clienttranslate('[3 automas]'),
-      ],
-      4 => [
-        'name' => clienttranslate('4 automas'),
-        'tmdisplay' => clienttranslate('[4 automas]'),
-      ],
+      // 2 => [
+      //   'name' => clienttranslate('2 automas'),
+      //   'tmdisplay' => clienttranslate('[2 automas]'),
+      // ],
+      // 3 => [
+      //   'name' => clienttranslate('3 automas'),
+      //   'tmdisplay' => clienttranslate('[3 automas]'),
+      // ],
+      // 4 => [
+      //   'name' => clienttranslate('4 automas'),
+      //   'tmdisplay' => clienttranslate('[4 automas]'),
+      // ],
     ],
     'startcondition' => [
       0 => [
