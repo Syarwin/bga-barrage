@@ -129,7 +129,7 @@ class Mahiri extends \BRG\Models\Officer
 
     Globals::setMahiriPower($powerId);
     Notifications::mahiriCopy(Companies::getActive(), $args[$powerId]['officer']);
-    if($powerId == \XO_GRAZIANO){
+    if ($powerId == \XO_GRAZIANO) {
       Map::updateBasinsCapacities();
     }
 

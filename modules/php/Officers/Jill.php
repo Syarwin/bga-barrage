@@ -17,7 +17,6 @@ class Jill extends \BRG\Models\Officer
 
   public function applyConstructCostModifier(&$costs, $slot)
   {
-
     if ($slot['type'] == CONDUIT) {
       Utils::addCost($costs['costs'], [MIXER => $slot['production'], 'nb' => WHOLE_COST], $this->name);
     }

@@ -217,6 +217,13 @@
         &:not(:empty) {
           background: #bbb9b9;
         }
+
+        .meeple-engineer {
+          flex-shrink: 0;
+          & ~ .meeple-engineer {
+            margin-left: -40%;
+          }
+        }
       }
 
       &.selectable {

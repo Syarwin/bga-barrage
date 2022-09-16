@@ -24,23 +24,23 @@
  *
  */
 
-  require_once( APP_BASE_PATH."view/common/game.view.php" );
+require_once APP_BASE_PATH . 'view/common/game.view.php';
 
-  class view_barrage_barrage extends game_view
+class view_barrage_barrage extends game_view
+{
+  function getGameName()
   {
-    function getGameName() {
-        return "barrage";
-    }
-  	function build_page( $viewArgs )
-  	{
-  	    // Get players & players number
-        $players = $this->game->loadPlayersBasicInfos();
-        $players_nbr = count( $players );
+    return 'barrage';
+  }
+  function build_page($viewArgs)
+  {
+    // Get players & players number
+    $players = $this->game->loadPlayersBasicInfos();
+    $players_nbr = count($players);
 
-        /*********** Place your code below:  ************/
+    /*********** Place your code below:  ************/
 
-
-        /*
+    /*
 
         // Examples: set the value of some element defined in your tpl file like this: {MY_VARIABLE_ELEMENT}
 
@@ -55,7 +55,7 @@
 
         */
 
-        /*
+    /*
 
         // Example: display a specific HTML block for each player in this game.
         // (note: the block is defined in your .tpl file like this:
@@ -76,8 +76,6 @@
 
         */
 
-
-
-        /*********** Do not change anything below this line  ************/
-  	}
+    /*********** Do not change anything below this line  ************/
   }
+}

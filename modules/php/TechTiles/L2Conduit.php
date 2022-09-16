@@ -24,7 +24,6 @@ class L2Conduit extends AdvancedTile
     return $descs;
   }
 
-
   public function applyConstructCostModifier(&$costs, $slot)
   {
     $costs['nb'] = min(5, $costs['nb']);

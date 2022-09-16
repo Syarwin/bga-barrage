@@ -65,7 +65,7 @@ trait ActionTrait
     Globals::incEngineChoices();
 
     // Insert the flow as child or at root depending on the 'resolve' flag
-    if($action['resolve'] ?? true){
+    if ($action['resolve'] ?? true) {
       Engine::insertAsChild($flow, false);
       Engine::resolveAction(['alternativeAction' => $choiceId]);
     } else {

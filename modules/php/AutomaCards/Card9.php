@@ -21,7 +21,7 @@ class Card9 extends \BRG\Models\AutomaCard
         'nEngineers' => 2,
         'type' => \CONSTRUCT,
         'structure' => \CONDUIT,
-        'constraints' => [3],
+        'constraints' => ['min' => 3],
       ],
       [
         'nEngineers' => 2,

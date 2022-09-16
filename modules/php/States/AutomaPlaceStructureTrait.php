@@ -255,7 +255,7 @@ trait AutomaPlaceStructureTrait
           }
 
           foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
-            $basins = $this->getZones()[$conduit['end']]['basins'];
+            $basins = Map::getZones()[$conduit['end']]['basins'];
             if (Map::getBuiltStructure($basins, $company) !== null) {
               $connectedToOwn = array_merge($connectedToOwn, $possibleBasins);
             }
@@ -402,7 +402,7 @@ trait AutomaPlaceStructureTrait
           }
 
           foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
-            $connectedSpaces = array_interset(Map::getLinkedPowerhousesSpaces($sId), $spaceIds);
+            $connectedSpaces = array_intersect(Map::getLinkedPowerhousesSpaces($sId), $spaceIds);
             if (!empty($connectedSpaces)) {
               $powerhouses = array_merge($powerhouses, $connectedSpaces);
             }

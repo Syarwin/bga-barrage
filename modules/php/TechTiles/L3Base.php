@@ -40,7 +40,6 @@ class L3Base extends AdvancedTile
     ];
   }
 
-
   public function applyConstructCostModifier(&$costs, $slot)
   {
     $costs['nb'] = -99;

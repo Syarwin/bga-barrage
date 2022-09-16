@@ -151,8 +151,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         // Handle bank
         if (meeple.location == 'bank-b') return $('bank-b');
 
-        let nChild = parseInt(meeple.state) + 1;
-        return $(meeple.location).querySelector(`.action-space-slot:nth-of-type(${nChild})`);
+        let nChild = parseInt(meeple.state);
+        let childs = [...$(meeple.location).querySelectorAll(`.action-space-slot`)];
+        return nChild < childs.length ? childs[nChild] : childs[childs.length - 1];
       }
       // Base and elevation on map
       else if (

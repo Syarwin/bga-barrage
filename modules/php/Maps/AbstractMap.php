@@ -31,6 +31,7 @@ abstract class AbstractMap
           $conduit['powerhouses'][] = 'P' . $conduit['end'] . '_' . $i;
         }
 
+        $conduit['area'] = $zone['area'];
         $conduit['id'] = $cId;
         $conduits[$cId] = $conduit;
       }
@@ -54,6 +55,7 @@ abstract class AbstractMap
           'id' => $uId,
           'zone' => $zId,
           'cost' => $cost,
+          'area' => $zone['area'],
         ];
       }
     }

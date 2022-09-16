@@ -44,9 +44,15 @@ class Construct extends \BRG\Models\Action
         continue;
       }
 
-      // AUTOMA if we have a constraint on AREA placement for base / elevation
-      if (!is_null($constraintsArea) && !in_array($slot['area'], $constraintsArea)) {
-        continue;
+      // AUTOMA if we have a constraint on AREA placement for base / elevation OR constraint on conduit
+      if (!is_null($constraintsArea)) {
+        if (isset($constraintsArea['min'])) {
+          if ($constraintType == CONDUIT && $slot['production'] < $constraintsArea['min']) {
+            continue;
+          }
+        } elseif (!in_array($slot['area'], $constraintsArea)) {
+          continue;
+        }
       }
 
       foreach ($tiles as $tile) {

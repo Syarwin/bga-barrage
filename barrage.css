@@ -738,6 +738,11 @@ body {
         align-items: flex-end; }
         .action-board .action-board-inner .action-space .action-space-slot:not(:empty) {
           background: #bbb9b9; }
+        .action-board .action-board-inner .action-space .action-space-slot .meeple-engineer {
+          flex-shrink: 0; }
+          .action-board .action-board-inner .action-space .action-space-slot .meeple-engineer ~ .meeple-engineer {
+            margin-left: -99%;
+            margin-top: -2%; }
       .action-board .action-board-inner .action-space.selectable {
         cursor: pointer; }
         .action-board .action-board-inner .action-space.selectable:not(.paying) {

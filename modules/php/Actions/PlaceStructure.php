@@ -108,7 +108,7 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       // Check that the player can afford the cost
-      $cost = $args['type'] == ELEVATION ? 0 : ($space['cost'] ?? 0); // No need to pay to place an elevation on a red spot
+      $cost = $args['type'] == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
       if (!$ignoreResources && !$ignoreMalus && $cost > $credit) {
         continue;
       }
@@ -155,7 +155,7 @@ class PlaceStructure extends \BRG\Models\Action
     }
 
     $type = $this->getCtxArgs()['type'];
-    $cost = $type == ELEVATION ? 0 : ($space['cost'] ?? 0); // No need to pay to place an elevation on a red spot
+    $cost = $type == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
     $this->placeStructure($spaceId, $type, $cost, $args['tileId'] ?? null);
     $this->resolveAction([$spaceId]);
   }

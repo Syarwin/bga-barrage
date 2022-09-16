@@ -41,7 +41,6 @@ const COMPANY_ITALY = 3;
 const COMPANY_FRANCE = 4;
 const COMPANY_NETHERLANDS = 5;
 
-
 /**
  * User preferences
  */

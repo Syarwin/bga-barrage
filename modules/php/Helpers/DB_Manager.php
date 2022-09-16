@@ -1,6 +1,6 @@
 <?php
 namespace BRG\Helpers;
-use \BRG\Core\Game;
+use BRG\Core\Game;
 
 class DB_Manager extends \APP_DbObject
 {
