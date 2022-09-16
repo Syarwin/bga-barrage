@@ -39,6 +39,13 @@ trait AutomaPlaceStructureTrait
 {
   public function getAutomaStructureEmplacement($company, $structure, $spaceIds)
   {
+    // Keep only one space for each powerhouse zone
+    if ($structure == POWERHOUSE) {
+      $spaceIds = array_uunique($spaceIds, function ($a, $b) {
+        return getCodeOfSpace($a) - getCodeOfSpace($b);
+      });
+    }
+
     // Can we complete a production system ?
     if (count($spaceIds) > 1 && $structure != \ELEVATION) {
       $almostComplete = Map::getAlmostCompleteProductionSystems($company, $structure);
@@ -236,6 +243,33 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////////
       // Keep the locations "above" a basin with an automa dam
       case AI_CRITERION_BASE_BASIN:
+        $connectedToOwn = [];
+        $notConnectedToOther = [];
+        $otherIds = Companies::getOpponentIds($company);
+
+        foreach (Map::getZones() as $zoneId => $zone) {
+          $possibleBasins = \array_intersect($zone['basins'] ?? [], $spaceIds);
+          if (empty($possibleBasins)) {
+            continue;
+          }
+
+          foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+            $basins = $this->getZones()[$conduit['end']]['basins'];
+            if (Map::getBuiltStructure($basins, $company) !== null) {
+              $connectedToOwn = array_merge($connectedToOwn, $possibleBasins);
+            }
+            if (Map::getBuiltStructure($basins, $otherIds) === null) {
+              $notConnectedToOther = array_merge($notConnectedToOther, $possibleBasins);
+            }
+          }
+        }
+
+        if (!empty($connectedToOwn)) {
+          return $connectedToOwn;
+        } elseif (!empty($notConnectedToOther)) {
+          return $notConnectedToOther;
+        }
+
         break;
 
       //////////////////////////////////////////////
@@ -359,6 +393,25 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////
       // Keep only powerhouses linked to an owned dam
       case \AI_CRITERION_POWERHOUSE_BARRAGE:
+        $powerhouses = [];
+        foreach (Map::getZones() as $zoneId => $zone) {
+          // Is there an automa basin here ?
+          if (Map::getBuiltStructure($zone['basins'] ?? [], $company) === null) {
+            continue;
+          }
+
+          foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
+            $connectedSpaces = array_interset(Map::getLinkedPowerhousesSpaces($sId), $spaceIds);
+            if (!empty($connectedSpaces)) {
+              $powerhouses = array_merge($powerhouses, $connectedSpaces);
+            }
+          }
+        }
+
+        if (!empty($powerhouses)) {
+          return $powerhouses;
+        }
+
         break;
 
       //////////////////////////////////////
@@ -388,6 +441,48 @@ trait AutomaPlaceStructureTrait
       // Keep only powerhouses that will feed automa's dams/not opponent's dams
       case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER:
       case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER_REVERSE:
+        $feedingAutoma = [];
+        $feedingOpponent = [];
+        $otherIds = Companies::getOpponentIds($company);
+
+        foreach ($spaceIds as $space) {
+          $fedLocations = Map::getFedLocations($space);
+          $fAutoma = false;
+          $fOpponent = false;
+
+          foreach ($fedLocations as $location) {
+            if (\array_key_exists($location, Map::getBasins())) {
+              if (Map::getBuiltStructure($location, $company)) {
+                $fAutoma = true;
+              }
+              if (Map::getBuiltStructure($location, $otherIds)) {
+                $fOpponent = true;
+              }
+              if ($fAutoma && $fOpponent) {
+                break;
+              }
+            }
+          }
+
+          if ($fAutoma) {
+            $feedingAutoma[] = $space;
+          }
+          if ($fOpponent) {
+            $feedingOpponent[] = $space;
+          }
+        }
+
+        // Swap the two variales if it's the reverse criterion
+        if (in_array($criterion, AI_REVERSE_CRITERIA)) {
+          swapVars($feedingAutoma, $feedingOpponent);
+        }
+        if (!empty($feedingAutoma)) {
+          return $feedingAutoma;
+        }
+        if (!empty($feedingOpponent)) {
+          return $feedingOpponent;
+        }
+
         break;
     }
 
@@ -415,4 +510,24 @@ function endsWith($haystack, $needle)
 {
   $length = strlen($needle);
   return $length > 0 ? substr($haystack, -$length) === $needle : true;
+}
+
+function array_uunique($array, $comparator)
+{
+  $unique_array = [];
+  do {
+    $element = array_shift($array);
+    $unique_array[] = $element;
+
+    $array = array_udiff($array, [$element], $comparator);
+  } while (count($array) > 0);
+
+  return $unique_array;
+}
+
+function swapVars(&$x, &$y)
+{
+  $tmp = $x;
+  $x = $y;
+  $y = $tmp;
 }

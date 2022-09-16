@@ -171,6 +171,16 @@ class Companies extends \BRG\Helpers\DB_Manager
     Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
   }
 
+  public function getOpponentIds($company)
+  {
+    $cId = is_int($company) ? $company : $company->getId();
+    $otherIds = self::getAll()->getIds();
+    Utils::filter($otherIds, function ($cId2) use ($cId) {
+      return $cId != $cId2;
+    });
+    return $otherIds;
+  }
+
   /////////////////
   // TODO
   /////////////////

@@ -552,7 +552,7 @@ define([
 
           return this.fsr(_('place ${n} droplet(s) in headstream(s) ${hs}'), {
             n: result.locations.length,
-            hs: result.locations.join(', '),
+            hs: result.locations.join('/'),
           });
         } else {
           return type;
