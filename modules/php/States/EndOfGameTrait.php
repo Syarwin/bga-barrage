@@ -35,8 +35,9 @@ trait EndOfGameTrait
       foreach ($bonus['cIds'] as $cId) {
         $company = $companies[$cId];
         Stats::setObjCount($company, $this->computeObjectiveQuantity($company));
-        Stats::setObjVp($company, $vp);
-        Stats::setVpObjTile($company, $vp);
+        $v = $company->isAI() ? $bonus['shareAI'] : $vp;
+        Stats::setObjVp($company, $v);
+        Stats::setVpObjTile($company, $v);
       }
 
       if ($vp == 0) {
@@ -52,7 +53,8 @@ trait EndOfGameTrait
           3 => clienttranslate('(objective tile third place)'),
         ];
         $pos = $bonus['pos'][0];
-        $company->incScore($vp, $sources[$pos]);
+        $v = $company->isAI() ? $bonus['shareAI'] : $vp;
+        $company->incScore($v, $sources[$pos]);
       }
       // Tie
       else {
@@ -65,7 +67,8 @@ trait EndOfGameTrait
 
         foreach ($bonus['cIds'] as $cId) {
           $company = $companies[$cId];
-          $company->incScore($vp, $sources[$pos]);
+          $v = $company->isAI() ? $bonus['shareAI'] : $vp;
+          $company->incScore($v, $sources[$pos]);
         }
       }
     }

@@ -501,9 +501,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let counters = [0, 0, 0];
       this.forEachCompany((company) => {
         dojo.place(`company-board-${company.id}`, this.getCompanyBoardContainer(company));
-        let pref = this.settings[
-          company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'
-        ];
+        let pref =
+          this.settings[company.pId == this.player_id ? 'ownCompanyBoardLocation' : 'otherCompanyBoardLocation'];
         if (this.settings.fitAll == 1) {
           pref = 2;
         }
@@ -923,6 +922,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     computeObjTileTooltip() {
       // Compute obj tile desc
       let desc = '';
+      let companyAIs = [];
+      this.forEachCompany((company) => {
+        if (company.ai) {
+          companyAIs.push(company.id);
+        }
+      });
+
       this.gamedatas.bonuses['objTile'].forEach((bonus) => {
         if (bonus.share == 0) {
           let names = bonus.cIds.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
@@ -937,10 +943,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           };
 
           let cId = bonus.cIds[0];
+          let vp = companyAIs.includes(cId) ? bonus.shareAI : bonus.share;
           desc +=
             this.format_string_recursive(_('${name} will earn ${n}VPs for ${place}'), {
               name: this.coloredCompanyName(this.gamedatas.companies[cId].name),
-              n: bonus.share,
+              n: vp,
               place: placeNames[bonus.pos[0]],
             }) + '<br />';
         }
@@ -950,15 +957,37 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (arrayEquals(bonus.pos, [1, 2])) place = _('first and second place');
           if (arrayEquals(bonus.pos, [2, 3])) place = _('second and third place');
           if (arrayEquals(bonus.pos, [1, 2, 3])) place = _('first, second and third place');
+          let cIdsAI = bonus.cIds.filter((cId) => companyAIs.includes(cId));
+          let namesAI = cIdsAI.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
+          let cIdsH = bonus.cIds.filter((cId) => !companyAIs.includes(cId));
+          let namesHuman = cIdsH.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
 
-          let names = bonus.cIds.map((cId) => this.coloredCompanyName(this.gamedatas.companies[cId].name)).join(', ');
-          desc +=
-            this.format_string_recursive(_('${names} will share ${n}VPs for ${place}, gaining ${m}VPs each'), {
-              names,
-              n: bonus.vp,
-              m: bonus.share,
-              place,
-            }) + '<br />';
+          if (namesHuman != '') {
+            let msg =
+              cIdsH.length == 1
+                ? _('${names} will share ${n}VPs for ${place}, gaining ${m}VPs')
+                : _('${names} will share ${n}VPs for ${place}, gaining ${m}VPs each');
+            desc +=
+              this.format_string_recursive(msg, {
+                names: namesHuman,
+                n: bonus.vp,
+                m: bonus.share,
+                place,
+              }) + '<br />';
+          }
+          if (namesAI != '') {
+            let msg =
+              cIdsAI.length == 1
+                ? _('${names} will share ${n}VPs for ${place}, gaining ${m}VPs')
+                : _('${names} will share ${n}VPs for ${place}, gaining ${m}VPs each');
+            desc +=
+              this.format_string_recursive(msg, {
+                names: namesAI,
+                n: bonus.vpAI,
+                m: bonus.shareAI,
+                place,
+              }) + '<br />';
+          }
         }
       });
 

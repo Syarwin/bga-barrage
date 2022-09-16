@@ -174,6 +174,7 @@ trait BonusObjectiveTileTrait
     // Distribute VP
     $n = 1;
     $scoreMap = [1 => 15, 2 => 10, 3 => 5];
+    $scoreAIMap = [1 => 20, 2 => 15, 3 => 10];
     $bonuses = [];
     foreach ($qqty as $amount => $companies) {
       if ($n > 3) {
@@ -182,23 +183,28 @@ trait BonusObjectiveTileTrait
 
       // Compute the number of VP to share
       $vp = 0;
+      $vpAI = 0;
       $positions = [];
       foreach ($companies as $cId) {
         if ($n <= 3) {
           $positions[] = $n;
           $vp += $scoreMap[$n];
+          $vpAI += $scoreAIMap[$n];
           $n++;
         }
       }
 
       // Compute the share
       $share = ceil($vp / count($companies));
+      $shareAI = ceil($vpAI / count($companies));
 
       $bonuses[] = [
         'pos' => $positions,
         'vp' => $vp,
+        'vpAI' => $vpAI,
         'cIds' => $companies,
         'share' => $share,
+        'shareAI' => $shareAI,
       ];
     }
 
