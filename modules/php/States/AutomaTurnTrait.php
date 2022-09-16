@@ -443,6 +443,11 @@ trait AutomaTurnTrait
       }
     }
 
+    if (is_null($maxPair)) {
+      var_dump($spaceId, $pairs);
+      die("Automa error : can't find corresponding tile");
+    }
+
     return $maxPair;
   }
 

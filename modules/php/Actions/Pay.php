@@ -114,14 +114,21 @@ class Pay extends \BRG\Models\Action
     $company = Companies::getActive();
     $ignore = self::getIgnoredFields();
 
-    if (isset($this->getCtxArgs()['to'])) {
+    $opponentId = $this->getCtxArgs()['to'] ?? null;
+    if (!is_null($opponentId)) {
       // Payment to a player
       $moved = [];
       foreach ($cost as $resource => $amount) {
         if (in_array($resource, $ignore)) {
           continue;
         }
-        $moved = array_merge($moved, $company->payResourceTo($this->getCtxArgs()['to'], $resource, $amount));
+        if($company->isAI() && $resource == CREDIT){
+          $company->incScore(-$amount, null, true);
+          $moved = array_merge($moved, Companies::get($opponentId)->createResourceInReserve($resource, $amount)->toArray());
+          continue;
+        }
+
+        $moved = array_merge($moved, $company->payResourceTo($opponentId, $resource, $amount));
       }
       if (!empty($moved)) {
         Notifications::payResourcesTo(

@@ -93,7 +93,7 @@ trait AutomaPlaceStructureTrait
 
     if (count($spaceIds) > 1) {
       var_dump($spaceIds);
-      die('Impossible!');
+      die('Automa error : several spaces possible for placing structure.');
     }
     return $spaceIds[0];
   }
@@ -237,7 +237,7 @@ trait AutomaPlaceStructureTrait
         }
         $locations = \array_intersect($spaceIds, $locations);
         if (!empty($locations)) {
-          return array_values($locations);
+          return array_values(array_unique($locations));
         }
         break;
 
