@@ -108,7 +108,7 @@ class PlaceStructure extends \BRG\Models\Action
       }
 
       // Check that the player can afford the cost
-      $cost = $args['type'] == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
+      $cost = $args['type'] == ELEVATION ? 0 : ($space['cost'] ?? 0); // No need to pay to place an elevation on a red spot
       if (!$ignoreResources && !$ignoreMalus && $cost > $credit) {
         continue;
       }
@@ -155,11 +155,12 @@ class PlaceStructure extends \BRG\Models\Action
     }
 
     $type = $this->getCtxArgs()['type'];
-    $this->placeStructure($spaceId, $type);
+    $cost = $type == ELEVATION ? 0 : ($space['cost'] ?? 0); // No need to pay to place an elevation on a red spot
+    $this->placeStructure($spaceId, $type, $cost, $args['tileId'] ?? null);
     $this->resolveAction([$spaceId]);
   }
 
-  public function placeStructure($spaceId, $type)
+  public function placeStructure($spaceId, $type, $cost = 0, $tileId = null)
   {
     $company = Companies::getActive();
     $isAI = $company->isAI();
@@ -175,8 +176,7 @@ class PlaceStructure extends \BRG\Models\Action
     $statName = 'inc' . ucfirst($type);
     Stats::$statName($company, 1);
 
-    $cost = $type == ELEVATION ? 0 : $space['cost'] ?? 0; // No need to pay to place an elevation on a red spot
-    if ($cost > 0 && (!isset($args['tileId']) || !TechnologyTiles::get($args['tileId'])->ignoreCostMalus())) {
+    if ($cost > 0 && (is_null($tileId) || !TechnologyTiles::get($tileId)->ignoreCostMalus())) {
       $flow = [
         'action' => PAY,
         'args' => [

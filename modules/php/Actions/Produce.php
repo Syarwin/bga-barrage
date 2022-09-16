@@ -83,11 +83,11 @@ class Produce extends \BRG\Models\Action
     if (is_null($system)) {
       throw new \BgaVisibleSystemException('Combinaison not possible. Should not happen');
     }
-    $this->produce($system, $nDroplets);
+    $this->produce($system, $nDroplets, $args['germanPower'] ?? false);
     $this->resolveAction(['droplets' => $nDroplets]);
   }
 
-  public function produce($system, $nDroplets)
+  public function produce($system, $nDroplets, $germanPower = false)
   {
     $production = $system['productions'][$nDroplets] ?? null;
     if (is_null($production)) {
@@ -111,7 +111,6 @@ class Produce extends \BRG\Models\Action
     // Produce energy
     $company = Companies::getActive();
     $isAI = $company->isAI();
-    $germanPower = $args['germanPower'] ?? false;
     Notifications::produce(
       $company,
       $system['basin'],
@@ -158,7 +157,7 @@ class Produce extends \BRG\Models\Action
       ]);
 
       // Germany power
-      if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !isset($args['germanPower'])) {
+      if ($company->getId() == \COMPANY_GERMANY && $company->productionPowerEnabled() && !$germanPower) {
         Engine::insertAsChild([
           'action' => \PRODUCE,
           'optional' => true,
