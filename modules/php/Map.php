@@ -656,13 +656,29 @@ class Map
 
         // Is it linked to a powerhouse built by the company ?
         $powerhouse = self::getLinkedPowerhouse($sId, $company);
-        if (is_null($powerhouse) && $structure != POWERHOUSE) {
-          continue;
+        $powerhouseSpaceId = null;
+        if (is_null($powerhouse)){
+          if($structure != POWERHOUSE) {
+            continue;
+          } else {
+            foreach(self::getLinkedPowerhousesSpaces($sId) as $pId){
+              if (is_null(Map::getBuiltStructure($pId))) {
+                $powerhouseSpaceId = $pId;
+                break;
+              }
+            }
+
+            if(is_null($powerhouseSpaceId)){
+              continue;
+            }
+          }
+        } else {
+          $powerhouseSpaceId = $powerhouse['location'];
         }
 
         $conduits[$sId] = [
           'conduitSpaceId' => $sId,
-          'powerhouseSpaceId' => $powerhouse['location'],
+          'powerhouseSpaceId' => $powerhouseSpaceId,
         ];
       }
 

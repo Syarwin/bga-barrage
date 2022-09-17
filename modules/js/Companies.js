@@ -802,9 +802,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let company = n.args.datas;
       let cId = n.args.company_id;
       company.color = COLOR_MAPPING[company.id];
-      if (company.ai) {
-        this.place('tplPlayerPanel', company, 'player_boards');
-      } else {
+      if (!company.ai) {
         let pId = n.args.player_id;
         ['player_board_inner_', 'player_panel_content_'].forEach((id) => {
           $(id + this.gamedatas.players[pId].color).id = id + company.color;

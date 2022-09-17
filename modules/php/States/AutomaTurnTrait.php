@@ -488,15 +488,6 @@ trait AutomaTurnTrait
     Utils::filter($basins, function ($basinId) use ($company) {
       return !is_null(Map::getBuiltStructure($basinId, $company));
     });
-    // Function to count total number of droplets given a droplet status
-    function totalDroplets($arrBasins, $status)
-    {
-      $n = 0;
-      foreach ($arrBasins as $bId) {
-        $n += $status[$bId] ?? 0;
-      }
-      return $n;
-    }
 
     // Current status
     list($currentStatus, $p) = Map::emulateFlowDroplets([], $flowing);
@@ -530,4 +521,14 @@ trait AutomaTurnTrait
     }
     return $placedDroplets;
   }
+}
+
+// Function to count total number of droplets given a droplet status
+function totalDroplets($arrBasins, $status)
+{
+  $n = 0;
+  foreach ($arrBasins as $bId) {
+    $n += $status[$bId] ?? 0;
+  }
+  return $n;
 }

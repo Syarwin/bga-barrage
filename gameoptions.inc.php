@@ -82,14 +82,14 @@ $game_options = [
         'tmdisplay' => clienttranslate('[1 automa]'),
         'alpha' => true,
       ],
-      // 2 => [
-      //   'name' => clienttranslate('2 automas'),
-      //   'tmdisplay' => clienttranslate('[2 automas]'),
-      // ],
-      // 3 => [
-      //   'name' => clienttranslate('3 automas'),
-      //   'tmdisplay' => clienttranslate('[3 automas]'),
-      // ],
+      2 => [
+        'name' => clienttranslate('2 automas'),
+        'tmdisplay' => clienttranslate('[2 automas]'),
+      ],
+      3 => [
+        'name' => clienttranslate('3 automas'),
+        'tmdisplay' => clienttranslate('[3 automas]'),
+      ],
       // 4 => [
       //   'name' => clienttranslate('4 automas'),
       //   'tmdisplay' => clienttranslate('[4 automas]'),
@@ -150,54 +150,54 @@ $game_options = [
       ],
     ],
   ],
-  // OPTION_LVL_AUTOMA_2 => [
-  //   'name' => totranslate('Difficulty level of the second automa'),
-  //   'values' => [
-  //     AUTOMA_EASY => [
-  //       'name' => clienttranslate('Easy'),
-  //       'tmdisplay' => clienttranslate('[AI 2:Easy]'),
-  //     ],
-  //     AUTOMA_MEDIUM => [
-  //       'name' => clienttranslate('Medium'),
-  //       'tmdisplay' => clienttranslate('[AI 2:Medium]'),
-  //     ],
-  //     AUTOMA_HARD => [
-  //       'name' => clienttranslate('Hard'),
-  //       'tmdisplay' => clienttranslate('[AI 2:Hard]'),
-  //     ],
-  //   ],
-  //   'displaycondition' => [
-  //     [
-  //       'type' => 'otheroption',
-  //       'id' => OPTION_AUTOMA,
-  //       'value' => [2, 3, 4],
-  //     ],
-  //   ],
-  // ],
-  // OPTION_LVL_AUTOMA_3 => [
-  //   'name' => totranslate('Difficulty level of the third automa'),
-  //   'values' => [
-  //     AUTOMA_EASY => [
-  //       'name' => clienttranslate('Easy'),
-  //       'tmdisplay' => clienttranslate('[AI 3:Easy]'),
-  //     ],
-  //     AUTOMA_MEDIUM => [
-  //       'name' => clienttranslate('Medium'),
-  //       'tmdisplay' => clienttranslate('[AI 3:Medium]'),
-  //     ],
-  //     AUTOMA_HARD => [
-  //       'name' => clienttranslate('Hard'),
-  //       'tmdisplay' => clienttranslate('[AI 3:Hard]'),
-  //     ],
-  //   ],
-  //   'displaycondition' => [
-  //     [
-  //       'type' => 'otheroption',
-  //       'id' => OPTION_AUTOMA,
-  //       'value' => [3, 4],
-  //     ],
-  //   ],
-  // ],
+  OPTION_LVL_AUTOMA_2 => [
+    'name' => totranslate('Difficulty level of the second automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 2:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 2:Medium]'),
+      ],
+      // AUTOMA_HARD => [
+      //   'name' => clienttranslate('Hard'),
+      //   'tmdisplay' => clienttranslate('[AI 2:Hard]'),
+      // ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [2, 3, 4],
+      ],
+    ],
+  ],
+  OPTION_LVL_AUTOMA_3 => [
+    'name' => totranslate('Difficulty level of the third automa'),
+    'values' => [
+      AUTOMA_EASY => [
+        'name' => clienttranslate('Easy'),
+        'tmdisplay' => clienttranslate('[AI 3:Easy]'),
+      ],
+      AUTOMA_MEDIUM => [
+        'name' => clienttranslate('Medium'),
+        'tmdisplay' => clienttranslate('[AI 3:Medium]'),
+      ],
+      // AUTOMA_HARD => [
+      //   'name' => clienttranslate('Hard'),
+      //   'tmdisplay' => clienttranslate('[AI 3:Hard]'),
+      // ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroption',
+        'id' => OPTION_AUTOMA,
+        'value' => [3, 4],
+      ],
+    ],
+  ],
   // OPTION_LVL_AUTOMA_4 => [
   //   'name' => totranslate('Difficulty level of the fourth automa'),
   //   'values' => [

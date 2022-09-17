@@ -67,11 +67,19 @@ class Companies extends \BRG\Helpers\DB_Manager
 
   public function assignCompanyAutoma($fakePId, $cId, $xId)
   {
+    $name = clienttranslate('Automa I');
+    if($fakePId < -5){
+      $name = clienttranslate('Automa II');
+    }
+    if($fakePId < -10){
+      $name = clienttranslate('Automa III');
+    }
+
     self::DB()->insert([
       'id' => $cId,
       'no' => self::count() - self::getAll()->count(),
       'player_id' => $fakePId,
-      'name' => clienttranslate('Automa'),
+      'name' => $name,
       'xo' => $xId,
       'score' => 16,
       'score_aux' => 0,

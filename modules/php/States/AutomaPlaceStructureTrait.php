@@ -39,13 +39,6 @@ trait AutomaPlaceStructureTrait
 {
   public function getAutomaStructureEmplacement($company, $structure, $spaceIds)
   {
-    // Keep only one space for each powerhouse zone
-    if ($structure == POWERHOUSE) {
-      $spaceIds = array_uunique($spaceIds, function ($a, $b) {
-        return getCodeOfSpace($a) - getCodeOfSpace($b);
-      });
-    }
-
     // Can we complete a production system ?
     if (count($spaceIds) > 1 && $structure != \ELEVATION) {
       $almostComplete = Map::getAlmostCompleteProductionSystems($company, $structure);
@@ -58,11 +51,19 @@ trait AutomaPlaceStructureTrait
       }
     }
 
+    // Keep only one space for each powerhouse zone
+    if ($structure == POWERHOUSE) {
+      $spaceIds = \array_reverse($spaceIds); // Make sure free spots comes before paying ones
+      $spaceIds = array_uunique($spaceIds, function ($a, $b) {
+        return getCodeOfSpace($a) - getCodeOfSpace($b);
+      });
+    }
+
     // Use criteria to reduce the possible choice
     $i = 0;
     $criteria = $this->getAutomaCriteria()[$structure != ELEVATION ? $structure : BASE];
     while (count($spaceIds) > 1 && $i < 3) {
-      $spaceIds = array_values($this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds));
+      $spaceIds = array_values(array_unique($this->applyAutomaCriterion($company, $criteria[$i++], $spaceIds)));
     }
 
     // Use final tie-breaker
@@ -242,7 +243,7 @@ trait AutomaPlaceStructureTrait
         }
         $locations = \array_intersect($spaceIds, $locations);
         if (!empty($locations)) {
-          return array_values(array_unique($locations));
+          return $locations;
         }
         break;
 
@@ -260,7 +261,7 @@ trait AutomaPlaceStructureTrait
           }
 
           foreach ($zone['conduits'] ?? [] as $sId => $conduit) {
-            $basins = Map::getZones()[$conduit['end']]['basins'];
+            $basins = Map::getZones()[$conduit['end']]['basins'] ?? [];
             if (Map::getBuiltStructure($basins, $company) !== null) {
               $connectedToOwn = array_merge($connectedToOwn, $possibleBasins);
             }
@@ -357,7 +358,7 @@ trait AutomaPlaceStructureTrait
         }
         foreach ($order as $key) {
           if (!empty($conduits[$key])) {
-            return array_values(array_unique($conduits[$key]));
+            return $conduits[$key];
           }
         }
         break;
@@ -392,7 +393,7 @@ trait AutomaPlaceStructureTrait
           }
         }
         if (!empty($maxPowerhouses)) {
-          return array_values(array_unique($maxPowerhouses));
+          return $maxPowerhouses;
         }
         break;
 
@@ -415,7 +416,7 @@ trait AutomaPlaceStructureTrait
         }
 
         if (!empty($powerhouses)) {
-          return array_values(array_unique($powerhouses));
+          return $powerhouses;
         }
 
         break;
@@ -439,7 +440,7 @@ trait AutomaPlaceStructureTrait
         $locations = Map::getLocationsInZone($zoneId);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
-          return array_values($possiblePowerhouses);
+          return $possiblePowerhouses;
         }
         break;
 
