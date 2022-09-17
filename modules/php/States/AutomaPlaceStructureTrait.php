@@ -98,7 +98,7 @@ trait AutomaPlaceStructureTrait
 
     if(!isset($spaceIds[0])){
       var_dump($spaceIds);
-      die('Automa error : issue with space for placing structure');      
+      die('Automa error : issue with space for placing structure');
     }
     return $spaceIds[0];
   }
@@ -195,7 +195,7 @@ trait AutomaPlaceStructureTrait
       case AI_CRITERION_BASE_HOLD_WATER:
         list($w, $passingDroplets) = Map::emulateFlowDroplets();
         $basins = aggregate($spaceIds, function ($sId) use ($passingDroplets) {
-          return count($passingDroplets[$sId]);
+          return count($passingDroplets[$sId] ?? []);
         });
         $maxDroplets = max(array_keys($basins));
         $potentialLocations = $basins[$maxDroplets];
@@ -207,7 +207,7 @@ trait AutomaPlaceStructureTrait
         foreach ($this->getAutomaCriteria()[PLACE_DROPLET] as $hs) {
           $headstream = 'H' . $hs;
           $basins = aggregate($potentialLocations, function ($sId) use ($passingDroplets, $headstream) {
-            return count(array_keys($passingDroplets[$sId], $headstream));
+            return count(array_keys($passingDroplets[$sId] ?? [], $headstream));
           });
           $maxDroplets = max(array_keys($basins));
           $potentialLocation = $basins[$maxDroplets];
@@ -415,7 +415,7 @@ trait AutomaPlaceStructureTrait
         }
 
         if (!empty($powerhouses)) {
-          return $powerhouses;
+          return array_values(array_unique($powerhouses));
         }
 
         break;
@@ -423,7 +423,7 @@ trait AutomaPlaceStructureTrait
       //////////////////////////////////////
       // Keep only powerhouses in the plain
       case \AI_CRITERION_POWERHOUSE_PLAIN:
-        $locations = self::getLocationsInArea(PLAIN);
+        $locations = Map::getLocationsInArea(PLAIN);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
           return array_values($possiblePowerhouses);
@@ -436,7 +436,7 @@ trait AutomaPlaceStructureTrait
       case AI_CRITERION_POWERHOUSE_HILL_6:
       case AI_CRITERION_POWERHOUSE_HILL_7:
         $zoneId = (int) substr($criterion, -1); // Get the last digit of the criterion to get the zoneId
-        $locations = self::getLocationsInZone($zoneId);
+        $locations = Map::getLocationsInZone($zoneId);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
         if (!empty($possiblePowerhouses)) {
           return array_values($possiblePowerhouses);
