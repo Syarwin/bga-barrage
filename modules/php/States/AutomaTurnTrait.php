@@ -32,8 +32,13 @@ trait AutomaTurnTrait
 
   function actRunAutoma()
   {
-    $this->automaTakeActions($this->computeAutomaTurn());
-    $this->nextPlayerCustomOrder('actionPhase');
+    $actions = $this->computeAutomaTurn();
+    if(!empty($actions)){
+      $this->automaTakeActions($actions);
+      $this->nextPlayerCustomOrder('actionPhase');
+    } else {
+      $this->actSkip(true);
+    }
   }
 
   function argsAutomaTurn()

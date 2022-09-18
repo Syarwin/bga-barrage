@@ -595,6 +595,10 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function hasEngineerFreeTiles()
   {
+    if($this->isAI() && $this->getLvlAI() < 2){
+      return false;
+    }
+    
     return !$this->getEngineerFreeTiles()->empty();
   }
 }

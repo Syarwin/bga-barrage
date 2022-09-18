@@ -83,7 +83,7 @@ trait SetupTrait
       // Handle automa
       $nAutoma = 0;
       for (; $i <= Companies::count(); $i++) {
-        $matchup = INTRODUCTORY_MATCHUPS[Companies::count() - $i++];
+        $matchup = INTRODUCTORY_MATCHUPS[Companies::count() - $i];
         $fakePId = ($nAutoma + 1) * -5 + $options[\BRG\OPTION_LVL_AUTOMA_1 + $nAutoma];
         $company = Companies::assignCompanyAutoma($fakePId, $matchup[0], $matchup[1]);
         // NO CONTRACT FOR AUTOMA
