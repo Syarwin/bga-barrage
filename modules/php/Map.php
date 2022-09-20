@@ -450,7 +450,7 @@ class Map
 
       $basin = $rivers[$location] ?? null;
       if (\is_null($basin)) {
-        throw new \BgaVisibleSystemException('Unknown route for droplet. Should not happen');
+        throw new \BgaVisibleSystemException('Unknown route for droplet. Should not happen.' . $location . \var_export($path,true));
       }
 
       // Move the droplet to that location

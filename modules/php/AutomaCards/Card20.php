@@ -27,8 +27,7 @@ class Card20 extends \BRG\Models\AutomaCard
         'nEngineers' => 2,
         'type' => \GAIN_MACHINE,
         'vp' => -5,
-        'n' => 2,
-        'machines' => ['each'], // TODO see how we handle this
+        'machines' => [\ANY_MACHINE => 2],
         'condition' => NOT_LAST_ROUND,
       ],
       [
