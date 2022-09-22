@@ -27,20 +27,13 @@ class Card20 extends \BRG\Models\AutomaCard
         'nEngineers' => 2,
         'type' => \GAIN_MACHINE,
         'vp' => -5,
-        'machines' => [\ANY_MACHINE => 2],
+        'machines' => [\EXCAVATOR => 1, MIXER => 1],
         'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 2,
         'type' => EXTERNAL_WORK,
         'order' => [2, 3, 1],
-      ],
-      [
-        'nEngineers' => 2,
-        'type' => \GAIN_MACHINE,
-        'vp' => -5,
-        'machines' => [\EXCAVATOR => 1, MIXER => 1],
-        'condition' => NOT_LAST_ROUND,
       ],
       [
         'nEngineers' => 1,

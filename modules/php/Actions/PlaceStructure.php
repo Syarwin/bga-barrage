@@ -169,7 +169,8 @@ class PlaceStructure extends \BRG\Models\Action
     $meeple = Meeples::getTopOfType($type, $company->getId(), 'company');
     $mId = $meeple['id'];
     Meeples::insertOnTop($mId, $spaceId);
-    Notifications::placeStructure($company, $type, $spaceId, Meeples::get($mId));
+    $meeple = Meeples::get($mId);
+    Notifications::placeStructure($company, $type, $spaceId, $meeple);
     Map::placeStructure($meeple, $spaceId);
 
     // Increase stat
