@@ -147,6 +147,7 @@ trait SetupTrait
     foreach ($companies as $cId => $company) {
       $turnOrder[$company->getNo() - 1] = $cId;
     }
+    ksort($turnOrder);
     Notifications::updateTurnOrder(array_values($turnOrder));
     Companies::changeActive($turnOrder[0]);
     Globals::setTurnOrder($turnOrder);
