@@ -133,11 +133,25 @@ class PlaceStructure extends \BRG\Models\Action
       POWERHOUSE => clienttranslate('Powerhouse'),
       CONDUIT => clienttranslate('Conduit'),
     ];
+    // Type of location
+    $locationNames = [
+      \MOUNTAIN => clienttranslate('the mountains'),
+      \HILL => clienttranslate('the hills'),
+      \PLAIN => clienttranslate('the plains'),
+    ];
+    $location = ['log' => [], 'args' => []];
+    foreach($constraints ?? []  as $i => $constraint){
+      $key = "loc_" . $i;
+      $location['log'][] = '${'. $key . '}';
+      $location['args'][$key] = $locationNames[$constraint];
+      $location['args']['i18n'][] = $key;
+    }
+    $location['log'] = \join("/", $location["log"]);
 
     return [
       'i18n' => ['structure', 'location'],
       'structure' => $structureNames[$args['type']],
-      'location' => $constraints,
+      'location' => $location,
       'spaces' => $spaces,
       'descSuffix' => count($spaces) == 1 ? 'auto' : (is_null($constraints) ? '' : 'constraints'),
     ];
