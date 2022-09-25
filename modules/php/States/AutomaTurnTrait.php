@@ -78,7 +78,7 @@ trait AutomaTurnTrait
     $actions = [];
     foreach ($flow as $action) {
       $requiredEngineers = $action['nEngineers'] ?? 0;
-      if ($requiredEngineers > $nEngineers) {
+      if ($requiredEngineers > 0 && $nEngineers <= 0) {
         continue;
       }
 
@@ -263,6 +263,7 @@ trait AutomaTurnTrait
       // Get max state
       $state = Meeples::getExtremePosition(true, $actionSpaceId);
       // Put engineer on top of that
+      $nEngineers = min($nEngineers, $company->countAvailableEngineers());
       $engineers = $company->placeEngineer($actionSpaceId, $nEngineers, $state + ($state > 0 ? 1 : 0));
       Notifications::placeEngineers($company, $engineers, $board);
     }
