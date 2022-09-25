@@ -141,6 +141,15 @@ class Notifications
     ]);
   }
 
+  public static function refillContractStack($stack, $nContract)
+  {
+    self::notifyAll('refillContractStack', '', [
+      'stack' => $stack,
+      'nb' => $nContract,
+    ]);    
+  }
+
+
   public static function discardTiles($tiles)
   {
     self::notifyAll('silentDestroy', clienttranslate('All advanced tiles are discarded'), [

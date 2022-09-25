@@ -66,6 +66,7 @@ define([
         ['construct', null],
         ['updateIncome', 800],
         ['pickContracts', 1000],
+        ['refillContractStack', 10],
         ['fulfillContract', 2000],
         ['refillStacks', 1000],
         ['updateTurnOrder', 500],
@@ -1830,6 +1831,11 @@ define([
         $(`contract-${contract.id}`).classList.remove('selected');
         this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
       });
+    },
+
+    notif_refillContractStack(n){
+      debug("Notif: refilling contract stack using automa discard", n);
+      this._contractStackCounters[n.args.stack].incValue(n.args.nb);
     },
 
     notif_refillStacks(n) {

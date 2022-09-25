@@ -2,6 +2,7 @@
 namespace BRG\Managers;
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
+use BRG\Core\Notifications;
 
 /* Class to manage all the contracts for Barrage */
 
@@ -128,12 +129,21 @@ class Contracts extends \BRG\Helpers\Pieces
           ->where('type', $i)
           ->get()
           ->getIds();
-        if (count($contractIds) == 0) {
+        if (empty($contractIds)) {
           $contractIds = self::getSelectQuery()
-            ->where('contract_location', 'constract-discard-' . $i)
-            ->where('type', $i)
+            ->where('contract_location', 'contract-discard-' . $i)
             ->get()
             ->getIds();
+          if(!empty($contractIds)){
+            self::move($contractIds, 'box');
+            Notifications::refillContractStack($i, count($contractIds));
+
+            $contractIds = self::getSelectQuery()
+              ->where('contract_location', 'box')
+              ->where('type', $i)
+              ->get()
+              ->getIds();
+          }
         }
 
         $toPick = min(count($contractIds), 2 - $n);
