@@ -70,6 +70,26 @@ $game_options = [
   ],
   */
 
+  OPTION_MAP => [
+    'name' => totranslate('4/5p expansion map'),
+    'values' => [
+      0 => [
+        'name' => totranslate('Disabled'),
+      ],
+      1 => [
+        'name' => totranslate('Enabled'),
+        'tmdisplay' => totranslate('[4/5p map]'),
+        'nobeginner' => true,
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'minplayers',
+        'value' => 4,
+      ],
+    ],
+  ],
+
   OPTION_AUTOMA => [
     'name' => totranslate('Automas'),
     'values' => [

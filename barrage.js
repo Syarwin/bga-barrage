@@ -675,6 +675,7 @@ define([
 
       let svgIds = {
         1: 'base-map-svg',
+        2: '5p-map-svg',
       };
       dojo.place($(svgIds[map.id]), oMap);
 
@@ -700,7 +701,7 @@ define([
         o.addEventListener('mouseenter', () => {
           dojo.query(`.powerhouse-slot[data-zone="${conduit.end}"]`).addClass('highlight');
           dojo.query(`.powerhouse-zone[data-zone="${conduit.end}"]`).addClass('highlight');
-          $('base-map-svg').querySelector(`#${cId}_P${conduit.end}`).classList.add('highlight');
+          //TODO          $('base-map-svg').querySelector(`#${cId}_P${conduit.end}`).classList.add('highlight');
         });
         o.addEventListener('mouseleave', clearHighlight);
 
@@ -1833,8 +1834,8 @@ define([
       });
     },
 
-    notif_refillContractStack(n){
-      debug("Notif: refilling contract stack using automa discard", n);
+    notif_refillContractStack(n) {
+      debug('Notif: refilling contract stack using automa discard', n);
       this._contractStackCounters[n.args.stack].incValue(n.args.nb);
     },
 

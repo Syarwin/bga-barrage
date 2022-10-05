@@ -21,6 +21,7 @@ class Map
 
     $classes = [
       \MAP_BASE => 'BaseMap',
+      \MAP_5P => 'FivePlayersMap',
     ];
 
     $className = 'BRG\Maps\\' . $classes[$mapId];
@@ -450,7 +451,9 @@ class Map
 
       $basin = $rivers[$location] ?? null;
       if (\is_null($basin)) {
-        throw new \BgaVisibleSystemException('Unknown route for droplet. Should not happen.' . $location . \var_export($path,true));
+        throw new \BgaVisibleSystemException(
+          'Unknown route for droplet. Should not happen.' . $location . \var_export($path, true)
+        );
       }
 
       // Move the droplet to that location
@@ -657,18 +660,18 @@ class Map
         // Is it linked to a powerhouse built by the company ?
         $powerhouse = self::getLinkedPowerhouse($sId, $company);
         $powerhouseSpaceId = null;
-        if (is_null($powerhouse)){
-          if($structure != POWERHOUSE) {
+        if (is_null($powerhouse)) {
+          if ($structure != POWERHOUSE) {
             continue;
           } else {
-            foreach(self::getLinkedPowerhousesSpaces($sId) as $pId){
+            foreach (self::getLinkedPowerhousesSpaces($sId) as $pId) {
               if (is_null(Map::getBuiltStructure($pId))) {
                 $powerhouseSpaceId = $pId;
                 break;
               }
             }
 
-            if(is_null($powerhouseSpaceId)){
+            if (is_null($powerhouseSpaceId)) {
               continue;
             }
           }
