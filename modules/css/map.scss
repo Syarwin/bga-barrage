@@ -28,11 +28,11 @@
   .headstream-tile {
     width: 203px;
     height: 122px;
-    background: url('img/headstreams.png');
+    background: url("img/headstreams.png");
     background-size: 200% 400%;
 
     @for $i from 0 through 8 {
-      &[data-tile='#{$i + 1}'] {
+      &[data-tile="#{$i + 1}"] {
         background-position-x: ($i % 2) * 100%;
         background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
       }
@@ -57,7 +57,7 @@
 
 #map-wrapper {
   margin-left: 15px;
-  [data-action-name='0'] & {
+  [data-action-name="0"] & {
     margin-top: 20px;
   }
 }
@@ -70,7 +70,7 @@
 
     // White overlay
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       bottom: 0;
@@ -80,7 +80,7 @@
       z-index: 1;
       pointer-events: none;
       opacity: var(--barrageMapOverlay);
-      [data-map='0'] & {
+      [data-map="0"] & {
         display: none;
       }
     }
@@ -94,7 +94,7 @@
       height: 100%;
       z-index: 2;
       pointer-events: none;
-      [data-map='1'] & {
+      [data-map="1"] & {
         display: block;
       }
 
@@ -105,7 +105,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       bottom: 0;
@@ -114,13 +114,13 @@
       background-size: 100%;
       z-index: 2;
       pointer-events: none;
-      [data-map='0'] & {
+      [data-map="0"] & {
         display: none;
       }
     }
 
     #brg-zone-overlay {
-      [data-separators='0'] & {
+      [data-separators="0"] & {
         display: none;
       }
       position: absolute;
@@ -160,18 +160,18 @@
         z-index: -1;
         width: 100%;
         height: 100%;
-        background: url('img/headstreams.png');
+        background: url("img/headstreams.png");
         background-size: 200% 400%;
 
         @for $i from 0 through 8 {
-          &[data-tile='#{$i + 1}'] {
+          &[data-tile="#{$i + 1}"] {
             background-position-x: ($i % 2) * 100%;
             background-position-y: (($i - ($i % 2)) / 2) * 100% / 3;
           }
         }
 
         .headstream-tile-droplets {
-          [data-headstream='0'] & {
+          [data-headstream="0"] & {
             display: none;
           }
 
@@ -182,12 +182,12 @@
           align-items: flex-end;
           color: white;
           border-radius: 13px;
-          background: url('img/ui/texture.jpg');
-          font-family: 'acumin-pro';
+          background: url("img/ui/texture.jpg");
+          font-family: "acumin-pro";
           font-weight: 700;
 
           @for $i from 1 through 5 {
-            #ebd-body[data-round='#{$i}'] & {
+            #ebd-body[data-round="#{$i}"] & {
               @for $j from 1 through $i {
                 span:nth-child(#{$j}) {
                   color: #979393;
@@ -215,12 +215,12 @@
         text-align: center;
         border-radius: 50%;
         border: 2px solid white;
-        font-family: 'acumin-pro', serif;
+        font-family: "acumin-pro", serif;
         font-weight: 800;
         font-style: normal;
         line-height: 31px;
       }
-      &[data-n='0']::before {
+      &[data-n="0"]::before {
         display: none;
       }
     }
@@ -236,7 +236,7 @@
       z-index: 4;
       background: #d5d1e8;
       text-align: center;
-      [data-map='0'] & {
+      [data-map="0"] & {
         background: transparent;
       }
 
@@ -275,28 +275,28 @@
       &.highlight {
         background-color: #a4e841;
         border: 1px solid black;
-        [data-map='0'] & {
+        [data-map="0"] & {
           background-color: #a4e841aa;
         }
       }
 
-      [data-map='1'] & {
-        background-image: url('img/icons/conduit.png');
+      [data-map="1"] & {
+        background-image: url("img/icons/conduit.png");
         background-size: auto 70%;
         background-position: center center;
         background-repeat: no-repeat;
       }
 
-      [data-map='1'][data-conduit='1'] &::before {
+      [data-map="1"][data-conduit="1"] &::before {
         content: attr(data-production);
         display: block;
         position: absolute;
         width: 33px;
         height: 66px;
-        background: url('img/icons/conduit_value.png');
+        background: url("img/icons/conduit_value.png");
         background-size: 100% auto;
         background-repeat: no-repeat;
-        font-family: 'acumin-pro', serif;
+        font-family: "acumin-pro", serif;
         font-weight: 800;
         font-style: normal;
         color: #bb3f90;
@@ -334,7 +334,7 @@
       &.highlight {
         background-color: #a4e841;
         border: 1px solid black;
-        [data-map='0'] & {
+        [data-map="0"] & {
           background-color: #a4e841aa;
         }
       }
@@ -346,25 +346,25 @@
       align-items: end;
       justify-content: center;
 
-      [data-map='1'] & {
-        background-image: url('img/icons/powerhouse.png');
+      [data-map="1"] & {
+        background-image: url("img/icons/powerhouse.png");
         background-size: auto 70%;
         background-position: center center;
         background-repeat: no-repeat;
         &.paying {
-          background-image: url('img/icons/powerhouse_paying.png');
+          background-image: url("img/icons/powerhouse_paying.png");
         }
       }
 
       // Producing animation
       &.producing::after {
-        content: '';
+        content: "";
         position: absolute;
         left: calc(50% - 20px);
         top: 50%;
         width: 40px;
         height: 40px;
-        background-image: url('img/icons/production.png');
+        background-image: url("img/icons/production.png");
         background-size: 80%;
         background-position: 4px 2px;
         background-color: white;
@@ -420,14 +420,14 @@
         border: 1px solid red;
       }
 
-      [data-map='1'] & {
-        background-image: url('img/icons/base.png');
+      [data-map="1"] & {
+        background-image: url("img/icons/base.png");
         background-size: auto 50%;
         background-position: center center;
         background-repeat: no-repeat;
 
         &.paying {
-          background-image: url('img/icons/base_paying.png');
+          background-image: url("img/icons/base_paying.png");
         }
       }
 
@@ -469,7 +469,7 @@
       }
     }
 
-    [data-map='1'] & {
+    [data-map="1"] & {
       .powerhouse-zone {
         visibility: visible;
       }
@@ -497,4 +497,5 @@
   }
 }
 
-@import 'map.base';
+@import "map.base";
+@import "map.5p";

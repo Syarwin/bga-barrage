@@ -732,7 +732,7 @@ define([
             o.addEventListener('mouseenter', () => {
               mapPowerhouses[zoneId].forEach((cId) => {
                 dojo.query(`.conduit-slot[data-id="${cId}"]`).addClass('highlight');
-                $('base-map-svg').querySelector(`#${cId}_P${zoneId}`).classList.add('highlight');
+                //                $('base-map-svg').querySelector(`#${cId}_P${zoneId}`).classList.add('highlight');
               });
             });
             o.addEventListener('mouseleave', clearHighlight);

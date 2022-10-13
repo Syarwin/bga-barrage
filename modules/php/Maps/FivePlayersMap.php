@@ -135,11 +135,11 @@ class FivePlayersMap extends AbstractMap
         'area' => HILL,
         'basins' => ['B8U', 'B8L'],
         'conduits' => [
-          'C5L' => [
+          'C8L' => [
             'production' => 3,
             'end' => 10,
           ],
-          'C5R' => [
+          'C8R' => [
             'production' => 2,
             'end' => 9,
           ],
@@ -150,11 +150,11 @@ class FivePlayersMap extends AbstractMap
         'area' => HILL,
         'basins' => ['B9U', 'B9L'],
         'conduits' => [
-          'C5L' => [
+          'C9L' => [
             'production' => 3,
             'end' => 12,
           ],
-          'C5R' => [
+          'C9R' => [
             'production' => 4,
             'end' => 16,
           ],

@@ -1,0 +1,615 @@
+#brg-map-resizable[data-map="2"] {
+    width: calc(var(--barrageMapScale) * 1000px);
+    height: calc(var(--barrageMapScale) * 1464px);
+
+    #brg-map {
+        width: 1000px;
+        height: 1464px;
+        background-image: url("img/5p-map/5p_map_blank.jpg");
+        background-size: 100% 100%;
+        [data-map="0"] & {
+            background-image: url("img/5p-map/5p_map.jpg");
+        }
+        &::after {
+            background-image: url("img/5p-map/5p_map.svg");
+        }
+
+        #brg-zone-overlay {
+            div:nth-child(1) {
+                height: 470px;
+            }
+            div:nth-child(2) {
+                height: 440px;
+            }
+        }
+
+        .headstream {
+            top: 11px;
+            &[data-id="HA"] {
+                left: 8px;
+            }
+            &[data-id="HB"] {
+                left: 205px;
+            }
+            &[data-id="HC"] {
+                left: 399px;
+            }
+            &[data-id="HD"] {
+                left: 595px;
+            }
+            &[data-id="HE"] {
+                left: 790px;
+            }
+        }
+
+        .conduit-slot {
+            // Mountains
+            &[data-id="C1L"] {
+                top: 330px;
+                left: 19px;
+            }
+            &[data-id="C1R"] {
+                top: 330px;
+                left: 156px;
+            }
+            &[data-id="C2L"] {
+                top: 330px;
+                left: 215px;
+            }
+            &[data-id="C2R"] {
+                top: 330px;
+                left: 352px;
+            }
+            &[data-id="C3L"] {
+                top: 330px;
+                left: 412px;
+            }
+            &[data-id="C3R"] {
+                top: 330px;
+                left: 549px;
+            }
+            &[data-id="C4L"] {
+                top: 330px;
+                left: 606px;
+            }
+            &[data-id="C4R"] {
+                top: 330px;
+                left: 744px;
+            }
+            &[data-id="C5L"] {
+                top: 330px;
+                left: 803px;
+            }
+            &[data-id="C5R"] {
+                top: 330px;
+                left: 940px;
+            }
+            // Hills
+            &[data-id="C6L"] {
+                top: 764px;
+                left: 47px;
+            }
+            &[data-id="C6R"] {
+                top: 764px;
+                left: 198px;
+            }
+            &[data-id="C7L"] {
+                top: 764px;
+                left: 283px;
+            }
+            &[data-id="C7R"] {
+                top: 764px;
+                left: 435px;
+            }
+            &[data-id="C8L"] {
+                top: 764px;
+                left: 520px;
+            }
+            &[data-id="C8R"] {
+                top: 764px;
+                left: 671px;
+            }
+            &[data-id="C9L"] {
+                top: 764px;
+                left: 759px;
+            }
+            &[data-id="C9R"] {
+                top: 764px;
+                left: 908px;
+            }
+            // Plains
+            &[data-id="C10L"] {
+                top: 1161px;
+                left: 47px;
+            }
+            &[data-id="C10R"] {
+                top: 1161px;
+                left: 198px;
+            }
+            &[data-id="C11L"] {
+                top: 1161px;
+                left: 284px;
+            }
+            &[data-id="C11R"] {
+                top: 1161px;
+                left: 435px;
+            }
+            &[data-id="C12L"] {
+                top: 1161px;
+                left: 520px;
+            }
+            &[data-id="C12R"] {
+                top: 1161px;
+                left: 671px;
+            }
+            &[data-id="C13L"] {
+                top: 1161px;
+                left: 758px;
+            }
+            &[data-id="C13R"] {
+                top: 1161px;
+                left: 908px;
+            }
+        }
+
+        .powerhouse-slot {
+            &[data-id="P6_0"] {
+                top: 583px;
+                left: 108px;
+            }
+            &[data-id="P6_1"] {
+                top: 541px;
+                left: 108px;
+            }
+            &[data-id="P7_0"] {
+                top: 583px;
+                left: 346px;
+            }
+            &[data-id="P7_1"] {
+                top: 541px;
+                left: 346px;
+            }
+            &[data-id="P8_0"] {
+                top: 583px;
+                left: 586px;
+            }
+            &[data-id="P8_1"] {
+                top: 541px;
+                left: 586px;
+            }
+            &[data-id="P9_0"] {
+                top: 583px;
+                left: 835px;
+            }
+            &[data-id="P9_1"] {
+                top: 541px;
+                left: 835px;
+            }
+
+            &[data-id="P10_0"] {
+                top: 980px;
+                left: 70px;
+            }
+            &[data-id="P10_1"] {
+                top: 980px;
+                left: 152px;
+            }
+            &[data-id="P10_2"] {
+                top: 938px;
+                left: 112px;
+            }
+            &[data-id="P11_0"] {
+                top: 980px;
+                left: 345px;
+            }
+            &[data-id="P11_1"] {
+                top: 938px;
+                left: 345px;
+            }
+            &[data-id="P12_0"] {
+                top: 980px;
+                left: 540px;
+            }
+            &[data-id="P12_1"] {
+                top: 980px;
+                left: 622px;
+            }
+            &[data-id="P12_2"] {
+                top: 938px;
+                left: 581px;
+            }
+            &[data-id="P13_0"] {
+                top: 980px;
+                left: 820px;
+            }
+            &[data-id="P13_1"] {
+                top: 938px;
+                left: 820px;
+            }
+
+            &[data-id="P14_0"] {
+                top: 1400px;
+                left: 227px;
+            }
+            &[data-id="P14_1"] {
+                top: 1359px;
+                left: 185px;
+            }
+            &[data-id="P14_2"] {
+                top: 1359px;
+                left: 268px;
+            }
+            &[data-id="P15_0"] {
+                top: 1400px;
+                left: 425px;
+            }
+            &[data-id="P15_1"] {
+                top: 1400px;
+                left: 507px;
+            }
+            &[data-id="P15_2"] {
+                top: 1359px;
+                left: 467px;
+            }
+            &[data-id="P16_0"] {
+                top: 1400px;
+                left: 665px;
+            }
+            &[data-id="P16_1"] {
+                top: 1400px;
+                left: 747px;
+            }
+            &[data-id="P16_2"] {
+                top: 1359px;
+                left: 706px;
+            }
+        }
+
+        .dam-slot {
+            &[data-id="B1U"] {
+                top: 259px;
+                left: 75px;
+            }
+            &[data-id="B1L"] {
+                top: 389px;
+                left: 75px;
+            }
+            &[data-id="B2U"] {
+                top: 259px;
+                left: 270px;
+            }
+            &[data-id="B2L"] {
+                top: 389px;
+                left: 270px;
+            }
+            &[data-id="B3U"] {
+                top: 259px;
+                left: 466px;
+            }
+            &[data-id="B3L"] {
+                top: 389px;
+                left: 466px;
+            }
+            &[data-id="B4U"] {
+                top: 259px;
+                left: 661px;
+            }
+            &[data-id="B4L"] {
+                top: 389px;
+                left: 661px;
+            }
+            &[data-id="B5U"] {
+                top: 259px;
+                left: 858px;
+            }
+            &[data-id="B5L"] {
+                top: 389px;
+                left: 858px;
+            }
+
+            &[data-id="B6U"] {
+                top: 692px;
+                left: 110px;
+            }
+            &[data-id="B6L"] {
+                top: 822px;
+                left: 110px;
+            }
+            &[data-id="B7U"] {
+                top: 692px;
+                left: 347px;
+            }
+            &[data-id="B7L"] {
+                top: 822px;
+                left: 347px;
+            }
+            &[data-id="B8U"] {
+                top: 692px;
+                left: 583px;
+            }
+            &[data-id="B8L"] {
+                top: 822px;
+                left: 583px;
+            }
+            &[data-id="B9U"] {
+                top: 692px;
+                left: 820px;
+            }
+            &[data-id="B9L"] {
+                top: 822px;
+                left: 820px;
+            }
+
+            &[data-id="B10U"] {
+                top: 1090px;
+                left: 110px;
+            }
+            &[data-id="B10L"] {
+                top: 1220px;
+                left: 110px;
+            }
+            &[data-id="B11U"] {
+                top: 1090px;
+                left: 347px;
+            }
+            &[data-id="B11L"] {
+                top: 1220px;
+                left: 347px;
+            }
+            &[data-id="B12U"] {
+                top: 1090px;
+                left: 583px;
+            }
+            &[data-id="B12L"] {
+                top: 1220px;
+                left: 583px;
+            }
+            &[data-id="B13U"] {
+                top: 1090px;
+                left: 820px;
+            }
+            &[data-id="B13L"] {
+                top: 1220px;
+                left: 820px;
+            }
+        }
+
+        .basin {
+            &[data-id="B1U"] {
+                top: 150px;
+                left: 36px;
+            }
+            &[data-id="B1L"] {
+                top: 308px;
+                left: 36px;
+            }
+            &[data-id="B2U"] {
+                top: 157px;
+                left: 234px;
+            }
+            &[data-id="B2L"] {
+                top: 309px;
+                left: 234px;
+            }
+            &[data-id="B3U"] {
+                top: 178px;
+                left: 431px;
+            }
+            &[data-id="B3L"] {
+                top: 310px;
+                left: 431px;
+            }
+            &[data-id="B4U"] {
+                top: 185px;
+                left: 624px;
+            }
+            &[data-id="B4L"] {
+                top: 308px;
+                left: 624px;
+            }
+            &[data-id="B5U"] {
+                top: 185px;
+                left: 824px;
+            }
+            &[data-id="B5L"] {
+                top: 308px;
+                left: 824px;
+            }
+
+            &[data-id="B6U"] {
+                top: 629px;
+                left: 74px;
+            }
+            &[data-id="B6L"] {
+                top: 749px;
+                left: 74px;
+            }
+            &[data-id="B7U"] {
+                top: 625px;
+                left: 309px;
+            }
+            &[data-id="B7L"] {
+                top: 747px;
+                left: 309px;
+            }
+            &[data-id="B8U"] {
+                top: 630px;
+                left: 546px;
+            }
+            &[data-id="B8L"] {
+                top: 748px;
+                left: 546px;
+            }
+            &[data-id="B9U"] {
+                top: 630px;
+                left: 783px;
+            }
+            &[data-id="B9L"] {
+                top: 748px;
+                left: 783px;
+            }
+
+            &[data-id="B10U"] {
+                top: 1029px;
+                left: 73px;
+            }
+            &[data-id="B10L"] {
+                top: 1146px;
+                left: 73px;
+            }
+            &[data-id="B11U"] {
+                top: 1029px;
+                left: 309px;
+            }
+            &[data-id="B11L"] {
+                top: 1148px;
+                left: 309px;
+            }
+            &[data-id="B12U"] {
+                top: 1024px;
+                left: 545px;
+            }
+            &[data-id="B12L"] {
+                top: 1149px;
+                left: 545px;
+            }
+            &[data-id="B13U"] {
+                top: 1024px;
+                left: 782px;
+            }
+            &[data-id="B13L"] {
+                top: 1149px;
+                left: 782px;
+            }
+        }
+
+        .powerhouse-zone {
+            &[data-zone="6"] {
+                left: 97px;
+                top: 533px;
+                width: 91px;
+            }
+            &[data-zone="7"] {
+                left: 337px;
+                top: 533px;
+                width: 91px;
+            }
+            &[data-zone="8"] {
+                left: 577px;
+                top: 533px;
+                width: 91px;
+            }
+            &[data-zone="9"] {
+                left: 825px;
+                top: 533px;
+                width: 91px;
+            }
+
+            &[data-zone="10"] {
+                left: 62px;
+                top: 932px;
+            }
+            &[data-zone="11"] {
+                left: 337px;
+                top: 932px;
+                width: 91px;
+            }
+            &[data-zone="12"] {
+                left: 532px;
+                top: 932px;
+            }
+            &[data-zone="13"] {
+                left: 812px;
+                top: 932px;
+                width: 91px;
+            }
+
+            &[data-zone="14"] {
+                left: 178px;
+                top: 1352px;
+            }
+            &[data-zone="15"] {
+                left: 417px;
+                top: 1352px;
+            }
+            &[data-zone="16"] {
+                left: 656px;
+                top: 1352px;
+            }
+        }
+
+        .basin-zone {
+            &[data-zone="1"] {
+                width: 127px;
+                left: 39px;
+                top: 288px;
+            }
+            &[data-zone="2"] {
+                width: 127px;
+                left: 234px;
+                top: 288px;
+            }
+            &[data-zone="3"] {
+                width: 127px;
+                left: 431px;
+                top: 288px;
+            }
+            &[data-zone="4"] {
+                width: 127px;
+                left: 626px;
+                top: 288px;
+            }
+            &[data-zone="5"] {
+                width: 127px;
+                left: 822px;
+                top: 288px;
+            }
+
+            &[data-zone="6"] {
+                left: 70px;
+                top: 720px;
+            }
+            &[data-zone="7"] {
+                left: 306px;
+                top: 720px;
+            }
+            &[data-zone="8"] {
+                left: 543px;
+                top: 720px;
+            }
+            &[data-zone="9"] {
+                left: 781px;
+                top: 720px;
+            }
+
+            &[data-zone="10"] {
+                left: 69px;
+                top: 1116px;
+            }
+            &[data-zone="11"] {
+                left: 306px;
+                top: 1116px;
+            }
+            &[data-zone="12"] {
+                left: 543px;
+                top: 1116px;
+            }
+            &[data-zone="13"] {
+                left: 781px;
+                top: 1116px;
+            }
+        }
+
+        .rivier-exit {
+            &#EXIT_L {
+                left: 241px;
+                top: 1437px;
+            }
+
+            &#EXIT_R {
+                left: 676px;
+                top: 1437px;
+            }
+        }
+    }
+}
