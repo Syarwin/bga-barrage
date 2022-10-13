@@ -677,7 +677,8 @@ define([
         1: 'base-map-svg',
         2: '5p-map-svg',
       };
-      dojo.place($(svgIds[map.id]), oMap);
+      let overlayId = svgIds[map.id];
+      dojo.place($(overlayId), oMap);
 
       // Headstreams
       Object.keys(map.headstreams).forEach((hId) => {
@@ -689,7 +690,7 @@ define([
 
       let clearHighlight = () => {
         dojo.query('.highlight').removeClass('highlight');
-        [...$('base-map-svg').querySelectorAll('.highlight')].forEach((elt) => elt.classList.remove('highlight'));
+        [...$(overlayId).querySelectorAll('.highlight')].forEach((elt) => elt.classList.remove('highlight'));
       };
 
       // Conduits
@@ -701,7 +702,7 @@ define([
         o.addEventListener('mouseenter', () => {
           dojo.query(`.powerhouse-slot[data-zone="${conduit.end}"]`).addClass('highlight');
           dojo.query(`.powerhouse-zone[data-zone="${conduit.end}"]`).addClass('highlight');
-          //TODO          $('base-map-svg').querySelector(`#${cId}_P${conduit.end}`).classList.add('highlight');
+          $(overlayId).querySelector(`#${cId}_P${conduit.end}`).classList.add('highlight');
         });
         o.addEventListener('mouseleave', clearHighlight);
 
@@ -732,7 +733,7 @@ define([
             o.addEventListener('mouseenter', () => {
               mapPowerhouses[zoneId].forEach((cId) => {
                 dojo.query(`.conduit-slot[data-id="${cId}"]`).addClass('highlight');
-                //                $('base-map-svg').querySelector(`#${cId}_P${zoneId}`).classList.add('highlight');
+                $(overlayId).querySelector(`#${cId}_P${zoneId}`).classList.add('highlight');
               });
             });
             o.addEventListener('mouseleave', clearHighlight);

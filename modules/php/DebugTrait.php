@@ -21,6 +21,12 @@ trait DebugTrait
     $this->reloadPlayersBasicInfos();
   }
 
+  public function flowDroplets()
+  {
+    $droplets = Meeples::getFilteredQuery(null, null, DROPLET)->get();
+    Map::flowDroplets($droplets);
+  }
+
   public function tp()
   {
     $company = Companies::getActive();

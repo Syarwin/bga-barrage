@@ -4710,10 +4710,13 @@ body {
       left: 781px;
       top: 1116px; }
     #brg-map-resizable[data-map="2"] #brg-map .rivier-exit#EXIT_L {
-      left: 241px;
+      left: 195px;
+      top: 1437px; }
+    #brg-map-resizable[data-map="2"] #brg-map .rivier-exit#EXIT_C {
+      left: 429px;
       top: 1437px; }
     #brg-map-resizable[data-map="2"] #brg-map .rivier-exit#EXIT_R {
-      left: 676px;
+      left: 666px;
       top: 1437px; }
 
 :root {

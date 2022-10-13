@@ -694,7 +694,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     // Convert a position in the svg to a position in the dom
     dropletGetSvgPathsScale() {
-      return 0.67434362;
+      // Fixed map height / viewbox height of SVG
+      let scales = {
+        1: 1464 / 2171,
+        2: 1464 / 1800,
+      };
+      return scales[this.gamedatas.map.id];
     },
 
     // Given a sequence of location, compute the corresponding positions and transitions
