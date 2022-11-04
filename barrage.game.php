@@ -45,6 +45,7 @@ use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
 use BRG\Managers\AutomaCards;
+use BRG\Managers\ExternalWorks;
 use BRG\Helpers\Log;
 use BRG\Map;
 
@@ -122,6 +123,7 @@ class barrage extends Table
       'phase' => Globals::getPhase(),
       'bonuses' => $this->computeBonuses(),
       'automa' => AutomaCards::getUiData(),
+      'works' => ExternalWorks::getUiData(),
     ];
 
     $XOIds = array_slice(Globals::getMahiriAddXO(), Companies::count() - 1);

@@ -14,31 +14,31 @@
  */
 
 @font-face {
-  font-family: 'Oranienbaum';
-  src: url('img/fonts/Oranienbaum.woff2') format('woff2'), url('img/fonts/Oranienbaum.woff') format('woff'),
-    url('img/fonts/Oranienbaum.ttf') format('truetype');
+  font-family: "Oranienbaum";
+  src: url("img/fonts/Oranienbaum.woff2") format("woff2"), url("img/fonts/Oranienbaum.woff") format("woff"),
+    url("img/fonts/Oranienbaum.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Betty Noir';
-  src: url('img/fonts/BettyNoir.woff2') format('woff2'), url('img/fonts/BettyNoir.woff') format('woff'),
-    url('img/fonts/BettyNoir.ttf') format('truetype');
+  font-family: "Betty Noir";
+  src: url("img/fonts/BettyNoir.woff2") format("woff2"), url("img/fonts/BettyNoir.woff") format("woff"),
+    url("img/fonts/BettyNoir.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-body[data-background='0'] {
-  background-image: url('img/ui/texture.jpg');
+body[data-background="0"] {
+  background-image: url("img/ui/texture.jpg");
   background-repeat: repeat;
   background-size: 50px;
 }
 
-body[data-background='1'] {
-  background-image: url('img/ui/texture_light.jpg');
+body[data-background="1"] {
+  background-image: url("img/ui/texture_light.jpg");
   background-repeat: repeat;
   background-size: 24px;
 }
@@ -69,7 +69,7 @@ body {
   width: 35px;
   height: 35px;
   float: left;
-  background: url('img/ui/arrow_top.jpg');
+  background: url("img/ui/arrow_top.jpg");
   background-size: 100%;
   cursor: pointer;
   margin: -1px;
@@ -142,16 +142,17 @@ body {
   background-color: #ef9a9a;
 }
 
-@import 'modules/css/layout';
-@import 'modules/css/modals';
-@import 'modules/css/meeples';
-@import 'modules/css/icons';
-@import 'modules/css/playerPanel';
-@import 'modules/css/companyBoard';
-@import 'modules/css/settings';
-@import 'modules/css/nouislider';
-@import 'modules/css/flip';
-@import 'modules/css/map';
-@import 'modules/css/contract';
-@import 'modules/css/techTiles';
-@import 'modules/css/automaCards';
+@import "modules/css/layout";
+@import "modules/css/modals";
+@import "modules/css/meeples";
+@import "modules/css/icons";
+@import "modules/css/playerPanel";
+@import "modules/css/companyBoard";
+@import "modules/css/settings";
+@import "modules/css/nouislider";
+@import "modules/css/flip";
+@import "modules/css/map";
+@import "modules/css/contract";
+@import "modules/css/techTiles";
+@import "modules/css/automaCards";
+@import "modules/css/external-work";

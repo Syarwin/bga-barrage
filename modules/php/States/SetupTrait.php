@@ -12,6 +12,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\AutomaCards;
+use BRG\Managers\ExternalWorks;
 use BRG\Map;
 
 trait SetupTrait
@@ -65,6 +66,12 @@ trait SetupTrait
 
     // 9] 10] Draw contracts
     Contracts::setupNewGame();
+
+    // 10b] Draw external works
+    ExternalWorks::setupNewGame();
+
+    // 10c] Draw buildings
+    // TODO
 
     // 11] Place neutral dams
     Map::placeNeutralDams();

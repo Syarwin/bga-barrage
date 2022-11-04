@@ -36,6 +36,7 @@ const ST_DISCARD_CONTRACT = 30;
 const ST_PLACE_STRUCTURE = 31;
 const ST_TILE_EFFECT = 32;
 const ST_PATENT = 33;
+const ST_EXTERNAL_WORK = 34;
 
 const ST_PRE_AUTOMA_TURN = 40;
 const ST_AUTOMA_TURN = 41;
@@ -241,6 +242,7 @@ const BOARD_MACHINERY_SHOP = 'machinery';
 const BOARD_CONTRACT = 'contract';
 const BOARD_PATENT = 'patent';
 const BOARD_OFFICER = 'officer';
+const BOARD_EXTERNAL_WORK = 'externalWork';
 
 /*
  * Atomic action

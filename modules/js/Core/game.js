@@ -490,7 +490,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this.addTooltip('show-settings', '', _('Display some settings about the game.'));
       let container = $('settings-controls-container');
 
-      if (this._settingsSections) {
+      if (this.getSettingsSections) {
+        this._settingsSections = this.getSettingsSections();
         dojo.place(`<div id='settings-controls-header'></div><div id='settings-controls-wrapper'></div>`, container);
         Object.keys(this._settingsSections).forEach((sectionName, i) => {
           dojo.place(
@@ -512,6 +513,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       }
 
       this.settings = {};
+      this._settingsConfig = this.getSettingsConfig();
       Object.keys(this._settingsConfig).forEach((settingName) => {
         let config = this._settingsConfig[settingName];
         let localContainer = container;

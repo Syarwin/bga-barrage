@@ -21,6 +21,7 @@ class Actions
     PLACE_STRUCTURE => 'PlaceStructure',
     TILE_EFFECT => 'TileEffect',
     PATENT => 'Patent',
+    EXTERNAL_WORK => 'ExternalWork',
   ];
 
   public static function get($actionId, $ctx = null)

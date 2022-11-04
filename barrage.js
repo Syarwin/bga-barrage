@@ -83,16 +83,20 @@ define([
       this.default_viewport = 'width=1100';
 
       this._antonTile = 0;
+    },
 
-      this._settingsSections = {
+    getSettingsSections() {
+      return {
         layout: _('Layout'),
         actionBoard: _('Action Boards'),
         map: _('Map'),
         company: _('Company'),
         other: _('Other'),
       };
+    },
 
-      this._settingsConfig = {
+    getSettingsConfig() {
+      return {
         actionBoardBackground: {
           default: 0,
           name: _('Action Board Background'),
@@ -397,6 +401,7 @@ define([
       this.setupMeeples();
       this.setupContracts();
       this.setupTechnologyTiles();
+      this.setupExternalWorks();
       this.updateWheelSummaries();
 
       // Create a new div for "anytime" buttons
@@ -1899,6 +1904,153 @@ define([
         });
       });
     },
+
+    //////////////////////////////////////////////////////
+    //  _____      _    __        __         _
+    // | ____|_  _| |_  \ \      / /__  _ __| | _____
+    // |  _| \ \/ / __|  \ \ /\ / / _ \| '__| |/ / __|
+    // | |___ >  <| |_    \ V  V / (_) | |  |   <\__ \
+    // |_____/_/\_\\__|    \_/\_/ \___/|_|  |_|\_\___/
+    //////////////////////////////////////////////////////
+    setupExternalWorks() {
+      // This function is refreshUI compatible
+      let workIds = this.gamedatas.works.map((work) => {
+        this.addExtWork(work);
+        let o = $(`work-${work.id}`);
+        let container = this.getExtWorkContainer(work);
+        if (o.parentNode != $(container)) {
+          dojo.place(o, container);
+        }
+
+        return work.id;
+      });
+
+      this.updateCompaniesCounters();
+    },
+
+    addExtWork(work, container = null) {
+      if ($(`work-${work.id}`)) return;
+
+      if (!container) {
+        container = this.getExtWorkContainer(work);
+      }
+      this.place('tplExtWork', work, container);
+      this.addCustomTooltip(`work-${work.id}`, this.tplExtWorkTooltip(work));
+    },
+
+    getExtWorkContainer(work) {
+      if (work.location.substr(0, 9) == 'fulfilled') {
+        let cId = work.location.substr(10);
+        return `reserve_${cId}_fcontract`;
+      } else if ($(work.location)) {
+        return $(work.location);
+      }
+
+      console.error('Trying to get container of a work', work);
+      return 'game_play_area';
+    },
+
+    tplExtWork(work, tooltip = false) {
+      let icons = this.convertFlowToIcons(work.reward);
+      return (
+        `<div id='work-${work.id}${tooltip ? '-tooltip' : ''}' class='barrage-work ${work.id == -1 ? 'fake' : ''}'>
+          <div class='work-fixed-size'>
+            <div class='work-cost'>${work.cost}</div>
+            <div class='work-reward'>
+              <div class='work-reward-row'>${icons.length > 0 ? icons[0] : ''}</div>` +
+        (icons.length > 1 ? `<div class='work-reward-row'>${icons.slice(1).join('')}</div>` : '') +
+        `
+            </div>
+          </div>
+      </div>`
+      );
+    },
+
+    tplExtWorkTooltip(work) {
+      let descs = this.convertFlowToDescs(work.reward);
+      return (
+        this.tplExtWork(work, true) +
+        `
+      <div class='work-desc'>
+        ` +
+        descs.join('<br />') +
+        `
+      </div>`
+      );
+    },
+
+    // notif_pickContracts(n) {
+    //   debug('Notif: someone picked contract(s)', n);
+    //   n.args.contracts.forEach((contract) => {
+    //     $(`contract-${contract.id}`).classList.remove('selected');
+    //     this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+    //   });
+    // },
+
+    // notif_refillContractStack(n) {
+    //   debug('Notif: refilling contract stack using automa discard', n);
+    //   this._contractStackCounters[n.args.stack].incValue(n.args.nb);
+    // },
+
+    // notif_refillStacks(n) {
+    //   debug('Notif: refilling contract stack', n);
+    //   n.args.contracts.forEach((contract) => {
+    //     let type = contract.type;
+    //     this.addContract(contract, `contract-counter-${type}`);
+    //     this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
+    //     this._contractStackCounters[type].incValue(-1);
+    //   });
+    // },
+
+    // notif_fulfillContract(n) {
+    //   debug('Notif: someone fulfilled a contract', n);
+    //   let contract = n.args.contract;
+    //   let fakeContract = {
+    //     id: -1,
+    //     type: contract.type,
+    //     location: contract.location,
+    //     cost: '',
+    //     icons: [],
+    //     parity: 1 - (contract.id % 2),
+    //     reward: {},
+    //   };
+
+    //   this.gamedatas.bonuses = n.args.bonuses;
+    //   this.updateCompanyBonuses();
+
+    //   if (this.isFastMode()) {
+    //     dojo.place(`contract-${contract.id}`, this.getContractContainer(contract));
+    //     return;
+    //   }
+
+    //   this.flipAndReplace(`contract-${contract.id}`, this.tplContract(fakeContract)).then(() => {
+    //     if (contract.type == 1) {
+    //       this.slide('contract--1', this.getContractContainer(fakeContract), {
+    //         destroy: true,
+    //       }).then(() => this.addContract(contract));
+    //     } else {
+    //       let o = $('contract--1');
+    //       o.style.transform = 'translateX(0px)';
+    //       o.style.transition = 'transform 0.8s';
+    //       let dx = -o.offsetLeft - o.offsetWidth - 20;
+    //       o.style.transform = `translateX(${dx}px)`;
+    //       this.wait(800).then(() => {
+    //         o.remove();
+    //         this.addContract(contract);
+    //         this.updateResourcesHolders(false, false);
+    //       });
+    //     }
+    //   });
+    // },
+
+    // notif_emptyContractStack(n) {
+    //   debug('Notif: removing contracts', n);
+    //   n.args.contractIds.forEach((contractId) => {
+    //     this.slide(`contract-${contractId}`, `contract-counter-${n.args.stack}`, {
+    //       destroy: true,
+    //     });
+    //   });
+    // },
 
     ////////////////////////////////////////////////////////
     //  _____         _       _____ _ _

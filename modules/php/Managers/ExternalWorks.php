@@ -37,7 +37,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
     // Create them
     $works = [];
     foreach (self::getWorks() as $id => $work) {
-      $contracts[] = [
+      $works[] = [
         'id' => $id,
         'location' => 'deck' . chr(65 + floor($id / 100)),
       ];
@@ -50,14 +50,14 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       self::shuffle('deckL' . chr(65 + $i));
 
       // pick the external work
-      self::pickForLocation(1, 'deckA', 'external_' . $i);
+      self::pickForLocation(1, 'deckA', 'work_' . ($i + 1));
     }
   }
 
   public function newRound()
   {
     // discard all tiles
-    $tiles = self::getFilteredQuery(null, 'external_%')->get();
+    $tiles = self::getFilteredQuery(null, 'work_%')->get();
     $deleted = [];
     foreach ($tiles as $tId => $tile) {
       $deleted[] = $tId;
@@ -71,17 +71,15 @@ class ExternalWorks extends \BRG\Helpers\Pieces
     // draw new ones
     $created = new Collection();
     $deck = 0;
-    for ($i = 0; $i < 3; $i++) {
-      $created = $created->merge(self::pickForLocation(1, 'deck' . chr(65 + $deck), 'external_' . $i, null, false));
-      if (count($created) <= $i) {
+    for ($i = 1; $i <= 3; $i++) {
+      $created = $created->merge(self::pickForLocation(1, 'deck' . chr(65 + $deck), 'work_' . $i, null, false));
+      if (count($created) < $i) {
         $deck++;
-        $created = $created->merge(
-          self::pickForLocation(1, 'deck' . chr(65 + $deck), 'external_' . $i, null, false) ?? []
-        );
-        if (count($created) <= $i) {
+        $created = $created->merge(self::pickForLocation(1, 'deck' . chr(65 + $deck), 'work_' . $i, null, false) ?? []);
+        if (count($created) < $i) {
           $deck++;
           $created = $created->merge(
-            self::pickForLocation(1, 'deck' . chr(65 + $deck), 'external_' . $i, null, false) ?? []
+            self::pickForLocation(1, 'deck' . chr(65 + $deck), 'work_' . $i, null, false) ?? []
           );
         }
       }
@@ -106,7 +104,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       2 => $f([\MIXER => 1], [CREDIT => 3, ROTATE_WHEEL => 2]),
       3 => $f([\MIXER => 2], [VP => 4, BASE => [\PLAIN]]),
       4 => $f([\MIXER => 1, \EXCAVATOR => 1], [CREDIT => 2, \POWERHOUSE => 1]),
-      5 => $f([\EXCAVATOR => 2], [(CREDIT = 4), ADVANCED_TECH_TILE => 1]),
+      5 => $f([\EXCAVATOR => 2], [CREDIT => 4, ADVANCED_TECH_TILE => 1]),
       //  ____
       // | __ )
       // |  _ \
@@ -118,7 +116,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       101 => $f([MIXER => 4], [VP => 2, ELEVATION => 2]),
       102 => $f([MIXER => 3], [CREDIT => 3, CONDUIT => 4, VP => 3]),
       103 => $f([EXCAVATOR => 3], [VP => 5, ENERGY => 6]), // TODO ENERGY CAN BE USED TO FULFILL CONTRACTS
-      104 => $f([(EXCAVATOR = 4)], [VP => 4, \PLACE_DROPLET => 2, \ROTATE_WHEEL => 2]),
+      104 => $f([EXCAVATOR => 4], [VP => 4, \PLACE_DROPLET => 2, \ROTATE_WHEEL => 2]),
       //   ____
       //  / ___|
       // | |

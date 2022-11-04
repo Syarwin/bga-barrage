@@ -1,0 +1,79 @@
+:root {
+    --barrageWorkScale: 0.9;
+}
+
+.dijitTooltipContainer {
+    --barrageWorkScale: 1.3;
+}
+
+.barrage-work {
+    width: calc(var(--barrageWorkScale) * 183px);
+    height: calc(var(--barrageWorkScale) * 117px);
+    position: relative;
+
+    &.selectable {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &.selected .contract-fixed-size {
+        border: 2px solid red;
+    }
+
+    .work-fixed-size {
+        width: 183px;
+        height: 117px;
+        transform: scale(var(--barrageWorkScale));
+        transform-origin: top left;
+        display: flex;
+        box-sizing: border-box;
+        margin: -2px -6px -6px -2px;
+        border: 2px solid transparent;
+        border-radius: 20px;
+        overflow: hidden;
+
+        background: url("img/external_work_background.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+
+        .work-cost {
+            width: 65px;
+            margin-right: -10px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .work-reward {
+            width: 84px;
+            height: 90px;
+            padding: 14px 7px 4px;
+            box-sizing: border-box;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            flex-flow: column;
+            align-items: center;
+
+            .work-reward-row {
+                margin: 5px 0px 2px;
+            }
+
+            .icon-credit {
+                font-size: 1.4em;
+
+                span {
+                    font-size: 0.45em;
+                    line-height: 1.4em;
+                    color: white;
+                    text-shadow: black 1px 0px 0px, black 0.540302px 0.841471px 0px, black -0.416147px 0.909297px 0px,
+                        black -0.989993px 0.14112px 0px, black -0.653644px -0.756803px 0px,
+                        black 0.283662px -0.958924px 0px, black 0.96017px -0.279416px 0px;
+                }
+            }
+        }
+    }
+}

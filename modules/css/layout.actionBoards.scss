@@ -12,12 +12,12 @@
   transform: scale(var(--barrageActionBoardScale));
   transform-origin: top left;
 
-  [data-action-name='2'] & {
+  [data-action-name="2"] & {
     border-radius: 6px;
     box-shadow: 2px 2px 5px black;
   }
 
-  [data-cost-icon='1'] & {
+  [data-cost-icon="1"] & {
     width: 357px;
   }
 }
@@ -25,17 +25,17 @@
 .action-board {
   margin-top: 20px;
   width: 373px;
-  [data-cost-icon='1'] & {
+  [data-cost-icon="1"] & {
     width: 350px;
   }
 
   background-clip: content-box;
   background-size: cover;
-  [data-action-name='1'] & {
+  [data-action-name="1"] & {
     margin-top: 0px;
     margin-bottom: 8px;
   }
-  [data-action-name='2'] & {
+  [data-action-name="2"] & {
     margin-top: 0px;
     margin-bottom: -3px;
     border-radius: 0px;
@@ -51,7 +51,7 @@
     }
   }
 
-  body[data-action-name='3'] & {
+  body[data-action-name="3"] & {
     margin-top: 0px;
     margin-bottom: -3px;
     border-radius: 0px;
@@ -64,9 +64,9 @@
     justify-content: center;
     margin-top: -17px;
 
-    [data-action-name='1'] &,
-    [data-action-name='2'] &,
-    [data-action-name='3'] & {
+    [data-action-name="1"] &,
+    [data-action-name="2"] &,
+    [data-action-name="3"] & {
       display: none;
     }
 
@@ -77,62 +77,68 @@
       font-size: 18px;
       padding: 3px 7px;
       box-shadow: 0px 2px 3px black;
-      font-family: 'Betty Noir';
+      font-family: "Betty Noir";
       text-transform: uppercase;
     }
   }
 
-  &[data-id='turbine'] {
-    background-image: url('img/background_board_turbine.jpg');
+  &[data-id="turbine"] {
+    background-image: url("img/background_board_turbine.jpg");
   }
-  &[data-id='water'] {
-    background-image: url('img/background_board_water.jpg');
+  &[data-id="water"] {
+    background-image: url("img/background_board_water.jpg");
   }
-  &[data-id='bank'] {
-    background-image: url('img/background_board_bank.jpg');
+  &[data-id="bank"] {
+    background-image: url("img/background_board_bank.jpg");
   }
-  &[data-id='workshop'] {
-    background-image: url('img/background_board_workshop.jpg');
+  &[data-id="workshop"] {
+    background-image: url("img/background_board_workshop.jpg");
   }
-  &[data-id='machinery'] {
-    background-image: url('img/background_board_machinery.jpg');
+  &[data-id="machinery"] {
+    background-image: url("img/background_board_machinery.jpg");
   }
-  &[data-id='contract'] {
-    background-image: url('img/background_board_contract.jpg');
+  &[data-id="contract"] {
+    background-image: url("img/background_board_contract.jpg");
   }
-  &[data-id='patent'] {
-    background-image: url('img/background_board_patent.jpg');
+  &[data-id="patent"] {
+    background-image: url("img/background_board_patent.jpg");
+  }
+  &[data-id="externalWork"] {
+    background-image: url("img/background_board_external_work.jpg");
   }
 
-  [data-action-background='1'] & {
-    &[data-id='turbine'] {
+  [data-action-background="1"] & {
+    &[data-id="turbine"] {
       background: #8a5789;
     }
-    &[data-id='water'] {
+    &[data-id="water"] {
       background: #57668a;
     }
-    &[data-id='bank'] {
+    &[data-id="bank"] {
       background: #8a8957;
     }
-    &[data-id='workshop'] {
+    &[data-id="workshop"] {
       background: #7d7d7c;
     }
-    &[data-id='machinery'] {
+    &[data-id="machinery"] {
       background: #8a6f57;
     }
-    &[data-id='contract'] {
+    &[data-id="contract"] {
       background: #75885d;
     }
-    &[data-id='patent'] {
+    &[data-id="patent"] {
+      background: #b39348;
+    }
+    &[data-id="externalWork"] {
       background: #b39348;
     }
   }
 
-  [data-action-background='2'] & {
+  [data-action-background="2"] & {
     background: $plainBackground;
   }
 
-  [data-action-name='3'] & {
+  [data-action-name="3"] & {
     background: transparent;
   }
 
@@ -147,19 +153,19 @@
     .action-board-row {
       display: flex;
       align-items: center;
-      background: url('img/ui/texture.jpg');
+      background: url("img/ui/texture.jpg");
       padding: 4px 2px 2px 4px;
       border-radius: 8px;
       box-shadow: 1px 2px 2px black, inset 1px 1px 2px #acaaaa;
       margin-right: 20px;
-      [data-cost-icon='1'] & {
+      [data-cost-icon="1"] & {
         margin-right: 0px;
       }
 
-      [data-action-name='3'] & {
+      [data-action-name="3"] & {
         background: #292b23;
       }
-      [data-action-name='3'][data-background='1'] & {
+      [data-action-name="3"][data-background="1"] & {
         background: #393939;
       }
     }
@@ -194,13 +200,13 @@
         position: absolute;
         left: calc(100% - 4px);
 
-        [data-cost-icon='1'] & {
+        [data-cost-icon="1"] & {
           display: none;
         }
       }
 
       .action-space-slot {
-        background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+        background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
         width: 34px;
         height: 29px;
         padding-bottom: 1px;
@@ -233,7 +239,7 @@
         }
 
         .action-space-slot {
-          background-image: url('img/ui/engineer_slot.png');
+          background-image: url("img/ui/engineer_slot.png");
           background-size: auto 70%;
           background-repeat: no-repeat;
           background-position: center center;
@@ -248,11 +254,11 @@
     }
   }
 
-  &[data-id='machinery'] .action-board-inner .action-board-row {
+  &[data-id="machinery"] .action-board-inner .action-board-row {
     &:first-of-type {
       margin-right: 55px;
 
-      [data-cost-icon='1'] & {
+      [data-cost-icon="1"] & {
         margin-right: 35px;
       }
     }
@@ -263,9 +269,9 @@
     }
   }
 
-  &[data-id='water'] {
+  &[data-id="water"] {
     width: 223px;
-    [data-cost-icon='1'] & {
+    [data-cost-icon="1"] & {
       width: 200px;
     }
     .action-board-inner {
@@ -278,10 +284,10 @@
     }
   }
 
-  &[data-id='bank'] {
+  &[data-id="bank"] {
     width: 139px;
     margin-left: 5px;
-    [data-action-name='2'] & {
+    [data-action-name="2"] & {
       width: 147px;
       margin-left: -3px;
     }
@@ -295,7 +301,7 @@
         #bank-b {
           width: 105px;
           height: 70px;
-          background-image: url('img/ui/bank.png');
+          background-image: url("img/ui/bank.png");
           background-color: transparent;
           background-size: 85%;
           background-repeat: no-repeat;
@@ -321,7 +327,7 @@
     }
   }
 
-  &[data-id='contract'] .action-board-inner {
+  &[data-id="contract"] .action-board-inner {
     --barrageContractScale: 0.73;
     margin-bottom: 0;
 
@@ -347,11 +353,11 @@
           background: #c9b891;
           border-top-right-radius: 5px;
           border-top-left-radius: 5px;
-          [data-action-name='3'] & {
+          [data-action-name="3"] & {
             border-radius: 5px;
           }
 
-          font-family: 'acumin-pro', serif;
+          font-family: "acumin-pro", serif;
           font-weight: 700;
           font-style: normal;
           text-align: center;
@@ -366,11 +372,11 @@
           }
 
           &::after {
-            content: '';
+            content: "";
             display: inline-block;
             width: 31px;
             height: 22px;
-            background: url('img/contract_hands.png');
+            background: url("img/contract_hands.png");
             background-size: 500%;
             vertical-align: middle;
             margin-left: 4px;
@@ -403,8 +409,8 @@
     }
   }
 
-  &[data-id='patent'] .action-board-inner {
-    --barragetisaacTileScale: 0.45;
+  &[data-id="patent"] .action-board-inner {
+    --barrageTileScale: 0.45;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, 54px);
@@ -417,6 +423,28 @@
 
     .action-board-row {
       margin-right: 0px;
+    }
+  }
+
+  &[data-id="externalWork"] .action-board-inner {
+    --barrageWorkScale: 0.68;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 45px 80px;
+
+    .action-board-icon {
+      display: none;
+    }
+    #work_1,
+    #work_2,
+    #work_3 {
+      display: flex;
+      justify-content: center;
+    }
+
+    .action-board-row {
+      margin-left: 21px;
+      margin-right: 20px;
     }
   }
 }
