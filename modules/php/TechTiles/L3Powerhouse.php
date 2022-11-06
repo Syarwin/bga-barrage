@@ -5,6 +5,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Meeples;
 use BRG\Core\Notifications;
+use BRG\Core\Stats;
 use BRG\Map;
 
 /*
@@ -31,6 +32,7 @@ class L3Powerhouse extends AdvancedTile
 
     if ($bonus > 0) {
       $company->incScore($bonus, clienttranslate('(Level 3 Powerhouse advanced tile reward)'));
+      Stats::incVpAdvancedTile($company, $bonus);
     }
     return null;
   }

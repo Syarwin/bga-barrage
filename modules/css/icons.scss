@@ -20,7 +20,7 @@
       rgb(218, 148, 200) -0.653644px -0.756803px 0px, rgb(218, 148, 200) 0.283662px -0.958924px 0px,
       rgb(218, 148, 200) 0.96017px -0.279416px 0px;
 
-    font-family: 'acumin-pro', serif;
+    font-family: "acumin-pro", serif;
     font-weight: 700;
     font-style: normal;
     line-height: 1em;
@@ -29,7 +29,7 @@
 }
 
 .building-slot .text {
-  background-image: url('img/icons/energy.png');
+  background-image: url("img/icons/energy.png");
   background-size: auto 90%;
   display: inline-block;
   padding: 13px;
@@ -51,7 +51,7 @@
   background-size: 100%;
 
   span {
-    font-family: 'acumin-pro', serif;
+    font-family: "acumin-pro", serif;
     font-weight: 700;
     font-style: normal;
   }
@@ -59,13 +59,13 @@
   &.icon-production {
     min-width: 0.8em;
     height: 0.8em;
-    background-image: url('img/icons/production.png');
+    background-image: url("img/icons/production.png");
   }
 
   &.icon-construct {
     min-width: 1.1em;
     height: 0.8em;
-    background-image: url('img/icons/construct.png');
+    background-image: url("img/icons/construct.png");
   }
 
   &.icon-cost,
@@ -73,7 +73,7 @@
   &.icon-pay {
     min-width: 0.7137em;
     height: 0.8em;
-    background-image: url('img/icons/cost.png');
+    background-image: url("img/icons/cost.png");
     text-align: center;
 
     span {
@@ -91,13 +91,13 @@
   &.icon-pay {
     min-width: 0.6125em;
     height: 0.7em;
-    background-image: url('img/icons/credit.png');
+    background-image: url("img/icons/credit.png");
   }
 
   &.icon-arrow {
     min-width: 0.6em;
     height: 0.456em;
-    background-image: url('img/icons/arrow.png');
+    background-image: url("img/icons/arrow.png");
   }
 
   &.icon-credit,
@@ -118,10 +118,21 @@
     }
   }
 
+  &.icon-excavator_icon_cost,
+  &.icon-mixer_icon_cost {
+    span {
+      color: red;
+      text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px,
+        rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989993px 0.14112px 0px,
+        rgb(0, 0, 0) -0.653644px -0.756803px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px,
+        rgb(0, 0, 0) 0.96017px -0.279416px 0px;
+    }
+  }
+
   &.icon-water {
     min-width: 0.5895em;
     height: 0.8em;
-    background-image: url('img/icons/water.png');
+    background-image: url("img/icons/water.png");
     text-align: center;
 
     span {
@@ -133,7 +144,7 @@
   &.icon-water_down {
     min-width: 0.4769em;
     height: 0.9em;
-    background-image: url('img/icons/water_down.png');
+    background-image: url("img/icons/water_down.png");
     text-align: center;
 
     span {
@@ -145,7 +156,7 @@
   &.icon-rotate {
     min-width: 0.8em;
     height: 0.8em;
-    background-image: url('img/icons/rotate.png');
+    background-image: url("img/icons/rotate.png");
     text-align: right;
 
     span {
@@ -154,12 +165,20 @@
     }
   }
 
+  &.icon-advanced_tile {
+    min-width: 1.5em;
+    height: 0.75em;
+    background-image: url("img/icons/advanced_tech_tile.png");
+  }
+
   &.icon-excavator_icon,
   &.icon-mixer_icon,
+  &.icon-excavator_icon_cost,
+  &.icon-mixer_icon_cost,
   &.icon-any_machine {
     min-width: 0.8em;
     height: 0.8em;
-    background-image: url('img/icons/excavator.png');
+    background-image: url("img/icons/excavator.png");
     text-align: center;
 
     span {
@@ -168,16 +187,28 @@
     }
   }
   &.icon-mixer_icon {
-    background-image: url('img/icons/mixer.png');
+    background-image: url("img/icons/mixer.png");
   }
   &.icon-any_machine {
-    background-image: url('img/icons/excavator_mixer.png');
+    background-image: url("img/icons/excavator_mixer.png");
+  }
+  &.icon-excavator_icon_cost {
+    background-image: url("img/icons/excavator_cost.png");
+    span {
+      line-height: 1.55em;
+    }
+  }
+  &.icon-mixer_icon_cost {
+    background-image: url("img/icons/mixer_cost.png");
+    span {
+      line-height: 1.55em;
+    }
   }
 
   &.icon-contract {
     min-width: 1em;
     height: 0.68em;
-    background-image: url('img/icons/contract.png');
+    background-image: url("img/icons/contract.png");
     text-align: center;
 
     span {
@@ -189,7 +220,7 @@
   &.icon-vp {
     min-width: 0.9861em;
     height: 0.8em;
-    background-image: url('img/icons/vp.png');
+    background-image: url("img/icons/vp.png");
     text-align: center;
 
     span {
@@ -199,9 +230,11 @@
   }
 
   &.icon-energy,
-  &.icon-conduit_x {
+  &.icon-energy_produced,
+  &.icon-conduit_x,
+  &.icon-fulfill_contract {
     span {
-      font-family: 'acumin-pro', serif;
+      font-family: "acumin-pro", serif;
       font-weight: 00;
       font-style: normal;
       color: #bb3f90;
@@ -211,10 +244,11 @@
     }
   }
 
-  &.icon-energy {
+  &.icon-energy,
+  &.icon-energy_produced {
     min-width: 0.8em;
     height: 0.8em;
-    background-image: url('img/icons/energy.png');
+    background-image: url("img/icons/energy.png");
     background-size: 102% auto;
     background-repeat: no-repeat;
     background-position: center 56%;
@@ -225,11 +259,11 @@
       line-height: 0.85em;
 
       &::after {
-        content: '';
+        content: "";
         display: inline-block;
         width: 0.5em;
         height: 0.8em;
-        background-image: url('img/icons/short_arrow.png');
+        background-image: url("img/icons/short_arrow.png");
         background-size: 100% auto;
         background-repeat: no-repeat;
         margin-left: -2px;
@@ -238,11 +272,14 @@
       }
     }
   }
+  &.icon-energy_produced span::after {
+    display: none;
+  }
 
   &.icon-conduit_x {
     min-width: 1em;
     height: 1.14em;
-    background-image: url('img/icons/conduitX.png');
+    background-image: url("img/icons/conduitX.png");
 
     span {
       font-size: 0.5em;
@@ -251,10 +288,23 @@
     }
   }
 
+  &.icon-fulfill_contract {
+    min-width: 1.4em;
+    height: 1.2em;
+    background-image: url("img/icons/fulfill_contract.png");
+    background-repeat: no-repeat;
+
+    span {
+      font-size: 0.8em;
+      line-height: 1.6em;
+      margin-left: 0.3em;
+    }
+  }
+
   &.icon-powerhouse {
     min-width: 1em;
     height: 0.69em;
-    background-image: url('img/icons/powerhouse.png');
+    background-image: url("img/icons/powerhouse.png");
 
     span {
       display: none;
@@ -264,7 +314,7 @@
   &.icon-elevation {
     min-width: 1em;
     height: 0.64em;
-    background-image: url('img/icons/elevation.png');
+    background-image: url("img/icons/elevation.png");
 
     span {
       display: none;
@@ -274,7 +324,7 @@
   &.icon-base {
     min-width: 1em;
     height: 0.59em;
-    background-image: url('img/icons/base.png');
+    background-image: url("img/icons/base.png");
 
     span {
       display: none;
@@ -284,33 +334,33 @@
   &.icon-base_plain_hill {
     min-width: 1.1em;
     height: 0.75em;
-    background-image: url('img/icons/base_plain_hill.png');
+    background-image: url("img/icons/base_plain_hill.png");
   }
 
   &.icon-base_plain {
     min-width: 1.1em;
     height: 0.75em;
-    background-image: url('img/icons/base_plain.png');
+    background-image: url("img/icons/base_plain.png");
   }
 
   &.icon-special_power_italy {
     min-width: 1em;
     height: 1em;
-    background-image: url('img/icons/special_power_italy.png');
+    background-image: url("img/icons/special_power_italy.png");
   }
   &.icon-special_power_usa {
     min-width: 1.7em;
     height: 1em;
-    background-image: url('img/icons/special_power_usa.png');
+    background-image: url("img/icons/special_power_usa.png");
   }
   &.icon-special_power_germany {
     min-width: 2em;
     height: 0.65em;
-    background-image: url('img/icons/special_power_germany.png');
+    background-image: url("img/icons/special_power_germany.png");
   }
   &.icon-special_power_france {
     min-width: 1.1em;
     height: 0.75em;
-    background-image: url('img/icons/special_power_france.png');
+    background-image: url("img/icons/special_power_france.png");
   }
 }

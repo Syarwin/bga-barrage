@@ -146,9 +146,8 @@ class Notifications
     self::notifyAll('refillContractStack', '', [
       'stack' => $stack,
       'nb' => $nContract,
-    ]);    
+    ]);
   }
-
 
   public static function discardTiles($tiles)
   {
@@ -162,6 +161,15 @@ class Notifications
     self::notifyAll('fulfillContract', clienttranslate('${company_name} fulfills one contract'), [
       'company' => $company,
       'contract' => $contract,
+      'bonuses' => Game::get()->computeBonuses(),
+    ]);
+  }
+
+  public static function fulfillExtWork($company, $work)
+  {
+    self::notifyAll('fulfillExtWork', clienttranslate('${company_name} fulfills one external work'), [
+      'company' => $company,
+      'work' => $work,
       'bonuses' => Game::get()->computeBonuses(),
     ]);
   }

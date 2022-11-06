@@ -15,7 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
   const RESOURCES = ['engineer', 'credit', 'excavator', 'mixer'];
   const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
-  const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract']);
+  const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract', 'fextwork']);
 
   function arrayEquals(a, b) {
     return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
@@ -123,12 +123,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         closeIcon: 'fa-times',
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        title: this.format_string_recursive(_('Fulfilled contracts of ${company_name}'), {
-          company_name: _(company.name),
-        }),
+        title: this.format_string_recursive(
+          this.isLWP()
+            ? _('Fulfilled contracts and external works of ${company_name}')
+            : _('Fulfilled contracts of ${company_name}'),
+          {
+            company_name: _(company.name),
+          }
+        ),
         contentsTpl: `<div id="modal-company-contracts-${company.id}"></div>`,
       });
       dojo.place(`reserve_${company.id}_fcontract`, `modal-company-contracts-${company.id}`);
+      dojo.place(`reserve_${company.id}_fextwork`, `modal-company-contracts-${company.id}`);
       this.onClick(`company-fulfilled-btn-${company.id}`, () => this._companyContractsModals[company.id].show(), false);
 
       // Handle Mahiri
@@ -215,6 +221,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           <div class='company-track-reward' id='company-track-reward-${company.id}'></div>
           <div class='company-fulfilled-contracts' id='company-fulfilled-btn-${company.id}'>
             ${this.tplResourceCounter(company, 'fcontract')}
+            ${this.tplResourceCounter(company, 'fextwork')}
           </div>
       </div>
       <div class='company-panel-contracts' id='company-contracts-${company.id}'>
@@ -662,7 +669,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (PERSONAL_RESOURCES.includes(res)) {
             reserve = $(`company-board-${company.id}`);
           }
-          let meeples = reserve.querySelectorAll(res == 'fcontract' ? '.barrage-contract' : `.meeple-${res}`);
+          let searchingFor = `.meeple-${res}`;
+          if (res == 'fcontract') searchingFor = '.barrage-contract';
+          if (res == 'fextwork') searchingFor = '.barrage-work';
+          let meeples = reserve.querySelectorAll(searchingFor);
           let value = meeples.length;
 
           this._companyCounters[company.id][res].goTo(value, anim);

@@ -27,6 +27,18 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       ->toArray();
   }
 
+  public function getFilteredQuery($cId, $location = null)
+  {
+    $query = self::getSelectQuery();
+    if ($cId != null) {
+      $query = $query->where('company_id', $cId);
+    }
+    if ($location != null) {
+      $query = $query->where('work_location', strpos($location, '%') === false ? '=' : 'LIKE', $location);
+    }
+    return $query;
+  }
+
   /* Creation of various external works */
   public static function setupNewGame()
   {
@@ -47,7 +59,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
 
     for ($i = 0; $i < 3; $i++) {
       // shuffle each deck
-      self::shuffle('deckL' . chr(65 + $i));
+      self::shuffle('deck' . chr(65 + $i));
 
       // pick the external work
       self::pickForLocation(1, 'deckA', 'work_' . ($i + 1));
@@ -104,7 +116,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       2 => $f([\MIXER => 1], [CREDIT => 3, ROTATE_WHEEL => 2]),
       3 => $f([\MIXER => 2], [VP => 4, BASE => [\PLAIN]]),
       4 => $f([\MIXER => 1, \EXCAVATOR => 1], [CREDIT => 2, \POWERHOUSE => 1]),
-      5 => $f([\EXCAVATOR => 2], [CREDIT => 4, ADVANCED_TECH_TILE => 1]),
+      5 => $f([\EXCAVATOR => 2], [CREDIT => 4, ADVANCED_TECH_TILE => null]),
       //  ____
       // | __ )
       // |  _ \
@@ -115,7 +127,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       100 => $f([\EXCAVATOR => 2, MIXER => 1], [CREDIT => 5, ENERGY => 6]),
       101 => $f([MIXER => 4], [VP => 2, ELEVATION => 2]),
       102 => $f([MIXER => 3], [CREDIT => 3, CONDUIT => 4, VP => 3]),
-      103 => $f([EXCAVATOR => 3], [VP => 5, ENERGY => 6]), // TODO ENERGY CAN BE USED TO FULFILL CONTRACTS
+      103 => $f([EXCAVATOR => 3], [VP => 5, ENERGY_PRODUCED => 6]),
       104 => $f([EXCAVATOR => 4], [VP => 4, \PLACE_DROPLET => 2, \ROTATE_WHEEL => 2]),
       //   ____
       //  / ___|
@@ -126,7 +138,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
 
       200 => $f([\EXCAVATOR => 2, MIXER => 4], [VP => 8, ROTATE_WHEEL => 3]),
       201 => $f([MIXER => 5], [VP => 10, \FLOW_DROPLET => 1]),
-      202 => $f([EXCAVATOR => 6], [VP => 5, \FULFILL_CONTRACT => 0]),
+      202 => $f([EXCAVATOR => 6], [VP => 5, \FULFILL_CONTRACT => null]),
       203 => $f([\EXCAVATOR => 3, MIXER => 2], [VP => 6, \FLOW_DROPLET => 2]),
       204 => $f([EXCAVATOR => 5], [VP => 6, MIXER => 3]),
     ];

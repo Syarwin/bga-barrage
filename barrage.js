@@ -68,6 +68,7 @@ define([
         ['pickContracts', 1000],
         ['refillContractStack', 10],
         ['fulfillContract', 2000],
+        ['fulfillExtWork', 1000],
         ['refillStacks', 1000],
         ['updateTurnOrder', 500],
         ['flipToken', 500],
@@ -427,6 +428,9 @@ define([
       this._roundCounter = this.createCounter('round-counter');
       this.updateRoundCounter();
       this.updatePhase();
+    },
+    isLWP() {
+      return this.gamedatas.LWP;
     },
 
     clearPossible() {
@@ -1941,7 +1945,7 @@ define([
     getExtWorkContainer(work) {
       if (work.location.substr(0, 9) == 'fulfilled') {
         let cId = work.location.substr(10);
-        return `reserve_${cId}_fcontract`;
+        return `reserve_${cId}_fextwork`;
       } else if ($(work.location)) {
         return $(work.location);
       }
@@ -1951,11 +1955,12 @@ define([
     },
 
     tplExtWork(work, tooltip = false) {
+      let costIcons = this.convertFlowToIcons(work.cost, true);
       let icons = this.convertFlowToIcons(work.reward);
       return (
         `<div id='work-${work.id}${tooltip ? '-tooltip' : ''}' class='barrage-work ${work.id == -1 ? 'fake' : ''}'>
           <div class='work-fixed-size'>
-            <div class='work-cost'>${work.cost}</div>
+            <div class='work-cost'>${costIcons.join('')}</div>
             <div class='work-reward'>
               <div class='work-reward-row'>${icons.length > 0 ? icons[0] : ''}</div>` +
         (icons.length > 1 ? `<div class='work-reward-row'>${icons.slice(1).join('')}</div>` : '') +
@@ -1967,7 +1972,7 @@ define([
     },
 
     tplExtWorkTooltip(work) {
-      let descs = this.convertFlowToDescs(work.reward);
+      let descs = [...this.convertFlowToDescs(work.cost, true), ...this.convertFlowToDescs(work.reward)];
       return (
         this.tplExtWork(work, true) +
         `
@@ -1978,14 +1983,6 @@ define([
       </div>`
       );
     },
-
-    // notif_pickContracts(n) {
-    //   debug('Notif: someone picked contract(s)', n);
-    //   n.args.contracts.forEach((contract) => {
-    //     $(`contract-${contract.id}`).classList.remove('selected');
-    //     this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
-    //   });
-    // },
 
     // notif_refillContractStack(n) {
     //   debug('Notif: refilling contract stack using automa discard', n);
@@ -2002,46 +1999,19 @@ define([
     //   });
     // },
 
-    // notif_fulfillContract(n) {
-    //   debug('Notif: someone fulfilled a contract', n);
-    //   let contract = n.args.contract;
-    //   let fakeContract = {
-    //     id: -1,
-    //     type: contract.type,
-    //     location: contract.location,
-    //     cost: '',
-    //     icons: [],
-    //     parity: 1 - (contract.id % 2),
-    //     reward: {},
-    //   };
+    notif_fulfillExtWork(n) {
+      debug('Notif: someone fulfilled an external work', n);
+      let work = n.args.work;
+      this.gamedatas.bonuses = n.args.bonuses;
+      this.updateCompanyBonuses();
 
-    //   this.gamedatas.bonuses = n.args.bonuses;
-    //   this.updateCompanyBonuses();
-
-    //   if (this.isFastMode()) {
-    //     dojo.place(`contract-${contract.id}`, this.getContractContainer(contract));
-    //     return;
-    //   }
-
-    //   this.flipAndReplace(`contract-${contract.id}`, this.tplContract(fakeContract)).then(() => {
-    //     if (contract.type == 1) {
-    //       this.slide('contract--1', this.getContractContainer(fakeContract), {
-    //         destroy: true,
-    //       }).then(() => this.addContract(contract));
-    //     } else {
-    //       let o = $('contract--1');
-    //       o.style.transform = 'translateX(0px)';
-    //       o.style.transition = 'transform 0.8s';
-    //       let dx = -o.offsetLeft - o.offsetWidth - 20;
-    //       o.style.transform = `translateX(${dx}px)`;
-    //       this.wait(800).then(() => {
-    //         o.remove();
-    //         this.addContract(contract);
-    //         this.updateResourcesHolders(false, false);
-    //       });
-    //     }
-    //   });
-    // },
+      this.slide(`work-${work.id}`, `company-fulfilled-btn-${n.args.company_id}`, {
+        phantom: false,
+      }).then(() => {
+        dojo.place(`work-${work.id}`, this.getExtWorkContainer(work));
+        this.updateResourcesHolders(false, false);
+      });
+    },
 
     // notif_emptyContractStack(n) {
     //   debug('Notif: removing contracts', n);

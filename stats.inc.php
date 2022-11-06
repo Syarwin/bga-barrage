@@ -187,6 +187,16 @@ $stats_type = [
       'name' => totranslate('VP from remaining resources'),
       'type' => 'int',
     ],
+    'vpAdvancedTile' => [
+      'id' => STAT_VP_RESOURCES,
+      'name' => totranslate('VP from advanced technology tiles'),
+      'type' => 'int',
+    ],
+    'vpWorks' => [
+      'id' => STAT_VP_EXTERNAL_WORKS,
+      'name' => totranslate('VP from external works'),
+      'type' => 'int',
+    ],
     'vpTotal' => [
       'id' => STAT_VP_TOTAL,
       'name' => totranslate('VP Total'),
@@ -236,6 +246,11 @@ $stats_type = [
     'contract' => [
       'id' => STAT_FULFILLED_CONTRACTS,
       'name' => totranslate('Fulfilled Contracts'),
+      'type' => 'int',
+    ],
+    'extWork' => [
+      'id' => STAT_FULFILLED_EXTERNAL_WORKS,
+      'name' => totranslate('Fulfilled External Works'),
       'type' => 'int',
     ],
     'advTile' => [

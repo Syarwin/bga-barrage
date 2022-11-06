@@ -1,6 +1,6 @@
 <?php
 namespace BRG\Actions;
-use BRG\Managers\TechnologyTiles;
+use BRG\Managers\ExternalWorks;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Core\Notifications;
@@ -17,7 +17,7 @@ class ExternalWork extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return true;
+    return $company->canPayCost($this->getWork()->getCost());
   }
 
   public function isAutomatic($company = null)
@@ -25,18 +25,49 @@ class ExternalWork extends \BRG\Models\Action
     return true;
   }
 
+  protected function getWork()
+  {
+    $args = $this->getCtxArgs();
+    return ExternalWorks::getFilteredQuery(null, 'work_' . $args['position'])
+      ->get()
+      ->first();
+  }
+
   public function stExternalWork()
   {
+    $work = $this->getWork();
+    $this->fulfillExternalWork($work);
+    $this->resolveAction([]);
+  }
+
+  public function fulfillExternalWork($work)
+  {
     $company = Companies::getActive();
-    $args = $this->getCtxArgs();
+    $isAI = $company->isAI();
 
-    // $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $args['position'])
-    //   ->get()
-    //   ->first();
+    // Make it fulfilled
+    $work->fulfill($company);
+    Notifications::fulfillExtWork($company, $work);
+    Stats::incExtWork($company, 1);
+    $vp = $work->getVp();
+    Stats::incVpWorks($company, $vp);
 
-    // TechnologyTiles::DB()->update(['company_id' => $company->getId(), 'tile_location' => 'company'], $tile->getId());
-    // Notifications::acquirePatent($company, TechnologyTiles::get($tile->getId()));
-    // Stats::incAdvTile($company, 1);
-    // $this->resolveAction([]);
+    // Insert its flow as a child (or run it right now if it's an Automa)
+    if ($isAI) {
+      $flow = $work->computeRewardFlow($isAI);
+      $actions = Game::get()->convertFlowToAutomaActions($flow);
+      Game::get()->automaTakeActions($actions);
+    } else {
+      Engine::insertAsChild([
+        'action' => PAY,
+        'args' => [
+          'nb' => 1,
+          'costs' => Utils::formatCost($work->getCost()),
+          'source' => clienttranslate('External Work Cost'),
+        ],
+      ]);
+      $flow = $work->computeRewardFlow();
+      Engine::insertAsChild($flow);
+    }
   }
 }

@@ -23,7 +23,7 @@
         width: 37px;
         height: 37px;
         background-color: #e6e7e9;
-        background-image: url('img/executive_officers.png');
+        background-image: url("img/executive_officers.png");
         background-size: 500% 300%;
         border: 2px solid black;
         border-radius: 50%;
@@ -33,7 +33,7 @@
         }
 
         @for $i from 0 through 15 {
-          &[data-officer='#{$i + 1}'] {
+          &[data-officer="#{$i + 1}"] {
             background-position-x: ($i % 5) * 100% / 4;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
           }
@@ -62,7 +62,7 @@
     overflow: hidden; // Used for contract slideout animation
     order: 6;
 
-    [data-altfr='1'] & #player_board_inner_ffffff .player-name a {
+    [data-altfr="1"] & #player_board_inner_ffffff .player-name a {
       color: #922297 !important;
     }
 
@@ -77,7 +77,7 @@
 }
 
 .avatar.automa {
-  background-image: url('img/companies.jpg');
+  background-image: url("img/companies.jpg");
   background-size: 600% 100%;
 }
 
@@ -94,7 +94,7 @@
     display: block;
     width: 50px;
     height: 21px;
-    background: url('img/ui/eye.png');
+    background: url("img/ui/eye.png");
     background-size: 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -114,7 +114,7 @@
     padding-bottom: 3px;
 
     .company-no {
-      background-image: url('img/ui/turn_order.png');
+      background-image: url("img/ui/turn_order.png");
       width: 44px;
       height: 41px;
       background-size: 100%;
@@ -134,24 +134,24 @@
         color: black;
       }
 
-      [data-orderToken='0'] & {
+      [data-orderToken="0"] & {
         color: white !important;
       }
-      [data-orderToken='1'] & {
-        background-image: url('img/order.png');
+      [data-orderToken="1"] & {
+        background-image: url("img/order.png");
         background-size: 100% 500%;
         height: 44px;
         font-size: 14px;
 
         @for $i from 1 through 5 {
-          &[data-company='#{$i}'] {
+          &[data-company="#{$i}"] {
             background-position-y: ($i - 1) * 100% / 4;
           }
         }
       }
-      [data-orderToken='1'][data-altfr='1'] &[data-company='4'] {
+      [data-orderToken="1"][data-altfr="1"] &[data-company="4"] {
         color: #8a0391 !important;
-        background-image: url('img/alt-fr/order.png');
+        background-image: url("img/alt-fr/order.png");
         background-size: 100% 100%;
       }
     }
@@ -160,7 +160,7 @@
       position: relative;
       width: 37px;
       height: 37px;
-      background-image: url('img/companies.jpg');
+      background-image: url("img/companies.jpg");
       background-size: 600% 100%;
       border: 2px solid black;
       border-radius: 50%;
@@ -170,12 +170,12 @@
       }
 
       @for $i from 1 through 6 {
-        &[data-company='#{$i}'] {
+        &[data-company="#{$i}"] {
           background-position-x: $i * 100% / 5;
         }
       }
 
-      [data-altfr='1'] &[data-company='4'] {
+      [data-altfr="1"] &[data-company="4"] {
         border-color: #95149b !important;
       }
     }
@@ -185,7 +185,7 @@
       width: 37px;
       height: 37px;
       background-color: #e6e7e9;
-      background-image: url('img/executive_officers.png');
+      background-image: url("img/executive_officers.png");
       background-size: 500% 300%;
       border: 2px solid black;
       border-radius: 50%;
@@ -195,19 +195,19 @@
       }
 
       @for $i from 0 through 15 {
-        &[data-officer='#{$i + 1}'] {
+        &[data-officer="#{$i + 1}"] {
           background-position-x: ($i % 5) * 100% / 4;
           background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
         }
       }
 
       &[data-copied]::before {
-        content: '';
+        content: "";
         position: absolute;
         width: 25px;
         height: 25px;
         background-color: #fdfdff;
-        background-image: url('img/executive_officers.png');
+        background-image: url("img/executive_officers.png");
         background-size: 500% 300%;
         border: 1px solid black;
         border-radius: 50%;
@@ -217,7 +217,7 @@
       }
 
       @for $i from 0 through 15 {
-        &[data-copied='#{$i + 1}']::before {
+        &[data-copied="#{$i + 1}"]::before {
           background-position-x: ($i % 5) * 100% / 4;
           background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
         }
@@ -228,7 +228,7 @@
       position: relative;
       width: 35px;
       height: 35px;
-      background-image: url('img/ui/texture_light.jpg');
+      background-image: url("img/ui/texture_light.jpg");
       border-radius: 3px;
       box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
@@ -250,17 +250,17 @@
         display: inline-block;
         width: 32px;
         height: 28px;
-        background: url('img/icons/vp.png');
+        background: url("img/icons/vp.png");
         background-size: 100%;
         color: white;
-        font-family: 'acumin-pro', serif;
+        font-family: "acumin-pro", serif;
         font-size: 21px;
         line-height: 21px;
         text-align: center;
       }
 
-      &[data-value='null']::before {
-        content: 'X';
+      &[data-value="null"]::before {
+        content: "X";
         color: #ea2225;
         font-size: 25px;
         line-height: 25px;
@@ -272,7 +272,7 @@
       position: relative;
       width: 28px;
       height: 47px;
-      background-image: url('img/ui/texture_light.jpg');
+      background-image: url("img/ui/texture_light.jpg");
       border-radius: 3px;
       box-shadow: 2px 2px 3px -1px black;
       border: 1px solid black;
@@ -291,13 +291,13 @@
       &[data-value]::before {
         content: attr(data-value);
         color: white;
-        font-family: 'acumin-pro', serif;
+        font-family: "acumin-pro", serif;
         font-size: 21px;
       }
     }
 
     .company-name {
-      font-family: 'Oranienbaum';
+      font-family: "Oranienbaum";
       font-weight: bold;
       margin-left: 5px;
     }
@@ -332,7 +332,7 @@
       text-align: center;
 
       & > span {
-        font-family: 'Oranienbaum';
+        font-family: "Oranienbaum";
         font-weight: bold;
       }
 
@@ -368,7 +368,7 @@
 
       & > span {
         font-size: 18px;
-        font-family: 'Oranienbaum';
+        font-family: "Oranienbaum";
         font-weight: bold;
       }
     }
@@ -398,8 +398,8 @@
         display: inline-block;
         margin-top: -5px;
         margin-right: -4px;
-        content: '!';
-        font-family: 'acumin-pro', serif;
+        content: "!";
+        font-family: "acumin-pro", serif;
         font-weight: 700;
         font-style: normal;
         color: #ddd563;
@@ -446,7 +446,7 @@
       cursor: pointer;
 
       span {
-        font-family: 'Oranienbaum';
+        font-family: "Oranienbaum";
         font-weight: bold;
       }
 
@@ -460,6 +460,10 @@
           visibility: hidden;
           position: absolute;
         }
+      }
+
+      .resource-fextwork {
+        margin-left: 2px;
       }
     }
   }
@@ -489,7 +493,7 @@
         clip-path: circle(150px at -53px 55px);
 
         &::before {
-          content: '';
+          content: "";
           display: block;
           position: absolute;
           left: 0;
@@ -539,7 +543,7 @@
         }
 
         @for $i from 0 to 6 {
-          &[data-angle='#{$i}'] {
+          &[data-angle="#{$i}"] {
             @for $j from 1 to 7 {
               $k: ($j - $i + 10) % 6;
               .summary-wheel-sector:nth-of-type(#{$j}) {
@@ -595,9 +599,9 @@
     }
   }
 
-  [data-wheel-summary='1'] .player-board.current-player-board &,
-  [data-wheel-summary='2'] .player-board:not(.current-player-board) &,
-  [data-wheel-summary='3'] & {
+  [data-wheel-summary="1"] .player-board.current-player-board &,
+  [data-wheel-summary="2"] .player-board:not(.current-player-board) &,
+  [data-wheel-summary="3"] & {
     .company-panel-wheel-container {
       .company-summary-wheel {
         display: none;

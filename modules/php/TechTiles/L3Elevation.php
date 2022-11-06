@@ -5,6 +5,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Meeples;
 use BRG\Core\Notifications;
+use BRG\Core\Stats;
 use BRG\Map;
 
 /*
@@ -46,7 +47,9 @@ class L3Elevation extends AdvancedTile
     });
 
     if (count($byBasin) > 0) {
-      $company->incScore(3 * count($byBasin), clienttranslate('(Level 3 Elevation advanced tile reward)'));
+      $bonus = 3 * count($byBasin);
+      $company->incScore($bonus, clienttranslate('(Level 3 Elevation advanced tile reward)'));
+      Stats::incVpAdvancedTile($company, $bonus);
     }
     return null;
   }

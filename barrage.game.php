@@ -124,6 +124,7 @@ class barrage extends Table
       'bonuses' => $this->computeBonuses(),
       'automa' => AutomaCards::getUiData(),
       'works' => ExternalWorks::getUiData(),
+      'LWP' => Globals::isLWP(),
     ];
 
     $XOIds = array_slice(Globals::getMahiriAddXO(), Companies::count() - 1);

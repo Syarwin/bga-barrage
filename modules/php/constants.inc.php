@@ -222,6 +222,7 @@ const ANY_MACHINE = 'any_machine';
 const FLOW_DROPLET = 'flow_droplet';
 const PRODUCTION_BONUS = 'production_bonus';
 const ADVANCED_TECH_TILE = 'advanced_tech_tile';
+const ENERGY_PRODUCED = 'energy_produced';
 
 const SPECIAL_POWER = 'special_power';
 const SPECIAL_POWER_USA = 'special_power_usa';
@@ -337,6 +338,9 @@ const STAT_ENERGY_ROUND_5 = 28;
 const STAT_VP_ROUND_5 = 29;
 const STAT_FINAL_OBJ_COUNT = 30;
 const STAT_FINAL_OBJ_VP = 31;
+
+const STAT_FULFILLED_EXTERNAL_WORKS = 32;
+const STAT_VP_EXTERNAL_WORKS = 33;
 
 const STAT_VP_START = 40;
 const STAT_VP_ENERGY_TRACK = 41;

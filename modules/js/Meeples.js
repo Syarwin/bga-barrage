@@ -15,6 +15,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'VP',
     'ANY_MACHINE',
     'ENERGY',
+    'ENERGY_PRODUCED',
     'CONDUIT_X',
     'POWERHOUSE',
     'ELEVATION',
@@ -22,6 +23,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'BASE_PLAIN_HILL',
     'BASE_PLAIN',
     'CONSTRUCT',
+    'EXCAVATOR_ICON_COST',
+    'MIXER_ICON_COST',
+    'FULFILL_CONTRACT',
+    'ADVANCED_TILE',
   ];
   const PERSONAL_RESOURCES = ['BASE', 'ELEVATION', 'CONDUIT', 'POWHERHOUSE'];
   function isVisible(elem) {
@@ -535,7 +540,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     //
     /////////////////////////////////////////////////////////////////////////////
 
-    convertFlowToDescs(income) {
+    convertFlowToDescs(income, cost = false) {
       const mapping = {
         credit: _('Gain ${n} Credits.'),
         excavator: _('Gain ${n} Excavator(s).'),
@@ -543,6 +548,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         vp: _('Gain ${n} victory points.'),
         energy: _(
           'Move your Energy marker on the Energy Track by ${n} steps. You cannot use this amount of Energy Units to fulfill Contracts'
+        ),
+        energy_produced: _(
+          'Move your Energy marker on the Energy Track by ${n} steps. You can use this amount of Energy Units to fulfill Contracts'
         ),
         any_machine: _('Gain ${n} Machinery(ies) of your choice.'),
         conduit: _(
@@ -560,25 +568,43 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           'Place ${n} Water Drop(s) on Headstream tile(s) of your choice. These Water Drops will flow during the Water Flow Phase.'
         ),
         production_bonus: _('Permanent bonus of +${n} on your productions.'),
+        FULFILL_CONTRACT: _(
+          'Fulfill one face up Contract in your personal supply requiring ${n} Energy Units (or less). You don’t need to produce energy to get the reward.'
+        ),
+        advanced_tech_tile: _(
+          'Take one available Advanced Technology tile. You don’t need to place Engineers or pay the Credits to take the tile.'
+        ),
+      };
+      const mappingCost = {
+        credit: _('Pay ${n} Credits.'),
+        excavator: _('Pay ${n} Excavator(s).'),
+        mixer: _('Pay ${n} Mixer(s).'),
       };
 
       let descs = [];
       Object.keys(income).forEach((t) => {
+        let m = cost ? mappingCost : mapping;
         let n = income[t];
         let desc = '';
-        if (mapping[t]) {
+        if (m[t]) {
           if (Array.isArray(n)) {
             let t2 = t + '_' + n.join('_').toLowerCase();
-            if (mapping[t2]) {
-              desc = mapping[t2];
+            if (m[t2]) {
+              desc = m[t2];
             } else {
-              desc = mapping[t];
+              desc = m[t];
             }
           } else {
-            desc = this.translate({
-              log: mapping[t],
-              args: { n },
-            });
+            if (n === null && t == 'FULFILL_CONTRACT') {
+              desc = _(
+                'Fulfill one face up Contract in your personal supply. You don’t need to produce energy to get the reward.'
+              );
+            } else {
+              desc = this.translate({
+                log: m[t],
+                args: { n },
+              });
+            }
           }
         } else if (t == 'special_power') {
           let speMapping = {
@@ -606,13 +632,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return descs;
     },
 
-    convertFlowToIcons(income) {
+    convertFlowToIcons(income, redOutline = false) {
       const mapping = {
         credit: 'CREDIT',
         excavator: 'EXCAVATOR_ICON',
         mixer: 'MIXER_ICON',
         vp: 'VP',
         energy: 'ENERGY',
+        energy_produced: 'ENERGY_PRODUCED',
         any_machine: 'ANY_MACHINE',
         conduit: 'CONDUIT_X',
         powerhouse: 'POWERHOUSE',
@@ -621,6 +648,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         flow_droplet: 'WATER_DOWN',
         ROTATE_WHEEL: 'ROTATE',
         PLACE_DROPLET: 'WATER',
+        FULFILL_CONTRACT: 'FULFILL_CONTRACT',
+        advanced_tech_tile: 'ADVANCED_TILE',
       };
 
       let icons = [];
@@ -628,10 +657,21 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let n = income[t];
         let icon = '<CREDIT>';
         if (mapping[t]) {
+          let type = mapping[t];
+          if (redOutline) {
+            type += '_COST';
+          }
           if (Array.isArray(n)) {
-            icon = `<${mapping[t]}_${n.join('_').toUpperCase()}>`;
+            icon = `<${type}_${n.join('_').toUpperCase()}>`;
+          } else if (n !== null) {
+            // Very specific case with ext work where you can place 2 elevations
+            if (t == 'elevation' && n > 1) {
+              icon = `<${type}><${type}>`;
+            } else {
+              icon = `<${type}:${n}>`;
+            }
           } else {
-            icon = `<${mapping[t]}:${n}>`;
+            icon = `<${type}>`;
           }
         } else if (t == 'production_bonus') {
           icon = `[+${n}]`;

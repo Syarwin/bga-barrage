@@ -27,39 +27,39 @@
         height: 117px;
         transform: scale(var(--barrageWorkScale));
         transform-origin: top left;
-        display: flex;
         box-sizing: border-box;
         margin: -2px -6px -6px -2px;
         border: 2px solid transparent;
         border-radius: 20px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         background: url("img/external_work_background.png");
         background-size: 100%;
         background-repeat: no-repeat;
 
-        .work-cost {
-            width: 65px;
-            margin-right: -10px;
-            height: 90px;
+        .work-cost,
+        .work-reward {
+            flex-basis: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-flow: column;
+            font-size: 22px;
+        }
+
+        .work-cost {
+            font-size: 28px;
+            .icon-container {
+                margin: 0.1em 0.08em;
+            }
         }
 
         .work-reward {
-            width: 84px;
-            height: 90px;
-            padding: 14px 7px 4px;
-            box-sizing: border-box;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            flex-flow: column;
-            align-items: center;
-
             .work-reward-row {
-                margin: 5px 0px 2px;
+                margin: 10px 0px 2px;
             }
 
             .icon-credit {

@@ -68,6 +68,13 @@ abstract class FlowConvertor
           $rFlow['source'] = $source;
           $flows['childs'][] = $rFlow;
         }
+        // Very specific case for ext works granting two elevations
+        elseif ($t == ELEVATION && $n > 1) {
+          $rFlow['source'] = $source;
+          for ($i = 0; $i < $n; $i++) {
+            $flows['childs'][] = $rFlow;
+          }
+        }
         // Otherwise it's just a basic action
         else {
           $rFlow['args']['n'] = $n;
@@ -126,7 +133,14 @@ abstract class FlowConvertor
           $action['n'] = $n; // Useful for conduit
         }
 
-        $actions[] = $action;
+        // Very specific case for external works granting two elevations
+        if ($t == ELEVATION && $n > 1) {
+          for ($i = 0; $i < $n; $i++) {
+            $actions[] = $action;
+          }
+        } else {
+          $actions[] = $action;
+        }
       }
     }
 
