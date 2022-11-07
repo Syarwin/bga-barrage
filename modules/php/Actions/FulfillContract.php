@@ -48,6 +48,9 @@ class FulfillContract extends \BRG\Models\Action
     return [
       'n' => $energy + ($noReduction ? 0 : $company->getContractReduction()),
       'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
+      'costs' => $this->getFulfillableContracts($company, $energy)->map(function ($contract) {
+        return $contract->getCost();
+      }),
       'descSuffix' => $company->isXO(XO_SIMONE) ? 'simone' : '',
     ];
   }
@@ -68,7 +71,7 @@ class FulfillContract extends \BRG\Models\Action
     $this->resolveAction(['resolvedContract' => $contractId]);
   }
 
-  public function fulfillContract($contract)
+  public function fulfillContract($contract, $simone = false)
   {
     $company = Companies::getActive();
     $isAI = $company->isAI();
@@ -87,7 +90,42 @@ class FulfillContract extends \BRG\Models\Action
       Game::get()->automaTakeActions($actions);
     } else {
       $flow = $contract->computeRewardFlow();
-      Engine::insertAsChild($flow);
+      if ($simone) {
+        return $flow;
+      } else {
+        Engine::insertAsChild($flow);
+      }
     }
+  }
+
+  public function actFulfillContractSimone($contractIds)
+  {
+    // Sanity checks
+    self::checkAction('actFulfillContractSimone');
+    $company = Companies::getActive();
+    if (!$company->isXO(XO_SIMONE)) {
+      throw new \feException('You cannot fulfill several contract at once. Should not happen');
+    }
+
+    $energy = $this->argsFulfillContract()['n'];
+    $contracts = $this->getFulfillableContracts($company, $energy);
+    $totalCost = 0;
+    $childs = [];
+    foreach ($contractIds as $contractId) {
+      $contract = $contracts[$contractId] ?? null;
+      if (is_null($contract) || $totalCost + $contract->getCost() > $energy) {
+        throw new \feException('You cannot fulfill this contract. Should not happen');
+      }
+
+      $flow = $this->fulfillContract($contract, true);
+      $childs = array_merge($childs, $flow['childs']);
+    }
+
+    Engine::insertAsChild([
+      'type' => NODE_SEQ,
+      'childs' => $childs,
+    ]);
+
+    $this->resolveAction(['resolvedContracts' => $contractIds]);
   }
 }

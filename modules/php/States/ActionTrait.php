@@ -78,10 +78,11 @@ trait ActionTrait
   /**
    * Pass the argument of the action to the atomic action
    */
-  function actTakeAtomicAction($args)
+  function actTakeAtomicAction($actionName, $args)
   {
+    self::checkAction($actionName);
     $action = $this->getCurrentAtomicAction();
-    Actions::takeAction($action, $args, Engine::getNextUnresolved());
+    Actions::takeAction($action, $actionName, $args, Engine::getNextUnresolved());
   }
 
   /**

@@ -462,7 +462,7 @@ class Notifications
       $targetName = str_replace('R', 'B', $targetName);
     }
 
-    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${targe_name}'), [
+    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${target_name}'), [
       'company' => $company,
       'i18n' => ['type_desc'],
       'type_desc' => $typeDescs[$type],

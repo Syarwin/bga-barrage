@@ -1227,38 +1227,56 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       return this.format_string_recursive(log, args);
     },
 
-    onSelectN(elements, n, callback) {
+    onSelectN(options) {
+      let config = Object.assign(
+        {
+          elements: [],
+          n: 0,
+          confirmText: _('Confirm'),
+          confirmBtn: true,
+          cancelText: _('Cancel'),
+          cancelBtn: true,
+          callback: null,
+          updateCallback: null,
+        },
+        options
+      );
+
       let selectedElements = [];
       let updateStatus = () => {
         if ($('btnConfirmChoice')) $('btnConfirmChoice').remove();
-        if (selectedElements.length == n) {
-          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () => callback(selectedElements));
+        if (selectedElements.length == config.n && config.confirmBtn) {
+          this.addPrimaryActionButton('btnConfirmChoice', config.confirmText, () => config.callback(selectedElements));
         }
 
         if ($('btnCancelChoice')) $('btnCancelChoice').remove();
-        if (selectedElements > 0) {
+        if (selectedElements.length > 0 && config.cancelBtn) {
           this.addSecondaryActionButton('btnCancelChoice', _('Cancel'), () => {
             selectedElements = [];
             updateStatus();
           });
         }
 
-        Object.keys(elements).forEach((id) => {
-          let elt = elements[id];
+        Object.keys(config.elements).forEach((id) => {
+          let elt = config.elements[id];
           let selected = selectedElements.includes(id);
           elt.classList.toggle('selected', selected);
-          elt.classList.toggle('selectable', selected || selectedElements.length < n);
+          elt.classList.toggle('selectable', selected || selectedElements.length < config.n);
         });
+
+        if (config.updateCallback !== null) {
+          config.updateCallback(selectedElements);
+        }
       };
 
-      Object.keys(elements).forEach((id) => {
-        let elt = elements[id];
+      Object.keys(config.elements).forEach((id) => {
+        let elt = config.elements[id];
 
         this.onClick(elt, () => {
           let index = selectedElements.findIndex((t) => t == id);
 
           if (index === -1) {
-            if (selectedElements.length >= n) return;
+            if (selectedElements.length >= config.n) return;
             selectedElements.push(id);
           } else {
             selectedElements.splice(index, 1);

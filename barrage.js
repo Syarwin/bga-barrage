@@ -1312,7 +1312,7 @@ define([
     takeAtomicAction(action, args) {
       if (!this.checkAction(action)) return false;
       debug('TakeAtomicAction ', args);
-      this.takeAction('actTakeAtomicAction', { actionArgs: JSON.stringify(args) }, false);
+      this.takeAction('actTakeAtomicAction', { actionName: action, actionArgs: JSON.stringify(args) }, false);
     },
 
     // Place engineer
@@ -1737,9 +1737,40 @@ define([
     // Fulfill contract
     onEnteringStateFulfillContract(args) {
       let contracts = {};
-      args.contractIds.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
+      let total = 0;
+      args.contractIds.forEach((cId) => {
+        contracts[cId] = $(`contract-${cId}`);
+        total++;
+      });
 
-      this.onSelectN(contracts, 1, (cIds) => this.takeAtomicAction('actFulfillContract', [cIds[0]]));
+      if (args.descSuffix != 'simone') {
+        // Normal case => select 1 contract
+        this.onSelectN({
+          elements: contracts,
+          n: 1,
+          callback: (cIds) => this.takeAtomicAction('actFulfillContract', [cIds[0]]),
+        });
+      } else {
+        // Simone : multiple contracts
+        this.onSelectN({
+          elements: contracts,
+          n: total,
+          confirmBtn: false,
+          updateCallback: (cIds) => {
+            if ($('btnConfirmChoice')) $('btnConfirmChoice').remove();
+            if (cIds.length > 0) {
+              let totalCost = cIds.reduce((carry, cId) => carry + args.costs[cId], 0);
+              if (totalCost <= args.n) {
+                this.addPrimaryActionButton(
+                  'btnConfirmChoice',
+                  this.fsr(_('Confirm (total: ${totalCost} energy)'), { totalCost }),
+                  () => this.takeAtomicAction('actFulfillContractSimone', [cIds])
+                );
+              }
+            }
+          },
+        });
+      }
     },
 
     //////////////////////////////////////////////////////

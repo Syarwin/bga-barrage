@@ -98,9 +98,10 @@ class action_barrage extends APP_GameAction
   public function actTakeAtomicAction()
   {
     self::setAjaxMode();
+    $action = self::getArg('actionName', AT_alphanum, true);
     $args = self::getArg('actionArgs', AT_json, true);
     $this->validateJSonAlphaNum($args, 'actionArgs');
-    $this->game->actTakeAtomicAction($args);
+    $this->game->actTakeAtomicAction($action, $args);
     self::ajaxResponse();
   }
 
@@ -139,7 +140,7 @@ class action_barrage extends APP_GameAction
     if (is_int($value)) {
       return true;
     }
-    $bValid = preg_match("/^[_0-9a-zA-Z- ]*$/", $value) === 1;
+    $bValid = preg_match('/^[_0-9a-zA-Z- ]*$/', $value) === 1;
     if (!$bValid) {
       throw new feException("Bad value for: $argName", true, true, FEX_bad_input_argument);
     }

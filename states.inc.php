@@ -243,10 +243,16 @@ $machinestates = [
     'descriptionmyturnskippable' => clienttranslate(
       '${you} may fulfill a contract with an energy requirement of at most ${n}'
     ),
+    'descriptionsimoneskippable' => clienttranslate(
+      '${actplayer} may fulfill one or more contracts with a total energy requirement of at most ${n}'
+    ),
+    'descriptionmyturnsimoneskippable' => clienttranslate(
+      '${you} may fulfill one or more contracts with a total energy requirement of at most ${n}'
+    ),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
-    'possibleactions' => ['actFulfillContract', 'actPassOptionalAction', 'actRestart'],
+    'possibleactions' => ['actFulfillContract', 'actFulfillContractSimone', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_PLACE_DROPLET => [

@@ -66,18 +66,19 @@ class Actions
     return array_merge($action->$methodName(), ['optionalAction' => $ctx->isOptional()]);
   }
 
-  public static function takeAction($actionId, $args, $ctx)
+  public static function takeAction($actionId, $actionName, $args, $ctx)
   {
     $company = Companies::getActive();
     if (!self::isDoable($actionId, $ctx, $company)) {
       if ($actionId == PAY) {
         throw new \BgaUserException(clienttranslate('You cannot pay the needed cost. Choose another combination'));
       }
+
       throw new \BgaUserException('Action not doable. Should not happen.' . $actionId);
     }
 
     $action = self::get($actionId, $ctx);
-    $methodName = 'act' . self::$classes[$actionId];
+    $methodName = $actionName; //'act' . self::$classes[$actionId];
     $action->$methodName(...$args);
   }
 
