@@ -48,6 +48,7 @@ class FulfillContract extends \BRG\Models\Action
     return [
       'n' => $energy + ($noReduction ? 0 : $company->getContractReduction()),
       'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
+      'descSuffix' => $company->isXO(XO_SIMONE) ? 'simone' : '',
     ];
   }
 

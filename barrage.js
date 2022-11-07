@@ -417,6 +417,9 @@ define([
       // Place energy track on top
       dojo.place('floating-energy-track-container', 'game_play_area', 'before');
 
+      // LWP
+      $('ebd-body').dataset.lwp = gamedatas.LWP ? 1 : 0;
+
       // Automa
       if (gamedatas.automa != null) {
         this.setupAutomaCards();

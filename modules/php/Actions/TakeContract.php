@@ -49,8 +49,8 @@ class TakeContract extends \BRG\Models\Action
     Notifications::pickContracts($company, Contracts::getMany($contractIds)->toArray());
 
     // If too many contract in hand => must discard
-    // TODO : handle the guy that allows 4 contracts
-    if ($company->getContracts(false)->count() > 3) {
+    $maxLimit = $company->isXO(\XO_SIMONE) ? 4 : 3;
+    if ($company->getContracts(false)->count() > $maxLimit) {
       Engine::insertAsChild(['action' => DISCARD_CONTRACTS]);
     }
     $this->resolveAction(['contracts' => $contractIds]);

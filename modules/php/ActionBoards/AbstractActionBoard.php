@@ -31,9 +31,9 @@ abstract class AbstractActionBoard
 
   public function isSupported()
   {
-    return (self::$players == null || in_array(Companies::count(), self::$players)) &&
-      (!self::$isNotBeginner || !Globals::isBeginner()) &&
-      (!self::$isLWP || !Globals::isLWP());
+    return (static::$players == null || in_array(Companies::count(), static::$players)) &&
+      (!static::$isNotBeginner || !Globals::isBeginner()) &&
+      (!static::$isLWP || Globals::isLWP());
   }
 
   /**

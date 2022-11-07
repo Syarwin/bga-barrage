@@ -463,6 +463,9 @@
       }
 
       .resource-fextwork {
+        [data-lwp="0"] & {
+          display: none;
+        }
         margin-left: 2px;
       }
     }

@@ -188,15 +188,15 @@ $stats_type = [
       'type' => 'int',
     ],
     'vpAdvancedTile' => [
-      'id' => STAT_VP_RESOURCES,
+      'id' => STAT_VP_ADVANCED_TILES,
       'name' => totranslate('VP from advanced technology tiles'),
       'type' => 'int',
     ],
-    'vpWorks' => [
-      'id' => STAT_VP_EXTERNAL_WORKS,
-      'name' => totranslate('VP from external works'),
-      'type' => 'int',
-    ],
+    // 'vpWorks' => [
+    //   'id' => STAT_VP_EXTERNAL_WORKS,
+    //   'name' => totranslate('VP from external works'),
+    //   'type' => 'int',
+    // ],
     'vpTotal' => [
       'id' => STAT_VP_TOTAL,
       'name' => totranslate('VP Total'),
@@ -248,11 +248,11 @@ $stats_type = [
       'name' => totranslate('Fulfilled Contracts'),
       'type' => 'int',
     ],
-    'extWork' => [
-      'id' => STAT_FULFILLED_EXTERNAL_WORKS,
-      'name' => totranslate('Fulfilled External Works'),
-      'type' => 'int',
-    ],
+    // 'extWork' => [
+    //   'id' => STAT_FULFILLED_EXTERNAL_WORKS,
+    //   'name' => totranslate('Fulfilled External Works'),
+    //   'type' => 'int',
+    // ],
     'advTile' => [
       'id' => STAT_ADVANCED_TILES,
       'name' => totranslate('Acquired Advanced Technology Tiles'),

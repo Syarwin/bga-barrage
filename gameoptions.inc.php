@@ -47,6 +47,7 @@ $game_options = [
     ],
   ],
 
+  /*
   OPTION_EXPANSION_LWP => [
     'name' => totranslate('The Leeghwater Project expansion'),
     'values' => [
@@ -67,6 +68,7 @@ $game_options = [
       ],
     ],
   ],
+  */
 
   OPTION_MAP => [
     'name' => totranslate('4/5p expansion map'),

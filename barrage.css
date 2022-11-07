@@ -2207,6 +2207,8 @@ body {
           position: absolute; }
       .player_panel_content .company-income-wrapper .company-fulfilled-contracts .resource-fextwork {
         margin-left: 2px; }
+        [data-lwp="0"] .player_panel_content .company-income-wrapper .company-fulfilled-contracts .resource-fextwork {
+          display: none; }
   .player_panel_content .company-panel-contracts {
     display: flex;
     flex-wrap: wrap;

@@ -21,10 +21,12 @@ class ExternalWorks extends \BRG\Helpers\Pieces
 
   public static function getUiData()
   {
-    return self::getSelectQuery()
-      ->whereNotIn('work_location', ['deckA', 'deckB', 'deckC'])
-      ->get()
-      ->toArray();
+    return Globals::isLWP()
+      ? self::getSelectQuery()
+        ->whereNotIn('work_location', ['deckA', 'deckB', 'deckC'])
+        ->get()
+        ->toArray()
+      : [];
   }
 
   public function getFilteredQuery($cId, $location = null)

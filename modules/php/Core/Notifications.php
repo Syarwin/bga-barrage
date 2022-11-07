@@ -456,11 +456,18 @@ class Notifications
       POWERHOUSE => clienttranslate('a Powerhouse'),
     ];
 
-    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${target}'), [
+    $targetName = $target;
+    if ($type == CONDUIT) {
+      $targetName = str_replace('L', 'A', $targetName);
+      $targetName = str_replace('R', 'B', $targetName);
+    }
+
+    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${targe_name}'), [
       'company' => $company,
       'i18n' => ['type_desc'],
       'type_desc' => $typeDescs[$type],
       'target' => $target,
+      'target_name' => $targetName,
       'meeple' => $meeple,
       'bonuses' => Game::get()->computeBonuses(),
     ]);
