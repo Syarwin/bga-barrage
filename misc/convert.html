@@ -17,12 +17,14 @@
     excavator: { r: 118 },
     mixer: { r: 118 },
     droplet: { r: 75 },
+    architect: { r: 118 },
     engineer: { r: 118, n: 5, data: 'company' },
     base: { r: 53, n: 5, data: 'company' },
     elevation: { r: 53, n: 5, data: 'company' },
     conduit: { r: 53, n: 5, data: 'company' },
     powerhouse: { r: 53, n: 5, data: 'company' },
     score: { r: 120, n: 5, data: 'company' },
+    score_more: { r: 120, n: 5, data: 'company' },
   };
 
   function roundUp(num, precision) {
@@ -61,7 +63,7 @@
       if (meeples[type].n) {
         const re = new RegExp(
           '\\.' + type + '_([0-9]+) \\{\\s*width:\\s?([0-9]+)px;\\s?height:\\s?([0-9]+)px;([^\\}]+)\\}',
-          'g',
+          'g'
         );
         let t = [...content.matchAll(re)];
         t.forEach((match) => {
@@ -71,8 +73,8 @@
 &.meeple-${type}[data-${meeples[type].data}='${match[1]}'] {
   width: ${roundUp(w / ratio, 4)}em;
   height: ${roundUp(h / ratio, 4)}em;
-  margin-right: ${roundUp(margin * w / ratio, 4)}em;
-  margin-bottom: ${roundUp(margin * h / ratio, 4)}em;
+  margin-right: ${roundUp((margin * w) / ratio, 4)}em;
+  margin-bottom: ${roundUp((margin * h) / ratio, 4)}em;
 ${match[4]}
 }
             `;
@@ -80,10 +82,10 @@ ${match[4]}
       } else {
         const re = new RegExp(
           '\\.' + type + ' \\{\\s*width:\\s?([0-9]+)px;\\s?height:\\s?([0-9]+)px;([^\\}]+)\\}',
-          'g',
+          'g'
         );
         let t = [...content.matchAll(re)];
-				if(t.length == 0) return;
+        if (t.length == 0) return;
         let w = parseInt(t[0][1]);
         let h = parseInt(t[0][2]);
 
@@ -91,8 +93,8 @@ ${match[4]}
   &.meeple-${type} {
     width: ${roundUp(w / ratio, 4)}em;
     height: ${roundUp(h / ratio, 4)}em;
-    margin-right: ${roundUp(margin * w / ratio, 4)}em;
-    margin-bottom: ${roundUp(margin * h / ratio, 4)}em;
+    margin-right: ${roundUp((margin * w) / ratio, 4)}em;
+    margin-bottom: ${roundUp((margin * h) / ratio, 4)}em;
   ${t[0][3]}
   }
         `;

@@ -13,8 +13,14 @@ class Tommaso extends \BRG\Models\Officer
     );
   }
 
-  public function isAvailable()
+  public function getStartingResources()
   {
-    return false;
+    return [
+      ENGINEER => 11,
+      ARCHITECT => 1,
+      CREDIT => 6,
+      EXCAVATOR => 6,
+      MIXER => 4,
+    ];
   }
 }

@@ -17,6 +17,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
   const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract', 'fextwork']);
 
+  const TOMMASO = 3;
+
   function arrayEquals(a, b) {
     return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]);
   }
@@ -190,6 +192,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         })}`,
         `company-logo-${company.id}`
       );
+      let isTommaso = company.officer.id == TOMMASO;
 
       return (
         `<div class='company-info'>
@@ -204,9 +207,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         <div class='company-round-bonus' id='company-round-bonus-${company.id}'></div>
         <div class='company-obj-tile' id='company-obj-tile-${company.id}'></div>
       </div>
-      <div class="company-panel-resources">
+      <div class="company-panel-resources ${isTommaso ? 'tommaso' : ''}">
         <div class="company-reserve" id="reserve-${company.id}"></div>
       ` +
+        (isTommaso ? this.tplResourceCounter(company, 'architect') : '') +
         RESOURCES.map((res) => this.tplResourceCounter(company, res)).join('') +
         `
         </div>
@@ -650,6 +654,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           `company_resource_${company.id}_${res}`
         );
       });
+      if (company.officer.id == TOMMASO) {
+        this._companyCounters[company.id]['architect'] = this.createCounter(`resource_${company.id}_architect`, 0);
+      }
 
       this._energyCounters[company.id] = this.createCounter(`energy-counter-${company.id}`, company.energy);
 
@@ -664,11 +671,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
      */
     updateCompaniesCounters(anim = true) {
       this.forEachCompany((company) => {
-        ALL_RESOURCES.forEach((res) => {
+        const resources = [...ALL_RESOURCES, 'architect'];
+        resources.forEach((res) => {
           let reserve = $(`reserve_${company.id}_${res}`);
           if (PERSONAL_RESOURCES.includes(res)) {
             reserve = $(`company-board-${company.id}`);
           }
+          if (!reserve) {
+            return;
+          }
+
           let searchingFor = `.meeple-${res}`;
           if (res == 'fcontract') searchingFor = '.barrage-contract';
           if (res == 'fextwork') searchingFor = '.barrage-work';

@@ -1362,6 +1362,18 @@ define([
       }
     },
 
+    onEnteringStatePlaceEngineerChooseNumber(args) {
+      this.addCancelStateBtn();
+      $(args.uid).classList.add('selected');
+      args.choices.forEach((choice) => {
+        let msg = choice == -1 ? _('Architect') : choice;
+        this.addPrimaryActionButton('btnChoice' + choice, msg, () =>
+          this.takeAtomicAction('actPlaceEngineer', [args.uid, choice])
+        );
+      });
+    },
+
+    // Pay resources
     onEnteringStatePayResources(args) {
       if (args.combinations.length == 1) {
         return;
@@ -1388,16 +1400,6 @@ define([
 
         // Add button
         this.addSecondaryActionButton('btnChoicePay' + i, desc, () => this.takeAtomicAction('actPay', [cost]));
-      });
-    },
-
-    onEnteringStatePlaceEngineerChooseNumber(args) {
-      this.addCancelStateBtn();
-      $(args.uid).classList.add('selected');
-      args.choices.forEach((choice) => {
-        this.addPrimaryActionButton('btnChoice' + choice, choice, () =>
-          this.takeAtomicAction('actPlaceEngineer', [args.uid, choice])
-        );
       });
     },
 

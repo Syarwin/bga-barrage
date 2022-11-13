@@ -100,10 +100,10 @@ class PlaceEngineer extends \BRG\Models\Action
         $m = $company->countAvailableEngineers();
         $choices = $m == 0 ? [] : range(1, $m);
       }
-      // TODO: XO_TOMMASO
-      // elseif ($n == 1 && $company->isXO(XO_TOMMASO)) {
-      //   $choices[] = N_ARCHITECT;
-      // }
+      if ($n <= 1 && $company->isXO(XO_TOMMASO) && $company->hasAvailableArchitect()) {
+        $choices[] = N_ARCHITECT;
+      }
+
       if (is_null($mahiri) && stripos($space['uid'], 'mahiri') !== false) {
         $mahiri = $space['uid'];
       }
@@ -173,8 +173,8 @@ class PlaceEngineer extends \BRG\Models\Action
     // Activate action card
     $flow = $space['flow'];
     if ($space['uid'] == 'bank-b') {
-      // Handle the bank
-      $flow['args'] = [CREDIT => $nEngineers];
+      // Handle the bank ( < 0 for ARCHITECT)
+      $flow['args'] = [CREDIT => $nEngineers < 0 ? 1 : $nEngineers];
     }
 
     // Handle cost
@@ -191,6 +191,20 @@ class PlaceEngineer extends \BRG\Models\Action
             ],
           ],
           $flow,
+        ],
+      ];
+    }
+
+    // ARCHITECT
+    if ($nEngineers == -1) {
+      $flow = [
+        'type' => NODE_SEQ,
+        'childs' => [
+          $flow,
+          [
+            'action' => \PLACE_ENGINEER,
+            'optional' => true,
+          ],
         ],
       ];
     }

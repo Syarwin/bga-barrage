@@ -257,9 +257,9 @@ class Company extends \BRG\Helpers\DB_Model
   //             |___/
   //////////////////////////////////////////////////////
 
-  public function getAvailableEngineers()
+  public function getAvailableEngineers($engineersOnly = false)
   {
-    return $this->getReserveResource([ENGINEER, ARCHITECT]);
+    return $this->getReserveResource($engineersOnly ? [ENGINEER] : [ENGINEER, ARCHITECT]);
   }
 
   public function countAvailableEngineers()
@@ -274,7 +274,21 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function placeEngineer($spaceId, $nEngineers, $offset = 0)
   {
-    $engineerIds = array_slice($this->getAvailableEngineers()->getIds(), 0, $nEngineers);
+    if ($nEngineers == -1) {
+      // ARCHITECT
+      $engineerIds = array_slice($this->getAvailableArchitects()->getIds(), 0, 1);
+      if ($this->officerId == \XO_MAHIRI) {
+        Globals::setMahiriPower('');
+      }
+    } else {
+      // NORMAL CASE => always try not to take the engineer
+      $ids = $this->getAvailableEngineers(true)->getIds();
+      if (count($ids) < $nEngineers) {
+        $ids = $this->getAvailableEngineers()->getIds();
+      }
+      $engineerIds = array_slice($ids, 0, $nEngineers);
+    }
+
     foreach ($engineerIds as $i => $id) {
       Meeples::move($id, $spaceId, $i + $offset);
     }
@@ -288,7 +302,22 @@ class Company extends \BRG\Helpers\DB_Model
       ->getIds();
     Meeples::move($engineers, 'reserve');
     return $engineers;
-    // Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
+  }
+
+  // Tommaso
+  public function getAvailableArchitects()
+  {
+    return $this->officerId == \XO_MAHIRI ? $this->getAvailableEngineers() : $this->getReserveResource([ARCHITECT]);
+  }
+
+  public function countAvailableArchitects()
+  {
+    return $this->getAvailableArchitects()->count();
+  }
+
+  public function hasAvailableArchitect()
+  {
+    return $this->countAvailableArchitects() > 0;
   }
 
   ///////////////////////////////////////
@@ -595,10 +624,10 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function hasEngineerFreeTiles()
   {
-    if($this->isAI() && $this->getLvlAI() < 2){
+    if ($this->isAI() && $this->getLvlAI() < 2) {
       return false;
     }
-    
+
     return !$this->getEngineerFreeTiles()->empty();
   }
 }

@@ -78,8 +78,13 @@ class Actions
     }
 
     $action = self::get($actionId, $ctx);
-    $methodName = $actionName; //'act' . self::$classes[$actionId];
-    $action->$methodName(...$args);
+    $methodName = $actionName;
+    if (\method_exists($action, $methodName)) {
+      $action->$methodName(...$args);
+    } else {
+      $methodName = 'act' . self::$classes[$actionId];
+      $action->$methodName(...$args);
+    }
   }
 
   public static function stAction($actionId, $ctx)
