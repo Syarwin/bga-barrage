@@ -1465,7 +1465,11 @@ define([
       let contracts = {};
       args.contractIds.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
 
-      this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actTakeContract', [cIds]));
+      this.onSelectN({
+        elements: contracts,
+        n: args.n,
+        callback: (cIds) => this.takeAtomicAction('actTakeContract', [cIds]),
+      });
     },
 
     // Take contract
@@ -1473,7 +1477,11 @@ define([
       let contracts = {};
       args.contracts.forEach((cId) => (contracts[cId] = $(`contract-${cId}`)));
 
-      this.onSelectN(contracts, args.n, (cIds) => this.takeAtomicAction('actDiscardContract', [cIds]));
+      this.onSelectN({
+        elements: contracts,
+        n: args.n,
+        callback: (cIds) => this.takeAtomicAction('actDiscardContract', [cIds]),
+      });
     },
 
     // Construct
