@@ -1,5 +1,6 @@
 <?php
 namespace BRG\Officers;
+use BRG\Core\Globals;
 
 class Tommaso extends \BRG\Models\Officer
 {
@@ -22,5 +23,10 @@ class Tommaso extends \BRG\Models\Officer
       EXCAVATOR => 6,
       MIXER => 4,
     ];
+  }
+
+  public function isAvailable()
+  {
+    return Globals::isLWP() || Globals::isNewXO();
   }
 }

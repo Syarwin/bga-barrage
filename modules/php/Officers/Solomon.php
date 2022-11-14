@@ -1,5 +1,6 @@
 <?php
 namespace BRG\Officers;
+use BRG\Core\Globals;
 
 use BRG\Helpers\Utils;
 
@@ -18,5 +19,10 @@ class Solomon extends \BRG\Models\Officer
   public function applyConstructCostModifier(&$costs, $slot)
   {
     Utils::addCost($costs['costs'], [CREDIT => 3, 'nb' => 1], $this->name);
+  }
+
+  public function isAvailable()
+  {
+    return Globals::isLWP() || Globals::isNewXO();
   }
 }

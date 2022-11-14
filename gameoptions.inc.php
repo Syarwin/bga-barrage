@@ -70,6 +70,26 @@ $game_options = [
   ],
   */
 
+  OPTION_NEW_XO => [
+    'name' => totranslate('New officers (Solomon and Tommaso)'),
+    'values' => [
+      OPTION_NEW_XO_OFF => [
+        'name' => totranslate('Excluded'),
+      ],
+      OPTION_NEW_XO_ON => [
+        'name' => totranslate('Included'),
+        'tmdisplay' => totranslate('[New XO]'),
+      ],
+    ],
+    'displaycondition' => [
+      [
+        'type' => 'otheroptionisnot',
+        'id' => OPTION_SETUP,
+        'value' => [OPTION_SETUP_BEGINNER],
+      ],
+    ],
+  ],
+
   OPTION_MAP => [
     'name' => totranslate('4/5p expansion map'),
     'values' => [

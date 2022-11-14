@@ -43,6 +43,10 @@ const COMPANY_ITALY = 3;
 const COMPANY_FRANCE = 4;
 const COMPANY_NETHERLANDS = 5;
 
+const OPTION_NEW_XO = 120;
+const OPTION_NEW_XO_OFF = 0;
+const OPTION_NEW_XO_ON = 1;
+
 /**
  * User preferences
  */

@@ -20,6 +20,7 @@ class Globals extends \BRG\Helpers\DB_Manager
     // Game options
     'setup' => 'int',
     'lWP' => 'bool',
+    'newXO' => 'bool',
     'map' => 'int',
     'countCompanies' => 'int', // Useful when companies DB is not filled up yet
 
@@ -164,6 +165,7 @@ class Globals extends \BRG\Helpers\DB_Manager
   {
     self::setSetup($options[\BRG\OPTION_SETUP]);
     self::setLWP(($options[\BRG\OPTION_EXPANSION_LWP] ?? null) == \BRG\OPTION_EXPANSION_LWP_ON);
+    self::setNewXO(($options[\BRG\OPTION_NEW_XO] ?? null) == \BRG\OPTION_NEW_XO_ON);
     self::setCountCompanies(count($players) + $options[\BRG\OPTION_AUTOMA]);
     self::setMahiriAddXO([]);
     self::setRound(0);
