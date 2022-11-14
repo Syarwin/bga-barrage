@@ -1,5 +1,6 @@
 <?php
 namespace BRG\Officers;
+use BRG\Core\Globals;
 
 class Simone extends \BRG\Models\Officer
 {
@@ -11,5 +12,10 @@ class Simone extends \BRG\Models\Officer
     $this->description = clienttranslate(
       'You can have up to 4 Contract tiles face-up in your personal supply. You can fulfill two or more Contracts with one single production action, as long as the total amount of produced Energy Units is more than or equal to the total amount of energy required by the Contracts.'
     );
+  }
+
+  public function isAvailable()
+  {
+    return Globals::isLWP() || Globals::isNewXO();
   }
 }

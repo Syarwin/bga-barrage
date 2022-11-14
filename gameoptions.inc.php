@@ -71,7 +71,7 @@ $game_options = [
   */
 
   OPTION_NEW_XO => [
-    'name' => totranslate('New officers (Solomon and Tommaso)'),
+    'name' => totranslate('New officers (Simone and Tommaso)'),
     'values' => [
       OPTION_NEW_XO_OFF => [
         'name' => totranslate('Excluded'),
