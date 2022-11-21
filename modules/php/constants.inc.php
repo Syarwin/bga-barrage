@@ -186,6 +186,8 @@ const N_ARCHITECT = -1;
 const MACHINERIES = [EXCAVATOR, MIXER];
 const RESOURCES = [CREDIT, EXCAVATOR, MIXER, DROPLET, VP, ENERGY, ENGINEER, ARCHITECT];
 
+const TECH_TILE = 'technology_tile';
+
 const BASE = 'base';
 const ELEVATION = 'elevation';
 const CONDUIT = 'conduit';
@@ -264,6 +266,9 @@ const TILE_EFFECT = 'TILE_EFFECT';
 const PATENT = 'PATENT';
 
 const EXTERNAL_WORK = 'EXTERNAL_WORK';
+
+// LWP
+const RETRIEVE_FROM_WHEEL = 'RETRIEVE_FROM_WHEEL';
 
 // AUTOMA ACTION
 const GAIN_MACHINE = 'GAIN_MACHINE';
