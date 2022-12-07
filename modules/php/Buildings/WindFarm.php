@@ -22,7 +22,7 @@ class WindFarm extends Building
     return 5;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<COST:2><ARROW>[5]',
@@ -32,7 +32,7 @@ class WindFarm extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       'type' => NODE_SEQ,
@@ -46,7 +46,7 @@ class WindFarm extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [2, '2c', '2c', '2c'];
   }

@@ -21,7 +21,7 @@ class ResearchLab extends Building
     return 4;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<RETRIEVE_MACHINERIES>',
@@ -31,7 +31,7 @@ class ResearchLab extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       [
@@ -41,7 +41,7 @@ class ResearchLab extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [1, '1c', '1c', '1c'];
   }

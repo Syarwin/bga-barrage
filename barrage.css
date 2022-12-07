@@ -661,6 +661,8 @@ body {
     background-image: url("img/background_board_patent.jpg"); }
   .action-board[data-id="externalWork"] {
     background-image: url("img/background_board_external_work.jpg"); }
+  .action-board[data-id="buildings"] {
+    background-image: url("img/background_board_building.jpg"); }
   [data-action-background="1"] .action-board[data-id="turbine"] {
     background: #8a5789; }
   [data-action-background="1"] .action-board[data-id="water"] {
@@ -884,6 +886,89 @@ body {
     .action-board[data-id="externalWork"] .action-board-inner .action-board-row {
       margin-left: 21px;
       margin-right: 20px; }
+  .action-board[data-id="buildings"] .action-board-inner {
+    margin: 0px; }
+    .action-board[data-id="buildings"] .action-board-inner .building {
+      width: 100%;
+      border-bottom: 3px solid #181717; }
+      .action-board[data-id="buildings"] .action-board-inner .building:last-of-type {
+        border: none; }
+      .action-board[data-id="buildings"] .action-board-inner .building .building-name {
+        font-family: "Betty Noir";
+        text-transform: uppercase;
+        font-size: 18px;
+        padding-left: 8px; }
+      .action-board[data-id="buildings"] .action-board-inner .building .building-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 25px 0px 5px; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-construct-slots,
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-central-icon,
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-engineer-slots {
+          background: url("img/ui/texture.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          border-radius: 8px; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-construct-slots {
+          display: flex;
+          width: 118px;
+          height: 76px;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 3px 1px 1px 3px; }
+          .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-construct-slots .building-construct-slot {
+            margin: 1px;
+            width: 50px;
+            height: 29px;
+            font-size: 39px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            background: url("img/icons/building.png"), url("img/ui/texture.jpg");
+            background-size: auto 70%, 20px;
+            background-repeat: no-repeat, repeat;
+            background-position: center center;
+            border: 3px solid grey;
+            border-radius: 5px; }
+            .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-construct-slots .building-construct-slot.paying {
+              border-color: #d70f0f;
+              background-image: url("img/icons/building_paying.png"), url("img/ui/texture.jpg"); }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-central-icon {
+          width: 90px;
+          height: 60px; }
+          .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-central-icon .action-board-icon {
+            width: auto;
+            margin: 0px 5px;
+            height: 100%; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-engineer-slots {
+          margin: -24px 0px -32px;
+          padding: 2px 0px 0px 2px;
+          display: flex;
+          flex-flow: column;
+          align-items: baseline; }
+          .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-engineer-slots .action-space {
+            margin: 2px; }
+      .action-board[data-id="buildings"] .action-board-inner .building .building-properties {
+        display: flex; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-properties .building-cost,
+        .action-board[data-id="buildings"] .action-board-inner .building .building-properties .building-vp {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 30px; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-properties .building-cost {
+          background: url("img/ui/texture.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          font-size: 26px; }
+        .action-board[data-id="buildings"] .action-board-inner .building .building-properties .building-vp {
+          background: url("img/ui/texture_light.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          border-top-right-radius: 6px;
+          font-size: 25px;
+          border-left: 1px solid black; }
 
 #popin_companyBoards_underlay {
   background-color: black !important;
@@ -1407,6 +1492,41 @@ body {
     margin-bottom: -0.1313em;
     background-position: 14.395604395604394% 90.07470651013874%;
     background-size: 898.2456140350877%; }
+  .barrage-meeple.meeple-building[data-company="1"] {
+    width: 1.717em;
+    height: 1.868em;
+    margin-right: -0.1373em;
+    margin-bottom: -0.1494em;
+    background-position: 51.12540192926045% 65.29729729729729%;
+    background-size: 1125.2747252747254%; }
+  .barrage-meeple.meeple-building[data-company="2"] {
+    width: 1.717em;
+    height: 1.7548em;
+    margin-right: -0.1373em;
+    margin-bottom: -0.1403em;
+    background-position: 82.10075026795283% 77.87325456498388%;
+    background-size: 1125.2747252747254%; }
+  .barrage-meeple.meeple-building[data-company="3"] {
+    width: 1.717em;
+    height: 1.717em;
+    margin-right: -0.1373em;
+    margin-bottom: -0.1373em;
+    background-position: 2.1436227224008575% 90.46087888531619%;
+    background-size: 1125.2747252747254%; }
+  .barrage-meeple.meeple-building[data-company="4"] {
+    width: 1.6982em;
+    height: 1.7359em;
+    margin-right: -0.1358em;
+    margin-bottom: -0.1388em;
+    background-position: 93.89721627408993% 77.78969957081546%;
+    background-size: 1137.7777777777778%; }
+  .barrage-meeple.meeple-building[data-company="5"] {
+    width: 1.7548em;
+    height: 1.7736em;
+    margin-right: -0.1403em;
+    margin-bottom: -0.1418em;
+    background-position: 95.05907626208379% 64.94623655913978%;
+    background-size: 1101.0752688172045%; }
   .barrage-meeple.meeple-score[data-company="1"] {
     width: 1.0167em;
     height: 0.9167em;
@@ -1442,35 +1562,35 @@ body {
     margin-bottom: -0.0733em;
     background-position: 17.96008869179601% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score[data-flip="1"][data-company="1"] {
+  .barrage-meeple.meeple-score_more[data-company="1"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 33.70288248337029% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score[data-flip="1"][data-company="2"] {
+  .barrage-meeple.meeple-score_more[data-company="2"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 49.44567627494457% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score[data-flip="1"][data-company="3"] {
+  .barrage-meeple.meeple-score_more[data-company="3"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 65.18847006651885% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score[data-flip="1"][data-company="4"] {
+  .barrage-meeple.meeple-score_more[data-company="4"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 80.93126385809313% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score[data-flip="1"][data-company="5"] {
+  .barrage-meeple.meeple-score_more[data-company="5"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
@@ -1502,6 +1622,9 @@ body {
 [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-score[data-flip="1"] {
   background-position: 0% 100%;
   background-size: 419.672%; }
+[data-altfr="1"] .barrage-meeple[data-company="4"].meeple-building {
+  background-position: 95.7346% 0%;
+  background-size: 568.889%; }
 
 .bgabutton .icon-container {
   font-size: 1.6em; }
@@ -2149,6 +2272,8 @@ body {
       position: relative;
       flex-basis: 25%;
       text-align: center; }
+      [data-lwp="1"] .player_panel_content .company-panel-personal-resources .company-resource {
+        flex-basis: 20%; }
       .player_panel_content .company-panel-personal-resources .company-resource > span {
         font-size: 18px;
         font-family: "Oranienbaum";
@@ -2422,10 +2547,10 @@ body {
   display: flex;
   flex-flow: column;
   flex-wrap: wrap; }
-  [data-companyTwoColumns='1'] #company-boards-container[data-n='3'], [data-companyTwoColumns='1'] #company-boards-container[data-n='4'] {
+  [data-companyTwoColumns="1"] #company-boards-container[data-n="3"], [data-companyTwoColumns="1"] #company-boards-container[data-n="4"] {
     flex-flow: row;
     flex-wrap: wrap; }
-  [data-companyTwoColumns='2'] #company-boards-container[data-n='4'] {
+  [data-companyTwoColumns="2"] #company-boards-container[data-n="4"] {
     flex-flow: row;
     flex-wrap: wrap; }
   #company-boards-container .company-board {
@@ -2453,25 +2578,25 @@ body {
       background-image: url("img/company_boards.png");
       background-size: 200% 300%;
       position: relative; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='1'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="1"] {
         background-position-x: 0%;
         background-position-y: 0%; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='2'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="2"] {
         background-position-x: 100%;
         background-position-y: 0%; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='3'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="3"] {
         background-position-x: 0%;
         background-position-y: 50%; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='4'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="4"] {
         background-position-x: 100%;
         background-position-y: 50%; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='5'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="5"] {
         background-position-x: 0%;
         background-position-y: 100%; }
-      .company-board .company-board-resizable .company-board-wrapper[data-company='6'] {
+      .company-board .company-board-resizable .company-board-wrapper[data-company="6"] {
         background-position-x: 100%;
         background-position-y: 100%; }
-      [data-altfr='1'] .company-board .company-board-resizable .company-board-wrapper[data-company='4'] {
+      [data-altfr="1"] .company-board .company-board-resizable .company-board-wrapper[data-company="4"] {
         background-image: url("img/alt-fr/company_board.png");
         background-size: 100% 100%; }
       .company-board .company-board-resizable .company-board-wrapper .company-owner-wrapper {
@@ -2484,9 +2609,9 @@ body {
           font-size: 18px;
           padding: 4px 31px;
           box-shadow: 0px 2px 3px black;
-          font-family: 'Betty Noir';
+          font-family: "Betty Noir";
           border: 1px solid black; }
-      [data-altfr='1'] .company-board .company-board-resizable .company-board-wrapper[data-company='4'] .company-owner-wrapper .company-owner {
+      [data-altfr="1"] .company-board .company-board-resizable .company-board-wrapper[data-company="4"] .company-owner-wrapper .company-owner {
         color: #922297 !important; }
       .company-board .company-board-resizable .company-board-wrapper .action-board {
         width: 633px;
@@ -2501,9 +2626,9 @@ body {
           .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row {
             background: url("img/ui/texture.jpg");
             margin-right: 0px; }
-            [data-cost-icon='0'] .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row.costly {
+            [data-cost-icon="0"] .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row.costly {
               margin-left: 20px; }
-              [data-cost-icon='0'] .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row.costly .action-space-cost {
+              [data-cost-icon="0"] .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-row.costly .action-space-cost {
                 left: -30px; }
           .company-board .company-board-resizable .company-board-wrapper .action-board .action-board-inner .action-board-icon {
             width: 24px;
@@ -2527,7 +2652,7 @@ body {
         padding-bottom: 12px; }
         .company-board .company-board-resizable .company-board-wrapper .company-board-resources .company-resource > span {
           display: inline-block;
-          font-family: 'Oranienbaum';
+          font-family: "Oranienbaum";
           font-weight: bold;
           width: 30px;
           text-align: right;
@@ -2555,56 +2680,56 @@ body {
         .company-board .company-board-resizable .company-board-wrapper .officer-logo .help-marker {
           top: -8px;
           left: -8px; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='1'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="1"] {
           background-position-x: 0%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='2'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="2"] {
           background-position-x: 25%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='3'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="3"] {
           background-position-x: 50%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='4'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="4"] {
           background-position-x: 75%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='5'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="5"] {
           background-position-x: 100%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='6'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="6"] {
           background-position-x: 0%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='7'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="7"] {
           background-position-x: 25%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='8'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="8"] {
           background-position-x: 50%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='9'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="9"] {
           background-position-x: 75%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='10'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="10"] {
           background-position-x: 100%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='11'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="11"] {
           background-position-x: 0%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='12'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="12"] {
           background-position-x: 25%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='13'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="13"] {
           background-position-x: 50%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='14'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="14"] {
           background-position-x: 75%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='15'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="15"] {
           background-position-x: 100%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer='16'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-officer="16"] {
           background-position-x: 0%;
           background-position-y: 150%; }
         .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied]::before {
-          content: '';
+          content: "";
           position: absolute;
           width: 45px;
           height: 45px;
@@ -2616,52 +2741,52 @@ body {
           display: block;
           bottom: 27px;
           left: 79px; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='1']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="1"]::before {
           background-position-x: 0%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='2']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="2"]::before {
           background-position-x: 25%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='3']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="3"]::before {
           background-position-x: 50%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='4']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="4"]::before {
           background-position-x: 75%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='5']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="5"]::before {
           background-position-x: 100%;
           background-position-y: 0%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='6']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="6"]::before {
           background-position-x: 0%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='7']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="7"]::before {
           background-position-x: 25%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='8']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="8"]::before {
           background-position-x: 50%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='9']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="9"]::before {
           background-position-x: 75%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='10']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="10"]::before {
           background-position-x: 100%;
           background-position-y: 50%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='11']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="11"]::before {
           background-position-x: 0%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='12']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="12"]::before {
           background-position-x: 25%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='13']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="13"]::before {
           background-position-x: 50%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='14']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="14"]::before {
           background-position-x: 75%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='15']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="15"]::before {
           background-position-x: 100%;
           background-position-y: 100%; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied='16']::before {
+        .company-board .company-board-resizable .company-board-wrapper .officer-logo[data-copied="16"]::before {
           background-position-x: 0%;
           background-position-y: 150%; }
       .company-board .company-board-resizable .company-board-wrapper .officer-symbol {
@@ -2679,52 +2804,52 @@ body {
           top: -8px;
           left: auto;
           right: -12px; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='1'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="1"] {
           background-position-x: 0%, center;
           background-position-y: 0%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='2'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="2"] {
           background-position-x: 25%, center;
           background-position-y: 0%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='3'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="3"] {
           background-position-x: 50%, center;
           background-position-y: 0%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='4'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="4"] {
           background-position-x: 75%, center;
           background-position-y: 0%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='5'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="5"] {
           background-position-x: 100%, center;
           background-position-y: 0%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='6'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="6"] {
           background-position-x: 0%, center;
           background-position-y: 50%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='7'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="7"] {
           background-position-x: 25%, center;
           background-position-y: 50%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='8'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="8"] {
           background-position-x: 50%, center;
           background-position-y: 50%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='9'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="9"] {
           background-position-x: 75%, center;
           background-position-y: 50%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='10'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="10"] {
           background-position-x: 100%, center;
           background-position-y: 50%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='11'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="11"] {
           background-position-x: 0%, center;
           background-position-y: 100%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='12'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="12"] {
           background-position-x: 25%, center;
           background-position-y: 100%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='13'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="13"] {
           background-position-x: 50%, center;
           background-position-y: 100%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='14'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="14"] {
           background-position-x: 75%, center;
           background-position-y: 100%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='15'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="15"] {
           background-position-x: 100%, center;
           background-position-y: 100%, center; }
-        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer='16'] {
+        .company-board .company-board-resizable .company-board-wrapper .officer-symbol[data-officer="16"] {
           background-position-x: 0%, center;
           background-position-y: 150%, center; }
         .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-board-row {
@@ -2746,7 +2871,7 @@ body {
           .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
             position: absolute;
             left: calc(100% - 4px); }
-            [data-cost-icon='1'] .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
+            [data-cost-icon="1"] .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-cost {
               display: none; }
           .company-board .company-board-resizable .company-board-wrapper .officer-symbol .action-space .action-space-slot {
             background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
@@ -2783,7 +2908,7 @@ body {
           width: 99px;
           height: 66px;
           background: url("img/construction_costs.png");
-          background-size: 100% 400%; }
+          background-size: 100% 500%; }
         .company-board .company-board-resizable .company-board-wrapper .structures-wrapper .building-slot {
           width: 69px;
           height: 53px;
@@ -2808,8 +2933,8 @@ body {
               display: inline-block;
               margin-top: -5px;
               margin-right: -6px;
-              content: '!';
-              font-family: 'acumin-pro', serif;
+              content: "!";
+              font-family: "acumin-pro", serif;
               font-weight: 700;
               font-style: normal;
               color: #ddd563;
@@ -2826,11 +2951,11 @@ body {
               transform: scale(0.8);
               top: -34px; }
         .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.bases-wrapper {
-          top: 110px; }
+          top: 100px; }
         .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper {
           top: 190px; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot-header {
-            background-position-y: 33.3333%; }
+            background-position-y: 25%; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot {
             height: 43px;
             margin: 12px 7px 2px; }
@@ -2839,9 +2964,9 @@ body {
             .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.elevations-wrapper .building-slot .barrage-meeple ~ .company-income {
               top: -31px; }
         .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper {
-          top: 271px; }
+          top: 261px; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot-header {
-            background-position-y: 66.6666%; }
+            background-position-y: 50%; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot {
             height: 43px;
             width: 43px;
@@ -2856,9 +2981,9 @@ body {
             .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.conduits-wrapper .building-slot .barrage-meeple ~ .company-income {
               top: -43px; }
         .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper {
-          top: 350px; }
+          top: 340px; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot-header {
-            background-position-y: 100%; }
+            background-position-y: 75%; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot {
             height: 37px;
             margin: 17px 8px 0px 8px;
@@ -2874,6 +2999,19 @@ body {
             margin: 17px 21px 0px 34px; }
           .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.powerhouses-wrapper .building-slot:nth-of-type(4) {
             margin: 17px 34px 0px 21px; }
+        .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.buildings-wrapper {
+          top: 420px;
+          left: 246px;
+          height: 36px; }
+          [data-lwp="0"] .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.buildings-wrapper {
+            display: none; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.buildings-wrapper .building-slot-header {
+            background-position-y: 100%; }
+          .company-board .company-board-resizable .company-board-wrapper .structures-wrapper.buildings-wrapper .building-slot {
+            height: 30px;
+            margin: 3px 10px 0px 10px;
+            align-items: end;
+            width: 49px; }
     .company-board .company-board-resizable .wheel-wrapper {
       width: 454px;
       height: 454px;
@@ -2949,17 +3087,17 @@ body {
   order: 2; }
   .company-board-button.current {
     order: 1; }
-  .company-board-button[data-company='1'] {
+  .company-board-button[data-company="1"] {
     background-position-x: 20%; }
-  .company-board-button[data-company='2'] {
+  .company-board-button[data-company="2"] {
     background-position-x: 40%; }
-  .company-board-button[data-company='3'] {
+  .company-board-button[data-company="3"] {
     background-position-x: 60%; }
-  .company-board-button[data-company='4'] {
+  .company-board-button[data-company="4"] {
     background-position-x: 80%; }
-  .company-board-button[data-company='5'] {
+  .company-board-button[data-company="5"] {
     background-position-x: 100%; }
-  .company-board-button[data-company='6'] {
+  .company-board-button[data-company="6"] {
     background-position-x: 120%; }
 
 #floating-company-boards-wrapper {
@@ -2975,7 +3113,7 @@ body {
   border-top: 1px solid #7c5d45;
   border-right: 1px solid #7c5d45;
   border-top-right-radius: 8px; }
-  #floating-company-boards-wrapper[data-n='0'] {
+  #floating-company-boards-wrapper[data-n="0"] {
     display: none; }
   #floating-company-boards-wrapper[data-open] {
     bottom: 0px; }
@@ -2997,7 +3135,7 @@ body {
       transition: transform 0.4s; }
       #floating-company-boards-wrapper #floating-company-buttons .company-board-button:hover {
         transform: translateY(-10px); }
-      [data-altfr='1'] #floating-company-boards-wrapper #floating-company-buttons .company-board-button[data-company='4'] {
+      [data-altfr="1"] #floating-company-boards-wrapper #floating-company-buttons .company-board-button[data-company="4"] {
         border-color: #95149b !important; }
   #floating-company-boards-wrapper[data-open] #floating-company-buttons .company-board-button {
     margin-top: -30px; }
@@ -3012,53 +3150,53 @@ body {
       #floating-company-boards-wrapper #floating-company-slider #floating-company-boards-container .company-board {
         margin: 0;
         display: none; }
-  #floating-company-boards-wrapper[data-open='1'] #floating-company-buttons .company-board-button[data-company='1'] {
+  #floating-company-boards-wrapper[data-open="1"] #floating-company-buttons .company-board-button[data-company="1"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='1'] #floating-company-buttons .company-board-button[data-company='1']:hover {
+    #floating-company-boards-wrapper[data-open="1"] #floating-company-buttons .company-board-button[data-company="1"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='1'] #floating-company-boards-container .company-board#company-board-1 {
+  #floating-company-boards-wrapper[data-open="1"] #floating-company-boards-container .company-board#company-board-1 {
     display: block; }
-  #floating-company-boards-wrapper[data-open='2'] #floating-company-buttons .company-board-button[data-company='2'] {
+  #floating-company-boards-wrapper[data-open="2"] #floating-company-buttons .company-board-button[data-company="2"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='2'] #floating-company-buttons .company-board-button[data-company='2']:hover {
+    #floating-company-boards-wrapper[data-open="2"] #floating-company-buttons .company-board-button[data-company="2"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='2'] #floating-company-boards-container .company-board#company-board-2 {
+  #floating-company-boards-wrapper[data-open="2"] #floating-company-boards-container .company-board#company-board-2 {
     display: block; }
-  #floating-company-boards-wrapper[data-open='3'] #floating-company-buttons .company-board-button[data-company='3'] {
+  #floating-company-boards-wrapper[data-open="3"] #floating-company-buttons .company-board-button[data-company="3"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='3'] #floating-company-buttons .company-board-button[data-company='3']:hover {
+    #floating-company-boards-wrapper[data-open="3"] #floating-company-buttons .company-board-button[data-company="3"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='3'] #floating-company-boards-container .company-board#company-board-3 {
+  #floating-company-boards-wrapper[data-open="3"] #floating-company-boards-container .company-board#company-board-3 {
     display: block; }
-  #floating-company-boards-wrapper[data-open='4'] #floating-company-buttons .company-board-button[data-company='4'] {
+  #floating-company-boards-wrapper[data-open="4"] #floating-company-buttons .company-board-button[data-company="4"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='4'] #floating-company-buttons .company-board-button[data-company='4']:hover {
+    #floating-company-boards-wrapper[data-open="4"] #floating-company-buttons .company-board-button[data-company="4"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='4'] #floating-company-boards-container .company-board#company-board-4 {
+  #floating-company-boards-wrapper[data-open="4"] #floating-company-boards-container .company-board#company-board-4 {
     display: block; }
-  #floating-company-boards-wrapper[data-open='5'] #floating-company-buttons .company-board-button[data-company='5'] {
+  #floating-company-boards-wrapper[data-open="5"] #floating-company-buttons .company-board-button[data-company="5"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='5'] #floating-company-buttons .company-board-button[data-company='5']:hover {
+    #floating-company-boards-wrapper[data-open="5"] #floating-company-buttons .company-board-button[data-company="5"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='5'] #floating-company-boards-container .company-board#company-board-5 {
+  #floating-company-boards-wrapper[data-open="5"] #floating-company-boards-container .company-board#company-board-5 {
     display: block; }
-  #floating-company-boards-wrapper[data-open='6'] #floating-company-buttons .company-board-button[data-company='6'] {
+  #floating-company-boards-wrapper[data-open="6"] #floating-company-buttons .company-board-button[data-company="6"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #floating-company-boards-wrapper[data-open='6'] #floating-company-buttons .company-board-button[data-company='6']:hover {
+    #floating-company-boards-wrapper[data-open="6"] #floating-company-buttons .company-board-button[data-company="6"]:hover {
       font-size: 32px; }
-  #floating-company-boards-wrapper[data-open='6'] #floating-company-boards-container .company-board#company-board-6 {
+  #floating-company-boards-wrapper[data-open="6"] #floating-company-boards-container .company-board#company-board-6 {
     display: block; }
 
 #player_config .player_config_row {

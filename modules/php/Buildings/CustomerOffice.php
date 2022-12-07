@@ -21,7 +21,7 @@ class CustomerOffice extends Building
     return 7;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<COST:3><ARROW><FULFILL_CONTRACT>',
@@ -31,7 +31,7 @@ class CustomerOffice extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       'type' => NODE_SEQ,
@@ -50,7 +50,7 @@ class CustomerOffice extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [2, '2c', '2c', '2c'];
   }

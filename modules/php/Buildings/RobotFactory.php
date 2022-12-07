@@ -22,7 +22,7 @@ class RobotFactory extends Building
     return 5;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<COST:1><ARROW><ANY_MACHINE:2>',
@@ -30,7 +30,7 @@ class RobotFactory extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       'type' => NODE_SEQ,
@@ -44,7 +44,7 @@ class RobotFactory extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [2, '2c', '2c', '2c'];
   }

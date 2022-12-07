@@ -106,6 +106,9 @@
   &[data-id="externalWork"] {
     background-image: url("img/background_board_external_work.jpg");
   }
+  &[data-id="buildings"] {
+    background-image: url("img/background_board_building.jpg");
+  }
 
   [data-action-background="1"] & {
     &[data-id="turbine"] {
@@ -445,6 +448,121 @@
     .action-board-row {
       margin-left: 21px;
       margin-right: 20px;
+    }
+  }
+
+  &[data-id="buildings"] .action-board-inner {
+    margin: 0px;
+
+    .building {
+      width: 100%;
+      border-bottom: 3px solid rgb(24, 23, 23);
+      &:last-of-type {
+        border: none;
+      }
+
+      .building-name {
+        font-family: "Betty Noir";
+        text-transform: uppercase;
+        font-size: 18px;
+        padding-left: 8px;
+      }
+
+      .building-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 25px 0px 5px;
+
+        .building-construct-slots,
+        .building-central-icon,
+        .building-engineer-slots {
+          background: url("img/ui/texture.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          border-radius: 8px;
+        }
+
+        .building-construct-slots {
+          display: flex;
+          width: 118px;
+          height: 76px;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 3px 1px 1px 3px;
+
+          .building-construct-slot {
+            margin: 1px;
+            width: 50px;
+            height: 29px;
+            font-size: 39px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            background: url("img/icons/building.png"), url("img/ui/texture.jpg");
+            background-size: auto 70%, 20px;
+            background-repeat: no-repeat, repeat;
+            background-position: center center;
+            border: 3px solid grey;
+            border-radius: 5px;
+            &.paying {
+              border-color: #d70f0f;
+              background-image: url("img/icons/building_paying.png"), url("img/ui/texture.jpg");
+            }
+          }
+        }
+
+        .building-central-icon {
+          width: 90px;
+          height: 60px;
+
+          .action-board-icon {
+            width: auto;
+            margin: 0px 5px;
+            height: 100%;
+          }
+        }
+
+        .building-engineer-slots {
+          margin: -24px 0px -32px;
+          padding: 2px 0px 0px 2px;
+          display: flex;
+          flex-flow: column;
+          align-items: baseline;
+
+          .action-space {
+            margin: 2px;
+          }
+        }
+      }
+
+      .building-properties {
+        display: flex;
+
+        .building-cost,
+        .building-vp {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 30px;
+        }
+
+        .building-cost {
+          background: url("img/ui/texture.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          font-size: 26px;
+        }
+
+        .building-vp {
+          background: url("img/ui/texture_light.jpg");
+          padding: 4px 2px 2px 4px;
+          box-shadow: 1px 0px 2px black, inset 1px 1px 2px #acaaaa;
+          border-top-right-radius: 6px;
+          font-size: 25px;
+          border-left: 1px solid black;
+        }
+      }
     }
   }
 }

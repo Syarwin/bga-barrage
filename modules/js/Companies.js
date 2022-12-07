@@ -14,7 +14,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
   const COMPANY_NETHERLANDS = 5;
 
   const RESOURCES = ['engineer', 'credit', 'excavator', 'mixer'];
-  const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse'];
+  const PERSONAL_RESOURCES = ['base', 'elevation', 'conduit', 'powerhouse', 'building'];
   const ALL_RESOURCES = RESOURCES.concat(PERSONAL_RESOURCES).concat(['fcontract', 'fextwork']);
 
   const TOMMASO = 3;
@@ -249,7 +249,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplResourceCounter(company, res, prefix = '', val = '') {
       let iconName = res.toUpperCase();
-      let dataAttr = ['engineer', 'base', 'elevation', 'conduit', 'powerhouse'].includes(res)
+      let dataAttr = ['engineer', 'base', 'elevation', 'conduit', 'powerhouse', 'building'].includes(res)
         ? ` data-company='${company.id}'`
         : '';
 
@@ -336,6 +336,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               <div class='building-slot' id='powerhouse-2-${id}'></div>
               <div class='building-slot' id='powerhouse-1-${id}'></div>
               <div class='building-slot' id='powerhouse-0-${id}'></div>
+            </div>
+
+            <div class='structures-wrapper buildings-wrapper'>
+              <div class='building-slot-header'></div>
+              <div class='building-slot' id='building-4-${id}'></div>
+              <div class='building-slot' id='building-3-${id}'></div>
+              <div class='building-slot' id='building-2-${id}'></div>
+              <div class='building-slot' id='building-1-${id}'></div>
+              <div class='building-slot' id='building-0-${id}'></div>
             </div>
           </div>
           <div class='wheel-wrapper'>
@@ -1060,6 +1069,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     addBoardIncomes(company) {
       PERSONAL_RESOURCES.forEach((structure) => {
         let incomes = company.boardIncomes[structure];
+        if (!incomes) return;
         Object.keys(incomes).forEach((n) => {
           let income = incomes[n];
           let rank = (structure == 'powerhouse' ? 4 : 5) - n;

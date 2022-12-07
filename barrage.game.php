@@ -46,6 +46,7 @@ use BRG\Managers\TechnologyTiles;
 use BRG\Managers\ActionSpaces;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\ExternalWorks;
+use BRG\Managers\Buildings;
 use BRG\Helpers\Log;
 use BRG\Map;
 
@@ -124,6 +125,7 @@ class barrage extends Table
       'bonuses' => $this->computeBonuses(),
       'automa' => AutomaCards::getUiData(),
       'works' => ExternalWorks::getUiData(),
+      'buildings' => Buildings::getUiData(),
       'LWP' => Globals::isLWP(),
     ];
 
@@ -355,6 +357,12 @@ class barrage extends Table
     if ($from_version <= 2208122344) {
       $sql =
         'CREATE TABLE IF NOT EXISTS `works` (`work_id` int(10) unsigned NOT NULL, `work_location` varchar(32) NOT NULL, `work_state` int(10), PRIMARY KEY (`work_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+      self::applyDbUpgradeToAllDB($sql);
+    }
+
+    if ($from_version <= 2211142305) {
+      $sql =
+        'CREATE TABLE IF NOT EXISTS `buildings` (`building_id` int(10) unsigned NOT NULL AUTO_INCREMENT, `building_location` varchar(32) NOT NULL, `building_state` int(10), `type` varchar(32) NOT NULL, PRIMARY KEY (`building_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
       self::applyDbUpgradeToAllDB($sql);
     }
   }

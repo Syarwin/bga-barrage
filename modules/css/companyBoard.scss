@@ -8,15 +8,15 @@
   flex-flow: column;
   flex-wrap: wrap;
 
-  [data-companyTwoColumns='1'] & {
-    &[data-n='3'],
-    &[data-n='4'] {
+  [data-companyTwoColumns="1"] & {
+    &[data-n="3"],
+    &[data-n="4"] {
       flex-flow: row;
       flex-wrap: wrap;
     }
   }
-  [data-companyTwoColumns='2'] & {
-    &[data-n='4'] {
+  [data-companyTwoColumns="2"] & {
+    &[data-n="4"] {
       flex-flow: row;
       flex-wrap: wrap;
     }
@@ -50,19 +50,19 @@
     .company-board-wrapper {
       width: 770px;
       height: 468px;
-      background-image: url('img/company_boards.png');
+      background-image: url("img/company_boards.png");
       background-size: 200% 300%;
       position: relative;
 
       @for $i from 0 through 5 {
-        &[data-company='#{$i + 1}'] {
+        &[data-company="#{$i + 1}"] {
           background-position-x: ($i % 2) * 100%;
           background-position-y: (($i - ($i % 2)) / 2) * 100% / 2;
         }
       }
 
-      [data-altfr='1'] &[data-company='4'] {
-        background-image: url('img/alt-fr/company_board.png');
+      [data-altfr="1"] &[data-company="4"] {
+        background-image: url("img/alt-fr/company_board.png");
         background-size: 100% 100%;
       }
 
@@ -76,12 +76,12 @@
           font-size: 18px;
           padding: 4px 31px;
           box-shadow: 0px 2px 3px black;
-          font-family: 'Betty Noir';
+          font-family: "Betty Noir";
           border: 1px solid black;
         }
       }
 
-      [data-altfr='1'] &[data-company='4'] .company-owner-wrapper .company-owner {
+      [data-altfr="1"] &[data-company="4"] .company-owner-wrapper .company-owner {
         color: #922297 !important;
       }
 
@@ -98,10 +98,10 @@
           margin: 0px;
 
           .action-board-row {
-            background: url('img/ui/texture.jpg');
+            background: url("img/ui/texture.jpg");
             margin-right: 0px;
 
-            [data-cost-icon='0'] &.costly {
+            [data-cost-icon="0"] &.costly {
               margin-left: 20px;
 
               .action-space-cost {
@@ -124,7 +124,7 @@
         height: 168px;
         width: 80px;
         //      background-color: #ebd5bd;
-        background: url('img/ui/texture.jpg');
+        background: url("img/ui/texture.jpg");
         background-size: 30px;
         border-radius: 6px;
         box-shadow: 0 3px 8px black;
@@ -139,7 +139,7 @@
         .company-resource {
           & > span {
             display: inline-block;
-            font-family: 'Oranienbaum';
+            font-family: "Oranienbaum";
             font-weight: bold;
             width: 30px;
             text-align: right;
@@ -167,7 +167,7 @@
         width: 50px;
         height: 50px;
         background-color: #dbdbdb;
-        background-image: url('img/executive_officers.png');
+        background-image: url("img/executive_officers.png");
         background-size: 500% 300%;
         border: 3px solid gray;
         border-radius: 50%;
@@ -181,19 +181,19 @@
         }
 
         @for $i from 0 through 15 {
-          &[data-officer='#{$i + 1}'] {
+          &[data-officer="#{$i + 1}"] {
             background-position-x: ($i % 5) * 100% / 4;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
           }
         }
 
         &[data-copied]::before {
-          content: '';
+          content: "";
           position: absolute;
           width: 45px;
           height: 45px;
           background-color: #fdfdff;
-          background-image: url('img/executive_officers.png');
+          background-image: url("img/executive_officers.png");
           background-size: 500% 300%;
           border: 3px solid gray;
           border-radius: 50%;
@@ -203,7 +203,7 @@
         }
 
         @for $i from 0 through 15 {
-          &[data-copied='#{$i + 1}']::before {
+          &[data-copied="#{$i + 1}"]::before {
             background-position-x: ($i % 5) * 100% / 4;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 2;
           }
@@ -214,7 +214,7 @@
         position: absolute;
         width: 120px;
         height: 42px;
-        background-image: url('img/executive_officers_powers.png'), url('img/ui/texture.jpg');
+        background-image: url("img/executive_officers_powers.png"), url("img/ui/texture.jpg");
         background-size: 500% 300%, 25px;
         border: 3px solid gray;
         box-shadow: 2px 2px 3px black;
@@ -228,7 +228,7 @@
         }
 
         @for $i from 0 through 15 {
-          &[data-officer='#{$i + 1}'] {
+          &[data-officer="#{$i + 1}"] {
             background-position-x: ($i % 5) * 100% / 4, center;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 2, center;
           }
@@ -266,13 +266,13 @@
             position: absolute;
             left: calc(100% - 4px);
 
-            [data-cost-icon='1'] & {
+            [data-cost-icon="1"] & {
               display: none;
             }
           }
 
           .action-space-slot {
-            background: url('img/ui/engineer_slot.png'), url('img/ui/texture.jpg');
+            background: url("img/ui/engineer_slot.png"), url("img/ui/texture.jpg");
             width: 34px;
             height: 29px;
             padding-bottom: 1px;
@@ -294,7 +294,7 @@
           &.selectable {
             cursor: pointer;
             .action-space-slot {
-              background-image: url('img/ui/engineer_slot.png');
+              background-image: url("img/ui/engineer_slot.png");
               background-size: auto 70%;
               background-repeat: no-repeat;
               background-position: center center;
@@ -320,8 +320,8 @@
         .building-slot-header {
           width: 99px;
           height: 66px;
-          background: url('img/construction_costs.png');
-          background-size: 100% 400%;
+          background: url("img/construction_costs.png");
+          background-size: 100% 500%;
         }
 
         .building-slot {
@@ -350,8 +350,8 @@
               display: inline-block;
               margin-top: -5px;
               margin-right: -6px;
-              content: '!';
-              font-family: 'acumin-pro', serif;
+              content: "!";
+              font-family: "acumin-pro", serif;
               font-weight: 700;
               font-style: normal;
               color: #ddd563;
@@ -381,12 +381,12 @@
         }
 
         &.bases-wrapper {
-          top: 110px;
+          top: 100px;
         }
 
         &.elevations-wrapper {
           .building-slot-header {
-            background-position-y: 33.3333%;
+            background-position-y: 25%;
           }
 
           top: 190px;
@@ -405,9 +405,9 @@
         }
 
         &.conduits-wrapper {
-          top: 271px;
+          top: 261px;
           .building-slot-header {
-            background-position-y: 66.6666%;
+            background-position-y: 50%;
           }
 
           .building-slot {
@@ -432,9 +432,9 @@
         }
 
         &.powerhouses-wrapper {
-          top: 350px;
+          top: 340px;
           .building-slot-header {
-            background-position-y: 100%;
+            background-position-y: 75%;
           }
 
           .building-slot {
@@ -462,13 +462,33 @@
             margin: 17px 34px 0px 21px;
           }
         }
+
+        &.buildings-wrapper {
+          [data-lwp="0"] & {
+            display: none;
+          }
+
+          top: 420px;
+          left: 246px;
+          height: 36px;
+          .building-slot-header {
+            background-position-y: 100%;
+          }
+
+          .building-slot {
+            height: 30px;
+            margin: 3px 10px 0px 10px;
+            align-items: end;
+            width: 49px;
+          }
+        }
       }
     }
 
     .wheel-wrapper {
       width: 454px;
       height: 454px;
-      background-image: url('img/construction_wheel.jpg');
+      background-image: url("img/construction_wheel.jpg");
       background-size: 100%;
       margin-top: 7px;
       margin-left: -80px;
@@ -480,7 +500,7 @@
         height: 360px;
         margin: 47px;
         position: relative;
-        background-image: url('img/construction_wheel_inner.png');
+        background-image: url("img/construction_wheel_inner.png");
         background-size: 100%;
         transform: rotate(0deg);
         transition: transform 1s;
@@ -540,7 +560,7 @@
 .company-board-button {
   width: 44px;
   height: 44px;
-  background-image: url('img/companies.jpg');
+  background-image: url("img/companies.jpg");
   background-size: 600% 100%;
   border: 2px solid black;
   border-radius: 50%;
@@ -556,7 +576,7 @@
   }
 
   @for $i from 1 through 6 {
-    &[data-company='#{$i}'] {
+    &[data-company="#{$i}"] {
       background-position-x: $i * 100% / 5;
     }
   }
@@ -568,7 +588,7 @@
   left: 0;
   transition: bottom 0.8s;
   z-index: 10;
-  &[data-n='0'] {
+  &[data-n="0"] {
     display: none;
   }
   &[data-open] {
@@ -604,7 +624,7 @@
         transform: translateY(-10px);
       }
 
-      [data-altfr='1'] &[data-company='4'] {
+      [data-altfr="1"] &[data-company="4"] {
         border-color: #95149b !important;
       }
     }
@@ -629,8 +649,8 @@
     }
   }
   @for $i from 1 through 6 {
-    &[data-open='#{$i}'] {
-      #floating-company-buttons .company-board-button[data-company='#{$i}'] {
+    &[data-open="#{$i}"] {
+      #floating-company-buttons .company-board-button[data-company="#{$i}"] {
         background: #e6e7e9;
         transform: translateY(-10px);
         color: black;

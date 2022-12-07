@@ -21,7 +21,7 @@ class FinancialDivision extends Building
     return 6;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<CREDIT:5>',
@@ -29,7 +29,7 @@ class FinancialDivision extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       'action' => GAIN,
@@ -37,7 +37,7 @@ class FinancialDivision extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [1, 2, 2, 2];
   }

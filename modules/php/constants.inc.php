@@ -211,8 +211,7 @@ const L3_CONDUIT = 'L3_CONDUIT';
 const L3_POWERHOUSE = 'L3_POWERHOUSE';
 const L3_JOKER = 'L3_JOKER';
 
-// TODO: update with LWP to add building
-const STRUCTURES = [BASE, ELEVATION, CONDUIT, POWERHOUSE];
+const STRUCTURES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, BUILDING];
 
 const BASIC_TILES = [BASE, ELEVATION, CONDUIT, POWERHOUSE, JOKER];
 const L1_TILES = [L1_BASE, L1_ELEVATION, L1_CONDUIT, L1_POWERHOUSE, L1_JOKER];
@@ -246,6 +245,7 @@ const BOARD_CONTRACT = 'contract';
 const BOARD_PATENT = 'patent';
 const BOARD_OFFICER = 'officer';
 const BOARD_EXTERNAL_WORK = 'externalWork';
+const BOARD_BUILDINGS = 'buildings';
 
 /*
  * Atomic action

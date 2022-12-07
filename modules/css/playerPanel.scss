@@ -368,11 +368,18 @@
       position: relative;
       flex-basis: 25%;
       text-align: center;
+      [data-lwp="1"] & {
+        flex-basis: 20%;
+      }
 
       & > span {
         font-size: 18px;
         font-family: "Oranienbaum";
         font-weight: bold;
+      }
+
+      [data-lwp="0"] &.resource-building {
+        display: none;
       }
     }
 

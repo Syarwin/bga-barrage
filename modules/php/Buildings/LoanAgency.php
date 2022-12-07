@@ -21,7 +21,7 @@ class LoanAgency extends Building
     return 4;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<COST:2>xTODO',
@@ -31,13 +31,13 @@ class LoanAgency extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     // TODO : XOR node with EXTERNAL_WORK => n action, with a special flag for cost
     return [];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [1, 2, 2, 2];
   }

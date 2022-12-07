@@ -58,6 +58,15 @@ CREATE TABLE IF NOT EXISTS `works` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE IF NOT EXISTS `buildings` (
+  `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `building_location` varchar(32) NOT NULL,
+  `building_state` int(10),
+  `type` varchar(32) NOT NULL,
+  PRIMARY KEY (`building_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE IF NOT EXISTS `cards` (
   `card_id` int(10) unsigned NOT NULL,
   `card_location` varchar(32) NOT NULL,

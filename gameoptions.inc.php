@@ -47,7 +47,6 @@ $game_options = [
     ],
   ],
 
-  /*
   OPTION_EXPANSION_LWP => [
     'name' => totranslate('The Leeghwater Project expansion'),
     'values' => [
@@ -68,7 +67,6 @@ $game_options = [
       ],
     ],
   ],
-  */
 
   OPTION_NEW_XO => [
     'name' => totranslate('New officers (Simone and Tommaso)'),

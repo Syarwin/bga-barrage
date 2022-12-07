@@ -22,7 +22,7 @@ class ControlStation extends Building
     return 5;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<PRODUCTION>[+3]',
@@ -32,7 +32,7 @@ class ControlStation extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       [
@@ -42,7 +42,7 @@ class ControlStation extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [2, '2c', '2c', '2c'];
   }

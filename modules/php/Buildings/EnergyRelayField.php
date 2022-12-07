@@ -22,7 +22,7 @@ class EnergyRelayField extends Building
     return 4;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<COST:1><ENERGY:4>',
@@ -32,7 +32,7 @@ class EnergyRelayField extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       'type' => NODE_SEQ,
@@ -46,7 +46,7 @@ class EnergyRelayField extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [1, '1c', '1c', '1c'];
   }

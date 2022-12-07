@@ -946,7 +946,7 @@ define([
     },
 
     tplActionBoard(board) {
-      let structure = board.structure.map((row) => this.tplActionBoardRow(row));
+      let structure = board.structure.map((row) => this.tplActionBoardRow(row, board));
 
       return `<div class='action-board barrage-frame' data-id='${board.id}'>
         <div class='action-board-name-container'>
@@ -958,7 +958,10 @@ define([
       </div>`;
     },
 
-    tplActionBoardRow(row) {
+    tplActionBoardRow(row, board = null) {
+      if (board && board.id == 'buildings') {
+        return this.tplBuildingsActionBoardRow(row, board);
+      }
       if (typeof row === 'string' || row instanceof String) {
         let content = '';
         if (row == 'private-contracts') {
@@ -1006,6 +1009,40 @@ define([
       return `<div id='${space.uid}' class='action-space ${space.cost > 0 ? 'paying' : ''}'>
         ${slots.join('')}
         ${cost}
+      </div>`;
+    },
+
+    tplBuildingsActionBoardRow(row, board) {
+      let building = this.gamedatas.buildings[row[0]];
+      let cost = '';
+      if (building.cost.excavator) cost += this.formatString(`<EXCAVATOR_ICON:${building.cost.excavator}>`);
+      if (building.cost.mixer) cost += this.formatString(`<MIXER_ICON:${building.cost.mixer}>`);
+
+      let constructSlots = '';
+      building.slots.forEach((slot) => {
+        constructSlots += `<div class='building-construct-slot ${slot.cost > 0 ? 'paying' : ''}' id='${
+          slot.id
+        }'></div>`;
+      });
+
+      let vp = this.formatString(`<VP:${building.vp}>`);
+
+      let icon = row[1];
+      let id = this.registerCustomTooltip(_(icon.t));
+      let iconContent = `<div id="${id}" class="action-board-icon">${this.formatString(icon.i)}</div>`;
+
+      let slots = row.slice(2).map((slot) => this.tplActionSpace(slot));
+      return `<div class='building'>
+        <div class='building-name'>${_(building.name)}</div>
+        <div id='${id}' class='building-row'>
+          <div class='building-construct-slots'>${constructSlots}</div>
+          <div class='building-central-icon'>${iconContent}</div>
+          <div class='building-engineer-slots'>${slots.join('')}</div>
+        </div>
+        <div class='building-properties'>
+          <div class='building-cost'>${cost}</div>
+          <div class='building-vp'>${vp}</div>
+        </div>
       </div>`;
     },
 

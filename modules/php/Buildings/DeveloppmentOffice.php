@@ -21,7 +21,7 @@ class DeveloppmentOffice extends Building
     return 3;
   }
 
-  protected function getCentralIcon()
+  public function getCentralIcon()
   {
     return [
       'i' => '<RETRIEVE_TECH_TILE>',
@@ -31,7 +31,7 @@ class DeveloppmentOffice extends Building
     ];
   }
 
-  protected function getFlow()
+  public function getFlow()
   {
     return [
       [
@@ -41,7 +41,7 @@ class DeveloppmentOffice extends Building
     ];
   }
 
-  protected function getEngineerSpaces()
+  public function getEngineerSpaces()
   {
     return [1, '1c', '1c', '1c'];
   }

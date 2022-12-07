@@ -1,6 +1,7 @@
 <?php
 namespace BRG\Managers;
 use BRG\Core\Stats;
+use BRG\Core\Globals;
 use BRG\Helpers\UserException;
 use BRG\Helpers\Collection;
 
@@ -51,7 +52,11 @@ class Meeples extends \BRG\Helpers\Pieces
       if ($i < 4) {
         $meeples[] = ['type' => POWERHOUSE, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
       }
-      // TODO : expansion : create buildings
+
+      // LWP: expansion : create buildings
+      if (Globals::isLWP()) {
+        $meeples[] = ['type' => BUILDING, 'company_id' => $cId, 'location' => 'company', 'state' => $i];
+      }
     }
 
     $meeples[] = ['type' => SCORE, 'company_id' => $cId, 'location' => 'energy-track-0', 'nbr' => 1];

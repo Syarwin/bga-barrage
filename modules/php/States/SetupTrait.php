@@ -13,6 +13,7 @@ use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\ExternalWorks;
+use BRG\Managers\Buildings;
 use BRG\Map;
 
 trait SetupTrait
@@ -73,7 +74,7 @@ trait SetupTrait
       ExternalWorks::setupNewGame();
 
       // 10c] Draw buildings
-      // TODO
+      Buildings::setupNewGame();
     }
 
     // 11] Place neutral dams
