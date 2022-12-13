@@ -6,6 +6,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Managers\Fences;
 use BRG\Managers\PlayerCards;
+use BRG\Managers\ExternalWorks;
 use BRG\Managers\Contracts;
 use BRG\Managers\Officers;
 use BRG\Core\Engine;
@@ -526,6 +527,11 @@ class Company extends \BRG\Helpers\DB_Model
   public function getContractReduction()
   {
     return 0;
+  }
+
+  public function getFulfilledExtWorks()
+  {
+    return ExternalWorks::getInLocation(['fulfilled', $this->id]);
   }
 
   ////////////////////////////////////////////////

@@ -21,16 +21,19 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     L1_CONDUIT => 'L1Conduit',
     L1_POWERHOUSE => 'L1Powerhouse',
     L1_JOKER => 'L1Joker',
+    L1_BUILDING => 'L1Building',
     L2_BASE => 'L2Base',
     L2_ELEVATION => 'L2Elevation',
     L2_CONDUIT => 'L2Conduit',
     L2_POWERHOUSE => 'L2Powerhouse',
     L2_JOKER => 'L2Joker',
+    L2_BUILDING => 'L2Building',
     L3_BASE => 'L3Base',
     L3_ELEVATION => 'L3Elevation',
     L3_CONDUIT => 'L3Conduit',
     L3_POWERHOUSE => 'L3Powerhouse',
     L3_JOKER => 'L3Joker',
+    L3_BUILDING => 'L3Building',
   ];
 
   protected static function cast($row)
@@ -109,6 +112,9 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     if (Globals::isBeginner()) {
       $meeples[] = ['type' => JOKER, 'company_id' => $cId, 'location' => 'company'];
     }
+    if (Globals::isLWP()) {
+      $meeples[] = ['type' => BUILDING, 'company_id' => $cId, 'location' => 'company'];
+    }
 
     if ($company->isXO(\XO_ANTON)) {
       $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];
@@ -129,17 +135,23 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   /* Creation of advanced tech tiles */
   public static function setupAdvancedTiles()
   {
-    $meeples = [];
-    foreach (L1_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL1'];
-    }
-    foreach (L2_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL2'];
-    }
-    foreach (L3_TILES as $type) {
-      $meeples[] = ['type' => $type, 'location' => 'deckL3'];
+    $tiles = [
+      1 => L1_TILES,
+      2 => L2_TILES,
+      3 => L3_TILES,
+    ];
+    if (Globals::isLWP()) {
+      $tiles[1][] = L1_BUILDING;
+      $tiles[2][] = L2_BUILDING;
+      $tiles[3][] = L3_BUILDING;
     }
 
+    $meeples = [];
+    foreach ($tiles as $deck => $tiles) {
+      foreach ($tiles as $type) {
+        $meeples[] = ['type' => $type, 'location' => 'deckL' . $deck];
+      }
+    }
     self::create($meeples);
 
     for ($i = 1; $i <= 3; $i++) {
