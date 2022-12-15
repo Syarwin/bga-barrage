@@ -764,7 +764,11 @@ define([
     },
 
     getConstructSlot(uid) {
-      return $('brg-map').querySelector(`:not(.basin)[data-id='${uid}']`);
+      if (uid.substr(0, 8) == 'building') {
+        return $(uid);
+      } else {
+        return $('brg-map').querySelector(`:not(.basin)[data-id='${uid}']`);
+      }
     },
 
     tplHeadstream(headstream, tooltip = false) {

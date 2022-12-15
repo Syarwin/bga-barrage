@@ -18,7 +18,7 @@
     transform-origin: top left;
     display: flex;
     clip-path: path(
-      'm 0,36.039021 4.7862223,-2.14359 C 96.936575,-7.375577 199.48816,-11.075077 294.63954,23.439117 304.0466,26.85133 322.92705,34.839732 324,35.861654 302.92944,76.017987 284.96133,111.31567 263.99736,147.67012 l -12.58518,-4.44385 C 187.60607,120.69621 125.06753,123.28908 61.578898,148.49197 36.513866,109.16123 18.424838,69.485334 0,36.039021 Z'
+      "m 0,36.039021 4.7862223,-2.14359 C 96.936575,-7.375577 199.48816,-11.075077 294.63954,23.439117 304.0466,26.85133 322.92705,34.839732 324,35.861654 302.92944,76.017987 284.96133,111.31567 263.99736,147.67012 l -12.58518,-4.44385 C 187.60607,120.69621 125.06753,123.28908 61.578898,148.49197 36.513866,109.16123 18.424838,69.485334 0,36.039021 Z"
     );
 
     .tech-tile-image {
@@ -26,83 +26,86 @@
       height: 125px;
       margin: 11px 17px 6px;
 
-      background: url('img/technology_tiles.png');
+      background: url("img/technology_tiles.png");
       background-size: 700% 500%;
     }
 
-    &[data-type='elevation'] .tech-tile-image {
+    &[data-type="elevation"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
     }
-    &[data-type='conduit'] .tech-tile-image {
+    &[data-type="conduit"] .tech-tile-image {
       background-position-x: 2 * 100% / 6;
     }
-    &[data-type='powerhouse'] .tech-tile-image {
+    &[data-type="powerhouse"] .tech-tile-image {
       background-position-x: 3 * 100% / 6;
     }
-    &[data-type='joker'] .tech-tile-image {
+    &[data-type="joker"] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
     }
-    &[data-type='L1_BASE'] .tech-tile-image {
+    &[data-type="building"] .tech-tile-image {
+      background-position-x: 5 * 100% / 6;
+    }
+    &[data-type="L1_BASE"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
       background-position-y: 25%;
     }
-    &[data-type='L1_ELEVATION'] .tech-tile-image {
+    &[data-type="L1_ELEVATION"] .tech-tile-image {
       background-position-x: 2 * 100% / 6;
       background-position-y: 25%;
     }
-    &[data-type='L1_CONDUIT'] .tech-tile-image {
+    &[data-type="L1_CONDUIT"] .tech-tile-image {
       background-position-x: 3 * 100% / 6;
       background-position-y: 25%;
     }
-    &[data-type='L1_POWERHOUSE'] .tech-tile-image {
+    &[data-type="L1_POWERHOUSE"] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
       background-position-y: 25%;
     }
-    &[data-type='L1_JOKER'] .tech-tile-image {
+    &[data-type="L1_JOKER"] .tech-tile-image {
       background-position-x: 5 * 100% / 6;
       background-position-y: 25%;
     }
-    &[data-type='L2_BASE'] .tech-tile-image {
+    &[data-type="L2_BASE"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
       background-position-y: 50%;
     }
-    &[data-type='L2_ELEVATION'] .tech-tile-image {
+    &[data-type="L2_ELEVATION"] .tech-tile-image {
       background-position-x: 2 * 100% / 6;
       background-position-y: 50%;
     }
-    &[data-type='L2_CONDUIT'] .tech-tile-image {
+    &[data-type="L2_CONDUIT"] .tech-tile-image {
       background-position-x: 3 * 100% / 6;
       background-position-y: 50%;
     }
-    &[data-type='L2_POWERHOUSE'] .tech-tile-image {
+    &[data-type="L2_POWERHOUSE"] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
       background-position-y: 50%;
     }
-    &[data-type='L2_JOKER'] .tech-tile-image {
+    &[data-type="L2_JOKER"] .tech-tile-image {
       background-position-x: 5 * 100% / 6;
       background-position-y: 50%;
     }
-    &[data-type='L3_BASE'] .tech-tile-image {
+    &[data-type="L3_BASE"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
       background-position-y: 75%;
     }
-    &[data-type='L3_ELEVATION'] .tech-tile-image {
+    &[data-type="L3_ELEVATION"] .tech-tile-image {
       background-position-x: 2 * 100% / 6;
       background-position-y: 75%;
     }
-    &[data-type='L3_CONDUIT'] .tech-tile-image {
+    &[data-type="L3_CONDUIT"] .tech-tile-image {
       background-position-x: 3 * 100% / 6;
       background-position-y: 75%;
     }
-    &[data-type='L3_POWERHOUSE'] .tech-tile-image {
+    &[data-type="L3_POWERHOUSE"] .tech-tile-image {
       background-position-x: 4 * 100% / 6;
       background-position-y: 75%;
     }
-    &[data-type='L3_JOKER'] .tech-tile-image {
+    &[data-type="L3_JOKER"] .tech-tile-image {
       background-position-x: 5 * 100% / 6;
       background-position-y: 75%;
     }
-    &[data-type='anton'] .tech-tile-image {
+    &[data-type="anton"] .tech-tile-image {
       background-position-x: 0%;
       background-position-y: 100%;
     }

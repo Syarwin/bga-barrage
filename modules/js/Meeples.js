@@ -182,6 +182,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       else if (meeple.type == 'droplet') {
         return this.getDropletContainer(meeple.location);
       }
+      // Buildings
+      else if (meeple.type == 'building') {
+        return $(meeple.location);
+      }
 
       console.error('Trying to get container of a meeple', meeple);
       return 'game_play_area';

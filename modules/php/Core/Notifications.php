@@ -2,6 +2,7 @@
 namespace BRG\Core;
 use BRG\Managers\Players;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\Buildings;
 use BRG\Helpers\Utils;
 use BRG\Core\Globals;
 use BRG\ActionBoards\CompanyActionBoard;
@@ -462,10 +463,19 @@ class Notifications
       $targetName = str_replace('R', 'B', $targetName);
     }
 
-    self::notifyAll('construct', clienttranslate('${company_name} constructs ${type_desc} in ${target_name}'), [
+    $msg = clienttranslate('${company_name} constructs ${type_desc} in ${target_name}');
+    if ($type == BUILDING) {
+      $msg = clienttranslate('${company_name} constructs ${type_desc}');
+      $bId = explode('-', $target)[1];
+      $typeDesc = Buildings::get($bId)->getName();
+    } else {
+      $typeDesc = $typeDescs[$type];
+    }
+
+    self::notifyAll('construct', $msg, [
       'company' => $company,
       'i18n' => ['type_desc'],
-      'type_desc' => $typeDescs[$type],
+      'type_desc' => $typeDesc,
       'target' => $target,
       'target_name' => $targetName,
       'meeple' => $meeple,

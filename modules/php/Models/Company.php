@@ -19,6 +19,7 @@ use BRG\Actions\Reorganize;
 use BRG\Helpers\Utils;
 use BRG\Helpers\FlowConvertor;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\Buildings;
 
 /*
  * Company: all utility functions concerning a player, real or not
@@ -435,6 +436,16 @@ class Company extends \BRG\Helpers\DB_Model
 
   public function getConstructCost($slot, $tile)
   {
+    if ($slot['type'] == BUILDING) {
+      $t = explode('-', $slot['id']);
+      $bId = $t[1];
+      $costs = [
+        'costs' => [
+          'fees' => [Buildings::get($bId)->getCost()],
+        ],
+      ];
+      return $costs;
+    }
     $cost = $this->costMap[$slot['type']];
     $machine = $cost['type'];
     $n = 0;
@@ -499,6 +510,26 @@ class Company extends \BRG\Helpers\DB_Model
     return Meeples::getFilteredQuery($this->id, $location, $type)
       ->where('meeple_location', '<>', 'company')
       ->count();
+  }
+
+  public function getBuiltBuildingIds()
+  {
+    return Meeples::getFilteredQuery($this->id, 'building%', 'building')
+      ->get()
+      ->map(function ($meeple) {
+        return (int) explode('-', $meeple['location'])[1];
+      })
+      ->toArray();
+  }
+
+  public function getUsedBuildingIds()
+  {
+    return Meeples::getFilteredQuery($this->id, 'building%', [ENGINEER, ARCHITECT])
+      ->get()
+      ->map(function ($meeple) {
+        return (int) explode('-', $meeple['location'])[1];
+      })
+      ->toArray();
   }
 
   /////////////////////////////////////////////////

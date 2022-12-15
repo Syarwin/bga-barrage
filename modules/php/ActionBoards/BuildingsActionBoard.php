@@ -7,6 +7,7 @@ use BRG\Managers\Buildings;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
+use BRG\Helpers\Utils;
 
 /*
  * Buildings Management action space board
@@ -61,6 +62,21 @@ class BuildingsActionBoard extends AbstractActionBoard
         $spaces[] = $space;
       }
     }
+
+    return $spaces;
+  }
+
+  public function getPlayableSpaces($company)
+  {
+    $spaces = static::getAvailableSpaces();
+    $builtBuildingIds = $company->getBuiltBuildingIds();
+    $usedBuildingIds = $company->getUsedBuildingIds();
+
+    // Filter private spaces
+    Utils::filter($spaces, function ($space) use ($builtBuildingIds, $usedBuildingIds) {
+      $bId = (int) explode('-', $space['uid'])[1];
+      return in_array($bId, $builtBuildingIds) && !in_array($bId, $usedBuildingIds);
+    });
 
     return $spaces;
   }

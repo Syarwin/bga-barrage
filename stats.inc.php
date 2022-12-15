@@ -243,16 +243,21 @@ $stats_type = [
       'name' => totranslate('Built Powerhouses'),
       'type' => 'int',
     ],
+    'building' => [
+      'id' => STAT_BUILT_BUILDING,
+      'name' => totranslate('Built Buildings'),
+      'type' => 'int',
+    ],
     'contract' => [
       'id' => STAT_FULFILLED_CONTRACTS,
       'name' => totranslate('Fulfilled Contracts'),
       'type' => 'int',
     ],
-    // 'extWork' => [
-    //   'id' => STAT_FULFILLED_EXTERNAL_WORKS,
-    //   'name' => totranslate('Fulfilled External Works'),
-    //   'type' => 'int',
-    // ],
+    'extWork' => [
+      'id' => STAT_FULFILLED_EXTERNAL_WORKS,
+      'name' => totranslate('Fulfilled External Works'),
+      'type' => 'int',
+    ],
     'advTile' => [
       'id' => STAT_ADVANCED_TILES,
       'name' => totranslate('Acquired Advanced Technology Tiles'),

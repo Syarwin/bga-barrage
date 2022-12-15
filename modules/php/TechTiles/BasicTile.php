@@ -51,6 +51,7 @@ class BasicTile extends \BRG\Helpers\DB_Model
       CONDUIT => clienttranslate('Construct a Conduit.'),
       POWERHOUSE => clienttranslate('Construct a Powerhouse.'),
       JOKER => clienttranslate('Construct any type of structure.'),
+      BUILDING => clienttranslate('Construct a Building.'),
     ];
 
     return [$descs[$this->getStructureType()]];

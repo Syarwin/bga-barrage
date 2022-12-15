@@ -6,6 +6,7 @@ use BRG\Helpers\Utils;
 use BRG\Managers\Meeples;
 use BRG\Actions\Gain;
 use BRG\Managers\Companies;
+use BRG\Managers\Buildings;
 use BRG\Helpers\Collection;
 
 class Map
@@ -351,6 +352,15 @@ class Map
     foreach (self::getConduits() as $cId => $conduit) {
       $conduit['type'] = CONDUIT;
       $slots[$cId] = $conduit;
+    }
+
+    if (Globals::isLWP()) {
+      foreach (Buildings::getConstructSlots() as $b => $bSlots) {
+        foreach ($bSlots as $slot) {
+          $slot['type'] = BUILDING;
+          $slots[$slot['id']] = $slot;
+        }
+      }
     }
 
     self::$constructSlots = $slots;

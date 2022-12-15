@@ -44,6 +44,7 @@ class PlaceStructure extends \BRG\Models\Action
     $args = $args ?? $this->getCtxArgs();
     $credit = $company->countReserveResource(CREDIT);
     $constraints = $args['constraints'] ?? null;
+    $builtBuildingIds = $company->getBuiltBuildingIds();
 
     $spaces = [];
     // If we have received a space in parameter, if it's defined we keep it, else return empty
@@ -96,6 +97,14 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
+      // same player cannot take 2 buildings space
+      if ($space['type'] == BUILDING) {
+        $bId = (int) explode('-', $space['id'])[1];
+        if (in_array($bId, $builtBuildingIds)) {
+          continue;
+        }
+      }
+
       if (isset($args['tileId']) && TechnologyTiles::get($args['tileId'])->ignoreCostMalus()) {
         $ignoreMalus = true;
       } elseif ($company->isAntonTileAvailable()) {
@@ -132,6 +141,7 @@ class PlaceStructure extends \BRG\Models\Action
       ELEVATION => clienttranslate('Elevation'),
       POWERHOUSE => clienttranslate('Powerhouse'),
       CONDUIT => clienttranslate('Conduit'),
+      BUILDING => clienttranslate('Building'),
     ];
     // Type of location
     $locationNames = [
@@ -140,13 +150,13 @@ class PlaceStructure extends \BRG\Models\Action
       \PLAIN => clienttranslate('the plains'),
     ];
     $location = ['log' => [], 'args' => []];
-    foreach($constraints ?? []  as $i => $constraint){
-      $key = "loc_" . $i;
-      $location['log'][] = '${'. $key . '}';
+    foreach ($constraints ?? [] as $i => $constraint) {
+      $key = 'loc_' . $i;
+      $location['log'][] = '${' . $key . '}';
       $location['args'][$key] = $locationNames[$constraint];
       $location['args']['i18n'][] = $key;
     }
-    $location['log'] = \join("/", $location["log"]);
+    $location['log'] = \join('/', $location['log']);
 
     return [
       'i18n' => ['structure', 'location'],
