@@ -1,5 +1,6 @@
 <?php
 namespace BRG\Buildings;
+use BRG\Helpers\Utils;
 
 class CustomerOffice extends Building
 {
@@ -38,12 +39,16 @@ class CustomerOffice extends Building
       'childs' => [
         [
           'action' => PAY,
-          'args' => [CREDIT => 3],
+          'args' => [
+            'nb' => 1,
+            'costs' => Utils::formatCost([CREDIT => 3]),
+            'source' => $this->getName(),
+          ],
         ],
         [
           'action' => \FULFILL_CONTRACT,
           'args' => [
-            'n' => null,
+            'energy' => -1,
           ],
         ],
       ],

@@ -31,6 +31,7 @@ abstract class FlowConvertor
       FLOW_DROPLET => [['action' => PLACE_DROPLET, 'optional' => true, 'args' => ['flows' => true]]],
       ANY_MACHINE => [['type' => NODE_XOR]],
       ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
+      ENERGY_PRODUCED => [['action' => GAIN, 'args' => [ENERGY]], ['action' => \FULFILL_CONTRACT, 'args' => []]],
       CONDUIT => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => CONDUIT]]],
       POWERHOUSE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => POWERHOUSE]]],
       ELEVATION => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => ELEVATION]]],
@@ -41,7 +42,7 @@ abstract class FlowConvertor
     $gainFlow = null;
 
     foreach ($rewards as $t => $n) {
-      foreach ($mapping[$t] ?? null as $rFlow) {
+      foreach ($mapping[$t] ?? [] as $rFlow) {
         // if gain node, we will aggregate all gain
         if (isset($rFlow['action']) && $rFlow['action'] == GAIN) {
           if (is_null($gainFlow)) {
@@ -78,6 +79,9 @@ abstract class FlowConvertor
         // Otherwise it's just a basic action
         else {
           $rFlow['args']['n'] = $n;
+          if ($t == \ENERGY_PRODUCED) {
+            $rFlow['args']['energy'] = $n;
+          }
           $rFlow['source'] = $source;
           $flows['childs'][] = $rFlow;
         }

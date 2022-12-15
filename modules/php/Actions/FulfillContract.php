@@ -17,41 +17,50 @@ class FulfillContract extends \BRG\Models\Action
     return \ST_FULFILL_CONTRACT;
   }
 
-  protected function getFulfillableContracts($company, $energy)
+  protected function getFulfillableContracts($company)
   {
-    $noReduction = $this->getCtxArgs()['noReduction'] ?? false;
-    return $company
-      ->getAvailableContracts()
-      ->merge(Contracts::getNationalContracts())
-      ->filter(function ($contract) use ($company, $energy, $noReduction) {
-        return $contract->getCost() <= $energy + ($noReduction ? 0 : $company->getContractReduction());
+    $contracts = $company->getAvailableContracts();
+    if ($this->isProduction()) {
+      $contracts = $contracts->merge(Contracts::getNationalContracts());
+    }
+    $energy = $this->getEnergy();
+    if ($energy > 0) {
+      $contracts = $contracts->filter(function ($contract) use ($company, $energy) {
+        return $contract->getCost() <= $energy;
       });
+    }
+
+    return $contracts;
+  }
+
+  protected function isProduction()
+  {
+    return $this->getCtxArgs()['production'] ?? false;
   }
 
   protected function getEnergy()
   {
-    return $this->getCtxArgs()['energy'] ?? 0;
+    return ($this->getCtxArgs()['energy'] ?? 0) + ($this->isProduction() ? $company->getContractReduction() : 0);
   }
 
   public function isDoable($company, $ignoreResources = false)
   {
     $energy = $this->getEnergy();
-    return !$this->getFulfillableContracts($company, $energy)->empty();
+    return !$this->getFulfillableContracts($company)->empty();
   }
 
   public function argsFulfillContract()
   {
     $company = Companies::getActive();
-    $energy = $this->getEnergy();
-    $noReduction = $this->getCtxArgs()['noReduction'] ?? false;
+    $n = $this->getEnergy();
 
     return [
-      'n' => $energy + ($noReduction ? 0 : $company->getContractReduction()),
-      'contractIds' => $this->getFulfillableContracts($company, $energy)->getIds(),
-      'costs' => $this->getFulfillableContracts($company, $energy)->map(function ($contract) {
+      'n' => $n,
+      'contractIds' => $this->getFulfillableContracts($company)->getIds(),
+      'costs' => $this->getFulfillableContracts($company)->map(function ($contract) {
         return $contract->getCost();
       }),
-      'descSuffix' => $company->isXO(XO_SIMONE) ? 'simone' : '',
+      'descSuffix' => $n < 0 ? 'nolimit' : ($this->isProduction() && $company->isXO(XO_SIMONE) ? 'simone' : ''),
     ];
   }
 
@@ -61,7 +70,7 @@ class FulfillContract extends \BRG\Models\Action
     self::checkAction('actFulfillContract');
     $company = Companies::getActive();
     $energy = $this->getEnergy();
-    $contracts = $this->getFulfillableContracts($company, $energy);
+    $contracts = $this->getFulfillableContracts($company);
     $contract = $contracts[$contractId] ?? null;
     if (is_null($contract)) {
       throw new \feException('You cannot fulfill this contract. Should not happen');
@@ -103,12 +112,12 @@ class FulfillContract extends \BRG\Models\Action
     // Sanity checks
     self::checkAction('actFulfillContractSimone');
     $company = Companies::getActive();
-    if (!$company->isXO(XO_SIMONE)) {
+    if (!$company->isXO(XO_SIMONE) || !$this->isProduction()) {
       throw new \feException('You cannot fulfill several contract at once. Should not happen');
     }
 
-    $energy = $this->argsFulfillContract()['n'];
-    $contracts = $this->getFulfillableContracts($company, $energy);
+    $energy = $this->getEnergy();
+    $contracts = $this->getFulfillableContracts($company);
     $totalCost = 0;
     $childs = [];
     foreach ($contractIds as $contractId) {

@@ -15,9 +15,34 @@ class ExternalWork extends \BRG\Models\Action
     return \ST_EXTERNAL_WORK;
   }
 
+  public function getDescription($ignoreResources = false)
+  {
+    $n = $this->ctx->getArgs()['position'];
+    if ($this->getCostType() == CREDIT) {
+      $cost = $this->getWork()->getCost(CREDIT);
+      return [
+        'log' => clienttranslate('Buy external work n°${n} for ${m}<CREDIT>'),
+        'args' => [
+          'n' => $n,
+          'm' => $cost[CREDIT],
+        ],
+      ];
+    } else {
+      return [
+        'log' => clienttranslate('Fulfill external work n°${n}'),
+        'args' => ['n' => $n],
+      ];
+    }
+  }
+
   public function isDoable($company, $ignoreResources = false)
   {
-    return $company->canPayCost($this->getWork()->getCost());
+    return $company->canPayCost($this->getWork()->getCost($this->getCostType()));
+  }
+
+  public function getCostType()
+  {
+    return $this->getCtxArgs()['cost'] ?? null;
   }
 
   public function isAutomatic($company = null)
@@ -62,7 +87,7 @@ class ExternalWork extends \BRG\Models\Action
         'action' => PAY,
         'args' => [
           'nb' => 1,
-          'costs' => Utils::formatCost($work->getCost()),
+          'costs' => Utils::formatCost($work->getCost($this->getCostType())),
           'source' => clienttranslate('External Work Cost'),
         ],
       ]);

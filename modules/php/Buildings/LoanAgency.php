@@ -24,7 +24,7 @@ class LoanAgency extends Building
   public function getCentralIcon()
   {
     return [
-      'i' => '<COST:2>xTODO',
+      'i' => '<LOAN_AGENCY>',
       't' => clienttranslate(
         'Take an available External Work tile and immediately receive its reward. Instead of discarding Machineries, you must pay an amount of Credits equal to the number of Machineries required by the tile multiplied per 2.'
       ),
@@ -33,8 +33,32 @@ class LoanAgency extends Building
 
   public function getFlow()
   {
-    // TODO : XOR node with EXTERNAL_WORK => n action, with a special flag for cost
-    return [];
+    return [
+      'type' => \NODE_XOR,
+      'childs' => [
+        [
+          'action' => EXTERNAL_WORK,
+          'args' => [
+            'position' => 1,
+            'cost' => CREDIT,
+          ],
+        ],
+        [
+          'action' => EXTERNAL_WORK,
+          'args' => [
+            'position' => 2,
+            'cost' => CREDIT,
+          ],
+        ],
+        [
+          'action' => EXTERNAL_WORK,
+          'args' => [
+            'position' => 3,
+            'cost' => CREDIT,
+          ],
+        ],
+      ],
+    ];
   }
 
   public function getEngineerSpaces()

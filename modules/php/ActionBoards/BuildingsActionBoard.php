@@ -50,10 +50,7 @@ class BuildingsActionBoard extends AbstractActionBoard
           'board' => self::$id,
           'uid' => self::$id . '-' . $bId . '-' . $i,
           'nEngineers' => $nEngineers,
-          'flow' => [
-            'action' => GAIN,
-            'args' => [CREDIT => 1],
-          ],
+          'flow' => $building->getFlow(),
         ];
         if ($costly) {
           $space['cost'] = 3;

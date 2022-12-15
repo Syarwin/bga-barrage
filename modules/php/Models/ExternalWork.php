@@ -34,6 +34,17 @@ class ExternalWork extends \BRG\Helpers\DB_Model
     return $data;
   }
 
+  public function getCost($costType = null)
+  {
+    $cost = parent::getCost();
+    if (is_null($costType)) {
+      return $cost;
+    }
+    if ($costType == CREDIT) {
+      return [CREDIT => 2 * ($cost[\EXCAVATOR] ?? (0 + $cost[MIXER] ?? 0))];
+    }
+  }
+
   public function fulfill($company)
   {
     $this->setLocation('fulfilled_' . $company->getId());

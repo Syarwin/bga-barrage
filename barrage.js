@@ -1038,7 +1038,7 @@ define([
       let slots = row.slice(2).map((slot) => this.tplActionSpace(slot));
       return `<div class='building'>
         <div class='building-name'>${_(building.name)}</div>
-        <div id='${id}' class='building-row'>
+        <div class='building-row'>
           <div class='building-construct-slots'>${constructSlots}</div>
           <div class='building-central-icon'>${iconContent}</div>
           <div class='building-engineer-slots'>${slots.join('')}</div>
@@ -1290,7 +1290,7 @@ define([
 
         this.addSecondaryActionButton(
           'btnChoice' + choice.id,
-          desc,
+          this.formatString(desc),
           disabled ? () => {} : () => this.takeAction('actChooseAction', { id: choice.id })
         );
         if (disabled) {

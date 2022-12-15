@@ -959,6 +959,8 @@ body {
             width: auto;
             margin: 0px 5px;
             height: 100%; }
+            .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-central-icon .action-board-icon .barrage-icon.icon-fulfill_contract {
+              font-size: 0.7em; }
         .action-board[data-id="buildings"] .action-board-inner .building .building-row .building-engineer-slots {
           margin: -24px 0px -32px;
           padding: 2px 0px 0px 2px;
@@ -1870,6 +1872,10 @@ body {
     min-width: 1.1em;
     height: 0.75em;
     background-image: url("img/icons/special_power_france.png"); }
+  .barrage-icon.icon-loan_agency {
+    min-width: 0.9861em;
+    height: 0.8em;
+    background-image: url("img/icons/building_loanAgency.png"); }
 
 #player_boards {
   display: flex;

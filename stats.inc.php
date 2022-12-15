@@ -192,11 +192,11 @@ $stats_type = [
       'name' => totranslate('VP from advanced technology tiles'),
       'type' => 'int',
     ],
-    // 'vpWorks' => [
-    //   'id' => STAT_VP_EXTERNAL_WORKS,
-    //   'name' => totranslate('VP from external works'),
-    //   'type' => 'int',
-    // ],
+    'vpWorks' => [
+      'id' => STAT_VP_EXTERNAL_WORKS,
+      'name' => totranslate('VP from external works'),
+      'type' => 'int',
+    ],
     'vpTotal' => [
       'id' => STAT_VP_TOTAL,
       'name' => totranslate('VP Total'),

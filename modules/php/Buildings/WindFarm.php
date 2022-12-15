@@ -1,6 +1,7 @@
 <?php
 namespace BRG\Buildings;
 use BRG\Helpers\FlowConvertor;
+use BRG\Helpers\Utils;
 
 class WindFarm extends Building
 {
@@ -39,7 +40,11 @@ class WindFarm extends Building
       'childs' => [
         [
           'action' => PAY,
-          'args' => [CREDIT => 2],
+          'args' => [
+            'nb' => 1,
+            'costs' => Utils::formatCost([CREDIT => 2]),
+            'source' => $this->getName(),
+          ],
         ],
         FlowConvertor::computeRewardFlow([ENERGY_PRODUCED => 5]),
       ],

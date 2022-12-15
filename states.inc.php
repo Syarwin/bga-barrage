@@ -235,8 +235,10 @@ $machinestates = [
 
   ST_FULFILL_CONTRACT => [
     'name' => 'fulfillContract',
-    'description' => '',
-    'descriptionmyturn' => '',
+    'description' => clienttranslate('${actplayer} must fulfill a contract with an energy requirement of at most ${n}'),
+    'descriptionmyturn' => clienttranslate('${you} must fulfill a contract with an energy requirement of at most ${n}'),
+    'descriptionnolimit' => clienttranslate('${actplayer} must fulfill a contract in their supply'),
+    'descriptionmyturnnolimit' => clienttranslate('${you} must fulfill a contract in your supply'),
     'descriptionskippable' => clienttranslate(
       '${actplayer} may fulfill a contract with an energy requirement of at most ${n}'
     ),

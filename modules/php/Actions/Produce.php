@@ -153,7 +153,7 @@ class Produce extends \BRG\Models\Action
       Engine::insertAsChild([
         'action' => \FULFILL_CONTRACT,
         'optional' => true,
-        'args' => [ENERGY => $production],
+        'args' => [ENERGY => $production, 'production' => true],
       ]);
 
       // Germany power
