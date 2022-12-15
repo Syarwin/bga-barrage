@@ -22,6 +22,7 @@ class Actions
     TILE_EFFECT => 'TileEffect',
     PATENT => 'Patent',
     EXTERNAL_WORK => 'ExternalWork',
+    RETRIEVE_FROM_WHEEL => 'RetrieveFromWheel',
   ];
 
   public static function get($actionId, $ctx = null)

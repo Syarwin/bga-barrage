@@ -1873,9 +1873,13 @@ body {
     height: 0.75em;
     background-image: url("img/icons/special_power_france.png"); }
   .barrage-icon.icon-loan_agency {
-    min-width: 0.9861em;
-    height: 0.8em;
+    min-width: 2.2em;
+    height: 1em;
     background-image: url("img/icons/building_loanAgency.png"); }
+  .barrage-icon.icon-retrieve_tech_tile {
+    min-width: 1.5em;
+    height: 1.2em;
+    background-image: url("img/icons/building_devOffice.png"); }
 
 #player_boards {
   display: flex;

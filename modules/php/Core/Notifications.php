@@ -296,15 +296,27 @@ class Notifications
 
   public static function recoverResources($company, $resources, $tile)
   {
-    self::notifyAll(
-      'recoverResources',
-      clienttranslate('${company_name} recovers ${resources_desc} and a technology tile from the wheel'),
-      [
-        'company' => $company,
-        'resources' => $resources->toArray(),
-        'tile' => $tile,
-      ]
-    );
+    if (empty($resources)) {
+      self::notifyAll(
+        'recoverResources',
+        clienttranslate('${company_name} recovers a technology tile from the wheel'),
+        [
+          'company' => $company,
+          'resources' => [],
+          'tile' => $tile,
+        ]
+      );
+    } else {
+      self::notifyAll(
+        'recoverResources',
+        clienttranslate('${company_name} recovers ${resources_desc} and a technology tile from the wheel'),
+        [
+          'company' => $company,
+          'resources' => $resources->toArray(),
+          'tile' => $tile,
+        ]
+      );
+    }
   }
 
   public static function acquirePatent($company, $tile)

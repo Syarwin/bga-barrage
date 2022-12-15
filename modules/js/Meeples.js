@@ -28,6 +28,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'FULFILL_CONTRACT',
     'ADVANCED_TILE',
     'LOAN_AGENCY',
+    'RETRIEVE_TECH_TILE',
   ];
   const PERSONAL_RESOURCES = ['BASE', 'ELEVATION', 'CONDUIT', 'POWHERHOUSE'];
   function isVisible(elem) {

@@ -34,10 +34,8 @@ class DeveloppmentOffice extends Building
   public function getFlow()
   {
     return [
-      [
-        'action' => RETRIEVE_FROM_WHEEL,
-        'args' => ['type' => TECH_TILE],
-      ],
+      'action' => RETRIEVE_FROM_WHEEL,
+      'args' => ['type' => TECH_TILE],
     ];
   }
 

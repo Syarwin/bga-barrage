@@ -39,6 +39,7 @@ define([
         'produce',
         'takeContract',
         'fulfillContract',
+        'retrieveFromWheel',
         'resolveChoice',
         'confirmTurn',
         'confirmPartialTurn',
@@ -1822,6 +1823,14 @@ define([
           },
         });
       }
+    },
+
+    // Retrieve From Wheel
+    onEnteringStateRetrieveFromWheel(args) {
+      args.tileIds.forEach((tileId) => {
+        let elt = $(`tech-tile-${tileId}`);
+        this.onClick(elt, () => this.takeAtomicAction('actRetrieveTile', [tileId]));
+      });
     },
 
     //////////////////////////////////////////////////////
