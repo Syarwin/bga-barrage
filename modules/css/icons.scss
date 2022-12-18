@@ -363,6 +363,11 @@
     height: 0.75em;
     background-image: url("img/icons/special_power_france.png");
   }
+  &.icon-special_power_netherlands {
+    min-width: 0.6em;
+    height: 0.85em;
+    background-image: url("img/icons/special_power_netherlands.png");
+  }
 
   &.icon-loan_agency {
     min-width: 2.2em;
@@ -373,6 +378,11 @@
     min-width: 1.5em;
     height: 1.2em;
     background-image: url("img/icons/building_devOffice.png");
+  }
+  &.icon-retrieve_machineries {
+    min-width: 1.5em;
+    height: 1.2em;
+    background-image: url("img/icons/building_resLab.png");
   }
 
   &.icon-water_dam {

@@ -1448,9 +1448,9 @@ define([
 
     // Place Droplets
     onEnteringStatePlaceDroplet(args) {
-      let selectables = args.isDam
-        ? args.dams.map((bId) => $('brg-map').querySelector(`.dam-slot[data-id='${bId}']`))
-        : args.headstreams.map((hId) => $('brg-map').querySelector(`.headstream[data-id='${hId}']`));
+      let selectables = args.spaces.map((hId) =>
+        $('brg-map').querySelector(`.${args.isDam ? 'dam-slot' : 'headstream'}[data-id='${hId}']`)
+      );
       let currentSelection = [];
       let updateSelectable = () => {
         selectables.forEach((h) => {
@@ -1829,10 +1829,57 @@ define([
 
     // Retrieve From Wheel
     onEnteringStateRetrieveFromWheel(args) {
-      args.tileIds.forEach((tileId) => {
-        let elt = $(`tech-tile-${tileId}`);
-        this.onClick(elt, () => this.takeAtomicAction('actRetrieveTile', [tileId]));
+      if (args.type == 'technology_tile') {
+        args.choices.forEach((tileId) => {
+          let elt = $(`tech-tile-${tileId}`);
+          this.onClick(elt, () => this.takeAtomicAction('actRetrieveTile', [tileId]));
+        });
+      } else if (args.type == 'any_machine') {
+        let wheel = $(`wheel-${args.cId}`);
+        let sectors = [...wheel.querySelectorAll('.wheel-sector')];
+        Object.keys(args.choices).forEach((slot) => {
+          this.onClick(sectors[slot], () => {
+            this.clientState('retrieveMachinesFromWheel', _('Which machineries do you want to retrieve?'), {
+              cId: args.cId,
+              choices: args.choices[slot],
+              slot,
+            });
+          });
+        });
+      }
+
+      // Focus on company board
+      this.forEachCompany((company) => {
+        if (company.pId == this.player_id) {
+          this.goToCompanyBoard(company);
+        }
       });
+    },
+
+    onEnteringStateRetrieveMachinesFromWheel(args) {
+      this.addCancelStateBtn();
+
+      let wheel = $(`wheel-${args.cId}`);
+      let sectors = [...wheel.querySelectorAll('.wheel-sector')];
+      sectors[args.slot].classList.add('selected');
+
+      let meeples = args.choices.map((mId) => $(`meeple-${mId}`));
+      let types = { excavator: 0, mixer: 0 };
+      let mByTypes = { excavator: [], mixer: [] };
+      meeples.forEach((meeple) => {
+        let type = meeple.dataset.type;
+        types[type]++;
+        mByTypes[type].push(meeple);
+      });
+      let n = Math.floor(meeples.length / 2);
+      for (let i = 0; i <= Math.min(n, types.excavator); i++) {
+        if (types.mixer >= n - i) {
+          this.addPrimaryActionButton('btnChoice' + i, this.formatString(`${i} <EXCAVATOR> ${n - i} <MIXER>`), () => {
+            let t = mByTypes.excavator.slice(0, i).concat(mByTypes.mixer.slice(0, n - i));
+            this.takeAtomicAction('actRetrieveMachines', [args.slot, t.map((meeple) => meeple.dataset.id)]);
+          });
+        }
+      }
     },
 
     //////////////////////////////////////////////////////

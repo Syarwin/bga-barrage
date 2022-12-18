@@ -34,10 +34,8 @@ class ResearchLab extends Building
   public function getFlow()
   {
     return [
-      [
-        'action' => RETRIEVE_FROM_WHEEL,
-        'args' => ['type' => ANY_MACHINE],
-      ],
+      'action' => RETRIEVE_FROM_WHEEL,
+      'args' => ['type' => ANY_MACHINE],
     ];
   }
 

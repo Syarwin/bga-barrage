@@ -197,6 +197,11 @@ $stats_type = [
       'name' => totranslate('VP from external works'),
       'type' => 'int',
     ],
+    'vpBuildings' => [
+      'id' => STAT_VP_BUILDINGS,
+      'name' => totranslate('VP from private buildings'),
+      'type' => 'int',
+    ],
     'vpTotal' => [
       'id' => STAT_VP_TOTAL,
       'name' => totranslate('VP Total'),

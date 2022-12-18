@@ -1872,6 +1872,10 @@ body {
     min-width: 1.1em;
     height: 0.75em;
     background-image: url("img/icons/special_power_france.png"); }
+  .barrage-icon.icon-special_power_netherlands {
+    min-width: 0.6em;
+    height: 0.85em;
+    background-image: url("img/icons/special_power_netherlands.png"); }
   .barrage-icon.icon-loan_agency {
     min-width: 2.2em;
     height: 1em;
@@ -1880,6 +1884,10 @@ body {
     min-width: 1.5em;
     height: 1.2em;
     background-image: url("img/icons/building_devOffice.png"); }
+  .barrage-icon.icon-retrieve_machineries {
+    min-width: 1.5em;
+    height: 1.2em;
+    background-image: url("img/icons/building_resLab.png"); }
   .barrage-icon.icon-water_dam {
     min-width: 1.3em;
     height: 1.5em;
@@ -3084,6 +3092,22 @@ body {
             transform: rotate(-240deg); }
           .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector:nth-of-type(6) {
             transform: rotate(-300deg); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector.selectable::before, .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector.selected::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ff00009c;
+            clip-path: polygon(5% 10%, 20% 4.68%, 33% 1.4%, 50% 0%, 67% 1.4%, 80% 4.68%, 95% 10%, 50% 85.65%); }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector.selectable {
+            cursor: pointer; }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector.selectable:hover::before {
+            background: #ff0000d5; }
+          .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector.selected::before {
+            background: #1eff00d5; }
           .company-board .company-board-resizable .wheel-wrapper .wheel .wheel-sector .wheel-tile-slot {
             width: 173px;
             height: 60px;

@@ -16,7 +16,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     COMPANY_ITALY => 'Italy',
     COMPANY_FRANCE => 'France',
     COMPANY_GERMANY => 'Germany',
-    // COMPANY_NETHERLANDS => 'Netherlands', // TODO: LWP
+    COMPANY_NETHERLANDS => 'Netherlands',
   ];
 
   protected static $table = 'companies';
@@ -43,6 +43,9 @@ class Companies extends \BRG\Helpers\DB_Manager
   public function randomStartingPick($nPlayers)
   {
     $companyIds = array_keys(static::$classes);
+    if (!Globals::isLWP()) {
+      array_splice($companyIds, array_search(\COMPANY_NETHERLANDS, $companyIds), 1);
+    }
     return Utils::rand($companyIds, $nPlayers);
   }
 
@@ -68,10 +71,10 @@ class Companies extends \BRG\Helpers\DB_Manager
   public function assignCompanyAutoma($fakePId, $cId, $xId)
   {
     $name = clienttranslate('Automa I');
-    if($fakePId < -5){
+    if ($fakePId < -5) {
       $name = clienttranslate('Automa II');
     }
-    if($fakePId < -10){
+    if ($fakePId < -10) {
       $name = clienttranslate('Automa III');
     }
 

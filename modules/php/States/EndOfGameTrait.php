@@ -89,6 +89,30 @@ trait EndOfGameTrait
       Stats::setVpResources($company, $vp);
     }
 
+    ///////////////////////////////////////////////
+    //  ____        _ _     _ _
+    // | __ ) _   _(_) | __| (_)_ __   __ _ ___
+    // |  _ \| | | | | |/ _` | | '_ \ / _` / __|
+    // | |_) | |_| | | | (_| | | | | | (_| \__ \
+    // |____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/
+    //                                |___/
+    ///////////////////////////////////////////////
+    foreach ($companies as $cId => $company) {
+      $vp = 0;
+      $builtBuildingIds = $company->getBuiltBuildingIds();
+      foreach (Buildings::getMany($builtBuildingIds) as $building) {
+        $vp = $building->getVp();
+        $company->incScore($vp, [
+          'log' => clienttranslate('(private building: ${building})'),
+          'args' => [
+            'i18n' => ['building'],
+            'building' => $building->getName(),
+          ],
+        ]);
+      }
+      Stats::setVpBuildings($company, $vp);
+    }
+
     ///////////////////////////////////////////
     //  ____                  _      _
     // |  _ \ _ __ ___  _ __ | | ___| |_ ___

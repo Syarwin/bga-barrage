@@ -42,6 +42,22 @@ class PlaceDroplet extends \BRG\Models\Action
     }
   }
 
+  public function getPossibleSpaces($company)
+  {
+    $ctxArgs = $this->getCtxArgs();
+    $isDam = ($ctxArgs['type'] ?? null) == 'dam';
+    if (!$isDam) {
+      return Map::getHeadstreams();
+    } else {
+      $constraint = $ctxArgs['constraint'] ?? null;
+      $dams = Map::getUnfullDams($company);
+      Utils::filter($dams, function ($dam) use ($constraint) {
+        return $dam != $constraint;
+      });
+      return $dams;
+    }
+  }
+
   public function argsPlaceDroplet()
   {
     $ctxArgs = $this->getCtxArgs();
@@ -55,26 +71,30 @@ class PlaceDroplet extends \BRG\Models\Action
         : ($toFlow
           ? clienttranslate('immediate flow')
           : clienttranslate('delayed flow')),
-      'headstreams' => Map::getHeadstreams(),
-      'dams' => $isDam ? Map::getUnfullDams($company) : [],
+      'spaces' => $this->getPossibleSpaces($company),
       'flow' => $toFlow,
       'isDam' => $isDam,
       'n' => $ctxArgs['n'] ?? 0,
     ];
   }
 
-  public function actPlaceDroplet($headstreams)
+  public function actPlaceDroplet($spaces)
   {
     $args = $this->argsPlaceDroplet();
     $company = Companies::getActive();
-    if (count($headstreams) > $args['n']) {
+    if (count($spaces) > $args['n']) {
       throw new \BgaVisibleSystemException('Too many droplet sent. Should not happen');
-    } elseif (empty($headstreams)) {
+    } elseif (empty($spaces)) {
       throw new \BgaVisibleSystemException('You must add at least one droplet. Should not happen');
+    }
+    foreach ($spaces as $sId) {
+      if (!in_array($sId, $args['spaces'])) {
+        throw new \BgaVisibleSystemException('Cannot place droplet here. Should not happen');
+      }
     }
 
     $spaceId = Engine::getNextUnresolved()->getSpaceId();
-    $created = $this->placeDroplets($company, $headstreams, $spaceId, $args['flow']);
+    $created = $this->placeDroplets($company, $spaces, $spaceId, $args['flow']);
     $this->resolveAction(['created' => $created]);
   }
 

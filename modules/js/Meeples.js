@@ -29,6 +29,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     'ADVANCED_TILE',
     'LOAN_AGENCY',
     'RETRIEVE_TECH_TILE',
+    'RETRIEVE_MACHINERIES',
     'WATER_DAM',
   ];
   const PERSONAL_RESOURCES = ['BASE', 'ELEVATION', 'CONDUIT', 'POWHERHOUSE'];
@@ -626,6 +627,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             ),
             special_power_germany: _(
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.'
+            ),
+            special_power_netherlands: _(
+              'After you have performed a production action, you can immediately add 1 Water Drop on one of your Dams. The dam must be able to hold the additional Water Drop. You cannot add it on the Dam that you have just used for the production. Take the Water Drop directly from the general supply (it doesn’t flow through headstreams and rivers).'
             ),
           };
           const warning = _('This unique ability becomes active only when you build your third Powerhouse');

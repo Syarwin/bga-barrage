@@ -335,10 +335,12 @@ $machinestates = [
     'name' => 'retrieveFromWheel',
     'description' => clienttranslate('${actplayer} must retrieve one technology tile from their construction wheel'),
     'descriptionmyturn' => clienttranslate('${you} must retrieve one technology tile from your construction wheel'),
+    'descriptionmachines' => clienttranslate('${actplayer} must retrieve machineries from their construction wheel'),
+    'descriptionmyturnmachines' => clienttranslate('${you} must retrieve machineries from your construction wheel'),
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'type' => 'activeplayer',
-    'possibleactions' => ['actRetrieveTile', 'actPassOptionalAction', 'actRestart'],
+    'possibleactions' => ['actRetrieveTile', 'actRetrieveMachines', 'actPassOptionalAction', 'actRestart'],
   ],
 
   ST_RETURNING_HOME => [

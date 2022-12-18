@@ -168,6 +168,14 @@ class Produce extends \BRG\Models\Action
       elseif ($company->getId() == \COMPANY_ITALY && $company->productionPowerEnabled()) {
         Gain::gainResources($company, [ENERGY => 3], null, clienttranslate('nation\'s power'));
       }
+      // Netherlands power
+      elseif ($company->getId() == \COMPANY_NETHERLANDS && $company->productionPowerEnabled()) {
+        Engine::insertAsChild([
+          'action' => \PLACE_DROPLET,
+          'optional' => true,
+          'args' => ['n' => 1, 'type' => 'dam', 'constraint' => $system['basin']],
+        ]);
+      }
     }
   }
 }

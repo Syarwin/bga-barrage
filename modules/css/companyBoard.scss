@@ -520,6 +520,28 @@
             }
           }
 
+          &.selectable::before,
+          &.selected::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ff00009c;
+            clip-path: polygon(5% 10%, 20% 4.68%, 33% 1.4%, 50% 0%, 67% 1.4%, 80% 4.68%, 95% 10%, 50% 85.65%);
+          }
+          &.selectable {
+            cursor: pointer;
+          }
+          &.selectable:hover::before {
+            background: #ff0000d5;
+          }
+          &.selected::before {
+            background: #1eff00d5;
+          }
+
           .wheel-tile-slot {
             width: 173px;
             height: 60px;
