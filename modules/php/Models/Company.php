@@ -444,38 +444,38 @@ class Company extends \BRG\Helpers\DB_Model
           'fees' => [Buildings::get($bId)->getCost()],
         ],
       ];
-      return $costs;
-    }
-    $cost = $this->costMap[$slot['type']];
-    $machine = $cost['type'];
-    $n = 0;
+    } else {
+      $cost = $this->costMap[$slot['type']];
+      $machine = $cost['type'];
+      $n = 0;
 
-    switch ($slot['type']) {
-      case BASE:
-      case ELEVATION:
-        $n = $cost[$slot['area']];
-        break;
+      switch ($slot['type']) {
+        case BASE:
+        case ELEVATION:
+          $n = $cost[$slot['area']];
+          break;
 
-      case POWERHOUSE:
-        $n = 6 - Meeples::getFilteredQuery($this->id, 'company', POWERHOUSE)->count();
-        break;
+        case POWERHOUSE:
+          $n = 6 - Meeples::getFilteredQuery($this->id, 'company', POWERHOUSE)->count();
+          break;
 
-      case CONDUIT:
-        $n = 2 * $slot['production'];
-        break;
-    }
+        case CONDUIT:
+          $n = 2 * $slot['production'];
+          break;
+      }
 
-    // That's the base cost
-    $costs = [
-      'nb' => $n,
-      'costs' => [
-        'trades' => [
-          [
-            $machine => 1,
+      // That's the base cost
+      $costs = [
+        'nb' => $n,
+        'costs' => [
+          'trades' => [
+            [
+              $machine => 1,
+            ],
           ],
         ],
-      ],
-    ];
+      ];
+    }
 
     if ($this->isAI() && $this->getLvlAI() < 2) {
       return $costs;

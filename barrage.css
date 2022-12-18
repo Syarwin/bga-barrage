@@ -5122,6 +5122,9 @@ body {
     .barrage-tech-tile .tech-tile-fixed-size[data-type="L1_JOKER"] .tech-tile-image {
       background-position-x: 83.3333333333%;
       background-position-y: 25%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type="L1_BUILDING"] .tech-tile-image {
+      background-position-x: 100%;
+      background-position-y: 25%; }
     .barrage-tech-tile .tech-tile-fixed-size[data-type="L2_BASE"] .tech-tile-image {
       background-position-x: 16.6666666667%;
       background-position-y: 50%; }
@@ -5137,6 +5140,9 @@ body {
     .barrage-tech-tile .tech-tile-fixed-size[data-type="L2_JOKER"] .tech-tile-image {
       background-position-x: 83.3333333333%;
       background-position-y: 50%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type="L2_BUILDING"] .tech-tile-image {
+      background-position-x: 100%;
+      background-position-y: 50%; }
     .barrage-tech-tile .tech-tile-fixed-size[data-type="L3_BASE"] .tech-tile-image {
       background-position-x: 16.6666666667%;
       background-position-y: 75%; }
@@ -5151,6 +5157,9 @@ body {
       background-position-y: 75%; }
     .barrage-tech-tile .tech-tile-fixed-size[data-type="L3_JOKER"] .tech-tile-image {
       background-position-x: 83.3333333333%;
+      background-position-y: 75%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type="L3_BUILDING"] .tech-tile-image {
+      background-position-x: 100%;
       background-position-y: 75%; }
     .barrage-tech-tile .tech-tile-fixed-size[data-type="anton"] .tech-tile-image {
       background-position-x: 0%;

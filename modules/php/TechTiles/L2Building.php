@@ -18,4 +18,17 @@ class L2Building extends AdvancedTile
     );
     return $descs;
   }
+
+  public function applyConstructCostModifier(&$costs, $slot)
+  {
+    $cost = $costs['costs']['fees'][0];
+    if (isset($cost[\EXCAVATOR])) {
+      $nc = [MIXER => $cost[MIXER] ?? 0];
+      $costs['costs']['fees'][] = $nc;
+    }
+    if (isset($cost[MIXER])) {
+      $nc = [\EXCAVATOR => $cost[\EXCAVATOR] ?? 0];
+      $costs['costs']['fees'][] = $nc;
+    }
+  }
 }

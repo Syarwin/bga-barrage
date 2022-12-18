@@ -65,6 +65,10 @@
       background-position-x: 5 * 100% / 6;
       background-position-y: 25%;
     }
+    &[data-type="L1_BUILDING"] .tech-tile-image {
+      background-position-x: 6 * 100% / 6;
+      background-position-y: 25%;
+    }
     &[data-type="L2_BASE"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
       background-position-y: 50%;
@@ -85,6 +89,10 @@
       background-position-x: 5 * 100% / 6;
       background-position-y: 50%;
     }
+    &[data-type="L2_BUILDING"] .tech-tile-image {
+      background-position-x: 6 * 100% / 6;
+      background-position-y: 50%;
+    }
     &[data-type="L3_BASE"] .tech-tile-image {
       background-position-x: 1 * 100% / 6;
       background-position-y: 75%;
@@ -103,6 +111,10 @@
     }
     &[data-type="L3_JOKER"] .tech-tile-image {
       background-position-x: 5 * 100% / 6;
+      background-position-y: 75%;
+    }
+    &[data-type="L3_BUILDING"] .tech-tile-image {
+      background-position-x: 6 * 100% / 6;
       background-position-y: 75%;
     }
     &[data-type="anton"] .tech-tile-image {

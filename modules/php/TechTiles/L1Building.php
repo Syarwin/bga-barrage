@@ -1,6 +1,6 @@
 <?php
 namespace BRG\TechTiles;
-use BRG\Map;
+use BRG\Managers\Buildings;
 
 /*
  * Level 1 building advanced tile
@@ -21,6 +21,8 @@ class L1Building extends AdvancedTile
 
   public function getPowerFlow($slot)
   {
-    return [];
+    $id = (int) explode('-', $slot['id'])[1];
+    $building = Buildings::getSingle($id);
+    return $building->getFlow();
   }
 }
