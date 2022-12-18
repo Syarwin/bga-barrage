@@ -442,7 +442,7 @@ define([
       dojo.empty('anytimeActions');
 
       dojo.query('.selected').removeClass('selected');
-      dojo.query('.headstream[data-n]').forEach((h) => (h.dataset.n = 0));
+      dojo.query('#brg-map [data-n]').forEach((h) => (h.dataset.n = 0));
     },
 
     onEnteringState(stateName, args) {
@@ -1330,12 +1330,13 @@ define([
 
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
-      ['meeples', 'players', 'companies', 'techTiles', 'contracts', 'bonuses'].forEach((value) => {
+      ['meeples', 'players', 'companies', 'techTiles', 'contracts', 'bonuses', 'works'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
       this.setupMeeples();
       this.setupTechnologyTiles();
       this.setupContracts();
+      this.setupExternalWorks();
       this.refreshCompanies();
       this.updateWheelSummaries();
       this.onChangeAltFrSetting(this.settings.altFr);
@@ -1447,10 +1448,12 @@ define([
 
     // Place Droplets
     onEnteringStatePlaceDroplet(args) {
-      let headstreams = args.headstreams.map((hId) => $('brg-map').querySelector(`.headstream[data-id='${hId}']`));
+      let selectables = args.isDam
+        ? args.dams.map((bId) => $('brg-map').querySelector(`.dam-slot[data-id='${bId}']`))
+        : args.headstreams.map((hId) => $('brg-map').querySelector(`.headstream[data-id='${hId}']`));
       let currentSelection = [];
       let updateSelectable = () => {
-        headstreams.forEach((h) => {
+        selectables.forEach((h) => {
           h.classList.toggle('selectable', currentSelection.length < args.n);
           h.dataset.n = currentSelection.reduce((c, v) => c + (v == h.dataset.id), 0);
         });
@@ -1481,11 +1484,10 @@ define([
         }
       };
 
-      args.headstreams.forEach((hId) => {
-        let headstream = $('brg-map').querySelector(`.headstream[data-id='${hId}']`);
-        this.onClick(headstream, () => {
+      selectables.forEach((o) => {
+        this.onClick(o, () => {
           if (currentSelection.length < args.n) {
-            currentSelection.push(hId);
+            currentSelection.push(o.dataset.id);
             updateSelectable();
           }
         });

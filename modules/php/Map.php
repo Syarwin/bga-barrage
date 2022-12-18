@@ -262,6 +262,25 @@ class Map
     return self::$infos[$basin]['capacity'] ?? 0;
   }
 
+  public function getUnfullDams($company)
+  {
+    $dams = [];
+    foreach (self::getZones() as $zoneId => $zone) {
+      // Compute the possible dams
+      foreach ($zone['basins'] ?? [] as $basin) {
+        $dam = self::getBuiltStructure($basin, [COMPANY_NEUTRAL, $company]);
+        if (is_null($dam)) {
+          continue;
+        }
+        $nDroplets = self::countDropletsInBasin($basin);
+        if ($nDroplets < self::getBasinCapacity($basin)) {
+          $dams[] = $basin;
+        }
+      }
+    }
+    return $dams;
+  }
+
   //////////////////////////////////////
   // Structure Utils
   //////////////////////////////////////

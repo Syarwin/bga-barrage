@@ -140,7 +140,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
 
       200 => $f([\EXCAVATOR => 2, MIXER => 4], [VP => 8, ROTATE_WHEEL => 3]),
       201 => $f([MIXER => 5], [VP => 10, \FLOW_DROPLET => 1]),
-      202 => $f([EXCAVATOR => 6], [VP => 5, \FULFILL_CONTRACT => null]),
+      202 => $f([EXCAVATOR => 6], [VP => 5, \FULFILL_CONTRACT => -1]),
       203 => $f([\EXCAVATOR => 3, MIXER => 2], [VP => 6, \FLOW_DROPLET => 2]),
       204 => $f([EXCAVATOR => 5], [VP => 6, MIXER => 3]),
     ];

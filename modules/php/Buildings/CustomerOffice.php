@@ -48,7 +48,7 @@ class CustomerOffice extends Building
         [
           'action' => \FULFILL_CONTRACT,
           'args' => [
-            'energy' => -1,
+            'n' => -1,
           ],
         ],
       ],

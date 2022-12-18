@@ -63,6 +63,7 @@ class Notifications
       'techTiles' => $datas['techTiles'],
       'contracts' => $datas['contracts'],
       'bonuses' => $datas['bonuses'],
+      'works' => $datas['works'],
       //      'scores' => $datas['scores'],
     ];
 

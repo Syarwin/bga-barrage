@@ -36,6 +36,7 @@ abstract class FlowConvertor
       POWERHOUSE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => POWERHOUSE]]],
       ELEVATION => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => ELEVATION]]],
       BASE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => BASE]]],
+      FULFILL_CONTRACT => [['action' => \FULFILL_CONTRACT, 'args' => []]],
     ];
 
     $flows = ['type' => NODE_SEQ, 'childs' => []];
@@ -79,12 +80,35 @@ abstract class FlowConvertor
         // Otherwise it's just a basic action
         else {
           $rFlow['args']['n'] = $n;
-          if ($t == \ENERGY_PRODUCED) {
-            $rFlow['args']['energy'] = $n;
-          }
           $rFlow['source'] = $source;
           $flows['childs'][] = $rFlow;
         }
+      }
+
+      if ($t == \ADVANCED_TECH_TILE) {
+        $flows['childs'][] = [
+          'type' => \NODE_XOR,
+          'childs' => [
+            [
+              'action' => PATENT,
+              'args' => [
+                'position' => 1,
+              ],
+            ],
+            [
+              'action' => PATENT,
+              'args' => [
+                'position' => 2,
+              ],
+            ],
+            [
+              'action' => PATENT,
+              'args' => [
+                'position' => 3,
+              ],
+            ],
+          ],
+        ];
       }
     }
 

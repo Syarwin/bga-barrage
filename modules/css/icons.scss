@@ -374,4 +374,14 @@
     height: 1.2em;
     background-image: url("img/icons/building_devOffice.png");
   }
+
+  &.icon-water_dam {
+    min-width: 1.3em;
+    height: 1.5em;
+    background-image: url("img/icons/water_dam.png");
+
+    span {
+      display: none;
+    }
+  }
 }

@@ -40,7 +40,7 @@ class FulfillContract extends \BRG\Models\Action
 
   protected function getEnergy()
   {
-    return ($this->getCtxArgs()['energy'] ?? 0) + ($this->isProduction() ? $company->getContractReduction() : 0);
+    return ($this->getCtxArgs()['n'] ?? 0) + ($this->isProduction() ? $company->getContractReduction() : 0);
   }
 
   public function isDoable($company, $ignoreResources = false)

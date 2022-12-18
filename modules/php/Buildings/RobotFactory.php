@@ -1,6 +1,7 @@
 <?php
 namespace BRG\Buildings;
 use BRG\Helpers\FlowConvertor;
+use BRG\Helpers\Utils;
 
 class RobotFactory extends Building
 {
@@ -37,7 +38,11 @@ class RobotFactory extends Building
       'childs' => [
         [
           'action' => PAY,
-          'args' => [CREDIT => 1],
+          'args' => [
+            'nb' => 1,
+            'costs' => Utils::formatCost([CREDIT => 1]),
+            'source' => $this->getName(),
+          ],
         ],
         FlowConvertor::computeRewardFlow([ANY_MACHINE => 2]),
       ],

@@ -27,7 +27,7 @@ class Cofferdam extends Building
     return [
       'i' => '<WATER_DAM:1>',
       't' => clienttranslate(
-        'Take 1 Water Drop from the general supply and place it directly on a Neutral Dam or on one of your Personal Dams of your choosing.'
+        'Take 1 Water Drop from the general supply and place it directly on a Neutral Dam or on one of your Personal Dams of your choosing. The dam must be able to hold that additional water drop.'
       ),
     ];
   }
@@ -35,9 +35,10 @@ class Cofferdam extends Building
   public function getFlow()
   {
     return [
-      [
-        'action' => DROPLET,
-        'args' => [], // TODO
+      'action' => \PLACE_DROPLET,
+      'args' => [
+        'n' => 1,
+        'type' => 'dam',
       ],
     ];
   }

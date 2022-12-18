@@ -44,13 +44,21 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function argsPlaceDroplet()
   {
-    $ctxArgs = Engine::getNextUnresolved()->getArgs();
+    $ctxArgs = $this->getCtxArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
+    $isDam = ($ctxArgs['type'] ?? null) == 'dam';
+    $company = Companies::getActive();
     return [
       'i18n' => ['speed'],
-      'speed' => $toFlow ? clienttranslate('immediate flow') : clienttranslate('delayed flow'),
+      'speed' => $isDam
+        ? clienttranslate('neutral or player dam')
+        : ($toFlow
+          ? clienttranslate('immediate flow')
+          : clienttranslate('delayed flow')),
       'headstreams' => Map::getHeadstreams(),
+      'dams' => $isDam ? Map::getUnfullDams($company) : [],
       'flow' => $toFlow,
+      'isDam' => $isDam,
       'n' => $ctxArgs['n'] ?? 0,
     ];
   }

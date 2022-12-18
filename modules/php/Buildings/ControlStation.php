@@ -35,10 +35,8 @@ class ControlStation extends Building
   public function getFlow()
   {
     return [
-      [
-        'action' => PRODUCE,
-        'args' => ['bonus' => 3],
-      ],
+      'action' => PRODUCE,
+      'args' => ['bonus' => 3],
     ];
   }
 

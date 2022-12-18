@@ -39,7 +39,7 @@ class L2Base extends AdvancedTile
           [
             'action' => \FULFILL_CONTRACT,
             'optional' => true,
-            'args' => [ENERGY => $energy],
+            'args' => ['n' => $energy],
           ],
         ],
       ];

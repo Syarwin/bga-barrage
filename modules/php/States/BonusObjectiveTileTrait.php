@@ -57,11 +57,9 @@ trait BonusObjectiveTileTrait
         return $company->countAdvancedTiles();
         break;
       case BONUS_EXTERNAL_WORK:
-        // TODO LWP
-        break;
+        return $company->getFulfilledExtWorks()->count();
       case BONUS_BUILDING:
-        // TODO LWP
-        break;
+        return $company->countBuiltStructures(BUILDING);
     }
     throw new \feException('bonus tile not implemnted');
   }

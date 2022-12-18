@@ -37,7 +37,7 @@ class ExternalWork extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return $company->canPayCost($this->getWork()->getCost($this->getCostType()));
+    return $this->getWork() != null && $company->canPayCost($this->getWork()->getCost($this->getCostType()));
   }
 
   public function getCostType()

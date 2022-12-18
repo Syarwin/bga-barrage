@@ -15,9 +15,18 @@ class Patent extends \BRG\Models\Action
     return \ST_PATENT;
   }
 
+  public function getDescription($ignoreResources = false)
+  {
+    $n = $this->ctx->getArgs()['position'];
+    return [
+      'log' => clienttranslate('Take advanced tech tile n°${n}'),
+      'args' => ['n' => $n],
+    ];
+  }
+
   public function isDoable($company, $ignoreResources = false)
   {
-    return true;
+    return !is_null($this->getTile());
   }
 
   public function isAutomatic($company = null)
@@ -25,14 +34,18 @@ class Patent extends \BRG\Models\Action
     return true;
   }
 
-  public function stPatent()
+  public function getTile()
   {
-    $company = Companies::getActive();
     $args = $this->getCtxArgs();
-
     $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $args['position'])
       ->get()
       ->first();
+  }
+
+  public function stPatent()
+  {
+    $company = Companies::getActive();
+    $tile = $this->getTile();
 
     TechnologyTiles::DB()->update(['company_id' => $company->getId(), 'tile_location' => 'company'], $tile->getId());
     Notifications::acquirePatent($company, TechnologyTiles::get($tile->getId()));

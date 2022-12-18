@@ -50,7 +50,7 @@ class Buildings extends \BRG\Helpers\Pieces
         }
 
         $slots[$id][] = [
-          'id' => 'building-' . $id . '-' . $j,
+          'id' => 'buildingslot-' . $id . '-' . $j,
           'cost' => $j < 2 ? 0 : 3,
         ];
       }
