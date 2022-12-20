@@ -3,6 +3,7 @@ namespace BRG\Managers;
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
 use BRG\Core\Globals;
+use BRG\Core\Notifications;
 
 /* Class to manage all the external works for Barrage LWP */
 

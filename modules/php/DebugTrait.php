@@ -7,6 +7,7 @@ use BRG\Managers\Fences;
 use BRG\Managers\Actions;
 use BRG\Managers\Companies;
 use BRG\Managers\PlayerCards;
+use BRG\Managers\ExternalWorks;
 use BRG\Core\Engine;
 use BRG\Core\Game;
 use BRG\Models\PlayerBoard;
@@ -25,6 +26,11 @@ trait DebugTrait
   {
     $droplets = Meeples::getFilteredQuery(null, null, DROPLET)->get();
     Map::flowDroplets($droplets);
+  }
+
+  public function corwin()
+  {
+    ExternalWorks::newRound();
   }
 
   public function tp()

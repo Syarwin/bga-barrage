@@ -1618,7 +1618,7 @@ body {
     background-position: 96.67405764966742% 51.85995623632385%;
     background-size: 839.344262295082%; }
 
-[data-altfr="1"] .barrage-meeple[data-company="4"].meeple-engineer, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-base, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-elevation, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-conduit, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-powerhouse, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-score {
+[data-altfr="1"] .barrage-meeple[data-company="4"].meeple-engineer, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-base, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-elevation, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-conduit, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-powerhouse, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-building, [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-score {
   background-image: url("img/alt-fr/meeples.png");
   background-repeat: no-repeat; }
 [data-altfr="1"] .barrage-meeple[data-company="4"].meeple-engineer {

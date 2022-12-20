@@ -196,6 +196,21 @@ class Notifications
     ]);
   }
 
+  public static function discardWorks($works)
+  {
+    self::notifyAll('silentDestroy', clienttranslate('All external works are discarded'), [
+      'works' => $works,
+    ]);
+  }
+
+  public static function refillExternalWorks($works)
+  {
+    self::notifyAll('refillExternalWorks', clienttranslate('${n} new external works are drawn'), [
+      'works' => $works->toArray(),
+      'n' => $works->count(),
+    ]);
+  }
+
   public static function startNewRound($round)
   {
     self::notifyAll('startNewRound', clienttranslate('Starting round n°${round}'), [

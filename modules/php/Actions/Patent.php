@@ -17,7 +17,7 @@ class Patent extends \BRG\Models\Action
 
   public function getDescription($ignoreResources = false)
   {
-    $n = $this->ctx->getArgs()['position'];
+    $n = $this->getCtxArgs()['position'];
     return [
       'log' => clienttranslate('Take advanced tech tile n°${n}'),
       'args' => ['n' => $n],
@@ -37,7 +37,7 @@ class Patent extends \BRG\Models\Action
   public function getTile()
   {
     $args = $this->getCtxArgs();
-    $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $args['position'])
+    return TechnologyTiles::getFilteredQuery(null, 'patent_' . $args['position'])
       ->get()
       ->first();
   }

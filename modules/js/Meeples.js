@@ -434,6 +434,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (n.args.hasOwnProperty('tiles')) {
         n.args.tiles.forEach((tile) => dojo.destroy('tech-tile-' + tile));
       }
+      if (n.args.hasOwnProperty('works')) {
+        n.args.works.forEach((work) => dojo.destroy('work-' + work));
+      }
       if (n.args.hasOwnProperty('bonusTile')) {
         dojo.destroy('bonus-tile-' + n.args.bonusTile);
       }

@@ -55,7 +55,6 @@ trait BonusObjectiveTileTrait
         return $company->countBuiltStructures(POWERHOUSE);
       case BONUS_ADVANCED_TILE:
         return $company->countAdvancedTiles();
-        break;
       case BONUS_EXTERNAL_WORK:
         return $company->getFulfilledExtWorks()->count();
       case BONUS_BUILDING:
@@ -74,6 +73,8 @@ trait BonusObjectiveTileTrait
       BONUS_CONDUIT => 4,
       BONUS_POWERHOUSE => 5,
       BONUS_ADVANCED_TILE => 4,
+      BONUS_EXTERNAL_WORK => 5,
+      BONUS_BUILDING => 4,
     ];
     return $multiplicativeCoeffs[$bonusTile];
   }

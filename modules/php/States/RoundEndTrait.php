@@ -11,6 +11,7 @@ use BRG\Managers\Meeples;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\ExternalWorks;
 use BRG\Actions\Gain;
 
 trait RoundEndTrait
@@ -192,6 +193,9 @@ trait RoundEndTrait
 
     if (!Globals::isBeginner()) {
       TechnologyTiles::newRound();
+    }
+    if (Globals::isLWP()) {
+      ExternalWorks::newRound();
     }
 
     $this->gamestate->jumpToState(ST_BEFORE_START_OF_ROUND);

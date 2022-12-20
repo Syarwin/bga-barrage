@@ -74,6 +74,7 @@ define([
         ['updateTurnOrder', 500],
         ['flipToken', 500],
         ['refillTechTiles', 1000],
+        ['refillExternalWorks', 1000],
         ['mahiriCopy', 100],
         ['clearMahiri', 10],
         ['flipAutomaCard', 800],
@@ -2127,21 +2128,6 @@ define([
       );
     },
 
-    // notif_refillContractStack(n) {
-    //   debug('Notif: refilling contract stack using automa discard', n);
-    //   this._contractStackCounters[n.args.stack].incValue(n.args.nb);
-    // },
-
-    // notif_refillStacks(n) {
-    //   debug('Notif: refilling contract stack', n);
-    //   n.args.contracts.forEach((contract) => {
-    //     let type = contract.type;
-    //     this.addContract(contract, `contract-counter-${type}`);
-    //     this.slide(`contract-${contract.id}`, this.getContractContainer(contract));
-    //     this._contractStackCounters[type].incValue(-1);
-    //   });
-    // },
-
     notif_fulfillExtWork(n) {
       debug('Notif: someone fulfilled an external work', n);
       let work = n.args.work;
@@ -2156,14 +2142,13 @@ define([
       });
     },
 
-    // notif_emptyContractStack(n) {
-    //   debug('Notif: removing contracts', n);
-    //   n.args.contractIds.forEach((contractId) => {
-    //     this.slide(`contract-${contractId}`, `contract-counter-${n.args.stack}`, {
-    //       destroy: true,
-    //     });
-    //   });
-    // },
+    notif_refillExternalWorks(n) {
+      debug('Notif: refilling external works stack', n);
+      n.args.works.forEach((work) => {
+        this.addExtWork(work);
+        this.slide(`work-${work.id}`, this.getExtWorkContainer(work));
+      });
+    },
 
     ////////////////////////////////////////////////////////
     //  _____         _       _____ _ _
