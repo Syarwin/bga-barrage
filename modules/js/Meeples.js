@@ -606,7 +606,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               desc = m[t];
             }
           } else {
-            if (n === null && t == 'FULFILL_CONTRACT') {
+            if (n === -1 && t == 'FULFILL_CONTRACT') {
               desc = _(
                 'Fulfill one face up Contract in your personal supply. You don’t need to produce energy to get the reward.'
               );
@@ -675,12 +675,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           if (redOutline) {
             type += '_COST';
           }
+
           if (Array.isArray(n)) {
             icon = `<${type}_${n.join('_').toUpperCase()}>`;
           } else if (n !== null) {
             // Very specific case with ext work where you can place 2 elevations
             if (t == 'elevation' && n > 1) {
               icon = `<${type}><${type}>`;
+            } else if (n === -1 && t == 'FULFILL_CONTRACT') {
+              icon = `<${type}>`;
             } else {
               icon = `<${type}:${n}>`;
             }

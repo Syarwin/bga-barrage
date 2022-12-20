@@ -23,7 +23,7 @@ class FulfillContract extends \BRG\Models\Action
     if ($this->isProduction()) {
       $contracts = $contracts->merge(Contracts::getNationalContracts());
     }
-    $energy = $this->getEnergy();
+    $energy = $this->getEnergy($company);
     if ($energy > 0) {
       $contracts = $contracts->filter(function ($contract) use ($company, $energy) {
         return $contract->getCost() <= $energy;
@@ -38,21 +38,21 @@ class FulfillContract extends \BRG\Models\Action
     return $this->getCtxArgs()['production'] ?? false;
   }
 
-  protected function getEnergy()
+  protected function getEnergy($company)
   {
     return ($this->getCtxArgs()['n'] ?? 0) + ($this->isProduction() ? $company->getContractReduction() : 0);
   }
 
   public function isDoable($company, $ignoreResources = false)
   {
-    $energy = $this->getEnergy();
+    $energy = $this->getEnergy($company);
     return !$this->getFulfillableContracts($company)->empty();
   }
 
   public function argsFulfillContract()
   {
     $company = Companies::getActive();
-    $n = $this->getEnergy();
+    $n = $this->getEnergy($company);
 
     return [
       'n' => $n,
@@ -69,7 +69,7 @@ class FulfillContract extends \BRG\Models\Action
     // Sanity checks
     self::checkAction('actFulfillContract');
     $company = Companies::getActive();
-    $energy = $this->getEnergy();
+    $energy = $this->getEnergy($company);
     $contracts = $this->getFulfillableContracts($company);
     $contract = $contracts[$contractId] ?? null;
     if (is_null($contract)) {
@@ -116,7 +116,7 @@ class FulfillContract extends \BRG\Models\Action
       throw new \feException('You cannot fulfill several contract at once. Should not happen');
     }
 
-    $energy = $this->getEnergy();
+    $energy = $this->getEnergy($company);
     $contracts = $this->getFulfillableContracts($company);
     $totalCost = 0;
     $childs = [];

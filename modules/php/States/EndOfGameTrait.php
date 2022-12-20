@@ -10,6 +10,7 @@ use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
 use BRG\Managers\Actions;
 use BRG\Managers\Contracts;
+use BRG\Managers\Buildings;
 
 trait EndOfGameTrait
 {
