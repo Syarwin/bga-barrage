@@ -57,6 +57,7 @@ $game_options = [
         'name' => totranslate('Enabled'),
         'tmdisplay' => totranslate('[LWP]'),
         'nobeginner' => true,
+        'alpha' => true,
       ],
     ],
     'displaycondition' => [

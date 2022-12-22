@@ -3,6 +3,7 @@ namespace BRG\Managers;
 use BRG\Core\Globals;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
+use BRG\Helpers\Collection;
 use BRG\Managers\Players;
 
 /*

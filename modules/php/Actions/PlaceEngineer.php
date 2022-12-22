@@ -4,6 +4,7 @@ namespace BRG\Actions;
 use BRG\Managers\ActionSpaces;
 use BRG\Managers\Companies;
 use BRG\Managers\Meeples;
+use BRG\Managers\Contracts;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
@@ -141,6 +142,14 @@ class PlaceEngineer extends \BRG\Models\Action
 
   function stPlaceEngineer()
   {
+    // Check whether contracts need to be filled up again or not
+    if (Contracts::needRefill()) {
+      $contracts = Contracts::refillStacks();
+      if (!$contracts->empty()) {
+        Notifications::refillStacks($contracts, true);
+      }
+    }
+
     $args = $this->argsPlaceEngineer();
     if (empty($args['spaces']) && empty($args['alternativeActions'])) {
       Game::get()->actSkip(true);

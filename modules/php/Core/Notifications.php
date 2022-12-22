@@ -176,11 +176,11 @@ class Notifications
     ]);
   }
 
-  public static function refillStacks($contracts)
+  public static function refillStacks($contracts, $silent = false)
   {
     self::notifyAll(
       'refillStacks',
-      clienttranslate('${n} new private contracts are drawn for refilling contracts stacks'),
+      $silent ? '' : clienttranslate('${n} new private contracts are drawn for refilling contracts stacks'),
       [
         'contracts' => $contracts->toArray(),
         'n' => $contracts->count(),
