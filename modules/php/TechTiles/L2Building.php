@@ -1,7 +1,7 @@
 <?php
 namespace BRG\TechTiles;
 use BRG\Map;
-
+use BRG\Managers\Buildings;
 /*
  * Level 2 building advanced tile
  */
@@ -21,14 +21,11 @@ class L2Building extends AdvancedTile
 
   public function applyConstructCostModifier(&$costs, $slot)
   {
-    $cost = $costs['costs']['fees'][0];
-    if (isset($cost[\EXCAVATOR])) {
-      $nc = [MIXER => $cost[MIXER] ?? 0];
-      $costs['costs']['fees'][] = $nc;
-    }
-    if (isset($cost[MIXER])) {
-      $nc = [\EXCAVATOR => $cost[\EXCAVATOR] ?? 0];
-      $costs['costs']['fees'][] = $nc;
-    }
+    $t = explode('-', $slot['id']);
+    $bId = $t[1];
+    $cost = Buildings::get($bId)->getCost();
+    $costs['costs']['bonuses'][] = [
+      'choices' => [[\EXCAVATOR => -$cost[\EXCAVATOR] ?? 0], [\MIXER => -$cost[\MIXER] ?? 0]],
+    ];
   }
 }

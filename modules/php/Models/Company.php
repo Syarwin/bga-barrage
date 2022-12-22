@@ -439,9 +439,21 @@ class Company extends \BRG\Helpers\DB_Model
     if ($slot['type'] == BUILDING) {
       $t = explode('-', $slot['id']);
       $bId = $t[1];
+      $cost = Buildings::get($bId)->getCost();
+
       $costs = [
+        'nb' => ($cost[\EXCAVATOR] ?? 0) + ($cost[MIXER] ?? 0),
         'costs' => [
-          'fees' => [Buildings::get($bId)->getCost()],
+          'trades' => [
+            [
+              \EXCAVATOR => 1,
+              'max' => $cost[\EXCAVATOR] ?? 0,
+            ],
+            [
+              \MIXER => 1,
+              'max' => $cost[\MIXER] ?? 0,
+            ],
+          ],
         ],
       ];
     } else {
