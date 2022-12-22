@@ -50,7 +50,7 @@ class PlaceDroplet extends \BRG\Models\Action
       return Map::getHeadstreams();
     } else {
       $constraint = $ctxArgs['constraint'] ?? null;
-      $dams = Map::getUnfullDams($company);
+      $dams = Map::getUnfullDams($company, is_null($constraint));
       Utils::filter($dams, function ($dam) use ($constraint) {
         return $dam != $constraint;
       });

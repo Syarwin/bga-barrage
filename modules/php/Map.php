@@ -262,13 +262,13 @@ class Map
     return self::$infos[$basin]['capacity'] ?? 0;
   }
 
-  public function getUnfullDams($company)
+  public function getUnfullDams($company, $includeNeutral = true)
   {
     $dams = [];
     foreach (self::getZones() as $zoneId => $zone) {
       // Compute the possible dams
       foreach ($zone['basins'] ?? [] as $basin) {
-        $dam = self::getBuiltStructure($basin, [COMPANY_NEUTRAL, $company]);
+        $dam = self::getBuiltStructure($basin, $includeNeutral ? [COMPANY_NEUTRAL, $company] : [$company]);
         if (is_null($dam)) {
           continue;
         }
