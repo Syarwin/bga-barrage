@@ -1362,23 +1362,25 @@ define([
     // Place engineer
     onEnteringStatePlaceEngineer(args) {
       let construct = null;
+      let callback = (uid) => {
+        let choices = args.spaces[uid];
+        if (choices.length == 1) {
+          this.takeAtomicAction('actPlaceEngineer', [uid, choices[0]]);
+        } else {
+          this.clientState('placeEngineerChooseNumber', _('How many engineer do you want to place here ?'), {
+            choices,
+            uid,
+          });
+        }
+      };
+
       Object.keys(args.spaces).forEach((uid) => {
         if (args.constructSpaces.includes(uid)) {
           if (construct === null || args.spaces[construct][0] > args.spaces[uid][0]) {
             construct = uid;
           }
         }
-        this.onClick(uid, () => {
-          let choices = args.spaces[uid];
-          if (choices.length == 1) {
-            this.takeAtomicAction('actPlaceEngineer', [uid, choices[0]]);
-          } else {
-            this.clientState('placeEngineerChooseNumber', _('How many engineer do you want to place here ?'), {
-              choices,
-              uid,
-            });
-          }
-        });
+        this.onClick(uid, () => callback(uid));
       });
 
       if (construct !== null) {
@@ -1389,7 +1391,7 @@ define([
             log: _('Construct with ${n} engineer(s)'),
             args: { n },
           }),
-          () => this.takeAtomicAction('actPlaceEngineer', [construct, n])
+          () => callback(construct)
         );
       }
 
