@@ -626,7 +626,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
               'After you have performed a production action, move your Energy marker by 3 additional steps on the Energy track.'
             ),
             special_power_france: _(
-              'You can fulfill every Contract (even the National Contracts) producting 3 Energy Units less than the Energy Units required by the Contract.'
+              'You can fulfill every Contract (even the National Contracts) producting 3 Energy Units less than the Energy Units required by the Contract. This ability only works when a powerhouse generates the power used.'
             ),
             special_power_germany: _(
               'After you have performed a production action, you can perform a second production action using another Powerhouse. You must not apply the bonus/malus of the action symbol neither the bonus of your Company board.'
