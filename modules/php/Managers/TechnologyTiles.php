@@ -1,10 +1,11 @@
 <?php
 namespace BRG\Managers;
 use BRG\Core\Stats;
-use BRG\Helpers\UserException;
 use BRG\Core\Notifications;
 use BRG\Core\Globals;
+use BRG\Helpers\UserException;
 use BRG\Helpers\Collection;
+use BRG\Helpers\Utils;
 
 /* Class to manage all the meeples for Barrage */
 
@@ -140,16 +141,21 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       2 => L2_TILES,
       3 => L3_TILES,
     ];
+    $ignored = [];
     if (Globals::isLWP()) {
       $tiles[1][] = L1_BUILDING;
       $tiles[2][] = L2_BUILDING;
       $tiles[3][] = L3_BUILDING;
+      $ignored = array_merge(Utils::rand($tiles[1]), Utils::rand($tiles[2]), Utils::rand($tiles[3]));
+      Notifications::setAsideAdvancedTechTiles($ignored);
     }
 
     $meeples = [];
     foreach ($tiles as $deck => $tiles) {
       foreach ($tiles as $type) {
-        $meeples[] = ['type' => $type, 'location' => 'deckL' . $deck];
+        if (!in_array($type, $ignored)) {
+          $meeples[] = ['type' => $type, 'location' => 'deckL' . $deck];
+        }
       }
     }
     self::create($meeples);

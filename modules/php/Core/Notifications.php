@@ -37,6 +37,20 @@ class Notifications
     self::notify($pId, 'message', $txt, $args);
   }
 
+  public static function setAsideAdvancedTechTiles($ignored)
+  {
+    self::message(
+      clienttranslate(
+        'This game will be played without the following advanced technology tiles: ${tile1}, ${tile2} and ${tile3}'
+      ),
+      [
+        'tile1' => $ignored[0],
+        'tile2' => $ignored[1],
+        'tile3' => $ignored[2],
+      ]
+    );
+  }
+
   public static function changePhase($phase)
   {
     self::notifyAll('changePhase', '', [
