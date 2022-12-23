@@ -99,10 +99,11 @@ trait EndOfGameTrait
     //                                |___/
     ///////////////////////////////////////////////
     foreach ($companies as $cId => $company) {
-      $vp = 0;
+      $totalVp = 0;
       $builtBuildingIds = $company->getBuiltBuildingIds();
       foreach (Buildings::getMany($builtBuildingIds) as $building) {
         $vp = $building->getVp();
+        $totalVp += $vp;
         $company->incScore($vp, [
           'log' => clienttranslate('(private building: ${building})'),
           'args' => [
@@ -111,7 +112,7 @@ trait EndOfGameTrait
           ],
         ]);
       }
-      Stats::setVpBuildings($company, $vp);
+      Stats::setVpBuildings($company, $totalVp);
     }
 
     ///////////////////////////////////////////

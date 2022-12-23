@@ -18,7 +18,8 @@ class DiscardContract extends \BRG\Models\Action
 
   public function argsDiscardContract()
   {
-    $contracts = Companies::getActive()->getContracts(false);
+    $company = Companies::getActive();
+    $contracts = $company->getContracts(false);
     $maxLimit = $company->isXO(\XO_SIMONE) ? 4 : 3;
     return ['n' => $contracts->count() - $maxLimit, 'contracts' => $contracts->getIds()];
   }

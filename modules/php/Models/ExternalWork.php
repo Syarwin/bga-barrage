@@ -41,7 +41,7 @@ class ExternalWork extends \BRG\Helpers\DB_Model
       return $cost;
     }
     if ($costType == CREDIT) {
-      return [CREDIT => 2 * ($cost[\EXCAVATOR] ?? (0 + $cost[MIXER] ?? 0))];
+      return [CREDIT => 2 * (($cost[\EXCAVATOR] ?? 0) + ($cost[MIXER] ?? 0))];
     }
   }
 

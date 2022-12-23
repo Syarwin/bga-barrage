@@ -20,7 +20,7 @@ class BuildingsActionBoard extends AbstractActionBoard
   protected static $isLWP = true;
   public static function getName()
   {
-    return clienttranslate('External Works');
+    return clienttranslate('Private Buildings');
   }
 
   public function getUiStructure($cId = null)
