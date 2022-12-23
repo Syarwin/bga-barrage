@@ -2034,7 +2034,10 @@ define([
         if (contract.type == 1) {
           this.slide('contract--1', this.getContractContainer(fakeContract), {
             destroy: true,
-          }).then(() => this.addContract(contract));
+          }).then(() => {
+            this.addContract(contract);
+            this.updateResourcesHolders(false, false);
+          });
         } else {
           let o = $('contract--1');
           o.style.transform = 'translateX(0px)';
