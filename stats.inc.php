@@ -147,6 +147,11 @@ $stats_type = [
       'name' => totranslate('Starting point'),
       'type' => 'int',
     ],
+    'vpAuction' => [
+      'id' => STAT_VP_AUCTION,
+      'name' => totranslate('VP payed for initial auction'),
+      'type' => 'int',
+    ],
     'vpEnergyTrack' => [
       'id' => STAT_VP_ENERGY_TRACK,
       'name' => totranslate('VP from energy track (1st/2nd positions)'),

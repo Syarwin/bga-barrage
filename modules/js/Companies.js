@@ -755,6 +755,108 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
     },
 
+    ///////////////////////////////////////////
+    //     _              _   _
+    //    / \  _   _  ___| |_(_) ___  _ __
+    //   / _ \| | | |/ __| __| |/ _ \| '_ \
+    //  / ___ \ |_| | (__| |_| | (_) | | | |
+    // /_/   \_\__,_|\___|\__|_|\___/|_| |_|
+    ///////////////////////////////////////////
+    onEnteringStateAuctionPlaceBet(args) {
+      if (!this._auctionModal) {
+        let nPlayers = this.nPlayers();
+        this._auctionModal = new customgame.modal('auction', {
+          class: 'barrageAuction_popin',
+          closeIcon: 'fa-times',
+          title: _('Auction'),
+          contents: `<table id="auction">
+            <thead>
+              <tr>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>${_('First')}</td></tr>
+              <tr><td>${_('Second')}</td></tr>
+              ${nPlayers > 2 ? `<tr><td>${_('Third')}</td></tr>` : ''}
+              ${nPlayers > 3 ? `<tr><td>${_('Fourth')}</td></tr>` : ''}
+            </tbody>
+          </table>
+          <div id="auction-footer"></div>`,
+          closeAction: 'hide',
+          verticalAlign: 'flex-start',
+        });
+      }
+      this.updateAuctionModal(args.auction);
+      this._auctionModal.show();
+      this.addPrimaryActionButton('btnShowAuction', _('Show auction'), () => this._auctionModal.show());
+    },
+
+    updateAuctionModal(auction) {
+      // Fin min and max
+      let min = 1000,
+        max = 10;
+      let pos = [];
+      Object.values(auction).forEach((bet) => {
+        min = Math.min(bet.vp, min);
+        max = Math.max(bet.vp, max);
+        pos[bet.pos] = parseInt(bet.vp) + 1;
+      });
+      for (let i = 0; i < this.nPlayers(); i++) {
+        if (!pos[i]) {
+          min = 0;
+          pos[i] = 0;
+        }
+      }
+      max += 5;
+
+      // Update table cells
+      [...$('auction').querySelectorAll('tr td:not(:first-of-type)')].forEach((elt) => elt.remove());
+      for (let i = min; i <= max; i++) {
+        let firstRow = $('auction').querySelector('thead tr');
+        firstRow.insertAdjacentHTML('beforeend', `<td>${this.formatString('<VP:' + i + '>')}</td>`);
+
+        [...$('auction').querySelectorAll('tbody tr')].forEach((row, p) => {
+          row.insertAdjacentHTML('beforeend', `<td id="auction-${p}-${i}"></td>`);
+
+          if (this.isCurrentPlayerActive() && pos[p] <= i) {
+            this.onClick(`auction-${p}-${i}`, () => this.onSelectAuction(p, i));
+          }
+        });
+      }
+
+      // Display existing bets
+      Object.keys(auction).forEach((pId) => {
+        let bet = auction[pId];
+        let color = this.gamedatas.players[pId].color;
+        $(`auction-${bet.pos}-${bet.vp}`).insertAdjacentHTML(
+          'beforeend',
+          `<div class='bet' style='background:#${color}'></div>`
+        );
+      });
+    },
+
+    onSelectAuction(pos, vp) {
+      [...$('auction').querySelectorAll('td.selected')].forEach((elt) => elt.classList.remove('selected'));
+      $(`auction-${pos}-${vp}`).classList.add('selected');
+
+      if ($('btnConfirmBet')) {
+        $('btnConfirmBet').remove();
+      }
+      this.addPrimaryActionButton(
+        'btnConfirmBet',
+        _('Confirm'),
+        () => this.takeAction('actPlaceBet', { pos: pos, vp: vp }),
+        'auction-footer'
+      );
+    },
+
+    notif_auctionDone(n) {
+      if (this._auctionModal) {
+        this._auctionModal.destroy();
+      }
+    },
+
     ///////////////////////////////////////////////////
     //  ____  _      _      ____  _             _
     // |  _ \(_) ___| | __ / ___|| |_ __ _ _ __| |_

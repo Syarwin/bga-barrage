@@ -121,6 +121,15 @@ class action_barrage extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actPlaceBet()
+  {
+    self::setAjaxMode();
+    $pos = self::getArg('pos', AT_int, true);
+    $vp = self::getArg('vp', AT_int, true);
+    $result = $this->game->actPlaceBet($pos, $vp);
+    self::ajaxResponse();
+  }
+
   //////////////////
   ///// UTILS  /////
   //////////////////

@@ -30,6 +30,12 @@ $game_options = [
         'name' => totranslate('Standard'),
         'nobeginner' => true,
       ],
+      OPTION_SETUP_AUCTION => [
+        'name' => totranslate('Auction mode'),
+        'description' => totranslate('Place your bet in victory points on picking nations and officers order'),
+        'tmdisplay' => totranslate('[Auction]'),
+        'nobeginner' => true,
+      ],
       /*
       OPTION_SETUP_FREE => [
         'name' => totranslate('Free setup'),
@@ -57,7 +63,6 @@ $game_options = [
         'name' => totranslate('Enabled'),
         'tmdisplay' => totranslate('[LWP]'),
         'nobeginner' => true,
-        'alpha' => true,
       ],
     ],
     'displaycondition' => [

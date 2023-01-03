@@ -51,8 +51,8 @@
   }
 
   @for $i from 1 through 6 {
-    &[data-open='#{$i}'] {
-      #modal-company-buttons .company-board-button[data-company='#{$i}'] {
+    &[data-open="#{$i}"] {
+      #modal-company-buttons .company-board-button[data-company="#{$i}"] {
         background: #e6e7e9;
         transform: translateY(-10px);
         color: black;
@@ -69,7 +69,8 @@
 }
 
 .barrageContracts_popin,
-.barrageTour_popin {
+.barrageTour_popin,
+.barrageAuction_popin {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
@@ -77,7 +78,8 @@
   min-width: 500px;
 
   .barrageContracts_popin_closeicon,
-  .barrageTour_popin_closeicon {
+  .barrageTour_popin_closeicon,
+  .barrageAuction_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -104,7 +106,7 @@
   }
 
   h2 {
-    font-family: 'Oranienbaum';
+    font-family: "Oranienbaum";
     text-align: center;
     font-size: 23px;
     margin: 0px;
@@ -152,13 +154,13 @@
         }
 
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           width: 50px;
           height: 54px;
           bottom: -29px;
           right: -25px;
-          background-image: url('img/help/tesla.png');
+          background-image: url("img/help/tesla.png");
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center center;
@@ -211,13 +213,13 @@
         &#img-panelInfo {
           width: 241px;
           height: 180px;
-          background-image: url('img/help/panel-info.png');
+          background-image: url("img/help/panel-info.png");
         }
 
         &#img-screenshot-1 {
           width: 600px;
           height: 271px;
-          background-image: url('img/help/screenshot-1.jpg');
+          background-image: url("img/help/screenshot-1.jpg");
           border: 1px solid black;
           border-radius: 8px;
           margin: 10px auto 10px;
@@ -226,7 +228,7 @@
         &#img-screenshot-2 {
           width: 600px;
           height: 271px;
-          background-image: url('img/help/screenshot-2.jpg');
+          background-image: url("img/help/screenshot-2.jpg");
           border: 1px solid black;
           border-radius: 8px;
           margin: 5px auto;
@@ -235,7 +237,7 @@
         &#img-screenshot-3 {
           width: 500px;
           height: 247px;
-          background-image: url('img/help/screenshot-3.jpg');
+          background-image: url("img/help/screenshot-3.jpg");
           border: 1px solid black;
           border-radius: 8px;
         }
@@ -243,7 +245,7 @@
         &#img-screenshot-4 {
           width: 185px;
           height: 247px;
-          background-image: url('img/help/screenshot-4.jpg');
+          background-image: url("img/help/screenshot-4.jpg");
           border: 1px solid black;
           border-radius: 8px;
         }
@@ -251,14 +253,14 @@
         &#img-player-panel {
           width: 300px;
           height: 350px;
-          background-image: url('img/help/player-panel.png');
+          background-image: url("img/help/player-panel.png");
           margin: 0px auto 10px;
         }
 
         &#img-company-board {
           width: 600px;
           height: 262px;
-          background-image: url('img/help/company-board.jpg');
+          background-image: url("img/help/company-board.jpg");
           border: 1px solid black;
           border-radius: 8px;
           margin: 5px auto 15px;
@@ -300,5 +302,59 @@
     border-bottom-right-radius: 13px;
     text-align: right;
     padding: 7px 15px 0px;
+  }
+}
+
+#popin_auction {
+  #auction {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+      border: 1px solid black;
+      padding: 2px 1px;
+      vertical-align: middle;
+      .bet {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 1px solid black;
+        box-shadow: 1px 1px 3px -1px black;
+        margin: auto;
+      }
+
+      &:first-of-type {
+        text-align: center;
+        font-weight: bold;
+        padding: 2px 5px;
+      }
+
+      &.selectable {
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(255, 0, 0, 0.425);
+        }
+      }
+
+      &.selected,
+      &.selected:hover {
+        background: rgba(0, 128, 0, 0.685);
+      }
+    }
+  }
+
+  #auction-footer {
+    min-height: 30px;
+    background-color: #e6e6e6d1;
+    border-top: 1px solid #6a4b2f;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    text-align: right;
+    padding: 7px 15px 0px;
+
+    &:empty {
+      display: none;
+    }
   }
 }

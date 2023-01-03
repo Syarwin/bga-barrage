@@ -139,8 +139,14 @@ trait SetupTrait
 
         Globals::setStartingMatchups($matchups);
         Contracts::randomStartingPick($n);
-        $this->changePhase('pickStart');
-        $this->gamestate->nextState('pick');
+
+        if (Globals::getSetup() == \BRG\OPTION_SETUP_STANDARD) {
+          $this->changePhase('pickStart');
+          $this->gamestate->nextState('pick');
+        } elseif (Globals::getSetup() == \BRG\OPTION_SETUP_AUCTION) {
+          $this->changePhase('auction');
+          $this->gamestate->nextState('auction');
+        }
       }
     }
   }
@@ -175,12 +181,25 @@ trait SetupTrait
 
   function stPickStartNext()
   {
-    $pId = $this->activeNextPlayer();
+    $done = false;
+    if (Globals::getSetup() == \BRG\OPTION_SETUP_STANDARD) {
+      $pId = $this->activeNextPlayer();
+    } elseif (Globals::getSetup() == \BRG\OPTION_SETUP_AUCTION) {
+      $order = Globals::getAuctionOrder();
+      if (empty($order)) {
+        $done = true;
+      } else {
+        $pId = array_shift($order);
+        Globals::setAuctionOrder($order);
+        $this->gamestate->changeActivePlayer($pId);
+      }
+    }
+
     $args = $this->argsPickStart();
     if (empty(Globals::getStartingMatchups())) {
       $this->setupCompanies();
       $this->gamestate->nextState('done');
-    } elseif (!empty(Companies::getCorrespondingIds([$pId]))) {
+    } elseif ($done || !empty(Companies::getCorrespondingIds([$pId]))) {
       // Handle automa
       $nAutoma = 0;
       $matchups = array_values($args['matchups']);
@@ -264,6 +283,92 @@ trait SetupTrait
     unset($matchups[$matchupId]);
     Globals::setStartingMatchups($matchups);
 
+    if (Globals::getSetup() == \BRG\OPTION_SETUP_AUCTION) {
+      $auction = Globals::getAuction();
+      $vp = $auction[$player->getId()]['vp'];
+      if ($vp > 0) {
+        Notifications::message(clienttranslate('${company_name} lose ${vp}VP(s) for initial auction'), [
+          'company' => $company,
+          'vp' => $vp,
+        ]);
+        $company->incScore(-$vp, null, true);
+        Stats::setVpAuction($player->getId(), -$vp);
+      }
+    }
+
     $this->gamestate->nextState('nextPick');
+  }
+
+  /////////////////////////////////////////////
+  //     _              _   _
+  //    / \  _   _  ___| |_(_) ___  _ __
+  //   / _ \| | | |/ __| __| |/ _ \| '_ \
+  //  / ___ \ |_| | (__| |_| | (_) | | | |
+  // /_/   \_\__,_|\___|\__|_|\___/|_| |_|
+  /////////////////////////////////////////////
+
+  function stAuctionNextPlayer()
+  {
+    $this->activeNextPlayer();
+    $pId = Players::getActiveId();
+
+    $auction = Globals::getAuction();
+    $blocked = false;
+    $finished = true;
+    $positions = [];
+    foreach ($auction as $pId2 => $bet) {
+      // If we already saw this starting position => we are not over yet
+      if (in_array($bet['pos'], $positions)) {
+        $finished = false;
+      }
+      $positions[] = $bet['pos'];
+
+      // Check whether player is blocked by someone else bet
+      if ($bet['pos'] == $auction[$pId]['pos'] && $bet['vp'] > $auction[$pId]['vp']) {
+        $blocked = true;
+      }
+    }
+
+    if ($finished) {
+      $order = [];
+      foreach ($auction as $pId2 => $bet) {
+        $order[$bet['pos']] = $pId2;
+      }
+
+      ksort($order);
+      $rorder = array_reverse($order);
+      Notifications::auctionDone($order);
+      Globals::setAuctionOrder($rorder);
+      $this->gamestate->nextState('done');
+    } elseif ($blocked) {
+      $this->gamestate->nextState('next');
+    } else {
+      $this->gamestate->nextState('loop');
+    }
+  }
+
+  function argsPlaceBet()
+  {
+    return [
+      'auction' => Globals::getAuction(),
+    ];
+  }
+
+  function actPlaceBet($pos, $vp)
+  {
+    self::checkAction('actPlaceBet');
+    $auction = Globals::getAuction();
+    foreach ($auction as $pId => $bet) {
+      if ($bet['pos'] == $pos && $bet['vp'] >= $vp) {
+        throw new \BgaVisibleSystemException('Invalid bet');
+      }
+    }
+
+    $player = Players::getActive();
+    $auction[$player->getId()] = ['pos' => $pos, 'vp' => $vp];
+    Globals::setAuction($auction);
+    Notifications::placeBet($player, $pos, $vp);
+
+    $this->gamestate->nextState('next');
   }
 }

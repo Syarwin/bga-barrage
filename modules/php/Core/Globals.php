@@ -38,6 +38,9 @@ class Globals extends \BRG\Helpers\DB_Manager
     'mahiriPower' => 'int',
     'mahiriAddXO' => 'obj',
     'aI' => 'bool',
+
+    'auction' => 'obj',
+    'auctionOrder' => 'obj',
   ];
 
   protected static $table = 'global_variables';

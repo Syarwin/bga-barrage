@@ -1031,57 +1031,58 @@ body {
         margin: 0;
         font-size: 30px;
         display: none; }
-  #modal-company-boards-wrapper[data-open='1'] #modal-company-buttons .company-board-button[data-company='1'] {
+  #modal-company-boards-wrapper[data-open="1"] #modal-company-buttons .company-board-button[data-company="1"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='1'] #modal-company-buttons .company-board-button[data-company='1']:hover {
+    #modal-company-boards-wrapper[data-open="1"] #modal-company-buttons .company-board-button[data-company="1"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='1'] #modal-company-boards-container .company-board#company-board-1 {
+  #modal-company-boards-wrapper[data-open="1"] #modal-company-boards-container .company-board#company-board-1 {
     display: block; }
-  #modal-company-boards-wrapper[data-open='2'] #modal-company-buttons .company-board-button[data-company='2'] {
+  #modal-company-boards-wrapper[data-open="2"] #modal-company-buttons .company-board-button[data-company="2"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='2'] #modal-company-buttons .company-board-button[data-company='2']:hover {
+    #modal-company-boards-wrapper[data-open="2"] #modal-company-buttons .company-board-button[data-company="2"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='2'] #modal-company-boards-container .company-board#company-board-2 {
+  #modal-company-boards-wrapper[data-open="2"] #modal-company-boards-container .company-board#company-board-2 {
     display: block; }
-  #modal-company-boards-wrapper[data-open='3'] #modal-company-buttons .company-board-button[data-company='3'] {
+  #modal-company-boards-wrapper[data-open="3"] #modal-company-buttons .company-board-button[data-company="3"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='3'] #modal-company-buttons .company-board-button[data-company='3']:hover {
+    #modal-company-boards-wrapper[data-open="3"] #modal-company-buttons .company-board-button[data-company="3"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='3'] #modal-company-boards-container .company-board#company-board-3 {
+  #modal-company-boards-wrapper[data-open="3"] #modal-company-boards-container .company-board#company-board-3 {
     display: block; }
-  #modal-company-boards-wrapper[data-open='4'] #modal-company-buttons .company-board-button[data-company='4'] {
+  #modal-company-boards-wrapper[data-open="4"] #modal-company-buttons .company-board-button[data-company="4"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='4'] #modal-company-buttons .company-board-button[data-company='4']:hover {
+    #modal-company-boards-wrapper[data-open="4"] #modal-company-buttons .company-board-button[data-company="4"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='4'] #modal-company-boards-container .company-board#company-board-4 {
+  #modal-company-boards-wrapper[data-open="4"] #modal-company-boards-container .company-board#company-board-4 {
     display: block; }
-  #modal-company-boards-wrapper[data-open='5'] #modal-company-buttons .company-board-button[data-company='5'] {
+  #modal-company-boards-wrapper[data-open="5"] #modal-company-buttons .company-board-button[data-company="5"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='5'] #modal-company-buttons .company-board-button[data-company='5']:hover {
+    #modal-company-boards-wrapper[data-open="5"] #modal-company-buttons .company-board-button[data-company="5"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='5'] #modal-company-boards-container .company-board#company-board-5 {
+  #modal-company-boards-wrapper[data-open="5"] #modal-company-boards-container .company-board#company-board-5 {
     display: block; }
-  #modal-company-boards-wrapper[data-open='6'] #modal-company-buttons .company-board-button[data-company='6'] {
+  #modal-company-boards-wrapper[data-open="6"] #modal-company-buttons .company-board-button[data-company="6"] {
     background: #e6e7e9;
     transform: translateY(-10px);
     color: black; }
-    #modal-company-boards-wrapper[data-open='6'] #modal-company-buttons .company-board-button[data-company='6']:hover {
+    #modal-company-boards-wrapper[data-open="6"] #modal-company-buttons .company-board-button[data-company="6"]:hover {
       font-size: 32px; }
-  #modal-company-boards-wrapper[data-open='6'] #modal-company-boards-container .company-board#company-board-6 {
+  #modal-company-boards-wrapper[data-open="6"] #modal-company-boards-container .company-board#company-board-6 {
     display: block; }
 
 .barrageContracts_popin,
-.barrageTour_popin {
+.barrageTour_popin,
+.barrageAuction_popin {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
@@ -1089,8 +1090,13 @@ body {
   min-width: 500px; }
   .barrageContracts_popin .barrageContracts_popin_closeicon,
   .barrageContracts_popin .barrageTour_popin_closeicon,
+  .barrageContracts_popin .barrageAuction_popin_closeicon,
   .barrageTour_popin .barrageContracts_popin_closeicon,
-  .barrageTour_popin .barrageTour_popin_closeicon {
+  .barrageTour_popin .barrageTour_popin_closeicon,
+  .barrageTour_popin .barrageAuction_popin_closeicon,
+  .barrageAuction_popin .barrageContracts_popin_closeicon,
+  .barrageAuction_popin .barrageTour_popin_closeicon,
+  .barrageAuction_popin .barrageAuction_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -1106,19 +1112,30 @@ body {
     border: 1px solid #dfbda8; }
     .barrageContracts_popin .barrageContracts_popin_closeicon:hover,
     .barrageContracts_popin .barrageTour_popin_closeicon:hover,
+    .barrageContracts_popin .barrageAuction_popin_closeicon:hover,
     .barrageTour_popin .barrageContracts_popin_closeicon:hover,
-    .barrageTour_popin .barrageTour_popin_closeicon:hover {
+    .barrageTour_popin .barrageTour_popin_closeicon:hover,
+    .barrageTour_popin .barrageAuction_popin_closeicon:hover,
+    .barrageAuction_popin .barrageContracts_popin_closeicon:hover,
+    .barrageAuction_popin .barrageTour_popin_closeicon:hover,
+    .barrageAuction_popin .barrageAuction_popin_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
     .barrageContracts_popin .barrageContracts_popin_closeicon i,
     .barrageContracts_popin .barrageTour_popin_closeicon i,
+    .barrageContracts_popin .barrageAuction_popin_closeicon i,
     .barrageTour_popin .barrageContracts_popin_closeicon i,
-    .barrageTour_popin .barrageTour_popin_closeicon i {
+    .barrageTour_popin .barrageTour_popin_closeicon i,
+    .barrageTour_popin .barrageAuction_popin_closeicon i,
+    .barrageAuction_popin .barrageContracts_popin_closeicon i,
+    .barrageAuction_popin .barrageTour_popin_closeicon i,
+    .barrageAuction_popin .barrageAuction_popin_closeicon i {
       margin-top: -2px; }
   .barrageContracts_popin h2,
-  .barrageTour_popin h2 {
-    font-family: 'Oranienbaum';
+  .barrageTour_popin h2,
+  .barrageAuction_popin h2 {
+    font-family: "Oranienbaum";
     text-align: center;
     font-size: 23px;
     margin: 0px;
@@ -1127,7 +1144,8 @@ body {
     padding: 7px 0px;
     border-bottom: 1px solid #734f2a; }
   .barrageContracts_popin .reserve,
-  .barrageTour_popin .reserve {
+  .barrageTour_popin .reserve,
+  .barrageAuction_popin .reserve {
     padding: 8px;
     display: flex;
     flex-wrap: wrap; }
@@ -1156,7 +1174,7 @@ body {
             border-radius: 10px;
             padding: 4px 8px; }
         #popin_showTour #tour-slider-container .slide .bubble::before {
-          content: '';
+          content: "";
           position: absolute;
           width: 50px;
           height: 54px;
@@ -1258,6 +1276,41 @@ body {
     border-bottom-right-radius: 13px;
     text-align: right;
     padding: 7px 15px 0px; }
+
+#popin_auction #auction {
+  width: 100%;
+  border-collapse: collapse; }
+  #popin_auction #auction td {
+    border: 1px solid black;
+    padding: 2px 1px;
+    vertical-align: middle; }
+    #popin_auction #auction td .bet {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1px solid black;
+      box-shadow: 1px 1px 3px -1px black;
+      margin: auto; }
+    #popin_auction #auction td:first-of-type {
+      text-align: center;
+      font-weight: bold;
+      padding: 2px 5px; }
+    #popin_auction #auction td.selectable {
+      cursor: pointer; }
+      #popin_auction #auction td.selectable:hover {
+        background: rgba(255, 0, 0, 0.425); }
+    #popin_auction #auction td.selected, #popin_auction #auction td.selected:hover {
+      background: rgba(0, 128, 0, 0.685); }
+#popin_auction #auction-footer {
+  min-height: 30px;
+  background-color: #e6e6e6d1;
+  border-top: 1px solid #6a4b2f;
+  border-bottom-left-radius: 13px;
+  border-bottom-right-radius: 13px;
+  text-align: right;
+  padding: 7px 15px 0px; }
+  #popin_auction #auction-footer:empty {
+    display: none; }
 
 #game_play_area {
   font-size: 30px; }

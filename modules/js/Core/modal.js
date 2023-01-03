@@ -212,7 +212,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
           dojo.fadeIn({
             node: 'popin_' + this.id + '_wrapper',
             duration: duration,
-          }),
+          })
         );
         // Underlay fade in background
         animations.push(
@@ -220,7 +220,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
             node: 'popin_' + this.id + '_underlay',
             duration: duration,
             properties: { opacity: { start: 0, end: 0.7 } },
-          }),
+          })
         );
 
         // Opening animation
@@ -235,7 +235,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
                 left: { start: pos.x, end: 0 },
               },
               duration: this.animationDuration + this.openAnimationDelta,
-            }),
+            })
           );
         }
 
@@ -250,7 +250,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
     },
 
     show() {
-      if (this._isOpening) return;
+      if (this._isOpening || this._open) return;
 
       if (this.statusElt !== null) {
         dojo.addClass(this.statusElt, 'opened');
@@ -287,7 +287,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
           dojo.fadeOut({
             node: 'popin_' + this.id + '_wrapper',
             duration: duration,
-          }),
+          })
         );
         // Underlay fade out background
         animations.push(
@@ -295,7 +295,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
             node: 'popin_' + this.id + '_underlay',
             duration: duration,
             properties: { opacity: { start: 0.7, end: 0 } },
-          }),
+          })
         );
 
         // Closing animation
@@ -310,7 +310,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
                 left: { start: 0, end: pos.x },
               },
               duration: this.animationDuration,
-            }),
+            })
           );
         }
 
@@ -330,8 +330,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
       this._isClosing = true;
       this._isOpening = false;
       this.fadeOutAnimation().then(() => {
-        if(!this._isClosing || this._isOpening)
-          return;
+        if (!this._isClosing || this._isOpening) return;
         this._isClosing = false;
         this._open = false;
 
@@ -356,8 +355,7 @@ define(['dojo', 'dojo/_base/declare', 'dojo/fx', 'dojox/fx/ext-dojo/complex'], f
       this._isOpening = false;
       this._isClosing = true;
       this.fadeOutAnimation().then(() => {
-        if(!this._isClosing || this._isOpening)
-          return;
+        if (!this._isClosing || this._isOpening) return;
         this._isClosing = false;
         this._open = false;
 

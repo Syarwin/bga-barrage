@@ -1187,6 +1187,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       Object.values(this.gamedatas.players).forEach(callback);
     },
 
+    nPlayers() {
+      return Object.values(this.gamedatas.players).length;
+    },
+
     getArgs() {
       return this.gamedatas.gamestate.args;
     },

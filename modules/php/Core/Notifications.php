@@ -97,6 +97,42 @@ class Notifications
     ]);
   }
 
+  public static function placeBet($player, $pos, $vp)
+  {
+    $positionNames = [
+      clienttranslate('first position'),
+      clienttranslate('second position'),
+      clienttranslate('third position'),
+      clienttranslate('fourth position'),
+    ];
+
+    self::notifyAll('placeBet', clienttranslate('${player_name} is ready to pay ${vp}VP(s) for playing in ${pos}'), [
+      'i18n' => ['pos'],
+      'player' => $player,
+      'vp' => $vp,
+      'pos' => $positionNames[$pos],
+    ]);
+  }
+
+  public static function auctionDone($order)
+  {
+    $orderDesc = ['log' => [], 'args' => []];
+    foreach ($order as $i => $pId) {
+      $orderDesc['log'][] = '${player_name' . $i . '}';
+      $player = Players::get($pId);
+      $orderDesc['args']['player_name' . $i] = $player->getName();
+    }
+    $orderDesc['log'] = join(', ', $orderDesc['log']);
+
+    self::notifyAll(
+      'auctionDone',
+      clienttranslate('Auction is over, the first round will be played in the following order: ${order}'),
+      [
+        'order' => $orderDesc,
+      ]
+    );
+  }
+
   public static function assignCompany($player, $company, $meeples, $tiles)
   {
     self::notifyAll('assignCompany', clienttranslate('${player_name} picks ${company_name}'), [

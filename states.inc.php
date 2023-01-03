@@ -35,7 +35,25 @@ $machinestates = [
     'description' => '',
     'type' => 'game',
     'action' => 'stSetupBranch',
-    'transitions' => ['pick' => ST_PICK_START, 'start' => ST_BEFORE_START_OF_ROUND],
+    'transitions' => ['pick' => ST_PICK_START, 'start' => ST_BEFORE_START_OF_ROUND, 'auction' => ST_AUCTION_PLACE_BET],
+  ],
+
+  ST_AUCTION_NEXT_PLAYER => [
+    'name' => 'auctionNextPlayer',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stAuctionNextPlayer',
+    'transitions' => ['done' => ST_PICK_START_NEXT, 'next' => ST_AUCTION_PLACE_BET, 'loop' => ST_AUCTION_NEXT_PLAYER],
+  ],
+
+  ST_AUCTION_PLACE_BET => [
+    'name' => 'auctionPlaceBet',
+    'description' => clienttranslate('${actplayer} must place their bet on a starting position for first round'),
+    'descriptionmyturn' => clienttranslate('${you} must place your bet on a starting position for first round'),
+    'type' => 'activeplayer',
+    'args' => 'argsPlaceBet',
+    'possibleactions' => ['actPlaceBet'],
+    'transitions' => ['next' => ST_AUCTION_NEXT_PLAYER],
   ],
 
   ST_PICK_START_NEXT => [

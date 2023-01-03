@@ -80,6 +80,7 @@ define([
         ['flipAutomaCard', 800],
         ['emptyContractStack', 800],
         ['clearMatchups', 20],
+        ['auctionDone', 20],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -648,6 +649,7 @@ define([
     updatePhase() {
       let phase = this.gamedatas.phase;
       let mapping = {
+        auction: _('Auction phase'),
         pickStart: _('Advanced player setup'),
         income: _('Income phase'),
         headstream: _('Filling headstreams'),
