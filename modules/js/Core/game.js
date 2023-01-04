@@ -1289,5 +1289,52 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         });
       });
     },
+
+    showMessage: function (t, i, autoFade = true) {
+      let e = dojo;
+      this.next_headmsg_id;
+      if ('only_to_log' != i) {
+        var n = 'head_infomsg_' + this.next_headmsg_id,
+          o =
+            "<div class='bga-link-inside head_" +
+            i +
+            "' id='" +
+            n +
+            "' style='display:none;'><div class='head_infomsg_close' id='close_" +
+            n +
+            "'><i class='fa fa-close' aria-hidden='true'></i></div><div class='head_infomsg_item'>" +
+            t +
+            '</div></div>';
+        this.next_headmsg_id++;
+        e.place(o, 'head_infomsg');
+        e.connect($('close_' + n), 'onclick', this, function (t) {
+          e.style(t.currentTarget.parentElement.id, 'display', 'none');
+        });
+
+        if (autoFade) {
+          e.fx
+            .chain([
+              e.fx.wipeIn({
+                node: n,
+                duration: 500,
+              }),
+              e.fx.wipeOut({
+                node: n,
+                delay: 5000,
+                duration: 500,
+              }),
+            ])
+            .play();
+        } else {
+          e.fx
+            .wipeIn({
+              node: n,
+              duration: 500,
+            })
+            .play();
+        }
+      }
+      ('error' != i && 'only_to_log' != i) || g_sitecore.notifqueue.addToLog(t);
+    },
   });
 });

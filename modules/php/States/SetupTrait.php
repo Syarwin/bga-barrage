@@ -313,19 +313,24 @@ trait SetupTrait
     $pId = Players::getActiveId();
 
     $auction = Globals::getAuction();
-    $blocked = false;
-    $finished = true;
-    $positions = [];
-    foreach ($auction as $pId2 => $bet) {
-      // If we already saw this starting position => we are not over yet
-      if (in_array($bet['pos'], $positions)) {
-        $finished = false;
-      }
-      $positions[] = $bet['pos'];
+    if (!array_key_exists($pId, $auction)) {
+      $blocked = true;
+      $finished = false;
+    } else {
+      $blocked = false;
+      $finished = true;
+      $positions = [];
+      foreach ($auction as $pId2 => $bet) {
+        // If we already saw this starting position => we are not over yet
+        if (in_array($bet['pos'], $positions)) {
+          $finished = false;
+        }
+        $positions[] = $bet['pos'];
 
-      // Check whether player is blocked by someone else bet
-      if ($bet['pos'] == $auction[$pId]['pos'] && $bet['vp'] > $auction[$pId]['vp']) {
-        $blocked = true;
+        // Check whether player is blocked by someone else bet
+        if ($bet['pos'] == $auction[$pId]['pos'] && $bet['vp'] > $auction[$pId]['vp']) {
+          $blocked = true;
+        }
       }
     }
 
@@ -351,6 +356,7 @@ trait SetupTrait
   {
     return [
       'auction' => Globals::getAuction(),
+      'pickStart' => self::argsPickStart(),
     ];
   }
 

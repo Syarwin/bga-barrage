@@ -789,7 +789,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
       this.updateAuctionModal(args.auction);
       this._auctionModal.show();
+
+      let descs = [
+        _(
+          'The auction process works as follow: the player who starts the auction puts his marker on the spot he wants to occupy.'
+        ),
+        _('Then clockwise the other players put their markers on the grid.'),
+        _(
+          "If a player wants to put his marker on a line where there's already another player's marker, he has to put it on one of the spots to the right of that marker."
+        ),
+        _(
+          'When the turn comes back to a player, he has to check if his marker is the righmost one on a line. If it is, he skips his turn.'
+        ),
+        _(
+          "If instead there's another player's marker to its right, he has to take back his marker and position it again following previous rules."
+        ),
+        _("When each player's marker is the rightmost one on each line, the auction ends."),
+        _(
+          "Now the player who chose to be 4th is going to pick both a Nation-XO combo and a contract, then it's the 3rd player turn, etc etc."
+        ),
+        _(
+          'Now each player takes the VP marker of his own Nation, place it on the 10 mark, then pays the point he bet by moving the marker accordingly.'
+        ),
+        _('The turn order is set, the game shall begin!'),
+      ];
+      let desc = descs.join('<br >');
+      this.addSecondaryActionButton('auctionHelp', '?', () => this.showMessage(desc, 'info', false));
+      this.addTooltip('auctionHelp', desc, '');
       this.addPrimaryActionButton('btnShowAuction', _('Show auction'), () => this._auctionModal.show());
+      this.onEnteringStatePickStart(args.pickStart, true);
     },
 
     updateAuctionModal(auction) {
@@ -865,7 +893,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     // |_|   |_|\___|_|\_\ |____/ \__\__,_|_|   \__|
     //
     ///////////////////////////////////////////////////
-    onEnteringStatePickStart(args) {
+    onEnteringStatePickStart(args, displayOnly = false) {
       let selectedMatchup = null;
       let selectedContract = null;
       let updateButton = () => {
@@ -889,7 +917,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         }
 
         // Add button if active
-        if (this.isCurrentPlayerActive()) {
+        if (this.isCurrentPlayerActive() && !displayOnly) {
           this.addPrimaryActionButton('btnMatchup' + i, text, () => {
             if (selectedMatchup != null) {
               $(`btnMatchup${selectedMatchup}`).classList.remove('selected');
@@ -912,7 +940,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let contract = args.contracts[contractId];
         this.addContract(contract);
 
-        if (this.isCurrentPlayerActive()) {
+        if (this.isCurrentPlayerActive() && !displayOnly) {
           this.onClick(`contract-${contract.id}`, () => {
             if (selectedContract != null) {
               $(`contract-${selectedContract}`).classList.remove('selected');
