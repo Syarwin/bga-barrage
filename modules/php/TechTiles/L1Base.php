@@ -30,7 +30,7 @@ class L1Base extends AdvancedTile
     }
 
     if (count($dropletsToAdd) > 0) {
-      return ['action' => PLACE_DROPLET, 'args' => ['autoDroplet' => $dropletsToAdd]];
+      return ['action' => PLACE_DROPLET, 'optional' => true, 'args' => ['autoDroplet' => $dropletsToAdd]];
     }
   }
 }
