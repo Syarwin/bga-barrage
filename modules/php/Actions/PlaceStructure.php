@@ -97,10 +97,15 @@ class PlaceStructure extends \BRG\Models\Action
         continue;
       }
 
-      // same player cannot take 2 buildings space
       if ($space['type'] == BUILDING) {
+        // same player cannot take 2 buildings space
         $bId = (int) explode('-', $space['id'])[1];
         if (in_array($bId, $builtBuildingIds)) {
+          continue;
+        }
+
+        // Can't build a building on an already taken spot
+        if (Meeples::getFilteredQuery(null, $space['id'], 'building')->count() > 0) {
           continue;
         }
       }
