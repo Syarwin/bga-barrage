@@ -36,7 +36,7 @@ abstract class FlowConvertor
       POWERHOUSE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => POWERHOUSE]]],
       ELEVATION => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => ELEVATION]]],
       BASE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => BASE]]],
-      FULFILL_CONTRACT => [['action' => \FULFILL_CONTRACT, 'args' => []]],
+      FULFILL_CONTRACT => [['action' => \FULFILL_CONTRACT, 'optional' => true, 'args' => []]],
     ];
 
     $flows = ['type' => NODE_SEQ, 'childs' => []];
