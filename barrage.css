@@ -1635,35 +1635,35 @@ body {
     margin-bottom: -0.0733em;
     background-position: 17.96008869179601% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score_more[data-company="1"] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company="1"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 33.70288248337029% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score_more[data-company="2"] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company="2"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 49.44567627494457% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score_more[data-company="3"] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company="3"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 65.18847006651885% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score_more[data-company="4"] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company="4"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;
     margin-bottom: -0.0733em;
     background-position: 80.93126385809313% 51.85995623632385%;
     background-size: 839.344262295082%; }
-  .barrage-meeple.meeple-score_more[data-company="5"] {
+  .barrage-meeple.meeple-score[data-flip="1"][data-company="5"] {
     width: 1.0167em;
     height: 0.9167em;
     margin-right: -0.0813em;

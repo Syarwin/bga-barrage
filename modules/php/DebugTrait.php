@@ -36,7 +36,8 @@ trait DebugTrait
   public function tp()
   {
     $company = Companies::getActive();
-    var_dump($company->getLvlAI());
+    $company->incEnergy(32);
+    //    var_dump($company->getLvlAI());
   }
 
   public function vt()
