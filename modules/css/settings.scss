@@ -16,7 +16,7 @@
     border-top-right-radius: 7px;
     font-weight: bold;
     font-size: 20px;
-    font-family: 'Oranienbaum';
+    font-family: "Oranienbaum";
     color: black;
     display: block;
   }
@@ -29,7 +29,7 @@
     border-bottom: 1px solid #8080808c;
     font-weight: bold;
     font-size: 18px;
-    font-family: 'Oranienbaum';
+    font-family: "Oranienbaum";
     color: black;
     display: block;
 
@@ -41,7 +41,7 @@
   #tesla-help {
     width: 40px;
     height: 40px;
-    background: url('img/help/tesla.png');
+    background: url("img/help/tesla.png");
     background-size: 100%;
     cursor: pointer;
     &:hover {
@@ -115,6 +115,18 @@
       transform: rotate(180deg);
     }
   }
+
+  #ignored-tech-tiles {
+    --barrageTileScale: 0.25;
+    margin: 5px 0px 0px;
+    padding-top: 3px;
+    filter: grayscale(1);
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+
+    &:empty {
+      display: none;
+    }
+  }
 }
 
 #popin_showSettings_underlay {
@@ -158,7 +170,7 @@
   }
 
   h2 {
-    font-family: 'Oranienbaum';
+    font-family: "Oranienbaum";
     text-align: center;
     font-size: 23px;
     margin: 0px;
@@ -210,30 +222,30 @@
     }
   }
 
-  [data-fitall='1'] & {
-    [data-id='ownCompanyBoardLocation'],
-    [data-id='otherCompanyBoardLocation'],
-    [data-id='actionBoardScale'],
-    [data-id='companyBoardScale'],
-    [data-id='mapScale'] {
+  [data-fitall="1"] & {
+    [data-id="ownCompanyBoardLocation"],
+    [data-id="otherCompanyBoardLocation"],
+    [data-id="actionBoardScale"],
+    [data-id="companyBoardScale"],
+    [data-id="mapScale"] {
       display: none;
     }
   }
 
-  [data-fitall='1'][data-energy-track='1'] & {
-    [data-id='fitAllScale'],
-    [data-id='energyTrackScale'] {
+  [data-fitall="1"][data-energy-track="1"] & {
+    [data-id="fitAllScale"],
+    [data-id="energyTrackScale"] {
       display: none;
     }
   }
-  [data-fitall='1'][data-energy-track='0'] & [data-id='fitAllScaleEnergy'] {
+  [data-fitall="1"][data-energy-track="0"] & [data-id="fitAllScaleEnergy"] {
     display: none;
   }
 
-  [data-fitall='0'] & {
-    [data-id='companyBoardTwoColumns'],
-    [data-id='fitAllScale'],
-    [data-id='fitAllScaleEnergy'] {
+  [data-fitall="0"] & {
+    [data-id="companyBoardTwoColumns"],
+    [data-id="fitAllScale"],
+    [data-id="fitAllScaleEnergy"] {
       display: none;
     }
   }
@@ -246,10 +258,10 @@
     align-items: center;
     border-bottom: 1px solid gray;
 
-    [data-map='0'] &[data-id='conduits'] {
+    [data-map="0"] &[data-id="conduits"] {
       display: none;
     }
-    [data-map='0'] &[data-id='mapOverlay'] {
+    [data-map="0"] &[data-id="mapOverlay"] {
       display: none;
     }
 
@@ -298,7 +310,7 @@
         border-radius: 34px;
 
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           background-color: #fff;
           bottom: 4px;

@@ -153,9 +153,8 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     $meeples = [];
     foreach ($tiles as $deck => $tiles) {
       foreach ($tiles as $type) {
-        if (!in_array($type, $ignored)) {
-          $meeples[] = ['type' => $type, 'location' => 'deckL' . $deck];
-        }
+        $location = in_array($type, $ignored) ? 'box' : 'deckL' . $deck;
+        $meeples[] = ['type' => $type, 'location' => $location];
       }
     }
     self::create($meeples);

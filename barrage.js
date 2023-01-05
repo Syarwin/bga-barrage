@@ -1073,6 +1073,7 @@ define([
       let chk = $('help-mode-chk');
       dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
       this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
+      this.addTooltip('ignored-tech-tiles', _('Discarded advanced technology tiles at setup'), '');
 
       this._settingsModal = new customgame.modal('showSettings', {
         class: 'barrage_popin',
@@ -1125,6 +1126,7 @@ define([
 
     <div class="player_config_row" id='mahiri-add-XO'></div>
     ${automa}
+    <div class="player_config_row" id='ignored-tech-tiles'></div>
   </div>
 </div>
 `;
@@ -2205,6 +2207,8 @@ define([
         return $(`wheel-${tile.cId}`).querySelector(`.wheel-sector:nth-of-type(${n}) .wheel-tile-slot`);
       } else if ($(tile.location)) {
         return $(tile.location);
+      } else if (tile.location == 'box') {
+        return $('ignored-tech-tiles');
       }
 
       console.error('Trying to get container of a tech tile', tile);

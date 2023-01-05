@@ -3327,7 +3327,7 @@ body {
   border-top-right-radius: 7px;
   font-weight: bold;
   font-size: 20px;
-  font-family: 'Oranienbaum';
+  font-family: "Oranienbaum";
   color: black;
   display: block; }
 #player_config #round-phase {
@@ -3338,7 +3338,7 @@ body {
   border-bottom: 1px solid #8080808c;
   font-weight: bold;
   font-size: 18px;
-  font-family: 'Oranienbaum';
+  font-family: "Oranienbaum";
   color: black;
   display: block; }
   #player_config #round-phase:empty {
@@ -3398,6 +3398,14 @@ body {
   transition: transform 1s; }
 #player_config #show-settings:hover .fa-primary {
   transform: rotate(180deg); }
+#player_config #ignored-tech-tiles {
+  --barrageTileScale: 0.25;
+  margin: 5px 0px 0px;
+  padding-top: 3px;
+  filter: grayscale(1);
+  border-top: 1px solid rgba(0, 0, 0, 0.4); }
+  #player_config #ignored-tech-tiles:empty {
+    display: none; }
 
 #popin_showSettings_underlay {
   background-color: black !important;
@@ -3429,7 +3437,7 @@ body {
     #popin_showSettings .barrage_popin_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2 {
-    font-family: 'Oranienbaum';
+    font-family: "Oranienbaum";
     text-align: center;
     font-size: 23px;
     margin: 0px;
@@ -3464,20 +3472,20 @@ body {
     display: none; }
     #settings-controls-container #settings-controls-wrapper .settings-section.open {
       display: block; }
-  [data-fitall='1'] #settings-controls-container [data-id='ownCompanyBoardLocation'],
-  [data-fitall='1'] #settings-controls-container [data-id='otherCompanyBoardLocation'],
-  [data-fitall='1'] #settings-controls-container [data-id='actionBoardScale'],
-  [data-fitall='1'] #settings-controls-container [data-id='companyBoardScale'],
-  [data-fitall='1'] #settings-controls-container [data-id='mapScale'] {
+  [data-fitall="1"] #settings-controls-container [data-id="ownCompanyBoardLocation"],
+  [data-fitall="1"] #settings-controls-container [data-id="otherCompanyBoardLocation"],
+  [data-fitall="1"] #settings-controls-container [data-id="actionBoardScale"],
+  [data-fitall="1"] #settings-controls-container [data-id="companyBoardScale"],
+  [data-fitall="1"] #settings-controls-container [data-id="mapScale"] {
     display: none; }
-  [data-fitall='1'][data-energy-track='1'] #settings-controls-container [data-id='fitAllScale'],
-  [data-fitall='1'][data-energy-track='1'] #settings-controls-container [data-id='energyTrackScale'] {
+  [data-fitall="1"][data-energy-track="1"] #settings-controls-container [data-id="fitAllScale"],
+  [data-fitall="1"][data-energy-track="1"] #settings-controls-container [data-id="energyTrackScale"] {
     display: none; }
-  [data-fitall='1'][data-energy-track='0'] #settings-controls-container [data-id='fitAllScaleEnergy'] {
+  [data-fitall="1"][data-energy-track="0"] #settings-controls-container [data-id="fitAllScaleEnergy"] {
     display: none; }
-  [data-fitall='0'] #settings-controls-container [data-id='companyBoardTwoColumns'],
-  [data-fitall='0'] #settings-controls-container [data-id='fitAllScale'],
-  [data-fitall='0'] #settings-controls-container [data-id='fitAllScaleEnergy'] {
+  [data-fitall="0"] #settings-controls-container [data-id="companyBoardTwoColumns"],
+  [data-fitall="0"] #settings-controls-container [data-id="fitAllScale"],
+  [data-fitall="0"] #settings-controls-container [data-id="fitAllScaleEnergy"] {
     display: none; }
   #settings-controls-container .row-data {
     border: none;
@@ -3486,9 +3494,9 @@ body {
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid gray; }
-    [data-map='0'] #settings-controls-container .row-data[data-id='conduits'] {
+    [data-map="0"] #settings-controls-container .row-data[data-id="conduits"] {
       display: none; }
-    [data-map='0'] #settings-controls-container .row-data[data-id='mapOverlay'] {
+    [data-map="0"] #settings-controls-container .row-data[data-id="mapOverlay"] {
       display: none; }
     #settings-controls-container .row-data .row-label {
       width: 100%;
@@ -3523,7 +3531,7 @@ body {
         transition: 0.4s;
         border-radius: 34px; }
         #settings-controls-container .row-data label.switch .slider::before {
-          content: '';
+          content: "";
           position: absolute;
           background-color: #fff;
           bottom: 4px;
