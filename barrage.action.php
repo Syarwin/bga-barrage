@@ -35,6 +35,14 @@ class action_barrage extends APP_GameAction
     }
   }
 
+  public function loadBugSQL()
+  {
+    self::setAjaxMode();
+    $reportId = (int) self::getArg('report_id', AT_int, true);
+    $this->game->loadBugSQL($reportId);
+    self::ajaxResponse();
+  }
+
   public function actChangePref()
   {
     self::setAjaxMode();

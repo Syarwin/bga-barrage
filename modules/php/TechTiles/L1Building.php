@@ -23,6 +23,8 @@ class L1Building extends AdvancedTile
   {
     $id = (int) explode('-', $slot['id'])[1];
     $building = Buildings::getSingle($id);
-    return $building->getFlow();
+    $flow = $building->getFlow();
+    $flow['optional'] = true;
+    return $flow;
   }
 }

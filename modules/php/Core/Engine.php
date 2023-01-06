@@ -279,11 +279,11 @@ class Engine
   /**
    * Confirm the full resolution of current flow
    */
-  public function confirm()
+  public function confirm($force = false)
   {
     $node = self::$tree->getNextUnresolved();
     // Are we done ?
-    if ($node != null) {
+    if (!$force && $node != null) {
       throw new \feException("You can't confirm an ongoing turn");
     }
 

@@ -141,7 +141,7 @@ trait DebugTrait
       [
         'urls' => [
           // Emulates "load bug report" in control panel
-          "https://studio.boardgamearena.com/admin/studio/getSavedGameStateFromProduceion.html?game=$game&report_id=$reportId&table_id=$tableId",
+          "https://studio.boardgamearena.com/admin/studio/getSavedGameStateFromProduction.html?game=$game&report_id=$reportId&table_id=$tableId",
 
           // Emulates "load 1" at this table
           "https://studio.boardgamearena.com/table/table/loadSaveState.html?table=$tableId&state=1",
@@ -179,8 +179,7 @@ trait DebugTrait
       $sql[] = "UPDATE stats SET stats_player_id=$studioPlayer WHERE stats_player_id=$pId";
 
       // Add game-specific SQL update the tables for your game
-      $sql[] = "UPDATE meeples SET player_id=$studioPlayer WHERE player_id=$pId";
-      $sql[] = "UPDATE cards SET player_id=$studioPlayer WHERE player_id=$pId";
+      $sql[] = "UPDATE companies SET player_id=$studioPlayer WHERE player_id=$pId";
       $sql[] = "UPDATE user_preferences SET player_id=$studioPlayer WHERE player_id=$pId";
 
       // This could be improved, it assumes you had sequential studio accounts before loading
@@ -202,29 +201,10 @@ trait DebugTrait
      *** Fix Globals ***
      ******************/
 
-    // Turn orders
-    $turnOrders = Globals::getCustomTurnOrders();
-    foreach ($turnOrders as $key => &$order) {
-      $t = [];
-      foreach ($order['order'] as $pId) {
-        $t[] = $map[$pId];
-      }
-      $order['order'] = $t;
-    }
-    Globals::setCustomTurnOrders($turnOrders);
-
     // Engine
     $engine = Globals::getEngine();
     self::loadDebugUpdateEngine($engine, $map);
     Globals::setEngine($engine);
-
-    // Skipped players
-    $skippedPlayers = Globals::getSkippedPlayers();
-    $t = [];
-    foreach ($skippedPlayers as $pId) {
-      $t[] = $map[$pId];
-    }
-    Globals::setSkippedPlayers($t);
 
     self::reloadPlayersBasicInfos();
   }

@@ -50,7 +50,7 @@ class Construct extends \BRG\Models\Action
           if ($constraintType == CONDUIT && $slot['production'] < $constraintsArea['min']) {
             continue;
           }
-        } elseif (!in_array($slot['area'], $constraintsArea)) {
+        } elseif (isset($slot['area']) && is_array($constraintsArea) && !in_array($slot['area'], $constraintsArea)) {
           continue;
         }
       }

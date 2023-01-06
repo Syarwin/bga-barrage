@@ -313,9 +313,9 @@ class barrage extends Table
   public function zombieTurn($state, $activePlayer)
   {
     $skipped = Globals::getSkippedCompanies();
-    $cId = Globals::getActiveCompany();
-    if (!in_array((int) $cId, $skipped)) {
-      $skipped[] = (int) $cId;
+    $cId = (int) Globals::getActiveCompany();
+    if (!in_array($cId, $skipped)) {
+      $skipped[] = $cId;
       Globals::setSkippedCompanies($skipped);
     }
 
@@ -329,7 +329,7 @@ class barrage extends Table
       // Clear all node of player
       elseif (Engine::getNextUnresolved() != null) {
         Engine::clearZombieNodes($cId);
-        Engine::proceed();
+        Engine::confirm(true);
       } else {
         $this->gamestate->nextState('zombiePass');
       }
