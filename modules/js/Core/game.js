@@ -240,6 +240,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
      * Load production bug report handler
      */
     notif_loadBug(n) {
+      let self = this;
       function fetchNextUrl() {
         var url = n.args.urls.shift();
         console.log('Fetching URL', url, '...');

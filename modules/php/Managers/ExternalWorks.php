@@ -127,10 +127,10 @@ class ExternalWorks extends \BRG\Helpers\Pieces
       // |____/
       //
 
-      100 => $f([\EXCAVATOR => 2, MIXER => 1], [CREDIT => 5, ENERGY => 6]),
+      100 => $f([\EXCAVATOR => 2, MIXER => 1], [CREDIT => 5, ENERGY_PRODUCED => 6]),
       101 => $f([MIXER => 4], [VP => 2, ELEVATION => 2]),
       102 => $f([MIXER => 3], [CREDIT => 3, CONDUIT => 4, VP => 3]),
-      103 => $f([EXCAVATOR => 3], [VP => 5, ENERGY_PRODUCED => 6]),
+      103 => $f([EXCAVATOR => 3], [VP => 5, ENERGY => 6]),
       104 => $f([EXCAVATOR => 4], [VP => 4, \PLACE_DROPLET => 2, \ROTATE_WHEEL => 2]),
       //   ____
       //  / ___|

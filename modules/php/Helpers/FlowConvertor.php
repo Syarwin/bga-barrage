@@ -31,7 +31,10 @@ abstract class FlowConvertor
       FLOW_DROPLET => [['action' => PLACE_DROPLET, 'optional' => true, 'args' => ['flows' => true]]],
       ANY_MACHINE => [['type' => NODE_XOR]],
       ENERGY => [['action' => GAIN, 'args' => [ENERGY]]],
-      ENERGY_PRODUCED => [['action' => GAIN, 'args' => [ENERGY]], ['action' => \FULFILL_CONTRACT, 'args' => []]],
+      ENERGY_PRODUCED => [
+        ['action' => GAIN, 'args' => [ENERGY]],
+        ['action' => \FULFILL_CONTRACT, 'optional' => true, 'args' => []],
+      ],
       CONDUIT => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => CONDUIT]]],
       POWERHOUSE => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => POWERHOUSE]]],
       ELEVATION => [['action' => PLACE_STRUCTURE, 'optional' => true, 'args' => ['type' => ELEVATION]]],
