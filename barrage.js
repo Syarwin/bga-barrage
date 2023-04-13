@@ -867,7 +867,7 @@ define([
       ];
 
       let objectiveTooltips = [
-        _('Count all the Bases and all the Powherouses you have built in building spaces with a red bordered icons.'),
+        _('Count all the Bases and all the Powerhouses you have built in building spaces with a red bordered icons.'),
         _(
           'Count all the structure pieces (of any type) in the area of the Map (Mountains, Hills or Plains) where you have built the most structure pieces.'
         ),

@@ -134,7 +134,7 @@ class Contracts extends \BRG\Helpers\Pieces
             ->where('contract_location', 'contract-discard-' . $i)
             ->get()
             ->getIds();
-          if(!empty($contractIds)){
+          if (!empty($contractIds)) {
             self::move($contractIds, 'box');
             Notifications::refillContractStack($i, count($contractIds));
 
@@ -182,7 +182,7 @@ class Contracts extends \BRG\Helpers\Pieces
       2 => $f(3, [CREDIT => 2, ROTATE_WHEEL => 1]),
       3 => $f(2, [CREDIT => 3]),
       4 => $f(4, [CREDIT => 2, ANY_MACHINE => 1]),
-      //      5 => $f(4, [FLOW_DROPLET => 1, CREDIT => 3]),
+      // 5 => $f(4, [FLOW_DROPLET => 1, CREDIT => 3]),
 
       //  _   _       _   _                   _
       // | \ | | __ _| |_(_) ___  _ __   __ _| |
