@@ -104,7 +104,7 @@ class PlaceEngineer extends \BRG\Models\Action
           $choices[] = 'margot';
         }
       }
-      if ($n <= 1 && $company->isXO(XO_TOMMASO) && $company->hasAvailableArchitect()) {
+      if ($n == 1 && $company->isXO(XO_TOMMASO) && $company->hasAvailableArchitect()) {
         $choices[] = N_ARCHITECT;
       }
       if (($space['flow']['action'] ?? null) == \EXTERNAL_WORK && $company->isLeslieTileAvailable()) {
