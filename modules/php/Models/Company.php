@@ -280,7 +280,7 @@ class Company extends \BRG\Helpers\DB_Model
       // ARCHITECT
       $engineerIds = array_slice($this->getAvailableArchitects()->getIds(), 0, 1);
       if ($this->officerId == \XO_MAHIRI) {
-        Globals::setMahiriPower('');
+        Globals::setMahiriPower(-1);
       }
     } else {
       // NORMAL CASE => always try not to take the engineer

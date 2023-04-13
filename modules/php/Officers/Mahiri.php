@@ -22,7 +22,8 @@ class Mahiri extends \BRG\Models\Officer
 
   protected function getCopiedOfficer()
   {
-    return Globals::getMahiriPower() == '' ? null : Officers::getInstance(Globals::getMahiriPower());
+    $p = Globals::getMahiriPower();
+    return $p == '' || $p == -1 ? null : Officers::getInstance($p);
   }
 
   public function jsonSerialize()
@@ -112,7 +113,7 @@ class Mahiri extends \BRG\Models\Officer
 
   public function isCopyPowerDoable()
   {
-    return is_null($this->getCopiedOfficer());
+    return is_null($this->getCopiedOfficer()) && Globals::getMahiriPower() != -1;
   }
 
   public function getCopyPowerDescription()
