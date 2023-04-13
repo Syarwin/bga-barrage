@@ -640,6 +640,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           desc = `<div class='tooltip-special-power'>${icon}</div>${_(speMapping[n])}<br /><b>${warning}</b>`;
         }
 
+        // Very special case for external work with 2 elevation as bonus
+        if (t == 'elevation' && n == 2) {
+          desc = _(
+            'Build 2 Elevations on one or two of your Dams. You don’t need to place Engineers, to insert the Technology tile or the Machineries.'
+          );
+        }
+
         descs.push(desc);
       });
 
