@@ -408,11 +408,21 @@ class Company extends \BRG\Helpers\DB_Model
   public function isAntonTileAvailable()
   {
     $tiles = $this->getAvailableTechTiles();
-    $tiles->filter(function ($tile) {
-      return $tile->getId() == \ANTON_TILE;
+    $tiles = $tiles->filter(function ($tile) {
+      return $tile->getType() == \ANTON_TILE;
     });
 
     return count($tiles) != 0;
+  }
+
+  public function isLeslieTileAvailable()
+  {
+    $tiles = $this->getAvailableTechTiles();
+    $tiles = $tiles->filter(function ($tile) {
+      return $tile->getType() == \LESLIE_TILE;
+    });
+
+    return count($tiles) != 0 || Globals::getMahiriPower() == \XO_LESLIE;
   }
 
   public function getWheelTiles()

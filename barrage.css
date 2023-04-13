@@ -5225,6 +5225,9 @@ body {
     .barrage-tech-tile .tech-tile-fixed-size[data-type="anton"] .tech-tile-image {
       background-position-x: 0%;
       background-position-y: 100%; }
+    .barrage-tech-tile .tech-tile-fixed-size[data-type="leslie"] .tech-tile-image {
+      background-position-x: 16.6666666667%;
+      background-position-y: 100%; }
   .barrage-tech-tile.selectable .tech-tile-fixed-size {
     cursor: pointer;
     background-color: red; }

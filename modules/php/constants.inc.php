@@ -199,6 +199,7 @@ const POWERHOUSE = 'powerhouse';
 const BUILDING = 'building';
 const JOKER = 'joker';
 const ANTON_TILE = 'anton';
+const LESLIE_TILE = 'leslie';
 const L1_BASE = 'L1_BASE';
 const L1_ELEVATION = 'L1_ELEVATION';
 const L1_CONDUIT = 'L1_CONDUIT';

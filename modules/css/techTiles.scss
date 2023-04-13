@@ -121,6 +121,10 @@
       background-position-x: 0%;
       background-position-y: 100%;
     }
+    &[data-type="leslie"] .tech-tile-image {
+      background-position-x: 1 * 100% / 6;
+      background-position-y: 100%;
+    }
   }
 
   &.selectable {

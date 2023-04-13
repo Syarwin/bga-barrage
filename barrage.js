@@ -1421,6 +1421,7 @@ define([
       $(args.uid).classList.add('selected');
       args.choices.forEach((choice) => {
         let msg = choice == -1 ? _('Architect') : choice;
+        if (choice == 'leslie') msg = _('2 and use Leslie Technology Tile');
         this.addPrimaryActionButton('btnChoice' + choice, msg, () =>
           this.takeAtomicAction('actPlaceEngineer', [args.uid, choice])
         );

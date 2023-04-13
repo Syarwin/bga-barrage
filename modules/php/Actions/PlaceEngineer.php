@@ -104,6 +104,9 @@ class PlaceEngineer extends \BRG\Models\Action
       if ($n <= 1 && $company->isXO(XO_TOMMASO) && $company->hasAvailableArchitect()) {
         $choices[] = N_ARCHITECT;
       }
+      if (($space['flow']['action'] ?? null) == \EXTERNAL_WORK && $company->isLeslieTileAvailable()) {
+        $choices[] = \LESLIE_TILE;
+      }
 
       if (is_null($mahiri) && stripos($space['uid'], 'mahiri') !== false) {
         $mahiri = $space['uid'];
@@ -175,6 +178,12 @@ class PlaceEngineer extends \BRG\Models\Action
     $space = self::getPlayableSpaces($company)[$spaceId];
 
     // Place engineer
+    $leslie = false;
+    if ($nEngineers == \LESLIE_TILE) {
+      $leslie = true;
+      $nEngineers = 2;
+    }
+
     $board = ActionSpaces::getBoard($space['board']);
     $engineers = $company->placeEngineer($spaceId, $nEngineers);
     Notifications::placeEngineers($company, $engineers, $board);
@@ -184,6 +193,9 @@ class PlaceEngineer extends \BRG\Models\Action
     if ($space['uid'] == 'bank-b') {
       // Handle the bank ( < 0 for ARCHITECT)
       $flow['args'] = [CREDIT => $nEngineers < 0 ? 1 : $nEngineers];
+    }
+    if ($leslie) {
+      $flow['args']['leslie'] = true;
     }
 
     // Handle cost

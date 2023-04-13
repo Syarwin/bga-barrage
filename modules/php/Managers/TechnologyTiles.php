@@ -43,6 +43,8 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       return new \BRG\TechTiles\BasicTile($row);
     } elseif ($row['type'] == ANTON_TILE) {
       return new \BRG\TechTiles\AntonTile($row);
+    } elseif ($row['type'] == LESLIE_TILE) {
+      return new \BRG\TechTiles\LeslieTile($row);
     } else {
       if (!\array_key_exists($row['type'], self::$classes)) {
         throw new \BgaVisibleSystemException(
@@ -93,6 +95,13 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
       ->getSingle();
   }
 
+  public function getLeslie()
+  {
+    return self::getSelectQuery()
+      ->where('type', \LESLIE_TILE)
+      ->getSingle();
+  }
+
   ///////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
@@ -119,6 +128,9 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
 
     if ($company->isXO(\XO_ANTON)) {
       $meeples[] = ['type' => \ANTON_TILE, 'company_id' => $cId, 'location' => 'company'];
+    }
+    if ($company->isXO(\XO_LESLIE)) {
+      $meeples[] = ['type' => \LESLIE_TILE, 'company_id' => $cId, 'location' => 'company'];
     }
     return self::getMany(self::create($meeples));
   }

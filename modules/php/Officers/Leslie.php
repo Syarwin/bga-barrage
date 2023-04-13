@@ -16,6 +16,6 @@ class Leslie extends \BRG\Models\Officer
 
   public function isAvailable()
   {
-    return false; //Globals::isLWP();
+    return Globals::isLWP();
   }
 }

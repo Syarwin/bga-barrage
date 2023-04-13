@@ -1,12 +1,14 @@
 <?php
 namespace BRG\Actions;
 use BRG\Managers\ExternalWorks;
+use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Core\Notifications;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 use BRG\Core\Engine;
+use BRG\Core\Globals;
 
 class ExternalWork extends \BRG\Models\Action
 {
@@ -76,6 +78,7 @@ class ExternalWork extends \BRG\Models\Action
     Stats::incExtWork($company, 1);
     $vp = $work->getVp();
     Stats::incVpWorks($company, $vp);
+    $isLeslie = $this->getCtxArgs()['leslie'] ?? false;
 
     // Insert its flow as a child (or run it right now if it's an Automa)
     if ($isAI) {
@@ -83,14 +86,29 @@ class ExternalWork extends \BRG\Models\Action
       $actions = Game::get()->convertFlowToAutomaActions($flow);
       Game::get()->automaTakeActions($actions);
     } else {
-      Engine::insertAsChild([
+      $payNode = [
         'action' => PAY,
         'args' => [
           'nb' => 1,
           'costs' => Utils::formatCost($work->getCost($this->getCostType())),
           'source' => clienttranslate('External Work Cost'),
         ],
-      ]);
+      ];
+      if ($isLeslie) {
+        $payNode['args']['target'] = 'wheel';
+        if (Globals::getMahiriPower() != XO_LESLIE) {
+          $payNode['args']['tileId'] = TechnologyTiles::getLeslie()->getId();
+        }
+      }
+      Engine::insertAsChild($payNode);
+
+      if ($isLeslie) {
+        Engine::insertAsChild([
+          'action' => \ROTATE_WHEEL,
+          'args' => ['n' => 1],
+        ]);
+      }
+
       $flow = $work->computeRewardFlow();
       Engine::insertAsChild($flow);
     }
