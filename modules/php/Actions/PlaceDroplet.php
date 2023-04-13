@@ -63,14 +63,20 @@ class PlaceDroplet extends \BRG\Models\Action
     $ctxArgs = $this->getCtxArgs();
     $toFlow = $ctxArgs['flows'] ?? false;
     $isDam = ($ctxArgs['type'] ?? null) == 'dam';
+    $isNetherland = $ctxArgs['netherland'] ?? false;
     $company = Companies::getActive();
+
+    $speed = $toFlow ? clienttranslate('immediate flow') : clienttranslate('delayed flow');
+    if ($isDam) {
+      $speed = clienttranslate('neutral or player dam');
+    }
+    if ($isNetherland) {
+      $speed = clienttranslate('player dam not used in last production');
+    }
+
     return [
       'i18n' => ['speed'],
-      'speed' => $isDam
-        ? clienttranslate('neutral or player dam')
-        : ($toFlow
-          ? clienttranslate('immediate flow')
-          : clienttranslate('delayed flow')),
+      'speed' => $speed,
       'spaces' => $this->getPossibleSpaces($company),
       'flow' => $toFlow,
       'isDam' => $isDam,

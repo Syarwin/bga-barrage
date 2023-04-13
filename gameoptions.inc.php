@@ -91,6 +91,11 @@ $game_options = [
         'id' => OPTION_SETUP,
         'value' => [OPTION_SETUP_BEGINNER],
       ],
+      [
+        'type' => 'otheroptionisnot',
+        'id' => OPTION_EXPANSION_LWP,
+        'value' => [OPTION_EXPANSION_LWP_ON],
+      ],
     ],
   ],
 

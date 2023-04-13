@@ -173,7 +173,7 @@ class Produce extends \BRG\Models\Action
         Engine::insertAsChild([
           'action' => \PLACE_DROPLET,
           'optional' => true,
-          'args' => ['n' => 1, 'type' => 'dam', 'constraint' => $system['basin']],
+          'args' => ['n' => 1, 'type' => 'dam', 'constraint' => $system['basin'], 'netherland' => true],
         ]);
       }
     }
