@@ -26,7 +26,7 @@ class EnergyRelayField extends Building
   public function getCentralIcon()
   {
     return [
-      'i' => '<COST:1><ENERGY:4>',
+      'i' => '<COST:1><ARROW><ENERGY:4>',
       't' => clienttranslate(
         'Pay 1 Credit to move your Energy marker of 4 steps on the Energy Track. As usual, you cannot use this Energy Units to fulfill Contracts.'
       ),
