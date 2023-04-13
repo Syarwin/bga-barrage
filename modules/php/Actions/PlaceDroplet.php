@@ -18,7 +18,7 @@ class PlaceDroplet extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return true;
+    return !empty($this->getPossibleSpaces($company));
   }
 
   public function isOptional()
