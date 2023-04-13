@@ -144,13 +144,6 @@ $game_options = [
       //   'tmdisplay' => clienttranslate('[4 automas]'),
       // ],
     ],
-    'displaycondition' => [
-      [
-        'type' => 'otheroption',
-        'id' => OPTION_EXPANSION_LWP,
-        'value' => [OPTION_EXPANSION_LWP_OFF],
-      ],
-    ],
     'startcondition' => [
       0 => [
         [
