@@ -5351,7 +5351,7 @@ body {
     cursor: pointer; }
     .barrage-work.selectable:hover {
       transform: scale(1.1); }
-  .barrage-work.selected .contract-fixed-size {
+  .barrage-work.selected .work-fixed-size {
     border: 2px solid red; }
   .barrage-work .work-fixed-size {
     width: 183px;

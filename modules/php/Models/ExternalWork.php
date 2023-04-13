@@ -55,8 +55,8 @@ class ExternalWork extends \BRG\Helpers\DB_Model
     return FlowConvertor::getVp($this->reward);
   }
 
-  public function computeRewardFlow()
+  public function computeRewardFlow($isAI = false)
   {
-    return FlowConvertor::computeRewardFlow($this->reward);
+    return FlowConvertor::computeRewardFlow($this->reward, '', $isAI);
   }
 }

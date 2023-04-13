@@ -11,6 +11,7 @@ use BRG\Managers\Actions;
 use BRG\Managers\ActionSpaces;
 use BRG\Managers\AutomaCards;
 use BRG\Managers\TechnologyTiles;
+use BRG\Managers\ExternalWorks;
 use BRG\Managers\Contracts;
 use BRG\Models\PlayerBoard;
 use BRG\Helpers\Utils;
@@ -20,6 +21,7 @@ use BRG\Actions\PlaceDroplet;
 use BRG\Actions\Produce;
 use BRG\Actions\FulfillContract;
 use BRG\Actions\PlaceStructure;
+use BRG\Actions\ExternalWork;
 use BRG\Map;
 
 trait AutomaTurnTrait
@@ -92,7 +94,7 @@ trait AutomaTurnTrait
 
         // For these actions, the automa turn ends right away (except if it's a contract reward)
         if (
-          in_array($action['type'], [PRODUCE, CONSTRUCT, ROTATE_WHEEL, GAIN_MACHINE, PATENT]) &&
+          in_array($action['type'], [PRODUCE, CONSTRUCT, ROTATE_WHEEL, GAIN_MACHINE, PATENT, EXTERNAL_WORK]) &&
           $requiredEngineers > 0
         ) {
           break;
@@ -147,6 +149,15 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // External Work : LWP
     elseif ($type == \EXTERNAL_WORK) {
+      if (!Globals::isLWP()) {
+        return false;
+      }
+
+      foreach ($action['order'] as $i) {
+        if ($company->canTakeAction(EXTERNAL_WORK, ['position' => $i], false)) {
+          return ['position' => $i];
+        }
+      }
       return false;
     }
     //////////////////////////////////////////
@@ -239,7 +250,7 @@ trait AutomaTurnTrait
         PRODUCE => BOARD_TURBINE,
         PLACE_DROPLET => BOARD_WATER,
         CONSTRUCT => BOARD_COMPANY,
-        EXTERNAL_WORK => 'TODO',
+        EXTERNAL_WORK => BOARD_EXTERNAL_WORK,
         ROTATE_WHEEL => BOARD_WORSKHOP,
         GAIN_MACHINE => BOARD_MACHINERY_SHOP,
         GAIN_VP => BOARD_BANK,
@@ -302,6 +313,11 @@ trait AutomaTurnTrait
     //////////////////////////////////////////
     // External Work : LWP
     elseif ($type == \EXTERNAL_WORK) {
+      $work = ExternalWorks::getFilteredQuery(null, 'work_' . $result['position'])
+        ->get()
+        ->first();
+
+      ExternalWork::fulfillExternalWork($work);
     }
     //////////////////////////////////////////
     // Rotate wheel

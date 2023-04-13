@@ -601,6 +601,9 @@ define([
               powerhouse: result.system.powerhouseSpaceId,
             }
           );
+        } else if (type == 'EXTERNAL_WORK') {
+          $(`work_${result.position}`).querySelector('.barrage-work').classList.add('selected');
+          return _('realize an external work');
         } else {
           return type;
         }

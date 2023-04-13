@@ -9,6 +9,7 @@ use BRG\Core\Stats;
 use BRG\Helpers\Utils;
 use BRG\Core\Engine;
 use BRG\Core\Globals;
+use BRG\Core\Game;
 
 class ExternalWork extends \BRG\Models\Action
 {
@@ -35,6 +36,11 @@ class ExternalWork extends \BRG\Models\Action
         'args' => ['n' => $n],
       ];
     }
+  }
+
+  public function getCtxArgs()
+  {
+    return $this->ctx == null ? null : (is_array($this->ctx) ? $this->ctx : $this->ctx->getArgs());
   }
 
   public function isDoable($company, $ignoreResources = false)
@@ -78,7 +84,6 @@ class ExternalWork extends \BRG\Models\Action
     Stats::incExtWork($company, 1);
     $vp = $work->getVp();
     Stats::incVpWorks($company, $vp);
-    $isLeslie = $this->getCtxArgs()['leslie'] ?? false;
 
     // Insert its flow as a child (or run it right now if it's an Automa)
     if ($isAI) {
@@ -86,6 +91,8 @@ class ExternalWork extends \BRG\Models\Action
       $actions = Game::get()->convertFlowToAutomaActions($flow);
       Game::get()->automaTakeActions($actions);
     } else {
+      $isLeslie = $this->getCtxArgs()['leslie'] ?? false;
+
       $payNode = [
         'action' => PAY,
         'args' => [
