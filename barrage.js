@@ -632,6 +632,15 @@ define([
       });
     },
 
+    useBuilding(args) {
+      Object.keys(args.power).forEach((key) => {
+        this.addPrimaryActionButton('btnBuilding' + key, _('Use ') + _(args.power[key].name), () => {
+          this.takeAtomicAction('actUseBuilding', [key]);
+        });
+        this.addCustomTooltip('btnBuilding' + key, _(args.power[key].icon.t));
+      });
+    },
+
     updateRoundCounter() {
       let val = Math.min(5, this.gamedatas.round);
       this._roundCounter.toValue(val);

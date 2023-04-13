@@ -2,6 +2,7 @@
 namespace BRG\Actions;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Officers;
+use BRG\Managers\Companies;
 
 class SpecialEffect extends \BRG\Models\Action
 {
@@ -10,13 +11,13 @@ class SpecialEffect extends \BRG\Models\Action
     return ST_SPECIAL_EFFECT;
   }
 
-  protected function getObj()
+  protected function getObj($company = null)
   {
     $args = $this->getCtxArgs();
     if (isset($args['tileId'])) {
       $card = TechnologyTiles::get($args['tileId']);
     } elseif (isset($args['xoId'])) {
-      $card = Officers::getInstance($args['xoId']);
+      $card = Officers::getInstance($args['xoId'], $company ?? Companies::getActive());
     } else {
       return null;
     }
@@ -27,7 +28,7 @@ class SpecialEffect extends \BRG\Models\Action
   public function isDoable($company, $ignoreResources = false)
   {
     $args = $this->getCtxArgs();
-    $card = $this->getObj();
+    $card = $this->getObj($company);
     if (is_null($card)) {
       return false;
     }
