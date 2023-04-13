@@ -1398,6 +1398,12 @@ define([
           }
         }
         this.onClick(uid, () => callback(uid));
+
+        if (args.spaces[uid].includes('margot')) {
+          this.addPrimaryActionButton('btnChoiceMargot', _("Use Building (Margot's power)"), () =>
+            this.takeAtomicAction('actPlaceEngineer', [uid, 'margot'])
+          );
+        }
       });
 
       if (construct !== null) {
@@ -1430,7 +1436,8 @@ define([
       $(args.uid).classList.add('selected');
       args.choices.forEach((choice) => {
         let msg = choice == -1 ? _('Architect') : choice;
-        if (choice == 'leslie') msg = _('2 and use Leslie Technology Tile');
+        if (choice == 'leslie') msg = _("2 and use Leslie's Technology Tile");
+        if (choice == 'margot') msg = _("1 and use Margot's ability");
         this.addPrimaryActionButton('btnChoice' + choice, msg, () =>
           this.takeAtomicAction('actPlaceEngineer', [args.uid, choice])
         );

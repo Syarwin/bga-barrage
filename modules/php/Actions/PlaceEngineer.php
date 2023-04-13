@@ -100,6 +100,9 @@ class PlaceEngineer extends \BRG\Models\Action
         // BANK
         $m = $company->countAvailableEngineers();
         $choices = $m == 0 ? [] : range(1, $m);
+        if (Globals::getMahiriPower() == \XO_MARGOT && !empty($company->getBuiltBuildingIds())) {
+          $choices[] = 'margot';
+        }
       }
       if ($n <= 1 && $company->isXO(XO_TOMMASO) && $company->hasAvailableArchitect()) {
         $choices[] = N_ARCHITECT;
@@ -179,9 +182,13 @@ class PlaceEngineer extends \BRG\Models\Action
 
     // Place engineer
     $leslie = false;
+    $margot = false;
     if ($nEngineers == \LESLIE_TILE) {
       $leslie = true;
       $nEngineers = 2;
+    } elseif ($nEngineers == 'margot') {
+      $margot = true;
+      $nEngineers = 1;
     }
 
     $board = ActionSpaces::getBoard($space['board']);
@@ -193,6 +200,13 @@ class PlaceEngineer extends \BRG\Models\Action
     if ($space['uid'] == 'bank-b') {
       // Handle the bank ( < 0 for ARCHITECT)
       $flow['args'] = [CREDIT => $nEngineers < 0 ? 1 : $nEngineers];
+
+      if ($margot) {
+        $flow = [
+          'action' => \SPECIAL_EFFECT,
+          'args' => ['xoId' => XO_MARGOT, 'method' => 'useBuilding'],
+        ];
+      }
     }
     if ($leslie) {
       $flow['args']['leslie'] = true;
