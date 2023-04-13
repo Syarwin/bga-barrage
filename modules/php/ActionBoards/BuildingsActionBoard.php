@@ -75,6 +75,24 @@ class BuildingsActionBoard extends AbstractActionBoard
       return in_array($bId, $builtBuildingIds) && !in_array($bId, $usedBuildingIds);
     });
 
+    if (Globals::isAI()) {
+      // Get the building ids built by automas
+      $automaBuiltBuildingsIds = [];
+      foreach (Companies::getAll() as $company2) {
+        if ($company2->isAI()) {
+          $automaBuiltBuildingsIds = array_merge($automaBuiltBuildingsIds, $company2->getBuiltBuildingIds());
+        }
+      }
+      $automaBuiltBuildingsIds = array_unique($automaBuiltBuildingsIds);
+
+      // Remove index 0 if built by automa
+      Utils::filter($spaces, function ($space) use ($automaBuiltBuildingsIds) {
+        $t = explode('-', $space['uid']);
+        $bId = (int) $t[1];
+        return !in_array($bId, $automaBuiltBuildingsIds) || $t[2] != 0;
+      });
+    }
+
     return $spaces;
   }
 

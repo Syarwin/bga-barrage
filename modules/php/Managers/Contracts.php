@@ -3,6 +3,7 @@ namespace BRG\Managers;
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
 use BRG\Core\Notifications;
+use BRG\Core\Globals;
 
 /* Class to manage all the contracts for Barrage */
 

@@ -168,9 +168,6 @@ class Globals extends \BRG\Helpers\DB_Manager
   {
     self::setSetup($options[\BRG\OPTION_SETUP]);
     self::setLWP(($options[\BRG\OPTION_EXPANSION_LWP] ?? null) == \BRG\OPTION_EXPANSION_LWP_ON);
-    if (self::isLWP()) {
-      $options[\BRG\OPTION_AUTOMA] = 0;
-    }
     self::setNewXO(($options[\BRG\OPTION_NEW_XO] ?? null) == \BRG\OPTION_NEW_XO_ON);
     self::setCountCompanies(count($players) + $options[\BRG\OPTION_AUTOMA]);
     self::setMahiriAddXO([]);

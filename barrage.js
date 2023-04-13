@@ -520,6 +520,23 @@ define([
         let type = action.type;
 
         if (type == 'CONSTRUCT') {
+          let spaceId = 'ERROR';
+          if (result != null) {
+            spaceId = result.spaceId;
+          }
+
+          // BUILDINGS
+          if (action.structure == 'building') {
+            let slot = this.getConstructSlot(spaceId);
+            slot.classList.add('selected');
+            $(`tech-tile-${result.tileId}`).classList.add('selected');
+            let name = slot.parentNode.parentNode.parentNode.querySelector('.building-name').innerHTML;
+            return this.fsr(_('construct ${building_name}'), {
+              i18n: ['building_name'],
+              building_name: name,
+            });
+          }
+
           let typeDescs = {
             base: _('a Base'),
             elevation: _('an Elevation'),
@@ -527,9 +544,7 @@ define([
             powerhouse: _('a Powerhouse'),
           };
 
-          let spaceId = 'ERROR';
           if (result != null) {
-            spaceId = result.spaceId;
             let slot = this.getConstructSlot(spaceId);
             slot.classList.add('selected');
             $(`tech-tile-${result.tileId}`).classList.add('selected');

@@ -33,7 +33,7 @@ trait AutomaTurnTrait
   function actRunAutoma()
   {
     $actions = $this->computeAutomaTurn();
-    if(!empty($actions)){
+    if (!empty($actions)) {
       $this->automaTakeActions($actions);
       $this->nextPlayerCustomOrder('actionPhase');
     } else {
@@ -196,7 +196,9 @@ trait AutomaTurnTrait
       $maxTile = null;
       $maxPosition = null;
       for ($position = 1; $position <= 3; $position++) {
-        $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $position)->get()->first();
+        $tile = TechnologyTiles::getFilteredQuery(null, 'patent_' . $position)
+          ->get()
+          ->first();
         if (!is_null($tile) && $tile->canConstruct($action['structure']) && $tile->getLvl() > $maxLvl) {
           $maxLvl = $tile->getLvl();
           $maxTile = $tile->getId();
@@ -418,6 +420,7 @@ trait AutomaTurnTrait
   public function canAutomaTakeConstructAction($company, $action)
   {
     $structure = $action['structure'];
+
     // Find all the possible constructable spots
     $pairs = Construct::getConstructablePairs($company, false, false, [
       'type' => $structure,
@@ -434,7 +437,20 @@ trait AutomaTurnTrait
         return $pair['spaceId'];
       }, $pairs)
     );
-    $spaceId = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
+    if ($structure == BUILDING) {
+      $buildings = [];
+      foreach ($spaceIds as $sId) {
+        $t = explode('-', $sId);
+        $buildings[$t[1]][] = $t[2];
+      }
+
+      $keys = array_keys($buildings);
+      $key = $action['constraints'] == 'down' ? $keys[0] : $keys[count($keys) - 1];
+      $n = $buildings[$key][0];
+      $spaceId = "buildingslot-$key-$n";
+    } else {
+      $spaceId = $this->getAutomaStructureEmplacement($company, $structure, $spaceIds);
+    }
 
     // Now find the good tile for that spot
     $maxLvl = -1;
@@ -460,6 +476,7 @@ trait AutomaTurnTrait
   public function canAutomaTakePlaceStructureAction($company, $action)
   {
     $structure = $action['structure'];
+
     // Find all the possible constructable spots
     $spaces = PlaceStructure::getAvailableSpaces($company, false, [
       'type' => $structure,
