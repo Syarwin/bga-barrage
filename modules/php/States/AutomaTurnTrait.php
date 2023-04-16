@@ -426,7 +426,7 @@ trait AutomaTurnTrait
     }
 
     return [
-      'system' => $system,
+      'system' => $maxSystem,
       'contract' => $maxContract, // TODO : getId ??
     ];
   }
