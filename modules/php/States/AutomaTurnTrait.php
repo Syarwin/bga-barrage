@@ -34,6 +34,11 @@ trait AutomaTurnTrait
 
   function actRunAutoma()
   {
+    $company = Companies::getActive();
+    if (!$company->isAI()) {
+      return;
+    }
+
     $actions = $this->computeAutomaTurn();
     if (!empty($actions)) {
       $this->automaTakeActions($actions);
