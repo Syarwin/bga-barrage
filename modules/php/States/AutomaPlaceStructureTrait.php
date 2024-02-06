@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\States;
+
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Managers\Players;
@@ -97,7 +99,7 @@ trait AutomaPlaceStructureTrait
       die('Automa error : several spaces possible for placing structure.');
     }
 
-    if(!isset($spaceIds[0])){
+    if (!isset($spaceIds[0])) {
       var_dump($spaceIds);
       die('Automa error : issue with space for placing structure');
     }
@@ -123,17 +125,17 @@ trait AutomaPlaceStructureTrait
   public function applyAutomaCriterion($company, $criterion, $spaceIds)
   {
     switch ($criterion) {
-      /////////////////////////////////
-      //  ____    _    ____  _____
-      // | __ )  / \  / ___|| ____|
-      // |  _ \ / _ \ \___ \|  _|
-      // | |_) / ___ \ ___) | |___
-      // |____/_/   \_\____/|_____|
-      //
-      /////////////////////////////////
+        /////////////////////////////////
+        //  ____    _    ____  _____
+        // | __ )  / \  / ___|| ____|
+        // |  _ \ / _ \ \___ \|  _|
+        // | |_) / ___ \ ___) | |___
+        // |____/_/   \_\____/|_____|
+        //
+        /////////////////////////////////
 
-      //////////////////////////////////////////
-      // Keep only the basin linked to the most powerful conduit possible
+        //////////////////////////////////////////
+        // Keep only the basin linked to the most powerful conduit possible
       case AI_CRITERION_BASE_MAX_CONDUIT:
         $maxProd = 0;
         $maxBasins = [];
@@ -167,8 +169,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////////
-      // Keep only one linked to an automa powerhouse
+        //////////////////////////////////////////
+        // Keep only one linked to an automa powerhouse
       case AI_CRITERION_BASE_POWERHOUSE:
         $basins = [];
         foreach (Map::getZones() as $zoneId => $zone) {
@@ -191,8 +193,8 @@ trait AutomaPlaceStructureTrait
 
         break;
 
-      //////////////////////////////////////////
-      // Keep the dam that would get the most droplets
+        //////////////////////////////////////////
+        // Keep the dam that would get the most droplets
       case AI_CRITERION_BASE_HOLD_WATER:
         list($w, $passingDroplets) = Map::emulateFlowDroplets();
         $basins = aggregate($spaceIds, function ($sId) use ($passingDroplets) {
@@ -220,8 +222,8 @@ trait AutomaPlaceStructureTrait
         return $potentialLocations;
         break;
 
-      //////////////////////////////////////////
-      // Keep only the paying slot
+        //////////////////////////////////////////
+        // Keep only the paying slot
       case AI_CRITERION_BASE_PAYING_SLOT:
         $spaces = $spaceIds;
         Utils::filter($spaces, function ($spaceId) {
@@ -232,8 +234,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////////
-      // Keep the locations "below" a powerhouse
+        //////////////////////////////////////////
+        // Keep the locations "below" a powerhouse
       case AI_CRITERION_BASE_POWERHOUSE_WATER:
         $locations = [];
         foreach (Map::getZones() as $zoneId => $zone) {
@@ -247,8 +249,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////////
-      // Keep the locations "above" a basin with an automa dam
+        //////////////////////////////////////////
+        // Keep the locations "above" a basin with an automa dam
       case AI_CRITERION_BASE_BASIN:
         $connectedToOwn = [];
         $notConnectedToOther = [];
@@ -279,17 +281,17 @@ trait AutomaPlaceStructureTrait
 
         break;
 
-      //////////////////////////////////////////////
-      //   ____ ___  _   _ ____  _   _ ___ _____
-      //  / ___/ _ \| \ | |  _ \| | | |_ _|_   _|
-      // | |  | | | |  \| | | | | | | || |  | |
-      // | |__| |_| | |\  | |_| | |_| || |  | |
-      //  \____\___/|_| \_|____/ \___/|___| |_|
-      //
-      //////////////////////////////////////////////
+        //////////////////////////////////////////////
+        //   ____ ___  _   _ ____  _   _ ___ _____
+        //  / ___/ _ \| \ | |  _ \| | | |_ _|_   _|
+        // | |  | | | |  \| | | | | | | || |  | |
+        // | |__| |_| | |\  | |_| | |_| || |  | |
+        //  \____\___/|_| \_|____/ \___/|___| |_|
+        //
+        //////////////////////////////////////////////
 
-      //////////////////////////////////////////
-      // Keep only the highest capacity conduits
+        //////////////////////////////////////////
+        // Keep only the highest capacity conduits
       case \AI_CRITERION_CONDUIT_HIGHEST:
         $conduits = Map::getConduits();
         $conduitProductions = aggregate(
@@ -303,8 +305,8 @@ trait AutomaPlaceStructureTrait
         return $conduitProductions[$maxProduction];
         break;
 
-      //////////////////////////////////////////
-      // Keep only the second highest capacity conduits
+        //////////////////////////////////////////
+        // Keep only the second highest capacity conduits
       case \AI_CRITERION_CONDUIT_SECOND_HIGHEST:
         $conduits = Map::getConduits();
         $conduitProductions = aggregate(
@@ -325,8 +327,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////////
-      // Keep only conduit connected to a built barrage/powerhouse
+        //////////////////////////////////////////
+        // Keep only conduit connected to a built barrage/powerhouse
       case \AI_CRITERION_CONDUIT_BARRAGE:
       case \AI_CRITERION_CONDUIT_BARRAGE_REVERSE:
         $type = BASE;
@@ -363,17 +365,17 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      ///////////////////////////////////////////////////////////////////////
-      //  ____   _____        _______ ____  _   _  ___  _   _ ____  _____
-      // |  _ \ / _ \ \      / / ____|  _ \| | | |/ _ \| | | / ___|| ____|
-      // | |_) | | | \ \ /\ / /|  _| | |_) | |_| | | | | | | \___ \|  _|
-      // |  __/| |_| |\ V  V / | |___|  _ <|  _  | |_| | |_| |___) | |___
-      // |_|    \___/  \_/\_/  |_____|_| \_\_| |_|\___/ \___/|____/|_____|
-      //
-      ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        //  ____   _____        _______ ____  _   _  ___  _   _ ____  _____
+        // |  _ \ / _ \ \      / / ____|  _ \| | | |/ _ \| | | / ___|| ____|
+        // | |_) | | | \ \ /\ / /|  _| | |_) | |_| | | | | | | \___ \|  _|
+        // |  __/| |_| |\ V  V / | |___|  _ <|  _  | |_| | |_| |___) | |___
+        // |_|    \___/  \_/\_/  |_____|_| \_\_| |_|\___/ \___/|____/|_____|
+        //
+        ///////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////
-      // Keep only the powerhouses linked to the most powerful (built) conduit possible
+        //////////////////////////////////////////
+        // Keep only the powerhouses linked to the most powerful (built) conduit possible
       case AI_CRITERION_POWERHOUSE_CONDUIT:
         $maxProd = 0;
         $maxPowerhouses = [];
@@ -397,8 +399,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////
-      // Keep only powerhouses linked to an owned dam
+        //////////////////////////////////////
+        // Keep only powerhouses linked to an owned dam
       case \AI_CRITERION_POWERHOUSE_BARRAGE:
         $powerhouses = [];
         foreach (Map::getZones() as $zoneId => $zone) {
@@ -421,8 +423,8 @@ trait AutomaPlaceStructureTrait
 
         break;
 
-      //////////////////////////////////////
-      // Keep only powerhouses in the plain
+        //////////////////////////////////////
+        // Keep only powerhouses in the plain
       case \AI_CRITERION_POWERHOUSE_PLAIN:
         $locations = Map::getLocationsInArea(PLAIN);
         $possiblePowerhouses = \array_intersect($locations, $spaceIds);
@@ -431,8 +433,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      ///////////////////////////////////////
-      // Keep only powerhouses in that section
+        ///////////////////////////////////////
+        // Keep only powerhouses in that section
       case AI_CRITERION_POWERHOUSE_HILL_5:
       case AI_CRITERION_POWERHOUSE_HILL_6:
       case AI_CRITERION_POWERHOUSE_HILL_7:
@@ -444,8 +446,8 @@ trait AutomaPlaceStructureTrait
         }
         break;
 
-      //////////////////////////////////////
-      // Keep only powerhouses that will feed automa's dams/not opponent's dams
+        //////////////////////////////////////
+        // Keep only powerhouses that will feed automa's dams/not opponent's dams
       case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER:
       case \AI_CRITERION_POWERHOUSE_BARRAGE_WATER_REVERSE:
         $feedingAutoma = [];
@@ -465,7 +467,7 @@ trait AutomaPlaceStructureTrait
               if (Map::getBuiltStructure($location, $otherIds)) {
                 $fOpponent = true;
               }
-              if ($fAutoma && $fOpponent) {
+              if ($fAutoma && !$fOpponent) {
                 break;
               }
             }
@@ -474,10 +476,11 @@ trait AutomaPlaceStructureTrait
           if ($fAutoma) {
             $feedingAutoma[] = $space;
           }
-          if ($fOpponent) {
+          if (!$fOpponent) {
             $feedingOpponent[] = $space;
           }
         }
+
 
         // Swap the two variales if it's the reverse criterion
         if (in_array($criterion, AI_REVERSE_CRITERIA)) {
