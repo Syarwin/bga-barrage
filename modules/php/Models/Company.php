@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Models;
+
 use BRG\Managers\Farmers;
 use BRG\Managers\Actions;
 use BRG\Managers\Meeples;
@@ -434,6 +436,7 @@ class Company extends \BRG\Helpers\DB_Model
   {
     return TechnologyTiles::getFilteredQuery($this->id)
       ->where('type', 'LIKE', 'L%')
+      ->where('type', '<>', LESLIE_TILE)
       ->count();
   }
 
