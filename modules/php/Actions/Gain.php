@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Companies;
 use BRG\Core\Notifications;
@@ -51,7 +53,7 @@ class Gain extends \BRG\Models\Action
     $this->resolveAction();
   }
 
-  public function gainResources($company, $args, $spaceId = null, $source = null)
+  public static function gainResources($company, $args, $spaceId = null, $source = null)
   {
     // Create resources
     $meeples = [];

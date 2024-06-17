@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -15,7 +16,7 @@ class CompanyActionBoard extends AbstractActionBoard
 {
   protected static $id = BOARD_COMPANY;
 
-  public function getUiStructure($filterCId = null)
+  public static function getUiStructure($filterCId = null)
   {
     $rows = [];
     foreach (Companies::getAll() as $cId => $company) {
@@ -35,7 +36,7 @@ class CompanyActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
     foreach (Companies::getAll() as $cId => $company) {
@@ -70,7 +71,7 @@ class CompanyActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return [];
   }

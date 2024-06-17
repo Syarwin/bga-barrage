@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Globals;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
@@ -9,6 +11,7 @@ use BRG\Managers\Players;
 /*
  * Buildings manager
  */
+
 class Buildings extends \BRG\Helpers\Pieces
 {
   protected static $table = 'buildings';
@@ -74,13 +77,13 @@ class Buildings extends \BRG\Helpers\Pieces
     'WindFarm',
   ];
 
-  public function getInstance($bId, $data = null)
+  public static function getInstance($bId, $data = null)
   {
     $className = '\BRG\Buildings\\' . $bId;
     return new $className($data);
   }
 
-  protected function getAvailable()
+  protected static function getAvailable()
   {
     $buildingIds = [];
     foreach (static::$classes as $bId) {
@@ -93,7 +96,7 @@ class Buildings extends \BRG\Helpers\Pieces
     return $buildingIds;
   }
 
-  public function setupNewGame()
+  public static function setupNewGame()
   {
     $buildingIds = self::getAvailable();
     $ids = Utils::rand($buildingIds, 5);

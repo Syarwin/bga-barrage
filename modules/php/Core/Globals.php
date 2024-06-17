@@ -1,10 +1,12 @@
 <?php
+
 namespace BRG\Core;
 
 use BRG\Core\Game;
 /*
  * Globals
  */
+
 class Globals extends \BRG\Helpers\DB_Manager
 {
   protected static $initialized = false;
@@ -61,12 +63,10 @@ class Globals extends \BRG\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (
-      self::DB()
+    foreach (self::DB()
         ->select(['value', 'name'])
         ->get()
-      as $name => $variable
-    ) {
+      as $name => $variable) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }
@@ -158,7 +158,7 @@ class Globals extends \BRG\Helpers\DB_Manager
         return self::$setter(self::$getter() + (empty($args) ? 1 : $args[0]));
       }
     }
-    return undefined;
+    return null;
   }
 
   /*

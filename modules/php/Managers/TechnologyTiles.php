@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Stats;
 use BRG\Core\Notifications;
 use BRG\Core\Globals;
@@ -67,7 +69,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   /**
    * Generic base query
    */
-  public function getFilteredQuery($cId, $location = null)
+  public static function getFilteredQuery($cId, $location = null)
   {
     $query = self::getSelectQuery();
     if ($cId != null) {
@@ -79,7 +81,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     return $query;
   }
 
-  public function getOnWheel($cId, $slot = null)
+  public static function getOnWheel($cId, $slot = null)
   {
     $query = self::getFilteredQuery($cId, 'wheel', null);
     if (!is_null($slot)) {
@@ -88,14 +90,14 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
     return $query->get();
   }
 
-  public function getAnton()
+  public static function getAnton()
   {
     return self::getSelectQuery()
       ->where('type', \ANTON_TILE)
       ->getSingle();
   }
 
-  public function getLeslie()
+  public static function getLeslie()
   {
     return self::getSelectQuery()
       ->where('type', \LESLIE_TILE)
@@ -189,7 +191,7 @@ class TechnologyTiles extends \BRG\Helpers\Pieces
   // |_| \_|\___| \_/\_/   |_| \_\___/ \__,_|_| |_|\__,_|
   //
   //////////////////////////////////////////////////////////////
-  public function newRound()
+  public static function newRound()
   {
     // discard all tiles
     $tiles = self::getFilteredQuery(null, 'patent_%')->get();

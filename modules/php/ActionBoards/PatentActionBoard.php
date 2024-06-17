@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -21,7 +22,7 @@ class PatentActionBoard extends AbstractActionBoard
     return clienttranslate('Patent office');
   }
 
-  public function getUiStructure($cId = null)
+  public static function getUiStructure($cId = null)
   {
     $rows = [];
 
@@ -44,7 +45,7 @@ class PatentActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
 
@@ -104,7 +105,7 @@ class PatentActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return [];
   }

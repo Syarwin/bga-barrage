@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -19,7 +20,7 @@ class ContractActionBoard extends AbstractActionBoard
     return clienttranslate('Contract Office');
   }
 
-  public function getUiStructure($cId = null)
+  public static function getUiStructure($cId = null)
   {
     $rows = [];
 
@@ -53,7 +54,7 @@ class ContractActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
 
@@ -120,7 +121,7 @@ class ContractActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return ['o', 'ob', 't', 'oc', 'obc', 'tbis'];
   }

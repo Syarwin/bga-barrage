@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Globals;
 use BRG\Core\Stats;
 use BRG\Helpers\Utils;
@@ -7,6 +9,7 @@ use BRG\Helpers\Utils;
 /*
  * Officers manager : allows to easily access players, including automas
  */
+
 class Officers
 {
   static $classes = [
@@ -28,13 +31,13 @@ class Officers
     XO_AMIR => 'Amir',
   ];
 
-  public function getInstance($xId, $company = null)
+  public static function getInstance($xId, $company = null)
   {
     $className = '\BRG\Officers\\' . static::$classes[$xId];
     return new $className($company);
   }
 
-  protected function getAvailable()
+  protected static function getAvailable()
   {
     $officerIds = [];
     foreach (static::$classes as $xId => $className) {
@@ -47,7 +50,7 @@ class Officers
     return $officerIds;
   }
 
-  public function randomStartingPick($nPlayers)
+  public static function randomStartingPick($nPlayers)
   {
     $officerIds = self::getAvailable();
     return Utils::rand($officerIds, $nPlayers);

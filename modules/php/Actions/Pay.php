@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
 use BRG\Core\Game;
@@ -54,7 +56,7 @@ class Pay extends \BRG\Models\Action
     return $this->ctx == null ? null : (is_array($this->ctx) ? $this->ctx : $this->ctx->getArgs());
   }
 
-  private function getIgnoredFields()
+  private static function getIgnoredFields()
   {
     return ['sources', 'tags'];
   }
@@ -122,7 +124,7 @@ class Pay extends \BRG\Models\Action
         if (in_array($resource, $ignore)) {
           continue;
         }
-        if($company->isAI() && $resource == CREDIT){
+        if ($company->isAI() && $resource == CREDIT) {
           $company->incScore(-$amount, null, true);
           $moved = array_merge($moved, Companies::get($opponentId)->createResourceInReserve($resource, $amount)->toArray());
           continue;
@@ -373,7 +375,7 @@ class Pay extends \BRG\Models\Action
   /**
    * Sum two assoc arrays of resources (multiplied by a coefficient)
    */
-  protected function addCostAux(&$combination, $unitCost, $times = 1)
+  protected static function addCostAux(&$combination, $unitCost, $times = 1)
   {
     $combination['sources'] = array_unique(array_merge($combination['sources'] ?? [], $unitCost['sources'] ?? []));
     $combination['tags'] = array_unique(array_merge($combination['tags'] ?? [], $unitCost['tags'] ?? []));
@@ -392,7 +394,7 @@ class Pay extends \BRG\Models\Action
   /**
    * Check if a bonus can be applied
    */
-  protected function canApplyBonus($combination, $bonus)
+  protected static function canApplyBonus($combination, $bonus)
   {
     foreach ($bonus as $resource => $amount) {
       if (

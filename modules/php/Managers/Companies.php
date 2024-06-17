@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Game;
 use BRG\Core\Globals;
 use BRG\Core\Stats;
@@ -9,6 +11,7 @@ use BRG\Helpers\Utils;
 /*
  * Companies manager : allows to easily access players, including automas
  */
+
 class Companies extends \BRG\Helpers\DB_Manager
 {
   protected static $classes = [
@@ -40,7 +43,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     COMPANY_NETHERLANDS => 'ea4e1b',
   ];
 
-  public function randomStartingPick($nPlayers)
+  public static function randomStartingPick($nPlayers)
   {
     $companyIds = array_keys(static::$classes);
     if (!Globals::isLWP()) {
@@ -49,7 +52,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     return Utils::rand($companyIds, $nPlayers);
   }
 
-  public function assignCompany($player, $cId, $xId)
+  public static function assignCompany($player, $cId, $xId)
   {
     self::DB()->insert([
       'id' => $cId,
@@ -68,7 +71,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     return self::get($cId);
   }
 
-  public function assignCompanyAutoma($fakePId, $cId, $xId)
+  public static function assignCompanyAutoma($fakePId, $cId, $xId)
   {
     $name = clienttranslate('Automa I');
     if ($fakePId < -5) {
@@ -90,7 +93,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     return self::get($cId);
   }
 
-  public function getCorrespondingIds($pIds)
+  public static function getCorrespondingIds($pIds)
   {
     return self::DB()
       ->whereIn('player_id', $pIds)
@@ -101,7 +104,7 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * getUiData : get all ui data of all players
    */
-  public function getUiData($pId)
+  public static function getUiData($pId)
   {
     return self::getAll()->map(function ($player) use ($pId) {
       return $player->jsonSerialize($pId);
@@ -111,14 +114,14 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * Return the number of companies
    */
-  public function count()
+  public static function count()
   {
     // TODO : remove
     $n = Globals::getCountCompanies();
     return $n == 0 ? self::getAll()->count() : $n;
   }
 
-  public function getAll()
+  public static function getAll()
   {
     return self::DB()->get();
   }
@@ -126,7 +129,7 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * Get current turn order
    */
-  public function getTurnOrder()
+  public static function getTurnOrder()
   {
     return Globals::getTurnOrder();
   }
@@ -134,7 +137,7 @@ class Companies extends \BRG\Helpers\DB_Manager
   /*
    * get : returns the Player object for the given player ID
    */
-  public function get($pId = null)
+  public static function get($pId = null)
   {
     $pId = $pId ?: self::getActiveId();
     return self::DB()
@@ -145,17 +148,17 @@ class Companies extends \BRG\Helpers\DB_Manager
   /**
    * Emulate active company via a global
    */
-  public function getActiveId()
+  public static function getActiveId()
   {
     return Globals::getActiveCompany();
   }
 
-  public function getActive()
+  public static function getActive()
   {
     return self::get(self::getActiveId());
   }
 
-  public function changeActive($company)
+  public static function changeActive($company)
   {
     if (is_int($company)) {
       $company = self::get($company);
@@ -167,14 +170,14 @@ class Companies extends \BRG\Helpers\DB_Manager
     }
   }
 
-  public function resetEnergies()
+  public static function resetEnergies()
   {
     self::DB()
       ->update(['energy' => 0])
       ->run();
   }
 
-  public function returnHome()
+  public static function returnHome()
   {
     $engineers = [];
     foreach (self::getAll() as $company) {
@@ -183,7 +186,7 @@ class Companies extends \BRG\Helpers\DB_Manager
     Notifications::returnHomeEngineers(Meeples::getMany($engineers)->toArray());
   }
 
-  public function getOpponentIds($company)
+  public static function getOpponentIds($company)
   {
     $cId = is_int($company) ? $company : $company->getId();
     $otherIds = self::getAll()->getIds();
@@ -191,21 +194,5 @@ class Companies extends \BRG\Helpers\DB_Manager
       return $cId != $cId2;
     });
     return $otherIds;
-  }
-
-  /////////////////
-  // TODO
-  /////////////////
-
-  public function getCurrent()
-  {
-    return self::get(self::getCurrentId());
-  }
-
-  public function getNextId($player)
-  {
-    $pId = is_int($player) ? $player : $player->getId();
-    $table = Game::get()->getNextPlayerTable();
-    return $table[$pId];
   }
 }

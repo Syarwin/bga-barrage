@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Stats;
 use BRG\Core\Globals;
 use BRG\Helpers\UserException;
@@ -76,7 +78,7 @@ class Meeples extends \BRG\Helpers\Pieces
   /**
    * Generic base query
    */
-  public function getFilteredQuery($cId, $location, $type)
+  public static function getFilteredQuery($cId, $location, $type)
   {
     $query = self::getSelectQuery();
     if ($cId != null) {
@@ -110,7 +112,7 @@ class Meeples extends \BRG\Helpers\Pieces
   /**
    * Get meeples on a action space
    */
-  public function getOnSpace($sId, $type = null, $cId = null)
+  public static function getOnSpace($sId, $type = null, $cId = null)
   {
     return self::getFilteredQuery($cId, $sId, $type)->get();
   }
@@ -118,12 +120,12 @@ class Meeples extends \BRG\Helpers\Pieces
   /**
    * Get meeples in reserve
    */
-  public function getInReserve($cId, $type = null)
+  public static function getInReserve($cId, $type = null)
   {
     return self::getFilteredQuery($cId, 'reserve', $type)->get();
   }
 
-  public function getOnMap()
+  public static function getOnMap()
   {
     $query = self::getSelectQuery();
     return $query
@@ -135,7 +137,7 @@ class Meeples extends \BRG\Helpers\Pieces
   /**
    * Get meeples on wheel
    */
-  public function getOnWheel($cId, $slot = null)
+  public static function getOnWheel($cId, $slot = null)
   {
     $query = self::getFilteredQuery($cId, 'wheel', null);
     if (!is_null($slot)) {
@@ -145,7 +147,7 @@ class Meeples extends \BRG\Helpers\Pieces
   }
 
   /*************************** Resource management ***********************/
-  public function useResource($cId, $resourceType, $amount)
+  public static function useResource($cId, $resourceType, $amount)
   {
     $deleted = [];
     if ($amount == 0) {
@@ -169,7 +171,7 @@ class Meeples extends \BRG\Helpers\Pieces
     return $deleted;
   }
 
-  public function payResourceTo($companyId, $resourceType, $amount, $otherCompany)
+  public static function payResourceTo($companyId, $resourceType, $amount, $otherCompany)
   {
     $moved = [];
     if ($amount == 0) {
@@ -202,7 +204,7 @@ class Meeples extends \BRG\Helpers\Pieces
     return $moved;
   }
 
-  public function moveResource($companyId, $resourceType, $amount, $location, $state = 0)
+  public static function moveResource($companyId, $resourceType, $amount, $location, $state = 0)
   {
     $moved = [];
     if ($amount == 0) {
@@ -233,7 +235,7 @@ class Meeples extends \BRG\Helpers\Pieces
     return $moved;
   }
 
-  public function createResourceInLocation($type, $location, $cId, $nbr = 1, $state = null)
+  public static function createResourceInLocation($type, $location, $cId, $nbr = 1, $state = null)
   {
     $meeples = [
       [
@@ -249,12 +251,12 @@ class Meeples extends \BRG\Helpers\Pieces
     return self::getMany($ids);
   }
 
-  public function createResourceInReserve($cId, $type, $nbr = 1)
+  public static function createResourceInReserve($cId, $type, $nbr = 1)
   {
     return self::createResourceInLocation($type, 'reserve', $cId, $nbr);
   }
 
-  public function getTopOfType($type, $company, $location, $n = 1, $returnValueIfOnlyOneRow = true)
+  public static function getTopOfType($type, $company, $location, $n = 1, $returnValueIfOnlyOneRow = true)
   {
     self::checkLocation($location);
     self::checkPosInt($n);
@@ -266,19 +268,19 @@ class Meeples extends \BRG\Helpers\Pieces
       ->get($returnValueIfOnlyOneRow);
   }
 
-  public function getAvailableStructures($company)
+  public static function getAvailableStructures($company)
   {
     return self::getSelectWhere(null, 'company')
       ->where('company_id', $company)
       ->get();
   }
 
-  public function getEnergyTokens()
+  public static function getEnergyTokens()
   {
     return self::getFilteredQuery(null, null, [SCORE])->get();
   }
 
-  public function resetEnergyTokens()
+  public static function resetEnergyTokens()
   {
     $tokensIds = self::getEnergyTokens()->getIds();
     Meeples::move($tokensIds, 'energy-track-0');

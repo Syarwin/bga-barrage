@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Helpers;
+
 use BRG\Managers\PlayerCards;
 use BRG\Managers\ActionCards;
 
@@ -21,7 +23,7 @@ abstract class Utils extends \APP_DbObject
     return true;
   }
 
-  public function rand($array, $n = 1)
+  public static function rand($array, $n = 1)
   {
     $keys = array_rand($array, $n);
     if ($n == 1) {
@@ -37,9 +39,6 @@ abstract class Utils extends \APP_DbObject
 
   public static function die($args = null)
   {
-    if (is_null($args)) {
-      throw new \BgaVisibleSystemException(implode('<br>', self::$logmsg));
-    }
     throw new \BgaVisibleSystemException(json_encode($args));
   }
 

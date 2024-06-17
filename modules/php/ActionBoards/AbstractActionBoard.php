@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -29,7 +30,7 @@ abstract class AbstractActionBoard
   protected static $isNotBeginner = false; // Will NOT be there on the beginner variant
   protected static $isLWP = false; // Will only be there if the LWP expansions is on
 
-  public function isSupported()
+  public static function isSupported()
   {
     return (static::$players == null || in_array(Companies::count(), static::$players)) &&
       (!static::$isNotBeginner || !Globals::isBeginner()) &&
@@ -40,20 +41,20 @@ abstract class AbstractActionBoard
    * Get the list of action spaces corresponding to that board
    *  => depends only on player count
    */
-  abstract public function getAvailableSpaces();
+  abstract public static function getAvailableSpaces();
   // Get the order for this list of action spaces
-  abstract public function getSpacesOrderForAutoma();
+  abstract public static function getSpacesOrderForAutoma();
 
   /**
    * getUiData : remove useless data for frontend, as the flow
    *  and organize this depending on board structure
    */
-  protected function getUiStructure($cId = null)
+  protected static function getUiStructure($cId = null)
   {
     return [];
   }
 
-  public function getUiData($cId = null)
+  public static function getUiData($cId = null)
   {
     $spaces = [];
     foreach (static::getAvailableSpaces() as $space) {
@@ -86,7 +87,7 @@ abstract class AbstractActionBoard
   /**
    * getPlayableSpaces : return the list of playable spaces for a given company
    */
-  public function getPlayableSpaces($company)
+  public static function getPlayableSpaces($company)
   {
     $spaces = static::getAvailableSpaces();
 
@@ -101,7 +102,7 @@ abstract class AbstractActionBoard
   /**
    * getOrderedPlayableSpaces: for Automa, return the list of playable spaces in the top-bottom/left-right order of the board
    */
-  public function getOrderedPlayableSpaces($company)
+  public static function getOrderedPlayableSpaces($company)
   {
     $spaces = static::getPlayableSpaces($company);
     $order = array_map(function ($space) {
@@ -114,7 +115,7 @@ abstract class AbstractActionBoard
     return $spaces;
   }
 
-  public function gainNode($gain, $pId = null)
+  public static function gainNode($gain, $pId = null)
   {
     return [
       'action' => GAIN,
@@ -123,7 +124,7 @@ abstract class AbstractActionBoard
     ];
   }
 
-  public function payNode($cost, $sourceName = null, $nb = 1)
+  public static function payNode($cost, $sourceName = null, $nb = 1)
   {
     return [
       'action' => PAY,
@@ -135,7 +136,7 @@ abstract class AbstractActionBoard
     ];
   }
 
-  public function payGainNode($cost, $gain, $sourceName = null, $optional = false)
+  public static function payGainNode($cost, $gain, $sourceName = null, $optional = false)
   {
     return [
       'type' => NODE_SEQ,

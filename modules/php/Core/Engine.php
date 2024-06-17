@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Core;
+
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
 use BRG\Managers\Actions;
@@ -10,17 +12,18 @@ use BRG\Map;
 /*
  * Engine: a class that allows to handle complex flow
  */
+
 class Engine
 {
   public static $tree = null;
 
-  public function boot()
+  public static function boot()
   {
     $t = Globals::getEngine();
     self::$tree = self::buildTree($t);
   }
 
-  public function save()
+  public static function save()
   {
     $t = self::$tree->toArray();
     Globals::setEngine($t);
@@ -30,7 +33,7 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
-  public function setup($t, $callback)
+  public static function setup($t, $callback)
   {
     self::$tree = self::buildTree($t);
     self::save();
@@ -44,7 +47,7 @@ class Engine
    * Convert an array into a tree
    * @param array $t
    */
-  public function buildTree($t)
+  public static function buildTree($t)
   {
     $t['childs'] = $t['childs'] ?? [];
     $type = $t['type'] ?? (empty($t['childs']) ? NODE_LEAF : NODE_SEQ);
@@ -62,7 +65,7 @@ class Engine
   /**
    * Recursively compute the next unresolved node we are going to address
    */
-  public function getNextUnresolved()
+  public static function getNextUnresolved()
   {
     return self::$tree->getNextUnresolved();
   }
@@ -70,7 +73,7 @@ class Engine
   /**
    * Proceed to next unresolved part of tree
    */
-  public function proceed($confirmedPartial = false)
+  public static function proceed($confirmedPartial = false)
   {
     $node = self::$tree->getNextUnresolved();
     // Are we done ?
@@ -166,7 +169,7 @@ class Engine
   /**
    * Get the list of choices of current node
    */
-  public function getNextChoice($company = null, $ignoreResources = false)
+  public static function getNextChoice($company = null, $ignoreResources = false)
   {
     return self::$tree->getNextUnresolved()->getChoices($company, $ignoreResources);
   }
@@ -174,7 +177,7 @@ class Engine
   /**
    * Choose one option
    */
-  public function chooseNode($company, $nodeId, $auto = false)
+  public static function chooseNode($company, $nodeId, $auto = false)
   {
     $node = self::$tree->getNextUnresolved();
     $args = $node->getChoices($company);
@@ -204,14 +207,14 @@ class Engine
    * Resolve the current unresolved node
    * @param array $args : store informations about the resolution (choices made by players)
    */
-  public function resolve($args = [])
+  public static function resolve($args = [])
   {
     $node = self::$tree->getNextUnresolved();
     $node->resolve($args);
     self::save();
   }
 
-  public function resolveAction($args = [])
+  public static function resolveAction($args = [])
   {
     $node = self::$tree->getNextUnresolved();
     if (!$node->isReUsable()) {
@@ -233,7 +236,7 @@ class Engine
   /**
    * Insert a new node at root level at the end of seq node
    */
-  public function insertAtRoot($t, $last = true)
+  public static function insertAtRoot($t, $last = true)
   {
     self::ensureSeqRootNode();
     if ($last) {
@@ -247,14 +250,14 @@ class Engine
   /**
    * Ensure the root is a SEQ node to be able to insert easily in the current flow
    */
-  protected function ensureSeqRootNode()
+  protected static function ensureSeqRootNode()
   {
     if (!self::$tree instanceof \BRG\Core\Engine\SeqNode) {
       self::$tree = new \BRG\Core\Engine\SeqNode([], [self::$tree]);
     }
   }
 
-  public function insertAsChild($t, $isAI = false)
+  public static function insertAsChild($t, $isAI = false)
   {
     if ($isAI) {
       self::runAutoma($t);
@@ -279,7 +282,7 @@ class Engine
   /**
    * Confirm the full resolution of current flow
    */
-  public function confirm($force = false)
+  public static function confirm($force = false)
   {
     $node = self::$tree->getNextUnresolved();
     // Are we done ?
@@ -306,7 +309,7 @@ class Engine
   /**
    * Restart the whole flow
    */
-  public function restart()
+  public static function restart()
   {
     Log::revertAll();
 
@@ -320,7 +323,7 @@ class Engine
   /**
    * Clear all nodes related to the current active zombie player
    */
-  public function clearZombieNodes($cId)
+  public static function clearZombieNodes($cId)
   {
     self::$tree->clearZombieNodes($cId);
   }
@@ -328,12 +331,12 @@ class Engine
   /**
    * Get all resolved actions of given type
    */
-  public function getResolvedActions($types)
+  public static function getResolvedActions($types)
   {
     return self::$tree->getResolvedActions($types);
   }
 
-  public function getLastResolvedAction($types)
+  public static function getLastResolvedAction($types)
   {
     $actions = self::getResolvedActions($types);
     return empty($actions) ? null : $actions[count($actions) - 1];
@@ -343,7 +346,7 @@ class Engine
    * Run the engine on a tree
    * @param array $t
    */
-  public function runAutoma($t, $callback = null)
+  public static function runAutoma($t, $callback = null)
   {
     $tree = self::buildTree($t);
     $node = $tree->getNextUnresolved();

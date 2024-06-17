@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 
@@ -18,7 +20,7 @@ class AutomaCards extends \BRG\Helpers\Pieces
     return self::getInstance($row['card_id'], $row);
   }
 
-  protected function getInstance($id, $row = null)
+  protected static function getInstance($id, $row = null)
   {
     $className = '\BRG\AutomaCards\Card' . $id;
     return new $className($row);
@@ -53,7 +55,7 @@ class AutomaCards extends \BRG\Helpers\Pieces
     self::flip();
   }
 
-  public function flip()
+  public static function flip()
   {
     self::moveAllInLocation('flipped', 'discard');
     $cardBack = self::pickOneForLocation('deck', 'flipped')->getId();

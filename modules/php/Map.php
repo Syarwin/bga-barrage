@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG;
+
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Helpers\Utils;
@@ -232,12 +234,12 @@ class Map
   //////////////////////////////////////
   // Droplet Utils
   //////////////////////////////////////
-  public function getDropletsInBasin($basin)
+  public static function getDropletsInBasin($basin)
   {
     return self::$infos[$basin]['droplets'] ?? [];
   }
 
-  public function removeDropletsInBasin($basin, $nDroplets)
+  public static function removeDropletsInBasin($basin, $nDroplets)
   {
     $droplets = [];
     $remaining = [];
@@ -252,17 +254,17 @@ class Map
     return $droplets;
   }
 
-  public function countDropletsInBasin($basin)
+  public static function countDropletsInBasin($basin)
   {
     return count(self::getDropletsInBasin($basin));
   }
 
-  public function getBasinCapacity($basin)
+  public static function getBasinCapacity($basin)
   {
     return self::$infos[$basin]['capacity'] ?? 0;
   }
 
-  public function getUnfullDams($company, $includeNeutral = true)
+  public static function getUnfullDams($company, $includeNeutral = true)
   {
     $dams = [];
     foreach (self::getZones() as $zoneId => $zone) {
@@ -284,7 +286,7 @@ class Map
   //////////////////////////////////////
   // Structure Utils
   //////////////////////////////////////
-  public function getBuiltStructures($spaceId, $company = null)
+  public static function getBuiltStructures($spaceId, $company = null)
   {
     $spaceIds = \is_array($spaceId) ? $spaceId : [$spaceId];
     $companies = is_null($company) ? [] : (is_array($company) ? $company : [$company]);
@@ -304,13 +306,13 @@ class Map
     return $structures;
   }
 
-  public function getBuiltStructure($spaceId, $company = null)
+  public static function getBuiltStructure($spaceId, $company = null)
   {
     $structures = self::getBuiltStructures($spaceId, $company);
     return empty($structures) ? null : $structures[0];
   }
 
-  public function getBuiltDamsInZone($zoneId, $company = null)
+  public static function getBuiltDamsInZone($zoneId, $company = null)
   {
     $basins = self::getZones()[$zoneId]['basins'];
     return self::getBuiltStructures($basins, $company);
@@ -319,24 +321,24 @@ class Map
   //////////////////////////////////////
   // Powerhouses Utils
   //////////////////////////////////////
-  public function getLinkedPowerhousesSpaces($conduitId)
+  public static function getLinkedPowerhousesSpaces($conduitId)
   {
     return self::$infos[$conduitId]['powerhouses'];
   }
 
-  public function getLinkedPowerhouses($conduitId, $company = null)
+  public static function getLinkedPowerhouses($conduitId, $company = null)
   {
     $spaceIds = self::getLinkedPowerhousesSpaces($conduitId);
     return self::getBuiltStructures($spaceIds, $company);
   }
 
-  public function getLinkedPowerhouse($conduitId, $company = null)
+  public static function getLinkedPowerhouse($conduitId, $company = null)
   {
     $powerhouses = self::getLinkedPowerhouses($conduitId, $company);
     return empty($powerhouses) ? null : $powerhouses[0];
   }
 
-  public function getBuiltPowerhousesInZone($zoneId, $company = null)
+  public static function getBuiltPowerhousesInZone($zoneId, $company = null)
   {
     $spaceIds = self::getPowerhousesInZone($zoneId);
     return self::getBuiltStructures($spaceIds, $company);
@@ -351,7 +353,7 @@ class Map
   //
   ///////////////////////////////////////////////////////
   protected static $constructSlots = null;
-  public function getConstructSlots()
+  public static function getConstructSlots()
   {
     if (!is_null(self::$constructSlots)) {
       return self::$constructSlots;
@@ -394,7 +396,7 @@ class Map
   //    \_/\_/ \__,_|\__\___|_|    |_|   |_|\___/ \_/\_/
   //
   ////////////////////////////////////////////////////////////
-  public function getUSAPowerhouses()
+  public static function getUSAPowerhouses()
   {
     // If production power of USA is enabled
     $usa = Companies::get(COMPANY_USA);
@@ -412,7 +414,7 @@ class Map
     return $USAPowerHouses;
   }
 
-  public function flowDroplets($droplets)
+  public static function flowDroplets($droplets)
   {
     $USAPowerHouses = self::getUSAPowerhouses();
     $bonusEnergy = 0;
@@ -458,7 +460,7 @@ class Map
     }
   }
 
-  public function getFlowPath($droplet, $USAPowerHouses = [], $dropletsInBasinMapping = null)
+  public static function getFlowPath($droplet, $USAPowerHouses = [], $dropletsInBasinMapping = null)
   {
     $USABonusEnergy = 0;
     $location = $droplet['location'];
@@ -506,7 +508,7 @@ class Map
   }
 
   // Return all the locations that would get fed by a water droplet flowing from $location
-  public function getFedLocations($location)
+  public static function getFedLocations($location)
   {
     $droplet = [
       'location' => $location,
@@ -516,7 +518,7 @@ class Map
   }
 
   // Emulate water flowing
-  public function emulateFlowDroplets($additionalDroplets = [], $onlyAdditionalDroplets = false)
+  public static function emulateFlowDroplets($additionalDroplets = [], $onlyAdditionalDroplets = false)
   {
     // Store current status of droplets
     $droplets = [];
@@ -574,7 +576,7 @@ class Map
   // |_|   |_|  \___/ \__,_|\__,_|\___|\__|_|\___/|_| |_|
   //
   /////////////////////////////////////////////////////////////
-  public function getProductionSystems(
+  public static function getProductionSystems(
     $company,
     $bonus,
     $constraints = null,
@@ -673,7 +675,7 @@ class Map
 
   // AUTOMA
   // Get space ids of slots allowing to get a complete production system
-  public function getAlmostCompleteProductionSystems($company, $structure)
+  public static function getAlmostCompleteProductionSystems($company, $structure)
   {
     $systems = [];
     foreach (self::getZones() as $zoneId => $zone) {

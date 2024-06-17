@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
 use BRG\Core\Globals;
@@ -24,13 +26,13 @@ class ExternalWorks extends \BRG\Helpers\Pieces
   {
     return Globals::isLWP()
       ? self::getSelectQuery()
-        ->whereNotIn('work_location', ['deckA', 'deckB', 'deckC'])
-        ->get()
-        ->toArray()
+      ->whereNotIn('work_location', ['deckA', 'deckB', 'deckC'])
+      ->get()
+      ->toArray()
       : [];
   }
 
-  public function getFilteredQuery($cId, $location = null)
+  public static function getFilteredQuery($cId, $location = null)
   {
     $query = self::getSelectQuery();
     if ($cId != null) {
@@ -69,7 +71,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
     }
   }
 
-  public function newRound()
+  public static function newRound()
   {
     // discard all tiles
     $tiles = self::getFilteredQuery(null, 'work_%')->get();
@@ -102,7 +104,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
     Notifications::refillExternalWorks($created);
   }
 
-  public function getWorks()
+  public static function getWorks()
   {
     $f = function ($machineCost, $reward) {
       return self::format($machineCost, $reward);

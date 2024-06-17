@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -19,7 +20,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
     return clienttranslate('Turbine Station');
   }
 
-  public function getUiStructure($cId = null)
+  public static function getUiStructure($cId = null)
   {
     $rows = [];
 
@@ -40,7 +41,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
 
@@ -128,7 +129,7 @@ class TurbineStationActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return ['b2', 'b1', '0', 'm1', 'm2', 'b2c', 'b1c', '0c', 'm1c', 'm2bis'];
   }

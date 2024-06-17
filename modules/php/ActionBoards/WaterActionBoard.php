@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -19,7 +20,7 @@ class WaterActionBoard extends AbstractActionBoard
     return clienttranslate('Water Management');
   }
 
-  public function getUiStructure($cId = null)
+  public static function getUiStructure($cId = null)
   {
     $rows = [];
 
@@ -30,7 +31,7 @@ class WaterActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
 
@@ -71,7 +72,7 @@ class WaterActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return ['p2', 'd1', 'p2c', 'd1c'];
   }

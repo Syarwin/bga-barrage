@@ -472,6 +472,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     updateMahiriCopy(id = null) {
       const MAHIRI_ID = 12;
+      if (!$(`officer-${MAHIRI_ID}`)) return;
+
       if (id == null) {
         delete $(`officer-${MAHIRI_ID}`).dataset.copied;
         delete $(`officer-logo-${MAHIRI_ID}`).dataset.copied;

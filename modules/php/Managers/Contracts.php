@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Managers;
+
 use BRG\Helpers\Utils;
 use BRG\Helpers\Collection;
 use BRG\Core\Notifications;
@@ -76,20 +78,20 @@ class Contracts extends \BRG\Helpers\Pieces
     }
   }
 
-  public function randomStartingPick($nPlayers)
+  public static function randomStartingPick($nPlayers)
   {
     $contractIds = Utils::rand(STARTING_CONTRACTS, $nPlayers);
     self::move($contractIds, 'pickStart');
   }
 
-  public function clearMatchups()
+  public static function clearMatchups()
   {
     $ids = self::getInLocation('pickStart')->getIds();
     self::move($ids, 'box');
     return $ids;
   }
 
-  public function getNationalContracts()
+  public static function getNationalContracts()
   {
     return self::getSelectQuery()
       ->where('contract_location', 'LIKE', 'contract-stack%')
@@ -97,7 +99,7 @@ class Contracts extends \BRG\Helpers\Pieces
       ->get();
   }
 
-  public function getAvailableToTake($type = null)
+  public static function getAvailableToTake($type = null)
   {
     $query = self::getSelectQuery()->where('contract_location', 'LIKE', 'contract-stack%');
     if (is_null($type)) {
@@ -109,17 +111,17 @@ class Contracts extends \BRG\Helpers\Pieces
     return $query->get();
   }
 
-  public function getStartingPick()
+  public static function getStartingPick()
   {
     return self::getInLocation('pickStart');
   }
 
-  public function needRefill()
+  public static function needRefill()
   {
     return self::getAvailableToTake()->count() < 6;
   }
 
-  public function refillStacks()
+  public static function refillStacks()
   {
     $moved = [];
     for ($i = 2; $i <= 4; $i++) {
@@ -159,14 +161,14 @@ class Contracts extends \BRG\Helpers\Pieces
     return self::getMany($moved);
   }
 
-  public function emptyStack($stack)
+  public static function emptyStack($stack)
   {
     $ids = self::getAvailableToTake($stack)->getIds();
     self::move($ids, 'contract-discard-' . $stack);
     return $ids;
   }
 
-  public function getContracts()
+  public static function getContracts()
   {
     $f = function ($energyCost, $reward) {
       return self::format($energyCost, $reward);
@@ -274,7 +276,7 @@ class Contracts extends \BRG\Helpers\Pieces
   // | |_| | |_| | \__ \
   //  \___/ \__|_|_|___/
   /////////////////////////
-  private function format($energyCost, $reward)
+  private static function format($energyCost, $reward)
   {
     return [
       'cost' => $energyCost,

@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Core;
+
 use BRG\Managers\Players;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Buildings;
@@ -83,17 +85,6 @@ class Notifications
 
     self::notifyAll('refreshUI', '', [
       'datas' => $fDatas,
-    ]);
-  }
-
-  public static function refreshHand($player, $hand)
-  {
-    foreach ($hand as &$card) {
-      $card = self::filterCardDatas($card);
-    }
-    self::notify($player, 'refreshHand', '', [
-      'player' => $player,
-      'hand' => $hand,
     ]);
   }
 
@@ -482,7 +473,7 @@ class Notifications
     self::notifyAll('moveDroplets', '', ['droplets' => $droplets->toArray()]);
   }
 
-  public function updateTurnOrder($order)
+  public static function updateTurnOrder($order)
   {
     self::notifyAll('updateTurnOrder', '', ['order' => $order]);
   }
@@ -508,7 +499,7 @@ class Notifications
     ]);
   }
 
-  public function score($company, $amount, $total, $source = null, $silent = false)
+  public static function score($company, $amount, $total, $source = null, $silent = false)
   {
     if ($source != null) {
       $msg = clienttranslate('${company_name} scores ${amount} VP(s) ${source}');
@@ -652,5 +643,3 @@ class Notifications
     }
   }
 }
-
-?>

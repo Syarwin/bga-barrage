@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\ActionBoards;
 
 use BRG\Managers\Meeples;
@@ -19,7 +20,7 @@ class BankActionBoard extends AbstractActionBoard
     return clienttranslate('Bank');
   }
 
-  protected function getUiStructure($cId = null)
+  protected static function getUiStructure($cId = null)
   {
     $rows = [];
 
@@ -28,7 +29,7 @@ class BankActionBoard extends AbstractActionBoard
     return $rows;
   }
 
-  public function getAvailableSpaces()
+  public static function getAvailableSpaces()
   {
     $spaces = [];
 
@@ -46,7 +47,7 @@ class BankActionBoard extends AbstractActionBoard
     return $spaces;
   }
 
-  public function getSpacesOrderForAutoma()
+  public static function getSpacesOrderForAutoma()
   {
     return ['b'];
   }

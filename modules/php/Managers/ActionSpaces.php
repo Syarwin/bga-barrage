@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\Managers;
 
 use BRG\Core\Globals;
@@ -22,7 +23,7 @@ class ActionSpaces
     'BuildingsActionBoard',
   ];
 
-  public function getBoard($id)
+  public static function getBoard($id)
   {
     foreach (self::$boards as $name) {
       $className = '\BRG\ActionBoards\\' . $name;
@@ -34,7 +35,7 @@ class ActionSpaces
     return null;
   }
 
-  protected function getBoards()
+  protected static function getBoards()
   {
     $boards = [];
     foreach (self::$boards as $name) {
@@ -47,7 +48,7 @@ class ActionSpaces
     return $boards;
   }
 
-  public function getUiData()
+  public static function getUiData()
   {
     $ui = [];
     foreach (self::getBoards() as $board) {
@@ -62,7 +63,7 @@ class ActionSpaces
     return $ui;
   }
 
-  public function getPlayableSpaces($company)
+  public static function getPlayableSpaces($company)
   {
     $spaces = [];
     foreach (self::getBoards() as $board) {
