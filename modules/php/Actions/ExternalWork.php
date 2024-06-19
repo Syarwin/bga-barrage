@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\ExternalWorks;
 use BRG\Managers\TechnologyTiles;
 use BRG\Managers\Players;
@@ -73,10 +75,25 @@ class ExternalWork extends \BRG\Models\Action
     $this->resolveAction([]);
   }
 
+  public static function fulfillExternalWorkAutoma($work)
+  {
+    $company = Companies::getActive();
+
+    // Make it fulfilled
+    $work->fulfill($company);
+    Notifications::fulfillExtWork($company, $work);
+    Stats::incExtWork($company, 1);
+    $vp = $work->getVp();
+    Stats::incVpWorks($company, $vp);
+
+    $flow = $work->computeRewardFlow(true);
+    $actions = Game::get()->convertFlowToAutomaActions($flow);
+    Game::get()->automaTakeActions($actions);
+  }
+
   public function fulfillExternalWork($work)
   {
     $company = Companies::getActive();
-    $isAI = $company->isAI();
 
     // Make it fulfilled
     $work->fulfill($company);
@@ -86,38 +103,32 @@ class ExternalWork extends \BRG\Models\Action
     Stats::incVpWorks($company, $vp);
 
     // Insert its flow as a child (or run it right now if it's an Automa)
-    if ($isAI) {
-      $flow = $work->computeRewardFlow($isAI);
-      $actions = Game::get()->convertFlowToAutomaActions($flow);
-      Game::get()->automaTakeActions($actions);
-    } else {
-      $isLeslie = $this->getCtxArgs()['leslie'] ?? false;
+    $isLeslie = $this->getCtxArgs()['leslie'] ?? false;
 
-      $payNode = [
-        'action' => PAY,
-        'args' => [
-          'nb' => 1,
-          'costs' => Utils::formatCost($work->getCost($this->getCostType())),
-          'source' => clienttranslate('External Work Cost'),
-        ],
-      ];
-      if ($isLeslie) {
-        $payNode['args']['target'] = 'wheel';
-        if (Globals::getMahiriPower() != XO_LESLIE) {
-          $payNode['args']['tileId'] = TechnologyTiles::getLeslie()->getId();
-        }
+    $payNode = [
+      'action' => PAY,
+      'args' => [
+        'nb' => 1,
+        'costs' => Utils::formatCost($work->getCost($this->getCostType())),
+        'source' => clienttranslate('External Work Cost'),
+      ],
+    ];
+    if ($isLeslie) {
+      $payNode['args']['target'] = 'wheel';
+      if (Globals::getMahiriPower() != XO_LESLIE) {
+        $payNode['args']['tileId'] = TechnologyTiles::getLeslie()->getId();
       }
-      Engine::insertAsChild($payNode);
-
-      if ($isLeslie) {
-        Engine::insertAsChild([
-          'action' => \ROTATE_WHEEL,
-          'args' => ['n' => 1],
-        ]);
-      }
-
-      $flow = $work->computeRewardFlow();
-      Engine::insertAsChild($flow);
     }
+    Engine::insertAsChild($payNode);
+
+    if ($isLeslie) {
+      Engine::insertAsChild([
+        'action' => \ROTATE_WHEEL,
+        'args' => ['n' => 1],
+      ]);
+    }
+
+    $flow = $work->computeRewardFlow();
+    Engine::insertAsChild($flow);
   }
 }

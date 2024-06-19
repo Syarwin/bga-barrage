@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Core\Notifications;
@@ -104,7 +106,7 @@ class PlaceDroplet extends \BRG\Models\Action
     $this->resolveAction(['created' => $created]);
   }
 
-  public function placeDroplets($company, $headstreams, $spaceId, $flowing)
+  public static function placeDroplets($company, $headstreams, $spaceId, $flowing)
   {
     $meeples = [];
     foreach ($headstreams as $h) {

@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
@@ -42,6 +44,11 @@ class PlaceStructure extends \BRG\Models\Action
   public function getAvailableSpaces($company, $ignoreResources = false, $args = null)
   {
     $args = $args ?? $this->getCtxArgs();
+    return self::getAvailableSpacesAux($company, $ignoreResources, $args);
+  }
+
+  public static function getAvailableSpacesAux($company, $ignoreResources, $args)
+  {
     $credit = $company->countReserveResource(CREDIT);
     $constraints = $args['constraints'] ?? null;
     $builtBuildingIds = $company->getBuiltBuildingIds();
@@ -189,7 +196,7 @@ class PlaceStructure extends \BRG\Models\Action
     $this->resolveAction([$spaceId]);
   }
 
-  public function placeStructure($spaceId, $type, $cost = 0, $tileId = null)
+  public static function placeStructure($spaceId, $type, $cost = 0, $tileId = null)
   {
     $company = Companies::getActive();
     $isAI = $company->isAI();

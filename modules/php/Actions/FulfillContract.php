@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Managers\Contracts;
@@ -80,7 +82,7 @@ class FulfillContract extends \BRG\Models\Action
     $this->resolveAction(['resolvedContract' => $contractId]);
   }
 
-  public function fulfillContract($contract, $simone = false)
+  public static function fulfillContract($contract, $simone = false)
   {
     $company = Companies::getActive();
     $isAI = $company->isAI();

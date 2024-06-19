@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Companies;
 use BRG\Managers\Players;
@@ -48,9 +50,9 @@ class Produce extends \BRG\Models\Action
         ? ''
         : [
           'log' =>
-            $companyBonus == 0
-              ? clienttranslate('(${n} from action board)')
-              : clienttranslate('(${n} from action board + ${m} bonus from company board = ${p})'),
+          $companyBonus == 0
+            ? clienttranslate('(${n} from action board)')
+            : clienttranslate('(${n} from action board + ${m} bonus from company board = ${p})'),
           'args' => [
             'i18n' => ['n', 'p'],
             'n' => [
@@ -60,11 +62,11 @@ class Produce extends \BRG\Models\Action
             'm' => $companyBonus,
             'p' => [
               'log' =>
-                $displayedBonus > 0
-                  ? clienttranslate('${n} bonus')
-                  : ($displayedBonus == 0
-                    ? clienttranslate('no bonus/malus')
-                    : '${n} malus'),
+              $displayedBonus > 0
+                ? clienttranslate('${n} bonus')
+                : ($displayedBonus == 0
+                  ? clienttranslate('no bonus/malus')
+                  : '${n} malus'),
               'args' => ['n' => $displayedBonus],
             ],
           ],
@@ -87,7 +89,7 @@ class Produce extends \BRG\Models\Action
     $this->resolveAction(['droplets' => $nDroplets]);
   }
 
-  public function produce($system, $nDroplets, $germanPower = false)
+  public static function produce($system, $nDroplets, $germanPower = false)
   {
     $production = $system['productions'][$nDroplets] ?? null;
     if (is_null($production)) {

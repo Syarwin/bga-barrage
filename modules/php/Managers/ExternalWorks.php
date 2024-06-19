@@ -156,7 +156,7 @@ class ExternalWorks extends \BRG\Helpers\Pieces
   // | |_| | |_| | \__ \
   //  \___/ \__|_|_|___/
   /////////////////////////
-  private function format($machineCost, $reward)
+  private static function format($machineCost, $reward)
   {
     return [
       'cost' => $machineCost,

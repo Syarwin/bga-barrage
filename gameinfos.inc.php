@@ -12,7 +12,7 @@ $gameinfos = [
   'players' => [1, 2, 3, 4],
 
   'suggest_player_number' => 4,
-  'not_recommend_player_number' => 1,
+  'not_recommend_player_number' => [1],
 
   'estimated_duration' => 90,
   'fast_additional_time' => 30,

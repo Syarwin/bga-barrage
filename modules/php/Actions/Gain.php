@@ -58,7 +58,7 @@ class Gain extends \BRG\Models\Action
     // Create resources
     $meeples = [];
     foreach ($args as $resource => $amount) {
-      if (in_array($resource, ['spaceId', 'cId'])) {
+      if (in_array($resource, ['spaceId', 'cId', 'source'])) {
         continue;
       }
       if ($resource == VP || ($resource == CREDIT && $company->isAI())) {

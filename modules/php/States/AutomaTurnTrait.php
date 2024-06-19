@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\States;
+
 use BRG\Core\Globals;
 use BRG\Core\Notifications;
 use BRG\Core\Engine;
@@ -51,7 +53,7 @@ trait AutomaTurnTrait
   function argsAutomaTurn()
   {
     return [
-      'actions' => self::computeAutomaTurn(),
+      'actions' => $this->computeAutomaTurn(),
       'cId' => Companies::getActiveId(),
     ];
   }
@@ -322,7 +324,7 @@ trait AutomaTurnTrait
         ->get()
         ->first();
 
-      ExternalWork::fulfillExternalWork($work);
+      ExternalWork::fulfillExternalWorkAutoma($work);
     }
     //////////////////////////////////////////
     // Rotate wheel
@@ -499,7 +501,7 @@ trait AutomaTurnTrait
     $structure = $action['structure'];
 
     // Find all the possible constructable spots
-    $spaces = PlaceStructure::getAvailableSpaces($company, false, [
+    $spaces = PlaceStructure::getAvailableSpacesAux($company, false, [
       'type' => $structure,
       'constraints' => $action['constraints'] ?? null,
       'n' => $action['n'] ?? null,

@@ -1,5 +1,7 @@
 <?php
+
 namespace BRG\Actions;
+
 use BRG\Managers\Meeples;
 use BRG\Managers\Players;
 use BRG\Managers\Companies;
@@ -20,12 +22,17 @@ class Construct extends \BRG\Models\Action
 
   public function isDoable($company, $ignoreResources = false)
   {
-    return $this->getConstructablePairs($company, $ignoreResources, true);
+    return $this->getConstructablePairsAux($company, $ignoreResources, true);
   }
-
-  public function getConstructablePairs($company, $ignoreResources = false, $checkingIsDoable = false, $args = null)
+  public function getConstructablePairsAux($company, $ignoreResources = false, $checkingIsDoable = false, $args = null)
   {
     $args = $args ?? $this->getCtxArgs();
+    return self::getConstructablePairs($company, $ignoreResources, $checkingIsDoable, $args);
+  }
+
+
+  public static function getConstructablePairs($company, $ignoreResources = false, $checkingIsDoable = false, $args = null)
+  {
     // constraints from advanced tiles
     $constraintType = $args['type'] ?? null;
     $constraintTile = $args['tileId'] ?? null;
@@ -136,7 +143,7 @@ class Construct extends \BRG\Models\Action
   public function argsConstruct()
   {
     $company = Companies::getActive();
-    $pairs = self::getConstructablePairs($company);
+    $pairs = $this->getConstructablePairsAux($company);
     // Aggregate by space and clear flow
     $spaces = [];
     foreach ($pairs as &$pair) {
@@ -161,7 +168,7 @@ class Construct extends \BRG\Models\Action
     // Sanity checks
     self::checkAction('actConstruct');
     $company = Companies::getActive();
-    $pairs = self::getConstructablePairs($company);
+    $pairs = $this->getConstructablePairsAux($company);
     Utils::filter($pairs, function ($pair) use ($spaceId, $tileId) {
       return $pair['spaceId'] == $spaceId && $pair['tileId'] == $tileId;
     });
