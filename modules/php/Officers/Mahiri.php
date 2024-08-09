@@ -1,4 +1,5 @@
 <?php
+
 namespace BRG\Officers;
 
 use BRG\Managers\Companies;
@@ -23,7 +24,7 @@ class Mahiri extends \BRG\Models\Officer
   protected function getCopiedOfficer()
   {
     $p = Globals::getMahiriPower();
-    return $p == '' || $p == -1 ? null : Officers::getInstance($p);
+    return ($p == '' || $p == -1 || $p == 0) ? null : Officers::getInstance($p);
   }
 
   public function jsonSerialize()
