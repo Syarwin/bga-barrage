@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -121,7 +122,7 @@ $machinestates = [
   ST_AUTOMA_TURN => [
     'name' => 'automaTurn',
     'description' => '',
-    'type' => 'active', // TODO
+    'type' => 'activeplayer', // TODO
     'args' => 'argsAutomaTurn',
     'possibleactions' => ['actRunAutoma'],
     'transitions' => [],
